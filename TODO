@@ -1,10 +1,46 @@
+SET-Tool
+SET-Referat
+%%date(Last Update: %c)
 
-= SET-Tool =
+%!target: tex
+%!options(tex): --toc --enum-title
+%!encoding: utf-8
 
-== Wishlist ==
+
+= Wishlist =
+== Allgemein ==
+- Mit set-tutoren/set-tueten an Mailserver abmelden
 
 
-== TODOs ==
+== Tutorverwaltung ==
+- Tutoren nach Wunsch-Terminen fragen (z.B. Grillen)
+
+
+== SET-Fahrtanmeldung ==
+- Anmeldung durch Erstis
+- Eintragen von Überweisungen
+
+
+== Anmeldung zu Institutsführungen ==
+- Anmeldung durch Erstis
+- Kurzlink
+- Erinnerungsmail an Erstis
+
+
+== Tütentool ==
+- Liste mit angekommenem Material, Eintrage-Dialog
+- (siehe aktuelles Tütentool)
+
+
+== Terminverwaltung ==
+- Verwaltung von allen Terminen während der SET
+
+
+== Mitarbeiterverwaltung ==
+- Urlaubsliste-/Anwesenheitsliste
+
+
+= TODOs =
 
 
 

@@ -14,3 +14,6 @@ Session.vim
 
 # sqlite database
 /db.sqlite3
+
+# txt2tags output
+TODO.*
