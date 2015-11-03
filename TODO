@@ -14,43 +14,95 @@ SET-Referat
 
 = Wishlist =
 == Allgemein ==
-- Mit set-tutoren/set-tueten an Mailserver abmelden
+- Mit set-tutoren/set-tueten an Mailserver anmelden
 - mehrere SET-Instanzen ermöglichen (Anmeldung WiSe anfangen, bevor SoSe fertig)
-- Rechteverwaltung über LDAP mit Gruppen im Tool (Referenten, Tüten, Mitarbeiter)
+- Rechteverwaltung über LDAP mit Gruppen im Tool
+    - Zugriff für alle in LDAP-Gruppe set
+    - Referenten: Admin-Rechte
+    - Tüten: Tütentool
+- optional: CLI (gewisse Befehle)
+- Deutsch/Englisch
+- Export als PDF, csv/xlsx
 
 
 == Tutorverwaltung ==
-- Tutoren nach Wunsch-Terminen fragen (z.B. Grillen)
+- Tutoren nach Wunsch-Terminen fragen (z.B. Kneipentour, Grillen)
 - Auf eindeutige E-Mail-Adresse überprüfen
+- auf gültige E-Mail-Adresse prüfen
 - automatische Termineinteilung
 - automatisches Terminwechseln, wenn jemand verhindert ist
+- manuelle Termineinteilung immer noch möglich
+- automatische Reminder z. B. 24 h vor Termin
+- Mailvorlagen dauerhaft speichern, Semester automatisch setzen
+- Doodle-Angaben bei Termineinteilung sichtbar
+- Export: Terminlisten, ECTS-Listen
 
 
 == SET-Fahrtanmeldung ==
 - Anmeldung durch Erstis
 - Eintragen von Überweisungen
+- Flags über Web-UI setzen
+- Status für Erstis (angemeldet, bestätigt, rausgeschmissen, ...)
+- Mails im Tool verschicken (interne Liste für SET-Fahrt)
+- automatische Erinnerung ans Überweisen
+- Protokoll wie bei Tutoren
+- Zeitpunkt Überweisung
+- Überweisungsfrist
+- Export: Teilnehmerliste
 
 
 == Anmeldung zu Institutsführungen ==
 - Anmeldung durch Erstis
-- Kurzlink
+- Kurzlink (nur in Vorkursen/Grillen veröffentlicht)
 - Erinnerungsmail an Erstis
+- Absender (set)
 
 
 == Tütentool ==
-- Liste mit angekommenem Material, Eintrage-Dialog
+- Liste mit angekommenem Material -> Eintrage-Dialog
+- Daten in Datenbank
+- Im-/Export als csv/xlsx
+- Erfassen von Firmen
+- Flag Mail verschickt
+- Eintragen, was sie uns schicken
 - (siehe aktuelles Tütentool)
 
 
 == Terminverwaltung ==
 - Verwaltung von allen Terminen während der SET
+- Was
+- Datum/Zeit
+- Raum
+- Anzahl Tutoren
+- Treffpunkt Tutoren
+- Verantwortlicher (vorher/währenddessen)
+- Anbindung an Tutortool (Tutoren werden zu Terminen eingeteilt)
 
 
 == Mitarbeiterverwaltung ==
 - Urlaubsliste-/Anwesenheitsliste
+- ECTS
+- Handynummern
+- Zuständigkeiten -> Terminverwaltung
+
+
+= Tools/Workflow =
+- Python 2.7
+    - kompatibel zu Python 3
+    - indent 4
+    - PEP8
+    - kommentieren
+- Django
+- Bootstrap
+- jQuery
+- reportlab
+- lokal: SQLlight
+- git
+    - feature branches
 
 
 = TODOs =
-
+- README.md
+- Django-Einführung
 
 
