@@ -6,14 +6,24 @@ SET-Referat
 %!options(tex): --toc --enum-title
 %!encoding: utf-8
 
+%% README:
+% txt2tags TODO
+% pdflatex TODO.tex
+%%
+
 
 = Wishlist =
 == Allgemein ==
 - Mit set-tutoren/set-tueten an Mailserver abmelden
+- mehrere SET-Instanzen ermöglichen (Anmeldung WiSe anfangen, bevor SoSe fertig)
+- Rechteverwaltung über LDAP mit Gruppen im Tool (Referenten, Tüten, Mitarbeiter)
 
 
 == Tutorverwaltung ==
 - Tutoren nach Wunsch-Terminen fragen (z.B. Grillen)
+- Auf eindeutige E-Mail-Adresse überprüfen
+- automatische Termineinteilung
+- automatisches Terminwechseln, wenn jemand verhindert ist
 
 
 == SET-Fahrtanmeldung ==
