@@ -23,6 +23,7 @@ SET-Referat
 - optional: CLI (gewisse Befehle)
 - Deutsch/Englisch
 - Export als PDF, csv/xlsx
+- ggf. auch Plätzchenbacken-Anmeldung und Mails
 
 
 == Tutorverwaltung ==
@@ -49,6 +50,7 @@ SET-Referat
 - Zeitpunkt Überweisung
 - Überweisungsfrist
 - Export: Teilnehmerliste
+- Organisation der Anfahrt der Erstis in Gruppen (Auto/Zug)
 
 
 == Anmeldung zu Institutsführungen ==
