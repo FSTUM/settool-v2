@@ -13,7 +13,7 @@ Session.vim
 *.pot
 
 # sqlite database
-/db.sqlite3
+/db.sqlite3*
 
 # txt2tags output
 TODO.*
