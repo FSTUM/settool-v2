@@ -12,12 +12,12 @@ It is recommended to use virtualenv:
 
 # Dependencies
 
-### Software
+## Software
 
  * Python 2 or 3
  * pdflatex (from TeX Live)
 
-### Python modules
+## Python modules
 
 See dependencies
 
@@ -25,7 +25,7 @@ To update this file execute:
 
     pip freeze > dependencies
 
-## Run for development
+# Run for development
 
 By default Django uses a SQLite database that can be generated using the
 following command inside the project directory:
@@ -41,6 +41,19 @@ Now you can start the webserver for development:
     python manage.py runserver
 
 Now visit http://localhost:8000 with your browser.
+
+# Translation
+
+Update the .po files with:
+
+    python manage.py makemessages -l de
+
+Then edit the .po files, e.g. guidedtours/locale/de/LC_MESSAGES/django.po.
+poedit is an excellent GUI for this!
+
+Finally create the .mo files with the new translations:
+
+    python manage.py compilemessages
 
 # LICENSE
 
