@@ -1,7 +1,13 @@
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
+from settool_common.models import Semester
+
 class Tour(models.Model):
+    semester = models.ForeignKey(
+        Semester
+    )
+
     name = models.CharField(
         max_length=200,
         verbose_name=_("Name"),
