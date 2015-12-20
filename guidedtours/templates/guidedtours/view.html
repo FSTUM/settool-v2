@@ -1,0 +1,24 @@
+{% extends "settool_common/base.html" %}
+{% load i18n %}
+
+{% block content %}
+    <h1>{% trans "List of participants for " %} {{ tour.name }} {% trans "on" %} {{ tour.date }}</h1>
+
+    <table>
+        <tr>
+            <th>{% trans "Last Name" %}</th>
+            <th>{% trans "First Name" %}</th>
+            <th>{% trans "Subject" %}</th>
+            <th>{% trans "E-Mail" %}</th>
+        </tr>
+    {% for p in participants %}
+        <tr>
+            <td>{{ p.surname }}</td>
+            <td>{{ p.firstname }}</td>
+            <td>{{ p.subject }}</td>
+            <td>{{ p.email }}</td>
+        </tr>
+    {% endfor %}
+    </table>
+
+{% endblock %}
