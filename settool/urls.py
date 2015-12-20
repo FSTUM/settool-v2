@@ -18,6 +18,7 @@ from django.conf import settings
 from django.conf.urls import include, url
 from django.conf.urls.static import static
 from django.contrib import admin
+from django.contrib.auth import views as auth_views
 
 urlpatterns = [
     # admin
@@ -25,14 +26,17 @@ urlpatterns = [
 
     # login, logout
     url(r'^login/$',
-        'django.contrib.auth.views.login',
+        auth_views.login,
         {'template_name': 'settool_common/login.html'},
         name='login'),
 
     url(r'^logout/$',
-        'django.contrib.auth.views.logout',
+        auth_views.logout,
         {'next_page': '/'},
         name='logout'),
+
+    # localozation
+    url(r'^i18n/', include('django.conf.urls.i18n')),
 
     # guided tours
     url(r'^tours/', include('guidedtours.urls')),
