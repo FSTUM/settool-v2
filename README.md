@@ -19,11 +19,11 @@ It is recommended to use virtualenv:
 
 ### Python modules
 
-See dependencies.txt
+See dependencies
 
 To update this file execute:
 
-    pip freeze > dependencies.txt
+    pip freeze > dependencies
 
 ## Run for development
 
