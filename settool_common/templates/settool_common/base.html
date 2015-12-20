@@ -41,7 +41,6 @@
                     {# on the right #}
                     <ul class="nav navbar-nav navbar-left">
                         {# login #}
-                        {% comment %}
                         {% if user.is_authenticated %}
                             <p class="navbar-text">
                                 {% blocktrans with username=user.first_name %}Hello {{ username }}!{% endblocktrans %}
@@ -51,7 +50,6 @@
                             <li><a href="{% url "login" %}">{% trans "Login" %}</a></li>
                         {% endif %}
                         {# end login #}
-                        {% endcomment %}
                     </ul>
 
                     {# language chooser #}
