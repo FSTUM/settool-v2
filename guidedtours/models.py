@@ -1,7 +1,7 @@
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
-from settool_common.models import Semester
+from settool_common.models import Semester, Subject
 
 class Tour(models.Model):
     semester = models.ForeignKey(
@@ -50,5 +50,10 @@ class Participant(models.Model):
         verbose_name=_("Mobile phone"),
     )
 
+    subject = models.ForeignKey(
+        Subject
+    )
+
     def __str__(self):
         return "{} {}".format(self.firstname, self.surname)
+
