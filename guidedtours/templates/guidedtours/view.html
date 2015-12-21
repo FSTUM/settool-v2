@@ -6,6 +6,7 @@
 
     <table>
         <tr>
+            <th>#</th>
             <th>{% trans "Last Name" %}</th>
             <th>{% trans "First Name" %}</th>
             <th>{% trans "Subject" %}</th>
@@ -13,6 +14,27 @@
         </tr>
     {% for p in participants %}
         <tr>
+            <td>{{ forloop.counter }}</td>
+            <td>{{ p.surname }}</td>
+            <td>{{ p.firstname }}</td>
+            <td>{{ p.subject }}</td>
+            <td>{{ p.email }}</td>
+        </tr>
+    {% endfor %}
+    </table>
+
+    <h2>{% trans "Waiting list" %}</h2>
+    <table>
+        <tr>
+            <th>#</th>
+            <th>{% trans "Last Name" %}</th>
+            <th>{% trans "First Name" %}</th>
+            <th>{% trans "Subject" %}</th>
+            <th>{% trans "E-Mail" %}</th>
+        </tr>
+    {% for p in waitinglist %}
+        <tr>
+            <td>{{ forloop.counter }}</td>
             <td>{{ p.surname }}</td>
             <td>{{ p.firstname }}</td>
             <td>{{ p.subject }}</td>

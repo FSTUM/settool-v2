@@ -12,9 +12,12 @@ def index(request):
 def view(request, tour_pk):
     tour = get_object_or_404(Tour, pk=tour_pk)
     participants = tour.participant_set.order_by('time')
+    waitinglist = participants[tour.capacity:]
+    participants = participants[:tour.capacity]
 
     context = {'tour': tour,
-               'participants': participants}
+               'participants': participants,
+               'waitinglist': waitinglist}
     return render(request, 'guidedtours/view.html', context)
 
 

@@ -25,6 +25,10 @@ class Tour(models.Model):
         verbose_name=_("Date"),
     )
 
+    capacity = models.PositiveIntegerField(
+        verbose_name=_("Capacity"),
+    )
+
     def __str__(self):
         return self.name
 
