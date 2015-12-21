@@ -11,7 +11,7 @@ def index(request):
 
 def view(request, tour_pk):
     tour = get_object_or_404(Tour, pk=tour_pk)
-    participants = tour.participant_set.order_by('surname')
+    participants = tour.participant_set.order_by('time')
 
     context = {'tour': tour,
                'participants': participants}

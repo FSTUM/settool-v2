@@ -1,6 +1,8 @@
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
+from datetime import datetime
+
 from settool_common.models import Semester, Subject
 
 class Tour(models.Model):
@@ -52,6 +54,11 @@ class Participant(models.Model):
 
     subject = models.ForeignKey(
         Subject
+    )
+
+    time = models.DateTimeField(
+        default=datetime.now,
+        verbose_name=_("Registration Time"),
     )
 
     def __str__(self):
