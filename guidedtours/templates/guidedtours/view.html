@@ -2,9 +2,13 @@
 {% load i18n %}
 
 {% block content %}
-    <h1>{% trans "List of participants for " %} {{ tour.name }} {% trans "on" %} {{ tour.date }}</h1>
+    <h1>
+        {% blocktrans with name=tour.name date=tour.date %}
+            List of participants for {{ name }} on {{ date }}
+        {% endblocktrans %}
+    </h1>
 
-    <table>
+    <table class="table">
         <tr>
             <th>#</th>
             <th>{% trans "Last Name" %}</th>
@@ -24,7 +28,7 @@
     </table>
 
     <h2>{% trans "Waiting list" %}</h2>
-    <table>
+    <table class="table">
         <tr>
             <th>#</th>
             <th>{% trans "Last Name" %}</th>
