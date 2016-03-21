@@ -1,5 +1,8 @@
+import datetime
+
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
+from django.utils import timezone
 
 class Semester(models.Model):
     class Meta:
@@ -88,3 +91,14 @@ class Subject(models.Model):
         return "{} {}".format(self.get_degree_display(),
                 self.get_subject_display())
 
+def current_semester():
+    now = timezone.now()
+    year = now.year
+    if now < timezone.make_aware(datetime.datetime(year, 4, 1)):
+        semester = Semester.WINTER
+        year -= 1
+    elif now >= timezone.make_aware(datetime.datetime(year, 10, 1)):
+        semester = Semester.WINTER
+    else:
+        semester = Semester.SUMMER
+    return Semester.objects.get_or_create(semester=semester, year=year)[0]

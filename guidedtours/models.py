@@ -6,6 +6,10 @@ from datetime import datetime
 from settool_common.models import Semester, Subject
 
 class Tour(models.Model):
+    class Meta:
+        permissions = (("view_participants",
+            "Can view and edit the list of participants"),)
+
     semester = models.ForeignKey(
         Semester
     )
@@ -34,7 +38,8 @@ class Tour(models.Model):
 
 class Participant(models.Model):
     tour = models.ForeignKey(
-        Tour
+        Tour,
+        verbose_name=_("Tour"),
     )
 
     firstname = models.CharField(
@@ -57,11 +62,12 @@ class Participant(models.Model):
     )
 
     subject = models.ForeignKey(
-        Subject
+        Subject,
+        verbose_name=_("Subject"),
     )
 
     time = models.DateTimeField(
-        default=datetime.now,
+        auto_now_add=True,
         verbose_name=_("Registration Time"),
     )
 

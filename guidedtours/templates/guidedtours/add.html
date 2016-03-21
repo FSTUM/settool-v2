@@ -1,0 +1,23 @@
+{% extends "settool_common/base.html" %}
+{% load i18n %}
+{% load bootstrap3 %}
+
+{% block title %}{% trans "Guided tour" %} - {% trans "Sign up" %}{% endblock %}
+
+{% block content %}
+    <h1>
+        {% trans "Sign up for a guided tour" %}
+    </h1>
+
+    <form method="post" action="">
+        {% csrf_token %}
+
+        <div class="row">
+            <div class="col-xs-12 col-lg-5">
+                {% bootstrap_form form %}
+            </div>
+        </div>
+
+        <button type="submit" class="btn btn-default">{% trans "Submit" %}</button>
+    </form>
+{% endblock %}
