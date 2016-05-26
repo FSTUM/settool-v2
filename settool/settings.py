@@ -34,7 +34,6 @@ LOGIN_URL = '/login/'
 LOGOUT_URL = '/logout/'
 LOGIN_REDIRECT_URL = '/'
 
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -47,6 +46,7 @@ INSTALLED_APPS = [
     'bootstrap3',
     'settool_common',
     'guidedtours',
+    'bags',
 ]
 
 MIDDLEWARE_CLASSES = [
