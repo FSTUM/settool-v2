@@ -8,7 +8,7 @@ It is recommended to use virtualenv:
 
     git clone git@gitlab.fs.tum.de:biendarra/set-tool.git
 
-    pip install -r dependencies.txt
+    pip install -r dependencies
 
 # Dependencies
 
