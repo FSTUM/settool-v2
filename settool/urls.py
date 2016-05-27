@@ -43,4 +43,7 @@ urlpatterns = [
 
     # guided tours
     url(r'^tours/', include('guidedtours.urls')),
+
+    # freshmen bags
+    url(r'^bags/', include('bags.urls')),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
