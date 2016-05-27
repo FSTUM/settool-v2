@@ -38,6 +38,9 @@ urlpatterns = [
     # localozation
     url(r'^i18n/', include('django.conf.urls.i18n')),
 
+    # settool_common: choose semester
+    url(r'^semester/', include('settool_common.urls')),
+
     # guided tours
     url(r'^tours/', include('guidedtours.urls')),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

@@ -4,6 +4,8 @@ from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from django.utils import timezone
 
+from .settings import SEMESTER_SESSION_KEY
+
 class Semester(models.Model):
     class Meta:
         unique_together = (('semester', 'year'),)
@@ -94,11 +96,21 @@ class Subject(models.Model):
 def current_semester():
     now = timezone.now()
     year = now.year
-    if now < timezone.make_aware(datetime.datetime(year, 4, 1)):
-        semester = Semester.WINTER
-        year -= 1
-    elif now >= timezone.make_aware(datetime.datetime(year, 10, 1)):
-        semester = Semester.WINTER
-    else:
+    if now < timezone.make_aware(datetime.datetime(year, 5, 1)):
         semester = Semester.SUMMER
+    elif now >= timezone.make_aware(datetime.datetime(year, 11, 1)):
+        semester = Semester.SUMMER
+        year += 1
+    else:
+        semester = Semester.WINTER
     return Semester.objects.get_or_create(semester=semester, year=year)[0]
+
+
+def get_semester(request):
+    try:
+        sem = request.session[SEMESTER_SESSION_KEY]
+    except KeyError:
+        sem = current_semester().pk
+        request.session[SEMESTER_SESSION_KEY] = sem
+    return sem
+

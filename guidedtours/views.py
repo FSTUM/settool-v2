@@ -3,12 +3,13 @@ from django.contrib.auth.decorators import permission_required
 
 from .models import Tour, Participant
 from .forms import ParticipantForm
-from settool_common.settings import SEMESTER_SESSION_KEY
-from settool_common.models import current_semester, Semester
+from settool_common.models import get_semester, Semester
 
 @permission_required('guidedtours.view_participants')
 def index(request):
-    tours = Tour.objects.order_by('date')
+    sem = get_semester(request)
+    semester = get_object_or_404(Semester, pk=sem)
+    tours = semester.tour_set.all()
 
     context = {'tours': tours}
     return render(request, 'guidedtours/index.html', context)
@@ -28,10 +29,8 @@ def view(request, tour_pk):
 
 
 def signup(request):
-    if not hasattr(request.session, SEMESTER_SESSION_KEY):
-        request.session[SEMESTER_SESSION_KEY] = current_semester().pk
-    semester = get_object_or_404(Semester,
-        pk=request.session[SEMESTER_SESSION_KEY])
+    sem = get_semester(request)
+    semester = get_object_or_404(Semester, pk=sem)
     tours = semester.tour_set.all()
 
     if not tours:
