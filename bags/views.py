@@ -25,3 +25,15 @@ def add(request):
 
     context = {'form': form}
     return render(request, 'bags/add.html', context)
+
+
+def view(request):
+    pass
+
+
+def edit(request):
+    pass
+
+
+def delete(request):
+    pass

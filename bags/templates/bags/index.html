@@ -22,50 +22,59 @@
         <th>{% trans "Comment" %}</th>
         <th>{% trans "Participated last year" %}</th>
         <th>{% trans "Contact again" %}</th>
+        <th>{% trans "Edit" %}</th>
+        <th>{% trans "Delete" %}</th>
     </tr>
         {% for company in companies %}
             <tr>
-                {# <td><a href="{% url "viewcompany" company.id %}">{{ company.name }}</a></td> #}
-                <td>{{ company.name }}</td>
+                <td>
+                    <a href="{% url "viewcompany" company.id %}">{{ company.name }}</a>
+                </td>
                 <td>{{ company.contact }}</td>
                 <td>{{ company.email }}</td>
                 {% if company.email_sent %}
-                    <td style="background-color:green;color:white">yes</td>
+                    <td><span style="color:green" class="glyphicon glyphicon-ok"></span></td>
                 {% else %}
-                    <td style="background-color:red">no</td>
+                    <td><span style="color:red" class="glyphicon glyphicon-remove"></span></td>
                 {% endif %}
                 {% if company.email_sent_success %}
-                    <td style="background-color:green;color:white">yes</td>
+                    <td><span style="color:green" class="glyphicon glyphicon-ok"></span></td>
                 {% else %}
-                    <td style="background-color:red">no</td>
+                    <td><span style="color:red" class="glyphicon glyphicon-remove"></span></td>
                 {% endif %}
                 {% if company.zusage %}
-                    <td style="background-color:green;color:white">yes</td>
+                    <td><span style="color:green" class="glyphicon glyphicon-ok"></span></td>
                 {% else %}
-                    <td style="background-color:red">no</td>
+                    <td><span style="color:red" class="glyphicon glyphicon-remove"></span></td>
                 {% endif %}
                 <td>{{ company.giveaways }}</td>
                 <td>{{ company.arrival_time }}</td>
                 <td>{{ company.comment }}</td>
                 {% if company.last_year %}
-                    <td style="background-color:green;color:white">yes</td>
+                    <td><span style="color:green" class="glyphicon glyphicon-ok"></span></td>
                 {% else %}
-                    <td style="background-color:red">no</td>
+                    <td><span style="color:red" class="glyphicon glyphicon-remove"></span></td>
                 {% endif %}
                 {% if company.arrived %}
-                    <td style="background-color:green;color:white">yes</td>
+                    <td><span style="color:green" class="glyphicon glyphicon-ok"></span></td>
                 {% else %}
-                    <td style="background-color:red">no</td>
+                    <td><span style="color:red" class="glyphicon glyphicon-remove"></span></td>
                 {% endif %}
                 {% if company.contact_again %}
-                    <td style="background-color:green;color:white">yes</td>
+                    <td><span style="color:green" class="glyphicon glyphicon-ok"></span></td>
                 {% else %}
-                    <td style="background-color:red">no</td>
+                    <td><span style="color:red" class="glyphicon glyphicon-remove"></span></td>
                 {% endif %}
+                <td>
+                    <a href="{% url "editcompany" company.id %}"><span class="glyphicon glyphicon-edit"></span></a>
+                </td>
+                <td>
+                    <a href="{% url "delcompany" company.id %}"><span class="glyphicon glyphicon-trash"></span></a>
+                </td>
             </tr>
         {% endfor %}
     </table>
 
-    <p><a href="{% url "addcompany" %}" class="btn btn-default">{% trans "Firma hinzufügen" %}</a></p>
+    <p><a href="{% url "addcompany" %}" class="btn btn-default">{% trans "Add Company" %}</a></p>
 
 {% endblock %}
