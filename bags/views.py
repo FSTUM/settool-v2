@@ -3,6 +3,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 
 from settool_common.models import get_semester, Semester
 from .forms import CompanyForm
+from .models import Company
 
 def index(request):
     sem = get_semester(request)
@@ -19,20 +20,34 @@ def add(request):
 
     form = CompanyForm(request.POST or None, semester=semester)
     if form.is_valid():
-        form.save()
+        company = form.save()
 
-        return redirect('addcompany')
+        return redirect('viewcompany', company.id)
 
     context = {'form': form}
     return render(request, 'bags/add.html', context)
 
 
-def view(request):
-    pass
+def view(request, company_pk):
+    company = get_object_or_404(Company, pk=company_pk)
+
+    context = {'company': company}
+    return render(request, 'bags/view.html', context)
 
 
-def edit(request):
-    pass
+def edit(request, company_pk):
+    company = get_object_or_404(Company, pk=company_pk)
+
+    form = CompanyForm(request.POST or None, semester=company.semester,
+            instance=company)
+    if form.is_valid():
+        form.save()
+
+        return redirect('viewcompany', company.id)
+
+    context = {'form': form,
+        'company': company}
+    return render(request, 'bags/edit.html', context)
 
 
 def delete(request):

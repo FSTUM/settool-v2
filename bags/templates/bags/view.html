@@ -1,0 +1,104 @@
+{% extends "settool_common/base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Freshmen bags" %} - {% trans "Company Details" %}{% endblock %}
+
+{% block content %}
+    <h1>
+        {% trans "Company details" %}
+    </h1>
+
+    <div class="row">
+    <div class="col-xs-12 col-lg-3">
+    <table class="table">
+    <tr>
+        <th>{% trans "Name" %}</th>
+        <td>{{ company.name }}</td>
+    </tr>
+    <tr>
+        <th>{% trans "Contact" %}</th>
+        <td>{{ company.contact }}</td>
+    </tr>
+    <tr>
+        <th>{% trans "E-Mail" %}</th>
+        <td>{{ company.email }}</td>
+    </tr>
+    <tr>
+        <th>{% trans "sent" %}</th>
+        {% if company.email_sent %}
+            <td><span style="color:green" class="glyphicon glyphicon-ok"></span></td>
+        {% else %}
+            <td><span style="color:red" class="glyphicon glyphicon-remove"></span></td>
+        {% endif %}
+    </tr>
+    <tr>
+        <th>{% trans "successfully sent" %}</th>
+        {% if company.email_sent_success %}
+            <td><span style="color:green" class="glyphicon glyphicon-ok"></span></td>
+        {% else %}
+            <td><span style="color:red" class="glyphicon glyphicon-remove"></span></td>
+        {% endif %}
+    </tr>
+    <tr>
+        <th>{% trans "Promise" %}</th>
+        {% if company.zusage %}
+            <td><span style="color:green" class="glyphicon glyphicon-ok"></span></td>
+        {% else %}
+            <td><span style="color:red" class="glyphicon glyphicon-remove"></span></td>
+        {% endif %}
+    </tr>
+    <tr>
+        <th>{% trans "Giveaways" %}</th>
+        <td>{{ company.giveaways }}</td>
+    </tr>
+    <tr>
+        <th>{% trans "Arrival time" %}</th>
+        <td>{{ company.arrival_time }}</td>
+    </tr>
+    <tr>
+        <th>{% trans "Arrived" %}</th>
+        <td>{{ company.comment }}</td>
+    </tr>
+    <tr>
+        <th>{% trans "Comment" %}</th>
+        {% if company.last_year %}
+            <td><span style="color:green" class="glyphicon glyphicon-ok"></span></td>
+        {% else %}
+            <td><span style="color:red" class="glyphicon glyphicon-remove"></span></td>
+        {% endif %}
+    </tr>
+    <tr>
+        <th>{% trans "Participated last year" %}</th>
+        {% if company.arrived %}
+            <td><span style="color:green" class="glyphicon glyphicon-ok"></span></td>
+        {% else %}
+            <td><span style="color:red" class="glyphicon glyphicon-remove"></span></td>
+        {% endif %}
+    </tr>
+    <tr>
+        <th>{% trans "Contact again" %}</th>
+        {% if company.contact_again %}
+            <td><span style="color:green" class="glyphicon glyphicon-ok"></span></td>
+        {% else %}
+            <td><span style="color:red" class="glyphicon glyphicon-remove"></span></td>
+        {% endif %}
+    </tr>
+    <tr>
+        <th>{% trans "Edit" %}</th>
+        <td>
+            <a href="{% url "editcompany" company.id %}"><span class="glyphicon glyphicon-edit"></span></a>
+        </td>
+    </tr>
+    <tr>
+        <th>{% trans "Delete" %}</th>
+        <td>
+            <a href="{% url "delcompany" company.id %}"><span class="glyphicon glyphicon-trash"></span></a>
+        </td>
+    </tr>
+    </table>
+    </div>
+    </div>
+
+    <p><a href="{% url "listcompanies" %}" class="btn btn-default">{% trans "back" %}</a></p>
+
+{% endblock %}
