@@ -18,6 +18,11 @@
             </div>
         </div>
 
-        <button type="submit" class="btn btn-default">{% trans "Submit" %}</button>
+        <table class="table">
+            <tr>
+                <td><button type="submit" class="btn btn-default">{% trans "Submit" %}</button></td>
+                <td><a href="{% url "listcompanies" %}" class="btn btn-default">{% trans "Cancel" %}</a></td>
+            </tr>
+        </table>
     </form>
 {% endblock %}
