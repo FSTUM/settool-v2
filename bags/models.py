@@ -6,6 +6,10 @@ from django.db import models
 from settool_common.models import Semester
 
 class Company(models.Model):
+    class Meta:
+        permissions = (("view_companies",
+            "Can view and edit the companies"),)
+
     semester = models.ForeignKey(
         Semester
     )
