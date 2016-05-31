@@ -36,8 +36,8 @@ class Company(models.Model):
         _("Email successfully sent"),
     )
 
-    zusage = models.NullBooleanField(
-        _("Zusage"),
+    promise = models.NullBooleanField(
+        _("Promise"),
     )
 
     giveaways = models.CharField(

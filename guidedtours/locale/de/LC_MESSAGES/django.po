@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-12-23 20:48+0100\n"
-"PO-Revision-Date: 2015-12-23 20:48+0100\n"
+"POT-Creation-Date: 2016-05-31 13:01+0200\n"
+"PO-Revision-Date: 2016-05-31 13:06+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: de\n"
@@ -16,49 +16,91 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 1.8.6\n"
+"X-Generator: Poedit 1.8.4\n"
 
-#: guidedtours/models.py:15
+#: guidedtours/models.py:19
 msgid "Name"
 msgstr "Name"
 
-#: guidedtours/models.py:21
+#: guidedtours/models.py:25
 msgid "Description"
 msgstr "Beschreibung"
 
-#: guidedtours/models.py:25
+#: guidedtours/models.py:29
 msgid "Date"
 msgstr "Datum"
 
-#: guidedtours/models.py:29
+#: guidedtours/models.py:33
 msgid "Capacity"
 msgstr "Kapazität"
 
-#: guidedtours/models.py:42 guidedtours/templates/guidedtours/view.html.py:15
+#: guidedtours/models.py:42
+msgid "Tour"
+msgstr "Intitutsführung"
+
+#: guidedtours/models.py:47 guidedtours/templates/guidedtours/view.html.py:15
 #: guidedtours/templates/guidedtours/view.html:35
 msgid "First name"
 msgstr "Vorname"
 
-#: guidedtours/models.py:47
+#: guidedtours/models.py:52
 msgid "Surname"
 msgstr "Nachname"
 
-#: guidedtours/models.py:51 guidedtours/templates/guidedtours/view.html.py:17
+#: guidedtours/models.py:56 guidedtours/templates/guidedtours/view.html.py:17
 #: guidedtours/templates/guidedtours/view.html:37
 msgid "E-Mail"
 msgstr "E-Mail"
 
-#: guidedtours/models.py:56
+#: guidedtours/models.py:61
 msgid "Mobile phone"
 msgstr "Handynummer"
 
-#: guidedtours/models.py:65
+#: guidedtours/models.py:66 guidedtours/templates/guidedtours/view.html.py:16
+#: guidedtours/templates/guidedtours/view.html:36
+msgid "Subject"
+msgstr "Studiengang"
+
+#: guidedtours/models.py:71
 msgid "Registration Time"
 msgstr "Registrierungszeit"
+
+#: guidedtours/templates/guidedtours/add.html:5
+#: guidedtours/templates/guidedtours/add_notour.html:5
+#: guidedtours/templates/guidedtours/success.html:4
+msgid "Guided tour"
+msgstr "Intitutsführung"
+
+#: guidedtours/templates/guidedtours/add.html:5
+#: guidedtours/templates/guidedtours/add_notour.html:5
+#: guidedtours/templates/guidedtours/success.html:4
+msgid "Sign up"
+msgstr "Anmelden"
+
+#: guidedtours/templates/guidedtours/add.html:9
+#: guidedtours/templates/guidedtours/add_notour.html:9
+msgid "Sign up for a guided tour"
+msgstr "Institutsführungs-Anmeldung"
+
+#: guidedtours/templates/guidedtours/add.html:21
+msgid "Submit"
+msgstr "Eintragen"
+
+#: guidedtours/templates/guidedtours/add_notour.html:13
+msgid "There are no tours open for registration."
+msgstr "Derzeit kannst du dich für keine Institutsführung anmelden."
 
 #: guidedtours/templates/guidedtours/index.html:5
 msgid "Guided tours of an institute"
 msgstr "Institutsführungen"
+
+#: guidedtours/templates/guidedtours/success.html:8
+msgid "You successfully signed up for a guided tour"
+msgstr "Du hast dich erfolgreich für eine Intitutsführung angemeldet."
+
+#: guidedtours/templates/guidedtours/success.html:11
+msgid "You will get all further information by email."
+msgstr "Alle weiteren Information bekommst du per E-Mail."
 
 #: guidedtours/templates/guidedtours/view.html:6
 #, python-format
@@ -69,11 +111,6 @@ msgstr "Teilnehmerliste für %(name)s am %(date)s"
 #: guidedtours/templates/guidedtours/view.html:34
 msgid "Last name"
 msgstr "Nachname"
-
-#: guidedtours/templates/guidedtours/view.html:16
-#: guidedtours/templates/guidedtours/view.html:36
-msgid "Subject"
-msgstr "Studiengang"
 
 #: guidedtours/templates/guidedtours/view.html:30
 msgid "Waiting list"

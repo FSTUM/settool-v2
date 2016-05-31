@@ -1,0 +1,144 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2016-05-31 13:01+0200\n"
+"PO-Revision-Date: 2016-05-31 13:09+0200\n"
+"Language: de\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"X-Generator: Poedit 1.8.4\n"
+
+#: bags/models.py:18 bags/templates/bags/index.html.py:13
+#: bags/templates/bags/view.html:15
+msgid "Name"
+msgstr "Name"
+
+#: bags/models.py:23
+msgid "Contact person"
+msgstr "Kontaktperson"
+
+#: bags/models.py:28
+msgid "Email address"
+msgstr "E-Mailadresse"
+
+#: bags/models.py:32
+msgid "Email sent"
+msgstr "E-Mail gesendet"
+
+#: bags/models.py:36
+msgid "Email successfully sent"
+msgstr "E-Mail erfolgreich gesendet"
+
+#: bags/models.py:40 bags/templates/bags/index.html.py:18
+#: bags/templates/bags/view.html:43
+msgid "Promise"
+msgstr "Zusage"
+
+#: bags/models.py:44 bags/templates/bags/index.html.py:19
+#: bags/templates/bags/view.html:53
+msgid "Giveaways"
+msgstr "Giveaways"
+
+#: bags/models.py:50 bags/templates/bags/index.html.py:20
+#: bags/templates/bags/view.html:57
+msgid "Arrival time"
+msgstr "Ankunftszeit"
+
+#: bags/models.py:56 bags/templates/bags/index.html.py:21
+#: bags/templates/bags/view.html:65
+msgid "Comment"
+msgstr "Kommentar"
+
+#: bags/models.py:62 bags/templates/bags/index.html.py:22
+#: bags/templates/bags/view.html:73
+msgid "Participated last year"
+msgstr "Letztes Jahr was geschickt"
+
+#: bags/models.py:66 bags/templates/bags/index.html.py:23
+#: bags/templates/bags/view.html:61
+msgid "Arrived"
+msgstr "Angekommen"
+
+#: bags/models.py:70 bags/templates/bags/index.html.py:24
+#: bags/templates/bags/view.html:81
+msgid "Contact again"
+msgstr "Erneut kontaktieren"
+
+#: bags/templates/bags/add.html:5 bags/templates/bags/edit.html.py:5
+#: bags/templates/bags/index.html:4 bags/templates/bags/view.html.py:4
+msgid "Freshmen bags"
+msgstr "Erstitüten"
+
+#: bags/templates/bags/add.html:5
+msgid "Add company"
+msgstr "Firma hinzufügen"
+
+#: bags/templates/bags/add.html:9
+msgid "Add a company"
+msgstr "Firma hinzufügen"
+
+#: bags/templates/bags/add.html:23 bags/templates/bags/edit.html.py:23
+msgid "Submit"
+msgstr "Eintragen"
+
+#: bags/templates/bags/add.html:24 bags/templates/bags/edit.html.py:24
+msgid "Cancel"
+msgstr "Abbrechen"
+
+#: bags/templates/bags/edit.html:5 bags/templates/bags/edit.html.py:9
+msgid "Edit company"
+msgstr "Firma bearbeiten"
+
+#: bags/templates/bags/index.html:4 bags/templates/bags/index.html.py:8
+msgid "List companies"
+msgstr "Firmenliste"
+
+#: bags/templates/bags/index.html:14 bags/templates/bags/view.html.py:19
+msgid "Contact"
+msgstr "Kontakt"
+
+#: bags/templates/bags/index.html:15 bags/templates/bags/view.html.py:23
+msgid "E-Mail"
+msgstr "E-Mail"
+
+#: bags/templates/bags/index.html:16 bags/templates/bags/view.html.py:27
+msgid "sent"
+msgstr "gesendet"
+
+#: bags/templates/bags/index.html:17 bags/templates/bags/view.html.py:35
+msgid "successfully sent"
+msgstr "erfolgreich gesendet"
+
+#: bags/templates/bags/index.html:25 bags/templates/bags/view.html.py:91
+msgid "Edit"
+msgstr "Bearbeiten"
+
+#: bags/templates/bags/index.html:26 bags/templates/bags/view.html.py:97
+msgid "Delete"
+msgstr "Löschen"
+
+#: bags/templates/bags/index.html:82
+msgid "Add Company"
+msgstr "Firma hinzufügen"
+
+#: bags/templates/bags/view.html:4
+msgid "Company Details"
+msgstr "Firmendetails"
+
+#: bags/templates/bags/view.html:8
+msgid "Company details"
+msgstr "Firmendetails"
+
+#: bags/templates/bags/view.html:106
+msgid "back"
+msgstr "zurück"

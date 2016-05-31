@@ -41,10 +41,12 @@
     </tr>
     <tr>
         <th>{% trans "Promise" %}</th>
-        {% if company.zusage %}
+        {% if company.promise %}
             <td><span style="color:green" class="glyphicon glyphicon-ok"></span></td>
-        {% else %}
+        {% elif company.promise == False%}
             <td><span style="color:red" class="glyphicon glyphicon-remove"></span></td>
+        {% else %}
+            <td></td>
         {% endif %}
     </tr>
     <tr>
@@ -79,8 +81,10 @@
         <th>{% trans "Contact again" %}</th>
         {% if company.contact_again %}
             <td><span style="color:green" class="glyphicon glyphicon-ok"></span></td>
-        {% else %}
+        {% elif company.contact_again == False%}
             <td><span style="color:red" class="glyphicon glyphicon-remove"></span></td>
+        {% else %}
+            <td></td>
         {% endif %}
     </tr>
     <tr>
