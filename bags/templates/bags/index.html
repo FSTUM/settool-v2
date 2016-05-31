@@ -1,0 +1,71 @@
+{% extends "settool_common/base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Freshmen bags" %} - {% trans "List companies" %}{% endblock %}
+
+{% block content %}
+    <h1>
+        {% trans "List companies" %}
+    </h1>
+
+    <table class="table">
+    <tr>
+        <th>{% trans "Name" %}</th>
+        <th>{% trans "Contact" %}</th>
+        <th>{% trans "E-Mail" %}</th>
+        <th>{% trans "sent" %}</th>
+        <th>{% trans "successfully sent" %}</th>
+        <th>{% trans "Promise" %}</th>
+        <th>{% trans "Giveaways" %}</th>
+        <th>{% trans "Arrival time" %}</th>
+        <th>{% trans "Arrived" %}</th>
+        <th>{% trans "Comment" %}</th>
+        <th>{% trans "Participated last year" %}</th>
+        <th>{% trans "Contact again" %}</th>
+    </tr>
+        {% for company in companies %}
+            <tr>
+                {# <td><a href="{% url "viewcompany" company.id %}">{{ company.name }}</a></td> #}
+                <td>{{ company.name }}</td>
+                <td>{{ company.contact }}</td>
+                <td>{{ company.email }}</td>
+                {% if company.email_sent %}
+                    <td style="background-color:green;color:white">yes</td>
+                {% else %}
+                    <td style="background-color:red">no</td>
+                {% endif %}
+                {% if company.email_sent_success %}
+                    <td style="background-color:green;color:white">yes</td>
+                {% else %}
+                    <td style="background-color:red">no</td>
+                {% endif %}
+                {% if company.zusage %}
+                    <td style="background-color:green;color:white">yes</td>
+                {% else %}
+                    <td style="background-color:red">no</td>
+                {% endif %}
+                <td>{{ company.giveaways }}</td>
+                <td>{{ company.arrival_time }}</td>
+                <td>{{ company.comment }}</td>
+                {% if company.last_year %}
+                    <td style="background-color:green;color:white">yes</td>
+                {% else %}
+                    <td style="background-color:red">no</td>
+                {% endif %}
+                {% if company.arrived %}
+                    <td style="background-color:green;color:white">yes</td>
+                {% else %}
+                    <td style="background-color:red">no</td>
+                {% endif %}
+                {% if company.contact_again %}
+                    <td style="background-color:green;color:white">yes</td>
+                {% else %}
+                    <td style="background-color:red">no</td>
+                {% endif %}
+            </tr>
+        {% endfor %}
+    </table>
+
+    <p><a href="{% url "addcompany" %}" class="btn btn-default">{% trans "Firma hinzufügen" %}</a></p>
+
+{% endblock %}

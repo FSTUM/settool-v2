@@ -11,18 +11,17 @@ class Company(models.Model):
     )
 
     name = models.CharField(
+        _("Name"),
         max_length=200,
-        verbose_name=_("Name"),
     )
 
     contact = models.CharField(
+        _("Contact person"),
         max_length=200,
-        verbose_name=_("Contact person"),
     )
 
-    email = models.CharField(
-        max_length=200,
-        verbose_name=_("Email address"),
+    email = models.EmailField(
+        _("Email address"),
     )
 
     email_sent = models.BooleanField(
@@ -38,18 +37,21 @@ class Company(models.Model):
     )
 
     giveaways = models.CharField(
+        _("Giveaways"),
         max_length=200,
-        verbose_name=_("Giveaways"),
+        blank=True,
     )
 
     arrival_time = models.CharField(
+        _("Arrival time"),
         max_length=200,
-        verbose_name=_("Arrival time"),
+        blank=True,
     )
 
     comment = models.CharField(
+        _("Comment"),
         max_length=200,
-        verbose_name=_("Comment"),
+        blank=True,
     )
 
     last_year = models.BooleanField(
