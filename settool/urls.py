@@ -19,6 +19,7 @@ from django.conf.urls import include, url
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.contrib.auth import views as auth_views
+from django.views.generic.base import RedirectView
 
 urlpatterns = [
     # admin
@@ -37,6 +38,10 @@ urlpatterns = [
 
     # localozation
     url(r'^i18n/', include('django.conf.urls.i18n')),
+
+    # redirect root to mpi.fs.tum.de/set
+    url(r'^$', RedirectView.as_view(url='https://mpi.fs.tum.de/set',
+        permanent=False)),
 
     # settool_common: choose semester
     url(r'^semester/', include('settool_common.urls')),
