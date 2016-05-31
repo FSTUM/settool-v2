@@ -1,6 +1,6 @@
 from __future__ import unicode_literals
 from django.utils.translation import ugettext_lazy as _
-
+from django.template import engines
 from django.db import models
 
 from settool_common.models import Semester
@@ -69,4 +69,28 @@ class Company(models.Model):
     contact_again = models.NullBooleanField(
         _("Contact again"),
     )
+
+
+class Mail(models.Model):
+    subject = models.CharField(
+        _("Email subject"),
+        max_length=200,
+    )
+
+    text = models.TextField(
+        _("Text"),
+    )
+
+    def send_invitation(self, request, company):
+        # text from templates
+        django_engine = engines['django']
+        subject_template = django_engine.from_string(self.subject)
+        subject = subject_template.render({'company': company}).rstrip()
+
+        text_template = django_engine.from_string(self.text)
+        text = text_template.render({'company': company})
+
+        # send
+        send_mail(subject, text, "set-tueten@fs.tum.de", [company.email],
+                fail_silently=False)
 
