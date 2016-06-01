@@ -1,0 +1,28 @@
+{% extends "settool_common/base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Freshmen bags" %} - {% trans "Delete company" %}{% endblock %}
+
+{% block content %}
+    <h1>
+        {% trans "Delete company" %}: {{ company.name }}
+    </h1>
+    
+    {% url "viewcompany" company.id as viewcompany %}
+    <p>
+        {% blocktrans trimmed with name=company.name url=viewcompany %}
+        Do you really want to delete the company <a href="{{ url }}">{{ name }}</a>?
+        {% endblocktrans %}
+    </p>
+    <form method="post" action="">
+        {% csrf_token %}
+    
+        <table class="table">
+            <tr>
+                <td><button type="submit" class="btn btn-default btn-danger">{% trans "Delete" %}</button></td>
+                <td><a href="{% url "listcompanies" %}" class="btn btn-default">{% trans "Cancel" %}</a></td>
+            </tr>
+        <table>
+    </form>
+    
+{% endblock %}

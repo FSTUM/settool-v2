@@ -24,6 +24,7 @@
         <th>{% trans "Contact again" %}</th>
         <th>{% trans "Edit" %}</th>
         <th>{% trans "Delete" %}</th>
+        <th>{% trans "Send email" %}</th>
     </tr>
         {% for company in companies %}
             <tr>
@@ -74,6 +75,9 @@
                 </td>
                 <td>
                     <a href="{% url "delcompany" company.id %}"><span class="glyphicon glyphicon-trash"></span></a>
+                </td>
+                <td>
+                    <a href="{% url "sendmail" company.id 1 %}"><span class="glyphicon glyphicon-envelope"></span></a>
                 </td>
             </tr>
         {% endfor %}

@@ -14,4 +14,6 @@ urlpatterns = [
         name="editmail"),
     url(r'^emails/del/(?P<mail_pk>[0-9]+)/$', views.delete_mail,
         name="delmail"),
+    url(r'^emails/send/(?P<company_pk>[0-9]+)/(?P<mail_pk>[0-9]+)/$',
+        views.send_mail, name="sendmail"),
 ]

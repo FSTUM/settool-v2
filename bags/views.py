@@ -1,5 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import permission_required
+from django import forms
 
 from settool_common.models import get_semester, Semester
 from .forms import CompanyForm, MailForm
@@ -55,8 +56,18 @@ def edit(request, company_pk):
 
 
 @permission_required('bags.view_companies')
-def delete(request):
-    pass
+def delete(request, company_pk):
+    company = get_object_or_404(Company, pk=company_pk)
+
+    form = forms.Form(request.POST or None)
+    if form.is_valid():
+        company.delete()
+
+        return redirect('listcompanies')
+
+    context = {'company': company,
+               'form': form}
+    return render(request, 'bags/del.html', context)
 
 
 @permission_required('bags.view_companies')
@@ -101,5 +112,26 @@ def edit_mail(request, mail_pk):
 
 
 @permission_required('bags.view_companies')
-def delete_mail(request):
-    pass
+def delete_mail(request, mail_pk):
+    mail = get_object_or_404(Mail, pk=mail_pk)
+
+    form = forms.Form(request.POST or None)
+    if form.is_valid():
+        mail.delete()
+
+        return redirect('listmails')
+
+    context = {'mail': mail,
+               'form': form}
+    return render(request, 'bags/del_mail.html', context)
+
+
+def send_mail(request, company_pk, mail_pk):
+    company = get_object_or_404(Company, pk=company_pk)
+    mail = get_object_or_404(Mail, pk=mail_pk)
+
+    mail.send_mail(request, company)
+
+    return redirect('listcompanies')
+
+

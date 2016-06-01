@@ -2,6 +2,7 @@ from __future__ import unicode_literals
 from django.utils.translation import ugettext_lazy as _
 from django.template import engines
 from django.db import models
+from django.core.mail import send_mail
 
 from settool_common.models import Semester, current_semester
 
@@ -91,7 +92,7 @@ class Mail(models.Model):
         max_length=200,
     )
 
-    def send_invitation(self, request, company):
+    def send_mail(self, request, company):
         # text from templates
         django_engine = engines['django']
         subject_template = django_engine.from_string(self.subject)
