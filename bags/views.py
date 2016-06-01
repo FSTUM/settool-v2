@@ -57,3 +57,28 @@ def edit(request, company_pk):
 @permission_required('bags.view_companies')
 def delete(request):
     pass
+
+
+@permission_required('bags.view_companies')
+def index_mails(request):
+    sem = get_semester(request)
+    semester = get_object_or_404(Semester, pk=sem)
+    mails = semester.mail_set.all()
+
+    context = {'mails': mails}
+    return render(request, 'bags/index_mails.html', context)
+
+
+@permission_required('bags.view_companies')
+def add_mail(request):
+    pass
+
+
+@permission_required('bags.view_companies')
+def edit_mail(request):
+    pass
+
+
+@permission_required('bags.view_companies')
+def delete_mail(request):
+    pass
