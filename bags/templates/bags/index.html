@@ -79,6 +79,11 @@
         {% endfor %}
     </table>
 
-    <p><a href="{% url "addcompany" %}" class="btn btn-default">{% trans "Add Company" %}</a></p>
-
+    <table class="table">
+        <tr>
+            <td><a href="{% url "addcompany" %}" class="btn btn-default">{% trans "Add Company" %}</a></td>
+            <td><a href="{% url "listmails" %}" class="btn btn-default">{% trans "Edit Email Templates" %}</a></td>
+        </tr>
+    </table>
 {% endblock %}
+

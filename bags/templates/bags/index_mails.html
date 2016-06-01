@@ -20,7 +20,7 @@
                 <td>
                     <a href="{% url "editmail" mail.id %}">{{ mail.subject }}</a>
                 </td>
-                <td>{{ mail.text }}</td>
+                <td>{{ mail.text|slice:":100" }}{% if mail.text|length > 100 %}...{% endif %}</td>
                 <td>{{ mail.comment }}</td>
                 <td>
                     <a href="{% url "delmail" mail.id %}"><span class="glyphicon glyphicon-trash"></span></a>

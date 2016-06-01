@@ -2,8 +2,8 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import permission_required
 
 from settool_common.models import get_semester, Semester
-from .forms import CompanyForm
-from .models import Company
+from .forms import CompanyForm, MailForm
+from .models import Company, Mail
 
 @permission_required('bags.view_companies')
 def index(request):
@@ -71,12 +71,33 @@ def index_mails(request):
 
 @permission_required('bags.view_companies')
 def add_mail(request):
-    pass
+    sem = get_semester(request)
+    semester = get_object_or_404(Semester, pk=sem)
+
+    form = MailForm(request.POST or None, semester=semester)
+    if form.is_valid():
+        form.save()
+
+        return redirect('listmails')
+
+    context = {'form': form}
+    return render(request, 'bags/add_mail.html', context)
 
 
 @permission_required('bags.view_companies')
-def edit_mail(request):
-    pass
+def edit_mail(request, mail_pk):
+    mail = get_object_or_404(Mail, pk=mail_pk)
+
+    form = MailForm(request.POST or None, semester=mail.semester,
+            instance=mail)
+    if form.is_valid():
+        form.save()
+
+        return redirect('listmails')
+
+    context = {'form': form,
+        'mail': mail}
+    return render(request, 'bags/edit_mail.html', context)
 
 
 @permission_required('bags.view_companies')
