@@ -3,7 +3,7 @@ from django.utils.translation import ugettext_lazy as _
 from django.template import engines
 from django.db import models
 
-from settool_common.models import Semester
+from settool_common.models import Semester, current_semester
 
 class Company(models.Model):
     class Meta:
@@ -72,6 +72,11 @@ class Company(models.Model):
 
 
 class Mail(models.Model):
+    semester = models.ForeignKey(
+        Semester,
+        default=current_semester().pk,
+    )
+
     subject = models.CharField(
         _("Email subject"),
         max_length=200,
@@ -79,6 +84,11 @@ class Mail(models.Model):
 
     text = models.TextField(
         _("Text"),
+    )
+
+    comment = models.CharField(
+        _("Comment"),
+        max_length=200,
     )
 
     def send_invitation(self, request, company):

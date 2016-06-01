@@ -3,9 +3,11 @@ import datetime
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from django.utils import timezone
+from django.utils.deconstruct import deconstructible
 
 from .settings import SEMESTER_SESSION_KEY
 
+@deconstructible
 class Semester(models.Model):
     class Meta:
         unique_together = (('semester', 'year'),)
