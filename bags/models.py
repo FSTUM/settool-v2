@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from __future__ import unicode_literals
 from django.utils.translation import ugettext_lazy as _
 from django.template import engines
@@ -73,6 +75,7 @@ class Company(models.Model):
 
 
 class Mail(models.Model):
+    FROM_MAIL = "Erstitüten-Team des SET-Referats <set-tueten@fs.tum.de>"
     semester = models.ForeignKey(
         Semester,
         default=current_semester().pk,
@@ -102,6 +105,7 @@ class Mail(models.Model):
         text = text_template.render({'company': company})
 
         # send
-        send_mail(subject, text, "set-tueten@fs.tum.de", [company.email],
-                fail_silently=False)
+        send_mail(subject, text, Mail.FROM_MAIL,
+            ["{0} <{1}>".format(company.contact, company.email)],
+            fail_silently=False)
 
