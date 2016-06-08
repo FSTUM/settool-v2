@@ -95,6 +95,12 @@ class Mail(models.Model):
         max_length=200,
     )
 
+    def __str__(self):
+        if self.comment:
+            return "{} ({})". format(self.subject, self.comment)
+        else:
+            return str(self.subject)
+
     def send_mail(self, request, company):
         # text from templates
         django_engine = engines['django']

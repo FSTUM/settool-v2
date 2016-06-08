@@ -3,7 +3,7 @@ from django.contrib.auth.decorators import permission_required
 from django import forms
 
 from settool_common.models import get_semester, Semester
-from .forms import CompanyForm, MailForm
+from .forms import CompanyForm, MailForm, SelectMailForm
 from .models import Company, Mail
 
 @permission_required('bags.view_companies')
@@ -12,7 +12,19 @@ def index(request):
     semester = get_object_or_404(Semester, pk=sem)
     companies = semester.company_set.order_by("name")
 
-    context = {'companies': companies}
+    form = SelectMailForm(request.POST or None, semester=semester)
+    if form.is_valid():
+        mail = form.cleaned_data['mail']
+        company = form.cleaned_data['company'] # TODO: not implemented yet
+
+        mail.send_mail(request, company)
+
+        return redirect('listcompanies')
+
+    context = {
+        'companies': companies,
+        'form': form
+    }
     return render(request, 'bags/index.html', context)
 
 
@@ -126,12 +138,7 @@ def delete_mail(request, mail_pk):
     return render(request, 'bags/del_mail.html', context)
 
 
+@permission_required('bags.view_companies')
 def send_mail(request, company_pk, mail_pk):
-    company = get_object_or_404(Company, pk=company_pk)
-    mail = get_object_or_404(Mail, pk=mail_pk)
-
-    mail.send_mail(request, company)
-
+    # TODO
     return redirect('listcompanies')
-
-

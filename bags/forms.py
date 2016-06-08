@@ -1,4 +1,5 @@
 from django import forms
+from django.utils.translation import ugettext_lazy as _
 
 from .models import Company, Mail
 
@@ -34,3 +35,16 @@ class MailForm(forms.ModelForm):
         if commit:
             instance.save()
         return instance
+
+
+class SelectMailForm(forms.Form):
+    mail = forms.ModelChoiceField(
+        queryset=None,
+        label=_("Email template:"),
+    )
+
+    def __init__(self, *args, **kwargs):
+        semester = kwargs.pop('semester')
+        super(SelectMailForm, self).__init__(*args, **kwargs)
+
+        self.fields['mail'].queryset = semester.mail_set.all()
