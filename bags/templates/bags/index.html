@@ -39,7 +39,7 @@
     <table id="bagTable" class="table tablesorter">
     <thead>
     <tr>
-        <th>{% trans "Name" %}</th>
+        <th>{% trans "Company" %}</th>
         <th>{% trans "Contact" %}</th>
         <th>{% trans "E-Mail" %}</th>
         <th>{% trans "sent" %}</th>
@@ -61,7 +61,7 @@
                 <td>
                     <a href="{% url "viewcompany" company.id %}">{{ company.name }}</a>
                 </td>
-                <td>{{ company.contact }}</td>
+                <td>{{ company.full_contact }}</td>
                 <td>{{ company.email }}</td>
                 {% if company.email_sent %}
                     <td><span style="color:green" class="glyphicon glyphicon-ok"></span></td>

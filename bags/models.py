@@ -22,9 +22,23 @@ class Company(models.Model):
         max_length=200,
     )
 
-    contact = models.CharField(
-        _("Contact person"),
+    contact_gender = models.CharField(
+        _("Contact person (Gender)"),
         max_length=200,
+        choices=(("Herr", _("Herr")), ("Frau", _("Frau"))),
+        blank=True,
+    )
+
+    contact_firstname = models.CharField(
+        _("Contact person (First Name)"),
+        max_length=200,
+        blank=True,
+    )
+
+    contact_lastname = models.CharField(
+        _("Contact person (Last Name)"),
+        max_length=200,
+        blank=True,
     )
 
     email = models.EmailField(
@@ -72,6 +86,11 @@ class Company(models.Model):
     contact_again = models.NullBooleanField(
         _("Contact again"),
     )
+
+    @property
+    def full_contact(self):
+        return "{} {} {}".format(self.contact_gender, self.contact_firstname,
+                self.contact_lastname)
 
 
 class Mail(models.Model):
