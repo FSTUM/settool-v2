@@ -11,6 +11,8 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
         <script src="{% static "settool_common/js/jquery.min.js" %}"></script>
+        <script src="{% static "settool_common/js/jquery.tablesorter.min.js" %}"></script>
+        <script src="{% static "settool_common/js/jquery.tablesorter.widgets.min.js" %}"></script>
         <script src="{% static "settool_common/js/bootstrap.min.js" %}"></script>
 
         <link href="{% static "settool_common/css/bootstrap.min.css" %}" media="all" rel="stylesheet">
@@ -19,6 +21,8 @@
         <link href="{% static "settool_common/css/style.css" %}" media="all" rel="stylesheet">
 
         <title>{% trans "SET" %} {% block title %}{% endblock %}</title>
+
+        {% block head %}{% endblock %}
     </head>
 
     <body>

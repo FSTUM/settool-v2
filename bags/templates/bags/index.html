@@ -1,6 +1,20 @@
 {% extends "settool_common/base.html" %}
 {% load i18n %}
 
+{% block head %}
+<script>
+    $(function(){
+        $("#bagTable").tablesorter({
+            theme           : "bootstrap",
+            widgets         : ['zebra', 'columns', 'uitheme'],
+            headerTemplate  : '{content} {icon}',
+            sortReset       : true,
+            sortRestart     : true
+	});
+    });
+</script>
+{% endblock %}
+
 {% block title %}{% trans "Freshmen bags" %} - {% trans "List companies" %}{% endblock %}
 
 {% block content %}
@@ -8,7 +22,8 @@
         {% trans "List companies" %}
     </h1>
 
-    <table class="table">
+    <table id="bagTable" class="table tablesorter">
+    <thead>
     <tr>
         <th>{% trans "Name" %}</th>
         <th>{% trans "Contact" %}</th>
@@ -24,8 +39,9 @@
         <th>{% trans "Contact again" %}</th>
         <th>{% trans "Edit" %}</th>
         <th>{% trans "Delete" %}</th>
-        <th>{% trans "Send email" %}</th>
     </tr>
+    </thead>
+    <tbody>
         {% for company in companies %}
             <tr>
                 <td>
@@ -76,11 +92,9 @@
                 <td>
                     <a href="{% url "delcompany" company.id %}"><span class="glyphicon glyphicon-trash"></span></a>
                 </td>
-                <td>
-                    <a href="{% url "sendmail" company.id 1 %}"><span class="glyphicon glyphicon-envelope"></span></a>
-                </td>
             </tr>
         {% endfor %}
+    </tbody>
     </table>
 
     <table class="table">
@@ -89,5 +103,6 @@
             <td><a href="{% url "listmails" %}" class="btn btn-default">{% trans "Edit Email Templates" %}</a></td>
         </tr>
     </table>
+
 {% endblock %}
 

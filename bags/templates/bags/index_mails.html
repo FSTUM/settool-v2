@@ -1,6 +1,20 @@
 {% extends "settool_common/base.html" %}
 {% load i18n %}
 
+{% block head %}
+<script>
+    $(function(){
+        $("#mailTable").tablesorter({
+            theme           : "bootstrap",
+            widgets         : ['zebra', 'columns', 'uitheme'],
+            headerTemplate  : '{content} {icon}',
+            sortReset       : true,
+            sortRestart     : true
+	});
+    });
+</script>
+{% endblock %}
+
 {% block title %}{% trans "Freshmen bags" %} - {% trans "List email templates" %}{% endblock %}
 
 {% block content %}
@@ -8,13 +22,16 @@
         {% trans "List email templates" %}
     </h1>
 
-    <table class="table">
+    <table id="mailTable" class="table tablesorter">
+    <thead>
     <tr>
         <th>{% trans "Subject" %}</th>
         <th>{% trans "Text" %}</th>
         <th>{% trans "Comment" %}</th>
         <th>{% trans "Delete" %}</th>
     </tr>
+    </thead>
+    <tbody>
         {% for mail in mails %}
             <tr>
                 <td>
@@ -27,6 +44,7 @@
                 </td>
             </tr>
         {% endfor %}
+    </tbody>
     </table>
 
     <table class="table">
