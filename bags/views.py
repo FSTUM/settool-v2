@@ -1,9 +1,10 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import permission_required
 from django import forms
+from django.db.models import Q
 
 from settool_common.models import get_semester, Semester
-from .forms import CompanyForm, MailForm, SelectMailForm
+from .forms import CompanyForm, MailForm, SelectMailForm, FilterCompaniesForm
 from .models import Company, Mail
 
 @permission_required('bags.view_companies')
@@ -12,18 +13,57 @@ def index(request):
     semester = get_object_or_404(Semester, pk=sem)
     companies = semester.company_set.order_by("name")
 
-    form = SelectMailForm(request.POST or None, semester=semester)
-    if form.is_valid():
-        mail = form.cleaned_data['mail']
-        company = form.cleaned_data['company'] # TODO: not implemented yet
+    if request.method == 'POST':
+        if 'mailform' in request.POST:
+            form = SelectMailForm(request.POST, semester=semester)
+            filterform = FilterCompaniesForm()
+            if form.is_valid():
+                mail = form.cleaned_data['mail']
 
-        mail.send_mail(request, company)
+                for company in companies:
+                    mail.send_mail(request, company)
 
-        return redirect('listcompanies')
+                return redirect('listcompanies')
+        elif 'filterform' in request.POST:
+            filterform = FilterCompaniesForm(request.POST)
+            form = SelectMailForm(semester=semester)
+            if filterform.is_valid():
+                search = filterform.cleaned_data['search']
+                no_email_sent = filterform.cleaned_data['no_email_sent']
+                arrived = filterform.cleaned_data['arrived']
+                last_year = filterform.cleaned_data['last_year']
+                not_last_year = filterform.cleaned_data['not_last_year']
+                contact_again = filterform.cleaned_data['contact_again']
+
+                if search:
+                    companies = companies.filter(
+                        Q(name__icontains=search) |
+                        Q(contact_gender__icontains=search) |
+                        Q(contact_firstname__icontains=search) |
+                        Q(contact_lastname__icontains=search) |
+                        Q(email__icontains=search) |
+                        Q(giveaways__icontains=search) |
+                        Q(arrival_time__icontains=search) |
+                        Q(comment__icontains=search)
+                    )
+                if no_email_sent:
+                    companies = companies.filter(email_sent_success=False)
+                if arrived:
+                    companies = companies.filter(arrived=True)
+                if last_year:
+                    companies = companies.filter(last_year=True)
+                if not_last_year:
+                    companies = companies.filter(last_year=False)
+                if contact_again:
+                    companies = companies.filter(contact_again=True)
+    else:
+        form = SelectMailForm(semester=semester)
+        filterform = FilterCompaniesForm()
 
     context = {
         'companies': companies,
-        'form': form
+        'form': form,
+        'filterform': filterform
     }
     return render(request, 'bags/index.html', context)
 

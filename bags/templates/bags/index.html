@@ -23,16 +23,23 @@
         {% trans "List companies" %}
     </h1>
 
-    <form method="post" action="">
-        {% csrf_token %}
 
-        <div class="row">
-            <div class="col-xs-12 col-lg-5">
+    <div class="row">
+        <div class="col-xs-12 col-lg-5">
+            <form method="post" action="">
+                {% csrf_token %}
                 {% bootstrap_form form %}
-                {# <button type="submit" class="btn btn-default">{% trans "Send emails" %}</button> #}
-            </div>
+                <button type="submit" name="mailform" class="btn btn-default">{% trans "Send emails" %}</button>
+            </form>
         </div>
-    </form>
+        <div class="col-xs-12 col-lg-5">
+            <form method="post" action="">
+                {% csrf_token %}
+                {% bootstrap_form filterform %}
+                <button type="submit" name="filterform" class="btn btn-default">{% trans "Filter" %}</button>
+            </form>
+        </div>
+    </div>
 
     <p></p>
 
