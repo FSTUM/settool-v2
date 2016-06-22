@@ -71,19 +71,19 @@
                 <td>{{ company.full_contact }}</td>
                 <td>{{ company.email }}</td>
                 {% if company.email_sent %}
-                    <td><span style="color:green" class="glyphicon glyphicon-ok"></span></td>
+                    <td><span style="color:green" class="glyphicon glyphicon-ok"></span><span style="visibility:hidden">ja</span></td>
                 {% else %}
-                    <td><span style="color:red" class="glyphicon glyphicon-remove"></span></td>
+                    <td><span style="color:red" class="glyphicon glyphicon-remove"></span><span style="visibility:hidden">nein</span></td>
                 {% endif %}
                 {% if company.email_sent_success %}
-                    <td><span style="color:green" class="glyphicon glyphicon-ok"></span></td>
+                    <td><span style="color:green" class="glyphicon glyphicon-ok"></span><span style="visibility:hidden">ja</span></td>
                 {% else %}
-                    <td><span style="color:red" class="glyphicon glyphicon-remove"></span></td>
+                    <td><span style="color:red" class="glyphicon glyphicon-remove"></span><span style="visibility:hidden">nein</span></td>
                 {% endif %}
                 {% if company.promise %}
-                    <td><span style="color:green" class="glyphicon glyphicon-ok"></span></td>
+                    <td><span style="color:green" class="glyphicon glyphicon-ok"></span><span style="visibility:hidden">ja</span></td>
                 {% elif company.promise == False %}
-                    <td><span style="color:red" class="glyphicon glyphicon-remove"></span></td>
+                    <td><span style="color:red" class="glyphicon glyphicon-remove"></span><span style="visibility:hidden">nein</span></td>
                 {% else %}
                     <td></td>
                 {% endif %}
@@ -91,19 +91,19 @@
                 <td>{{ company.arrival_time }}</td>
                 <td>{{ company.comment }}</td>
                 {% if company.last_year %}
-                    <td><span style="color:green" class="glyphicon glyphicon-ok"></span></td>
+                    <td><span style="color:green" class="glyphicon glyphicon-ok"></span><span style="visibility:hidden">ja</span></td>
                 {% else %}
-                    <td><span style="color:red" class="glyphicon glyphicon-remove"></span></td>
+                    <td><span style="color:red" class="glyphicon glyphicon-remove"></span><span style="visibility:hidden">nein</span></td>
                 {% endif %}
                 {% if company.arrived %}
-                    <td><span style="color:green" class="glyphicon glyphicon-ok"></span></td>
+                    <td><span style="color:green" class="glyphicon glyphicon-ok"></span><span style="visibility:hidden">ja</span></td>
                 {% else %}
-                    <td><span style="color:red" class="glyphicon glyphicon-remove"></span></td>
+                    <td><span style="color:red" class="glyphicon glyphicon-remove"></span><span style="visibility:hidden">nein</span></td>
                 {% endif %}
                 {% if company.contact_again %}
-                    <td><span style="color:green" class="glyphicon glyphicon-ok"></span></td>
+                    <td><span style="color:green" class="glyphicon glyphicon-ok"></span><span style="visibility:hidden">ja</span></td>
                 {% elif company.contact_again == False %}
-                    <td><span style="color:red" class="glyphicon glyphicon-remove"></span></td>
+                    <td><span style="color:red" class="glyphicon glyphicon-remove"></span><span style="visibility:hidden">nein</span></td>
                 {% else %}
                     <td></td>
                 {% endif %}
