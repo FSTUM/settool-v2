@@ -92,6 +92,17 @@ class Company(models.Model):
         return "{} {} {}".format(self.contact_gender, self.contact_firstname,
                 self.contact_lastname)
 
+    @property
+    def anrede(self):
+        if self.contact_gender and self.contact_lastname:
+            return "Hallo {} {}".format(self.contact_gender, self.contact_lastname)
+        else:
+            return "Sehr geehrte Damen und Herren"
+
+    @property
+    def contact_name(self):
+        return "{} {}".format(self.contact_firstname, self.contact_lastname)
+
 
 class Mail(models.Model):
     FROM_MAIL = "Erstitüten-Team des SET-Referats <set-tueten@fs.tum.de>"
@@ -112,6 +123,7 @@ class Mail(models.Model):
     comment = models.CharField(
         _("Comment"),
         max_length=200,
+        blank=True,
     )
 
     def __str__(self):
@@ -124,13 +136,17 @@ class Mail(models.Model):
         # text from templates
         django_engine = engines['django']
         subject_template = django_engine.from_string(self.subject)
-        subject = subject_template.render({'company': company}).rstrip()
+        context = {
+            'anrede': company.anrede,
+            'firma': company.name,
+        }
+        subject = subject_template.render(context).rstrip()
 
         text_template = django_engine.from_string(self.text)
-        text = text_template.render({'company': company})
+        text = text_template.render(context)
 
         # send
         send_mail(subject, text, Mail.FROM_MAIL,
-            ["{0} <{1}>".format(company.contact, company.email)],
+            ["{0} <{1}>".format(company.contact_name, company.email)],
             fail_silently=False)
 

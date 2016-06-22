@@ -29,6 +29,8 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
 # Login URLs
 LOGIN_URL = '/login/'
 LOGOUT_URL = '/logout/'
