@@ -29,8 +29,10 @@
             <form method="post" action="">
                 {% csrf_token %}
                 {% bootstrap_form form %}
-                <button type="submit" name="mailform" class="btn btn-default">{% trans "Send emails" %}</button>
+                <p><button type="submit" name="mailform" class="btn btn-default">{% trans "Send emails" %}</button></p>
             </form>
+            <p><a href="{% url "listmails" %}" class="btn btn-default">{% trans "Edit Email Templates" %}</a></p>
+            <p><a href="{% url "addcompany" %}" class="btn btn-default">{% trans "Add Company" %}</a></p>
         </div>
         <div class="col-xs-12 col-lg-5">
             <form method="post" action="">
@@ -116,13 +118,6 @@
             </tr>
         {% endfor %}
     </tbody>
-    </table>
-
-    <table class="table">
-        <tr>
-            <td><a href="{% url "addcompany" %}" class="btn btn-default">{% trans "Add Company" %}</a></td>
-            <td><a href="{% url "listmails" %}" class="btn btn-default">{% trans "Edit Email Templates" %}</a></td>
-        </tr>
     </table>
 
 {% endblock %}
