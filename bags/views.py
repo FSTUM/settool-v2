@@ -2,9 +2,11 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import permission_required
 from django import forms
 from django.db.models import Q
+from django.forms import formset_factory
 
 from settool_common.models import get_semester, Semester
-from .forms import CompanyForm, MailForm, SelectMailForm, FilterCompaniesForm
+from .forms import CompanyForm, MailForm, SelectMailForm, \
+    FilterCompaniesForm, SelectCompanyForm
 from .models import Company, Mail
 
 @permission_required('bags.view_companies')
@@ -13,59 +15,97 @@ def index(request):
     semester = get_object_or_404(Semester, pk=sem)
     companies = semester.company_set.order_by("name")
 
-    if request.method == 'POST':
-        if 'mailform' in request.POST:
-            form = SelectMailForm(request.POST, semester=semester)
-            filterform = FilterCompaniesForm()
-            if form.is_valid():
-                mail = form.cleaned_data['mail']
 
-                for company in companies:
-                    mail.send_mail(request, company)
+    filterform = FilterCompaniesForm(request.POST or None)
 
-                return redirect('listcompanies')
-        elif 'filterform' in request.POST:
-            filterform = FilterCompaniesForm(request.POST)
-            form = SelectMailForm(semester=semester)
-            if filterform.is_valid():
-                search = filterform.cleaned_data['search']
-                no_email_sent = filterform.cleaned_data['no_email_sent']
-                arrived = filterform.cleaned_data['arrived']
-                last_year = filterform.cleaned_data['last_year']
-                not_last_year = filterform.cleaned_data['not_last_year']
-                contact_again = filterform.cleaned_data['contact_again']
+    if filterform.is_valid():
+        search = filterform.cleaned_data['search']
+        no_email_sent = filterform.cleaned_data['no_email_sent']
+        arrived = filterform.cleaned_data['arrived']
+        last_year = filterform.cleaned_data['last_year']
+        not_last_year = filterform.cleaned_data['not_last_year']
+        contact_again = filterform.cleaned_data['contact_again']
 
-                if search:
-                    companies = companies.filter(
-                        Q(name__icontains=search) |
-                        Q(contact_gender__icontains=search) |
-                        Q(contact_firstname__icontains=search) |
-                        Q(contact_lastname__icontains=search) |
-                        Q(email__icontains=search) |
-                        Q(giveaways__icontains=search) |
-                        Q(arrival_time__icontains=search) |
-                        Q(comment__icontains=search)
-                    )
-                if no_email_sent:
-                    companies = companies.filter(email_sent_success=False)
-                if arrived:
-                    companies = companies.filter(arrived=True)
-                if last_year:
-                    companies = companies.filter(last_year=True)
-                if not_last_year:
-                    companies = companies.filter(last_year=False)
-                if contact_again:
-                    companies = companies.filter(contact_again=True)
-    else:
-        form = SelectMailForm(semester=semester)
-        filterform = FilterCompaniesForm()
+        if search:
+            companies = companies.filter(
+                Q(name__icontains=search) |
+                Q(contact_gender__icontains=search) |
+                Q(contact_firstname__icontains=search) |
+                Q(contact_lastname__icontains=search) |
+                Q(email__icontains=search) |
+                Q(giveaways__icontains=search) |
+                Q(arrival_time__icontains=search) |
+                Q(comment__icontains=search)
+            )
+        if no_email_sent:
+            companies = companies.filter(email_sent_success=False)
+        if arrived:
+            companies = companies.filter(arrived=True)
+        if last_year:
+            companies = companies.filter(last_year=True)
+        if not_last_year:
+            companies = companies.filter(last_year=False)
+        if contact_again:
+            companies = companies.filter(contact_again=True)
+
+        filtered_companies = [c.id for c in companies]
+        request.session['filtered_companies'] = filtered_companies
+        return redirect('filteredcompanies')
 
     context = {
         'companies': companies,
-        'form': form,
-        'filterform': filterform
+        'filterform': filterform,
     }
     return render(request, 'bags/index.html', context)
+
+
+@permission_required('bags.view_companies')
+def filtered_index(request):
+    filtered_companies = request.session['filtered_companies']
+    sem = get_semester(request)
+    semester = get_object_or_404(Semester, pk=sem)
+    companies = semester.company_set.filter(id__in=filtered_companies
+        ).order_by("name")
+
+    form = SelectMailForm(request.POST or None, semester=semester)
+    SelectCompanyFormSet = formset_factory(SelectCompanyForm, extra=0)
+    companyforms = SelectCompanyFormSet(request.POST or None,
+        initial=[{'id': c.id, 'selected': True} for c in companies],
+    )
+
+    if form.is_valid() and companyforms.is_valid():
+        mail = form.cleaned_data['mail']
+
+        selected_companies = []
+        for i, company in enumerate(companyforms):
+            try:
+                company_id = company.cleaned_data['id']
+            except KeyError:
+                print(i, "no id")
+                continue
+            try:
+                selected = company.cleaned_data['selected']
+            except KeyError:
+                selected = False
+            if selected:
+                selected_companies.append(company_id)
+
+        request.session['selected_companies'] = selected_companies
+        return redirect('sendmail', mail.id)
+
+    companies_and_select = []
+    for c in companies:
+        for s in companyforms:
+            if s.initial['id'] == c.id:
+                companies_and_select.append((c, s))
+                break
+
+    context = {
+        'companies': companies_and_select,
+        'form': form,
+        'companyforms': companyforms,
+    }
+    return render(request, 'bags/filtered_index.html', context)
 
 
 @permission_required('bags.view_companies')
@@ -179,6 +219,29 @@ def delete_mail(request, mail_pk):
 
 
 @permission_required('bags.view_companies')
-def send_mail(request, company_pk, mail_pk):
-    # TODO
-    return redirect('listcompanies')
+def send_mail(request, mail_pk):
+    mail = get_object_or_404(Mail, pk=mail_pk)
+    selected_companies = request.session['selected_companies']
+    sem = get_semester(request)
+    semester = get_object_or_404(Semester, pk=sem)
+    companies = semester.company_set.filter(id__in=selected_companies
+        ).order_by("name")
+
+    subject, text, from_email = mail.get_mail(request)
+
+    form = forms.Form(request.POST or None)
+    if form.is_valid():
+        for c in companies:
+            mail.send_mail(request, c)
+        return redirect('listcompanies')
+
+    context = {
+        'companies': companies,
+        'subject': subject,
+        'text': text,
+        'from_email': from_email,
+        'form': form,
+    }
+
+    return render(request, 'bags/send_mail.html', context)
+

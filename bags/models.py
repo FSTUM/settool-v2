@@ -132,21 +132,33 @@ class Mail(models.Model):
         else:
             return str(self.subject)
 
-    def send_mail(self, request, company):
+    def get_mail(self, request):
         # text from templates
         django_engine = engines['django']
         subject_template = django_engine.from_string(self.subject)
         context = {
-            'anrede': company.anrede,
-            'firma': company.name,
+            'firma': "<Firma>",
+            'anrede': "<Hallo Herr/Frau XYZ>",
         }
         subject = subject_template.render(context).rstrip()
 
         text_template = django_engine.from_string(self.text)
         text = text_template.render(context)
 
-        # send
-        send_mail(subject, text, Mail.FROM_MAIL,
-            ["{0} <{1}>".format(company.contact_name, company.email)],
-            fail_silently=False)
+        return (subject, text, Mail.FROM_MAIL)
 
+    def send_mail(self, request, company):
+        # text from templates
+        django_engine = engines['django']
+        subject_template = django_engine.from_string(self.subject)
+        context = {
+            'firma': company.name,
+            'anrede': company.anrede,
+        }
+        subject = subject_template.render(context).rstrip()
+
+        text_template = django_engine.from_string(self.text)
+        text = text_template.render(context)
+
+        send_mail(subject, text, Mail.FROM_MAIL, [company.email],
+            fail_silently=False)

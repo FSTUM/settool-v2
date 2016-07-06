@@ -25,11 +25,12 @@
 
     <form method="post" action="">
         {% csrf_token %}
+        {{ companyforms.management_form }}
 
     <div class="row">
         <div class="col-xs-12 col-lg-5">
-            {% bootstrap_form filterform %}
-            <p><button type="submit" name="filterform" class="btn btn-default">{% trans "Filter" %}</button></p>
+            {% bootstrap_form form %}
+            <p><button type="submit" name="mailform" class="btn btn-default">{% trans "Send emails" %}</button></p>
             <p><a href="{% url "listmails" %}" class="btn btn-default">{% trans "Edit Email Templates" %}</a></p>
             <p><a href="{% url "addcompany" %}" class="btn btn-default">{% trans "Add Company" %}</a></p>
         </div>
@@ -40,6 +41,7 @@
     <table id="bagTable" class="table tablesorter">
     <thead>
     <tr>
+        <th></th>
         <th>{% trans "Company" %}</th>
         <th>{% trans "Contact" %}</th>
         <th>{% trans "E-Mail" %}</th>
@@ -57,8 +59,12 @@
     </tr>
     </thead>
     <tbody>
-        {% for company in companies %}
+        {% for company, select in companies %}
             <tr>
+                <td>
+                    {{ select.id.as_hidden }}
+                    {{ select.selected }}
+                </td>
                 <td>
                     <a href="{% url "viewcompany" company.id %}">{{ company.name }}</a>
                 </td>

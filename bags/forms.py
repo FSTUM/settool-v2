@@ -80,3 +80,10 @@ class FilterCompaniesForm(forms.Form):
         required=False,
     )
 
+class SelectCompanyForm(forms.Form):
+    id = forms.IntegerField()
+
+    selected = forms.BooleanField(
+        required=False,
+    )
+
