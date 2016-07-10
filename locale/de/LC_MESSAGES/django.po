@@ -7,129 +7,129 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-05-31 13:01+0200\n"
+"POT-Creation-Date: 2016-07-10 21:05+0200\n"
 "PO-Revision-Date: 2016-05-31 13:04+0200\n"
+"Last-Translator: \n"
+"Language-Team: \n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"Last-Translator: \n"
-"Language-Team: \n"
 "X-Generator: Poedit 1.8.4\n"
 
-#: settool/settings.py:121
+#: settool/settings.py:123
 msgid "German"
 msgstr "Deutsch"
 
-#: settool/settings.py:122
+#: settool/settings.py:124
 msgid "English"
 msgstr "Englisch"
 
-#: settool_common/models.py:17
+#: settool_common/models.py:19
 msgid "Winter semester"
 msgstr "Wintersemester"
 
-#: settool_common/models.py:18
+#: settool_common/models.py:20
 msgid "Summer semester"
 msgstr "Sommersemester"
 
-#: settool_common/models.py:25
+#: settool_common/models.py:27
 msgid "Semester"
 msgstr "Semester"
 
-#: settool_common/models.py:29
+#: settool_common/models.py:31
 msgid "Year"
 msgstr "Jahr"
 
-#: settool_common/models.py:43
+#: settool_common/models.py:45
 msgid "Bachelor"
 msgstr "Bachelor"
 
-#: settool_common/models.py:44
+#: settool_common/models.py:46
 msgid "Master"
 msgstr "Master"
 
-#: settool_common/models.py:62
+#: settool_common/models.py:64
 msgid "Mathematics"
 msgstr "Mathematik"
 
-#: settool_common/models.py:63
+#: settool_common/models.py:65
 msgid "Physics"
 msgstr "Physik"
 
-#: settool_common/models.py:64
+#: settool_common/models.py:66
 msgid "Informatics"
 msgstr "Informatik"
 
-#: settool_common/models.py:65
+#: settool_common/models.py:67
 msgid "Informatics: Games Engineering"
 msgstr "Informatik: Games Engineering"
 
-#: settool_common/models.py:66
+#: settool_common/models.py:68
 msgid "Information Systems"
 msgstr "Wirtschaftsinformatik"
 
-#: settool_common/models.py:67
+#: settool_common/models.py:69
 msgid "Automotive Software Engineering"
 msgstr "Automotive Software Engineering"
 
-#: settool_common/models.py:68
+#: settool_common/models.py:70
 msgid "Computational Science and Engineering"
 msgstr "Computational Science and Engineering"
 
-#: settool_common/models.py:69
+#: settool_common/models.py:71
 msgid "Biomedical Computing"
 msgstr "Biomedical Computing"
 
-#: settool_common/models.py:70
+#: settool_common/models.py:72
 msgid "Robotics, Cognition, Intelligence"
 msgstr "Robotics, Cognition, Intelligence"
 
-#: settool_common/models.py:71
+#: settool_common/models.py:73
 msgid "Mathematics in Operatios Research"
 msgstr ""
 
-#: settool_common/models.py:72
+#: settool_common/models.py:74
 msgid "Mathematics in Science and Engineering"
 msgstr ""
 
-#: settool_common/models.py:73
+#: settool_common/models.py:75
 msgid "Mathematics in Finance and Acturial Science"
 msgstr ""
 
-#: settool_common/models.py:74
+#: settool_common/models.py:76
 msgid "Mathematics in Bioscience"
 msgstr ""
 
-#: settool_common/models.py:82
+#: settool_common/models.py:84
 msgid "Degree"
 msgstr "Abschluss"
 
-#: settool_common/models.py:89
+#: settool_common/models.py:91
 msgid "Subject"
 msgstr "Studiengang"
 
-#: settool_common/templates/settool_common/base.html:21
+#: settool_common/templates/settool_common/base.html:23
 msgid "SET"
 msgstr "SET"
 
-#: settool_common/templates/settool_common/base.html:47
+#: settool_common/templates/settool_common/base.html:51
 #, python-format
 msgid "Hello %(username)s!"
 msgstr "Hallo %(username)s!"
 
-#: settool_common/templates/settool_common/base.html:49
+#: settool_common/templates/settool_common/base.html:53
 msgid "Logout"
 msgstr "Logout"
 
-#: settool_common/templates/settool_common/base.html:51
+#: settool_common/templates/settool_common/base.html:55
 #: settool_common/templates/settool_common/login.html:6
 #: settool_common/templates/settool_common/login.html:18
 msgid "Login"
 msgstr "Login"
 
-#: settool_common/templates/settool_common/base.html:74
-#: settool_common/templates/settool_common/base.html:99
+#: settool_common/templates/settool_common/base.html:78
+#: settool_common/templates/settool_common/base.html:103
 msgid "Switch"
 msgstr "Ändern"
