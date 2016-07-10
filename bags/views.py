@@ -233,6 +233,10 @@ def send_mail(request, mail_pk):
     if form.is_valid():
         for c in companies:
             mail.send_mail(request, c)
+            semester.company_set.filter(id=c.id).update(
+                email_sent=True,
+                email_sent_success=True,
+            )
         return redirect('listcompanies')
 
     context = {
