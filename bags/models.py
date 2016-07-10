@@ -100,6 +100,18 @@ class Company(models.Model):
             return "Sehr geehrte Damen und Herren"
 
     @property
+    def formale_anrede(self):
+        if self.contact_gender and self.contact_lastname:
+            if self.contact_gender == "Herr":
+                return "Sehr geehrter Herr {}".format(self.contact_lastname)
+            elif self.contact_gender == "Frau":
+                return "Sehr geehrte Frau {}".format(self.contact_lastname)
+            else:
+                return "Sehr geehrte Damen und Herren"
+        else:
+            return "Sehr geehrte Damen und Herren"
+
+    @property
     def contact_name(self):
         return "{} {}".format(self.contact_firstname, self.contact_lastname)
 
@@ -118,6 +130,7 @@ class Mail(models.Model):
 
     text = models.TextField(
         _("Text"),
+        help_text=_('You may use {{firma}} for the company name, {{anrede}} for the greeting "Hallo Herr/Frau XYZ" and {{formale_anrede}} for the formal greeting "Sehr geehrte/r Herr/Frau XYZ".'),
     )
 
     comment = models.CharField(
@@ -139,6 +152,7 @@ class Mail(models.Model):
         context = {
             'firma': "<Firma>",
             'anrede': "<Hallo Herr/Frau XYZ>",
+            'formale_anrede': "<Sehr geehrte/r Herr/Frau XYZ>",
         }
         subject = subject_template.render(context).rstrip()
 
@@ -154,6 +168,7 @@ class Mail(models.Model):
         context = {
             'firma': company.name,
             'anrede': company.anrede,
+            'formale_anrede': company.formale_anrede,
         }
         subject = subject_template.render(context).rstrip()
 
