@@ -58,11 +58,11 @@
         <td>{{ company.arrival_time }}</td>
     </tr>
     <tr>
-        <th>{% trans "Arrived" %}</th>
+        <th>{% trans "Comment" %}</th>
         <td>{{ company.comment }}</td>
     </tr>
     <tr>
-        <th>{% trans "Comment" %}</th>
+        <th>{% trans "Participated last year" %}</th>
         {% if company.last_year %}
             <td><span style="color:green" class="glyphicon glyphicon-ok"></span></td>
         {% else %}
@@ -70,7 +70,7 @@
         {% endif %}
     </tr>
     <tr>
-        <th>{% trans "Participated last year" %}</th>
+        <th>{% trans "Arrived" %}</th>
         {% if company.arrived %}
             <td><span style="color:green" class="glyphicon glyphicon-ok"></span></td>
         {% else %}
