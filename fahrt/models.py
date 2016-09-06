@@ -98,10 +98,12 @@ class Participant(models.Model):
             ("confirmed", _("confirmed")),
             ("cancelled", _("cancelled"))
         ),
+        default="registered",
     )
 
     mailinglist = models.BooleanField(
         _("Mailing list"),
+        default=False,
     )
 
     comment = models.CharField(

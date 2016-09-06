@@ -51,4 +51,7 @@ urlpatterns = [
 
     # freshmen bags
     url(r'^bags/', include('bags.urls')),
+
+    # SET-Fahrt
+    url(r'^fahrt/', include('fahrt.urls')),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
