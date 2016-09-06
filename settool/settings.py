@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'settool_common',
     'guidedtours',
     'bags',
+    'fahrt',
 ]
 
 MIDDLEWARE_CLASSES = [
