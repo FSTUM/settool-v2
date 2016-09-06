@@ -5,9 +5,10 @@ from django.utils.translation import ugettext_lazy as _
 
 from settool_common.models import Semester, Subject
 
-class Person(models.Model):
+class Participant(models.Model):
     semester = models.ForeignKey(
         Semester,
+        related_name="fahrt_participant",
     )
 
     gender = models.CharField(
@@ -45,6 +46,7 @@ class Person(models.Model):
     subject = models.ForeignKey(
         Subject,
         verbose_name=_("Subject"),
+        related_name="fahrt_participant",
     )
 
     nutrition = models.CharField(
