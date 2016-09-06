@@ -28,6 +28,8 @@ def view(request, tour_pk):
     return render(request, 'guidedtours/view.html', context)
 
 
+# TODO: remove permission
+@permission_required('guidedtours.view_participants')
 def signup(request):
     sem = get_semester(request)
     semester = get_object_or_404(Semester, pk=sem)
@@ -48,6 +50,8 @@ def signup(request):
     return render(request, 'guidedtours/add.html', context)
 
 
+# TODO: remove permission
+@permission_required('guidedtours.view_participants')
 def signup_success(request, participant_pk):
     participant = get_object_or_404(Participant, pk=participant_pk)
     context = {'participant': participant}
