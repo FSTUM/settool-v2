@@ -2,8 +2,14 @@ from __future__ import unicode_literals
 
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
+from django.core.mail import send_mail
 
 from settool_common.models import Semester, Subject
+
+
+MAILINGLIST_NAME = 'setfahrt-teilnehmer'
+MAILINGLIST_DOMAIN = 'fs.tum.de'
+
 
 class Participant(models.Model):
     class Meta:
@@ -123,3 +129,10 @@ class Participant(models.Model):
 
     def __str__(self):
         return "{0} {1}".format(self.firstname, self.surname)
+
+    def toggle_mailinglist(self):
+        if self.mailinglist:
+            to_email = MAILINGLIST_NAME + "-join@" + MAILINGLIST_DOMAIN
+        else:
+            to_email = MAILINGLIST_NAME + "-leave@" + MAILINGLIST_DOMAIN
+        #send_mail("", "", self.email, [to_email], fail_silently=False)

@@ -1,6 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import permission_required
 from django import forms
+from django.utils import timezone
 
 from . models import Participant
 from .forms import ParticipantForm, ParticipantAdminForm
@@ -49,6 +50,35 @@ def delete(request, participant_pk):
         'participant': participant,
     }
     return render(request, 'fahrt/del.html', context)
+
+
+@permission_required('fahrt.view_participants')
+def toggle_mailinglist(request, participant_pk):
+    participant = get_object_or_404(Participant, pk=participant_pk)
+    Participant.objects.filter(pk=participant_pk).update(
+        mailinglist=(not participant.mailinglist),
+    )
+    participant.toggle_mailinglist()
+
+    return redirect('fahrt_viewparticipant', participant.id)
+
+
+@permission_required('fahrt.view_participants')
+def set_paid(request, participant_pk):
+    Participant.objects.filter(pk=participant_pk).update(
+        paid=timezone.now().date(),
+    )
+
+    return redirect('fahrt_viewparticipant', participant_pk)
+
+
+@permission_required('fahrt.view_participants')
+def set_nonliability(request, participant_pk):
+    Participant.objects.filter(pk=participant_pk).update(
+        non_liability=timezone.now().date(),
+    )
+
+    return redirect('fahrt_viewparticipant', participant_pk)
 
 
 # TODO: remove permission

@@ -58,11 +58,17 @@
     </tr>
     <tr>
         <th>{% trans "Non-liability submitted" %}</th>
-        <td>{{ participant.non_liability }}</td>
+        <td>
+            {{ participant.non_liability }}
+            <a href="{% url "fahrt_set_nonliability" participant.id %}"><span class="glyphicon glyphicon-log-in"></span></a>
+        </td>
     </tr>
     <tr>
         <th>{% trans "Paid" %}</th>
-        <td>{{ participant.paid }}</td>
+        <td>
+            {{ participant.paid }}
+            <a href="{% url "fahrt_set_paid" participant.id %}"><span class="glyphicon glyphicon-log-in"></span></a>
+        </td>
     </tr>
     <tr>
         <th>{% trans "Payment deadline" %}</th>
@@ -74,11 +80,14 @@
     </tr>
     <tr>
         <th>{% trans "Mailing list" %}</th>
-        {% if participant.mailinglist %}
-            <td><span style="color:green" class="glyphicon glyphicon-ok"></span></td>
-        {% else %}
-            <td><span style="color:red" class="glyphicon glyphicon-remove"></span></td>
-        {% endif %}
+        <td>
+            {% if participant.mailinglist %}
+                <span style="color:green" class="glyphicon glyphicon-ok"></span>
+            {% else %}
+                <span style="color:red" class="glyphicon glyphicon-remove"></span>
+            {% endif %}
+            <a href="{% url "fahrt_toggle_mailinglist" participant.id %}"><span class="glyphicon glyphicon-transfer"></span></a>
+        </td>
     </tr>
     <tr>
         <th>{% trans "Comment" %}</th>
