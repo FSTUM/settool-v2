@@ -1,0 +1,107 @@
+{% extends "settool_common/base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "SET-Fahrt" %} - {% trans "Participant Details" %}{% endblock %}
+
+{% block content %}
+    <h1>{{ participant }}</h1>
+
+    <div class="row">
+    <div class="col-xs-12 col-lg-3">
+    <table class="table">
+    <tr>
+        <th>{% trans "Gender" %}</th>
+        <td>{{ participant.gender }}</td>
+    </tr>
+    <tr>
+        <th>{% trans "First name" %}</th>
+        <td>{{ participant.firstname }}</td>
+    </tr>
+    <tr>
+        <th>{% trans "Surname" %}</th>
+        <td>{{ participant.surname }}</td>
+    </tr>
+    <tr>
+        <th>{% trans "Email" %}</th>
+        <td>{{ participant.email }}</td>
+    </tr>
+    <tr>
+        <th>{% trans "Phone" %}</th>
+        <td>{{ participant.phone }}</td>
+    </tr>
+    <tr>
+        <th>{% trans "Mobile phone" %}</th>
+        <td>{{ participant.mobile }}</td>
+    </tr>
+    <tr>
+        <th>{% trans "Subject" %}</th>
+        <td>{{ participant.subject }}</td>
+    </tr>
+    <tr>
+        <th>{% trans "Nutrition" %}</th>
+        <td>{{ participant.nutrition }}</td>
+    </tr>
+    <tr>
+        <th>{% trans "Allergies" %}</th>
+        <td>{{ participant.allergies }}</td>
+    </tr>
+    <tr>
+        <th>{% trans "Car" %}</th>
+        {% if participant.car %}
+            <td>
+                <span style="color:green" class="glyphicon glyphicon-ok"></span>
+                {{ participant.car_places }} {% trans "seats" %}
+            </td>
+        {% else %}
+            <td><span style="color:red" class="glyphicon glyphicon-remove"></span></td>
+        {% endif %}
+    </tr>
+    <tr>
+        <th>{% trans "Non-liability submitted" %}</th>
+        <td>{{ participant.non_liability }}</td>
+    </tr>
+    <tr>
+        <th>{% trans "Paid" %}</th>
+        <td>{{ participant.paid }}</td>
+    </tr>
+    <tr>
+        <th>{% trans "Payment deadline" %}</th>
+        <td>{{ participant.payment_deadline }}</td>
+    </tr>
+    <tr>
+        <th>{% trans "Status" %}</th>
+        <td>{{ participant.status }}</td>
+    </tr>
+    <tr>
+        <th>{% trans "Mailing list" %}</th>
+        {% if participant.mailinglist %}
+            <td><span style="color:green" class="glyphicon glyphicon-ok"></span></td>
+        {% else %}
+            <td><span style="color:red" class="glyphicon glyphicon-remove"></span></td>
+        {% endif %}
+    </tr>
+    <tr>
+        <th>{% trans "Comment" %}</th>
+        <td>{{ participant.comment }}</td>
+    </tr>
+    <tr>
+        <th>{% trans "Registration time" %}</th>
+        <td>{{ participant.registration_time }}</td>
+    </tr>
+    <tr>
+        <th>{% trans "Edit" %}</th>
+        <td>
+            <a href="{% url "fahrt_editparticipant" participant.id %}"><span class="glyphicon glyphicon-edit"></span></a>
+        </td>
+    </tr>
+    <tr>
+        <th>{% trans "Delete" %}</th>
+        <td>
+            <a href="{% url "fahrt_delparticipant" participant.id %}"><span class="glyphicon glyphicon-trash"></span></a>
+        </td>
+    </tr>
+    </table>
+    </div>
+    </div>
+
+{% endblock %}
