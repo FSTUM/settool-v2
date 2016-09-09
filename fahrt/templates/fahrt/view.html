@@ -1,9 +1,9 @@
-{% extends "settool_common/base.html" %}
+{% extends "fahrt/base.html" %}
 {% load i18n %}
 
 {% block title %}{% trans "SET-Fahrt" %} - {% trans "Participant Details" %}{% endblock %}
 
-{% block content %}
+{% block fahrtcontent %}
     <h1>{{ participant }}</h1>
 
     <div class="row">
@@ -20,6 +20,16 @@
     <tr>
         <th>{% trans "Surname" %}</th>
         <td>{{ participant.surname }}</td>
+    </tr>
+    <tr>
+        <th>{% trans "U18" %}</th>
+        {% if participant.u18 %}
+            <td>
+                <span style="color:red" class="glyphicon glyphicon-ok"></span>
+            </td>
+        {% else %}
+            <td></td>
+        {% endif %}
     </tr>
     <tr>
         <th>{% trans "Email" %}</th>
@@ -76,7 +86,14 @@
     </tr>
     <tr>
         <th>{% trans "Status" %}</th>
-        <td>{{ participant.status }}</td>
+        <td>
+            {{ participant.status }}
+            {% if participant.status == "registered" %}
+                <br /><a href="{% url "fahrt_confirm" participant.id %}" class="btn btn-default">{% trans "confirm" %}</a>
+            {% elif participant.status == "confirmed" %}
+                <br /><a href="{% url "fahrt_cancel" participant.id %}" class="btn btn-default">{% trans "cancel" %}</a>
+            {% endif %}
+        </td>
     </tr>
     <tr>
         <th>{% trans "Mailing list" %}</th>

@@ -1,0 +1,90 @@
+{% extends "fahrt/base.html" %}
+{% load i18n %}
+{% load bootstrap3 %}
+
+{% block head %}
+<script>
+    $(function(){
+        $("#fahrtTable").tablesorter({
+            theme           : "bootstrap",
+            widgets         : ['zebra', 'columns', 'uitheme'],
+            headerTemplate  : '{content} {icon}',
+            sortReset       : true,
+            sortRestart     : true
+	});
+    });
+</script>
+{% endblock %}
+
+{% block title %}{% trans "SET-Fahrt" %} - {% trans "List confirmed participants" %}{% endblock %}
+
+{% block fahrtcontent %}
+    <h1>
+        {% trans "List confirmed participants" %}
+    </h1>
+
+    <table id="fahrtTable" class="table tablesorter">
+    <thead>
+    <tr>
+        <th>{% trans "First name" %}</th>
+        <th>{% trans "Surname" %}</th>
+        <th>{% trans "Non-liability submitted" %}</th>
+        <th>{% trans "Paid/Payment deadline" %}</th>
+        <th>{% trans "Car" %}</th>
+        <th>{% trans "U18" %}</th>
+    </tr>
+    </thead>
+    <tbody>
+        {% for participant in participants %}
+            <tr>
+                <td>
+                    <a href="{% url "fahrt_viewparticipant" participant.id %}">{{ participant.firstname }}</a>
+                </td>
+                <td>
+                    <a href="{% url "fahrt_viewparticipant" participant.id %}">{{ participant.surname }}</a>
+                </td>
+                {% if participant.non_liability %}
+                    <td><span style="color:green" class="glyphicon glyphicon-ok"></span><span style="visibility:hidden">ja</span></td>
+                {% else %}
+                    <td><span style="color:red" class="glyphicon glyphicon-remove"></span><span style="visibility:hidden">nein</span></td>
+                {% endif %}
+                {% if participant.paid %}
+                    <td><span style="color:green" class="glyphicon glyphicon-ok"></span><span style="visibility:hidden">ja</span></td>
+                {% elif participant.payment_deadline %}
+                    <td>{{ participant.payment_deadline }}</td>
+                {% else %}
+                    <td></td>
+                {% endif %}
+                {% if participant.car %}
+                    <td>
+                        <span style="color:green" class="glyphicon glyphicon-ok"></span>
+                        {{ participant.car_places }} {% trans "seats" %}
+                    </td>
+                {% else %}
+                    <td><span style="color:red" class="glyphicon glyphicon-remove"></span></td>
+                {% endif %}
+                {% if participant.u18 %}
+                    <td><span style="color:red" class="glyphicon glyphicon-ok"></span><span style="visibility:hidden">ja</span></td>
+                {% else %}
+                    <td><span style="visibility:hidden">nein</span></td>
+                {% endif %}
+            </tr>
+        {% endfor %}
+    </tbody>
+        <tr>
+            <th>Total:</th>
+            <th>{{ number }}</th>
+            <th>{{ non_liability }}</th>
+            <th>{{ paid }}</th>
+            <th>
+                {% blocktrans trimmed with places=places.places cars=cars %}
+                    {{ places }} places in {{ cars }} cars
+                {% endblocktrans %}
+            </th>
+            <th>{{ u18s }}</th>
+        </tr>
+    </table>
+
+    </form>
+{% endblock %}
+

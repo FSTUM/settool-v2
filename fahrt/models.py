@@ -1,4 +1,5 @@
 from __future__ import unicode_literals
+import datetime
 
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
@@ -9,6 +10,16 @@ from settool_common.models import Semester, Subject
 
 MAILINGLIST_NAME = 'setfahrt-teilnehmer'
 MAILINGLIST_DOMAIN = 'fs.tum.de'
+
+
+class Fahrt(models.Model):
+    semester = models.OneToOneField(
+        Semester,
+    )
+
+    date = models.DateField(
+        _("Date"),
+    )
 
 
 class Participant(models.Model):
@@ -35,6 +46,10 @@ class Participant(models.Model):
     surname = models.CharField(
         _("Surname"),
         max_length=200,
+    )
+
+    birthday = models.DateField(
+        _("Birthday"),
     )
 
     email = models.EmailField(
@@ -129,6 +144,16 @@ class Participant(models.Model):
 
     def __str__(self):
         return "{0} {1}".format(self.firstname, self.surname)
+
+    @property
+    def u18(self):
+        return not (
+            self.semester.fahrt.date.year - self.birthday.year > 18 or (
+            self.semester.fahrt.date.year - self.birthday.year == 18 and (
+            self.semester.fahrt.date.month > self.birthday.month or (
+            self.semester.fahrt.date.month == self.birthday.month and
+            self.semester.fahrt.date.day >= self.birthday.day))))
+
 
     def toggle_mailinglist(self):
         if self.mailinglist:

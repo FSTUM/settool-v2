@@ -2,10 +2,60 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import permission_required
 from django import forms
 from django.utils import timezone
+from django.db.models import Sum, F
 
 from . models import Participant
 from .forms import ParticipantForm, ParticipantAdminForm
 from settool_common.models import get_semester, Semester
+
+
+@permission_required('fahrt.view_participants')
+def list_registered(request):
+    sem = get_semester(request)
+    semester = get_object_or_404(Semester, pk=sem)
+    participants = semester.fahrt_participant.filter(status='registered'
+        ).order_by('surname')
+
+    context = {
+        'participants': participants,
+    }
+    return render(request, 'fahrt/list_registered.html', context)
+
+
+@permission_required('fahrt.view_participants')
+def list_confirmed(request):
+    sem = get_semester(request)
+    semester = get_object_or_404(Semester, pk=sem)
+    participants = semester.fahrt_participant.filter(status='confirmed'
+        ).order_by('surname')
+
+    u18s = [p for p in participants if p.u18]
+
+    context = {
+        'participants': participants,
+        'number': participants.count(),
+        'non_liability': participants.filter(
+            non_liability__isnull=False).count(),
+        'paid': participants.filter(paid__isnull=False).count(),
+        'places': participants.filter(car=True).aggregate(
+            places=Sum('car_places')),
+        'cars': participants.filter(car=True).count(),
+        'u18s': len(u18s),
+    }
+    return render(request, 'fahrt/list_confirmed.html', context)
+
+
+@permission_required('fahrt.view_participants')
+def list_cancelled(request):
+    sem = get_semester(request)
+    semester = get_object_or_404(Semester, pk=sem)
+    participants = semester.fahrt_participant.filter(status='cancelled'
+        ).order_by('surname')
+
+    context = {
+        'participants': participants,
+    }
+    return render(request, 'fahrt/list_cancelled.html', context)
 
 
 @permission_required('fahrt.view_participants')
@@ -76,6 +126,24 @@ def set_paid(request, participant_pk):
 def set_nonliability(request, participant_pk):
     Participant.objects.filter(pk=participant_pk).update(
         non_liability=timezone.now().date(),
+    )
+
+    return redirect('fahrt_viewparticipant', participant_pk)
+
+
+@permission_required('fahrt.view_participants')
+def confirm(request, participant_pk):
+    Participant.objects.filter(pk=participant_pk).update(
+        status="confirmed",
+    )
+
+    return redirect('fahrt_viewparticipant', participant_pk)
+
+
+@permission_required('fahrt.view_participants')
+def cancel(request, participant_pk):
+    Participant.objects.filter(pk=participant_pk).update(
+        status="cancelled",
     )
 
     return redirect('fahrt_viewparticipant', participant_pk)

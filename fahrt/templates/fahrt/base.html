@@ -1,0 +1,20 @@
+{% extends "settool_common/base.html" %}
+{% load i18n %}
+{% load bootstrap3 %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-md-3 wrap sidebar">
+            <h4>{% trans "Participants" %}</h4>
+            <ul class="nav nav-pills nav-stacked">
+                <li><a href="{% url 'fahrt_list_registered' %}">{% trans "registered" %}</a></li>
+                <li><a href="{% url 'fahrt_list_confirmed' %}">{% trans "confirmed" %}</a></li>
+                <li><a href="{% url 'fahrt_list_cancelled' %}">{% trans "cancelled" %}</a></li>
+            </ul>
+        </div>
+        <div class="col-md-9">
+            {% block fahrtcontent %}
+            {% endblock %}
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,66 @@
+{% extends "fahrt/base.html" %}
+{% load i18n %}
+{% load bootstrap3 %}
+
+{% block head %}
+<script>
+    $(function(){
+        $("#fahrtTable").tablesorter({
+            theme           : "bootstrap",
+            widgets         : ['zebra', 'columns', 'uitheme'],
+            headerTemplate  : '{content} {icon}',
+            sortReset       : true,
+            sortRestart     : true
+	});
+    });
+</script>
+{% endblock %}
+
+{% block title %}{% trans "SET-Fahrt" %} - {% trans "List registered participants" %}{% endblock %}
+
+{% block fahrtcontent %}
+    <h1>
+        {% trans "List registered participants" %}
+    </h1>
+
+    <table id="fahrtTable" class="table tablesorter">
+    <thead>
+    <tr>
+        <th>{% trans "First name" %}</th>
+        <th>{% trans "Surname" %}</th>
+        <th>{% trans "Registration time" %}</th>
+        <th>{% trans "Car" %}</th>
+        <th>{% trans "U18" %}</th>
+    </tr>
+    </thead>
+    <tbody>
+        {% for participant in participants %}
+            <tr>
+                <td>
+                    <a href="{% url "fahrt_viewparticipant" participant.id %}">{{ participant.firstname }}</a>
+                </td>
+                <td>
+                    <a href="{% url "fahrt_viewparticipant" participant.id %}">{{ participant.surname }}</a>
+                </td>
+                <td>{{ participant.registration_time }}</td>
+                {% if participant.car %}
+                    <td>
+                        <span style="color:green" class="glyphicon glyphicon-ok"></span>
+                        {{ participant.car_places }} {% trans "seats" %}
+                    </td>
+                {% else %}
+                    <td><span style="color:red" class="glyphicon glyphicon-remove"></span></td>
+                {% endif %}
+                {% if participant.u18 %}
+                    <td><span style="color:red" class="glyphicon glyphicon-ok"></span><span style="visibility:hidden">ja</span></td>
+                {% else %}
+                    <td><span style="visibility:hidden">nein</span></td>
+                {% endif %}
+            </tr>
+        {% endfor %}
+    </tbody>
+    </table>
+
+    </form>
+{% endblock %}
+
