@@ -1,6 +1,7 @@
 from django import forms
+from django.utils.translation import ugettext_lazy as _
 
-from .models import Participant
+from .models import Participant, Mail
 
 class ParticipantAdminForm(forms.ModelForm):
     class Meta:
@@ -27,3 +28,53 @@ class ParticipantForm(ParticipantAdminForm):
         model = Participant
         exclude = ["semester", "non_liability", "paid", "payment_deadline",
             "status", "mailinglist", "comment", "registration_time"]
+
+
+class MailForm(forms.ModelForm):
+    class Meta:
+        model = Mail
+        exclude = ["semester"]
+
+    def __init__(self, *args, **kwargs):
+        self.semester = kwargs.pop('semester')
+        super(MailForm, self).__init__(*args, **kwargs)
+
+    def save(self, commit=True):
+        instance = super(MailForm, self).save(False)
+        instance.semester = self.semester
+        if commit:
+            instance.save()
+        return instance
+
+
+class SelectMailForm(forms.Form):
+    mail = forms.ModelChoiceField(
+        queryset=None,
+        label=_("Email template:"),
+    )
+
+    def __init__(self, *args, **kwargs):
+        semester = kwargs.pop('semester')
+        super(SelectMailForm, self).__init__(*args, **kwargs)
+
+        self.fields['mail'].queryset = semester.fahrt_mail_set.all()
+
+
+class FilterParticipantsForm(forms.Form):
+    search = forms.CharField(
+        label=_("Search pattern:"),
+        required=False,
+    )
+
+    non_liability = forms.BooleanField(
+        label=_("Non-liability submitted"),
+        required=False,
+    )
+
+
+class SelectParticipantForm(forms.Form):
+    id = forms.IntegerField()
+
+    selected = forms.BooleanField(
+        required=False,
+    )

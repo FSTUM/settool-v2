@@ -33,5 +33,17 @@ urlpatterns = [
     url(r'^signup/$', views.signup, name='fahrt_signup'),
     url(r'^success/(?P<participant_pk>[0-9]+)/$', views.signup_success,
         name='fahrt_signup_success'),
+    url(r'^filter/$', views.filter, name='fahrt_filter'),
+    url(r'^filtered/$', views.filtered_list,
+        name='fahrt_filteredparticipants'),
+    url(r'^emails/$', views.index_mails, name='fahrt_listmails'),
+    url(r'^emails/add/$', views.add_mail, name='fahrt_addmail'),
+    url(r'^emails/edit/(?P<mail_pk>[0-9]+)/$', views.edit_mail,
+        name="fahrt_editmail"),
+    url(r'^emails/del/(?P<mail_pk>[0-9]+)/$', views.delete_mail,
+        name="fahrt_delmail"),
+    url(r'^emails/send/(?P<mail_pk>[0-9]+)/$', views.send_mail,
+        name="fahrt_sendmail"),
 ]
+
 
