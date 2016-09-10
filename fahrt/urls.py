@@ -3,6 +3,8 @@ from django.conf.urls import url
 from . import views
 
 urlpatterns = [
+    url(r'^$', views.index,
+        name="fahrt_index"),
     url(r'^list/registered/$', views.list_registered,
         name='fahrt_list_registered'),
     url(r'^list/confirmed/$', views.list_confirmed,
@@ -44,6 +46,8 @@ urlpatterns = [
         name="fahrt_delmail"),
     url(r'^emails/send/(?P<mail_pk>[0-9]+)/$', views.send_mail,
         name="fahrt_sendmail"),
+    url(r'^changedate/$', views.change_date,
+        name="fahrt_date"),
 ]
 
 

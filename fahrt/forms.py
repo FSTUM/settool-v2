@@ -1,7 +1,25 @@
 from django import forms
 from django.utils.translation import ugettext_lazy as _
 
-from .models import Participant, Mail
+from .models import Participant, Mail, Fahrt
+
+
+class FahrtForm(forms.ModelForm):
+    class Meta:
+        model = Fahrt
+        exclude = ["semester"]
+
+    def __init__(self, *args, **kwargs):
+        self.semester = kwargs.pop('semester')
+        super(FahrtForm, self).__init__(*args, **kwargs)
+
+    def save(self, commit=True):
+        instance = super(FahrtForm, self).save(False)
+        instance.semester = self.semester
+        if commit:
+            instance.save()
+        return instance
+
 
 class ParticipantAdminForm(forms.ModelForm):
     class Meta:

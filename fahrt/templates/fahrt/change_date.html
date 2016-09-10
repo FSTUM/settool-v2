@@ -1,0 +1,23 @@
+{% extends "fahrt/base.html" %}
+{% load i18n %}
+{% load bootstrap3 %}
+
+{% block title %}{% trans "SET-Fahrt" %} - {% trans "Change date" %}{% endblock %}
+
+{% block fahrtcontent %}
+    <h1>
+        {% trans "Change Date" %}
+    </h1>
+
+    <form method="post" action="">
+        {% csrf_token %}
+
+        <div class="row">
+            <div class="col-xs-12 col-lg-5">
+                {% bootstrap_form form %}
+            </div>
+        </div>
+
+        <button type="submit" class="btn btn-default">{% trans "Submit" %}</button>
+    </form>
+{% endblock %}

@@ -5,10 +5,15 @@ from django.utils import timezone
 from django.db.models import Sum, F, Q
 from django.forms import formset_factory
 
-from . models import Participant, Mail
+from . models import Participant, Mail, Fahrt
 from .forms import ParticipantForm, ParticipantAdminForm, MailForm, \
-    SelectParticipantForm, SelectMailForm, FilterParticipantsForm
+    SelectParticipantForm, SelectMailForm, FilterParticipantsForm, FahrtForm
 from settool_common.models import get_semester, Semester
+
+
+@permission_required('fahrt.view_participants')
+def index(request):
+    return render(request, 'fahrt/base.html', {})
 
 
 @permission_required('fahrt.view_participants')
@@ -342,3 +347,27 @@ def send_mail(request, mail_pk):
     }
 
     return render(request, 'fahrt/send_mail.html', context)
+
+
+@permission_required('fahrt.view_participants')
+def change_date(request):
+    sem = get_semester(request)
+    semester = get_object_or_404(Semester, pk=sem)
+
+    if not semester.fahrt:
+        Fahrt.objects.create(
+            semester=semester,
+            date=datetime.now().date,
+        )
+
+    form = FahrtForm(request.POST or None, semester=semester,
+            instance=semester.fahrt)
+    if form.is_valid():
+        form.save()
+
+        return redirect('fahrt_date')
+
+    context = {
+        'form': form,
+    }
+    return render(request, 'fahrt/change_date.html', context)
