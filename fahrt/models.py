@@ -168,7 +168,7 @@ class Mail(models.Model):
     FROM_MAIL = "SET-Referat: SET-Fahrt-Team <setfahrt@fs.tum.de>"
     semester = models.ForeignKey(
         Semester,
-        default=current_semester().pk,
+        default=lambda: current_semester().pk,
         related_name="fahrt_mail_set",
     )
 
