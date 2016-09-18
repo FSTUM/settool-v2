@@ -1,5 +1,6 @@
 {% extends "fahrt/base.html" %}
 {% load i18n %}
+{% load bootstrap3 %}
 
 {% block title %}{% trans "SET-Fahrt" %} - {% trans "Participant Details" %}{% endblock %}
 
@@ -135,11 +136,24 @@
     </table>
     </div>
     </div>
-    <strong>Log:</strong>
-    <ul>
-        {% for entry in log_entries %}
-            <li> {{entry.time}}, {{entry.user.full_name}}: {{entry.text}} </li>
-        {% endfor %}
-    </ul>
+    <div class="row">
+    <div class="col-sm-4">
+        <form method="post" action="">
+            {% csrf_token %}
+            {% bootstrap_form form %}
+            <button type="submit" name="mailform" class="btn btn-default">{% trans "Send email" %}</button>
+        </form>
+    </div>
+    <div class="col-sm-1">
+    </div>
+    <div class="col-sm-5">
+        <strong>Log:</strong>
+        <ul>
+            {% for entry in log_entries %}
+                <li> {{entry.time}}, {{entry.user.full_name}}: {{entry.text}} </li>
+            {% endfor %}
+        </ul>
+    </div>
+    </div>
 
 {% endblock %}

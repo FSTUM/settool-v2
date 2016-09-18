@@ -70,10 +70,21 @@ def list_cancelled(request):
 def view(request, participant_pk):
     participant = get_object_or_404(Participant, pk=participant_pk)
     log_entries = participant.logentry_set.order_by('time')
+    sem = get_semester(request)
+    semester = get_object_or_404(Semester, pk=sem)
+
+    form = SelectMailForm(request.POST or None, semester=semester)
+
+    if form.is_valid():
+        mail = form.cleaned_data['mail']
+        request.session['selected_participants'] = [participant.id]
+
+        return redirect('fahrt_sendmail', mail.id)
 
     context = {
         'participant': participant,
         'log_entries': log_entries,
+        'form': form,
     }
     return render(request, 'fahrt/view.html', context)
 
