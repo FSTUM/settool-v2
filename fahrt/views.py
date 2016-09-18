@@ -4,6 +4,7 @@ from django import forms
 from django.utils import timezone
 from django.db.models import Sum, F, Q
 from django.forms import formset_factory
+from django.core.exceptions import ObjectDoesNotExist
 
 from . models import Participant, Mail, Fahrt, LogEntry
 from .forms import ParticipantForm, ParticipantAdminForm, MailForm, \
@@ -237,10 +238,10 @@ def filter(request):
 
         if payment_deadline:
             participants = participants.filter(
-                payment_deadline__lt=datetime.now().date)
+                payment_deadline__lt=timezone.now().date())
         elif payment_deadline is False:
             participants = participants.filter(
-                payment_deadline__ge=datetime.now().date)
+                payment_deadline__ge=timezone.now().date())
 
         if mailinglist is not None:
             participants = participants.filter(mailinglist=mailinglist)
@@ -405,15 +406,16 @@ def change_date(request):
     sem = get_semester(request)
     semester = get_object_or_404(Semester, pk=sem)
 
-    if not semester.fahrt:
-        # TODO: fix
-        Fahrt.objects.create(
+    try:
+        fahrt = semester.fahrt
+    except ObjectDoesNotExist:
+        fahrt = Fahrt.objects.create(
             semester=semester,
-            date=datetime.now().date,
+            date=timezone.now().date(),
         )
 
     form = FahrtForm(request.POST or None, semester=semester,
-            instance=semester.fahrt)
+            instance=fahrt)
     if form.is_valid():
         form.save()
 
