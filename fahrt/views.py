@@ -183,9 +183,34 @@ def cancel(request, participant_pk):
     return redirect('fahrt_viewparticipant', participant_pk)
 
 
-# TODO: remove permission
-@permission_required('fahrt.view_participants')
 def signup(request):
+    sem = get_semester(request)
+    semester = get_object_or_404(Semester, pk=sem)
+
+    try:
+        fahrt = semester.fahrt
+    except ObjectDoesNotExist:
+        registration_open = False
+    else:
+        registration_open = fahrt.registration_open
+
+    if not registration_open:
+        return render(request, 'fahrt/registration_closed.html', {})
+
+    form = ParticipantForm(request.POST or None, semester=semester)
+    if form.is_valid():
+        participant = form.save()
+        participant.log(None, "Signed up")
+
+        return redirect('fahrt_signup_success')
+
+    context = {'semester': semester,
+               'form': form}
+    return render(request, 'fahrt/signup.html', context)
+
+
+@permission_required('fahrt.view_participants')
+def signup_internal(request):
     sem = get_semester(request)
     semester = get_object_or_404(Semester, pk=sem)
 
@@ -194,19 +219,15 @@ def signup(request):
         participant = form.save()
         participant.log(request.user, "Signed up")
 
-        return redirect('fahrt_signup_success', participant.id)
+        return redirect('fahrt_list_registered')
 
     context = {'semester': semester,
                'form': form}
     return render(request, 'fahrt/add.html', context)
 
 
-# TODO: remove permission
-@permission_required('fahrt.view_participants')
-def signup_success(request, participant_pk):
-    participant = get_object_or_404(Participant, pk=participant_pk)
-    context = {'participant': participant}
-    return render(request, 'fahrt/success.html', context)
+def signup_success(request):
+    return render(request, 'fahrt/success.html', {})
 
 
 @permission_required('fahrt.view_participants')
@@ -423,6 +444,8 @@ def change_date(request):
         fahrt = Fahrt.objects.create(
             semester=semester,
             date=timezone.now().date(),
+            open_registration=timezone.now(),
+            close_registration=timezone.now(),
         )
 
     form = FahrtForm(request.POST or None, semester=semester,

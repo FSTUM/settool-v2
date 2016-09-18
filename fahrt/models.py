@@ -5,6 +5,7 @@ from django.utils.translation import ugettext_lazy as _
 from django.core.mail import send_mail
 from django.template import engines
 from django.contrib.auth.models import User
+from django.utils import timezone
 
 from django_mailman.models import List
 
@@ -23,6 +24,20 @@ class Fahrt(models.Model):
     date = models.DateField(
         _("Date"),
     )
+
+    open_registration = models.DateTimeField(
+        _("Open registration"),
+    )
+
+    close_registration = models.DateTimeField(
+        _("Close registration"),
+    )
+
+    @property
+    def registration_open(self):
+        return (self.open_registration < timezone.now() and
+                timezone.now() < self.close_registration)
+
 
 
 class Participant(models.Model):
@@ -263,6 +278,8 @@ class LogEntry(models.Model):
     user = models.ForeignKey(
         User,
         related_name="mylogentry_set",
+        blank=True,
+        null=True,
     )
 
     text = models.CharField(

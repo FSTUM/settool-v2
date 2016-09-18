@@ -146,11 +146,19 @@
     </div>
     <div class="col-sm-1">
     </div>
-    <div class="col-sm-5">
+    <div class="col-sm-6">
         <strong>Log:</strong>
         <ul>
             {% for entry in log_entries %}
-                <li> {{entry.time}}, {{entry.user.full_name}}: {{entry.text}} </li>
+                {% if entry.user %}
+                    {% if entry.user.full_name %}
+                        <li> {{entry.time}}, {{entry.user.full_name}}: {{entry.text}} </li>
+                    {% else %}
+                        <li> {{entry.time}}, {{entry.user}}: {{entry.text}} </li>
+                    {% endif %}
+                {% else %}
+                    <li> {{entry.time}}, www: {{entry.text}} </li>
+                {% endif %}
             {% endfor %}
         </ul>
     </div>
