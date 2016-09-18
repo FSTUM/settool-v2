@@ -5,7 +5,7 @@ from django.utils import timezone
 from django.db.models import Sum, F, Q
 from django.forms import formset_factory
 
-from . models import Participant, Mail, Fahrt
+from . models import Participant, Mail, Fahrt, LogEntry
 from .forms import ParticipantForm, ParticipantAdminForm, MailForm, \
     SelectParticipantForm, SelectMailForm, FilterParticipantsForm, FahrtForm
 from settool_common.models import get_semester, Semester
@@ -68,8 +68,12 @@ def list_cancelled(request):
 @permission_required('fahrt.view_participants')
 def view(request, participant_pk):
     participant = get_object_or_404(Participant, pk=participant_pk)
+    log_entries = participant.logentry_set.order_by('time')
 
-    context = {'participant': participant}
+    context = {
+        'participant': participant,
+        'log_entries': log_entries,
+    }
     return render(request, 'fahrt/view.html', context)
 
 
@@ -82,6 +86,7 @@ def edit(request, participant_pk):
             instance=participant)
     if form.is_valid():
         form.save()
+        participant.log(request.user, "Participant edited")
 
         return redirect('fahrt_viewparticipant', participant.id)
 
@@ -115,43 +120,53 @@ def toggle_mailinglist(request, participant_pk):
     Participant.objects.filter(pk=participant_pk).update(
         mailinglist=(not participant.mailinglist),
     )
+    participant = get_object_or_404(Participant, pk=participant_pk)
     participant.toggle_mailinglist()
+    participant.log(request.user, "Toggle mailinglist")
 
     return redirect('fahrt_viewparticipant', participant.id)
 
 
 @permission_required('fahrt.view_participants')
 def set_paid(request, participant_pk):
+    participant = get_object_or_404(Participant, pk=participant_pk)
     Participant.objects.filter(pk=participant_pk).update(
         paid=timezone.now().date(),
     )
+    participant.log(request.user, "Set paid")
 
     return redirect('fahrt_viewparticipant', participant_pk)
 
 
 @permission_required('fahrt.view_participants')
 def set_nonliability(request, participant_pk):
+    participant = get_object_or_404(Participant, pk=participant_pk)
     Participant.objects.filter(pk=participant_pk).update(
         non_liability=timezone.now().date(),
     )
+    participant.log(request.user, "Set non-liability")
 
     return redirect('fahrt_viewparticipant', participant_pk)
 
 
 @permission_required('fahrt.view_participants')
 def confirm(request, participant_pk):
+    participant = get_object_or_404(Participant, pk=participant_pk)
     Participant.objects.filter(pk=participant_pk).update(
         status="confirmed",
     )
+    participant.log(request.user, "Confirmed")
 
     return redirect('fahrt_viewparticipant', participant_pk)
 
 
 @permission_required('fahrt.view_participants')
 def cancel(request, participant_pk):
+    participant = get_object_or_404(Participant, pk=participant_pk)
     Participant.objects.filter(pk=participant_pk).update(
         status="cancelled",
     )
+    participant.log(request.user, "Cancelled")
 
     return redirect('fahrt_viewparticipant', participant_pk)
 
@@ -165,6 +180,7 @@ def signup(request):
     form = ParticipantForm(request.POST or None, semester=semester)
     if form.is_valid():
         participant = form.save()
+        participant.log(request.user, "Signed up")
 
         return redirect('fahrt_signup_success', participant.id)
 
@@ -192,6 +208,12 @@ def filter(request):
     if filterform.is_valid():
         search = filterform.cleaned_data['search']
         non_liability = filterform.cleaned_data['non_liability']
+        u18 = filterform.cleaned_data['u18']
+        car = filterform.cleaned_data['car']
+        paid = filterform.cleaned_data['paid']
+        payment_deadline = filterform.cleaned_data['payment_deadline']
+        mailinglist = filterform.cleaned_data['mailinglist']
+        status = filterform.cleaned_data['status']
 
         if search:
             participants = participants.filter(
@@ -202,6 +224,34 @@ def filter(request):
 
         if non_liability:
             participants = participants.filter(non_liability__isnull=False)
+        elif non_liability is False:
+            participants = participants.filter(non_liability__isnull=True)
+
+        if car is not None:
+            participants = participants.filter(car=car)
+
+        if paid:
+            participants = participants.filter(paid__isnull=False)
+        elif paid is False:
+            participants = participants.filter(paid__isnull=True)
+
+        if payment_deadline:
+            participants = participants.filter(
+                payment_deadline__lt=datetime.now().date)
+        elif payment_deadline is False:
+            participants = participants.filter(
+                payment_deadline__ge=datetime.now().date)
+
+        if mailinglist is not None:
+            participants = participants.filter(mailinglist=mailinglist)
+
+        if status:
+            participants = participants.filter(status=status)
+
+        if u18:
+            participants = [p for p in participants if p.u18]
+        elif u18 is False:
+            participants = [p for p in participants if not p.u18]
 
         filtered_participants = [p.id for p in participants]
         request.session['filtered_participants'] = filtered_participants
@@ -336,6 +386,7 @@ def send_mail(request, mail_pk):
     if form.is_valid():
         for p in participants:
             mail.send_mail(request, p)
+            p.log(request.user, "Mail '{0}' sent".format(mail))
         return redirect('fahrt_filter')
 
     context = {
@@ -355,6 +406,7 @@ def change_date(request):
     semester = get_object_or_404(Semester, pk=sem)
 
     if not semester.fahrt:
+        # TODO: fix
         Fahrt.objects.create(
             semester=semester,
             date=datetime.now().date,

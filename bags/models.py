@@ -120,7 +120,6 @@ class Mail(models.Model):
     FROM_MAIL = "Erstitüten-Team des SET-Referats <set-tueten@fs.tum.de>"
     semester = models.ForeignKey(
         Semester,
-        default=lambda: current_semester().pk,
     )
 
     subject = models.CharField(

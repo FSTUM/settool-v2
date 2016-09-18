@@ -135,5 +135,11 @@
     </table>
     </div>
     </div>
+    <strong>Log:</strong>
+    <ul>
+        {% for entry in log_entries %}
+            <li> {{entry.time}}, {{entry.user.full_name}}: {{entry.text}} </li>
+        {% endfor %}
+    </ul>
 
 {% endblock %}

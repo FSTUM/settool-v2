@@ -84,8 +84,38 @@ class FilterParticipantsForm(forms.Form):
         required=False,
     )
 
-    non_liability = forms.BooleanField(
+    non_liability = forms.NullBooleanField(
         label=_("Non-liability submitted"),
+    )
+
+    u18 = forms.NullBooleanField(
+        label=_("Under 18"),
+    )
+
+    car = forms.NullBooleanField(
+        label=_("With car"),
+    )
+
+    paid = forms.NullBooleanField(
+        label=_("Paid"),
+    )
+
+    payment_deadline = forms.NullBooleanField(
+        label=_("Payment deadline over"),
+    )
+
+    mailinglist = forms.NullBooleanField(
+        label=_("On mailinglist"),
+    )
+
+    status = forms.ChoiceField(
+        label=_("Status"),
+        choices=(
+            ("", "-------"),
+            ("registered", _("registered")),
+            ("confirmed", _("confirmed")),
+            ("cancelled", _("cancelled"))
+        ),
         required=False,
     )
 

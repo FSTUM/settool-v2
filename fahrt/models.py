@@ -5,6 +5,9 @@ from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from django.core.mail import send_mail
 from django.template import engines
+from django.contrib.auth.models import User
+
+from django_mailman.models import List
 
 from settool_common.models import Semester, Subject, current_semester
 
@@ -146,6 +149,13 @@ class Participant(models.Model):
     def __str__(self):
         return "{0} {1}".format(self.firstname, self.surname)
 
+    def log(self, user, text):
+        LogEntry.objects.create(
+            participant=self,
+            user=user,
+            text=text,
+        )
+
     @property
     def u18(self):
         return not (
@@ -157,18 +167,42 @@ class Participant(models.Model):
 
 
     def toggle_mailinglist(self):
+        list_name = 'setfahrt-teilnehmer'
+        list_pwd = 'codioguhup'
+        list_email = 'setfahrt-teilnehmer@fs.tum.de'
+        list_url = 'https://mail.fs.tum.de/listenadmin'
+        list_encoding = 'iso-8859-1'
+
+        mailinglist = List(
+            name=list_name,
+            password=list_pwd,
+            email=list_email,
+            main_url=list_url,
+            encoding=list_encoding,
+        )
+
+        members = mailinglist.get_all_members()
+        print(members)
+        members = [m[0] for m in members]
         if self.mailinglist:
-            to_email = MAILINGLIST_NAME + "-join@" + MAILINGLIST_DOMAIN
+            if self.email not in members:
+                mailinglist.subscribe(self.email, self.firstname,
+                    self.surname)
         else:
-            to_email = MAILINGLIST_NAME + "-leave@" + MAILINGLIST_DOMAIN
+            if self.email in members:
+                mailinglist.unsubscribe(self.email)
+
+        #if self.mailinglist:
+        #    to_email = MAILINGLIST_NAME + "-join@" + MAILINGLIST_DOMAIN
+        #else:
+        #    to_email = MAILINGLIST_NAME + "-leave@" + MAILINGLIST_DOMAIN
         #send_mail("", "", self.email, [to_email], fail_silently=False)
 
 
 class Mail(models.Model):
-    FROM_MAIL = "SET-Referat: SET-Fahrt-Team <setfahrt@fs.tum.de>"
+    FROM_MAIL = "SET-Fahrt-Team <setfahrt@fs.tum.de>"
     semester = models.ForeignKey(
         Semester,
-        default=lambda: current_semester().pk,
         related_name="fahrt_mail_set",
     )
 
@@ -220,3 +254,27 @@ class Mail(models.Model):
 
         send_mail(subject, text, Mail.FROM_MAIL, [participant.email],
             fail_silently=False)
+
+
+class LogEntry(models.Model):
+    participant = models.ForeignKey(
+        Participant,
+    )
+
+    user = models.ForeignKey(
+        User,
+        related_name="mylogentry_set",
+    )
+
+    text = models.CharField(
+        _("Text"),
+        max_length=200,
+    )
+
+    time = models.DateTimeField(
+        _("Time"),
+        auto_now_add=True,
+    )
+
+    def __str__(self):
+        return "{0}, {1}: {2}".format(self.time, self.user, self.text)
