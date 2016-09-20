@@ -1,7 +1,7 @@
-{% extends "settool_common/base.html" %}
+{% extends "guidedtours/base.html" %}
 {% load i18n %}
 
-{% block content %}
+{% block tourscontent %}
     <h1>
         {% blocktrans trimmed with name=tour.name date=tour.date %}
             List of participants for {{ name }} on {{ date }}

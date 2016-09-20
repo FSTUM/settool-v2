@@ -117,7 +117,7 @@ def delete(request, participant_pk):
     if form.is_valid():
         participant.delete()
 
-        return redirect('index')
+        return redirect('fahrt_index')
 
     context = {
         'form': form,
@@ -380,7 +380,7 @@ def edit_mail(request, mail_pk):
     if form.is_valid():
         form.save()
 
-        return redirect('listmails')
+        return redirect('fahrt_listmails')
 
     context = {
         'form': form,

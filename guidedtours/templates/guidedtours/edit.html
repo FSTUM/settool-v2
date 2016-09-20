@@ -2,11 +2,11 @@
 {% load i18n %}
 {% load bootstrap3 %}
 
-{% block title %}{% trans "Guided tour" %} - {% trans "Add tour" %}{% endblock %}
+{% block title %}{% trans "Guided tour" %} - {% trans "Edit tour" %}{% endblock %}
 
 {% block tourscontent %}
     <h1>
-        {% trans "Add tour" %}
+        {% trans "Edit tour" %}: {{ tour }}
     </h1>
 
     <form method="post" action="">
@@ -21,7 +21,7 @@
     <table class="table">
             <tr>
                 <td><button type="submit" class="btn btn-default">{% trans "Submit" %}</button></td>
-                <td><a href="{% url "tours_list" %}" class="btn btn-default">{% trans "Cancel" %}</a></td>
+                <td><a href="{% url "tours_view" tour.id %}" class="btn btn-default">{% trans "Cancel" %}</a></td>
             </tr>
         </table>
     </form>
