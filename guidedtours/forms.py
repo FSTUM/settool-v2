@@ -63,7 +63,7 @@ class SelectMailForm(forms.Form):
 
 class FilterParticipantsForm(forms.Form):
     search = forms.CharField(
-        label=_("Search pattern:"),
+        label=_("Search pattern"),
         required=False,
     )
 

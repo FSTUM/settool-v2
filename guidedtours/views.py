@@ -2,7 +2,8 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import permission_required
 
 from .models import Tour, Participant
-from .forms import ParticipantForm, TourForm, FilterParticipantsForm
+from .forms import ParticipantForm, TourForm, FilterParticipantsForm, \
+    SelectMailForm
 from settool_common.models import get_semester, Semester
 
 @permission_required('guidedtours.view_participants')
@@ -301,7 +302,7 @@ def signup_internal(request):
     if form.is_valid():
         participant = form.save()
 
-        return redirect('tours_signup_success')
+        return redirect('tours_view', participant.tour.id)
 
     context = {'semester': semester,
                'form': form}

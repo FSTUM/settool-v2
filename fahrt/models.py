@@ -7,7 +7,7 @@ from django.template import engines
 from django.contrib.auth.models import User
 from django.utils import timezone
 
-from django_mailman.models import List
+#from django_mailman.models import List
 
 from settool_common.models import Semester, Subject, current_semester
 
