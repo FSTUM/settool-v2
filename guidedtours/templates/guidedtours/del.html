@@ -1,0 +1,28 @@
+{% extends "guidedtours/base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Guided tour" %} - {% trans "Delete tour" %}{% endblock %}
+
+{% block tourscontent %}
+    <h1>
+        {% trans "Delete tour" %}: {{ participant }}
+    </h1>
+
+    {% url "tours_view" tour.id as view %}
+    <p>
+        {% blocktrans trimmed with name=tour url=view %}
+            Do you really want to delete the tour <a href="{{ url }}">{{ name }}</a>?
+        {% endblocktrans %}
+    </p>
+    <form method="post" action="">
+        {% csrf_token %}
+
+        <table class="table">
+            <tr>
+                <td><button type="submit" class="btn btn-default btn-danger">{% trans "Delete" %}</button></td>
+                <td><a href="{{ view }}" class="btn btn-default">{% trans "Cancel" %}</a></td>
+            </tr>
+        </table>
+    </form>
+
+{% endblock %}
