@@ -58,7 +58,7 @@ class SelectMailForm(forms.Form):
         semester = kwargs.pop('semester')
         super(SelectMailForm, self).__init__(*args, **kwargs)
 
-        self.fields['mail'].queryset = semester.fahrt_mail_set.all()
+        self.fields['mail'].queryset = semester.tours_mail_set.all()
 
 
 class FilterParticipantsForm(forms.Form):

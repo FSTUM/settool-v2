@@ -1,5 +1,7 @@
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
+from django.core.mail import send_mail
+from django.template import engines
 
 from settool_common.models import Semester, Subject
 
@@ -72,6 +74,20 @@ class Participant(models.Model):
     def __str__(self):
         return "{} {}".format(self.firstname, self.surname)
 
+    @property
+    def on_the_tour(self):
+        participants = self.tour.participant_set.order_by('time')
+        participants = participants[:self.tour.capacity]
+        return self in participants
+
+    @property
+    def status(self):
+        if self.on_the_tour:
+            return _("On the tour")
+        else:
+            return _("On waitinglist")
+
+
 
 class Mail(models.Model):
     FROM_MAIL = "SET-Referat <set@fs.tum.de>"
@@ -87,7 +103,9 @@ class Mail(models.Model):
 
     text = models.TextField(
         _("Text"),
-        help_text=_("You may use {{vorname}} for the participant's first name."),
+        help_text=_("You may use {{vorname}} for the participant's first \
+name, {{tour}} for the name of the tour, {{zeit}} for the time of the \
+tour."),
     )
 
     comment = models.CharField(
@@ -107,6 +125,8 @@ class Mail(models.Model):
         subject_template = django_engine.from_string(self.subject)
         context = {
             'vorname': "<Vorname>",
+            'tour': "<Tour>",
+            'zeit': "<Zeit>",
         }
         subject = subject_template.render(context).rstrip()
 
@@ -120,6 +140,8 @@ class Mail(models.Model):
         subject_template = django_engine.from_string(self.subject)
         context = {
             'vorname': participant.firstname,
+            'tour': participant.tour.name,
+            'zeit': participant.tour.date,
         }
         subject = subject_template.render(context).rstrip()
 

@@ -1,0 +1,50 @@
+{% extends "guidedtours/base.html" %}
+{% load i18n %}
+
+{% block head %}
+<script>
+    $(function(){
+        $("#mailTable").tablesorter({
+            theme           : "bootstrap",
+            widgets         : ['zebra', 'columns', 'uitheme'],
+            headerTemplate  : '{content} {icon}',
+            sortReset       : true,
+            sortRestart     : true
+	});
+    });
+</script>
+{% endblock %}
+
+{% block title %}{% trans "Guided tour" %} - {% trans "List email templates" %}{% endblock %}
+
+{% block tourscontent %}
+    <h1>
+        {% trans "List email templates" %}
+    </h1>
+
+    <table id="mailTable" class="table tablesorter">
+    <thead>
+    <tr>
+        <th>{% trans "Subject" %}</th>
+        <th>{% trans "Text" %}</th>
+        <th>{% trans "Comment" %}</th>
+        <th>{% trans "Delete" %}</th>
+    </tr>
+    </thead>
+    <tbody>
+        {% for mail in mails %}
+            <tr>
+                <td>
+                    <a href="{% url "tours_editmail" mail.id %}">{{ mail.subject }}</a>
+                </td>
+                <td>{{ mail.text|slice:":100" }}{% if mail.text|length > 100 %}...{% endif %}</td>
+                <td>{{ mail.comment }}</td>
+                <td>
+                    <a href="{% url "tours_delmail" mail.id %}"><span class="glyphicon glyphicon-trash"></span></a>
+                </td>
+            </tr>
+        {% endfor %}
+    </tbody>
+    </table>
+{% endblock %}
+

@@ -1,9 +1,11 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import permission_required
+from django.forms import formset_factory
+from django import forms
 
-from .models import Tour, Participant
+from .models import Tour, Participant, Mail
 from .forms import ParticipantForm, TourForm, FilterParticipantsForm, \
-    SelectMailForm
+    SelectMailForm, SelectParticipantForm, MailForm
 from settool_common.models import get_semester, Semester
 
 @permission_required('guidedtours.view_participants')
@@ -268,7 +270,7 @@ def send_mail(request, mail_pk):
 def signup(request):
     sem = get_semester(request)
     semester = get_object_or_404(Semester, pk=sem)
-    tours = semester.tour_set.all()
+    tours = semester.tour_set.order_by('date')
 
     if not tours:
         context = {'semester': semester}
@@ -280,8 +282,11 @@ def signup(request):
 
         return redirect('tours_signup_success')
 
-    context = {'semester': semester,
-               'form': form}
+    context = {
+        'semester': semester,
+        'form': form,
+        'tours': tours,
+    }
     return render(request, 'guidedtours/signup.html', context)
 
 
@@ -293,7 +298,7 @@ def signup_success(request):
 def signup_internal(request):
     sem = get_semester(request)
     semester = get_object_or_404(Semester, pk=sem)
-    tours = semester.tour_set.all()
+    tours = semester.tour_set.order_by('date')
 
     if not tours:
         return redirect('tours_add')

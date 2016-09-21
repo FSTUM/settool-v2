@@ -1,0 +1,72 @@
+{% extends "guidedtours/base.html" %}
+{% load i18n %}
+{% load bootstrap3 %}
+
+{% block head %}
+<script>
+    $(function(){
+        $("#fahrtTable").tablesorter({
+            theme           : "bootstrap",
+            widgets         : ['zebra', 'columns', 'uitheme'],
+            headerTemplate  : '{content} {icon}',
+            sortReset       : true,
+            sortRestart     : true
+	});
+    });
+</script>
+{% endblock %}
+
+{% block title %}{% trans "Guided tour" %} - {% trans "Filtered participants" %}{% endblock %}
+
+{% block tourscontent %}
+    <h1>
+        {% trans "Filtered participants" %}
+    </h1>
+
+    <form method="post" action="">
+        {% csrf_token %}
+        {{ participantforms.management_form }}
+
+    <div class="row">
+        <div class="col-xs-12 col-lg-5">
+            {% bootstrap_form form %}
+            <p><button type="submit" name="mailform" class="btn btn-default">{% trans "Send emails" %}</button></p>
+        </div>
+    </div>
+
+    <p></p>
+
+    <table id="fahrtTable" class="table tablesorter">
+    <thead>
+    <tr>
+        <th></th>
+        <th>{% trans "First name" %}</th>
+        <th>{% trans "Surname" %}</th>
+        <th>{% trans "Subject" %}</th>
+        <th>{% trans "Status" %}</th>
+    </tr>
+    </thead>
+    <tbody>
+        {% for participant, select in participants %}
+            <tr>
+                <td>
+                    {{ select.id.as_hidden }}
+                    {{ select.selected }}
+                </td>
+                <td>
+                    {{ participant.firstname }}
+                </td>
+                <td>
+                    {{ participant.surname }}
+                </td>
+                <td>{{ participant.subject }}</td>
+                <td>{{ participant.status }}</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+    </table>
+
+    </form>
+{% endblock %}
+
+

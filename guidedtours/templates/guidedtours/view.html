@@ -47,20 +47,18 @@
     {% endfor %}
     </table>
 
-    <table>
-    <tr>
-        <th>{% trans "Edit" %}</th>
-        <td>
-            <a href="{% url "tours_edit" tour.id %}"><span class="glyphicon glyphicon-edit"></span></a>
-        </td>
-    </tr>
-    <tr>
-        <th>{% trans "Delete" %}</th>
-        <td>
-            <a href="{% url "tours_del" tour.id %}"><span class="glyphicon glyphicon-trash"></span></a>
-        </td>
-    </tr>
-    </table>
+    <p>
+        <a href="{% url "tours_edit" tour.id %}">
+            <strong>{% trans "Edit" %}</strong>
+            <span class="glyphicon glyphicon-edit"></span>
+        </a>
+    </p>
+    <p>
+        <a href="{% url "tours_del" tour.id %}">
+            <strong>{% trans "Delete" %}</strong>
+            <span class="glyphicon glyphicon-trash"></span>
+        </a>
+    </p>
 
 
 {% endblock %}

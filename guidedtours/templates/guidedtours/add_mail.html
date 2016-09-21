@@ -1,0 +1,28 @@
+{% extends "guidedtours/base.html" %}
+{% load i18n %}
+{% load bootstrap3 %}
+
+{% block title %}{% trans "Guided tour" %} - {% trans "Add email" %}{% endblock %}
+
+{% block tourscontent %}
+    <h1>
+        {% trans "Add email" %}
+    </h1>
+
+    <form method="post" action="">
+        {% csrf_token %}
+
+        <div class="row">
+            <div class="col-xs-12 col-lg-5">
+                {% bootstrap_form form %}
+            </div>
+        </div>
+
+        <table class="table">
+            <tr>
+                <td><button type="submit" class="btn btn-default">{% trans "Submit" %}</button></td>
+                <td><a href="{% url "tours_listmails" %}" class="btn btn-default">{% trans "Cancel" %}</a></td>
+            </tr>
+        </table>
+    </form>
+{% endblock %}
