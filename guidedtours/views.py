@@ -2,7 +2,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import permission_required
 
 from .models import Tour, Participant
-from .forms import ParticipantForm, TourForm
+from .forms import ParticipantForm, TourForm, FilterParticipantsForm
 from settool_common.models import get_semester, Semester
 
 @permission_required('guidedtours.view_participants')
@@ -87,9 +87,11 @@ def delete(request, tour_pk):
 def filter(request):
     sem = get_semester(request)
     semester = get_object_or_404(Semester, pk=sem)
-    participants = semester.tour__participant_set.order_by('surname')
+    participants = Participant.objects.filter(
+        tour__semester=semester.id).order_by('surname')
 
-    filterform = FilterParticipantsForm(request.POST or None)
+    filterform = FilterParticipantsForm(request.POST or None,
+        semester=semester)
 
     if filterform.is_valid():
         search = filterform.cleaned_data['search']
@@ -269,7 +271,7 @@ def signup(request):
 
     if not tours:
         context = {'semester': semester}
-        return render(request, 'guidedtours/add_notour.html', context)
+        return render(request, 'guidedtours/signup_notour.html', context)
 
     form = ParticipantForm(request.POST or None, tours=tours)
     if form.is_valid():

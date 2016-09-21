@@ -83,6 +83,12 @@ class FilterParticipantsForm(forms.Form):
         required=False,
     )
 
+    def __init__(self, *args, **kwargs):
+        semester = kwargs.pop('semester')
+        super(FilterParticipantsForm, self).__init__(*args, **kwargs)
+
+        self.fields['tour'].queryset = semester.tour_set
+
 
 class SelectParticipantForm(forms.Form):
     id = forms.IntegerField()
