@@ -29,6 +29,6 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='mail',
             name='semester',
-            field=models.ForeignKey(default=settool_common.models.current_semester, on_delete=django.db.models.deletion.CASCADE, related_name='fahrt_mail_set', to='settool_common.Semester'),
+            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='fahrt_mail_set', to='settool_common.Semester'),
         ),
     ]
