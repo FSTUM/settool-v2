@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-07-10 21:05+0200\n"
+"POT-Creation-Date: 2016-09-24 18:39+0200\n"
 "PO-Revision-Date: 2016-07-10 21:09+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -103,7 +103,7 @@ msgstr "Giveaways"
 msgid "Arrival time"
 msgstr "Ankunftszeit"
 
-#: bags/models.py:73 bags/models.py:137 bags/templates/bags/del_mail.html:23
+#: bags/models.py:73 bags/models.py:136 bags/templates/bags/del_mail.html:23
 #: bags/templates/bags/filtered_index.html:53
 #: bags/templates/bags/index.html:51 bags/templates/bags/index_mails.html:30
 #: bags/templates/bags/send_mail.html:49 bags/templates/bags/view.html:61
@@ -122,25 +122,25 @@ msgstr "Angekommen"
 msgid "Contact again"
 msgstr "Erneut kontaktieren"
 
-#: bags/models.py:127
+#: bags/models.py:126
 msgid "Email subject"
 msgstr "Betreff der E-Mail"
 
-#: bags/models.py:132 bags/templates/bags/del_mail.html.py:20
+#: bags/models.py:131 bags/templates/bags/del_mail.html.py:20
 #: bags/templates/bags/index_mails.html:29
 #: bags/templates/bags/send_mail.html:35
 msgid "Text"
 msgstr "Text"
 
-#: bags/models.py:133
+#: bags/models.py:132
 msgid ""
 "You may use {{firma}} for the company name, {{anrede}} for the greeting "
 "\"Hallo Herr/Frau XYZ\" and {{formale_anrede}} for the formal greeting "
 "\"Sehr geehrte/r Herr/Frau XYZ\"."
 msgstr ""
 "Du kannst {{firma}} für den Firmennamen, {{anrede}} für die Anrede \"Hallo "
-"Herr/Frau XYZ\" und {{formale_anrede}} für die formale Anrede \"Sehr "
-"geehrte/r Herr/Frau XYZ\" verwenden."
+"Herr/Frau XYZ\" und {{formale_anrede}} für die formale Anrede \"Sehr geehrte/"
+"r Herr/Frau XYZ\" verwenden."
 
 #: bags/templates/bags/add.html:5 bags/templates/bags/add_mail.html.py:5
 #: bags/templates/bags/del.html:4 bags/templates/bags/del_mail.html.py:4
