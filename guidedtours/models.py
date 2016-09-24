@@ -2,6 +2,7 @@ from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from django.core.mail import send_mail
 from django.template import engines
+from django.utils import timezone
 
 from settool_common.models import Semester, Subject
 
@@ -33,8 +34,22 @@ class Tour(models.Model):
         verbose_name=_("Capacity"),
     )
 
+    open_registration = models.DateTimeField(
+        _("Open registration"),
+    )
+
+    close_registration = models.DateTimeField(
+        _("Close registration"),
+    )
+
     def __str__(self):
         return self.name
+
+    @property
+    def registration_open(self):
+        return (self.open_registration < timezone.now() and
+                timezone.now() < self.close_registration)
+
 
 class Participant(models.Model):
     tour = models.ForeignKey(

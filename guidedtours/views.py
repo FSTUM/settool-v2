@@ -2,6 +2,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import permission_required
 from django.forms import formset_factory
 from django import forms
+from django.utils import timezone
 
 from .models import Tour, Participant, Mail
 from .forms import ParticipantForm, TourForm, FilterParticipantsForm, \
@@ -265,12 +266,11 @@ def send_mail(request, mail_pk):
     return render(request, 'guidedtours/send_mail.html', context)
 
 
-# TODO: remove permission
-@permission_required('guidedtours.view_participants')
 def signup(request):
     sem = get_semester(request)
     semester = get_object_or_404(Semester, pk=sem)
-    tours = semester.tour_set.order_by('date')
+    tours = semester.tour_set.filter(open_registration__lt=timezone.now(),
+        close_registration__gt=timezone.now()).order_by('date')
 
     if not tours:
         context = {'semester': semester}

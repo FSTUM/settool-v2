@@ -39,7 +39,6 @@ class Fahrt(models.Model):
                 timezone.now() < self.close_registration)
 
 
-
 class Participant(models.Model):
     class Meta:
         permissions = (("view_participants",
