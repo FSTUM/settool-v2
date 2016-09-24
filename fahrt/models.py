@@ -227,7 +227,8 @@ class Mail(models.Model):
 
     text = models.TextField(
         _("Text"),
-        help_text=_("You may use {{vorname}} for the participant's first name."),
+        help_text=_("You may use {{vorname}} for the participant's first \
+name and {{frist}} for the individual payment deadline."),
     )
 
     comment = models.CharField(
@@ -247,6 +248,7 @@ class Mail(models.Model):
         subject_template = django_engine.from_string(self.subject)
         context = {
             'vorname': "<Vorname>",
+            'frist': "<Zahlungsfrist>",
         }
         subject = subject_template.render(context).rstrip()
 
@@ -260,6 +262,7 @@ class Mail(models.Model):
         subject_template = django_engine.from_string(self.subject)
         context = {
             'vorname': participant.firstname,
+            'frist': participant.payment_deadline,
         }
         subject = subject_template.render(context).rstrip()
 
