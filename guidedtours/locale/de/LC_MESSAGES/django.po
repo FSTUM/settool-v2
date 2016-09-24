@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-09-24 18:39+0200\n"
-"PO-Revision-Date: 2016-09-24 22:04+0200\n"
+"POT-Creation-Date: 2016-09-24 23:12+0200\n"
+"PO-Revision-Date: 2016-09-24 23:12+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: de\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 1.8.4\n"
+"X-Generator: Poedit 1.8.9\n"
 
 #: guidedtours/forms.py:54
 msgid "Email template:"
@@ -117,8 +117,7 @@ msgstr "Auf der Warteliste"
 msgid "Email subject"
 msgstr "Betreff der E-Mail"
 
-#: guidedtours/models.py:120
-#: guidedtours/templates/guidedtours/del_mail.html:20
+#: guidedtours/models.py:120 guidedtours/templates/guidedtours/del_mail.html:20
 #: guidedtours/templates/guidedtours/index_mails.html:29
 #: guidedtours/templates/guidedtours/send_mail.html:35
 msgid "Text"
@@ -133,8 +132,7 @@ msgstr ""
 "Titel der Intitutsführung und {{zeit}} für die Zeit der Institutsführung "
 "verwenden."
 
-#: guidedtours/models.py:127
-#: guidedtours/templates/guidedtours/del_mail.html:23
+#: guidedtours/models.py:127 guidedtours/templates/guidedtours/del_mail.html:23
 #: guidedtours/templates/guidedtours/index_mails.html:30
 msgid "Comment"
 msgstr "Kommentar"
