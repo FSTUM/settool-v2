@@ -1,0 +1,135 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2016-09-26 15:01+0200\n"
+"PO-Revision-Date: 2016-09-26 15:06+0200\n"
+"Language: de\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Last-Translator: Sven Hertle <hertle@fs.tum.de>\n"
+"Language-Team: \n"
+"X-Generator: Poedit 1.8.9\n"
+
+#: settool_common/models.py:19
+msgid "Winter semester"
+msgstr "Wintersemester"
+
+#: settool_common/models.py:20
+msgid "Summer semester"
+msgstr "Sommersemester"
+
+#: settool_common/models.py:27
+msgid "Semester"
+msgstr "Semester"
+
+#: settool_common/models.py:31
+msgid "Year"
+msgstr "Jahr"
+
+#: settool_common/models.py:45
+msgid "Bachelor"
+msgstr "Bachelor"
+
+#: settool_common/models.py:46
+msgid "Master"
+msgstr "Master"
+
+#: settool_common/models.py:64
+msgid "Mathematics"
+msgstr "Mathematik"
+
+#: settool_common/models.py:65
+msgid "Physics"
+msgstr "Physik"
+
+#: settool_common/models.py:66
+msgid "Informatics"
+msgstr "Informatik"
+
+#: settool_common/models.py:67
+msgid "Informatics: Games Engineering"
+msgstr "Informatik: Games Engineering"
+
+#: settool_common/models.py:68
+msgid "Information Systems"
+msgstr "Wirtschaftsinformatik"
+
+#: settool_common/models.py:69
+msgid "Automotive Software Engineering"
+msgstr "Automotive Software Engineering"
+
+#: settool_common/models.py:70
+msgid "Computational Science and Engineering"
+msgstr "Computational Science and Engineering"
+
+#: settool_common/models.py:71
+msgid "Biomedical Computing"
+msgstr "Biomedical Computing"
+
+#: settool_common/models.py:72
+msgid "Robotics, Cognition, Intelligence"
+msgstr "Robotics, Cognition, Intelligence"
+
+#: settool_common/models.py:73
+msgid "Mathematics in Operatios Research"
+msgstr ""
+
+#: settool_common/models.py:74
+msgid "Mathematics in Science and Engineering"
+msgstr ""
+
+#: settool_common/models.py:75
+msgid "Mathematics in Finance and Acturial Science"
+msgstr ""
+
+#: settool_common/models.py:76
+msgid "Mathematics in Bioscience"
+msgstr ""
+
+#: settool_common/models.py:84
+msgid "Degree"
+msgstr "Abschluss"
+
+#: settool_common/models.py:91
+msgid "Subject"
+msgstr "Studiengang"
+
+#: settool_common/templates/settool_common/base.html:23
+msgid "SET"
+msgstr "SET"
+
+#: settool_common/templates/settool_common/base.html:51
+#, python-format
+msgid "Hello %(username)s!"
+msgstr "Hallo %(username)s!"
+
+#: settool_common/templates/settool_common/base.html:53
+msgid "Logout"
+msgstr "Logout"
+
+#: settool_common/templates/settool_common/base.html:55
+#: settool_common/templates/settool_common/login.html:6
+#: settool_common/templates/settool_common/login.html:18
+msgid "Login"
+msgstr "Login"
+
+#: settool_common/templates/settool_common/base.html:78
+#: settool_common/templates/settool_common/base.html:103
+msgid "Switch"
+msgstr "Switch"
+
+#: settool_common/templates/settool_common/base.html:124
+msgid "Datenschutz"
+msgstr "Datenschutz"
+
+#: settool_common/templates/settool_common/base.html:125
+msgid "Impressum"
+msgstr "Impressum"
