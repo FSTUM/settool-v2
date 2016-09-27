@@ -46,14 +46,16 @@ def list_confirmed(request):
     else:
         proportion_of_women = int(num_women / number * 100)
 
+    places = participants.filter(car=True).aggregate(places=Sum('car_places'))
+    places = places['places'] or 0
+
     context = {
         'participants': participants,
         'number': number,
         'non_liability': participants.filter(
             non_liability__isnull=False).count(),
         'paid': participants.filter(paid__isnull=False).count(),
-        'places': participants.filter(car=True).aggregate(
-            places=Sum('car_places')),
+        'places': places,
         'cars': participants.filter(car=True).count(),
         'u18s': len(u18s),
         'num_women': num_women,
