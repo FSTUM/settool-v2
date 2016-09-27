@@ -39,9 +39,16 @@ def list_confirmed(request):
 
     u18s = [p for p in participants if p.u18]
 
+    number = participants.count()
+    num_women = participants.filter(gender="female").count()
+    if number == 0:
+        proportion_of_women = 0
+    else:
+        proportion_of_women = int(num_women / number * 100)
+
     context = {
         'participants': participants,
-        'number': participants.count(),
+        'number': number,
         'non_liability': participants.filter(
             non_liability__isnull=False).count(),
         'paid': participants.filter(paid__isnull=False).count(),
@@ -49,6 +56,8 @@ def list_confirmed(request):
             places=Sum('car_places')),
         'cars': participants.filter(car=True).count(),
         'u18s': len(u18s),
+        'num_women': num_women,
+        'proportion_of_women': proportion_of_women,
     }
     return render(request, 'fahrt/list_confirmed.html', context)
 

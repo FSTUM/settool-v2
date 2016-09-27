@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-09-26 15:01+0200\n"
-"PO-Revision-Date: 2016-09-26 15:01+0200\n"
+"POT-Creation-Date: 2016-09-27 20:02+0200\n"
+"PO-Revision-Date: 2016-09-27 20:03+0200\n"
 "Last-Translator: Sven Hertle <hertle@fs.tum.de>\n"
 "Language-Team: \n"
 "Language: de\n"
@@ -375,7 +375,12 @@ msgstr "U18"
 msgid "seats"
 msgstr "Sitze"
 
-#: fahrt/templates/fahrt/list_confirmed.html:80
+#: fahrt/templates/fahrt/list_confirmed.html:77
+#, python-format
+msgid "%(number)s, thereof women: %(women)s"
+msgstr "%(number)s, davon Frauen: %(women)s"
+
+#: fahrt/templates/fahrt/list_confirmed.html:94
 #, python-format
 msgid "%(places)s places in %(cars)s cars"
 msgstr "%(places)s Sitze in %(cars)s Autos"

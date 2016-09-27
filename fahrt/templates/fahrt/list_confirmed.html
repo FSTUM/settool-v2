@@ -73,7 +73,21 @@
     </tbody>
         <tr>
             <th>Total:</th>
-            <th>{{ number }}</th>
+            <th>
+                {% blocktrans trimmed with number=number women=num_women %}
+                    {{ number }}, thereof women: {{ women }}
+                {% endblocktrans %}
+
+                {% if proportion_of_women < 5 %}
+                    <span style='color: red;'>+_+</span>
+                {% elif proportion_of_women < 25 %}
+                    <span style='color: red;'>:-(</span>
+                {% elif proportion_of_women < 40 %}
+                    <span style='color: black;'>:-|</span>
+                {% else %}
+                    <span style='color: green;'>:-)</span>
+                {% endif %}
+            </th>
             <th>{{ non_liability }}</th>
             <th>{{ paid }}</th>
             <th>
@@ -86,5 +100,8 @@
     </table>
 
     </form>
+
+    <p>
+    </p>
 {% endblock %}
 
