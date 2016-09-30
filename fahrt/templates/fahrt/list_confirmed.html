@@ -32,6 +32,7 @@
         <th>{% trans "Paid/Payment deadline" %}</th>
         <th>{% trans "Car" %}</th>
         <th>{% trans "U18" %}</th>
+        <th>{% trans "Allergies" %}</th>
     </tr>
     </thead>
     <tbody>
@@ -68,6 +69,11 @@
                 {% else %}
                     <td><span style="visibility:hidden">nein</span></td>
                 {% endif %}
+                {% if participant.allergies %}
+                    <td><span style="color:red" class="glyphicon glyphicon-ok"></span><span style="visibility:hidden">ja</span></td>
+                {% else %}
+                    <td><span style="visibility:hidden">nein</span></td>
+                {% endif %}
             </tr>
         {% endfor %}
     </tbody>
@@ -96,6 +102,7 @@
                 {% endblocktrans %}
             </th>
             <th>{{ u18s }}</th>
+            <th>{{ allergies }}</th>
         </tr>
     </table>
 

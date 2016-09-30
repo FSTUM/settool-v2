@@ -38,6 +38,7 @@ def list_confirmed(request):
         ).order_by('surname')
 
     u18s = [p for p in participants if p.u18]
+    allergies = participants.exclude(allergies='').count()
 
     number = participants.count()
     num_women = participants.filter(gender="female").count()
@@ -58,6 +59,7 @@ def list_confirmed(request):
         'places': places,
         'cars': participants.filter(car=True).count(),
         'u18s': len(u18s),
+        'allergies': allergies,
         'num_women': num_women,
         'proportion_of_women': proportion_of_women,
     }
