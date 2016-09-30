@@ -1,5 +1,7 @@
 from __future__ import unicode_literals
 
+import datetime
+
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from django.core.mail import send_mail
@@ -178,6 +180,14 @@ class Participant(models.Model):
             self.semester.fahrt.date.month == self.birthday.month and
             self.semester.fahrt.date.day >= self.birthday.day))))
 
+    @property
+    def deadline_exceeded(self):
+        return self.payment_deadline < datetime.date.today()
+
+    @property
+    def deadline_soon(self):
+        return self.payment_deadline < datetime.date.today() + \
+                datetime.timedelta(days=7)
 
     def toggle_mailinglist(self):
         list_name = 'setfahrt-teilnehmer'

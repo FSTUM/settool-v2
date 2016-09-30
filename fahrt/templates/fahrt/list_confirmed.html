@@ -52,7 +52,14 @@
                 {% if participant.paid %}
                     <td><span style="color:green" class="glyphicon glyphicon-ok"></span><span style="visibility:hidden">ja</span></td>
                 {% elif participant.payment_deadline %}
-                    <td>{{ participant.payment_deadline }}</td>
+                    <td>
+                        {% if participant.deadline_exceeded %}
+                            <span style="color:red" class="glyphicon glyphicon-remove"></span>&nbsp;
+                        {% elif participant.deadline_soon %}
+                            <span style="color:orange" class="glyphicon glyphicon-warning-sign"></span>&nbsp;
+                        {% endif %}
+                        {{ participant.payment_deadline }}
+                    </td>
                 {% else %}
                     <td></td>
                 {% endif %}
