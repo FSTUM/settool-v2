@@ -111,7 +111,7 @@ class Participant(models.Model):
     )
 
     car_places = models.IntegerField(
-        _("Places in my car"),
+        _("Number of people I can take along additionally"),
         blank=True,
         null=True,
     )
