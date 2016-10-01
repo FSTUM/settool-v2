@@ -1,10 +1,11 @@
-from django.shortcuts import render, get_object_or_404, redirect
-from django.contrib.auth.decorators import permission_required
 from django import forms
-from django.utils import timezone
+from django.contrib.auth.decorators import permission_required
+from django.core.exceptions import ObjectDoesNotExist
 from django.db.models import Sum, F, Q
 from django.forms import formset_factory
-from django.core.exceptions import ObjectDoesNotExist
+from django.http import Http404
+from django.shortcuts import render, get_object_or_404, redirect
+from django.utils import timezone
 
 from datetime import date, timedelta
 
@@ -187,32 +188,16 @@ def confirm(request, participant_pk):
     return redirect('fahrt_viewparticipant', participant_pk)
 
 @permission_required('fahrt.view_participants')
-def set_payment_deadline_1(request, participant_pk):
+def set_payment_deadline(request, participant_pk, weeks):
+    weeks = int(weeks)  # save due to regex in urls.py
+    if weeks not in [1, 2, 3]:
+        raise Http404("Invalid number of weeks")
+
     participant = get_object_or_404(Participant, pk=participant_pk)
     Participant.objects.filter(pk=participant_pk).update(
-        payment_deadline=(date.today() + timedelta(days=7)).strftime("%Y-%m-%d")
+        payment_deadline=date.today() + timedelta(days=weeks*7)
     )
-    participant.log(request.user, "Set deadline 1 week")
-
-    return redirect('fahrt_viewparticipant', participant_pk)
-
-@permission_required('fahrt.view_participants')
-def set_payment_deadline_2(request, participant_pk):    
-    participant = get_object_or_404(Participant, pk=participant_pk)
-    Participant.objects.filter(pk=participant_pk).update(
-        payment_deadline=(date.today() + timedelta(days=14)).strftime("%Y-%m-%d")
-    )
-    participant.log(request.user, "Set deadline 2 weeks")
-
-    return redirect('fahrt_viewparticipant', participant_pk)
-
-@permission_required('fahrt.view_participants')
-def set_payment_deadline_3(request, participant_pk):
-    participant = get_object_or_404(Participant, pk=participant_pk)
-    Participant.objects.filter(pk=participant_pk).update(
-        payment_deadline=(date.today() + timedelta(days=21)).strftime("%Y-%m-%d")
-    )
-    participant.log(request.user, "Set deadline 3 weeks")
+    participant.log(request.user, "Set deadline {} week".format(weeks))
 
     return redirect('fahrt_viewparticipant', participant_pk)
 

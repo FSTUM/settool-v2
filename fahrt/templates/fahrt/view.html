@@ -91,9 +91,9 @@
         <th>{% trans "Payment deadline" %}</th>
         <td>
             {{ participant.payment_deadline }}
-            <a href="{% url "fahrt_set_payment_deadline_1" participant.id%}" class="btn btn-default">{% trans "1 week" %}</a>
-            <br /><a href="{% url "fahrt_set_payment_deadline_2" participant.id%}" class="btn btn-default">{% trans "2 weeks" %}</a>
-            <br /><a href="{% url "fahrt_set_payment_deadline_3" participant.id%}" class="btn btn-default">{% trans "3 weeks" %}</a>
+            <a href="{% url "fahrt_set_payment_deadline" participant.id 1 %}" class="btn btn-default">{% trans "1 week" %}</a>
+            <br /><a href="{% url "fahrt_set_payment_deadline" participant.id 2 %}" class="btn btn-default">{% trans "2 weeks" %}</a>
+            <br /><a href="{% url "fahrt_set_payment_deadline" participant.id 3 %}" class="btn btn-default">{% trans "3 weeks" %}</a>
         </td>
     </tr>
     <tr>
