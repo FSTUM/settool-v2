@@ -9,6 +9,7 @@ from django.template import engines
 from django.contrib.auth.models import User
 from django.utils import timezone
 
+from datetime import date, timedelta
 #from django_mailman.models import List
 
 from settool_common.models import Semester, Subject, current_semester
@@ -220,6 +221,13 @@ class Participant(models.Model):
         #else:
         #    to_email = MAILINGLIST_NAME + "-leave@" + MAILINGLIST_DOMAIN
         #send_mail("", "", self.email, [to_email], fail_silently=False)
+    
+    #def set_payment_deadline(self, weeks):
+    #    today = date.today()
+    #    delta = timedelta(days=weeks*7)
+    #    deadline = today + delta
+    #    print(deadline.strftime("%d.%m.%Y")
+    #    self.payment_deadline = deadline.strftime("%d.%m.%Y")
 
 
 class Mail(models.Model):

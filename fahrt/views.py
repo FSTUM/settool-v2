@@ -6,6 +6,8 @@ from django.db.models import Sum, F, Q
 from django.forms import formset_factory
 from django.core.exceptions import ObjectDoesNotExist
 
+from datetime import date, timedelta
+
 from . models import Participant, Mail, Fahrt, LogEntry
 from .forms import ParticipantForm, ParticipantAdminForm, MailForm, \
     SelectParticipantForm, SelectMailForm, FilterParticipantsForm, FahrtForm
@@ -184,6 +186,35 @@ def confirm(request, participant_pk):
 
     return redirect('fahrt_viewparticipant', participant_pk)
 
+@permission_required('fahrt.view_participants')
+def set_payment_deadline_1(request, participant_pk):
+    participant = get_object_or_404(Participant, pk=participant_pk)
+    Participant.objects.filter(pk=participant_pk).update(
+        payment_deadline=(date.today() + timedelta(days=7)).strftime("%Y-%m-%d")
+    )
+    participant.log(request.user, "Set deadline 1 week")
+
+    return redirect('fahrt_viewparticipant', participant_pk)
+
+@permission_required('fahrt.view_participants')
+def set_payment_deadline_2(request, participant_pk):    
+    participant = get_object_or_404(Participant, pk=participant_pk)
+    Participant.objects.filter(pk=participant_pk).update(
+        payment_deadline=(date.today() + timedelta(days=14)).strftime("%Y-%m-%d")
+    )
+    participant.log(request.user, "Set deadline 2 weeks")
+
+    return redirect('fahrt_viewparticipant', participant_pk)
+
+@permission_required('fahrt.view_participants')
+def set_payment_deadline_3(request, participant_pk):
+    participant = get_object_or_404(Participant, pk=participant_pk)
+    Participant.objects.filter(pk=participant_pk).update(
+        payment_deadline=(date.today() + timedelta(days=21)).strftime("%Y-%m-%d")
+    )
+    participant.log(request.user, "Set deadline 3 weeks")
+
+    return redirect('fahrt_viewparticipant', participant_pk)
 
 @permission_required('fahrt.view_participants')
 def cancel(request, participant_pk):
