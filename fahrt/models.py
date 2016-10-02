@@ -1,6 +1,7 @@
 from __future__ import unicode_literals
 
 import datetime
+from datetime import date, timedelta
 
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
@@ -9,14 +10,7 @@ from django.template import engines
 from django.contrib.auth.models import User
 from django.utils import timezone
 
-from datetime import date, timedelta
-#from django_mailman.models import List
-
 from settool_common.models import Semester, Subject, current_semester
-
-
-MAILINGLIST_NAME = 'setfahrt-teilnehmer'
-MAILINGLIST_DOMAIN = 'fs.tum.de'
 
 
 class Fahrt(models.Model):
@@ -191,36 +185,7 @@ class Participant(models.Model):
                 datetime.timedelta(days=7)
 
     def toggle_mailinglist(self):
-        list_name = 'setfahrt-teilnehmer'
-        list_pwd = 'codioguhup'
-        list_email = 'setfahrt-teilnehmer@fs.tum.de'
-        list_url = 'https://mail.fs.tum.de/listenadmin'
-        list_encoding = 'iso-8859-1'
-
-        mailinglist = List(
-            name=list_name,
-            password=list_pwd,
-            email=list_email,
-            main_url=list_url,
-            encoding=list_encoding,
-        )
-
-        members = mailinglist.get_all_members()
-        print(members)
-        members = [m[0] for m in members]
-        if self.mailinglist:
-            if self.email not in members:
-                mailinglist.subscribe(self.email, self.firstname,
-                    self.surname)
-        else:
-            if self.email in members:
-                mailinglist.unsubscribe(self.email)
-
-        #if self.mailinglist:
-        #    to_email = MAILINGLIST_NAME + "-join@" + MAILINGLIST_DOMAIN
-        #else:
-        #    to_email = MAILINGLIST_NAME + "-leave@" + MAILINGLIST_DOMAIN
-        #send_mail("", "", self.email, [to_email], fail_silently=False)
+        pass # TODO
     
     #def set_payment_deadline(self, weeks):
     #    today = date.today()
