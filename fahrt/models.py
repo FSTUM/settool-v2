@@ -10,6 +10,8 @@ from django.template import engines
 from django.contrib.auth.models import User
 from django.utils import timezone, encoding
 
+from django_mailman.models import List
+
 from settool_common.models import Semester, Subject, current_semester
 
 
@@ -186,7 +188,29 @@ class Participant(models.Model):
                 datetime.timedelta(days=7)
 
     def toggle_mailinglist(self):
-        pass # TODO
+        list_name = 'setfahrt-teilnehmer'
+        list_pwd = 'codioguhup'
+        list_email = 'setfahrt-teilnehmer@fs.tum.de'
+        list_url = 'https://mail.fs.tum.de/listenadmin'
+        list_encoding = 'iso-8859-1'
+
+        mailinglist = List(
+            name=list_name,
+            password=list_pwd,
+            email=list_email,
+            main_url=list_url,
+            encoding=list_encoding,
+        )
+
+        members = mailinglist.get_all_members()
+        members = [m[0] for m in members]
+        if self.mailinglist:
+            if self.email not in members:
+                mailinglist.subscribe(self.email, self.firstname,
+                    self.surname)
+        else:
+            if self.email in members:
+                mailinglist.unsubscribe(self.email)
     
     #def set_payment_deadline(self, weeks):
     #    today = date.today()
