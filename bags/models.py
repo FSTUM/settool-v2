@@ -5,8 +5,10 @@ from django.utils.translation import ugettext_lazy as _
 from django.template import engines
 from django.db import models
 from django.core.mail import send_mail
+from django.utils import encoding
 
 from settool_common.models import Semester, current_semester
+
 
 class Company(models.Model):
     class Meta:
@@ -116,6 +118,7 @@ class Company(models.Model):
         return "{} {}".format(self.contact_firstname, self.contact_lastname)
 
 
+@encoding.python_2_unicode_compatible
 class Mail(models.Model):
     FROM_MAIL = "Erstitüten-Team des SET-Referats <set-tueten@fs.tum.de>"
     semester = models.ForeignKey(

@@ -2,10 +2,11 @@ from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from django.core.mail import send_mail
 from django.template import engines
-from django.utils import timezone
+from django.utils import timezone, encoding
 
 from settool_common.models import Semester, Subject
 
+@encoding.python_2_unicode_compatible
 class Tour(models.Model):
     class Meta:
         permissions = (("view_participants",
@@ -51,6 +52,7 @@ class Tour(models.Model):
                 timezone.now() < self.close_registration)
 
 
+@encoding.python_2_unicode_compatible
 class Participant(models.Model):
     tour = models.ForeignKey(
         Tour,
@@ -103,7 +105,7 @@ class Participant(models.Model):
             return _("On waitinglist")
 
 
-
+@encoding.python_2_unicode_compatible
 class Mail(models.Model):
     FROM_MAIL = "SET-Referat <set@fs.tum.de>"
     semester = models.ForeignKey(
@@ -133,7 +135,7 @@ tour."),
         if self.comment:
             return "{} ({})". format(self.subject, self.comment)
         else:
-            return str(self.subject)
+            return self.subject
 
     def get_mail(self, request):
         django_engine = engines['django']

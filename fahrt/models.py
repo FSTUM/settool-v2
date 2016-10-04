@@ -8,7 +8,7 @@ from django.utils.translation import ugettext_lazy as _
 from django.core.mail import send_mail
 from django.template import engines
 from django.contrib.auth.models import User
-from django.utils import timezone
+from django.utils import timezone, encoding
 
 from settool_common.models import Semester, Subject, current_semester
 
@@ -36,6 +36,7 @@ class Fahrt(models.Model):
                 timezone.now() < self.close_registration)
 
 
+@encoding.python_2_unicode_compatible
 class Participant(models.Model):
     class Meta:
         permissions = (("view_participants",
@@ -195,6 +196,7 @@ class Participant(models.Model):
     #    self.payment_deadline = deadline.strftime("%d.%m.%Y")
 
 
+@encoding.python_2_unicode_compatible
 class Mail(models.Model):
     FROM_MAIL = "SET-Fahrt-Team <setfahrt@fs.tum.de>"
     semester = models.ForeignKey(
@@ -255,6 +257,7 @@ name and {{frist}} for the individual payment deadline."),
             fail_silently=False)
 
 
+@encoding.python_2_unicode_compatible
 class LogEntry(models.Model):
     participant = models.ForeignKey(
         Participant,
