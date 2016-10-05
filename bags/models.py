@@ -8,6 +8,7 @@ from django.core.mail import send_mail
 from django.utils import encoding
 
 from settool_common.models import Semester, current_semester
+from settool_common.utils import u
 
 
 class Company(models.Model):
@@ -145,7 +146,7 @@ class Mail(models.Model):
         if self.comment:
             return "{} ({})". format(self.subject, self.comment)
         else:
-            return str(self.subject)
+            return u(self.subject)
 
     def get_mail(self, request):
         # text from templates

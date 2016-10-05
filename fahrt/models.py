@@ -13,6 +13,7 @@ from django.utils import timezone, encoding
 from django_mailman.models import List
 
 from settool_common.models import Semester, Subject, current_semester
+from settool_common.utils import u
 
 
 class Fahrt(models.Model):
@@ -249,7 +250,7 @@ name and {{frist}} for the individual payment deadline."),
         if self.comment:
             return "{} ({})". format(self.subject, self.comment)
         else:
-            return str(self.subject)
+            return u(self.subject)
 
     def get_mail(self, request):
         django_engine = engines['django']
