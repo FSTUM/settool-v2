@@ -103,6 +103,10 @@
             {% if participant.status == "registered" %}
                 <br /><a href="{% url "fahrt_confirm" participant.id %}" class="btn btn-default">{% trans "confirm" %}</a>
             {% elif participant.status == "confirmed" %}
+                <br /><a href="{% url "fahrt_waitinglist" participant.id %}" class="btn btn-default">{% trans "waitinglist" %}</a>
+                <br /><a href="{% url "fahrt_cancel" participant.id %}" class="btn btn-default">{% trans "cancel" %}</a>
+            {% elif participant.status == "waitinglist" %}
+                <br /><a href="{% url "fahrt_confirm" participant.id %}" class="btn btn-default">{% trans "confirm" %}</a>
                 <br /><a href="{% url "fahrt_cancel" participant.id %}" class="btn btn-default">{% trans "cancel" %}</a>
             {% endif %}
         </td>

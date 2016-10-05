@@ -34,6 +34,19 @@ def list_registered(request):
 
 
 @permission_required('fahrt.view_participants')
+def list_waitinglist(request):
+    sem = get_semester(request)
+    semester = get_object_or_404(Semester, pk=sem)
+    participants = semester.fahrt_participant.filter(status='waitinglist'
+        ).order_by('surname')
+
+    context = {
+        'participants': participants,
+    }
+    return render(request, 'fahrt/list_waitinglist.html', context)
+
+
+@permission_required('fahrt.view_participants')
 def list_confirmed(request):
     sem = get_semester(request)
     semester = get_object_or_404(Semester, pk=sem)
@@ -186,6 +199,18 @@ def confirm(request, participant_pk):
     participant.log(request.user, "Confirmed")
 
     return redirect('fahrt_viewparticipant', participant_pk)
+
+
+@permission_required('fahrt.view_participants')
+def waitinglist(request, participant_pk):
+    participant = get_object_or_404(Participant, pk=participant_pk)
+    Participant.objects.filter(pk=participant_pk).update(
+        status="waitinglist",
+    )
+    participant.log(request.user, "On waitinglist")
+
+    return redirect('fahrt_viewparticipant', participant_pk)
+
 
 @permission_required('fahrt.view_participants')
 def set_payment_deadline(request, participant_pk, weeks):

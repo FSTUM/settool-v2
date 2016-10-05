@@ -139,6 +139,7 @@ class Participant(models.Model):
         choices=(
             ("registered", _("registered")),
             ("confirmed", _("confirmed")),
+            ("waitinglist", _("waitinglist")),
             ("cancelled", _("cancelled"))
         ),
         default="registered",

@@ -121,7 +121,8 @@ class FilterParticipantsForm(forms.Form):
             ("", "-------"),
             ("registered", _("registered")),
             ("confirmed", _("confirmed")),
-            ("cancelled", _("cancelled"))
+            ("waitinglist", _("waitinglist")),
+            ("cancelled", _("cancelled")),
         ),
         required=False,
     )
