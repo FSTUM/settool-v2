@@ -61,7 +61,7 @@ def list_confirmed(request):
     if number == 0:
         proportion_of_women = 0
     else:
-        proportion_of_women = int(num_women / number * 100)
+        proportion_of_women = int(num_women * 1.0 / number * 100)
 
     places = participants.filter(car=True).aggregate(places=Sum('car_places'))
     places = places['places'] or 0
