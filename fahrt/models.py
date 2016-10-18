@@ -241,18 +241,24 @@ name and {{frist}} for the individual payment deadline."),
 
     def send_mail(self, request, participant):
         django_engine = engines['django']
-        subject_template = django_engine.from_string(self.subject)
         context = {
             'vorname': participant.firstname,
             'frist': participant.payment_deadline,
         }
+
+        subject_template = django_engine.from_string(self.subject)
         subject = subject_template.render(context).rstrip()
 
         text_template = django_engine.from_string(self.text)
         text = text_template.render(context)
 
-        send_mail(subject, text, Mail.FROM_MAIL, [participant.email],
-            fail_silently=False)
+        if context['frist'] is None and ("{{frist}}" in self.text
+                or "{{frist}}" in self.subject):
+            return False
+        else:
+            send_mail(subject, text, Mail.FROM_MAIL, [participant.email],
+                fail_silently=False)
+            return True
 
 
 class LogEntry(models.Model):

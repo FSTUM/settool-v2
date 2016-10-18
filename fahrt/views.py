@@ -445,21 +445,30 @@ def send_mail(request, mail_pk):
     subject, text, from_email = mail.get_mail(request)
 
     form = forms.Form(request.POST or None)
+    failed_participants = []
     if form.is_valid():
         for p in participants:
-            mail.send_mail(request, p)
-            p.log(request.user, "Mail '{0}' sent".format(mail))
-        return redirect('fahrt_filter')
+            success = mail.send_mail(request, p)
+            if success:
+                p.log(request.user, "Mail '{0}' sent".format(mail))
+            else:
+                failed_participants.append(p)
+        if not failed_participants:
+            return redirect('fahrt_filter')
 
     context = {
         'participants': participants,
+        'failed_participants': failed_participants,
         'subject': subject,
         'text': text,
         'from_email': from_email,
         'form': form,
     }
 
-    return render(request, 'fahrt/send_mail.html', context)
+    if failed_participants:
+        return render(request, 'fahrt/send_mail_failure.html', context)
+    else:
+        return render(request, 'fahrt/send_mail.html', context)
 
 
 @permission_required('fahrt.view_participants')
