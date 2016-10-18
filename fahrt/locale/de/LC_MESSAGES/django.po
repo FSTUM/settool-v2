@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-10-05 13:04+0200\n"
-"PO-Revision-Date: 2016-10-05 13:05+0200\n"
+"POT-Creation-Date: 2016-10-19 00:09+0200\n"
+"PO-Revision-Date: 2016-10-19 00:11+0200\n"
 "Last-Translator: Sven Hertle <hertle@fs.tum.de>\n"
 "Language-Team: \n"
 "Language: de\n"
@@ -58,7 +58,9 @@ msgstr "Auf Mailingliste"
 
 #: fahrt/forms.py:119 fahrt/models.py:137
 #: fahrt/templates/fahrt/filtered_list.html:45
-#: fahrt/templates/fahrt/send_mail.html:43 fahrt/templates/fahrt/view.html:100
+#: fahrt/templates/fahrt/send_mail.html:43
+#: fahrt/templates/fahrt/send_mail_failure.html:33
+#: fahrt/templates/fahrt/view.html:100
 msgid "Status"
 msgstr "Status"
 
@@ -71,7 +73,7 @@ msgid "confirmed"
 msgstr "bestätigt"
 
 #: fahrt/forms.py:124 fahrt/models.py:142 fahrt/templates/fahrt/base.html:17
-#: fahrt/templates/fahrt/view.html:106
+#: fahrt/templates/fahrt/view.html:105
 msgid "waitinglist"
 msgstr "Warteliste"
 
@@ -108,7 +110,9 @@ msgstr "Weiblich"
 #: fahrt/templates/fahrt/list_confirmed.html:29
 #: fahrt/templates/fahrt/list_registered.html:29
 #: fahrt/templates/fahrt/list_waitinglist.html:29
-#: fahrt/templates/fahrt/send_mail.html:41 fahrt/templates/fahrt/view.html:18
+#: fahrt/templates/fahrt/send_mail.html:41
+#: fahrt/templates/fahrt/send_mail_failure.html:31
+#: fahrt/templates/fahrt/view.html:18
 msgid "First name"
 msgstr "Vorname"
 
@@ -117,7 +121,9 @@ msgstr "Vorname"
 #: fahrt/templates/fahrt/list_confirmed.html:30
 #: fahrt/templates/fahrt/list_registered.html:30
 #: fahrt/templates/fahrt/list_waitinglist.html:30
-#: fahrt/templates/fahrt/send_mail.html:42 fahrt/templates/fahrt/view.html:22
+#: fahrt/templates/fahrt/send_mail.html:42
+#: fahrt/templates/fahrt/send_mail_failure.html:32
+#: fahrt/templates/fahrt/view.html:22
 msgid "Surname"
 msgstr "Nachname"
 
@@ -139,7 +145,9 @@ msgstr "Handy"
 
 #: fahrt/models.py:91 fahrt/templates/fahrt/del_mail.html.py:17
 #: fahrt/templates/fahrt/index_mails.html:28
-#: fahrt/templates/fahrt/send_mail.html:32 fahrt/templates/fahrt/view.html:48
+#: fahrt/templates/fahrt/send_mail.html:32
+#: fahrt/templates/fahrt/send_mail_failure.html:22
+#: fahrt/templates/fahrt/view.html:48
 msgid "Subject"
 msgstr "Betreff"
 
@@ -179,7 +187,7 @@ msgstr "Anzahl an Leuten, die ich zusätzlich mitnehmen kann"
 msgid "Payment deadline"
 msgstr "Zahlungsfrist"
 
-#: fahrt/models.py:149 fahrt/templates/fahrt/view.html.py:112
+#: fahrt/models.py:149 fahrt/templates/fahrt/view.html.py:115
 msgid "Mailing list"
 msgstr "Mailingliste"
 
@@ -188,13 +196,15 @@ msgstr "Mailingliste"
 #: fahrt/templates/fahrt/filtered_list.html:46
 #: fahrt/templates/fahrt/index_mails.html:30
 #: fahrt/templates/fahrt/list_cancelled.html:32
-#: fahrt/templates/fahrt/send_mail.html:44 fahrt/templates/fahrt/view.html:123
+#: fahrt/templates/fahrt/send_mail.html:44
+#: fahrt/templates/fahrt/send_mail_failure.html:34
+#: fahrt/templates/fahrt/view.html:126
 msgid "Comment"
 msgstr "Kommentar"
 
 #: fahrt/models.py:160 fahrt/templates/fahrt/list_registered.html.py:31
 #: fahrt/templates/fahrt/list_waitinglist.html:31
-#: fahrt/templates/fahrt/view.html:127
+#: fahrt/templates/fahrt/view.html:130
 msgid "Registration time"
 msgstr "Anmeldezeitpunkt"
 
@@ -202,10 +212,11 @@ msgstr "Anmeldezeitpunkt"
 msgid "Email subject"
 msgstr "E-Mail Betreff"
 
-#: fahrt/models.py:239 fahrt/models.py:300
+#: fahrt/models.py:239 fahrt/models.py:306
 #: fahrt/templates/fahrt/del_mail.html:20
 #: fahrt/templates/fahrt/index_mails.html:29
 #: fahrt/templates/fahrt/send_mail.html:35
+#: fahrt/templates/fahrt/send_mail_failure.html:25
 msgid "Text"
 msgstr "Text"
 
@@ -217,7 +228,7 @@ msgstr ""
 "Du kannst {{vorname}} für den Vornamen des Teilnehmers und {{frist}} für die "
 "individuelle Zahlungsfrist verwenden."
 
-#: fahrt/models.py:305
+#: fahrt/models.py:311
 msgid "Time"
 msgstr "Zeit"
 
@@ -232,8 +243,10 @@ msgstr "Zeit"
 #: fahrt/templates/fahrt/list_registered.html:19
 #: fahrt/templates/fahrt/list_waitinglist.html:19
 #: fahrt/templates/fahrt/registration_closed.html:5
-#: fahrt/templates/fahrt/send_mail.html:5 fahrt/templates/fahrt/signup.html:5
-#: fahrt/templates/fahrt/success.html:4 fahrt/templates/fahrt/view.html:5
+#: fahrt/templates/fahrt/send_mail.html:5
+#: fahrt/templates/fahrt/send_mail_failure.html:5
+#: fahrt/templates/fahrt/signup.html:5 fahrt/templates/fahrt/success.html:4
+#: fahrt/templates/fahrt/view.html:5
 msgid "SET-Fahrt"
 msgstr "SET-Fahrt"
 
@@ -319,7 +332,7 @@ msgstr ""
 
 #: fahrt/templates/fahrt/del.html:22 fahrt/templates/fahrt/del_mail.html:31
 #: fahrt/templates/fahrt/index_mails.html:31
-#: fahrt/templates/fahrt/view.html:137
+#: fahrt/templates/fahrt/view.html:140
 msgid "Delete"
 msgstr "Löschen"
 
@@ -421,7 +434,10 @@ msgid "The SET-Fahrt is currently not open for registration."
 msgstr "Die Anmeldung zur SET-Fahrt ist aktuell nicht geöffnet."
 
 #: fahrt/templates/fahrt/send_mail.html:5
-#: fahrt/templates/fahrt/send_mail.html:9 fahrt/templates/fahrt/view.html:150
+#: fahrt/templates/fahrt/send_mail.html:9
+#: fahrt/templates/fahrt/send_mail_failure.html:5
+#: fahrt/templates/fahrt/send_mail_failure.html:9
+#: fahrt/templates/fahrt/view.html:153
 msgid "Send email"
 msgstr "E-Mail senden"
 
@@ -435,16 +451,28 @@ msgid "Send"
 msgstr "Senden"
 
 #: fahrt/templates/fahrt/send_mail.html:26
+#: fahrt/templates/fahrt/send_mail_failure.html:16
 msgid "From"
 msgstr "Von"
 
 #: fahrt/templates/fahrt/send_mail.html:29
+#: fahrt/templates/fahrt/send_mail_failure.html:19
 msgid "To"
 msgstr "An"
 
 #: fahrt/templates/fahrt/send_mail.html:29
+#: fahrt/templates/fahrt/send_mail_failure.html:19
 msgid "see table below"
 msgstr "siehe Tabelle unten"
+
+#: fahrt/templates/fahrt/send_mail_failure.html:13
+msgid ""
+"The emails were sent, but some emails failed, because a field was empty. "
+"Below you can find a list of all failed participants."
+msgstr ""
+"Die E-Mails wurden versendet, allerdings sind manche E-Mails fehlgeschlagen, "
+"weil ein Template-Feld leer war. Unten sind die fehlgeschlagenen Teilnehmer "
+"aufgelistet."
 
 #: fahrt/templates/fahrt/success.html:8
 msgid "You successfully signed up for the SET-Fahrt"
@@ -478,15 +506,15 @@ msgstr "2 Wochen"
 msgid "3 weeks"
 msgstr "3 Wochen"
 
-#: fahrt/templates/fahrt/view.html:104
+#: fahrt/templates/fahrt/view.html:104 fahrt/templates/fahrt/view.html:109
 msgid "confirm"
 msgstr "bestätigen"
 
-#: fahrt/templates/fahrt/view.html:107
+#: fahrt/templates/fahrt/view.html:107 fahrt/templates/fahrt/view.html:110
 msgid "cancel"
 msgstr "abbrechen"
 
-#: fahrt/templates/fahrt/view.html:131
+#: fahrt/templates/fahrt/view.html:134
 msgid "Edit"
 msgstr "Bearbeiten"
 
