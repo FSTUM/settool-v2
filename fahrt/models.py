@@ -8,9 +8,12 @@ from django.utils.translation import ugettext_lazy as _
 from django.core.mail import send_mail
 from django.template import engines
 from django.contrib.auth.models import User
-from django.utils import timezone
+from django.utils import timezone, encoding
+
+from django_mailman.models import List
 
 from settool_common.models import Semester, Subject, current_semester
+from settool_common.utils import u
 
 
 class Fahrt(models.Model):
@@ -36,6 +39,7 @@ class Fahrt(models.Model):
                 timezone.now() < self.close_registration)
 
 
+@encoding.python_2_unicode_compatible
 class Participant(models.Model):
     class Meta:
         permissions = (("view_participants",
@@ -135,6 +139,7 @@ class Participant(models.Model):
         choices=(
             ("registered", _("registered")),
             ("confirmed", _("confirmed")),
+            ("waitinglist", _("waitinglist")),
             ("cancelled", _("cancelled"))
         ),
         default="registered",
@@ -185,7 +190,29 @@ class Participant(models.Model):
                 datetime.timedelta(days=7)
 
     def toggle_mailinglist(self):
-        pass # TODO
+        list_name = 'setfahrt-teilnehmer'
+        list_pwd = 'codioguhup'
+        list_email = 'setfahrt-teilnehmer@fs.tum.de'
+        list_url = 'https://mail.fs.tum.de/listenadmin'
+        list_encoding = 'iso-8859-1'
+
+        mailinglist = List(
+            name=list_name,
+            password=list_pwd,
+            email=list_email,
+            main_url=list_url,
+            encoding=list_encoding,
+        )
+
+        members = mailinglist.get_all_members()
+        members = [m[0] for m in members]
+        if self.mailinglist:
+            if self.email not in members:
+                mailinglist.subscribe(self.email, self.firstname,
+                    self.surname)
+        else:
+            if self.email in members:
+                mailinglist.unsubscribe(self.email)
     
     #def set_payment_deadline(self, weeks):
     #    today = date.today()
@@ -195,6 +222,7 @@ class Participant(models.Model):
     #    self.payment_deadline = deadline.strftime("%d.%m.%Y")
 
 
+@encoding.python_2_unicode_compatible
 class Mail(models.Model):
     FROM_MAIL = "SET-Fahrt-Team <setfahrt@fs.tum.de>"
     semester = models.ForeignKey(
@@ -223,7 +251,7 @@ name and {{frist}} for the individual payment deadline."),
         if self.comment:
             return "{} ({})". format(self.subject, self.comment)
         else:
-            return str(self.subject)
+            return u(self.subject)
 
     def get_mail(self, request):
         django_engine = engines['django']
@@ -261,6 +289,7 @@ name and {{frist}} for the individual payment deadline."),
             return True
 
 
+@encoding.python_2_unicode_compatible
 class LogEntry(models.Model):
     participant = models.ForeignKey(
         Participant,

@@ -220,7 +220,7 @@ def edit_mail(request, mail_pk):
         'form': form,
         'mail': mail,
     }
-    return render(request, 'fahrt/edit_mail.html', context)
+    return render(request, 'guidedtours/edit_mail.html', context)
 
 
 @permission_required('guidedtours.view_participants')

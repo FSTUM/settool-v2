@@ -15,6 +15,7 @@
             <th>{% trans "First name" %}</th>
             <th>{% trans "Subject" %}</th>
             <th>{% trans "E-Mail" %}</th>
+            <th>{% trans "Mobile phone" %}</th>
         </tr>
     {% for p in participants %}
         <tr>
@@ -23,6 +24,7 @@
             <td>{{ p.firstname }}</td>
             <td>{{ p.subject }}</td>
             <td>{{ p.email }}</td>
+            <td>{{ p.phone }}</td>
         </tr>
     {% endfor %}
     </table>
@@ -35,6 +37,7 @@
             <th>{% trans "First name" %}</th>
             <th>{% trans "Subject" %}</th>
             <th>{% trans "E-Mail" %}</th>
+            <th>{% trans "Mobile phone" %}</th>
         </tr>
     {% for p in waitinglist %}
         <tr>
@@ -43,6 +46,7 @@
             <td>{{ p.firstname }}</td>
             <td>{{ p.subject }}</td>
             <td>{{ p.email }}</td>
+            <td>{{ p.phone }}</td>
         </tr>
     {% endfor %}
     </table>
