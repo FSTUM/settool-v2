@@ -51,7 +51,7 @@ def list_confirmed(request):
     sem = get_semester(request)
     semester = get_object_or_404(Semester, pk=sem)
     participants = semester.fahrt_participant.filter(status='confirmed'
-        ).order_by('payment_deadline', 'surname', 'prename')
+        ).order_by('payment_deadline', 'surname', 'firstname')
 
     u18s = [p for p in participants if p.u18]
     allergies = participants.exclude(allergies='').count()
