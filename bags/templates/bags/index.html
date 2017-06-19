@@ -23,15 +23,24 @@
         {% trans "List companies" %}
     </h1>
 
-    <form method="post" action="">
+    <div class="row">
+        <div class="col-xs-2">
+            <a href="{% url "listmails" %}" class="btn btn-default">{% trans "Edit Email Templates" %}</a>
+        </div>
+        <div class="col-xs-2">
+            <a href="{% url "addcompany" %}" class="btn btn-default">{% trans "Add Company" %}</a>
+        </div>
+    </div>
+
+    <form id="filterform" method="post" action="">
         {% csrf_token %}
 
     <div class="row">
         <div class="col-xs-12 col-lg-5">
             {% bootstrap_form filterform %}
-            <p><button type="submit" name="filterform" class="btn btn-default">{% trans "Filter" %}</button></p>
-            <p><a href="{% url "listmails" %}" class="btn btn-default">{% trans "Edit Email Templates" %}</a></p>
-            <p><a href="{% url "addcompany" %}" class="btn btn-default">{% trans "Add Company" %}</a></p>
+            <noscript> 
+                <button type="submit" name="filterform" class="btn btn-default">{% trans "Filter" %}</button>
+            </noscript>
         </div>
     </div>
 
@@ -48,9 +57,10 @@
         <th>{% trans "Promise" %}</th>
         <th>{% trans "Giveaways" %}</th>
         <th>{% trans "Arrival time" %}</th>
+        <th>{% trans "Arrived" %}</th>
         <th>{% trans "Comment" %}</th>
         <th>{% trans "Participated last year" %}</th>
-        <th>{% trans "Arrived" %}</th>
+        <th>{% trans "Giveaways last year" %}</th>
         <th>{% trans "Contact again" %}</th>
         <th>{% trans "Edit" %}</th>
         <th>{% trans "Delete" %}</th>
@@ -83,17 +93,18 @@
                 {% endif %}
                 <td>{{ company.giveaways }}</td>
                 <td>{{ company.arrival_time }}</td>
+                {% if company.arrived %}
+                    <td><span style="color:green" class="glyphicon glyphicon-ok"></span><span style="visibility:hidden">ja</span></td>
+                {% else %}
+                    <td><span style="color:red" class="glyphicon glyphicon-remove"></span><span style="visibility:hidden">nein</span></td>
+                {% endif %}
                 <td>{{ company.comment }}</td>
                 {% if company.last_year %}
                     <td><span style="color:green" class="glyphicon glyphicon-ok"></span><span style="visibility:hidden">ja</span></td>
                 {% else %}
                     <td><span style="color:red" class="glyphicon glyphicon-remove"></span><span style="visibility:hidden">nein</span></td>
                 {% endif %}
-                {% if company.arrived %}
-                    <td><span style="color:green" class="glyphicon glyphicon-ok"></span><span style="visibility:hidden">ja</span></td>
-                {% else %}
-                    <td><span style="color:red" class="glyphicon glyphicon-remove"></span><span style="visibility:hidden">nein</span></td>
-                {% endif %}
+                <td>{{ company.giveaways_last_year }}</td>
                 {% if company.contact_again %}
                     <td><span style="color:green" class="glyphicon glyphicon-ok"></span><span style="visibility:hidden">ja</span></td>
                 {% elif company.contact_again == False %}

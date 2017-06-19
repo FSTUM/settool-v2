@@ -62,6 +62,14 @@
         <td>{{ company.comment }}</td>
     </tr>
     <tr>
+        <th>{% trans "Arrived" %}</th>
+        {% if company.arrived %}
+            <td><span style="color:green" class="glyphicon glyphicon-ok"></span></td>
+        {% else %}
+            <td><span style="color:red" class="glyphicon glyphicon-remove"></span></td>
+        {% endif %}
+    </tr>
+    <tr>
         <th>{% trans "Participated last year" %}</th>
         {% if company.last_year %}
             <td><span style="color:green" class="glyphicon glyphicon-ok"></span></td>
@@ -70,12 +78,8 @@
         {% endif %}
     </tr>
     <tr>
-        <th>{% trans "Arrived" %}</th>
-        {% if company.arrived %}
-            <td><span style="color:green" class="glyphicon glyphicon-ok"></span></td>
-        {% else %}
-            <td><span style="color:red" class="glyphicon glyphicon-remove"></span></td>
-        {% endif %}
+        <th>{% trans "Giveaways last year" %}</th>
+        <td>{{ company.giveaways_last_year }}</td>
     </tr>
     <tr>
         <th>{% trans "Contact again" %}</th>

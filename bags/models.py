@@ -66,6 +66,12 @@ class Company(models.Model):
         blank=True,
     )
 
+    giveaways_last_year = models.CharField(
+        _("Giveaways last year"),
+        max_length=200,
+        blank=True,
+    )
+
     arrival_time = models.CharField(
         _("Arrival time"),
         max_length=200,
@@ -89,6 +95,9 @@ class Company(models.Model):
     contact_again = models.NullBooleanField(
         _("Contact again"),
     )
+
+    def __str__(self):
+        return u(self.name)
 
     @property
     def full_contact(self):

@@ -2,11 +2,11 @@
 {% load i18n %}
 {% load bootstrap3 %}
 
-{% block title %}{% trans "Freshmen bags" %} - {% trans "Edit company" %}{% endblock %}
+{% block title %}{% trans "Freshmen bags" %} - {% trans "Insert Giveaways" %}{% endblock %}
 
 {% block content %}
     <h1>
-        {% trans "Edit company" %}: {{ company.name }}
+        {% trans "Insert Giveaways" %}
     </h1>
 
     <form method="post" action="">
@@ -19,10 +19,11 @@
                 <table class="table">
                     <tr>
                         <td><button type="submit" class="btn btn-default">{% trans "Submit" %}</button></td>
-                        <td><a href="{% url "listcompanies" %}" class="btn btn-default">{% trans "Cancel" %}</a></td>
+                        <td><a href="{% url "listcompanies" %}" class="btn btn-default">{% trans "Back" %}</a></td>
                     </tr>
                 </table>
             </div>
         </div>
+
     </form>
 {% endblock %}

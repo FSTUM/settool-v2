@@ -1,12 +1,13 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from django.contrib.auth.decorators import permission_required
+from django.contrib.auth.decorators import permission_required, \
+    user_passes_test
 from django import forms
 from django.db.models import Q
 from django.forms import formset_factory
 
 from settool_common.models import get_semester, Semester
 from .forms import CompanyForm, MailForm, SelectMailForm, \
-    FilterCompaniesForm, SelectCompanyForm
+    FilterCompaniesForm, SelectCompanyForm, GiveawayForm, ImportForm
 from .models import Company, Mail
 
 @permission_required('bags.view_companies')
@@ -17,15 +18,18 @@ def index(request):
 
 
     filterform = FilterCompaniesForm(request.POST or None)
-
     if filterform.is_valid():
         search = filterform.cleaned_data['search']
         no_email_sent = filterform.cleaned_data['no_email_sent']
-        arrived = filterform.cleaned_data['arrived']
         last_year = filterform.cleaned_data['last_year']
         not_last_year = filterform.cleaned_data['not_last_year']
         contact_again = filterform.cleaned_data['contact_again']
+        promise = filterform.cleaned_data['promise']
+        no_promise = filterform.cleaned_data['no_promise']
+        giveaways = filterform.cleaned_data['giveaways']
+        arrived = filterform.cleaned_data['arrived']
 
+        companies = semester.company_set.order_by("name")
         if search:
             companies = companies.filter(
                 Q(name__icontains=search) |
@@ -34,29 +38,53 @@ def index(request):
                 Q(contact_lastname__icontains=search) |
                 Q(email__icontains=search) |
                 Q(giveaways__icontains=search) |
+                Q(giveaways_last_year__icontains=search) |
                 Q(arrival_time__icontains=search) |
                 Q(comment__icontains=search)
             )
         if no_email_sent:
             companies = companies.filter(email_sent_success=False)
-        if arrived:
-            companies = companies.filter(arrived=True)
         if last_year:
             companies = companies.filter(last_year=True)
         if not_last_year:
             companies = companies.filter(last_year=False)
         if contact_again:
             companies = companies.filter(contact_again=True)
-
-        filtered_companies = [c.id for c in companies]
-        request.session['filtered_companies'] = filtered_companies
-        return redirect('filteredcompanies')
+        if promise:
+            companies = companies.filter(promise=True)
+        if no_promise:
+            companies = companies.exclude(promise=True)
+        if giveaways:
+            companies = companies.exclude(giveaways="")
+        if arrived:
+            companies = companies.filter(arrived=True)
 
     context = {
         'companies': companies,
         'filterform': filterform,
     }
     return render(request, 'bags/index.html', context)
+
+
+@permission_required('bags.view_companies')
+def insert_giveaways(request):
+    sem = get_semester(request)
+    semester = get_object_or_404(Semester, pk=sem)
+
+    form = GiveawayForm(request.POST or None, semester=semester)
+    if form.is_valid():
+        company = form.cleaned_data['company']
+        giveaways = form.cleaned_data['giveaways']
+
+        company.giveaways = giveaways
+        company.save()
+
+        return redirect('insert_giveaways')
+
+    context = {
+        'form': form,
+    }
+    return render(request, 'bags/insert_giveaways.html', context)
 
 
 @permission_required('bags.view_companies')
@@ -249,3 +277,45 @@ def send_mail(request, mail_pk):
 
     return render(request, 'bags/send_mail.html', context)
 
+
+@user_passes_test(lambda u: u.is_staff)
+def import_companies(request):
+    sem = get_semester(request)
+    new_semester = get_object_or_404(Semester, pk=sem)
+
+    form = ImportForm(request.POST or None, semester=new_semester)
+    if form.is_valid():
+        old_semester = form.cleaned_data['semester']
+        only_contact_again = form.cleaned_data['only_contact_again']
+
+        companies = old_semester.company_set.exclude(contact_again=False)
+        if only_contact_again:
+            companies = old_semester.company_set.filter(contact_again=True)
+
+        for c in companies:
+            company = Company.objects.create(
+                semester=new_semester,
+                name=c.name,
+                contact_gender=c.contact_gender,
+                contact_firstname=c.contact_firstname,
+                contact_lastname=c.contact_lastname,
+                email=c.email,
+                email_sent=False,
+                email_sent_success=False,
+                promise=None,
+                giveaways="",
+                giveaways_last_year=c.giveaways,
+                arrival_time="",
+                comment="",
+                last_year=True,
+                arrived=False,
+                contact_again=None,
+            )
+
+        return redirect("listcompanies")
+
+    context = {
+        'form': form,
+    }
+
+    return render(request, 'bags/import_companies.html', context)
