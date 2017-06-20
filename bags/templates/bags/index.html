@@ -23,6 +23,7 @@
         {% trans "List companies" %}
     </h1>
 
+    <p>
     <div class="row">
         <div class="col-xs-2">
             <a href="{% url "listmails" %}" class="btn btn-default">{% trans "Edit Email Templates" %}</a>
@@ -30,7 +31,16 @@
         <div class="col-xs-2">
             <a href="{% url "addcompany" %}" class="btn btn-default">{% trans "Add Company" %}</a>
         </div>
+        <div class="col-xs-2">
+            <a href="{% url "insert_giveaways" %}" class="btn btn-default">{% trans "Insert Giveaways" %}</a>
+        </div>
+        {% if user.is_staff %}
+            <div class="col-xs-2">
+                <a href="{% url "import_companies" %}" class="btn btn-default">{% trans "Import Companies" %}</a>
+            </div>
+        {% endif %}
     </div>
+    </p>
 
     <form id="filterform" method="post" action="">
         {% csrf_token %}
