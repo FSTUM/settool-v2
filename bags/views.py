@@ -293,6 +293,10 @@ def import_companies(request):
             companies = old_semester.company_set.filter(contact_again=True)
 
         for c in companies:
+            # do not import company when it already exists
+            if new_semester.company_set.filter(name=c.name).exists():
+                continue
+
             company = Company.objects.create(
                 semester=new_semester,
                 name=c.name,
