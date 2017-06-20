@@ -78,7 +78,7 @@ class FilterParticipantsForm(forms.Form):
     )
 
     tour = forms.ModelChoiceField(
-        Tour,
+        queryset=None,
         label=_("Tour"),
         required=False,
     )
