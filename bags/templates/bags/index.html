@@ -4,6 +4,28 @@
 
 {% block head %}
 <script>
+    function displayTrueFalse(value, sourceData) {
+        if(value == "True") {
+            $(this).html('<span style="color:green" class="glyphicon glyphicon-ok"></span>');
+        } else if(value == "False") {
+            $(this).html('<span style="color:red" class="glyphicon glyphicon-remove"></span>');
+        } else {
+            $(this).empty();
+        }
+    }
+
+    function displayTrueFalseNone(value, sourceData) {
+        if(value == "True") {
+            $(this).html('<span style="color:green" class="glyphicon glyphicon-ok"></span>');
+        } else if(value == "False") {
+            $(this).html('<span style="color:red" class="glyphicon glyphicon-remove"></span>');
+        } else if(value == "None") {
+            $(this).html('<span class="glyphicon glyphicon-question-sign"></span>');
+        } else {
+            $(this).empty();
+        }
+    }
+
     $(function(){
         $("#bagTable").tablesorter({
             theme           : "bootstrap",
@@ -12,6 +34,78 @@
             sortReset       : true,
             sortRestart     : true
 	});
+        {% for company in companies %}
+            $("#company_{{ company.id }}_name").editable();
+            $("#company_{{ company.id }}_email").editable();
+            $("#company_{{ company.id }}_email_sent").editable({
+                escape: false,
+                value: "{{ company.email_sent }}",
+                source: [
+                    {value: "True", text: '{% trans "yes" %}'},
+                    {value: "False", text: '{% trans "no" %}'}
+                ],
+                display: displayTrueFalse
+            });
+            $("#company_{{ company.id }}_email_sent_success").editable({
+                escape: false,
+                value: "{{ company.email_sent_success }}",
+                source: [
+                    {value: "True", text: '{% trans "yes" %}'},
+                    {value: "False", text: '{% trans "no" %}'}
+                ],
+                display: displayTrueFalse
+            });
+            $("#company_{{ company.id }}_promise").editable({
+                escape: false,
+                value: "{{ company.promise }}",
+                source: [
+                    {value: "None", text: '{% trans "unknown" %}'},
+                    {value: "True", text: '{% trans "yes" %}'},
+                    {value: "False", text: '{% trans "no" %}'}
+                ],
+                display: displayTrueFalseNone
+            });
+            $("#company_{{ company.id }}_giveaways").editable({
+                emptytext: '-'
+            });
+            $("#company_{{ company.id }}_arrival_time").editable({
+                emptytext: '-'
+            });
+            $("#company_{{ company.id }}_arrived").editable({
+                escape: false,
+                value: "{{ company.arrived }}",
+                source: [
+                    {value: "True", text: '{% trans "yes" %}'},
+                    {value: "False", text: '{% trans "no" %}'}
+                ],
+                display: displayTrueFalse
+            });
+            $("#company_{{ company.id }}_comment").editable({
+                emptytext: '-'
+            });
+            $("#company_{{ company.id }}_last_year").editable({
+                escape: false,
+                value: "{{ company.last_year }}",
+                source: [
+                    {value: "True", text: '{% trans "yes" %}'},
+                    {value: "False", text: '{% trans "no" %}'}
+                ],
+                display: displayTrueFalse
+            });
+            $("#company_{{ company.id }}_giveaways_last_year").editable({
+                emptytext: '-'
+            });
+            $("#company_{{ company.id }}_contact_again").editable({
+                escape: false,
+                value: "{{ company.contact_again }}",
+                source: [
+                    {value: "None", text: '{% trans "unknown" %}'},
+                    {value: "True", text: '{% trans "yes" %}'},
+                    {value: "False", text: '{% trans "no" %}'}
+                ],
+                display: displayTrueFalseNone
+            });
+        {% endfor %}
     });
 </script>
 {% endblock %}
@@ -80,59 +174,222 @@
         {% for company in companies %}
             <tr>
                 <td>
-                    <a href="{% url "viewcompany" company.id %}">{{ company.name }}</a>
-                </td>
-                <td>{{ company.full_contact }}</td>
-                <td>{{ company.email }}</td>
-                {% if company.email_sent %}
-                    <td><span style="color:green" class="glyphicon glyphicon-ok"></span><span style="visibility:hidden">ja</span></td>
-                {% else %}
-                    <td><span style="color:red" class="glyphicon glyphicon-remove"></span><span style="visibility:hidden">nein</span></td>
-                {% endif %}
-                {% if company.email_sent_success %}
-                    <td><span style="color:green" class="glyphicon glyphicon-ok"></span><span style="visibility:hidden">ja</span></td>
-                {% else %}
-                    <td><span style="color:red" class="glyphicon glyphicon-remove"></span><span style="visibility:hidden">nein</span></td>
-                {% endif %}
-                {% if company.promise %}
-                    <td><span style="color:green" class="glyphicon glyphicon-ok"></span><span style="visibility:hidden">ja</span></td>
-                {% elif company.promise == False %}
-                    <td><span style="color:red" class="glyphicon glyphicon-remove"></span><span style="visibility:hidden">nein</span></td>
-                {% else %}
-                    <td></td>
-                {% endif %}
-                <td>{{ company.giveaways }}</td>
-                <td>{{ company.arrival_time }}</td>
-                {% if company.arrived %}
-                    <td><span style="color:green" class="glyphicon glyphicon-ok"></span><span style="visibility:hidden">ja</span></td>
-                {% else %}
-                    <td><span style="color:red" class="glyphicon glyphicon-remove"></span><span style="visibility:hidden">nein</span></td>
-                {% endif %}
-                <td>{{ company.comment }}</td>
-                {% if company.last_year %}
-                    <td><span style="color:green" class="glyphicon glyphicon-ok"></span><span style="visibility:hidden">ja</span></td>
-                {% else %}
-                    <td><span style="color:red" class="glyphicon glyphicon-remove"></span><span style="visibility:hidden">nein</span></td>
-                {% endif %}
-                <td>{{ company.giveaways_last_year }}</td>
-                {% if company.contact_again %}
-                    <td><span style="color:green" class="glyphicon glyphicon-ok"></span><span style="visibility:hidden">ja</span></td>
-                {% elif company.contact_again == False %}
-                    <td><span style="color:red" class="glyphicon glyphicon-remove"></span><span style="visibility:hidden">nein</span></td>
-                {% else %}
-                    <td></td>
-                {% endif %}
-                <td>
-                    <a href="{% url "editcompany" company.id %}"><span class="glyphicon glyphicon-edit"></span></a>
+                    <a href="{% url "viewcompany" company.id %}">
+                        <span class="glyphicon glyphicon-info-sign"></span>
+                    </a>
+                    <a href="#" id="company_{{ company.id }}_name"
+                      data-type="text"
+                      data-pk="{{company.id}}"
+                      data-title='{% trans "Company" %}'
+                      data-url='{% url "updatecompany" company.id "name" %}'
+                      data-params="{csrfmiddlewaretoken:'{{csrf_token}}'}">
+                        {{ company.name }}
+                    </a>
                 </td>
                 <td>
-                    <a href="{% url "delcompany" company.id %}"><span class="glyphicon glyphicon-trash"></span></a>
+                    {{ company.full_contact }}
+                </td>
+                <td>
+                    <a href="#" id="company_{{ company.id }}_email"
+                      data-type="text"
+                      data-pk="{{company.id}}"
+                      data-title='{% trans "E-Mail" %}'
+                      data-url='{% url "updatecompany" company.id "email" %}'
+                      data-params="{csrfmiddlewaretoken:'{{csrf_token}}'}">
+                        {{ company.email }}
+                    </a>
+                </td>
+                <td>
+                    <a href="#" id="company_{{ company.id }}_email_sent"
+                      data-type="select"
+                      data-pk="{{company.id}}"
+                      data-title='{% trans "sent" %}'
+                      data-url='{% url "updatecompany" company.id "email_sent" %}'
+                      data-params="{csrfmiddlewaretoken:'{{csrf_token}}'}">
+                        {% if company.email_sent %}
+                            <span style="color:green" class="glyphicon glyphicon-ok">
+                            </span>
+                        {% else %}
+                            <span style="color:red" class="glyphicon glyphicon-remove">
+                            </span>
+                        {% endif %}
+                    </a>
+                    {% if company.email_sent %}
+                        <span style="visibility:hidden">{% trans "yes" %}</span>
+                    {% else %}
+                        <span style="visibility:hidden">{% trans "no" %}</span>
+                    {% endif %}
+                </td>
+                <td>
+                    <a href="#" id="company_{{ company.id }}_email_sent_success"
+                      data-type="select"
+                      data-pk="{{company.id}}"
+                      data-title='{% trans "successfully sent" %}'
+                      data-url='{% url "updatecompany" company.id "email_sent_success" %}'
+                      data-params="{csrfmiddlewaretoken:'{{csrf_token}}'}">
+                        {% if company.email_sent_success %}
+                            <span style="color:green" class="glyphicon glyphicon-ok">
+                            </span>
+                        {% else %}
+                            <span style="color:red" class="glyphicon glyphicon-remove">
+                            </span>
+                        {% endif %}
+                    </a>
+                    {% if company.email_sent_success %}
+                        <span style="visibility:hidden">{% trans "yes" %}</span>
+                    {% else %}
+                        <span style="visibility:hidden">{% trans "no" %}</span>
+                    {% endif %}
+                </td>
+                <td>
+                    <a href="#" id="company_{{ company.id }}_promise"
+                      data-type="select"
+                      data-pk="{{company.id}}"
+                      data-title='{% trans "Promise" %}'
+                      data-url='{% url "updatecompany" company.id "promise" %}'
+                      data-params="{csrfmiddlewaretoken:'{{csrf_token}}'}">
+                        {% if company.promise %}
+                            <span style="color:green" class="glyphicon glyphicon-ok">
+                            </span>
+                        {% elif company.promise == False %}
+                            <span style="color:red" class="glyphicon glyphicon-remove">
+                            </span>
+                        {% else %}
+                            <span class="glyphicon glyphicon-question-sign">
+                            </span>
+                        {% endif %}
+                    </a>
+                    {% if company.promise %}
+                        <span style="visibility:hidden">{% trans "yes" %}</span>
+                    {% elif company.promise == False %}
+                        <span style="visibility:hidden">{% trans "no" %}</span>
+                    {% else %}
+                        <span style="visibility:hidden">{% trans "unknown" %}</span>
+                    {% endif %}
+                </td>
+                <td>
+                    <a href="#" id="company_{{ company.id }}_giveaways"
+                      data-type="text"
+                      data-pk="{{company.id}}"
+                      data-title='{% trans "Giveaways" %}'
+                      data-url='{% url "updatecompany" company.id "giveaways" %}'
+                      data-params="{csrfmiddlewaretoken:'{{csrf_token}}'}">
+                        {{ company.giveaways }}
+                    </a>
+                </td>
+                <td>
+                    <a href="#" id="company_{{ company.id }}_arrival_time"
+                      data-type="text"
+                      data-pk="{{company.id}}"
+                      data-title='{% trans "Arrival time" %}'
+                      data-url='{% url "updatecompany" company.id "arrival_time" %}'
+                      data-params="{csrfmiddlewaretoken:'{{csrf_token}}'}">
+                        {{ company.arrival_time }}
+                    </a>
+                </td>
+                <td>
+                    <a href="#" id="company_{{ company.id }}_arrived"
+                      data-type="select"
+                      data-pk="{{company.id}}"
+                      data-title='{% trans "Arrived" %}'
+                      data-url='{% url "updatecompany" company.id "arrived" %}'
+                      data-params="{csrfmiddlewaretoken:'{{csrf_token}}'}">
+                        {% if company.arrived %}
+                            <span style="color:green" class="glyphicon glyphicon-ok">
+                            </span>
+                        {% else %}
+                            <span style="color:red" class="glyphicon glyphicon-remove">
+                            </span>
+                        {% endif %}
+                    </a>
+                    {% if company.arrived %}
+                        <span style="visibility:hidden">{% trans "yes" %}</span>
+                    {% else %}
+                        <span style="visibility:hidden">{% trans "no" %}</span>
+                    {% endif %}
+                </td>
+                <td>
+                    <a href="#" id="company_{{ company.id }}_comment"
+                      data-type="text"
+                      data-pk="{{company.id}}"
+                      data-title='{% trans "Comment" %}'
+                      data-url='{% url "updatecompany" company.id "comment" %}'
+                      data-params="{csrfmiddlewaretoken:'{{csrf_token}}'}">
+                        {{ company.comment }}
+                    </a>
+                </td>
+                <td>
+                    <a href="#" id="company_{{ company.id }}_last_year"
+                      data-type="select"
+                      data-pk="{{company.id}}"
+                      data-title='{% trans "Participated last year" %}'
+                      data-url='{% url "updatecompany" company.id "last_year" %}'
+                      data-params="{csrfmiddlewaretoken:'{{csrf_token}}'}">
+                        {% if company.last_year %}
+                            <span style="color:green" class="glyphicon glyphicon-ok">
+                            </span>
+                        {% else %}
+                            <span style="color:red" class="glyphicon glyphicon-remove">
+                            </span>
+                        {% endif %}
+                    </a>
+                    {% if company.last_year %}
+                        <span style="visibility:hidden">{% trans "yes" %}</span>
+                    {% else %}
+                        <span style="visibility:hidden">{% trans "no" %}</span>
+                    {% endif %}
+                </td>
+                <td>
+                    <a href="#" id="company_{{ company.id }}_giveaways_last_year"
+                      data-type="text"
+                      data-pk="{{company.id}}"
+                      data-title='{% trans "Giveaways last year" %}'
+                      data-url='{% url "updatecompany" company.id "giveaways_last_year" %}'
+                      data-params="{csrfmiddlewaretoken:'{{csrf_token}}'}">
+                        {{ company.giveaways_last_year }}
+                    </a>
+                </td>
+                <td>
+                    <a href="#" id="company_{{ company.id }}_contact_again"
+                      data-type="select"
+                      data-pk="{{company.id}}"
+                      data-title='{% trans "Enter contact again" %}'
+                      data-url='{% url "updatecompany" company.id "contact_again" %}'
+                      data-params="{csrfmiddlewaretoken:'{{csrf_token}}'}">
+                        {% if company.contact_again %}
+                            <span style="color:green" class="glyphicon glyphicon-ok">
+                            </span>
+                        {% elif company.contact_again == False %}
+                            <span style="color:red" class="glyphicon glyphicon-remove">
+                            </span>
+                        {% else %}
+                            <span style="color:red"
+                              class="glyphicon glyphicon-question-sign">
+                            </span>
+                        {% endif %}
+                    </a>
+                    {% if company.contact_again %}
+                        <span style="visibility:hidden">{% trans "yes" %}</span>
+                    {% elif company.contact_again == False %}
+                        <span style="visibility:hidden">{% trans "no" %}</span>
+                    {% else %}
+                        <span style="visibility:hidden">{% trans "unknown" %}</span>
+                    {% endif %}
+                </td>
+                <td>
+                    <a href="{% url "editcompany" company.id %}">
+                        <span class="glyphicon glyphicon-edit"></span>
+                    </a>
+                </td>
+                <td>
+                    <a href="{% url "delcompany" company.id %}">
+                        <span class="glyphicon glyphicon-trash"></span>
+                    </a>
                 </td>
             </tr>
         {% endfor %}
     </tbody>
     </table>
-
     </form>
 {% endblock %}
 

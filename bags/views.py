@@ -1,13 +1,17 @@
+import simplejson
+
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import permission_required, \
     user_passes_test
 from django import forms
 from django.db.models import Q
 from django.forms import formset_factory
+from django.http import HttpResponse, HttpResponseBadRequest
 
 from settool_common.models import get_semester, Semester
 from .forms import CompanyForm, MailForm, SelectMailForm, \
-    FilterCompaniesForm, SelectCompanyForm, GiveawayForm, ImportForm
+    FilterCompaniesForm, SelectCompanyForm, GiveawayForm, ImportForm, \
+    UpdateFieldForm
 from .models import Company, Mail
 
 @permission_required('bags.view_companies')
@@ -173,6 +177,28 @@ def edit(request, company_pk):
     context = {'form': form,
         'company': company}
     return render(request, 'bags/edit.html', context)
+
+
+@permission_required('bags.view_companies')
+def update_field(request, company_pk, field):
+    company = get_object_or_404(Company, pk=company_pk)
+
+    form = UpdateFieldForm(request.POST or None)
+    if form.is_valid():
+        pk = form.cleaned_data['pk']
+        name = form.cleaned_data['name']
+        value = form.cleaned_data['value']
+
+        if pk != company.pk or \
+                name != "company_{}_{}".format(company.pk, field):
+            return HttpResponseBadRequest('')
+
+        changes = {}
+        changes[field] = value
+        Company.objects.filter(pk=company.pk).update(**changes)
+        return HttpResponse('')
+
+    return HttpResponseBadRequest('')
 
 
 @permission_required('bags.view_companies')

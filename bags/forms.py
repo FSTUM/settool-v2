@@ -150,3 +150,11 @@ class ImportForm(forms.Form):
         super(ImportForm, self).__init__(*args, **kwargs)
 
         self.fields['semester'].queryset = Semester.objects.exclude(pk=semester.pk)
+
+
+class UpdateFieldForm(forms.Form):
+    pk = forms.IntegerField()
+
+    name = forms.CharField()
+
+    value = forms.CharField()

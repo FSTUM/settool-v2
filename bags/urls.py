@@ -19,4 +19,6 @@ urlpatterns = [
         name="delmail"),
     url(r'^emails/send/(?P<mail_pk>[0-9]+)/$', views.send_mail,
         name="sendmail"),
+    url(r'^update/(?P<company_pk>[0-9]+)/(?P<field>[a-z_]+)/$',
+        views.update_field, name='updatecompany'),
 ]
