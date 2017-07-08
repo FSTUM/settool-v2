@@ -20,7 +20,6 @@ def index(request):
     semester = get_object_or_404(Semester, pk=sem)
     companies = semester.company_set.order_by("name")
 
-
     filterform = FilterCompaniesForm(request.POST or None)
     if filterform.is_valid():
         search = filterform.cleaned_data['search']
@@ -63,9 +62,51 @@ def index(request):
         if arrived:
             companies = companies.filter(arrived=True)
 
+    if "mailform" in request.POST:
+        mailform = SelectMailForm(request.POST, semester=semester)
+        SelectCompanyFormSet = formset_factory(SelectCompanyForm, extra=0)
+        companyforms = SelectCompanyFormSet(request.POST,
+            initial=[{'id': c.id, 'selected': True} for c in companies],
+        )
+    else:
+        mailform = SelectMailForm(None, semester=semester)
+        SelectCompanyFormSet = formset_factory(SelectCompanyForm, extra=0)
+        companyforms = SelectCompanyFormSet(None,
+            initial=[{'id': c.id, 'selected': True} for c in companies],
+        )
+
+    if "mailform" in request.POST and mailform.is_valid() and \
+            companyforms.is_valid():
+        mail = mailform.cleaned_data['mail']
+
+        selected_companies = []
+        for i, company in enumerate(companyforms):
+            try:
+                company_id = company.cleaned_data['id']
+            except KeyError:
+                continue
+            try:
+                selected = company.cleaned_data['selected']
+            except KeyError:
+                selected = False
+            if selected:
+                selected_companies.append(company_id)
+
+        request.session['selected_companies'] = selected_companies
+        return redirect('sendmail', mail.id)
+
+    companies_and_select = []
+    for c in companies:
+        for s in companyforms:
+            if s.initial['id'] == c.id:
+                companies_and_select.append((c, s))
+                break
+
     context = {
-        'companies': companies,
+        'companies': companies_and_select,
         'filterform': filterform,
+        'mailform': mailform,
+        'companyforms': companyforms,
     }
     return render(request, 'bags/index.html', context)
 
@@ -89,55 +130,6 @@ def insert_giveaways(request):
         'form': form,
     }
     return render(request, 'bags/insert_giveaways.html', context)
-
-
-@permission_required('bags.view_companies')
-def filtered_index(request):
-    filtered_companies = request.session['filtered_companies']
-    sem = get_semester(request)
-    semester = get_object_or_404(Semester, pk=sem)
-    companies = semester.company_set.filter(id__in=filtered_companies
-        ).order_by("name")
-
-    form = SelectMailForm(request.POST or None, semester=semester)
-    SelectCompanyFormSet = formset_factory(SelectCompanyForm, extra=0)
-    companyforms = SelectCompanyFormSet(request.POST or None,
-        initial=[{'id': c.id, 'selected': True} for c in companies],
-    )
-
-    if form.is_valid() and companyforms.is_valid():
-        mail = form.cleaned_data['mail']
-
-        selected_companies = []
-        for i, company in enumerate(companyforms):
-            try:
-                company_id = company.cleaned_data['id']
-            except KeyError:
-                print(i, "no id")
-                continue
-            try:
-                selected = company.cleaned_data['selected']
-            except KeyError:
-                selected = False
-            if selected:
-                selected_companies.append(company_id)
-
-        request.session['selected_companies'] = selected_companies
-        return redirect('sendmail', mail.id)
-
-    companies_and_select = []
-    for c in companies:
-        for s in companyforms:
-            if s.initial['id'] == c.id:
-                companies_and_select.append((c, s))
-                break
-
-    context = {
-        'companies': companies_and_select,
-        'form': form,
-        'companyforms': companyforms,
-    }
-    return render(request, 'bags/filtered_index.html', context)
 
 
 @permission_required('bags.view_companies')

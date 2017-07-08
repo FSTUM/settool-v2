@@ -130,7 +130,7 @@ class Company(models.Model):
 
 @encoding.python_2_unicode_compatible
 class Mail(models.Model):
-    FROM_MAIL = "Erstitüten-Team des SET-Referats <set-tueten@fs.tum.de>"
+    FROM_MAIL = 'Sponsoring Team des SET-Referats <set-tueten@fs.tum.de>'
     semester = models.ForeignKey(
         Semester,
     )

@@ -34,7 +34,7 @@
             sortReset       : true,
             sortRestart     : true
 	});
-        {% for company in companies %}
+        {% for company, select in companies %}
             $("#company_{{ company.id }}_name").editable();
             $("#company_{{ company.id }}_email").editable();
             $("#company_{{ company.id }}_email_sent").editable({
@@ -119,17 +119,17 @@
 
     <p>
     <div class="row">
-        <div class="col-xs-2">
+        <div class="col-lg-2">
             <a href="{% url "listmails" %}" class="btn btn-default">{% trans "Edit Email Templates" %}</a>
         </div>
-        <div class="col-xs-2">
+        <div class="col-lg-2">
             <a href="{% url "addcompany" %}" class="btn btn-default">{% trans "Add Company" %}</a>
         </div>
-        <div class="col-xs-2">
+        <div class="col-lg-2">
             <a href="{% url "insert_giveaways" %}" class="btn btn-default">{% trans "Insert Giveaways" %}</a>
         </div>
         {% if user.is_staff %}
-            <div class="col-xs-2">
+            <div class="col-lg-2">
                 <a href="{% url "import_companies" %}" class="btn btn-default">{% trans "Import Companies" %}</a>
             </div>
         {% endif %}
@@ -139,20 +139,27 @@
     <form id="filterform" method="post" action="">
         {% csrf_token %}
 
-    <div class="row">
-        <div class="col-xs-12 col-lg-5">
-            {% bootstrap_form filterform %}
-            <noscript> 
-                <button type="submit" name="filterform" class="btn btn-default">{% trans "Filter" %}</button>
-            </noscript>
+        <div class="row">
+            <div class="col-xs-12 col-lg-5">
+                {% bootstrap_form filterform %}
+                <noscript> 
+                    <button type="submit" name="filterform" class="btn btn-default">{% trans "Filter" %}</button>
+                </noscript>
+            </div>
         </div>
-    </div>
+    </form>
 
     <p></p>
+
+    <form id="companyselectform" method="post" action="">
+        {% csrf_token %}
+        {{ companyforms.management_form }}
 
     <table id="bagTable" class="table tablesorter">
     <thead>
     <tr>
+        <th></th>
+        <th><span class="glyphicon glyphicon-info-sign"></span></th>
         <th>{% trans "Company" %}</th>
         <th>{% trans "Contact" %}</th>
         <th>{% trans "E-Mail" %}</th>
@@ -171,12 +178,18 @@
     </tr>
     </thead>
     <tbody>
-        {% for company in companies %}
+        {% for company, select in companies %}
             <tr>
+                <td>
+                    {{ select.id.as_hidden }}
+                    {{ select.selected }}
+                </td>
                 <td>
                     <a href="{% url "viewcompany" company.id %}">
                         <span class="glyphicon glyphicon-info-sign"></span>
                     </a>
+                </td>
+                <td>
                     <a href="#" id="company_{{ company.id }}_name"
                       data-type="text"
                       data-pk="{{company.id}}"
@@ -390,6 +403,12 @@
         {% endfor %}
     </tbody>
     </table>
+    <div class="row">
+        <div class="col-xs-12 col-lg-5">
+            {% bootstrap_form mailform %}
+            <p><button type="submit" name="mailform" class="btn btn-default">{% trans "Send emails" %}</button></p>
+        </div>
+    </div>
     </form>
 {% endblock %}
 
