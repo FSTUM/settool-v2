@@ -158,6 +158,13 @@ class Task(models.Model):
         blank=True,
     )
 
+    task_requirements = models.ManyToManyField(
+        'Question',
+        verbose_name=_("Task requirements"),
+        through="Requirement",
+        blank=True,
+    )
+
     def __str__(self):
         return u(self.name)
 
@@ -219,3 +226,70 @@ class TutorAssignment(models.Model):
 
     def __str__(self):
         return "{} @ {}".format(self.tutor, self.group)
+
+
+class Question(models.Model):
+    question = models.CharField(
+        _("Question"),
+        max_length=100,
+    )
+
+    tutor_answers = models.ManyToManyField(
+        Tutor,
+        verbose_name=_("Assigned tutors"),
+        through='Answer',
+        blank=True,
+    )
+
+    def __str__(self):
+        return u(self.question)
+
+
+class Answer(models.Model):
+    YES = 'YES'
+    NO = 'NO'
+    MAYBE = 'MAYBE'
+    ANSWERS = (
+        (YES, _("yes")),
+        (MAYBE, _("if need be")),
+        (NO, _("no")),
+    )
+
+    tutor = models.ForeignKey(
+        Tutor,
+        on_delete=models.CASCADE,
+    )
+
+    question = models.ForeignKey(
+        Question,
+        on_delete=models.CASCADE,
+    )
+
+    answer = models.CharField(
+        _("Answer"),
+        max_length=10,
+        blank=True,
+        choices=ANSWERS,
+    )
+
+    def __str__(self):
+        return "{}: {} -> {}".format(self.tutor, self.question, u(self.answer))
+
+
+class Requirement(models.Model):
+    task = models.ForeignKey(
+        Task,
+        on_delete=models.CASCADE,
+    )
+
+    question = models.ForeignKey(
+        Question,
+        on_delete=models.CASCADE,
+    )
+
+    inverse = models.BooleanField(
+        _("inverse answer"),
+    )
+
+    def __str__(self):
+        return "{}: {}".format(self.task, self.question)
