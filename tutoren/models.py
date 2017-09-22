@@ -43,12 +43,11 @@ class Tutor(models.Model):
     id = models.UUIDField(
         primary_key=True,
         default=uuid.uuid4,
-        editable=False
+        editable=False,
     )
 
     semester = models.OneToOneField(
         Semester,
-        editable=False,
         verbose_name=_("Semester"),
         on_delete=models.CASCADE,
     )
@@ -116,3 +115,107 @@ class Tutor(models.Model):
 
     def __str__(self):
         return "{0} {1}".format(u(self.first_name), u(self.last_name))
+
+
+class Task(models.Model):
+    id = models.UUIDField(
+        primary_key=True,
+        default=uuid.uuid4,
+        editable=False,
+    )
+
+    semester = models.OneToOneField(
+        Semester,
+        verbose_name=_("Semester"),
+        on_delete=models.CASCADE,
+    )
+
+    name = models.CharField(
+        _("Task name"),
+        max_length=50,
+    )
+
+    begin = models.DateTimeField(
+        _("Begin"),
+    )
+
+    end = models.DateTimeField(
+        _("End"),
+    )
+
+    description = models.TextField(
+        _("Description"),
+    )
+
+    meeting_point = models.CharField(
+        _("Meeting point"),
+        max_length=50,
+    )
+
+    prevented_tutors = models.ManyToManyField(
+        Tutor,
+        verbose_name=_("Prevented Tutors"),
+        blank=True,
+    )
+
+    def __str__(self):
+        return u(self.name)
+
+
+class Group(models.Model):
+    id = models.UUIDField(
+        primary_key=True,
+        default=uuid.uuid4,
+        editable=False,
+    )
+
+    task = models.ForeignKey(
+        Task,
+        verbose_name=_("Task"),
+        on_delete=models.CASCADE,
+    )
+
+    number = models.CharField(
+        _("Group number"),
+        max_length=20,
+    )
+
+    required_tutors = models.IntegerField(
+        _("Number of required tutors"),
+    )
+
+    subjects = models.ManyToManyField(
+        Subject,
+        verbose_name=_("Allowed subjects"),
+        blank=True,
+    )
+
+    tutors = models.ManyToManyField(
+        Tutor,
+        verbose_name=_("Assigned tutors"),
+        through='TutorAssignment', 
+        blank=True,
+    )
+
+    def __str__(self):
+        return "{} - {}".format(self.task, u(self.number))
+
+
+class TutorAssignment(models.Model):
+    tutor = models.ForeignKey(
+        Tutor,
+        on_delete=models.CASCADE,
+    )
+
+    group = models.ForeignKey(
+        Group,
+        on_delete=models.CASCADE,
+    )
+
+    absent = models.BooleanField(
+        _("absent"),
+        default=False,
+    )
+
+    def __str__(self):
+        return "{} @ {}".format(self.tutor, self.group)
