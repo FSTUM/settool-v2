@@ -53,4 +53,8 @@ urlpatterns = [
 
     # SET-Fahrt
     url(r'^fahrt/', include('fahrt.urls')),
+
+    # Tutoren
+    url(r'^tutoren/', include('tutoren.urls')),
+
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

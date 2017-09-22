@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'guidedtours',
     'bags',
     'fahrt',
+    'tutoren',
 ]
 
 MIDDLEWARE_CLASSES = [
