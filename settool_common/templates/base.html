@@ -83,6 +83,19 @@
                     {% endif %}
                     {# end choose semester #}
 
+                    {# links to the apps' index pages #}
+                    <ul class="nav navbar-nav navbar-left">
+                        {% if 'fahrt.view_participants' in perms %}
+                            <li><a href="{% url "fahrt_index" %}">{% trans "SET-Fahrt" %}</a></li>
+                        {% endif %}
+                        {% if 'bags.view_companies' in perms %}
+                            <li><a href="{% url "listcompanies" %}">{% trans "SET-Tüten" %}</a></li>
+                        {% endif %}
+                        {% if 'guidedtours.view_participants' in perms %}
+                            <li><a href="{% url "tours_list" %}">{% trans "Institutsführungen" %}</a></li>
+                        {% endif %}
+                    </ul>
+
                     {# language chooser #}
                     <form action="{% url 'set_language' %}" method="post" class="navbar-form navbar-right" role="form">
                         <div class="form-group">
