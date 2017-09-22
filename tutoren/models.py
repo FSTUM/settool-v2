@@ -9,6 +9,24 @@ from settool_common.models import Semester, Subject
 from settool_common.utils import u
 
 
+class Registration(models.Model):
+    semester = models.OneToOneField(
+        Semester,
+    )
+
+    open_registration = models.DateTimeField(
+        _("Open registration"),
+    )
+
+    close_registration = models.DateTimeField(
+        _("Close registration"),
+    )
+
+    def registration_open(self):
+        return (self.open_registration < timezone.now() and
+                timezone.now() < self.close_registration)
+
+
 class Status(models.Model):
     name = models.CharField(
         _("Status name"),
