@@ -99,6 +99,9 @@ class Company(models.Model):
     def __str__(self):
         return u(self.name)
 
+    def __unicode__(self):
+        return self.__str__()
+
     @property
     def full_contact(self):
         return "{} {} {}".format(self.contact_gender, self.contact_firstname,
@@ -153,7 +156,7 @@ class Mail(models.Model):
 
     def __str__(self):
         if self.comment:
-            return "{} ({})". format(self.subject, self.comment)
+            return "{} ({})". format(u(self.subject), u(self.comment))
         else:
             return u(self.subject)
 

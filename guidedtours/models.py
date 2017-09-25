@@ -5,6 +5,7 @@ from django.template import engines
 from django.utils import timezone, encoding
 
 from settool_common.models import Semester, Subject
+from settool_common.utils import u
 
 @encoding.python_2_unicode_compatible
 class Tour(models.Model):
@@ -44,7 +45,7 @@ class Tour(models.Model):
     )
 
     def __str__(self):
-        return self.name
+        return u(self.name)
 
     @property
     def registration_open(self):
@@ -89,7 +90,7 @@ class Participant(models.Model):
     )
 
     def __str__(self):
-        return "{} {}".format(self.firstname, self.surname)
+        return "{} {}".format(u(self.firstname), u(self.surname))
 
     @property
     def on_the_tour(self):
@@ -133,9 +134,9 @@ tour."),
 
     def __str__(self):
         if self.comment:
-            return "{} ({})". format(self.subject, self.comment)
+            return "{} ({})". format(u(self.subject), u(self.comment))
         else:
-            return self.subject
+            return u(self.subject)
 
     def get_mail(self, request):
         django_engine = engines['django']
