@@ -156,7 +156,7 @@ class Mail(models.Model):
 
     def __str__(self):
         if self.comment:
-            return "{} ({})". format(u(self.subject), u(self.comment))
+            return u("{} ({})"). format(u(self.subject), u(self.comment))
         else:
             return u(self.subject)
 

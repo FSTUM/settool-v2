@@ -162,7 +162,7 @@ class Participant(models.Model):
     )
 
     def __str__(self):
-        return "{0} {1}".format(u(self.firstname), u(self.surname))
+        return u("{0} {1}").format(u(self.firstname), u(self.surname))
 
     def log(self, user, text):
         LogEntry.objects.create(
@@ -249,7 +249,7 @@ name and {{frist}} for the individual payment deadline."),
 
     def __str__(self):
         if self.comment:
-            return "{} ({})". format(u(self.subject), u(self.comment))
+            return u("{} ({})"). format(u(self.subject), u(self.comment))
         else:
             return u(self.subject)
 
@@ -313,4 +313,4 @@ class LogEntry(models.Model):
     )
 
     def __str__(self):
-        return "{0}, {1}: {2}".format(self.time, self.user, u(self.text))
+        return u("{0}, {1}: {2}").format(self.time, self.user, u(self.text))

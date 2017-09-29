@@ -90,7 +90,7 @@ class Participant(models.Model):
     )
 
     def __str__(self):
-        return "{} {}".format(u(self.firstname), u(self.surname))
+        return u("{} {}").format(u(self.firstname), u(self.surname))
 
     @property
     def on_the_tour(self):
@@ -134,7 +134,7 @@ tour."),
 
     def __str__(self):
         if self.comment:
-            return "{} ({})". format(u(self.subject), u(self.comment))
+            return u("{} ({})"). format(u(self.subject), u(self.comment))
         else:
             return u(self.subject)
 

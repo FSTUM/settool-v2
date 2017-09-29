@@ -3,6 +3,7 @@ from django.contrib.auth.decorators import permission_required
 from django.forms import formset_factory
 from django import forms
 from django.utils import timezone
+from django.db.models import Q
 
 from .models import Tour, Participant, Mail
 from .forms import ParticipantForm, TourForm, FilterParticipantsForm, \
