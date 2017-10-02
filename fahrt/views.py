@@ -162,7 +162,7 @@ def toggle_mailinglist(request, participant_pk):
         mailinglist=(not participant.mailinglist),
     )
     participant = get_object_or_404(Participant, pk=participant_pk)
-    participant.toggle_mailinglist() # TODO does nothing
+    participant.toggle_mailinglist()
     participant.log(request.user, "Toggle mailinglist")
 
     return redirect('fahrt_viewparticipant', participant.id)

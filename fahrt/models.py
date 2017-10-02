@@ -208,8 +208,7 @@ class Participant(models.Model):
         members = [m[0] for m in members]
         if self.mailinglist:
             if self.email not in members:
-                mailinglist.subscribe(self.email, self.firstname,
-                    self.surname)
+                mailinglist.subscribe(self.email, "", "")
         else:
             if self.email in members:
                 mailinglist.unsubscribe(self.email)
