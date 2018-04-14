@@ -10,8 +10,6 @@ from django.template import engines
 from django.contrib.auth.models import User
 from django.utils import timezone, encoding
 
-from django_mailman.models import List
-
 from settool_common.models import Semester, Subject, current_semester
 from settool_common.utils import u
 
@@ -162,7 +160,7 @@ class Participant(models.Model):
     )
 
     def __str__(self):
-        return u("{0} {1}").format(u(self.firstname), u(self.surname))
+        return "{0} {1}".format(self.firstname, self.surname)
 
     def log(self, user, text):
         LogEntry.objects.create(
@@ -190,28 +188,7 @@ class Participant(models.Model):
                 datetime.timedelta(days=7)
 
     def toggle_mailinglist(self):
-        list_name = 'setfahrt-teilnehmer'
-        list_pwd = 'codioguhup'
-        list_email = 'setfahrt-teilnehmer@fs.tum.de'
-        list_url = 'https://mail.fs.tum.de/listenadmin'
-        list_encoding = 'iso-8859-1'
-
-        mailinglist = List(
-            name=list_name,
-            password=list_pwd,
-            email=list_email,
-            main_url=list_url,
-            encoding=list_encoding,
-        )
-
-        members = mailinglist.get_all_members()
-        members = [m[0] for m in members]
-        if self.mailinglist:
-            if self.email not in members:
-                mailinglist.subscribe(self.email, "", "")
-        else:
-            if self.email in members:
-                mailinglist.unsubscribe(self.email)
+        pass # not implemented
     
     #def set_payment_deadline(self, weeks):
     #    today = date.today()
@@ -248,7 +225,7 @@ name and {{frist}} for the individual payment deadline."),
 
     def __str__(self):
         if self.comment:
-            return u("{} ({})"). format(u(self.subject), u(self.comment))
+            return "{} ({})". format(self.subject, self.comment)
         else:
             return u(self.subject)
 
@@ -312,4 +289,4 @@ class LogEntry(models.Model):
     )
 
     def __str__(self):
-        return u("{0}, {1}: {2}").format(self.time, self.user, u(self.text))
+        return "{0}, {1}: {2}".format(self.time, self.user, self.text)
