@@ -14,7 +14,7 @@ urlpatterns = [
     url(r'^del/(?P<tour_pk>[0-9]+)/$', views.delete,
         name="tours_del"),
     url(r'^success/$', views.signup_success, name='tours_signup_success'),
-    url(r'^filter/$', views.filter, name='tours_filter'),
+    url(r'^filter/$', views.filter_participants, name='tours_filter'),
     url(r'^filtered/$', views.filtered_list,
         name='tours_filteredparticipants'),
     url(r'^emails/$', views.index_mails, name='tours_listmails'),

@@ -1,8 +1,10 @@
 from __future__ import unicode_literals
+
 import uuid
 
-from django.db import models
 from django.core.validators import RegexValidator
+from django.db import models
+from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 
 from settool_common.models import Semester, Subject
@@ -12,6 +14,7 @@ from settool_common.utils import u
 class Registration(models.Model):
     semester = models.OneToOneField(
         Semester,
+        on_delete=None
     )
 
     open_registration = models.DateTimeField(
@@ -23,14 +26,13 @@ class Registration(models.Model):
     )
 
     def registration_open(self):
-        return (self.open_registration < timezone.now() and
-                timezone.now() < self.close_registration)
+        return self.open_registration < timezone.now() < self.close_registration
 
 
 class Status(models.Model):
     name = models.CharField(
         _("Status name"),
-        max_length = 30,
+        max_length=30,
     )
 
     default_status = models.BooleanField(
@@ -98,8 +100,7 @@ class Tutor(models.Model):
         max_length=8,
         validators=[RegexValidator(
             r'^[0-9]{8,8}$',
-            message=_('The matriculation number has to be of the form ' \
-                '01234567.'),
+            message=_('The matriculation number has to be of the form 01234567.'),
         )],
     )
 
@@ -218,7 +219,7 @@ class Group(models.Model):
     tutors = models.ManyToManyField(
         Tutor,
         verbose_name=_("Assigned tutors"),
-        through='TutorAssignment', 
+        through='TutorAssignment',
         blank=True,
     )
 

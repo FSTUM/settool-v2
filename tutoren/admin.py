@@ -1,7 +1,7 @@
 from django.contrib import admin
 
 from .models import (Status, Tutor, Task, Group, TutorAssignment, Answer,
-        Question, Requirement, Registration)
+                     Question, Requirement, Registration)
 
 admin.site.register(Status)
 admin.site.register(Tutor)

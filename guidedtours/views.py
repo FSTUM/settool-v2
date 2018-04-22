@@ -1,14 +1,15 @@
-from django.shortcuts import render, get_object_or_404, redirect
+from django import forms
 from django.contrib.auth.decorators import permission_required
 from django.forms import formset_factory
-from django import forms
+from django.shortcuts import render, get_object_or_404, redirect
 from django.utils import timezone
 from django.db.models import Q
 
-from .models import Tour, Participant, Mail
+from settool_common.models import get_semester, Semester
 from .forms import ParticipantForm, TourForm, FilterParticipantsForm, \
     SelectMailForm, SelectParticipantForm, MailForm
-from settool_common.models import get_semester, Semester
+from .models import Tour, Participant, Mail
+
 
 @permission_required('guidedtours.view_participants')
 def index(request):
@@ -39,7 +40,7 @@ def add(request):
     semester = get_object_or_404(Semester, pk=sem)
 
     form = TourForm(request.POST or None,
-            semester=semester)
+                    semester=semester)
 
     if form.is_valid():
         form.save()
@@ -57,8 +58,8 @@ def edit(request, tour_pk):
     tour = get_object_or_404(Tour, pk=tour_pk)
 
     form = TourForm(request.POST or None,
-            semester=tour.semester,
-            instance=tour)
+                    semester=tour.semester,
+                    instance=tour)
     if form.is_valid():
         form.save()
 
@@ -89,14 +90,14 @@ def delete(request, tour_pk):
 
 
 @permission_required('guidedtours.view_participants')
-def filter(request):
+def filter_participants(request):
     sem = get_semester(request)
     semester = get_object_or_404(Semester, pk=sem)
     participants = Participant.objects.filter(
         tour__semester=semester.id).order_by('surname')
 
     filterform = FilterParticipantsForm(request.POST or None,
-        semester=semester)
+                                        semester=semester)
 
     if filterform.is_valid():
         search = filterform.cleaned_data['search']
@@ -141,11 +142,11 @@ def filtered_list(request):
         id__in=filtered_participants).order_by("surname")
 
     form = SelectMailForm(request.POST or None, semester=semester)
-    SelectParticipantFormSet = formset_factory(SelectParticipantForm,
-        extra=0)
-    participantforms = SelectParticipantFormSet(request.POST or None,
-        initial=[{'id': p.id, 'selected': True} for p in participants],
-    )
+    select_participant_form_set = formset_factory(SelectParticipantForm,
+                                                  extra=0)
+    participantforms = select_participant_form_set(request.POST or None,
+                                                   initial=[{'id': p.id, 'selected': True} for p in participants],
+                                                   )
 
     if form.is_valid() and participantforms.is_valid():
         mail = form.cleaned_data['mail']
@@ -211,7 +212,7 @@ def edit_mail(request, mail_pk):
     mail = get_object_or_404(Mail, pk=mail_pk)
 
     form = MailForm(request.POST or None, semester=mail.semester,
-            instance=mail)
+                    instance=mail)
     if form.is_valid():
         form.save()
 
@@ -271,7 +272,7 @@ def signup(request):
     sem = get_semester(request)
     semester = get_object_or_404(Semester, pk=sem)
     tours = semester.tour_set.filter(open_registration__lt=timezone.now(),
-        close_registration__gt=timezone.now()).order_by('date')
+                                     close_registration__gt=timezone.now()).order_by('date')
 
     if not tours:
         context = {'semester': semester}

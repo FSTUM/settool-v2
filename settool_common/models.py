@@ -7,6 +7,7 @@ from django.utils.deconstruct import deconstructible
 
 from .settings import SEMESTER_SESSION_KEY
 
+
 @deconstructible
 class Semester(models.Model):
     class Meta:
@@ -33,6 +34,7 @@ class Semester(models.Model):
 
     def __str__(self):
         return "{} {:4}".format(self.get_semester_display(), self.year)
+
 
 class Subject(models.Model):
     class Meta:
@@ -76,7 +78,6 @@ class Subject(models.Model):
         (BIOMATHE, _('Mathematics in Bioscience')),
     )
 
-
     degree = models.CharField(
         max_length=2,
         choices=DEGREE_CHOICES,
@@ -93,7 +94,8 @@ class Subject(models.Model):
 
     def __str__(self):
         return "{} {}".format(self.get_degree_display(),
-                self.get_subject_display())
+                              self.get_subject_display())
+
 
 def current_semester():
     now = timezone.now()
@@ -115,4 +117,3 @@ def get_semester(request):
         sem = current_semester().pk
         request.session[SEMESTER_SESSION_KEY] = sem
     return sem
-

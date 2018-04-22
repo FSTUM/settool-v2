@@ -1,23 +1,25 @@
 # -*- coding: utf-8 -*-
 
 from __future__ import unicode_literals
-from django.utils.translation import ugettext_lazy as _
-from django.template import engines
-from django.db import models
-from django.core.mail import send_mail
-from django.utils import encoding
 
-from settool_common.models import Semester, current_semester
+from django.core.mail import send_mail
+from django.db import models
+from django.template import engines
+from django.utils import encoding
+from django.utils.translation import ugettext_lazy as _
+
+from settool_common.models import Semester
 from settool_common.utils import u
 
 
 class Company(models.Model):
     class Meta:
         permissions = (("view_companies",
-            "Can view and edit the companies"),)
+                        "Can view and edit the companies"),)
 
     semester = models.ForeignKey(
-        Semester
+        Semester,
+        on_delete=None
     )
 
     name = models.CharField(
@@ -99,13 +101,10 @@ class Company(models.Model):
     def __str__(self):
         return u(self.name)
 
-    def __unicode__(self):
-        return self.__str__()
-
     @property
     def full_contact(self):
         return "{} {} {}".format(self.contact_gender, self.contact_firstname,
-                self.contact_lastname)
+                                 self.contact_lastname)
 
     @property
     def anrede(self):
@@ -136,6 +135,7 @@ class Mail(models.Model):
     FROM_MAIL = 'Sponsoring Team des SET-Referats <set-tueten@fs.tum.de>'
     semester = models.ForeignKey(
         Semester,
+        on_delete=None,
     )
 
     subject = models.CharField(
@@ -145,7 +145,9 @@ class Mail(models.Model):
 
     text = models.TextField(
         _("Text"),
-        help_text=_('You may use {{firma}} for the company name, {{anrede}} for the greeting "Hallo Herr/Frau XYZ" and {{formale_anrede}} for the formal greeting "Sehr geehrte/r Herr/Frau XYZ".'),
+        help_text=_(
+            'You may use {{firma}} for the company name, {{anrede}} for the greeting "Hallo Herr/Frau XYZ" and '
+            '{{formale_anrede}} for the formal greeting "Sehr geehrte/r Herr/Frau XYZ".'),
     )
 
     comment = models.CharField(
@@ -156,7 +158,7 @@ class Mail(models.Model):
 
     def __str__(self):
         if self.comment:
-            return u("{} ({})"). format(u(self.subject), u(self.comment))
+            return "{} ({})".format(self.subject, self.comment)
         else:
             return u(self.subject)
 
@@ -174,7 +176,7 @@ class Mail(models.Model):
         text_template = django_engine.from_string(self.text)
         text = text_template.render(context)
 
-        return (subject, text, Mail.FROM_MAIL)
+        return subject, text, Mail.FROM_MAIL
 
     def send_mail(self, request, company):
         # text from templates
@@ -191,4 +193,4 @@ class Mail(models.Model):
         text = text_template.render(context)
 
         send_mail(subject, text, Mail.FROM_MAIL, [company.email],
-            fail_silently=False)
+                  fail_silently=False)
