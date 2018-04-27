@@ -1,0 +1,82 @@
+{% extends "tutoren/base.html" %}
+{% load i18n %}
+{% load bootstrap3 %}
+
+{% block title %}{% trans "SET Tutor" %} - {% trans "Tutor Details" %}{% endblock %}
+
+{% block tutorcontent %}
+    <h1>{{ tutor }}</h1>
+
+    <div class="row">
+        <div class="col-sm-12">
+            <table class="table">
+                <tr>
+                    <th>{% trans "First name" %}</th>
+                    <td>{{ tutor.first_name }}</td>
+                </tr>
+                <tr>
+                    <th>{% trans "Surname" %}</th>
+                    <td>{{ tutor.last_name }}</td>
+                </tr>
+                <tr>
+                    <th>{% trans "Email" %}</th>
+                    <td>{{ tutor.email }}</td>
+                </tr>
+                <tr>
+                    <th>{% trans "Subject" %}</th>
+                    <td>{{ tutor.subject }}</td>
+                </tr>
+                <tr>
+                    <th>{% trans "T-Shirt Size" %}</th>
+                    <td>{{ tutor.tshirt_size }}</td>
+                </tr>
+                <tr>
+                    <th>{% trans "Girls Cut?" %}</th>
+                    <td>{{ tutor.tshirt_girls_cut }}</td>
+                </tr>
+                <tr>
+                    <th>{% trans "Registration time" %}</th>
+                    <td>{{ tutor.registration_time }}</td>
+                </tr>
+                {% if perms.tutoren.edit_tutors %}
+                    <tr>
+                        <th>{% trans "Status" %}</th>
+                        <td>
+                            {{ tutor.status }}
+                            {% if tutor.status.key == "inactive" %}
+                                <a href="{% url "tutoren_delete" tutor.id %}"
+                                   class="btn btn-default">{% trans "delete" %}</a>
+                            {% elif tutor.status.key == "active" %}
+                                <a href="{% url "tutoren_accept" tutor.id %}"
+                                   class="btn btn-default">{% trans "accept" %}</a>
+                                <a href="{% url "tutoren_decline" tutor.id %}"
+                                   class="btn btn-default">{% trans "decline" %}</a>
+                            {% elif tutor.status.key == "accepted" %}
+                                <a href="{% url "tutoren_decline" tutor.id %}"
+                                   class="btn btn-default">{% trans "decline" %}</a>
+                            {% elif tutor.status.key == "declined" %}
+                                <a href="{% url "tutoren_accept" tutor.id %}"
+                                   class="btn btn-default">{% trans "accept" %}</a>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>{% trans "Edit" %}</th>
+                        <td>
+                            <a href="{% url "tutoren_edit" tutor.id %}"><span
+                                    class="glyphicon glyphicon-edit"></span></a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>{% trans "Delete" %}</th>
+                        <td>
+                            <a href="{% url "tutoren_delete" tutor.id %}"><span
+                                    class="glyphicon glyphicon-trash"></span></a>
+                        </td>
+                    </tr>
+                {% endif %}
+            </table>
+        </div>
+    </div>
+
+{% endblock %}
