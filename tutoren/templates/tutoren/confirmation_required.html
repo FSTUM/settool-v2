@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "SET Tutor" %} - {% trans "Sign up" %}{% endblock %}
+
+{% block content %}
+    <h1>
+        {% trans "Confirmation required" %}
+    </h1>
+
+    {% trans "You will get an email containing a confirmation link. A confirmation is required to complete the application." %}
+{% endblock %}

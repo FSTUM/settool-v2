@@ -7,8 +7,8 @@ from django.db import models
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 
-from settool_common.models import Semester, Subject
-from settool_common.utils import u
+from common.models import Semester, Subject
+from common.utils import u
 
 
 class Registration(models.Model):
@@ -30,6 +30,12 @@ class Registration(models.Model):
 
 
 class Status(models.Model):
+    key = models.CharField(
+        _("Key name"),
+        max_length=30,
+        unique=True,
+    )
+
     name = models.CharField(
         _("Status name"),
         max_length=30,
@@ -66,7 +72,7 @@ class Tutor(models.Model):
         editable=False,
     )
 
-    semester = models.OneToOneField(
+    semester = models.ForeignKey(
         Semester,
         verbose_name=_("Semester"),
         on_delete=models.CASCADE,
@@ -127,13 +133,25 @@ class Tutor(models.Model):
         on_delete=models.CASCADE,
     )
 
+    # TODO this seems to be not needed
     minor_subject = models.CharField(
         _("Minor subject"),
         max_length=30,
     )
 
+    class Meta:
+        unique_together = ('semester', 'email', )
+
     def __str__(self):
         return "{0} {1}".format(u(self.first_name), u(self.last_name))
+
+    def log(self, user, text):
+        # LogEntry.objects.create(
+        #     participant=self,
+        #     user=user,
+        #     text=text,
+        # )
+        pass
 
 
 class Task(models.Model):

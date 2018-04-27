@@ -43,7 +43,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'bootstrap3',
-    'settool_common',
+    'common',
     'guidedtours',
     'bags',
     'fahrt',

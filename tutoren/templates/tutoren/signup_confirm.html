@@ -1,0 +1,5 @@
+{% autoescape off %}
+Hi {{ tutor.first_name }},
+Please click on the link to confirm your SET Tutor application,
+http://{{ domain }}{% url 'tutoren_signup_confirm' uidb64=uid token=token %}
+{% endautoescape %}
