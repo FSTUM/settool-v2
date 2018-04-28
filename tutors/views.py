@@ -9,8 +9,8 @@ from django.utils.encoding import force_bytes, force_text
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 
 from common.models import get_semester, Semester
-from tutors.forms import TutorenForm, TutorenAdminForm
-from tutors.models import Tutor, Status, Registration
+from tutors.forms import TutorenForm, TutorenAdminForm, EventAdminForm
+from tutors.models import Tutor, Status, Registration, Event
 from tutors.tokens import account_activation_token
 
 
@@ -122,3 +122,54 @@ def tutor_edit(request, uid):
         'form': form,
         'tutor': tutor,
     })
+
+
+@permission_required('tutors.edit_tutors')
+def event_edit(request, uid):
+    event = get_object_or_404(Event, pk=uid)
+
+    form = EventAdminForm(request.POST or None, semester=event.semester, instance=event)
+    if form.is_valid():
+        form.save()
+        event.log(request.user, "Event edited")
+
+        return redirect('event_view', event.id)
+
+    return render(request, 'tutors/event/edit.html', {
+        'form': form,
+        'event': event,
+    })
+
+
+@permission_required('tutors.edit_tutors')
+def event_list(request):
+    events = Event.objects.all().order_by('begin')
+    return render(request, 'tutors/event/list.html', {'events': events})
+
+
+@permission_required('tutors.edit_tutors')
+def event_delete(request, uid):
+    event = get_object_or_404(Event, pk=uid)
+    event.delete()
+    return redirect("event_list")
+
+
+@permission_required('tutors.edit_tutors')
+def event_add(request):
+    semester = get_object_or_404(Semester, pk=get_semester(request))
+
+    form = EventAdminForm(request.POST or None, semester=semester)
+    if form.is_valid():
+        event = form.save()
+        event.log(None, "Event added")
+
+        return redirect('event_list')
+
+    context = {'semester': semester,
+               'form': form}
+    return render(request, 'tutors/event/add.html', context)
+
+
+def event_view(request, uid):
+    event = get_object_or_404(Event, pk=uid)
+    return render(request, 'tutors/event/view.html', {'event': event})

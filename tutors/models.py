@@ -219,36 +219,34 @@ class Event(models.Model):
         on_delete=models.CASCADE,
     )
 
-    task = models.ForeignKey(
-        Task,
-        verbose_name=_("Task"),
-        on_delete=models.CASCADE,
-    )
-
-    number = models.CharField(
-        _("Group number"),
+    name = models.CharField(
+        _("Name"),
         max_length=20,
     )
 
-    required_tutors = models.IntegerField(
-        _("Number of required tutors"),
+    description = models.TextField(
+        _("Description"),
     )
 
-    subjects = models.ManyToManyField(
-        Subject,
-        verbose_name=_("Allowed subjects"),
-        blank=True,
+    begin = models.DateTimeField(
+        _("Begin"),
+    )
+    end = models.DateTimeField(
+        _("End"),
     )
 
-    tutors = models.ManyToManyField(
-        Tutor,
-        verbose_name=_("Assigned tutors"),
-        through='TutorAssignment',
-        blank=True,
+    meeting_point = models.CharField(
+        _("Meeting Point"),
+        max_length=200,
     )
 
-    def __str__(self):
-        return "{} - {}".format(self.task, u(self.number))
+    def log(self, user, text):
+        # LogEntry.objects.create(
+        #     participant=self,
+        #     user=user,
+        #     text=text,
+        # )
+        pass
 
 
 class TutorAssignment(models.Model):

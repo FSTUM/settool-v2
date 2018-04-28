@@ -19,7 +19,11 @@ urlpatterns = [
         path('edit/<uuid:uid>/', views.tutor_edit, name='tutor_edit'),
     ])),
     path('event/', include([
-
+        path('list/', views.event_list, name='event_list'),
+        path('add/', views.event_add, name='event_add'),
+        path('edit/<uuid:uid>/', views.event_edit, name='event_edit'),
+        path('delete/<uuid:uid>/', views.event_delete, name='event_delete'),
+        path('view/<uuid:uid>/', views.event_view, name='event_view'),
     ])),
     path('task/', include([
 

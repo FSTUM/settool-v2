@@ -1,0 +1,53 @@
+{% extends "tutors/base.html" %}
+{% load i18n %}
+{% load bootstrap3 %}
+
+{% block title %}{% trans "SET Tutor" %} - {% trans "Event Details" %}{% endblock %}
+
+{% block tutorcontent %}
+    <h1>{{ event }}</h1>
+
+    <div class="row">
+        <div class="col-sm-12">
+            <table class="table">
+                <tr>
+                    <th>{% trans "Name" %}</th>
+                    <td>{{ event.name }}</td>
+                </tr>
+                <tr>
+                    <th>{% trans "Begin" %}</th>
+                    <td>{{ event.begin }}</td>
+                </tr>
+                <tr>
+                    <th>{% trans "End" %}</th>
+                    <td>{{ event.end }}</td>
+                </tr>
+                <tr>
+                    <th>{% trans "Description" %}</th>
+                    <td>{{ event.description }}</td>
+                </tr>
+                <tr>
+                    <th>{% trans "Meeting Point" %}</th>
+                    <td>{{ event.meeting_point }}</td>
+                </tr>
+                {% if perms.tutor.edit_tutors %}
+                     <tr>
+                        <th>{% trans "Edit" %}</th>
+                        <td>
+                            <a href="{% url "event_edit" event.id %}"><span
+                                    class="glyphicon glyphicon-edit"></span></a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>{% trans "Delete" %}</th>
+                        <td>
+                            <a href="{% url "event_delete" event.id %}"><span
+                                    class="glyphicon glyphicon-trash"></span></a>
+                        </td>
+                    </tr>
+                {% endif %}
+            </table>
+        </div>
+    </div>
+
+{% endblock %}

@@ -1,0 +1,56 @@
+{% extends "tutors/base.html" %}
+{% load i18n %}
+{% load bootstrap3 %}
+
+{% block head %}
+    <script>
+        $(function () {
+            $("#eventTable").tablesorter({
+                theme: "bootstrap",
+                widgets: ['zebra', 'columns', 'uitheme'],
+                headerTemplate: '{content} {icon}',
+                sortReset: true,
+                sortRestart: true
+            });
+        });
+    </script>
+{% endblock %}
+
+{% block title %}{% trans "SET Tutor" %} - {% trans "List of events" %}{% endblock %}
+
+{% block tutorcontent %}
+    <h1>
+        {% trans "List of events" %}
+    </h1>
+
+    <table id="eventTable" class="table tablesorter">
+        <thead>
+        <tr>
+            <th>{% trans "Name" %}</th>
+            <th>{% trans "Begin" %}</th>
+            <th>{% trans "End" %}</th>
+            <th>{% trans "Meeting Point" %}</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for event in events %}
+            <tr>
+                <td>
+                    <a href="{% url "event_view" event.id %}">{{ event.name }}</a>
+                </td>
+                <td>
+                    {{ event.begin }}
+                </td>
+                <td>
+                    {{ event.end }}
+                </td>
+                <td>
+                    {{ event.meeting_point }}
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}
+
