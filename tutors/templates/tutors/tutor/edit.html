@@ -1,4 +1,4 @@
-{% extends "tutoren/base.html" %}
+{% extends "tutors/base.html" %}
 {% load i18n %}
 {% load bootstrap3 %}
 
@@ -21,7 +21,7 @@
     <table class="table">
             <tr>
                 <td><button type="submit" class="btn btn-default">{% trans "Submit" %}</button></td>
-                <td><a href="{% url "tutoren_view" tutor.id %}" class="btn btn-default"
+                <td><a href="{% url "tutor_view" tutor.id %}" class="btn btn-default"
                 >{% trans "Cancel" %}</a></td>
             </tr>
         </table>

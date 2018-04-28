@@ -1,4 +1,4 @@
-{% extends "tutoren/base.html" %}
+{% extends "tutors/base.html" %}
 {% load i18n %}
 {% load bootstrap3 %}
 
@@ -36,10 +36,10 @@
         {% for tutor in tutors %}
             <tr>
                 <td>
-                    <a href="{% url "tutoren_view" tutor.id %}">{{ tutor.first_name }}</a>
+                    <a href="{% url "tutor_view" tutor.id %}">{{ tutor.first_name }}</a>
                 </td>
                 <td>
-                    <a href="{% url "tutoren_view" tutor.id %}">{{ tutor.last_name }}</a>
+                    <a href="{% url "tutor_view" tutor.id %}">{{ tutor.last_name }}</a>
                 </td>
                 <td>
                     {{ tutor.status.name }}

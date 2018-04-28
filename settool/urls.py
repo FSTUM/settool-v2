@@ -55,6 +55,6 @@ urlpatterns = [
     url(r'^fahrt/', include('fahrt.urls')),
 
     # Tutoren
-    url(r'^tutoren/', include('tutoren.urls')),
+    url(r'^tutors/', include('tutors.urls')),
 
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

@@ -4,4 +4,4 @@ from django.apps import AppConfig
 
 
 class TutorenConfig(AppConfig):
-    name = 'tutoren'
+    name = 'tutors'

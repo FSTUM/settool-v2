@@ -1,4 +1,4 @@
-{% extends "tutoren/base.html" %}
+{% extends "tutors/base.html" %}
 {% load i18n %}
 {% load bootstrap3 %}
 
@@ -38,24 +38,24 @@
                     <th>{% trans "Registration time" %}</th>
                     <td>{{ tutor.registration_time }}</td>
                 </tr>
-                {% if perms.tutoren.edit_tutors %}
+                {% if perms.tutor.edit_tutors %}
                     <tr>
                         <th>{% trans "Status" %}</th>
                         <td>
                             {{ tutor.status }}
                             {% if tutor.status.key == "inactive" %}
-                                <a href="{% url "tutoren_delete" tutor.id %}"
+                                <a href="{% url "tutor_delete" tutor.id %}"
                                    class="btn btn-default">{% trans "delete" %}</a>
                             {% elif tutor.status.key == "active" %}
-                                <a href="{% url "tutoren_accept" tutor.id %}"
+                                <a href="{% url "tutor_accept" tutor.id %}"
                                    class="btn btn-default">{% trans "accept" %}</a>
-                                <a href="{% url "tutoren_decline" tutor.id %}"
+                                <a href="{% url "tutor_decline" tutor.id %}"
                                    class="btn btn-default">{% trans "decline" %}</a>
                             {% elif tutor.status.key == "accepted" %}
-                                <a href="{% url "tutoren_decline" tutor.id %}"
+                                <a href="{% url "tutor_decline" tutor.id %}"
                                    class="btn btn-default">{% trans "decline" %}</a>
                             {% elif tutor.status.key == "declined" %}
-                                <a href="{% url "tutoren_accept" tutor.id %}"
+                                <a href="{% url "tutor_accept" tutor.id %}"
                                    class="btn btn-default">{% trans "accept" %}</a>
                             {% endif %}
                         </td>
@@ -63,14 +63,14 @@
                     <tr>
                         <th>{% trans "Edit" %}</th>
                         <td>
-                            <a href="{% url "tutoren_edit" tutor.id %}"><span
+                            <a href="{% url "tutor_edit" tutor.id %}"><span
                                     class="glyphicon glyphicon-edit"></span></a>
                         </td>
                     </tr>
                     <tr>
                         <th>{% trans "Delete" %}</th>
                         <td>
-                            <a href="{% url "tutoren_delete" tutor.id %}"><span
+                            <a href="{% url "tutor_delete" tutor.id %}"><span
                                     class="glyphicon glyphicon-trash"></span></a>
                         </td>
                     </tr>

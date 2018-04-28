@@ -140,7 +140,7 @@ class Tutor(models.Model):
     )
 
     class Meta:
-        unique_together = ('semester', 'email', )
+        unique_together = ('semester', 'email',)
 
     def __str__(self):
         return "{0} {1}".format(u(self.first_name), u(self.last_name))
@@ -161,7 +161,7 @@ class Task(models.Model):
         editable=False,
     )
 
-    semester = models.OneToOneField(
+    semester = models.ForeignKey(
         Semester,
         verbose_name=_("Semester"),
         on_delete=models.CASCADE,
@@ -206,11 +206,17 @@ class Task(models.Model):
         return u(self.name)
 
 
-class Group(models.Model):
+class Event(models.Model):
     id = models.UUIDField(
         primary_key=True,
         default=uuid.uuid4,
         editable=False,
+    )
+
+    semester = models.ForeignKey(
+        Semester,
+        verbose_name=_("Semester"),
+        on_delete=models.CASCADE,
     )
 
     task = models.ForeignKey(
@@ -252,7 +258,7 @@ class TutorAssignment(models.Model):
     )
 
     group = models.ForeignKey(
-        Group,
+        Event,
         on_delete=models.CASCADE,
     )
 
