@@ -26,6 +26,10 @@ urlpatterns = [
         path('view/<uuid:uid>/', views.event_view, name='event_view'),
     ])),
     path('task/', include([
-
+        path('list/', views.task_list, name='task_list'),
+        path('add/', views.task_add, name='task_add'),
+        path('edit/<uuid:uid>/', views.task_edit, name='task_edit'),
+        path('delete/<uuid:uid>/', views.task_delete, name='task_delete'),
+        path('view/<uuid:uid>/', views.task_view, name='task_view'),
     ])),
 ]

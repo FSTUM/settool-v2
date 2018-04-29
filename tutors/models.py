@@ -154,6 +154,52 @@ class Tutor(models.Model):
         pass
 
 
+class Event(models.Model):
+    id = models.UUIDField(
+        primary_key=True,
+        default=uuid.uuid4,
+        editable=False,
+    )
+
+    semester = models.ForeignKey(
+        Semester,
+        verbose_name=_("Semester"),
+        on_delete=models.CASCADE,
+    )
+
+    name = models.CharField(
+        _("Name"),
+        max_length=20,
+    )
+
+    description = models.TextField(
+        _("Description"),
+    )
+
+    begin = models.DateTimeField(
+        _("Begin"),
+    )
+    end = models.DateTimeField(
+        _("End"),
+    )
+
+    meeting_point = models.CharField(
+        _("Meeting Point"),
+        max_length=200,
+    )
+
+    def log(self, user, text):
+        # LogEntry.objects.create(
+        #     participant=self,
+        #     user=user,
+        #     text=text,
+        # )
+        pass
+
+    def __str__(self):
+        return "{0} {1}".format(u(self.name), u(self.begin.date()))
+
+
 class Task(models.Model):
     id = models.UUIDField(
         primary_key=True,
@@ -189,56 +235,36 @@ class Task(models.Model):
         max_length=50,
     )
 
-    prevented_tutors = models.ManyToManyField(
-        Tutor,
-        verbose_name=_("Prevented Tutors"),
+    event = models.ForeignKey(
+        Event,
+        verbose_name=_("Event"),
+        on_delete=models.CASCADE,
+    )
+
+    allowed_subjects = models.ManyToManyField(
+        Subject,
+        verbose_name=_("Allowed Subjects"),
         blank=True,
     )
 
-    task_requirements = models.ManyToManyField(
+    requirements = models.ManyToManyField(
         'Question',
-        verbose_name=_("Task requirements"),
-        through="Requirement",
+        verbose_name=_("Requirements"),
+        blank=True,
+    )
+
+    min_tutors = models.IntegerField(
+        _('Tutors (min)'),
+        blank=True,
+    )
+
+    max_tutors = models.IntegerField(
+        _('Tutors (max)'),
         blank=True,
     )
 
     def __str__(self):
         return u(self.name)
-
-
-class Event(models.Model):
-    id = models.UUIDField(
-        primary_key=True,
-        default=uuid.uuid4,
-        editable=False,
-    )
-
-    semester = models.ForeignKey(
-        Semester,
-        verbose_name=_("Semester"),
-        on_delete=models.CASCADE,
-    )
-
-    name = models.CharField(
-        _("Name"),
-        max_length=20,
-    )
-
-    description = models.TextField(
-        _("Description"),
-    )
-
-    begin = models.DateTimeField(
-        _("Begin"),
-    )
-    end = models.DateTimeField(
-        _("End"),
-    )
-
-    meeting_point = models.CharField(
-        _("Meeting Point"),
-        max_length=200,
-    )
 
     def log(self, user, text):
         # LogEntry.objects.create(

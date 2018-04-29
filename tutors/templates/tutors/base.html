@@ -7,10 +7,15 @@
         <div class="row">
         <div class="col-md-3 wrap sidebar">
             <h4>{% trans "Events" %}</h4>
-                <ul class="nav nav-pills nav-stacked">
-                    <li><a href="{% url 'event_list' %}">{% trans "all" %}</a></li>
-                    <li><a href="{% url 'event_add' %}">{% trans "add" %}</a></li>
-                </ul>
+            <ul class="nav nav-pills nav-stacked">
+                <li><a href="{% url 'event_list' %}">{% trans "all" %}</a></li>
+                <li><a href="{% url 'event_add' %}">{% trans "add" %}</a></li>
+            </ul>
+            <h4>{% trans "Tasks" %}</h4>
+            <ul class="nav nav-pills nav-stacked">
+                <li><a href="{% url 'task_list' %}">{% trans "all" %}</a></li>
+                <li><a href="{% url 'task_add' %}">{% trans "add" %}</a></li>
+            </ul>
             <h4>{% trans "Tutors" %}</h4>
             <ul class="nav nav-pills nav-stacked">
                 <li><a href="{% url 'tutor_list' %}">{% trans "all" %}</a></li>

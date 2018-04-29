@@ -1,6 +1,6 @@
 from django import forms
 
-from tutors.models import Tutor, Event
+from tutors.models import Tutor, Event, Task
 
 
 class SemesterBasedForm(forms.ModelForm):
@@ -14,6 +14,7 @@ class SemesterBasedForm(forms.ModelForm):
 
         if commit:
             instance.save()
+            self.save_m2m()
 
         return instance
 
@@ -33,4 +34,10 @@ class TutorenForm(TutorenAdminForm):
 class EventAdminForm(SemesterBasedForm):
     class Meta:
         model = Event
+        exclude = ["semester"]
+
+
+class TaskAdminForm(SemesterBasedForm):
+    class Meta:
+        model = Task
         exclude = ["semester"]

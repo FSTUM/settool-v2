@@ -9,8 +9,8 @@ from django.utils.encoding import force_bytes, force_text
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 
 from common.models import get_semester, Semester
-from tutors.forms import TutorenForm, TutorenAdminForm, EventAdminForm
-from tutors.models import Tutor, Status, Registration, Event
+from tutors.forms import TutorenForm, TutorenAdminForm, EventAdminForm, TaskAdminForm
+from tutors.models import Tutor, Status, Registration, Event, Task
 from tutors.tokens import account_activation_token
 
 
@@ -173,3 +173,54 @@ def event_add(request):
 def event_view(request, uid):
     event = get_object_or_404(Event, pk=uid)
     return render(request, 'tutors/event/view.html', {'event': event})
+
+
+@permission_required('tutors.edit_tutors')
+def task_edit(request, uid):
+    task = get_object_or_404(Task, pk=uid)
+
+    form = TaskAdminForm(request.POST or None, semester=task.semester, instance=task)
+    if form.is_valid():
+        form.save()
+        task.log(request.user, "Task edited")
+
+        return redirect('task_view', task.id)
+
+    return render(request, 'tutors/task/edit.html', {
+        'form': form,
+        'task': task,
+    })
+
+
+@permission_required('tutors.edit_tutors')
+def task_list(request):
+    tasks = Task.objects.all().order_by('begin')
+    return render(request, 'tutors/task/list.html', {'tasks': tasks})
+
+
+@permission_required('tutors.edit_tutors')
+def task_delete(request, uid):
+    task = get_object_or_404(Task, pk=uid)
+    task.delete()
+    return redirect("task_list")
+
+
+@permission_required('tutors.edit_tutors')
+def task_add(request):
+    semester = get_object_or_404(Semester, pk=get_semester(request))
+
+    form = TaskAdminForm(request.POST or None, semester=semester)
+    if form.is_valid():
+        task = form.save()
+        task.log(None, "Task added")
+
+        return redirect('task_list')
+
+    context = {'semester': semester,
+               'form': form}
+    return render(request, 'tutors/task/add.html', context)
+
+
+def task_view(request, uid):
+    task = get_object_or_404(Task, pk=uid)
+    return render(request, 'tutors/task/view.html', {'task': task})
