@@ -134,9 +134,9 @@ class Tutor(models.Model):
     )
 
     # TODO this seems to be not needed
-    minor_subject = models.CharField(
-        _("Minor subject"),
-        max_length=30,
+    comment = models.TextField(
+        _("Comment"),
+        max_length=500,
     )
 
     class Meta:
@@ -301,7 +301,7 @@ class Question(models.Model):
         max_length=100,
     )
 
-    tutor_answers = models.ManyToManyField(
+    answers = models.ManyToManyField(
         Tutor,
         verbose_name=_("Assigned tutors"),
         through='Answer',

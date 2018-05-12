@@ -13,6 +13,7 @@
         <script src="{% static "common/js/jquery.min.js" %}"></script>
         <script src="{% static "common/js/jquery.tablesorter.min.js" %}"></script>
         <script src="{% static "common/js/jquery.tablesorter.widgets.min.js" %}"></script>
+        <script src="{% static "common/js/jquery.multi-select.js" %}"></script>
         <script src="{% static "common/js/bootstrap.min.js" %}"></script>
         <script src="{% static "common/js/bootstrap-editable.min.js" %}"></script>
 
@@ -21,6 +22,7 @@
 
         <link href="{% static "common/css/style.css" %}" media="all" rel="stylesheet">
         <link href="{% static "common/css/bootstrap-editable.css" %}" media="all" rel="stylesheet"/>
+        <link href="{% static "common/css/multi-select.min.css" %}" media="all" rel="stylesheet"/>
 
         <title>{% trans "SET" %} {% block title %}{% endblock %}</title>
 
@@ -91,6 +93,9 @@
                         {% if 'bags.view_companies' in perms %}
                             <li><a href="{% url "listcompanies" %}">{% trans "SET-Tüten" %}</a></li>
                         {% endif %}
+                        {% if 'tutors.edit_tutors' in perms %}
+                            <li><a href="{% url "event_list" %}">{% trans "SET-Tutor" %}</a></li>
+                        {% endif %}
                         {% if 'guidedtours.view_participants' in perms %}
                             <li><a href="{% url "tours_list" %}">{% trans "Institutsführungen" %}</a></li>
                         {% endif %}
@@ -136,11 +141,17 @@
         <footer class="footer">
             <div class="container">
                 <p class="text-muted">
-                    <a href="http://fs.tum.de/datenschutz/">{% trans "Datenschutz" %}</a> | 
+                    <a href="http://fs.tum.de/datenschutz/">{% trans "Datenschutz" %}</a> |
                     <a href="http://fs.tum.de/impressum/">{% trans "Impressum" %}</a>
                 </p>
             </div>
         </footer>
+
+        <script type="text/javascript">
+            jQuery.each($("select[multiple]"), function () {
+                $(this).multiSelect();
+             });
+        </script>
     </body>
 </html>
 

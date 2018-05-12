@@ -47,6 +47,27 @@
                     </tr>
                 {% endif %}
             </table>
+            {% trans "This event has the following tasks:" %}
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>{% trans "Name" %}</th>
+                        <th>{% trans "Begin" %}</th>
+                        <th>{% trans "End" %}</th>
+                        <th>{% trans "Meeting Point" %}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for task in event.task_set.all %}
+                        <tr>
+                            <td><a href="{% url "task_view" task.id %}">{{ task.name }}</a></td>
+                            <td>{{ task.begin }}</td>
+                            <td>{{ task.end }}</td>
+                            <td>{{ task.meeting_point }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
         </div>
     </div>
 

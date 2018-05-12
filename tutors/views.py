@@ -1,3 +1,4 @@
+from django.contrib import messages
 from django.contrib.auth.decorators import permission_required
 from django.contrib.sites.shortcuts import get_current_site
 from django.core.mail import EmailMessage
@@ -104,6 +105,8 @@ def tutor_decline(request, uid):
 def tutor_delete(request, uid):
     tutor = get_object_or_404(Tutor, pk=uid)
     tutor.delete()
+    messages.success(request, 'Deleted Tutor %s.' % tutor)
+
     return redirect("tutor_list")
 
 
@@ -115,6 +118,7 @@ def tutor_edit(request, uid):
     if form.is_valid():
         form.save()
         tutor.log(request.user, "Tutor edited")
+        messages.success(request, 'Saved Tutor %s.' % tutor)
 
         return redirect('tutor_view', tutor.id)
 
@@ -132,6 +136,7 @@ def event_edit(request, uid):
     if form.is_valid():
         form.save()
         event.log(request.user, "Event edited")
+        messages.success(request, 'Saved Event %s.' % event.name)
 
         return redirect('event_view', event.id)
 
@@ -151,6 +156,7 @@ def event_list(request):
 def event_delete(request, uid):
     event = get_object_or_404(Event, pk=uid)
     event.delete()
+    messages.success(request, 'Deleted Event %s.' % event.name)
     return redirect("event_list")
 
 
@@ -162,6 +168,7 @@ def event_add(request):
     if form.is_valid():
         event = form.save()
         event.log(None, "Event added")
+        messages.success(request, 'Added Event %s.' % event.name)
 
         return redirect('event_list')
 
@@ -183,6 +190,7 @@ def task_edit(request, uid):
     if form.is_valid():
         form.save()
         task.log(request.user, "Task edited")
+        messages.success(request, 'Saved Task %s.' % task.name)
 
         return redirect('task_view', task.id)
 
@@ -202,6 +210,7 @@ def task_list(request):
 def task_delete(request, uid):
     task = get_object_or_404(Task, pk=uid)
     task.delete()
+    messages.success(request, 'Deleted Task %s.' % task.name)
     return redirect("task_list")
 
 
@@ -213,6 +222,7 @@ def task_add(request):
     if form.is_valid():
         task = form.save()
         task.log(None, "Task added")
+        messages.success(request, 'Added Task %s.' % task.name)
 
         return redirect('task_list')
 
