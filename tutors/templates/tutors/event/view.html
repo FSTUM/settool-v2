@@ -9,7 +9,7 @@
 
     <div class="row">
         <div class="col-sm-12">
-            <table class="table">
+            <table class="table table-hover">
                 <tr>
                     <th>{% trans "Name" %}</th>
                     <td>{{ event.name }}</td>
@@ -30,6 +30,25 @@
                     <th>{% trans "Meeting Point" %}</th>
                     <td>{{ event.meeting_point }}</td>
                 </tr>
+                <tr>
+                    <th>Subjects</th>
+                    <td>
+                        {% if event.subjects.all|length == 0 %}
+                            {% trans "No subjects." %}
+                        {% else %}
+                            <table>
+                                <tr>
+                                    <th>Subjects</th>
+                                </tr>
+                                {% for subject in event.subjects.all %}
+                                    <tr>
+                                        <td>{{ subject }}</td>
+                                    </tr>
+                                {% endfor %}
+                            </table>
+                        {% endif %}
+                    </td>
+                </tr>
                 {% if perms.tutor.edit_tutors %}
                      <tr>
                         <th>{% trans "Edit" %}</th>
@@ -47,7 +66,7 @@
                     </tr>
                 {% endif %}
             </table>
-            {% trans "This event has the following tasks:" %}
+            <h2>{% trans "This event has the following tasks:" %}</h2>
             <table class="table">
                 <thead>
                     <tr>

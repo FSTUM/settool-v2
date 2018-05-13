@@ -9,7 +9,7 @@
 
     <div class="row">
         <div class="col-sm-12">
-            <table class="table">
+            <table class="table table-hover">
                 <tr>
                     <th>{% trans "First name" %}</th>
                     <td>{{ tutor.first_name }}</td>
@@ -75,6 +75,28 @@
                         </td>
                     </tr>
                 {% endif %}
+            </table>
+            <h2>{% trans "Assigned Tasks:" %}</h2>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>{% trans "Name" %}</th>
+                        <th>{% trans "Begin" %}</th>
+                        <th>{% trans "End" %}</th>
+                        <th>{% trans "Meeting Point" %}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for assignment in tutor.tutorassignment_set.all %}
+                        <tr>
+                            {{ assignment. }}
+                            <td><a href="{% url "task_view" assignment.task.id %}">{{ assignment.task.name }}</a></td>
+                            <td>{{ assignment.task.begin }}</td>
+                            <td>{{ assignment.task.end }}</td>
+                            <td>{{ assignment.task.meeting_point }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
             </table>
         </div>
     </div>

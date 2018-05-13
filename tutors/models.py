@@ -58,6 +58,9 @@ def get_default_status():
 
 
 class Tutor(models.Model):
+    class Meta:
+        unique_together = ('semester', 'email',)
+
     TSHIRT_SIZES = (
         ('S', 'S'),
         ('M', 'M'),
@@ -133,14 +136,11 @@ class Tutor(models.Model):
         on_delete=models.CASCADE,
     )
 
-    # TODO this seems to be not needed
     comment = models.TextField(
         _("Comment"),
         max_length=500,
+        blank=True,
     )
-
-    class Meta:
-        unique_together = ('semester', 'email',)
 
     def __str__(self):
         return "{0} {1}".format(u(self.first_name), u(self.last_name))
@@ -188,6 +188,12 @@ class Event(models.Model):
         max_length=200,
     )
 
+    subjects = models.ManyToManyField(
+        Subject,
+        verbose_name=_("Subjects"),
+        blank=True,
+    )
+
     def log(self, user, text):
         # LogEntry.objects.create(
         #     participant=self,
@@ -218,16 +224,16 @@ class Task(models.Model):
         max_length=50,
     )
 
+    description = models.TextField(
+        _("Description"),
+    )
+
     begin = models.DateTimeField(
         _("Begin"),
     )
 
     end = models.DateTimeField(
         _("End"),
-    )
-
-    description = models.TextField(
-        _("Description"),
     )
 
     meeting_point = models.CharField(
@@ -263,6 +269,13 @@ class Task(models.Model):
         blank=True,
     )
 
+    tutors = models.ManyToManyField(
+        Tutor,
+        verbose_name=_("Assigned tutors"),
+        through='TutorAssignment',
+        blank=True,
+    )
+
     def __str__(self):
         return u(self.name)
 
@@ -276,13 +289,16 @@ class Task(models.Model):
 
 
 class TutorAssignment(models.Model):
+    class Meta:
+        auto_created = True
+
     tutor = models.ForeignKey(
         Tutor,
         on_delete=models.CASCADE,
     )
 
-    group = models.ForeignKey(
-        Event,
+    task = models.ForeignKey(
+        Task,
         on_delete=models.CASCADE,
     )
 
@@ -292,7 +308,7 @@ class TutorAssignment(models.Model):
     )
 
     def __str__(self):
-        return "{} @ {}".format(self.tutor, self.group)
+        return "{}".format(self.tutor)
 
 
 class Question(models.Model):

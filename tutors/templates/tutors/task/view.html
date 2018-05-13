@@ -5,11 +5,11 @@
 {% block title %}{% trans "SET Tutor" %} - {% trans "Task Details" %}{% endblock %}
 
 {% block tutorcontent %}
-    <h1>{{ task }}</h1>
+    <h1>{{ task.event.name }} - {{ task }}</h1>
 
     <div class="row">
-        <div class="col-sm-12">
-            <table class="table">
+        <div class="col-sm-12 table-responsive">
+            <table class="table table-hover">
                 <tr>
                     <th>{% trans "Name" %}</th>
                     <td>{{ task.name }}</td>
@@ -29,6 +29,67 @@
                 <tr>
                     <th>{% trans "Meeting Point" %}</th>
                     <td>{{ task.meeting_point }}</td>
+                </tr>
+                <tr>
+                    <th>{% trans "Event" %}</th>
+                    <td>{{ task.event }}</td>
+                </tr>
+                <tr>
+                    <th>Tutors (min: {{ task.min_tutors }}, max: {{ task.max_tutors }})</th>
+                    <td>
+                        {% if task.allowed_subjects.all|length == 0 %}
+                            {% trans "No subjects." %}
+                        {% else %}
+                            <table>
+                                <tr>
+                                    <th>Subjects</th>
+                                </tr>
+                                {% for subject in task.allowed_subjects.all %}
+                                    <tr>
+                                        <td>{{ subject }}</td>
+                                    </tr>
+                                {% endfor %}
+                            </table>
+                        {% endif %}
+                    </td>
+                </tr>
+                <tr>
+                    <th>Requirements</th>
+                    <td>
+                        {% if task.requirements.all|length == 0 %}
+                            {% trans "No requirements." %}
+                        {% else %}
+                            <table>
+                                <tr>
+                                    <th>Requirement</th>
+                                </tr>
+                                {% for requirement in task.requirements.all %}
+                                    <tr>
+                                        <td>{{ requirement }}</td>
+                                    </tr>
+                                {% endfor %}
+                            </table>
+                        {% endif %}
+                    </td>
+                </tr>
+                <tr>
+                    <th>Assigned</th>
+                    <td>
+                        {% if task.tutorassignment_set.all|length == 0 %}
+                            {% trans "No tutor is assigned." %}
+                        {% else %}
+                        <table>
+                            <tr>
+                                <th>Tutor</th>
+                            </tr>
+                            {% for tutor in task.tutorassignment_set.all %}
+                                <tr>
+                                    <td>{{ tutor }}</td>
+                                </tr>
+                            {% endfor %}
+                        </table>
+                        {% endif %}
+                    </td>
                 </tr>
                 {% if perms.tutor.edit_tutors %}
                     <tr>

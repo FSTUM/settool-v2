@@ -22,35 +22,36 @@
     <h1>
         {% trans "List tutors" %}
     </h1>
-
-    <table id="tutorTable" class="table tablesorter">
-        <thead>
-        <tr>
-            <th>{% trans "First name" %}</th>
-            <th>{% trans "Last name" %}</th>
-            <th>{% trans "Status" %}</th>
-            <th>{% trans "Registration time" %}</th>
-        </tr>
-        </thead>
-        <tbody>
-        {% for tutor in tutors %}
+    <div class="table-responsive">
+        <table id="tutorTable" class="table tablesorter table-striped table-hover">
+            <thead>
             <tr>
-                <td>
-                    <a href="{% url "tutor_view" tutor.id %}">{{ tutor.first_name }}</a>
-                </td>
-                <td>
-                    <a href="{% url "tutor_view" tutor.id %}">{{ tutor.last_name }}</a>
-                </td>
-                <td>
-                    {{ tutor.status.name }}
-                </td>
-                <td>
-                    {{ tutor.registration_time }}
-                </td>
+                <th>{% trans "First name" %}</th>
+                <th>{% trans "Last name" %}</th>
+                <th>{% trans "Status" %}</th>
+                <th>{% trans "Registration time" %}</th>
             </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-
+            </thead>
+            <tbody>
+            {% for tutor in tutors %}
+                <tr class="{% if tutor.status.key == "accepted" %}success
+{% elif tutor.status.key == "declined" %}danger{% endif %}">
+                    <td>
+                        <a href="{% url "tutor_view" tutor.id %}">{{ tutor.first_name }}</a>
+                    </td>
+                    <td>
+                        <a href="{% url "tutor_view" tutor.id %}">{{ tutor.last_name }}</a>
+                    </td>
+                    <td>
+                        {{ tutor.status.name }}
+                    </td>
+                    <td>
+                        {{ tutor.registration_time }}
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
 {% endblock %}
 
