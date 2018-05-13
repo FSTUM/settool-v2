@@ -89,7 +89,6 @@
                 <tbody>
                     {% for assignment in tutor.tutorassignment_set.all %}
                         <tr>
-                            {{ assignment. }}
                             <td><a href="{% url "task_view" assignment.task.id %}">{{ assignment.task.name }}</a></td>
                             <td>{{ assignment.task.begin }}</td>
                             <td>{{ assignment.task.end }}</td>

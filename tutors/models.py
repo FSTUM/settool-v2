@@ -289,9 +289,6 @@ class Task(models.Model):
 
 
 class TutorAssignment(models.Model):
-    class Meta:
-        auto_created = True
-
     tutor = models.ForeignKey(
         Tutor,
         on_delete=models.CASCADE,

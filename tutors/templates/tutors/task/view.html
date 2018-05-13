@@ -32,7 +32,7 @@
                 </tr>
                 <tr>
                     <th>{% trans "Event" %}</th>
-                    <td>{{ task.event }}</td>
+                    <td><a href="{% url "event_view" task.event.id %}">{{ task.event }}</a></td>
                 </tr>
                 <tr>
                     <th>Tutors (min: {{ task.min_tutors }}, max: {{ task.max_tutors }})</th>
@@ -84,7 +84,7 @@
                             </tr>
                             {% for tutor in task.tutorassignment_set.all %}
                                 <tr>
-                                    <td>{{ tutor }}</td>
+                                    <td><a href="{% url "tutor_view" tutor.tutor.id %}">{{ tutor }}</a></td>
                                 </tr>
                             {% endfor %}
                         </table>
