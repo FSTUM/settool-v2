@@ -35,6 +35,24 @@ class EventAdminForm(SemesterBasedForm):
         model = Event
         exclude = ["semester"]
 
+    def save(self, commit=True):
+        instance = super(EventAdminForm, self).save(False)
+        instance.save()
+
+        if 'subjects' in self.changed_data:
+            final_subjects = self.cleaned_data['subjects'].all()
+            initial_subjects = self.initial['subjects'] if 'subjects' in self.initial else []
+
+            # create and save new members
+            for subject in final_subjects:
+                if subject not in initial_subjects:
+                    instance.subjects.add(subject)
+
+            # delete old members that were removed from the form
+            for subject in initial_subjects:
+                if subject not in final_subjects:
+                    instance.subjects.remove(subject)
+
 
 class TaskAdminForm(SemesterBasedForm):
     class Meta:
