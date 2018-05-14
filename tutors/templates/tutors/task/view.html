@@ -72,25 +72,6 @@
                         {% endif %}
                     </td>
                 </tr>
-                <tr>
-                    <th>Assigned</th>
-                    <td>
-                        {% if task.tutorassignment_set.all|length == 0 %}
-                            {% trans "No tutor is assigned." %}
-                        {% else %}
-                        <table>
-                            <tr>
-                                <th>Tutor</th>
-                            </tr>
-                            {% for tutor in task.tutorassignment_set.all %}
-                                <tr>
-                                    <td><a href="{% url "tutor_view" tutor.tutor.id %}">{{ tutor }}</a></td>
-                                </tr>
-                            {% endfor %}
-                        </table>
-                        {% endif %}
-                    </td>
-                </tr>
                 {% if perms.tutor.edit_tutors %}
                     <tr>
 
@@ -112,6 +93,26 @@
                     </tr>
                 {% endif %}
             </table>
+
+            <h2>Assigned Tutors:</h2>
+            {% if task.tutorassignment_set.all|length == 0 %}
+                {% trans "No Tutor is assigned." %}
+            {% else %}
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Tutor</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for tutor in task.tutorassignment_set.all %}
+                            <tr>
+                                <td><a href="{% url "tutor_view" tutor.tutor.id %}">{{ tutor }}</a></td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% endif %}
         </div>
     </div>
 
