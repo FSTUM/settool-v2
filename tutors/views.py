@@ -111,14 +111,11 @@ def tutor_delete(request, uid):
     return redirect("tutor_list")
 
 
-@permission_required('tutors.edit_tutors')
 def tutor_edit(request, uid):
     tutor = get_object_or_404(Tutor, pk=uid)
 
     question_count = Question.objects.count()
-
     answers_existing = Answer.objects.filter(tutor=tutor)
-
     answers_new = []
     if len(answers_existing) != question_count:
         for question in Question.objects.all():
@@ -126,7 +123,6 @@ def tutor_edit(request, uid):
                 a = Answer(tutor=tutor, question=question)
                 answers_new.append(a)
 
-    form = TutorAdminForm(request.POST or None, semester=tutor.semester, instance=tutor)
     AnswerFormSet = modelformset_factory(Answer, form=AnswerForm,
                                          min_num=question_count,
                                          validate_min=True,
@@ -136,28 +132,44 @@ def tutor_edit(request, uid):
                                          can_order=False)
 
     initial_data = [{'question': a.question, 'answer': a.answer} for a in answers_new]
-
     if request.method == 'POST':
-        answer_formset = AnswerFormSet(request.POST, request.FILES, initial=initial_data)
+        answer_formset = AnswerFormSet(request.POST, request.FILES, queryset=answers_existing, initial=initial_data)
     else:
         answer_formset = AnswerFormSet(queryset=answers_existing, initial=initial_data)
 
-    if form.is_valid() and answer_formset.is_valid():
-        form.save()
-        for answer in answer_formset:
-            res = answer.save(commit=False)
-            res.tutor_id = tutor.id
-            res.save()
-        tutor.log(request.user, "Tutor edited")
-        messages.success(request, 'Saved Tutor %s.' % tutor)
+    if request.user.has_perm('tutors.edit_tutors'):
+        form = TutorAdminForm(request.POST or None, semester=tutor.semester, instance=tutor)
+        if form.is_valid() and answer_formset.is_valid():
+            form.save()
+            for answer in answer_formset:
+                res = answer.save(commit=False)
+                res.tutor_id = tutor.id
+                res.save()
+            tutor.log(request.user, "Tutor edited")
+            messages.success(request, 'Saved Tutor %s.' % tutor)
 
-        return redirect('tutor_view', tutor.id)
+            return redirect('tutor_view', tutor.id)
 
-    return render(request, 'tutors/tutor/edit.html', {
-        'form': form,
-        'answer_formset': answer_formset,
-        'tutor': tutor,
-    })
+        return render(request, 'tutors/tutor/edit.html', {
+            'form': form,
+            'answer_formset': answer_formset,
+            'tutor': tutor,
+        })
+    else:
+        if answer_formset.is_valid():
+            for answer in answer_formset:
+                res = answer.save(commit=False)
+                res.tutor_id = tutor.id
+                res.save()
+            tutor.log(request.user, "Tutor edited")
+            messages.success(request, 'Saved Tutor %s.' % tutor)
+
+            return redirect('tutor_view', tutor.id)
+
+        return render(request, 'tutors/tutor/edit.html', {
+            'answer_formset': answer_formset,
+            'tutor': tutor,
+        })
 
 
 @permission_required('tutors.edit_tutors')

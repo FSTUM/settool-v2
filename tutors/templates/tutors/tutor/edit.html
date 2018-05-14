@@ -12,11 +12,13 @@
     <form method="post" action="">
         {% csrf_token %}
 
+        {% if perms.tutor.edit_tutors %}
         <div class="row">
             <div class="col-lg-12">
                 {% bootstrap_form form %}
             </div>
         </div>
+        {% endif %}
         <h2>{% trans "Questions" %}</h2>
         {% bootstrap_formset answer_formset %}
     <table class="table">
