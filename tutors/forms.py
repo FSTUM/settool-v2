@@ -1,3 +1,6 @@
+from functools import partial
+from uuid import UUID
+
 from django import forms
 from django.utils import six
 
@@ -19,19 +22,19 @@ class SemesterBasedForm(forms.ModelForm):
         return instance
 
 
-class TutorenAdminForm(SemesterBasedForm):
+class TutorAdminForm(SemesterBasedForm):
     class Meta:
         model = Tutor
         exclude = ["semester", "registration_time", "answers"]
 
 
-class TutorenForm(TutorenAdminForm):
+class TutorForm(TutorAdminForm):
     class Meta:
         model = Tutor
         exclude = ["semester", "status", "registration_time", "answers"]
 
     def save(self, commit=True):
-        instance = super(TutorenForm, self).save(False)
+        instance = super(TutorForm, self).save(False)
         instance.save()
 
         if 'answers' in self.changed_data:
@@ -47,6 +50,7 @@ class TutorenForm(TutorenAdminForm):
             for answer in initial_answers:
                 if answer not in final_answers:
                     instance.answers.remove(answer)
+        return instance
 
 
 class EventAdminForm(SemesterBasedForm):
@@ -71,6 +75,8 @@ class EventAdminForm(SemesterBasedForm):
             for subject in initial_subjects:
                 if subject not in final_subjects:
                     instance.subjects.remove(subject)
+
+        return instance
 
 
 class TaskAdminForm(SemesterBasedForm):
@@ -133,25 +139,24 @@ class RequirementAdminForm(SemesterBasedForm):
         exclude = ["semester"]
 
 
-class ReadOnlyFieldsMixin(forms.ModelForm):
-    class Meta:
-        readonly_fields = ()
-
-    def __init__(self, *args, **kwargs):
-        super(ReadOnlyFieldsMixin, self).__init__(*args, **kwargs)
-        for field in (field for name, field in six.iteritems(self.fields) if
-                      name in self.Meta.readonly_fields):
-            field.widget.attrs['disabled'] = 'true'
-            field.required = False
-
-    def clean(self):
-        for f in self.Meta.readonly_fields:
-            self.cleaned_data.pop(f, None)
-        return super(ReadOnlyFieldsMixin, self).clean()
-
-
-class AnswerForm(ReadOnlyFieldsMixin, forms.ModelForm):
+class AnswerForm(forms.ModelForm):
     class Meta:
         model = Answer
         exclude = ["tutor"]
-        readonly_fields = ('question', )
+        readonly_fields = ('question',)
+
+    def __init__(self, *args, **kwargs):
+        super(AnswerForm, self).__init__(*args, **kwargs)
+        for field in (field for name, field in six.iteritems(self.fields) if
+                      name in self.Meta.readonly_fields):
+                field.widget.attrs['disabled'] = True
+                field.required = False
+
+    def clean(self):
+        data = super(AnswerForm, self).clean()
+        for name, field in six.iteritems(self.fields):
+            if name in self.Meta.readonly_fields:
+                if isinstance(self.initial[name], UUID):
+                    data[name] = Question.objects.get(pk=self.initial[name])
+                else:
+                    data[name] = self.initial[name]

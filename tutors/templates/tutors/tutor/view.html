@@ -76,7 +76,24 @@
                     </tr>
                 {% endif %}
             </table>
-            <h2>{% trans "Assigned Tasks:" %}</h2>
+            <h2>{% trans "Questions" %}:</h2>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>{% trans "Question" %}</th>
+                        <th>{% trans "Answer" %}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for question in tutor.answer_set.all %}
+                        <tr>
+                            <td>{{ question.question }}</td>
+                            <td>{% trans question.answer %}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <h2>{% trans "Assigned Tasks" %}:</h2>
             <table class="table">
                 <thead>
                     <tr>

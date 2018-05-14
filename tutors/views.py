@@ -1,10 +1,8 @@
-from itertools import chain
-
 from django.contrib import messages
 from django.contrib.auth.decorators import permission_required
 from django.contrib.sites.shortcuts import get_current_site
 from django.core.mail import EmailMessage
-from django.forms import modelformset_factory, formset_factory
+from django.forms import modelformset_factory
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404, redirect
 from django.template.loader import render_to_string
@@ -13,7 +11,7 @@ from django.utils.encoding import force_bytes, force_text
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 
 from common.models import get_semester, Semester
-from tutors.forms import TutorenForm, TutorenAdminForm, EventAdminForm, TaskAdminForm, RequirementAdminForm, AnswerForm
+from tutors.forms import TutorForm, TutorAdminForm, EventAdminForm, TaskAdminForm, RequirementAdminForm, AnswerForm
 from tutors.models import Tutor, Status, Registration, Event, Task, Question, Answer
 from tutors.tokens import account_activation_token
 
@@ -25,7 +23,7 @@ def tutor_signup(request):
     if not (registration.open_registration < timezone.now() < registration.close_registration):
         return render(request, 'tutors/tutor/registration_closed.html', {})
 
-    form = TutorenForm(request.POST or None, semester=semester)
+    form = TutorForm(request.POST or None, semester=semester)
     if form.is_valid():
         tutor = form.save()
         tutor.log(None, "Signed up")
@@ -121,20 +119,28 @@ def tutor_edit(request, uid):
 
     answers_existing = Answer.objects.filter(tutor=tutor)
 
+    answers_new = []
     if len(answers_existing) != question_count:
         for question in Question.objects.all():
             if answers_existing.filter(question=question).count() == 0:
-                a = Answer(tutor=tutor, question=question, answer=Answer.NO)
-                a.save()
+                a = Answer(tutor=tutor, question=question)
+                answers_new.append(a)
 
-    form = TutorenAdminForm(request.POST or None, semester=tutor.semester, instance=tutor)
+    form = TutorAdminForm(request.POST or None, semester=tutor.semester, instance=tutor)
     AnswerFormSet = modelformset_factory(Answer, form=AnswerForm,
                                          min_num=question_count,
                                          validate_min=True,
                                          max_num=question_count,
                                          validate_max=True,
-                                         can_delete=False)
-    answer_formset = AnswerFormSet(request.POST or None, request.FILES, queryset=Answer.objects.filter(tutor=tutor))
+                                         can_delete=False,
+                                         can_order=False)
+
+    initial_data = [{'question': a.question, 'answer': a.answer} for a in answers_new]
+
+    if request.method == 'POST':
+        answer_formset = AnswerFormSet(request.POST, request.FILES, initial=initial_data)
+    else:
+        answer_formset = AnswerFormSet(queryset=answers_existing, initial=initial_data)
 
     if form.is_valid() and answer_formset.is_valid():
         form.save()
@@ -149,7 +155,7 @@ def tutor_edit(request, uid):
 
     return render(request, 'tutors/tutor/edit.html', {
         'form': form,
-        'answer_formset': AnswerFormSet,
+        'answer_formset': answer_formset,
         'tutor': tutor,
     })
 
