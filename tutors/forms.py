@@ -1,6 +1,6 @@
 from django import forms
 
-from tutors.models import Tutor, Event, Task, TutorAssignment
+from tutors.models import Tutor, Event, Task, TutorAssignment, Question, Answer
 
 
 class SemesterBasedForm(forms.ModelForm):
@@ -91,4 +91,24 @@ class TaskAdminForm(SemesterBasedForm):
                 if tutor not in final_tutors:
                     TutorAssignment.objects.filter(tutor=tutor, task=instance).delete()
 
+        if 'requirements' in self.changed_data:
+            final_requirements = self.cleaned_data['requirements'].all()
+            initial_requirements = self.initial['requirements'] if 'requirements' in self.initial else []
+
+            # create and save new members
+            for subject in final_requirements:
+                if subject not in initial_requirements:
+                    instance.requirements.add(subject)
+
+            # delete old members that were removed from the form
+            for subject in initial_requirements:
+                if subject not in final_requirements:
+                    instance.requirements.remove(subject)
+
         return instance
+
+
+class RequirementAdminForm(SemesterBasedForm):
+    class Meta:
+        model = Question
+        exclude = ["semester"]

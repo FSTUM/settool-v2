@@ -32,4 +32,11 @@ urlpatterns = [
         path('delete/<uuid:uid>/', views.task_delete, name='task_delete'),
         path('view/<uuid:uid>/', views.task_view, name='task_view'),
     ])),
+    path('requirement/', include([
+        path('list/', views.requirement_list, name='requirement_list'),
+        path('add/', views.requirement_add, name='requirement_add'),
+        path('edit/<uuid:uid>/', views.requirement_edit, name='requirement_edit'),
+        path('delete/<uuid:uid>/', views.requirement_delete, name='requirement_delete'),
+        path('view/<uuid:uid>/', views.requirement_view, name='requirement_view'),
+    ]))
 ]

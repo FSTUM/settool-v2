@@ -1,0 +1,37 @@
+{% extends "tutors/base.html" %}
+{% load i18n %}
+{% load bootstrap3 %}
+
+{% block title %}{% trans "SET Tutor" %} - {% trans "Requirement Details" %}{% endblock %}
+
+{% block tutorcontent %}
+    <h1>{{ requirement }}</h1>
+
+    <div class="row">
+        <div class="col-sm-12">
+            <table class="table table-hover">
+                <tr>
+                    <th>{% trans "Question" %}</th>
+                    <td>{{ requirement.question }}</td>
+                </tr>
+                {% if perms.tutor.edit_tutors %}
+                     <tr>
+                        <th>{% trans "Edit" %}</th>
+                        <td>
+                            <a href="{% url "requirement_edit" requirement.id %}"><span
+                                    class="glyphicon glyphicon-edit"></span></a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>{% trans "Delete" %}</th>
+                        <td>
+                            <a href="{% url "requirement_delete" requirement.id %}"><span
+                                    class="glyphicon glyphicon-trash"></span></a>
+                        </td>
+                    </tr>
+                {% endif %}
+            </table>
+        </div>
+    </div>
+
+{% endblock %}

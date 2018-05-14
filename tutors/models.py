@@ -142,6 +142,13 @@ class Tutor(models.Model):
         blank=True,
     )
 
+    answers = models.ManyToManyField(
+        'Question',
+        verbose_name=_("Tutor Answers"),
+        through='Answer',
+        blank=True,
+    )
+
     def __str__(self):
         return "{0} {1}".format(u(self.first_name), u(self.last_name))
 
@@ -309,20 +316,33 @@ class TutorAssignment(models.Model):
 
 
 class Question(models.Model):
+    id = models.UUIDField(
+        primary_key=True,
+        default=uuid.uuid4,
+        editable=False,
+    )
+
+    semester = models.ForeignKey(
+        Semester,
+        verbose_name=_("Semester"),
+        on_delete=models.CASCADE,
+    )
+
     question = models.CharField(
         _("Question"),
         max_length=100,
     )
 
-    answers = models.ManyToManyField(
-        Tutor,
-        verbose_name=_("Assigned tutors"),
-        through='Answer',
-        blank=True,
-    )
-
     def __str__(self):
         return u(self.question)
+
+    def log(self, user, text):
+        # LogEntry.objects.create(
+        #     participant=self,
+        #     user=user,
+        #     text=text,
+        # )
+        pass
 
 
 class Answer(models.Model):
@@ -354,22 +374,3 @@ class Answer(models.Model):
 
     def __str__(self):
         return "{}: {} -> {}".format(self.tutor, self.question, u(self.answer))
-
-
-class Requirement(models.Model):
-    task = models.ForeignKey(
-        Task,
-        on_delete=models.CASCADE,
-    )
-
-    question = models.ForeignKey(
-        Question,
-        on_delete=models.CASCADE,
-    )
-
-    inverse = models.BooleanField(
-        _("inverse answer"),
-    )
-
-    def __str__(self):
-        return "{}: {}".format(self.task, self.question)

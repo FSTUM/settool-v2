@@ -10,8 +10,8 @@ from django.utils.encoding import force_bytes, force_text
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 
 from common.models import get_semester, Semester
-from tutors.forms import TutorenForm, TutorenAdminForm, EventAdminForm, TaskAdminForm
-from tutors.models import Tutor, Status, Registration, Event, Task
+from tutors.forms import TutorenForm, TutorenAdminForm, EventAdminForm, TaskAdminForm, RequirementAdminForm
+from tutors.models import Tutor, Status, Registration, Event, Task, Question
 from tutors.tokens import account_activation_token
 
 
@@ -234,3 +234,58 @@ def task_add(request):
 def task_view(request, uid):
     task = get_object_or_404(Task, pk=uid)
     return render(request, 'tutors/task/view.html', {'task': task})
+
+
+@permission_required('tutors.edit_tutors')
+def requirement_list(request):
+    questions = Question.objects.all()
+    return render(request, 'tutors/requirement/list.html', {'requirements': questions})
+
+
+@permission_required('tutors.edit_tutors')
+def requirement_view(request, uid):
+    question = get_object_or_404(Question, pk=uid)
+    return render(request, 'tutors/requirement/view.html', {'requirement': question})
+
+
+@permission_required('tutors.edit_tutors')
+def requirement_add(request):
+    semester = get_object_or_404(Semester, pk=get_semester(request))
+
+    form = RequirementAdminForm(request.POST or None, semester=semester)
+    if form.is_valid():
+        question = form.save()
+        question.log(None, "Requirement added")
+        messages.success(request, 'Added Requirement %s.' % question.question)
+
+        return redirect('requirement_list')
+
+    context = {'semester': semester,
+               'form': form}
+    return render(request, 'tutors/requirement/add.html', context)
+
+
+@permission_required('tutors.edit_tutors')
+def requirement_edit(request, uid):
+    question = get_object_or_404(Question, pk=uid)
+
+    form = RequirementAdminForm(request.POST or None, semester=question.semester, instance=question)
+    if form.is_valid():
+        form.save()
+        question.log(request.user, "Question edited")
+        messages.success(request, 'Saved Task %s.' % question.question)
+
+        return redirect('requirement_view', question.id)
+
+    return render(request, 'tutors/requirement/edit.html', {
+        'form': form,
+        'requirement': question,
+    })
+
+
+@permission_required('tutors.edit_tutors')
+def requirement_delete(request, uid):
+    question = get_object_or_404(Question, pk=uid)
+    question.delete()
+    messages.success(request, 'Deleted Question %s.' % question.question)
+    return redirect("requirement_list")

@@ -1,0 +1,44 @@
+{% extends "tutors/base.html" %}
+{% load i18n %}
+{% load bootstrap3 %}
+
+{% block head %}
+    <script>
+        $(function () {
+            $("#requirementTable").tablesorter({
+                theme: "bootstrap",
+                widgets: ['zebra', 'columns', 'uitheme'],
+                headerTemplate: '{content} {icon}',
+                sortReset: true,
+                sortRestart: true
+            });
+        });
+    </script>
+{% endblock %}
+
+{% block title %}{% trans "SET Tutor" %} - {% trans "List of requirements" %}{% endblock %}
+
+{% block tutorcontent %}
+    <h1>
+        {% trans "List of requirements" %}
+    </h1>
+    <div class="table-responsive">
+        <table id="requirementTable" class="table tablesorter table-striped table-hover">
+            <thead>
+            <tr>
+                <th>{% trans "Question" %}</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for requirement in requirements %}
+                <tr>
+                    <td>
+                        <a href="{% url "requirement_view" requirement.id %}">{{ requirement.question }}</a>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}
+
