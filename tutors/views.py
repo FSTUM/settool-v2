@@ -23,9 +23,36 @@ def tutor_signup(request):
     if not (registration.open_registration < timezone.now() < registration.close_registration):
         return render(request, 'tutors/tutor/registration_closed.html', {})
 
+    questions = Question.objects.distinct()
+    question_count = questions.count()
+    answers_new = []
+    for question in questions:
+        a = Answer(question=question)
+        answers_new.append(a)
+
+    AnswerFormSet = modelformset_factory(Answer, form=AnswerForm,
+                                         min_num=question_count,
+                                         validate_min=True,
+                                         max_num=question_count,
+                                         validate_max=True,
+                                         can_delete=False,
+                                         can_order=False,
+                                         extra=0)
+
+    initial_data = [{'question': a.question, 'answer': a.answer} for a in answers_new]
+    if request.method == 'POST':
+        answer_formset = AnswerFormSet(request.POST, request.FILES, queryset=Answer.objects.none(),
+                                       initial=initial_data)
+    else:
+        answer_formset = AnswerFormSet(queryset=Answer.objects.none(), initial=initial_data)
+
     form = TutorForm(request.POST or None, semester=semester)
-    if form.is_valid():
+    if form.is_valid() and answer_formset.is_valid():
         tutor = form.save()
+        for answer in answer_formset:
+            res = answer.save(commit=False)
+            res.tutor_id = tutor.id
+            res.save()
         tutor.log(None, "Signed up")
 
         mail_subject = 'Confirm your SET Tutor application.'
@@ -44,6 +71,7 @@ def tutor_signup(request):
         return redirect('tutor_signup_confirmation_required')
 
     context = {'semester': semester,
+               'answer_formset': answer_formset,
                'form': form}
     return render(request, 'tutors/tutor/signup.html', context)
 
