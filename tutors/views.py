@@ -1,7 +1,10 @@
+from itertools import chain
+
 from django.contrib import messages
 from django.contrib.auth.decorators import permission_required
 from django.contrib.sites.shortcuts import get_current_site
 from django.core.mail import EmailMessage
+from django.forms import modelformset_factory, formset_factory
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404, redirect
 from django.template.loader import render_to_string
@@ -10,8 +13,8 @@ from django.utils.encoding import force_bytes, force_text
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 
 from common.models import get_semester, Semester
-from tutors.forms import TutorenForm, TutorenAdminForm, EventAdminForm, TaskAdminForm, RequirementAdminForm
-from tutors.models import Tutor, Status, Registration, Event, Task, Question
+from tutors.forms import TutorenForm, TutorenAdminForm, EventAdminForm, TaskAdminForm, RequirementAdminForm, AnswerForm
+from tutors.models import Tutor, Status, Registration, Event, Task, Question, Answer
 from tutors.tokens import account_activation_token
 
 
@@ -114,9 +117,31 @@ def tutor_delete(request, uid):
 def tutor_edit(request, uid):
     tutor = get_object_or_404(Tutor, pk=uid)
 
+    question_count = Question.objects.count()
+
+    answers_existing = Answer.objects.filter(tutor=tutor)
+
+    if len(answers_existing) != question_count:
+        for question in Question.objects.all():
+            if answers_existing.filter(question=question).count() == 0:
+                a = Answer(tutor=tutor, question=question, answer=Answer.NO)
+                a.save()
+
     form = TutorenAdminForm(request.POST or None, semester=tutor.semester, instance=tutor)
-    if form.is_valid():
+    AnswerFormSet = modelformset_factory(Answer, form=AnswerForm,
+                                         min_num=question_count,
+                                         validate_min=True,
+                                         max_num=question_count,
+                                         validate_max=True,
+                                         can_delete=False)
+    answer_formset = AnswerFormSet(request.POST or None, request.FILES, queryset=Answer.objects.filter(tutor=tutor))
+
+    if form.is_valid() and answer_formset.is_valid():
         form.save()
+        for answer in answer_formset:
+            res = answer.save(commit=False)
+            res.tutor_id = tutor.id
+            res.save()
         tutor.log(request.user, "Tutor edited")
         messages.success(request, 'Saved Tutor %s.' % tutor)
 
@@ -124,6 +149,7 @@ def tutor_edit(request, uid):
 
     return render(request, 'tutors/tutor/edit.html', {
         'form': form,
+        'answer_formset': AnswerFormSet,
         'tutor': tutor,
     })
 

@@ -1,4 +1,5 @@
 from django import forms
+from django.utils import six
 
 from tutors.models import Tutor, Event, Task, TutorAssignment, Question, Answer
 
@@ -21,13 +22,31 @@ class SemesterBasedForm(forms.ModelForm):
 class TutorenAdminForm(SemesterBasedForm):
     class Meta:
         model = Tutor
-        exclude = ["semester", "registration_time"]
+        exclude = ["semester", "registration_time", "answers"]
 
 
 class TutorenForm(TutorenAdminForm):
     class Meta:
         model = Tutor
-        exclude = ["semester", "status", "registration_time"]
+        exclude = ["semester", "status", "registration_time", "answers"]
+
+    def save(self, commit=True):
+        instance = super(TutorenForm, self).save(False)
+        instance.save()
+
+        if 'answers' in self.changed_data:
+            final_answers = self.cleaned_data['answers'].all()
+            initial_answers = self.initial['answers'] if 'answers' in self.initial else []
+
+            # create and save new members
+            for answer in final_answers:
+                if answer not in initial_answers:
+                    instance.answers.add(answer)
+
+            # delete old members that were removed from the form
+            for answer in initial_answers:
+                if answer not in final_answers:
+                    instance.answers.remove(answer)
 
 
 class EventAdminForm(SemesterBasedForm):
@@ -112,3 +131,27 @@ class RequirementAdminForm(SemesterBasedForm):
     class Meta:
         model = Question
         exclude = ["semester"]
+
+
+class ReadOnlyFieldsMixin(forms.ModelForm):
+    class Meta:
+        readonly_fields = ()
+
+    def __init__(self, *args, **kwargs):
+        super(ReadOnlyFieldsMixin, self).__init__(*args, **kwargs)
+        for field in (field for name, field in six.iteritems(self.fields) if
+                      name in self.Meta.readonly_fields):
+            field.widget.attrs['disabled'] = 'true'
+            field.required = False
+
+    def clean(self):
+        for f in self.Meta.readonly_fields:
+            self.cleaned_data.pop(f, None)
+        return super(ReadOnlyFieldsMixin, self).clean()
+
+
+class AnswerForm(ReadOnlyFieldsMixin, forms.ModelForm):
+    class Meta:
+        model = Answer
+        exclude = ["tutor"]
+        readonly_fields = ('question', )

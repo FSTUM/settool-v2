@@ -346,6 +346,9 @@ class Question(models.Model):
 
 
 class Answer(models.Model):
+    class Meta:
+        unique_together = ('tutor', 'question',)
+
     YES = 'YES'
     NO = 'NO'
     MAYBE = 'MAYBE'
