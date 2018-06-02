@@ -29,6 +29,8 @@ class TutorAdminForm(SemesterBasedForm):
 
 
 class TutorForm(TutorAdminForm):
+    dsgvo = forms.BooleanField(required=True)
+
     class Meta:
         model = Tutor
         exclude = ["semester", "status", "registration_time", "answers"]

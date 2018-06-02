@@ -34,50 +34,52 @@
                     <th>{% trans "Event" %}</th>
                     <td><a href="{% url "event_view" task.event.id %}">{{ task.event }}</a></td>
                 </tr>
-                <tr>
-                    <th>Tutors (min: {{ task.min_tutors }}, max: {{ task.max_tutors }})</th>
-                    <td>
-                        {% if task.allowed_subjects.all|length == 0 %}
-                            {% trans "No subjects." %}
-                        {% else %}
-                            <table>
-                                <tr>
-                                    <th>Subjects</th>
-                                </tr>
-                                {% for subject in task.allowed_subjects.all %}
+                {% if perms.tutor.edit_tutors %}
+                    <tr>
+                        <th>Tutors (min: {{ task.min_tutors }}, max: {{ task.max_tutors }})</th>
+                        <td>
+                            {% if task.allowed_subjects.all|length == 0 %}
+                                {% trans "No subjects." %}
+                            {% else %}
+                                <table>
                                     <tr>
-                                        <td>{{ subject }}</td>
+                                        <th>Subjects</th>
                                     </tr>
-                                {% endfor %}
-                            </table>
-                        {% endif %}
-                    </td>
-                </tr>
-                <tr>
-                    <th>Requirements</th>
-                    <td>
-                        {% if task.requirements.all|length == 0 %}
-                            {% trans "No requirements." %}
-                        {% else %}
-                            <table>
-                                <tr>
-                                    <th>Requirement</th>
-                                </tr>
-                                {% for requirement in task.requirements.all %}
+                                    {% for subject in task.allowed_subjects.all %}
+                                        <tr>
+                                            <td>{{ subject }}</td>
+                                        </tr>
+                                    {% endfor %}
+                                </table>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>Requirements</th>
+                        <td>
+                            {% if task.requirements.all|length == 0 %}
+                                {% trans "No requirements." %}
+                            {% else %}
+                                <table>
                                     <tr>
-                                        <td>{{ requirement }}</td>
+                                        <th>Requirement</th>
                                     </tr>
-                                {% endfor %}
-                            </table>
-                        {% endif %}
-                    </td>
-                </tr>
+                                    {% for requirement in task.requirements.all %}
+                                        <tr>
+                                            <td>{{ requirement }}</td>
+                                        </tr>
+                                    {% endfor %}
+                                </table>
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endif %}
                 {% if perms.tutor.edit_tutors %}
                     <tr>
 
                     </tr>
 
-                     <tr>
+                    <tr>
                         <th>{% trans "Edit" %}</th>
                         <td>
                             <a href="{% url "task_edit" task.id %}"><span
@@ -93,25 +95,26 @@
                     </tr>
                 {% endif %}
             </table>
-
-            <h2>Assigned Tutors:</h2>
-            {% if task.tutorassignment_set.all|length == 0 %}
-                {% trans "No Tutor is assigned." %}
-            {% else %}
-                <table class="table">
-                    <thead>
+            {% if perms.tutor.edit_tutors %}
+                <h2>Assigned Tutors:</h2>
+                {% if task.tutorassignment_set.all|length == 0 %}
+                    {% trans "No Tutor is assigned." %}
+                {% else %}
+                    <table class="table">
+                        <thead>
                         <tr>
                             <th>Tutor</th>
                         </tr>
-                    </thead>
-                    <tbody>
+                        </thead>
+                        <tbody>
                         {% for tutor in task.tutorassignment_set.all %}
                             <tr>
                                 <td><a href="{% url "tutor_view" tutor.tutor.id %}">{{ tutor }}</a></td>
                             </tr>
                         {% endfor %}
-                    </tbody>
-                </table>
+                        </tbody>
+                    </table>
+                {% endif %}
             {% endif %}
         </div>
     </div>

@@ -50,7 +50,7 @@
                     </td>
                 </tr>
                 {% if perms.tutor.edit_tutors %}
-                     <tr>
+                    <tr>
                         <th>{% trans "Edit" %}</th>
                         <td>
                             <a href="{% url "event_edit" event.id %}"><span
@@ -66,17 +66,18 @@
                     </tr>
                 {% endif %}
             </table>
-            <h2>{% trans "This event has the following tasks:" %}</h2>
-            <table class="table">
-                <thead>
+            {% if perms.tutor.edit_tutors %}
+                <h2>{% trans "This event has the following tasks:" %}</h2>
+                <table class="table">
+                    <thead>
                     <tr>
                         <th>{% trans "Name" %}</th>
                         <th>{% trans "Begin" %}</th>
                         <th>{% trans "End" %}</th>
                         <th>{% trans "Meeting Point" %}</th>
                     </tr>
-                </thead>
-                <tbody>
+                    </thead>
+                    <tbody>
                     {% for task in event.task_set.all %}
                         <tr>
                             <td><a href="{% url "task_view" task.id %}">{{ task.name }}</a></td>
@@ -85,8 +86,9 @@
                             <td>{{ task.meeting_point }}</td>
                         </tr>
                     {% endfor %}
-                </tbody>
-            </table>
+                    </tbody>
+                </table>
+            {% endif %}
         </div>
     </div>
 
