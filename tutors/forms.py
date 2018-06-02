@@ -1,25 +1,10 @@
-from functools import partial
 from uuid import UUID
 
 from django import forms
 from django.utils import six
 
+from common.forms import SemesterBasedForm
 from tutors.models import Tutor, Event, Task, TutorAssignment, Question, Answer
-
-
-class SemesterBasedForm(forms.ModelForm):
-    def __init__(self, *args, **kwargs):
-        self.semester = kwargs.pop('semester')
-        super(SemesterBasedForm, self).__init__(*args, **kwargs)
-
-    def save(self, commit=True):
-        instance = super(SemesterBasedForm, self).save(False)
-        instance.semester = self.semester
-
-        if commit:
-            instance.save()
-
-        return instance
 
 
 class TutorAdminForm(SemesterBasedForm):
@@ -151,8 +136,8 @@ class AnswerForm(forms.ModelForm):
         super(AnswerForm, self).__init__(*args, **kwargs)
         for field in (field for name, field in six.iteritems(self.fields) if
                       name in self.Meta.readonly_fields):
-                field.widget.attrs['disabled'] = True
-                field.required = False
+            field.widget.attrs['disabled'] = True
+            field.required = False
 
     def clean(self):
         data = super(AnswerForm, self).clean()

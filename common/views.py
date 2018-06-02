@@ -1,9 +1,12 @@
-from django.contrib.auth.decorators import login_required
-from django.utils.http import is_safe_url
+from django.contrib.auth.decorators import login_required, permission_required
+from django.forms import forms
 from django.http import HttpResponseRedirect
+from django.shortcuts import get_object_or_404, render, redirect
+from django.utils.http import is_safe_url
 
+from common.forms import MailForm
+from .models import Semester, get_semester, Mail
 from .settings import SEMESTER_SESSION_KEY
-from .models import Semester
 
 
 @login_required
@@ -23,3 +26,105 @@ def set_semester(request):
         else:
             request.session[SEMESTER_SESSION_KEY] = semester_pk
     return response
+
+
+@permission_required('set.mail')
+def mail_list(request):
+    semester = get_object_or_404(Semester, pk=get_semester(request))
+    mails = Mail.objects.filter(semester=semester)
+
+    context = {'mails': mails}
+    return render(request, 'common/mail/list.html', context)
+
+
+@permission_required('set.mail')
+def mail_view(request, pk):
+    mail = Mail.objects.get(pk=pk)
+
+    context = {
+        'mail': mail,
+    }
+    return render(request, 'common/mail/view.html', context)
+
+
+@permission_required('set.mail')
+def mail_add(request):
+    semester = get_object_or_404(Semester, pk=get_semester(request))
+
+    form = MailForm(request.POST or None, semester=semester)
+    if form.is_valid():
+        form.save()
+        return redirect('mail_list')
+
+    context = {'form': form}
+    return render(request, 'common/mail/add.html', context)
+
+
+@permission_required('set.mail')
+def mail_edit(request, pk):
+    mail = get_object_or_404(Mail, pk=pk)
+
+    form = MailForm(request.POST or None, semester=mail.semester, instance=mail)
+    if form.is_valid():
+        form.save()
+        return redirect('mail_list')
+
+    context = {
+        'form': form,
+        'mail': mail,
+    }
+    return render(request, 'common/mail/edit.html', context)
+
+
+@permission_required('set.mail')
+def mail_delete(request, pk):
+    mail = get_object_or_404(Mail, pk=pk)
+
+    form = forms.Form(request.POST or None)
+    if form.is_valid():
+        mail.delete()
+        return redirect('mail_list')
+
+    context = {
+        'mail': mail,
+        'form': form
+    }
+    return render(request, 'common/mail/delete.html', context)
+
+
+@permission_required('set.mail')
+def mail_send(request, pk):
+    mail = get_object_or_404(Mail, pk=pk)
+    selected_participants = request.session['selected_participants']
+    sem = get_semester(request)
+    semester = get_object_or_404(Semester, pk=sem)
+    participants = semester.fahrt_participant.filter(
+        id__in=selected_participants).order_by("surname")
+
+    subject, text, from_email = mail.get_mail(request)
+
+    form = forms.Form(request.POST or None)
+    failed_participants = []
+    if form.is_valid():
+        for p in participants:
+            success = mail.send_mail(request, p)
+            if success:
+                p.log(request.user, "Mail '{0}' sent".format(mail))
+            else:
+                failed_participants.append(p)
+        if not failed_participants:
+            return redirect('mail_list')
+
+    context = {
+        'participants': participants,
+        'failed_participants': failed_participants,
+        'subject': subject,
+        'text': text,
+        'from_email': from_email,
+        'form': form,
+    }
+
+    if failed_participants:
+        return render(request, 'common/mail/send_failure.html', context)
+    else:
+        return render(request, 'common/mail/send.html', context)

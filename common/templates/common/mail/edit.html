@@ -1,12 +1,12 @@
-{% extends "tutors/base.html" %}
+{% extends "common/base.html" %}
 {% load i18n %}
 {% load bootstrap3 %}
 
-{% block title %}{% trans "SET Tutor" %} - {% trans "Edit Event" %}{% endblock %}
+{% block title %}{% trans "SET" %} - {% trans "Edit email" %}{% endblock %}
 
-{% block tutorcontent %}
+{% block commoncontent %}
     <h1>
-        {% trans "Edit Event" %}: {{ event }}
+        {% trans "Edit email" %}: {{ mail.subject }}
     </h1>
 
     <form method="post" action="">
@@ -17,13 +17,12 @@
                 {% bootstrap_form form %}
             </div>
         </div>
-
         <table class="table">
             <tr>
                 <td>
                     <button type="submit" class="btn btn-default">{% trans "Submit" %}</button>
                 </td>
-                <td><a href="{% url "event_view" event.id %}" class="btn btn-default">{% trans "Cancel" %}</a></td>
+                <td><a href="{% url "mail_list" %}" class="btn btn-default">{% trans "Cancel" %}</a></td>
             </tr>
         </table>
     </form>

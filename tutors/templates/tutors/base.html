@@ -35,6 +35,7 @@
             {% block tutorcontent %}
             {% endblock %}
         </div>
+        {% if perms.tutors.edit_tutors %}
     </div>
-
+    {% endif %}
 {% endblock %}
