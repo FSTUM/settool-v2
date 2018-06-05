@@ -1,2 +1,3 @@
 Django
 django-bootstrap3
+unicodecsv

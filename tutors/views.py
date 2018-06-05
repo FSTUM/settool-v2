@@ -1,6 +1,7 @@
 import os
 import time
 
+import unicodecsv as csv
 from django import http
 from django.contrib import messages
 from django.contrib.auth.decorators import permission_required
@@ -427,24 +428,51 @@ def task_mail(request, uid):
 
 
 @permission_required('tutors.edit_tutors')
-def tutor_export(request, status=None):
+def tutor_export(request, type, status=None):
     if status is None:
         tutors = Tutor.objects.all()
     else:
         tutors = Tutor.objects.filter(status__key=status)
 
-    dest = os.path.join(BASE_DIR, "downloads")
+    filename = "tutors"
+    if status is not None:
+        filename += "_" + status
+    filename += "_" + time.strftime("%Y%m%d-%H%M")
 
-    file_path = utils.latex_to_pdf("tutors/tex/tutors.tex", dest, {"tutors": tutors})
-    if os.path.exists(file_path):
-        with open(file_path, 'rb') as fh:
-            filename = "tutors"
-            if status is not None:
-                filename += "_" + status
-            filename += "_" + time.strftime("%Y%m%d-%H%M")
-            filename += ".pdf"
+    if type == "pdf":
+        dest = os.path.join(BASE_DIR, "downloads")
+        return download_pdf("tutors/tex/tutors.tex", os.path.join(dest, filename + ".pdf"), {"tutors": tutors})
+    elif type == "csv":
+        return download_csv(["last_name", "first_name", "subject"], filename + ".csv", tutors)
 
-            response = HttpResponse(fh.read(), content_type="application/pdf")
-            response['Content-Disposition'] = 'inline; filename=' + filename
-            return response
     raise Http404
+
+
+def download_pdf(file, dest, context):
+    tmp_file = utils.latex_to_pdf(file, dest, context)
+    if not os.path.exists(tmp_file):
+        raise Http404
+
+    with open(tmp_file, 'rb') as fh:
+        response = HttpResponse(fh.read(), content_type="application/pdf")
+        response['Content-Disposition'] = 'inline; filename=' + os.path.basename(dest)
+        return response
+
+
+def download_csv(fields, dest, context):
+    response = HttpResponse(content_type="text/csv")
+    response['Content-Disposition'] = 'inline; filename=' + os.path.basename(dest)
+    writer = csv.writer(response, encoding='utf-8')
+    writer.writerow(["nr"] + fields)
+
+    for idx, obj in enumerate(context):
+        row = [idx + 1]
+        for field in fields:
+            val = getattr(obj, field)
+            if callable(val):
+                val = val()
+            else:
+                val = val
+            row.append(val)
+        writer.writerow(row)
+    return response

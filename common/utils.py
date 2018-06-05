@@ -27,8 +27,8 @@ def latex_to_pdf(tex_path, dest, context):
     # Compile the TeX file with PDFLaTeX
     call(['pdflatex', texfilename])
     # Move resulting PDF to a more permanent location
-    dest_filename = os.path.join(dest, os.path.basename(texfilename) + '.pdf')
-    os.rename(texfilename + '.pdf', dest_filename)
+    print(dest)
+    os.rename(texfilename + '.pdf', dest)
     # Remove intermediate files
     os.remove(texfilename)
     os.remove(texfilename + '.aux')
@@ -36,4 +36,4 @@ def latex_to_pdf(tex_path, dest, context):
     try:
         shutil.rmtree(tmp_folder)
     finally:
-        return dest_filename
+        return dest

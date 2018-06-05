@@ -24,8 +24,10 @@
     </h1>
     <div class="row">
         <div class="col-sm-12">
-            <a href="{% if status is None %}{% url "tutor_export" %}{% else %}
-{% url "tutor_export_status" status %}{% endif %}"><span class="glyphicon glyphicon-file"></span>Export PDF</a>
+            <a href="{% if status is None %}{% url "tutor_export" "pdf" %}{% else %}
+{% url "tutor_export_status" "pdf" status %}{% endif %}"><span class="glyphicon glyphicon-file"></span>Export PDF</a>
+            <a href="{% if status is None %}{% url "tutor_export" "csv" %}{% else %}
+{% url "tutor_export_status" "csv" status %}{% endif %}"><span class="glyphicon glyphicon-file"></span>Export CSV</a>
         </div>
     </div>
     <div class=" row">
