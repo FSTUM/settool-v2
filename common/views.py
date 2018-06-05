@@ -128,3 +128,8 @@ def mail_send(request, pk):
         return render(request, 'common/mail/send_failure.html', context)
     else:
         return render(request, 'common/mail/send.html', context)
+
+
+@permission_required('set.perms.set')
+def common_settings(request):
+    return render(request, 'common/settings.html', {})

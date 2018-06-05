@@ -100,6 +100,9 @@
                         {% if 'guidedtours.view_participants' in perms %}
                             <li><a href="{% url "tours_list" %}">{% trans "Institutsführungen" %}</a></li>
                         {% endif %}
+                        {% if 'set.perms.set' in perms %}
+                            <li><a href="{% url "common_settings" %}">{% trans "Settings" %}</a></li>
+                        {% endif %}
                     </ul>
 
                     {# language chooser #}

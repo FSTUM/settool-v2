@@ -11,5 +11,6 @@ urlpatterns = [
         path('delete/<int:pk>/', views.mail_delete, name="mail_delete"),
         path('view/<int:pk>/', views.mail_view, name="mail_view"),
         path('send/<int:pk>/', views.mail_send, name="mail_send"),
-    ]))
+    ])),
+    path('settings/', views.common_settings, name="common_settings"),
 ]
