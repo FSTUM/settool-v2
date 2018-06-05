@@ -43,21 +43,38 @@
                         <th>{% trans "Status" %}</th>
                         <td>
                             {{ tutor.status }}
-                            {% if tutor.status.key == "inactive" %}
-                                <a href="{% url "tutor_delete" tutor.id %}"
-                                   class="btn btn-default">{% trans "delete" %}</a>
-                            {% elif tutor.status.key == "active" %}
-                                <a href="{% url "tutor_accept" tutor.id %}"
-                                   class="btn btn-default">{% trans "accept" %}</a>
-                                <a href="{% url "tutor_decline" tutor.id %}"
-                                   class="btn btn-default">{% trans "decline" %}</a>
-                            {% elif tutor.status.key == "accepted" %}
-                                <a href="{% url "tutor_decline" tutor.id %}"
-                                   class="btn btn-default">{% trans "decline" %}</a>
-                            {% elif tutor.status.key == "declined" %}
-                                <a href="{% url "tutor_accept" tutor.id %}"
-                                   class="btn btn-default">{% trans "accept" %}</a>
-                            {% endif %}
+                            <form method="post" action="" id="status_form">
+                                {% csrf_token %}
+
+                                {% if tutor.status.key == "inactive" %}
+                                    <a href="{% url "tutor_accept" tutor.id %}"
+                                       class="btn btn-default">{% trans "accept" %}</a>
+                                    <a href="{% url "tutor_decline" tutor.id %}"
+                                       class="btn btn-default">{% trans "decline" %}</a>
+                                {% elif tutor.status.key == "active" %}
+                                    <a href="{% url "tutor_accept" tutor.id %}"
+                                       class="btn btn-default">{% trans "accept" %}</a>
+                                    <a href="{% url "tutor_decline" tutor.id %}"
+                                       class="btn btn-default">{% trans "decline" %}</a>
+                                {% elif tutor.status.key == "accepted" %}
+                                    <a href="{% url "tutor_decline" tutor.id %}"
+                                       class="btn btn-default">{% trans "decline" %}</a>
+                                {% elif tutor.status.key == "declined" %}
+                                    <a href="{% url "tutor_accept" tutor.id %}"
+                                       class="btn btn-default">{% trans "accept" %}</a>
+                                {% endif %}
+
+                                <script type="text/javascript">
+                                    $('#status_form a').each(function() {
+                                        $(this).click(function() {
+                                            let form = document.getElementById('status_form');
+                                            form.action = this.href;
+                                            form.submit();
+                                            return false;
+                                        });
+                                    });
+                                </script>
+                            </form>
                         </td>
                     </tr>
                     <tr>
@@ -76,43 +93,44 @@
                     </tr>
                 {% endif %}
             </table>
-            <h2>{% trans "Questions" %}: {% if not perms.tutor.edit_tutors %}<a href="{% url "tutor_edit" tutor.id %}"><span
-                                    class="glyphicon glyphicon-edit">Edit</span></a>{% endif %}</h2>
+            <h2>{% trans "Questions" %}: {% if not perms.tutor.edit_tutors %}
+                <a href="{% url "tutor_edit" tutor.id %}"><span
+                        class="glyphicon glyphicon-edit">Edit</span></a>{% endif %}</h2>
             <table class="table">
                 <thead>
-                    <tr>
-                        <th>{% trans "Question" %}</th>
-                        <th>{% trans "Answer" %}</th>
-                    </tr>
+                <tr>
+                    <th>{% trans "Question" %}</th>
+                    <th>{% trans "Answer" %}</th>
+                </tr>
                 </thead>
                 <tbody>
-                    {% for question in tutor.answer_set.all %}
-                        <tr>
-                            <td>{{ question.question }}</td>
-                            <td>{% trans question.answer %}</td>
-                        </tr>
-                    {% endfor %}
+                {% for question in tutor.answer_set.all %}
+                    <tr>
+                        <td>{{ question.question }}</td>
+                        <td>{% trans question.answer %}</td>
+                    </tr>
+                {% endfor %}
                 </tbody>
             </table>
             <h2>{% trans "Assigned Tasks" %}:</h2>
             <table class="table">
                 <thead>
-                    <tr>
-                        <th>{% trans "Name" %}</th>
-                        <th>{% trans "Begin" %}</th>
-                        <th>{% trans "End" %}</th>
-                        <th>{% trans "Meeting Point" %}</th>
-                    </tr>
+                <tr>
+                    <th>{% trans "Name" %}</th>
+                    <th>{% trans "Begin" %}</th>
+                    <th>{% trans "End" %}</th>
+                    <th>{% trans "Meeting Point" %}</th>
+                </tr>
                 </thead>
                 <tbody>
-                    {% for assignment in tutor.tutorassignment_set.all %}
-                        <tr>
-                            <td><a href="{% url "task_view" assignment.task.id %}">{{ assignment.task.name }}</a></td>
-                            <td>{{ assignment.task.begin }}</td>
-                            <td>{{ assignment.task.end }}</td>
-                            <td>{{ assignment.task.meeting_point }}</td>
-                        </tr>
-                    {% endfor %}
+                {% for assignment in tutor.tutorassignment_set.all %}
+                    <tr>
+                        <td><a href="{% url "task_view" assignment.task.id %}">{{ assignment.task.name }}</a></td>
+                        <td>{{ assignment.task.begin }}</td>
+                        <td>{{ assignment.task.end }}</td>
+                        <td>{{ assignment.task.meeting_point }}</td>
+                    </tr>
+                {% endfor %}
                 </tbody>
             </table>
         </div>

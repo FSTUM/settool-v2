@@ -1,3 +1,4 @@
+from django import http
 from django.contrib import messages
 from django.contrib.auth.decorators import permission_required
 from django.contrib.sites.shortcuts import get_current_site
@@ -117,17 +118,23 @@ def tutor_view(request, uid):
 @permission_required('tutors.edit_tutors')
 def tutor_accept(request, uid):
     tutor = get_object_or_404(Tutor, pk=uid)
-    tutor.status = Status.objects.get(key='accepted')
-    tutor.save()
-    return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
+    form = forms.Form(request.POST or None)
+    if form.is_valid():
+        tutor.status = Status.objects.get(key='accepted')
+        tutor.save()
+        return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
+    return http.HttpResponseBadRequest()
 
 
 @permission_required('tutors.edit_tutors')
 def tutor_decline(request, uid):
     tutor = get_object_or_404(Tutor, pk=uid)
-    tutor.status = Status.objects.get(key='declined')
-    tutor.save()
-    return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
+    form = forms.Form(request.POST or None)
+    if form.is_valid():
+        tutor.status = Status.objects.get(key='declined')
+        tutor.save()
+        return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
+    return http.HttpResponseBadRequest()
 
 
 @permission_required('tutors.edit_tutors')
