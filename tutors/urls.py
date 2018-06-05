@@ -31,6 +31,7 @@ urlpatterns = [
         path('edit/<uuid:uid>/', views.task_edit, name='task_edit'),
         path('delete/<uuid:uid>/', views.task_delete, name='task_delete'),
         path('view/<uuid:uid>/', views.task_view, name='task_view'),
+        path('mail/<uuid:uid>/', views.task_mail, name='task_mail'),
     ])),
     path('requirement/', include([
         path('list/', views.requirement_list, name='requirement_list'),

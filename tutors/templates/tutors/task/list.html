@@ -51,6 +51,7 @@
                     <td>
                         <a href="{% url "task_edit" task.id %}"><span class="glyphicon glyphicon-edit"></span></a>
                         <a href="{% url "task_delete" task.id %}"><span class="glyphicon glyphicon-trash"></span></a>
+                        <a href="{% url "task_mail" task.id %}"><span class="glyphicon glyphicon-inbox"></span></a>
                     </td>
                 </tr>
             {% endfor %}

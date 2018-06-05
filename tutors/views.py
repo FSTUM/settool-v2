@@ -403,3 +403,19 @@ def requirement_delete(request, uid):
         'form': form
     }
     return render(request, 'tutors/requirement/delete.html', context)
+
+
+@permission_required('tutors.edit_tutors')
+def task_mail(request, uid):
+    task = get_object_or_404(Task, pk=uid)
+
+    form = forms.Form(request.POST or None)
+    if form.is_valid():
+        task.log(request.user, "Send mail")
+        messages.success(request, 'Send email for Task %s.' % task.name)
+        return redirect("task_list")
+
+    context = {
+        "task": task,
+    }
+    return render(request, 'tutors/task/mail.html', context)

@@ -76,10 +76,6 @@
                 {% endif %}
                 {% if perms.tutor.edit_tutors %}
                     <tr>
-
-                    </tr>
-
-                    <tr>
                         <th>{% trans "Edit" %}</th>
                         <td>
                             <a href="{% url "task_edit" task.id %}"><span
@@ -92,6 +88,11 @@
                             <a href="{% url "task_delete" task.id %}"><span
                                     class="glyphicon glyphicon-trash"></span></a>
                         </td>
+                    </tr>
+                    <tr>
+                        <th>{% trans "Send Mail" %}</th>
+                        <td><a href="{% url "task_mail" task.id %}"><span class="glyphicon
+                        glyphicon-inbox"></span></a></td>
                     </tr>
                 {% endif %}
             </table>

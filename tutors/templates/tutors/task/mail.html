@@ -1,0 +1,64 @@
+{% extends "tutors/base.html" %}
+{% load i18n %}
+{% load bootstrap3 %}
+
+{% block title %}{% trans "SET Tutor" %} - {% trans "Task Send Mail" %}{% endblock %}
+
+{% block tutorcontent %}
+    <h1>{% trans "Send email" %} - {{ task.event.name }} - {{ task }}</h1>
+
+    <div class="row">
+        <p>
+            {% trans "Do you really want to send the following email to the tutors below?" %}
+        </p>
+        <form method="post" action="">
+            {% csrf_token %}
+
+            <table class="table">
+                <tr>
+                    <td>
+                        <button type="submit" class="btn btn-default">{% trans "Send" %}</button>
+                    </td>
+                    <td><a href="{% url "task_view" task.id %}" class="btn btn-default">{% trans "Cancel" %}</a></td>
+                </tr>
+            </table>
+        </form>
+        <p>
+            <strong>{% trans "From" %}</strong>: {{ from_email }}
+        </p>
+        <p>
+            <strong>{% trans "To" %}</strong>: {% trans "see table below" %}
+        </p>
+        <p>
+            <strong>{% trans "Subject" %}</strong>: {{ subject }}
+        </p>
+        <p>
+            <strong>{% trans "Text" %}</strong>:<br/>{{ text|linebreaks|urlize }}
+        </p>
+
+        <table class="table">
+            <thead>
+            <tr>
+                <th>{% trans "First name" %}</th>
+                <th>{% trans "Surname" %}</th>
+                <th>{% trans "Status" %}</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for tutor in task.tutorassignment_set.all %}
+                <tr>
+                    <td>
+                        <a href="{% url "tutor_view" tutor.tutor.id %}">{{ tutor.tutor.first_name }}</a>
+                    </td>
+                    <td>
+                        <a href="{% url "tutor_view" tutor.tutor.id %}">{{ tutor.tutor.last_name }}</a>
+                    </td>
+                    <td>{{ tutor.tutor.status }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+    </div>
+
+{% endblock %}
