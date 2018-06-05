@@ -1,0 +1,99 @@
+{% extends "common/base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "SET" %} - {% trans "Delete email template" %}{% endblock %}
+
+{% block commoncontent %}
+    <h1>
+        {% trans "Delete Tutor" %}: {{ tutor }}
+    </h1>
+
+    <div class="row">
+        <div class="col-sm-12">
+            <table class="table table-hover">
+                <tr>
+                    <th>{% trans "First name" %}</th>
+                    <td>{{ tutor.first_name }}</td>
+                </tr>
+                <tr>
+                    <th>{% trans "Surname" %}</th>
+                    <td>{{ tutor.last_name }}</td>
+                </tr>
+                <tr>
+                    <th>{% trans "Email" %}</th>
+                    <td>{{ tutor.email }}</td>
+                </tr>
+                <tr>
+                    <th>{% trans "Subject" %}</th>
+                    <td>{{ tutor.subject }}</td>
+                </tr>
+                <tr>
+                    <th>{% trans "T-Shirt Size" %}</th>
+                    <td>{{ tutor.tshirt_size }}</td>
+                </tr>
+                <tr>
+                    <th>{% trans "Girls Cut?" %}</th>
+                    <td>{{ tutor.tshirt_girls_cut }}</td>
+                </tr>
+                <tr>
+                    <th>{% trans "Registration time" %}</th>
+                    <td>{{ tutor.registration_time }}</td>
+                </tr>
+            </table>
+            <h2>{% trans "Questions" %}: {% if not perms.tutor.edit_tutors %}
+                <a href="{% url "tutor_edit" tutor.id %}"><span
+                        class="glyphicon glyphicon-edit">Edit</span></a>{% endif %}</h2>
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>{% trans "Question" %}</th>
+                    <th>{% trans "Answer" %}</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for question in tutor.answer_set.all %}
+                    <tr>
+                        <td>{{ question.question }}</td>
+                        <td>{% trans question.answer %}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+            <h2>{% trans "Assigned Tasks" %}:</h2>
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>{% trans "Name" %}</th>
+                    <th>{% trans "Begin" %}</th>
+                    <th>{% trans "End" %}</th>
+                    <th>{% trans "Meeting Point" %}</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for assignment in tutor.tutorassignment_set.all %}
+                    <tr>
+                        <td><a href="{% url "task_view" assignment.task.id %}">{{ assignment.task.name }}</a></td>
+                        <td>{{ assignment.task.begin }}</td>
+                        <td>{{ assignment.task.end }}</td>
+                        <td>{{ assignment.task.meeting_point }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <form method="post" action="">
+        {% csrf_token %}
+
+        <table class="table">
+            <tr>
+                <td>
+                    <button type="submit" class="btn btn-default btn-danger">{% trans "Delete" %}</button>
+                </td>
+                <td><a href="{% url "tutor_list" %}" class="btn btn-default">{% trans "Cancel" %}</a></td>
+            </tr>
+        </table>
+    </form>
+
+{% endblock %}

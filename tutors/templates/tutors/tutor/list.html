@@ -30,6 +30,7 @@
                 <th>{% trans "Last name" %}</th>
                 <th>{% trans "Status" %}</th>
                 <th>{% trans "Registration time" %}</th>
+                <th></th>
             </tr>
             </thead>
             <tbody>
@@ -47,6 +48,10 @@
                     </td>
                     <td>
                         {{ tutor.registration_time }}
+                    </td>
+                    <td>
+                        <a href="{% url "tutor_edit" tutor.id %}"><span class="glyphicon glyphicon-edit"></span></a>
+                        <a href="{% url "tutor_delete" tutor.id %}"><span class="glyphicon glyphicon-trash"></span></a>
                     </td>
                 </tr>
             {% endfor %}

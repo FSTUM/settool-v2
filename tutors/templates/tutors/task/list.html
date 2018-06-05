@@ -30,6 +30,7 @@
                 <th>{% trans "Begin" %}</th>
                 <th>{% trans "End" %}</th>
                 <th>{% trans "Meeting Point" %}</th>
+                <th></th>
             </tr>
             </thead>
             <tbody>
@@ -46,6 +47,10 @@
                     </td>
                     <td>
                         {{ task.meeting_point }}
+                    </td>
+                    <td>
+                        <a href="{% url "task_edit" task.id %}"><span class="glyphicon glyphicon-edit"></span></a>
+                        <a href="{% url "task_delete" task.id %}"><span class="glyphicon glyphicon-trash"></span></a>
                     </td>
                 </tr>
             {% endfor %}

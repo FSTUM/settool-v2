@@ -2,7 +2,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import permission_required
 from django.contrib.sites.shortcuts import get_current_site
 from django.core.mail import EmailMessage
-from django.forms import modelformset_factory
+from django.forms import modelformset_factory, forms
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404, redirect
 from django.template.loader import render_to_string
@@ -133,10 +133,18 @@ def tutor_decline(request, uid):
 @permission_required('tutors.edit_tutors')
 def tutor_delete(request, uid):
     tutor = get_object_or_404(Tutor, pk=uid)
-    tutor.delete()
-    messages.success(request, 'Deleted Tutor %s.' % tutor)
 
-    return redirect("tutor_list")
+    form = forms.Form(request.POST or None)
+    if form.is_valid():
+        tutor.delete()
+        messages.success(request, 'Deleted Tutor %s.' % tutor)
+        return redirect("tutor_list")
+
+    context = {
+        'tutor': tutor,
+        'form': form
+    }
+    return render(request, 'tutors/tutor/delete.html', context)
 
 
 def tutor_edit(request, uid):
@@ -227,9 +235,18 @@ def event_list(request):
 @permission_required('tutors.edit_tutors')
 def event_delete(request, uid):
     event = get_object_or_404(Event, pk=uid)
-    event.delete()
-    messages.success(request, 'Deleted Event %s.' % event.name)
-    return redirect("event_list")
+
+    form = forms.Form(request.POST or None)
+    if form.is_valid():
+        event.delete()
+        messages.success(request, 'Deleted Event %s.' % event.name)
+        return redirect("event_list")
+
+    context = {
+        'event': event,
+        'form': form
+    }
+    return render(request, 'tutors/event/delete.html', context)
 
 
 @permission_required('tutors.edit_tutors')
@@ -281,9 +298,18 @@ def task_list(request):
 @permission_required('tutors.edit_tutors')
 def task_delete(request, uid):
     task = get_object_or_404(Task, pk=uid)
-    task.delete()
-    messages.success(request, 'Deleted Task %s.' % task.name)
-    return redirect("task_list")
+
+    form = forms.Form(request.POST or None)
+    if form.is_valid():
+        task.delete()
+        messages.success(request, 'Deleted Task %s.' % task.name)
+        return redirect("task_list")
+
+    context = {
+        'task': task,
+        'form': form
+    }
+    return render(request, 'tutors/task/delete.html', context)
 
 
 @permission_required('tutors.edit_tutors')
@@ -358,6 +384,15 @@ def requirement_edit(request, uid):
 @permission_required('tutors.edit_tutors')
 def requirement_delete(request, uid):
     question = get_object_or_404(Question, pk=uid)
-    question.delete()
-    messages.success(request, 'Deleted Question %s.' % question.question)
-    return redirect("requirement_list")
+
+    form = forms.Form(request.POST or None)
+    if form.is_valid():
+        question.delete()
+        messages.success(request, 'Deleted Question %s.' % question.question)
+        return redirect("requirement_list")
+
+    context = {
+        'requirement': question,
+        'form': form
+    }
+    return render(request, 'tutors/requirement/delete.html', context)

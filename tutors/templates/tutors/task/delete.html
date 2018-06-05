@@ -1,0 +1,116 @@
+{% extends "common/base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "SET" %} - {% trans "Delete email template" %}{% endblock %}
+
+{% block commoncontent %}
+    <h1>
+        {% trans "Delete task" %}: {{ task }}
+    </h1>
+
+    <div class="row">
+        <div class="col-sm-12 table-responsive">
+            <table class="table table-hover">
+                <tr>
+                    <th>{% trans "Name" %}</th>
+                    <td>{{ task.name }}</td>
+                </tr>
+                <tr>
+                    <th>{% trans "Begin" %}</th>
+                    <td>{{ task.begin }}</td>
+                </tr>
+                <tr>
+                    <th>{% trans "End" %}</th>
+                    <td>{{ task.end }}</td>
+                </tr>
+                <tr>
+                    <th>{% trans "Description" %}</th>
+                    <td>{{ task.description }}</td>
+                </tr>
+                <tr>
+                    <th>{% trans "Meeting Point" %}</th>
+                    <td>{{ task.meeting_point }}</td>
+                </tr>
+                <tr>
+                    <th>{% trans "Event" %}</th>
+                    <td><a href="{% url "event_view" task.event.id %}">{{ task.event }}</a></td>
+                </tr>
+                {% if perms.tutor.edit_tutors %}
+                    <tr>
+                        <th>Tutors (min: {{ task.min_tutors }}, max: {{ task.max_tutors }})</th>
+                        <td>
+                            {% if task.allowed_subjects.all|length == 0 %}
+                                {% trans "No subjects." %}
+                            {% else %}
+                                <table>
+                                    <tr>
+                                        <th>Subjects</th>
+                                    </tr>
+                                    {% for subject in task.allowed_subjects.all %}
+                                        <tr>
+                                            <td>{{ subject }}</td>
+                                        </tr>
+                                    {% endfor %}
+                                </table>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>Requirements</th>
+                        <td>
+                            {% if task.requirements.all|length == 0 %}
+                                {% trans "No requirements." %}
+                            {% else %}
+                                <table>
+                                    <tr>
+                                        <th>Requirement</th>
+                                    </tr>
+                                    {% for requirement in task.requirements.all %}
+                                        <tr>
+                                            <td>{{ requirement }}</td>
+                                        </tr>
+                                    {% endfor %}
+                                </table>
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endif %}
+            </table>
+            {% if perms.tutor.edit_tutors %}
+                <h2>Assigned Tutors:</h2>
+                {% if task.tutorassignment_set.all|length == 0 %}
+                    {% trans "No Tutor is assigned." %}
+                {% else %}
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th>Tutor</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for tutor in task.tutorassignment_set.all %}
+                            <tr>
+                                <td><a href="{% url "tutor_view" tutor.tutor.id %}">{{ tutor }}</a></td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                {% endif %}
+            {% endif %}
+        </div>
+    </div>
+
+    <form method="post" action="">
+        {% csrf_token %}
+
+        <table class="table">
+            <tr>
+                <td>
+                    <button type="submit" class="btn btn-default btn-danger">{% trans "Delete" %}</button>
+                </td>
+                <td><a href="{% url "task_list" %}" class="btn btn-default">{% trans "Cancel" %}</a></td>
+            </tr>
+        </table>
+    </form>
+
+{% endblock %}
