@@ -24,3 +24,7 @@ body {
 .footer .text-muted {
       margin: 10px 0;
 }
+
+.ms-container ~ a {
+    margin: 10px;
+}

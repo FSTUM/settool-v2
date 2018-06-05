@@ -27,4 +27,9 @@
             </tr>
         </table>
     </form>
+    <script type="text/javascript">
+        let subjects = $('select[multiple][name="subjects"]');
+        addLink(subjects, 'Master', valueCallback('select', 'master'));
+        addLink(subjects, 'Bachelor', valueCallback('select', 'bachelor'));
+    </script>
 {% endblock %}

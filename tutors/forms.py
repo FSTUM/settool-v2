@@ -131,6 +131,9 @@ class AnswerForm(forms.ModelForm):
         model = Answer
         exclude = ["tutor"]
         readonly_fields = ('question',)
+        widgets = {
+            'answer': forms.RadioSelect,
+        }
 
     def __init__(self, *args, **kwargs):
         super(AnswerForm, self).__init__(*args, **kwargs)
@@ -138,6 +141,7 @@ class AnswerForm(forms.ModelForm):
                       name in self.Meta.readonly_fields):
             field.widget.attrs['disabled'] = True
             field.required = False
+
 
     def clean(self):
         data = super(AnswerForm, self).clean()

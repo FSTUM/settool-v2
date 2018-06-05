@@ -18,12 +18,19 @@
             </div>
         </div>
 
-    <table class="table">
+        <table class="table">
             <tr>
-                <td><button type="submit" class="btn btn-default">{% trans "Submit" %}</button></td>
+                <td>
+                    <button type="submit" class="btn btn-default">{% trans "Submit" %}</button>
+                </td>
                 <td><a href="{% url "task_view" task.id %}" class="btn btn-default"
                 >{% trans "Cancel" %}</a></td>
             </tr>
         </table>
     </form>
+    <script type="text/javascript">
+        let allowedSubjects = $('select[multiple][name="allowed_subjects"]');
+        addLink(allowedSubjects, 'Master', valueCallback('select', 'master'));
+        addLink(allowedSubjects, 'Bachelor', valueCallback('select', 'bachelor'));
+    </script>
 {% endblock %}

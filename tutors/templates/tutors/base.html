@@ -32,10 +32,10 @@
     {% else %}
         <div class="col-md-12">
     {% endif %}
-            {% block tutorcontent %}
-            {% endblock %}
-        </div>
-        {% if perms.tutors.edit_tutors %}
+{% block tutorcontent %}
+{% endblock %}
+</div>
+{% if perms.tutors.edit_tutors %}
     </div>
-    {% endif %}
+{% endif %}
 {% endblock %}

@@ -16,6 +16,7 @@
         <script src="{% static "common/js/jquery.multi-select.js" %}"></script>
         <script src="{% static "common/js/bootstrap.min.js" %}"></script>
         <script src="{% static "common/js/bootstrap-editable.min.js" %}"></script>
+        <script src="{% static "common/js/multiselect.js" %}"></script>
 
         <link href="{% static "common/css/bootstrap.min.css" %}" media="all" rel="stylesheet">
         <link href="{% static "common/css/bootstrap-theme.min.css" %}" media="all" rel="stylesheet">
@@ -149,8 +150,13 @@
 
         <script type="text/javascript">
             jQuery.each($("select[multiple]"), function () {
-                $(this).multiSelect();
-             });
+                addLink(this, 'Deselect All', defaultCallback('deselect_all'));
+                addLink(this, 'Select All', defaultCallback('select_all'));
+                $(this).multiSelect({
+                    selectableHeader: "Selectable items",
+                    selectionHeader: "Selection items",
+                });
+            });
         </script>
     </body>
 </html>

@@ -371,7 +371,8 @@ class Answer(models.Model):
     answer = models.CharField(
         _("Answer"),
         max_length=10,
-        blank=True,
+        null=True,
+        blank=False,
         choices=ANSWERS,
     )
 
