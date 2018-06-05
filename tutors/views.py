@@ -1,17 +1,22 @@
+import os
+import time
+
 from django import http
 from django.contrib import messages
 from django.contrib.auth.decorators import permission_required
 from django.contrib.sites.shortcuts import get_current_site
 from django.core.mail import EmailMessage
 from django.forms import modelformset_factory, forms
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse, Http404
 from django.shortcuts import render, get_object_or_404, redirect
 from django.template.loader import render_to_string
 from django.utils import timezone
 from django.utils.encoding import force_bytes, force_text
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 
+from common import utils
 from common.models import get_semester, Semester
+from settool.settings import BASE_DIR
 from tutors.forms import TutorForm, TutorAdminForm, EventAdminForm, TaskAdminForm, RequirementAdminForm, AnswerForm
 from tutors.models import Tutor, Status, Registration, Event, Task, Question, Answer
 from tutors.tokens import account_activation_token
@@ -107,7 +112,7 @@ def tutor_list(request, status=None):
         tutors = Tutor.objects.all()
     else:
         tutors = Tutor.objects.filter(status__key=status)
-    return render(request, 'tutors/tutor/list.html', {'tutors': tutors})
+    return render(request, 'tutors/tutor/list.html', {'tutors': tutors, 'status': status})
 
 
 def tutor_view(request, uid):
@@ -419,3 +424,27 @@ def task_mail(request, uid):
         "task": task,
     }
     return render(request, 'tutors/task/mail.html', context)
+
+
+@permission_required('tutors.edit_tutors')
+def tutor_export(request, status=None):
+    if status is None:
+        tutors = Tutor.objects.all()
+    else:
+        tutors = Tutor.objects.filter(status__key=status)
+
+    dest = os.path.join(BASE_DIR, "downloads")
+
+    file_path = utils.latex_to_pdf("tutors/tex/tutors.tex", dest, {"tutors": tutors})
+    if os.path.exists(file_path):
+        with open(file_path, 'rb') as fh:
+            filename = "tutors"
+            if status is not None:
+                filename += "_" + status
+            filename += "_" + time.strftime("%Y%m%d-%H%M")
+            filename += ".pdf"
+
+            response = HttpResponse(fh.read(), content_type="application/pdf")
+            response['Content-Disposition'] = 'inline; filename=' + filename
+            return response
+    raise Http404

@@ -2,7 +2,6 @@ from django.urls import path, include
 
 from . import views
 
-
 urlpatterns = [
     path('tutor/', include([
         path('signup/', views.tutor_signup, name='tutor_signup'),
@@ -17,6 +16,8 @@ urlpatterns = [
         path('decline/<uuid:uid>/', views.tutor_decline, name='tutor_decline'),
         path('delete/<uuid:uid>/', views.tutor_delete, name='tutor_delete'),
         path('edit/<uuid:uid>/', views.tutor_edit, name='tutor_edit'),
+        path('export/', views.tutor_export, name='tutor_export'),
+        path('export/<str:status>', views.tutor_export, name='tutor_export_status'),
     ])),
     path('event/', include([
         path('list/', views.event_list, name='event_list'),

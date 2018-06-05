@@ -22,41 +22,51 @@
     <h1>
         {% trans "List tutors" %}
     </h1>
-    <div class="table-responsive">
-        <table id="tutorTable" class="table tablesorter table-striped table-hover">
-            <thead>
-            <tr>
-                <th>{% trans "First name" %}</th>
-                <th>{% trans "Last name" %}</th>
-                <th>{% trans "Status" %}</th>
-                <th>{% trans "Registration time" %}</th>
-                <th></th>
-            </tr>
-            </thead>
-            <tbody>
-            {% for tutor in tutors %}
-                <tr class="{% if tutor.status.key == "accepted" %}success
-{% elif tutor.status.key == "declined" %}danger{% endif %}">
-                    <td>
-                        <a href="{% url "tutor_view" tutor.id %}">{{ tutor.first_name }}</a>
-                    </td>
-                    <td>
-                        <a href="{% url "tutor_view" tutor.id %}">{{ tutor.last_name }}</a>
-                    </td>
-                    <td>
-                        {{ tutor.status.name }}
-                    </td>
-                    <td>
-                        {{ tutor.registration_time }}
-                    </td>
-                    <td>
-                        <a href="{% url "tutor_edit" tutor.id %}"><span class="glyphicon glyphicon-edit"></span></a>
-                        <a href="{% url "tutor_delete" tutor.id %}"><span class="glyphicon glyphicon-trash"></span></a>
-                    </td>
-                </tr>
-            {% endfor %}
-            </tbody>
-        </table>
+    <div class="row">
+        <div class="col-sm-12">
+            <a href="{% if status is None %}{% url "tutor_export" %}{% else %}
+{% url "tutor_export_status" status %}{% endif %}"><span class="glyphicon glyphicon-file"></span>Export PDF</a>
+        </div>
+    </div>
+    <div class=" row">
+        <div class="col-sm-12">
+            <div class="table-responsive">
+                <table id="tutorTable" class="table tablesorter table-striped table-hover">
+                    <thead>
+                    <tr>
+                        <th>{% trans "First name" %}</th>
+                        <th>{% trans "Last name" %}</th>
+                        <th>{% trans "Status" %}</th>
+                        <th>{% trans "Registration time" %}</th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for tutor in tutors %}
+                        <tr class="{% if tutor.status.key == "accepted" %}success{% elif tutor.status.key == "declined" %}danger{% endif %}">
+                            <td>
+                                <a href="{% url "tutor_view" tutor.id %}">{{ tutor.first_name }}</a>
+                            </td>
+                            <td>
+                                <a href="{% url "tutor_view" tutor.id %}">{{ tutor.last_name }}</a>
+                            </td>
+                            <td>
+                                {{ tutor.status.name }}
+                            </td>
+                            <td>
+                                {{ tutor.registration_time }}
+                            </td>
+                            <td>
+                                <a href="{% url "tutor_edit" tutor.id %}"><span class="glyphicon glyphicon-edit"></span></a>
+                                <a href="{% url "tutor_delete" tutor.id %}"><span
+                                        class="glyphicon glyphicon-trash"></span></a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
 {% endblock %}
 

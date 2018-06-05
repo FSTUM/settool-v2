@@ -22,31 +22,35 @@
     <h1>
         {% trans "List of requirements" %}
     </h1>
-    <div class="table-responsive">
-        <table id="requirementTable" class="table tablesorter table-striped table-hover">
-            <thead>
-            <tr>
-                <th>{% trans "Question" %}</th>
-                <th></th>
-            </tr>
-            </thead>
-            <tbody>
-            {% for requirement in requirements %}
-                <tr>
-                    <td>
-                        <a href="{% url "requirement_view" requirement.id %}">{{ requirement.question }}</a>
-                    </td>
-                    <td>
-                        <a href="{% url "requirement_edit" requirement.id %}"><span
-                                class="glyphicon glyphicon-edit"></span></a>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="table-responsive">
+                <table id="requirementTable" class="table tablesorter table-striped table-hover">
+                    <thead>
+                    <tr>
+                        <th>{% trans "Question" %}</th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for requirement in requirements %}
+                        <tr>
+                            <td>
+                                <a href="{% url "requirement_view" requirement.id %}">{{ requirement.question }}</a>
+                            </td>
+                            <td>
+                                <a href="{% url "requirement_edit" requirement.id %}"><span
+                                        class="glyphicon glyphicon-edit"></span></a>
 
-                        <a href="{% url "requirement_delete" requirement.id %}"><span
-                                class="glyphicon glyphicon-trash"></span></a>
-                    </td>
-                </tr>
-            {% endfor %}
-            </tbody>
-        </table>
+                                <a href="{% url "requirement_delete" requirement.id %}"><span
+                                        class="glyphicon glyphicon-trash"></span></a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
 {% endblock %}
 
