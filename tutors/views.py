@@ -434,7 +434,23 @@ def requirement_delete(request, uid):
 
 @permission_required('tutors.edit_tutors')
 def task_mail(request, uid):
+    semester = get_object_or_404(Semester, pk=get_semester(request))
+    settings = get_object_or_404(Settings, semester=semester)
     task = get_object_or_404(Task, pk=uid)
+
+    tutor_data = {}
+    for field in [x.name for x in Tutor._meta.fields if x.name not in ["semester", "status", "subject"]]:
+        tutor_data[field] = "<" + field + ">"
+
+    tutor = Tutor(**tutor_data)
+
+    context = Context({
+        'task': task,
+        'tutor': tutor,
+    })
+
+    subject = Template(settings.mail_task.subject).render(context)
+    body = Template(settings.mail_task.text).render(context)
 
     form = forms.Form(request.POST or None)
     if form.is_valid():
@@ -444,6 +460,9 @@ def task_mail(request, uid):
 
     context = {
         "task": task,
+        "from": settings.mail_task.sender,
+        "subject": subject,
+        "body": body,
     }
     return render(request, 'tutors/task/mail.html', context)
 

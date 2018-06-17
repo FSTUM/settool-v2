@@ -19,12 +19,13 @@
                     <td>
                         <button type="submit" class="btn btn-default">{% trans "Send" %}</button>
                     </td>
-                    <td><a href="{% url "task_view" task.id %}" class="btn btn-default">{% trans "Cancel" %}</a></td>
+                    <td><a href="{% url "task_view" task.id %}"
+                           class="btn btn-default btn-danger">{% trans "Cancel" %}</a></td>
                 </tr>
             </table>
         </form>
         <p>
-            <strong>{% trans "From" %}</strong>: {{ from_email }}
+            <strong>{% trans "From" %}</strong>: {{ from }}
         </p>
         <p>
             <strong>{% trans "To" %}</strong>: {% trans "see table below" %}
@@ -33,7 +34,7 @@
             <strong>{% trans "Subject" %}</strong>: {{ subject }}
         </p>
         <p>
-            <strong>{% trans "Text" %}</strong>:<br/>{{ text|linebreaks|urlize }}
+            <strong>{% trans "Text" %}</strong>:<br/>{{ body|linebreaks|urlize }}
         </p>
 
         <table class="table">
