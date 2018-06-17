@@ -17,7 +17,6 @@ from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 
 from common import utils
 from common.models import get_semester, Semester
-from settool.settings import BASE_DIR
 from tutors.forms import TutorForm, TutorAdminForm, EventAdminForm, TaskAdminForm, RequirementAdminForm, AnswerForm
 from tutors.models import Tutor, Status, Registration, Event, Task, Question, Answer
 from tutors.tokens import account_activation_token
@@ -440,8 +439,7 @@ def tutor_export(request, type, status=None):
     filename += "_" + time.strftime("%Y%m%d-%H%M")
 
     if type == "pdf":
-        dest = os.path.join(BASE_DIR, "downloads")
-        return download_pdf("tutors/tex/tutors.tex", os.path.join(dest, filename + ".pdf"), {"tutors": tutors})
+        return download_pdf("tutors/tex/tutors.tex", filename + ".pdf", {"tutors": tutors})
     elif type == "csv":
         return download_csv(["last_name", "first_name", "subject"], filename + ".csv", tutors)
 
@@ -449,14 +447,10 @@ def tutor_export(request, type, status=None):
 
 
 def download_pdf(file, dest, context):
-    tmp_file = utils.latex_to_pdf(file, dest, context)
-    if not os.path.exists(tmp_file):
-        raise Http404
-
-    with open(tmp_file, 'rb') as fh:
-        response = HttpResponse(fh.read(), content_type="application/pdf")
-        response['Content-Disposition'] = 'inline; filename=' + os.path.basename(dest)
-        return response
+    pdf = utils.latex_to_pdf(file, context)
+    response = HttpResponse(pdf, content_type="application/pdf")
+    response['Content-Disposition'] = 'inline; filename=' + os.path.basename(dest)
+    return response
 
 
 def download_csv(fields, dest, context):

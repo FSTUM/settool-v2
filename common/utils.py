@@ -16,7 +16,7 @@ else:
         return str(x)
 
 
-def latex_to_pdf(tex_path, dest, context):
+def latex_to_pdf(tex_path, context):
     # In a temporary folder, make a temporary file
     tmp_folder = mkdtemp()
     os.chdir(tmp_folder)
@@ -26,9 +26,10 @@ def latex_to_pdf(tex_path, dest, context):
     os.close(texfile)
     # Compile the TeX file with PDFLaTeX
     call(['pdflatex', texfilename])
+
+    with open(texfilename + ".pdf", "rb") as f:
+        result = f.read()
     # Move resulting PDF to a more permanent location
-    print(dest)
-    os.rename(texfilename + '.pdf', dest)
     # Remove intermediate files
     os.remove(texfilename)
     os.remove(texfilename + '.aux')
@@ -36,4 +37,4 @@ def latex_to_pdf(tex_path, dest, context):
     try:
         shutil.rmtree(tmp_folder)
     finally:
-        return dest
+        return result
