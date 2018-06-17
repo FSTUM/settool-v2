@@ -36,6 +36,7 @@ LOGIN_REDIRECT_URL = '/'
 # Application definition
 
 INSTALLED_APPS = [
+    'modeltranslation',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -117,6 +118,10 @@ LANGUAGE_CODE = 'en'
 LANGUAGES = (
     ('de', _('German')),
     ('en', _('English')),
+)
+
+MODELTRANSLATION_TRANSLATION_FILES = (
+    'tutors.translation',
 )
 
 TIME_ZONE = 'Europe/Berlin'

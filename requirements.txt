@@ -1,3 +1,4 @@
 Django
 django-bootstrap3
 unicodecsv
+django-modeltranslation

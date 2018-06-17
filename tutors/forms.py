@@ -43,7 +43,7 @@ class TutorForm(TutorAdminForm):
 class EventAdminForm(SemesterBasedForm):
     class Meta:
         model = Event
-        exclude = ["semester"]
+        exclude = ["semester", "name", "description", "meeting_point"]
 
     def save(self, commit=True):
         instance = super(EventAdminForm, self).save(False)
@@ -69,7 +69,7 @@ class EventAdminForm(SemesterBasedForm):
 class TaskAdminForm(SemesterBasedForm):
     class Meta:
         model = Task
-        exclude = ["semester"]
+        exclude = ["semester", "name", "description", "meeting_point"]
 
     def save(self, commit=True):
         instance = super(TaskAdminForm, self).save(False)
@@ -123,7 +123,7 @@ class TaskAdminForm(SemesterBasedForm):
 class RequirementAdminForm(SemesterBasedForm):
     class Meta:
         model = Question
-        exclude = ["semester"]
+        exclude = ["semester", "question"]
 
 
 class AnswerForm(forms.ModelForm):
