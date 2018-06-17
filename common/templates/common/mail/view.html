@@ -16,7 +16,7 @@
                 </tr>
                 <tr>
                     <th>{% trans "Text" %}</th>
-                    <td>{{ mail.text }}</td>
+                    <td>{{ mail.text|linebreaks }}</td>
                 </tr>
                 {% if perms.tutor.edit_tutors %}
                     <tr>

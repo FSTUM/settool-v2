@@ -7,11 +7,11 @@ from django.db import models
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 
-from common.models import Semester, Subject
+from common.models import Semester, Subject, Mail
 from common.utils import u
 
 
-class Registration(models.Model):
+class Settings(models.Model):
     semester = models.OneToOneField(
         Semester,
         on_delete=None
@@ -25,8 +25,48 @@ class Registration(models.Model):
         _("Close registration"),
     )
 
+    mail_registration = models.ForeignKey(
+        Mail,
+        verbose_name=_("Mail Registration"),
+        related_name="tutors_mail_registration",
+        on_delete=models.CASCADE,
+        null=True,
+    )
+
+    mail_confirmed_place = models.ForeignKey(
+        Mail,
+        verbose_name=_("Mail Confirmed Place"),
+        related_name="tutors_mail_confirmed_place",
+        on_delete=models.CASCADE,
+        null=True,
+    )
+
+    mail_waiting_list = models.ForeignKey(
+        Mail,
+        verbose_name=_("Mail Waiting List"),
+        related_name="tutors_mail_waiting_list",
+        on_delete=models.CASCADE,
+        null=True,
+    )
+
+    mail_task = models.ForeignKey(
+        Mail,
+        verbose_name=_("Mail Task"),
+        related_name="tutors_mail_task",
+        on_delete=models.CASCADE,
+        null=True,
+    )
+
     def registration_open(self):
         return self.open_registration < timezone.now() < self.close_registration
+
+    def log(self, user, text):
+        # LogEntry.objects.create(
+        #     participant=self,
+        #     user=user,
+        #     text=text,
+        # )
+        pass
 
 
 class Status(models.Model):

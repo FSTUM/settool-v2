@@ -1,9 +1,9 @@
-{% extends "common/base.html" %}
+{% extends "tutors/base.html" %}
 {% load i18n %}
 
 {% block title %}{% trans "SET" %} - {% trans "Delete email template" %}{% endblock %}
 
-{% block commoncontent %}
+{% block tutorcontent %}
     <h1>
         {% trans "Delete Tutor" %}: {{ tutor }}
     </h1>
@@ -59,7 +59,7 @@
                 {% endfor %}
                 </tbody>
             </table>
-            <h2>{% trans "Assigned Tasks" %}:</h2>
+            <h2>{% trans "The tutor is assigned to the following tasks:" %}</h2>
             <table class="table">
                 <thead>
                 <tr>

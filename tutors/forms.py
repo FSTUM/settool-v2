@@ -1,10 +1,11 @@
 from uuid import UUID
 
+from datetimepicker.widgets import DateTimePicker
 from django import forms
 from django.utils import six
 
 from common.forms import SemesterBasedForm
-from tutors.models import Tutor, Event, Task, TutorAssignment, Question, Answer
+from tutors.models import Tutor, Event, Task, TutorAssignment, Question, Answer, Settings
 
 
 class TutorAdminForm(SemesterBasedForm):
@@ -69,7 +70,7 @@ class EventAdminForm(SemesterBasedForm):
 class TaskAdminForm(SemesterBasedForm):
     class Meta:
         model = Task
-        exclude = ["semester", "name", "description", "meeting_point"]
+        exclude = ["semester", "name", "description", "meeting_point", "tutors"]
 
     def save(self, commit=True):
         instance = super(TaskAdminForm, self).save(False)
@@ -89,20 +90,6 @@ class TaskAdminForm(SemesterBasedForm):
                 if subject not in final_subjects:
                     instance.allowed_subjects.remove(subject)
 
-        if 'tutors' in self.changed_data:
-            final_tutors = self.cleaned_data['tutors'].all()
-            initial_tutors = self.initial['tutors'] if 'tutors' in self.initial else []
-
-            # create and save new members
-            for tutor in final_tutors:
-                if tutor not in initial_tutors:
-                    TutorAssignment.objects.create(tutor=tutor, task=instance)
-
-            # delete old members that were removed from the form
-            for tutor in initial_tutors:
-                if tutor not in final_tutors:
-                    TutorAssignment.objects.filter(tutor=tutor, task=instance).delete()
-
         if 'requirements' in self.changed_data:
             final_requirements = self.cleaned_data['requirements'].all()
             initial_requirements = self.initial['requirements'] if 'requirements' in self.initial else []
@@ -118,6 +105,28 @@ class TaskAdminForm(SemesterBasedForm):
                     instance.requirements.remove(subject)
 
         return instance
+
+
+class TaskAssignmentForm(SemesterBasedForm):
+    class Meta:
+        model = Task
+        fields = ["tutors"]
+
+    def save(self, commit=True):
+        instance = super(TaskAssignmentForm, self).save(False)
+        if 'tutors' in self.changed_data:
+            final_tutors = self.cleaned_data['tutors'].all()
+            initial_tutors = self.initial['tutors'] if 'tutors' in self.initial else []
+
+            # create and save new members
+            for tutor in final_tutors:
+                if tutor not in initial_tutors:
+                    TutorAssignment.objects.create(tutor=tutor, task=instance)
+
+            # delete old members that were removed from the form
+            for tutor in initial_tutors:
+                if tutor not in final_tutors:
+                    TutorAssignment.objects.filter(tutor=tutor, task=instance).delete()
 
 
 class RequirementAdminForm(SemesterBasedForm):
@@ -150,3 +159,9 @@ class AnswerForm(forms.ModelForm):
                     data[name] = Question.objects.get(pk=self.initial[name])
                 else:
                     data[name] = self.initial[name]
+
+
+class SettingsAdminForm(SemesterBasedForm):
+    class Meta:
+        model = Settings
+        exclude = ["semester", ]

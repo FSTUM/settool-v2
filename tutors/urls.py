@@ -41,5 +41,6 @@ urlpatterns = [
         path('edit/<uuid:uid>/', views.requirement_edit, name='requirement_edit'),
         path('delete/<uuid:uid>/', views.requirement_delete, name='requirement_delete'),
         path('view/<uuid:uid>/', views.requirement_view, name='requirement_view'),
-    ]))
+    ])),
+    path('settings/', views.tutors_settings, name='tutors_settings'),
 ]

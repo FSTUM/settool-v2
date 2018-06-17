@@ -1,9 +1,9 @@
-{% extends "common/base.html" %}
+{% extends "tutors/base.html" %}
 {% load i18n %}
 
 {% block title %}{% trans "SET" %} - {% trans "Delete email template" %}{% endblock %}
 
-{% block commoncontent %}
+{% block tutorcontent %}
     <h1>
         {% trans "Delete Event" %}: {{ event }}
     </h1>
@@ -52,7 +52,7 @@
                 </tr>
             </table>
             {% if perms.tutor.edit_tutors %}
-                <h2>{% trans "This event has the following tasks:" %}</h2>
+                <h2>{% trans "This event has the following tasks and will be deleted:" %}</h2>
                 <table class="table">
                     <thead>
                     <tr>

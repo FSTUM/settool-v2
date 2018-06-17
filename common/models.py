@@ -139,7 +139,7 @@ class Mail(models.Model):
     )
 
     sender = models.CharField(
-        max_length=2,
+        max_length=100,
         choices=FROM_CHOICES,
         default=SET,
         verbose_name=_("From"),

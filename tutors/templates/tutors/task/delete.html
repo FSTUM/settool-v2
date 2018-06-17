@@ -1,9 +1,9 @@
-{% extends "common/base.html" %}
+{% extends "tutors/base.html" %}
 {% load i18n %}
 
 {% block title %}{% trans "SET" %} - {% trans "Delete email template" %}{% endblock %}
 
-{% block commoncontent %}
+{% block tutorcontent %}
     <h1>
         {% trans "Delete task" %}: {{ task }}
     </h1>
@@ -77,7 +77,7 @@
                 {% endif %}
             </table>
             {% if perms.tutor.edit_tutors %}
-                <h2>Assigned Tutors:</h2>
+                <h2>The following tutor assignments will be deleted:</h2>
                 {% if task.tutorassignment_set.all|length == 0 %}
                     {% trans "No Tutor is assigned." %}
                 {% else %}

@@ -10,23 +10,24 @@ from django.core.mail import EmailMessage
 from django.forms import modelformset_factory, forms
 from django.http import HttpResponseRedirect, HttpResponse, Http404
 from django.shortcuts import render, get_object_or_404, redirect
-from django.template.loader import render_to_string
+from django.template import Template, Context
 from django.utils import timezone
 from django.utils.encoding import force_bytes, force_text
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 
 from common import utils
 from common.models import get_semester, Semester
-from tutors.forms import TutorForm, TutorAdminForm, EventAdminForm, TaskAdminForm, RequirementAdminForm, AnswerForm
-from tutors.models import Tutor, Status, Registration, Event, Task, Question, Answer
+from tutors.forms import TutorForm, TutorAdminForm, EventAdminForm, TaskAdminForm, RequirementAdminForm, AnswerForm, \
+    TaskAssignmentForm, SettingsAdminForm
+from tutors.models import Tutor, Status, Settings, Event, Task, Question, Answer
 from tutors.tokens import account_activation_token
 
 
 def tutor_signup(request):
     semester = get_object_or_404(Semester, pk=get_semester(request))
-    registration = get_object_or_404(Registration, semester=semester)
+    settings = get_object_or_404(Settings, semester=semester)
 
-    if not (registration.open_registration < timezone.now() < registration.close_registration):
+    if not (settings.open_registration < timezone.now() < settings.close_registration):
         return render(request, 'tutors/tutor/registration_closed.html', {})
 
     questions = Question.objects.distinct()
@@ -61,16 +62,18 @@ def tutor_signup(request):
             res.save()
         tutor.log(None, "Signed up")
 
-        mail_subject = 'Confirm your SET Tutor application.'
-        message = render_to_string('tutors/tutor/signup_confirm.html', {
-            'user': tutor,
+        message = Template(settings.mail_registration.text).render(Context({
+            'tutor': tutor,
             'domain': get_current_site(request).domain,
             'uid': urlsafe_base64_encode(force_bytes(tutor.pk)),
             'token': account_activation_token.make_token(tutor),
-        })
+        }))
         to_email = form.cleaned_data.get('email')
         email = EmailMessage(
-            mail_subject, message, to=[to_email]
+            from_email=settings.mail_registration.sender,
+            to=[to_email],
+            subject=settings.mail_registration.subject,
+            body=message
         )
         email.send()
 
@@ -343,7 +346,24 @@ def task_add(request):
 
 def task_view(request, uid):
     task = get_object_or_404(Task, pk=uid)
-    return render(request, 'tutors/task/view.html', {'task': task})
+
+    if not request.user.has_perm('tutors.edit_tutors'):
+        return render(request, 'tutors/task/view.html', {'task': task})
+
+    form = TaskAssignmentForm(request.POST or None, semester=task.semester, instance=task)
+    if form.is_valid():
+        form.save()
+        task.log(request.user, "Task Assignment edited")
+        messages.success(request, 'Saved Task Assignment %s.' % task.name)
+
+    assigned_tutors = task.tutors.all()
+    context = {
+        'task': task,
+        'assigned_tutors': assigned_tutors,
+        'unassigned_tutors': Tutor.objects.exclude(id__in=assigned_tutors.values("id")),
+        'assignment_form': form,
+    }
+    return render(request, 'tutors/task/view.html', context)
 
 
 @permission_required('tutors.edit_tutors')
@@ -483,3 +503,21 @@ def download_csv(fields, dest, context):
             row.append(val)
         writer.writerow(row)
     return response
+
+
+@permission_required('tutors.edit_tutors')
+def tutors_settings(request):
+    semester = get_object_or_404(Semester, pk=get_semester(request))
+    settings = get_object_or_404(Settings, semester=semester)
+
+    form = SettingsAdminForm(request.POST or None, semester=semester, instance=settings)
+    if form.is_valid():
+        form.save()
+        settings.log(request.user, "Settings edited")
+        messages.success(request, 'Saved Settings.')
+
+        return redirect('tutors_settings')
+
+    return render(request, 'tutors/settings/edit.html', {
+        'form': form,
+    })

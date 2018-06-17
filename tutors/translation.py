@@ -1,6 +1,6 @@
 from modeltranslation.translator import translator, TranslationOptions
 
-from tutors.models import Event, Task, Question, Answer
+from tutors.models import Event, Task, Question
 
 
 class EventTranslationOptions(TranslationOptions):
@@ -16,6 +16,7 @@ class TaskTranslationOptions(TranslationOptions):
 class QuestionTranslationOptions(TranslationOptions):
     fields = ('question',)
     required_languages = ('en', 'de')
+
 
 translator.register(Event, EventTranslationOptions)
 translator.register(Task, TaskTranslationOptions)
