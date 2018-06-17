@@ -152,7 +152,7 @@
         </footer>
 
         <script type="text/javascript">
-            jQuery.each($("select[multiple]"), function () {
+            jQuery.each($("select[multiple]:visible"), function () {
                 addLink(this, 'Deselect All', defaultCallback('deselect_all'));
                 addLink(this, 'Select All', defaultCallback('select_all'));
                 $(this).multiSelect({
