@@ -55,7 +55,10 @@
                                         class="glyphicon glyphicon-edit"></span></a>
                                 <a href="{% url "task_delete" task.id %}"><span
                                         class="glyphicon glyphicon-trash"></span></a>
-                                <a href="{% url "task_mail" task.id %}"><span class="glyphicon glyphicon-envelope"></span></a>
+                                <a href="{% url "task_mail" task.id %}"><span
+                                        class="glyphicon glyphicon-envelope"></span></a>
+                                <a href="{% url "task_export" "pdf" task.id %}"><span
+                                        class="glyphicon glyphicon-list"></span></a>
                             </td>
                         </tr>
                     {% endfor %}

@@ -142,7 +142,6 @@ class AnswerForm(forms.ModelForm):
             field.widget.attrs['disabled'] = True
             field.required = False
 
-
     def clean(self):
         data = super(AnswerForm, self).clean()
         for name, field in six.iteritems(self.fields):

@@ -446,6 +446,19 @@ def tutor_export(request, type, status=None):
     raise Http404
 
 
+@permission_required('tutors.edit_tutors')
+def task_export(request, type, uid=None):
+    task = Task.objects.get(pk=uid)
+
+    filename = "task_" + task.id.__str__() + "_" + time.strftime("%Y%m%d-%H%M")
+    if type == "pdf":
+        return download_pdf("tutors/tex/tutors.tex", filename + ".pdf", {"tutors": task.tutors.all()})
+    elif type == "csv":
+        return download_csv(["last_name", "first_name", "subject"], filename + ".csv", task.tutors.all())
+
+    raise Http404
+
+
 def download_pdf(file, dest, context):
     pdf = utils.latex_to_pdf(file, context)
     response = HttpResponse(pdf, content_type="application/pdf")

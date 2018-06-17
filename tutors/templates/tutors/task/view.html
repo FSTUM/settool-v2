@@ -94,6 +94,11 @@
                         <td><a href="{% url "task_mail" task.id %}"><span class="glyphicon
                         glyphicon-envelope"></span></a></td>
                     </tr>
+                    <tr>
+                        <th>{% trans "Tutor List" %}</th>
+                        <td><a href="{% url "task_export" "pdf" task.id %}"><span class="glyphicon
+                        glyphicon-list"></span></a></td>
+                    </tr>
                 {% endif %}
             </table>
             {% if perms.tutor.edit_tutors %}
