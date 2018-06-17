@@ -62,17 +62,19 @@ def tutor_signup(request):
             res.save()
         tutor.log(None, "Signed up")
 
-        message = Template(settings.mail_registration.text).render(Context({
+        context = Context({
             'tutor': tutor,
             'domain': get_current_site(request).domain,
             'uid': urlsafe_base64_encode(force_bytes(tutor.pk)),
             'token': account_activation_token.make_token(tutor),
-        }))
+        })
+        message = Template(settings.mail_registration.text).render(context)
+        subject = Template(settings.mail_registration.subject).render(context)
         to_email = form.cleaned_data.get('email')
         email = EmailMessage(
             from_email=settings.mail_registration.sender,
             to=[to_email],
-            subject=settings.mail_registration.subject,
+            subject=subject,
             body=message
         )
         email.send()
