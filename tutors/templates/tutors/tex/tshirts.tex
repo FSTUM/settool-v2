@@ -14,16 +14,18 @@
 
 \begin{document}
 
-    \section*{Tutorliste (Stand: \today)}
+    \section*{T-Shirt-Liste (Stand: \today)}
 
     \begin{center}
         \large
-        \begin{longtable}{|c|m{.15\textwidth}|m{.15\textwidth}|m{.23\textwidth}|m{.3\textwidth}|}
-            \hline \bfseries Nr & \bfseries Vorname & \bfseries Nachname & \bfseries Hauptfach & \bfseries
+        \begin{longtable}{|c|m{.15\textwidth}|m{.15\textwidth}|m{.15\textwidth}|m{.35\textwidth}|}
+            \hline \bfseries Nr & \bfseries Vorname & \bfseries Nachname &
+            \bfseries T-Shirt-Größe & \bfseries
             Unterschrift \\ \hline
             \endhead
             {% for tutor in tutors %}
-                \rownumber & {{ tutor.first_name }} & {{ tutor.last_name }} & {{ tutor.subject }} & \newline
+                \rownumber & {{ tutor.first_name }} & {{ tutor.last_name }} &
+                {% if tutor.tshirt_girls_cut %}Girly {%endif %}{{ tutor.tshirt_size }} & \newline
 \\\hline
             {% endfor %}
         \end{longtable}
