@@ -1,10 +1,10 @@
 from uuid import UUID
 
-from datetimepicker.widgets import DateTimePicker
 from django import forms
 from django.utils import six
 
 from common.forms import SemesterBasedForm
+from common.models import Mail
 from tutors.models import Tutor, Event, Task, TutorAssignment, Question, Answer, Settings
 
 
@@ -165,3 +165,17 @@ class SettingsAdminForm(SemesterBasedForm):
     class Meta:
         model = Settings
         exclude = ["semester", ]
+
+
+class TaskMailAdminForm(forms.Form):
+    tutors = forms.ModelMultipleChoiceField(widget=forms.CheckboxSelectMultiple, queryset=None, required=True)
+    mail_template = forms.ModelChoiceField(label='Mail Template', queryset=Mail.objects.all(), required=True)
+
+    def __init__(self, *args, **kwargs):
+        task = kwargs.pop('task')
+        settings = kwargs.pop('settings')
+        super(TaskMailAdminForm, self).__init__(*args, **kwargs)
+
+        self.fields["tutors"].queryset = task.tutors.all()
+        self.fields["tutors"].initial = task.tutors.all()
+        self.fields["mail_template"].initial = settings.mail_task

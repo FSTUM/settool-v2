@@ -125,6 +125,7 @@
                         <tr>
                             <th>{% trans "First name" %}</th>
                             <th>{% trans "Last name" %}</th>
+                            <th>{% trans "Subject" %}</th>
                             <th>{% trans "Status" %}</th>
                             <th>{% trans "Total Assigned" %}</th>
                             <th>{% trans "Registration time" %}</th>
@@ -145,6 +146,9 @@
                                 </td>
                                 <td>
                                     {{ tutor.status.name }}
+                                </td>
+                                <td>
+                                    {{ tutor.subject }}
                                 </td>
                                 <td>
                                     {{ tutor.task_set.count }}
@@ -169,6 +173,7 @@
                         <tr>
                             <th>{% trans "First name" %}</th>
                             <th>{% trans "Last name" %}</th>
+                            <th>{% trans "Subject" %}</th>
                             <th>{% trans "Status" %}</th>
                             <th>{% trans "Total Assigned" %}</th>
                             <th>{% trans "Registration time" %}</th>
@@ -189,6 +194,9 @@
                                 </td>
                                 <td>
                                     {{ tutor.status.name }}
+                                </td>
+                                <td>
+                                    {{ tutor.subject }}
                                 </td>
                                 <td>
                                     {{ tutor.task_set.count }}

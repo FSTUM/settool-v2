@@ -24,7 +24,7 @@
             Unterschrift \\ \hline
             \endhead
             {% for tutor in tutors %}
-                \rownumber & {{ tutor.first_name }} & {{ tutor.last_name }} &
+                \rownumber & {{ tutor.first_name|escape }} & {{ tutor.last_name|escape }} &
                 {% if tutor.tshirt_girls_cut %}Girly {%endif %}{{ tutor.tshirt_size }} & \newline
 \\\hline
             {% endfor %}

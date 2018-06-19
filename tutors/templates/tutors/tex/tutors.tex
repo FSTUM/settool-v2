@@ -23,7 +23,7 @@
             Unterschrift \\ \hline
             \endhead
             {% for tutor in tutors %}
-                \rownumber & {{ tutor.first_name }} & {{ tutor.last_name }} & {{ tutor.subject }} & \newline
+                \rownumber & {{ tutor.first_name|escape }} & {{ tutor.last_name|escape }} & {{ tutor.subject|escape }} & \newline
 \\\hline
             {% endfor %}
         \end{longtable}

@@ -18,7 +18,7 @@ from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from common import utils
 from common.models import get_semester, Semester
 from tutors.forms import TutorForm, TutorAdminForm, EventAdminForm, TaskAdminForm, RequirementAdminForm, AnswerForm, \
-    TaskAssignmentForm, SettingsAdminForm
+    TaskAssignmentForm, SettingsAdminForm, TaskMailAdminForm
 from tutors.models import Tutor, Status, Settings, Event, Task, Question, Answer
 from tutors.tokens import account_activation_token
 
@@ -452,9 +452,27 @@ def task_mail(request, uid):
     subject = Template(settings.mail_task.subject).render(context)
     body = Template(settings.mail_task.text).render(context)
 
-    form = forms.Form(request.POST or None)
+    form = TaskMailAdminForm(request.POST or None, task=task, settings=settings)
     if form.is_valid():
-        task.log(request.user, "Send mail")
+        tutors = form.cleaned_data["tutors"]
+        mail_template = form.cleaned_data["mail_template"]
+
+        for tutor in tutors:
+            context = Context({
+                'tutor': tutor,
+                'task': task,
+            })
+            message = Template(mail_template.text).render(context)
+            subject = Template(mail_template.subject).render(context)
+            email = EmailMessage(
+                from_email=mail_template.sender,
+                to=[tutor.email],
+                subject=subject,
+                body=message
+            )
+            email.send()
+            task.log(request.user, "Send mail to %s." % tutor)
+
         messages.success(request, 'Send email for Task %s.' % task.name)
         return redirect("task_list")
 
@@ -463,6 +481,7 @@ def task_mail(request, uid):
         "from": settings.mail_task.sender,
         "subject": subject,
         "body": body,
+        "form": form,
     }
     return render(request, 'tutors/task/mail.html', context)
 
@@ -483,6 +502,8 @@ def tutor_export(request, type, status=None):
         return download_pdf("tutors/tex/tutors.tex", filename + ".pdf", {"tutors": tutors})
     elif type == "csv":
         return download_csv(["last_name", "first_name", "subject"], filename + ".csv", tutors)
+    elif type == "tshirt":
+        return download_pdf("tutors/tex/tshirts.tex", filename + ".pdf", {"tutors": tutors})
 
     raise Http404
 
@@ -493,9 +514,7 @@ def task_export(request, type, uid=None):
 
     filename = "task_" + task.id.__str__() + "_" + time.strftime("%Y%m%d-%H%M")
     if type == "pdf":
-        return download_pdf("tutors/tex/tutors.tex", filename + ".pdf", {"tutors": task.tutors.all()})
-    elif type == "csv":
-        return download_csv(["last_name", "first_name", "subject"], filename + ".csv", task.tutors.all())
+        return download_pdf("tutors/tex/task.tex", filename + ".pdf", {"task": task, "tutors": task.tutors.all()})
 
     raise Http404
 
