@@ -1,7 +1,7 @@
 from django.contrib import admin
 
 from .models import (Status, Tutor, Task, Event, TutorAssignment, Answer,
-                     Question, Settings)
+                     Question, Settings, MailTutorTask)
 
 admin.site.register(Status)
 admin.site.register(Tutor)
@@ -11,3 +11,4 @@ admin.site.register(TutorAssignment)
 admin.site.register(Answer)
 admin.site.register(Question)
 admin.site.register(Settings)
+admin.site.register(MailTutorTask)

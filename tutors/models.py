@@ -436,3 +436,8 @@ class MailTutorTask(models.Model):
         on_delete=models.CASCADE,
         null=True
     )
+
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return "{}: {} -> {} - {}".format(self.created_at, self.tutor, self.mail, self.task)
