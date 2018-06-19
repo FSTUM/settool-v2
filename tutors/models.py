@@ -418,3 +418,21 @@ class Answer(models.Model):
 
     def __str__(self):
         return "{}: {} -> {}".format(self.tutor, self.question, u(self.answer))
+
+
+class MailTutorTask(models.Model):
+    mail = models.ForeignKey(
+        Mail,
+        on_delete=models.CASCADE
+    )
+
+    tutor = models.ForeignKey(
+        Tutor,
+        on_delete=models.CASCADE
+    )
+
+    task = models.ForeignKey(
+        Task,
+        on_delete=models.CASCADE,
+        null=True
+    )

@@ -5,7 +5,7 @@ from django.utils import six
 
 from common.forms import SemesterBasedForm
 from common.models import Mail
-from tutors.models import Tutor, Event, Task, TutorAssignment, Question, Answer, Settings
+from tutors.models import Tutor, Event, Task, TutorAssignment, Question, Answer, Settings, MailTutorTask
 
 
 class TutorAdminForm(SemesterBasedForm):
@@ -168,7 +168,12 @@ class SettingsAdminForm(SemesterBasedForm):
 
 
 class TaskMailAdminForm(forms.Form):
-    tutors = forms.ModelMultipleChoiceField(widget=forms.CheckboxSelectMultiple, queryset=None, required=True)
+    tutors = forms.ModelMultipleChoiceField(
+        label="Tutors (selected have not yet received this email)",
+        widget=forms.CheckboxSelectMultiple,
+        queryset=None,
+        required=True
+    )
     mail_template = forms.ModelChoiceField(label='Mail Template', queryset=Mail.objects.all(), required=True)
 
     def __init__(self, *args, **kwargs):
@@ -177,5 +182,6 @@ class TaskMailAdminForm(forms.Form):
         super(TaskMailAdminForm, self).__init__(*args, **kwargs)
 
         self.fields["tutors"].queryset = task.tutors.all()
-        self.fields["tutors"].initial = task.tutors.all()
+        self.fields["tutors"].initial = Tutor.objects.exclude(id__in=MailTutorTask.objects.filter(
+            mail=settings.mail_task).values("tutor_id"))
         self.fields["mail_template"].initial = settings.mail_task

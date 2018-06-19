@@ -19,7 +19,7 @@ from common import utils
 from common.models import get_semester, Semester
 from tutors.forms import TutorForm, TutorAdminForm, EventAdminForm, TaskAdminForm, RequirementAdminForm, AnswerForm, \
     TaskAssignmentForm, SettingsAdminForm, TaskMailAdminForm
-from tutors.models import Tutor, Status, Settings, Event, Task, Question, Answer
+from tutors.models import Tutor, Status, Settings, Event, Task, Question, Answer, MailTutorTask
 from tutors.tokens import account_activation_token
 
 
@@ -78,6 +78,8 @@ def tutor_signup(request):
             body=message
         )
         email.send()
+
+        MailTutorTask.objects.create(tutor=tutor, mail=settings.mail_registration, task=None)
 
         return redirect('tutor_signup_confirmation_required')
 
@@ -471,6 +473,9 @@ def task_mail(request, uid):
                 body=message
             )
             email.send()
+
+            MailTutorTask.objects.create(tutor=tutor, mail=mail_template, task=task)
+
             task.log(request.user, "Send mail to %s." % tutor)
 
         messages.success(request, 'Send email for Task %s.' % task.name)
