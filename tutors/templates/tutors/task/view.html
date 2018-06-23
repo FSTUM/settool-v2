@@ -112,7 +112,7 @@
                     <tr>
                         <th>{% trans "Send Mail" %}</th>
                         <td><a href="{% url "task_mail" task.id %}"><span class="glyphicon
-                        glyphicon-envelope"></span></a></td>
+                        glyphicon-envelope"></span></a> {% mail_task_count task %}{% trans " missing mails" %}</td>
                     </tr>
                     <tr>
                         <th>{% trans "Tutor List" %}</th>
