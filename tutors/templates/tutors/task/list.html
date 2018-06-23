@@ -39,7 +39,9 @@
                     </thead>
                     <tbody>
                     {% for task in tasks %}
-                        <tr>
+                        <tr class="{% if task.tutors.count < task.min_tutors %}danger
+{% elif task.min_tutors <= task.tutors.count and task.tutors.count <= task.max_tutors %}success
+{% elif  task.max_tutors < task.tutors.count %}warning{% endif %}">
                             <td></td>
                             <td>
                                 {{ task.event.name }}

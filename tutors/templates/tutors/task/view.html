@@ -56,7 +56,7 @@
                 </tr>
                 {% if perms.tutor.edit_tutors %}
                     <tr>
-                        <th>Tutors (min: {{ task.min_tutors }}, max: {{ task.max_tutors }})</th>
+                        <th>Tutors [{{ task.min_tutors }}, {{ task.max_tutors }}]</th>
                         <td>
                             {% if task.allowed_subjects.all|length == 0 %}
                                 {% trans "No subjects." %}
@@ -82,7 +82,7 @@
                             {% else %}
                                 <table>
                                     <tr>
-                                        <th>Requirement</th>
+                                        <th>Name</th>
                                     </tr>
                                     {% for requirement in task.requirements.all %}
                                         <tr>
@@ -133,7 +133,7 @@
                             <th>{% trans "First name" %}</th>
                             <th>{% trans "Last name" %}</th>
                             <th>{% trans "Subject" %}</th>
-                            <th>{% trans "Total Assigned" %}</th>
+                            <th>{% trans "Tasks Assigned" %}</th>
                             <th>{% trans "Registration time" %}</th>
                             {% for q in task.requirements.all %}
                                 <th>{{ q }}</th>
@@ -179,7 +179,7 @@
                             <th>{% trans "First name" %}</th>
                             <th>{% trans "Last name" %}</th>
                             <th>{% trans "Subject" %}</th>
-                            <th>{% trans "Total Assigned" %}</th>
+                            <th>{% trans "Tasks Assigned" %}</th>
                             <th>{% trans "Registration time" %}</th>
                             {% for q in task.requirements.all %}
                                 <th>{{ q }}</th>

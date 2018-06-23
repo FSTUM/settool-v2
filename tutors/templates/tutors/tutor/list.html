@@ -29,7 +29,8 @@
             <a href="{% if status is None %}{% url "tutor_export" "csv" %}{% else %}
 {% url "tutor_export_status" "csv" status %}{% endif %}"><span class="glyphicon glyphicon-file"></span>Export CSV</a>
             <a href="{% if status is None %}{% url "tutor_export" "tshirt" %}{% else %}
-{% url "tutor_export_status" "tshirt" status %}{% endif %}"><span class="glyphicon glyphicon-file"></span>T-Shirt List</a>
+{% url "tutor_export_status" "tshirt" status %}{% endif %}"><span class="glyphicon glyphicon-file"></span>T-Shirt
+                List</a>
         </div>
     </div>
     <div class="row">
@@ -41,6 +42,8 @@
                         <th>#</th>
                         <th>{% trans "First name" %}</th>
                         <th>{% trans "Last name" %}</th>
+                        <th>{% trans "Subject" %}</th>
+                        <th>{% trans "Tasks Assigned" %}</th>
                         <th>{% trans "Status" %}</th>
                         <th>{% trans "Registration time" %}</th>
                         <th></th>
@@ -55,6 +58,12 @@
                             </td>
                             <td>
                                 <a href="{% url "tutor_view" tutor.id %}">{{ tutor.last_name }}</a>
+                            </td>
+                            <td>
+                                {{ tutor.subject }}
+                            </td>
+                            <td>
+                                {{ tutor.task_set.count }}
                             </td>
                             <td>
                                 {{ tutor.status.name }}
