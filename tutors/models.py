@@ -455,3 +455,29 @@ class MailTutorTask(BaseModel):
 
     def __str__(self):
         return "{}: {} -> {} - {}".format(self.created_at, self.tutor, self.mail, self.task)
+
+
+class SubjectTutorCountAssignment(BaseModel):
+    semester = models.ForeignKey(
+        Semester,
+        on_delete=models.CASCADE
+    )
+
+    subject = models.ForeignKey(
+        Subject,
+        on_delete=models.CASCADE
+    )
+
+    wanted = models.IntegerField(
+        default=0,
+        null=True,
+        blank=True,
+    )
+
+    def log(self, user, text):
+        # LogEntry.objects.create(
+        #     participant=self,
+        #     user=user,
+        #     text=text,
+        # )
+        pass

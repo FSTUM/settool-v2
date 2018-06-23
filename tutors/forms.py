@@ -3,8 +3,9 @@ from django import forms
 from django.utils.translation import ugettext_lazy as _
 
 from common.forms import SemesterBasedForm
-from common.models import Mail
-from tutors.models import Tutor, Event, Task, TutorAssignment, Question, Answer, Settings, MailTutorTask
+from common.models import Mail, Subject
+from tutors.models import Tutor, Event, Task, TutorAssignment, Question, Answer, Settings, MailTutorTask, \
+    SubjectTutorCountAssignment
 
 
 class TutorAdminForm(SemesterBasedForm):
@@ -254,3 +255,16 @@ class TaskMailAdminForm(forms.Form):
         self.fields["tutors"].initial = Tutor.objects.exclude(id__in=MailTutorTask.objects.filter(
             mail=settings.mail_task).values("tutor_id"))
         self.fields["mail_template"].initial = settings.mail_task
+
+
+class SubjectTutorCountAssignmentAdminForm(SemesterBasedForm):
+    class Meta:
+        model = SubjectTutorCountAssignment
+        exclude = ["semester", ]
+        widgets = {
+            'subject': forms.HiddenInput,
+        }
+
+    def __init__(self, *args, **kwargs):
+        super(SubjectTutorCountAssignmentAdminForm, self).__init__(*args, **kwargs)
+        self.fields['wanted'].label = Subject.objects.get(pk=self.initial.get('subject'))

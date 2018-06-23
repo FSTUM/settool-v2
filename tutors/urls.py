@@ -42,5 +42,8 @@ urlpatterns = [
         path('delete/<uuid:uid>/', views.requirement_delete, name='requirement_delete'),
         path('view/<uuid:uid>/', views.requirement_view, name='requirement_view'),
     ])),
-    path('settings/', views.tutors_settings, name='tutors_settings'),
+    path('settings/', include([
+        path('', views.tutors_settings_general, name='tutors_settings_general'),
+        path('tutors/', views.tutors_settings_tutors, name='tutors_settings_tutors')
+    ]))
 ]

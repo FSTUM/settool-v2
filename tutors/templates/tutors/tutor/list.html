@@ -51,7 +51,7 @@
                     </thead>
                     <tbody>
                     {% for tutor in tutors %}
-                        <tr class="{% if tutor.status.key == "accepted" %}success{% elif tutor.status.key == "declined" %}danger{% endif %}">
+                        <tr>
                             <td></td>
                             <td>
                                 <a href="{% url "tutor_view" tutor.id %}">{{ tutor.first_name }}</a>

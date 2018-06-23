@@ -16,10 +16,11 @@ from django.utils.encoding import force_bytes, force_text
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 
 from common import utils
-from common.models import get_semester, Semester
+from common.models import get_semester, Semester, Subject
 from tutors.forms import TutorForm, TutorAdminForm, EventAdminForm, TaskAdminForm, RequirementAdminForm, AnswerForm, \
-    TaskAssignmentForm, SettingsAdminForm, TaskMailAdminForm
-from tutors.models import Tutor, Status, Settings, Event, Task, Question, Answer, MailTutorTask
+    TaskAssignmentForm, SettingsAdminForm, TaskMailAdminForm, SubjectTutorCountAssignmentAdminForm
+from tutors.models import Tutor, Status, Settings, Event, Task, Question, Answer, MailTutorTask, \
+    SubjectTutorCountAssignment
 from tutors.tokens import account_activation_token
 
 
@@ -30,7 +31,7 @@ def tutor_signup(request):
     if not (settings.open_registration < timezone.now() < settings.close_registration):
         return render(request, 'tutors/tutor/registration_closed.html', {})
 
-    questions = Question.objects.distinct()
+    questions = Question.objects.all()
     question_count = questions.count()
     answers_new = []
     for question in questions:
@@ -46,7 +47,7 @@ def tutor_signup(request):
                                          can_order=False,
                                          extra=0)
 
-    initial_data = [{'question': a.question, 'answer': a.answer} for a in answers_new]
+    initial_data = [{'question': a.question.id, 'answer': a.answer} for a in answers_new]
     if request.method == 'POST':
         answer_formset = AnswerFormSet(request.POST, request.FILES, queryset=Answer.objects.none(),
                                        initial=initial_data)
@@ -186,7 +187,7 @@ def tutor_edit(request, uid):
                                          can_delete=False,
                                          can_order=False)
 
-    initial_data = [{'question': a.question, 'answer': a.answer} for a in answers_new]
+    initial_data = [{'question': a.question.id, 'answer': a.answer} for a in answers_new]
 
     answer_formset = AnswerFormSet(request.POST or None, queryset=answers_existing, initial=initial_data)
 
@@ -550,7 +551,7 @@ def download_csv(fields, dest, context):
 
 
 @permission_required('tutors.edit_tutors')
-def tutors_settings(request):
+def tutors_settings_general(request):
     semester = get_object_or_404(Semester, pk=get_semester(request))
     settings = get_object_or_404(Settings, semester=semester)
 
@@ -560,8 +561,49 @@ def tutors_settings(request):
         settings.log(request.user, "Settings edited")
         messages.success(request, 'Saved Settings.')
 
-        return redirect('tutors_settings')
+        return redirect('tutors_settings_general')
 
-    return render(request, 'tutors/settings/edit.html', {
+    return render(request, 'tutors/settings/general.html', {
         'form': form,
+    })
+
+
+@permission_required('tutors.edit_tutors')
+def tutors_settings_tutors(request):
+    semester = get_object_or_404(Semester, pk=get_semester(request))
+
+    subject_count = Subject.objects.all().count()
+    subjects_existing = SubjectTutorCountAssignment.objects.filter(semester=semester)
+    subjects_new = []
+    if len(subjects_existing) != subject_count:
+        for subject in Subject.objects.all():
+            if subjects_existing.filter(subject=subject).count() == 0:
+                a = SubjectTutorCountAssignment(subject=subject)
+                subjects_new.append(a)
+
+    CountFormSet = modelformset_factory(SubjectTutorCountAssignment, form=SubjectTutorCountAssignmentAdminForm,
+                                        min_num=subject_count,
+                                        validate_min=False,
+                                        max_num=subject_count,
+                                        validate_max=True,
+                                        can_delete=False,
+                                        can_order=False)
+
+    initial_data = [{'subject': a.subject.id, 'wanted': a.wanted} for a in subjects_new]
+    answer_formset = CountFormSet(request.POST or None,
+                                  queryset=subjects_existing,
+                                  initial=initial_data,
+                                  form_kwargs={'semester': semester})
+    if answer_formset.is_valid():
+        for answer in answer_formset:
+            res = answer.save(commit=False)
+            res.semester = semester
+            res.save()
+            res.log(request.user, "Settings for tutor-subject counts edited")
+        messages.success(request, 'Saved Settings.')
+
+        return redirect('tutors_settings_tutors')
+
+    return render(request, 'tutors/settings/tutors.html', {
+        'form_set': answer_formset,
     })
