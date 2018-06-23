@@ -1,8 +1,5 @@
-from uuid import UUID
-
 from bootstrap_datepicker_plus import DateTimePickerInput, DatePickerInput
 from django import forms
-from django.utils import six
 from django.utils.translation import ugettext_lazy as _
 
 from common.forms import SemesterBasedForm
@@ -206,26 +203,15 @@ class AnswerForm(forms.ModelForm):
     class Meta:
         model = Answer
         exclude = ["tutor"]
-        readonly_fields = ('question',)
         widgets = {
+            'question': forms.HiddenInput,
             'answer': forms.RadioSelect,
         }
 
     def __init__(self, *args, **kwargs):
         super(AnswerForm, self).__init__(*args, **kwargs)
-        for field in (field for name, field in six.iteritems(self.fields) if
-                      name in self.Meta.readonly_fields):
-            field.widget.attrs['disabled'] = True
-            field.required = False
-
-    def clean(self):
-        data = super(AnswerForm, self).clean()
-        for name, field in six.iteritems(self.fields):
-            if name in self.Meta.readonly_fields:
-                if isinstance(self.initial[name], UUID):
-                    data[name] = Question.objects.get(pk=self.initial[name])
-                else:
-                    data[name] = self.initial[name]
+        self.fields['answer'].label = Question.objects.get(pk=self.initial.get('question'))
+        self.fields['answer'].choices = self.fields['answer'].choices[1:]
 
 
 class SettingsAdminForm(SemesterBasedForm):

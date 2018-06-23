@@ -187,10 +187,8 @@ def tutor_edit(request, uid):
                                          can_order=False)
 
     initial_data = [{'question': a.question, 'answer': a.answer} for a in answers_new]
-    if request.method == 'POST':
-        answer_formset = AnswerFormSet(request.POST, request.FILES, queryset=answers_existing, initial=initial_data)
-    else:
-        answer_formset = AnswerFormSet(queryset=answers_existing, initial=initial_data)
+
+    answer_formset = AnswerFormSet(request.POST or None, queryset=answers_existing, initial=initial_data)
 
     if request.user.has_perm('tutors.edit_tutors'):
         form = TutorAdminForm(request.POST or None, semester=tutor.semester, instance=tutor)
@@ -199,6 +197,7 @@ def tutor_edit(request, uid):
             for answer in answer_formset:
                 res = answer.save(commit=False)
                 res.tutor_id = tutor.id
+                res.question_id = answer.cleaned_data.get('question').id
                 res.save()
             tutor.log(request.user, "Tutor edited")
             messages.success(request, 'Saved Tutor %s.' % tutor)
