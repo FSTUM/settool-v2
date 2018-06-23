@@ -28,6 +28,9 @@
         <title>{% trans "SET" %} {% block title %}{% endblock %}</title>
 
         {% block head %}{% endblock %}
+        {% block extrahead %}       {# Extra Resources Start #}
+            {{ form.media }}        {# Form required JS and CSS #}
+        {% endblock %}              {# Extra Resources End #}
     </head>
 
     <body>

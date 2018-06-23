@@ -1,7 +1,9 @@
 from uuid import UUID
 
+from bootstrap_datepicker_plus import DateTimePickerInput, DatePickerInput
 from django import forms
 from django.utils import six
+from django.utils.translation import ugettext_lazy as _
 
 from common.forms import SemesterBasedForm
 from common.models import Mail
@@ -20,6 +22,9 @@ class TutorForm(TutorAdminForm):
     class Meta:
         model = Tutor
         exclude = ["semester", "status", "registration_time", "answers"]
+        widgets = {
+            'birthday': DatePickerInput(format='%Y-%m-%d'),
+        }
 
     def save(self, commit=True):
         instance = super(TutorForm, self).save(False)
@@ -45,6 +50,15 @@ class EventAdminForm(SemesterBasedForm):
     class Meta:
         model = Event
         exclude = ["semester", "name", "description", "meeting_point"]
+        widgets = {
+            'begin': DateTimePickerInput(format='%Y-%m-%d %H:%M'),
+            'end': DateTimePickerInput(format='%Y-%m-%d %H:%M'),
+        }
+
+    def __init__(self, *args, **kwargs):
+        super(EventAdminForm, self).__init__(*args, **kwargs)
+        self.fields['description_de'].required = False
+        self.fields['description_en'].required = False
 
     def save(self, commit=True):
         instance = super(EventAdminForm, self).save(False)
@@ -66,11 +80,32 @@ class EventAdminForm(SemesterBasedForm):
 
         return instance
 
+    def clean(self):
+        cleaned_data = super(EventAdminForm, self).clean()
+
+        begin = cleaned_data.get('begin')
+        end = cleaned_data.get('end')
+        if begin and end:
+            if end <= begin:
+                msg = _("Begin time must be before end time.")
+                self.add_error('begin', msg)
+                self.add_error('end', msg)
+        return cleaned_data
+
 
 class TaskAdminForm(SemesterBasedForm):
     class Meta:
         model = Task
         exclude = ["semester", "name", "description", "meeting_point", "tutors"]
+        widgets = {
+            'begin': DateTimePickerInput(format='%Y-%m-%d %H:%M'),
+            'end': DateTimePickerInput(format='%Y-%m-%d %H:%M'),
+        }
+
+    def __init__(self, *args, **kwargs):
+        super(TaskAdminForm, self).__init__(*args, **kwargs)
+        self.fields['description_de'].required = False
+        self.fields['description_en'].required = False
 
     def save(self, commit=True):
         instance = super(TaskAdminForm, self).save(False)
@@ -105,6 +140,18 @@ class TaskAdminForm(SemesterBasedForm):
                     instance.requirements.remove(subject)
 
         return instance
+
+    def clean(self):
+        cleaned_data = super(TaskAdminForm, self).clean()
+
+        begin = cleaned_data.get('begin')
+        end = cleaned_data.get('end')
+        if begin and end:
+            if end <= begin:
+                msg = _("Begin time must be before end time.")
+                self.add_error('begin', msg)
+                self.add_error('end', msg)
+        return cleaned_data
 
 
 class TaskAssignmentForm(SemesterBasedForm):
@@ -165,6 +212,22 @@ class SettingsAdminForm(SemesterBasedForm):
     class Meta:
         model = Settings
         exclude = ["semester", ]
+        widgets = {
+            'open_registration': DateTimePickerInput(format='%Y-%m-%d %H:%M'),
+            'close_registration': DateTimePickerInput(format='%Y-%m-%d %H:%M'),
+        }
+
+    def clean(self):
+        cleaned_data = super(SettingsAdminForm, self).clean()
+
+        begin = cleaned_data.get('open_registration')
+        end = cleaned_data.get('close_registration')
+        if begin and end:
+            if end <= begin:
+                msg = _("Begin time must be before end time.")
+                self.add_error('open_registration', msg)
+                self.add_error('close_registration', msg)
+        return cleaned_data
 
 
 class TaskMailAdminForm(forms.Form):

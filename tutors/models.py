@@ -216,11 +216,13 @@ class Event(models.Model):
 
     name = models.CharField(
         _("Name"),
-        max_length=20,
+        max_length=250,
     )
 
     description = models.TextField(
         _("Description"),
+        blank=True,
+        null=True,
     )
 
     begin = models.DateTimeField(
@@ -268,11 +270,13 @@ class Task(models.Model):
 
     name = models.CharField(
         _("Task name"),
-        max_length=50,
+        max_length=250,
     )
 
     description = models.TextField(
         _("Description"),
+        blank=True,
+        null=True,
     )
 
     begin = models.DateTimeField(

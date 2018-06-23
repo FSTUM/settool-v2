@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'bootstrap3',
+    'bootstrap_datepicker_plus',
     'common',
     'guidedtours',
     'bags',
@@ -123,6 +124,10 @@ LANGUAGES = (
 MODELTRANSLATION_TRANSLATION_FILES = (
     'tutors.translation',
 )
+
+BOOTSTRAP3 = {
+    'include_jquery': False,
+}
 
 TIME_ZONE = 'Europe/Berlin'
 

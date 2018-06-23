@@ -2,3 +2,4 @@ Django==2.0.4
 django-bootstrap3==9.1.0
 django-modeltranslation==0.13b1
 unicodecsv==0.14.1
+django-bootstrap-datepicker-plus
