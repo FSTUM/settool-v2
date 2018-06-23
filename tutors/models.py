@@ -11,7 +11,15 @@ from common.models import Semester, Subject, Mail
 from common.utils import u
 
 
-class Settings(models.Model):
+class BaseModel(models.Model):
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        abstract = True
+
+
+class Settings(BaseModel):
     semester = models.OneToOneField(
         Semester,
         on_delete=None
@@ -69,7 +77,7 @@ class Settings(models.Model):
         pass
 
 
-class Status(models.Model):
+class Status(BaseModel):
     key = models.CharField(
         _("Key name"),
         max_length=30,
@@ -97,7 +105,7 @@ def get_default_status():
         return 1
 
 
-class Tutor(models.Model):
+class Tutor(BaseModel):
     class Meta:
         unique_together = ('semester', 'email',)
 
@@ -142,6 +150,8 @@ class Tutor(models.Model):
 
     birthday = models.DateField(
         _("Birthday"),
+        null=True,
+        blank=True,
     )
 
     matriculation_number = models.CharField(
@@ -151,6 +161,8 @@ class Tutor(models.Model):
             r'^[0-9]{8,8}$',
             message=_('The matriculation number has to be of the form 01234567.'),
         )],
+        null=True,
+        blank=True,
     )
 
     tshirt_size = models.CharField(
@@ -201,7 +213,7 @@ class Tutor(models.Model):
         pass
 
 
-class Event(models.Model):
+class Event(BaseModel):
     id = models.UUIDField(
         primary_key=True,
         default=uuid.uuid4,
@@ -255,7 +267,7 @@ class Event(models.Model):
         return "{0} {1}".format(u(self.name), u(self.begin.date()))
 
 
-class Task(models.Model):
+class Task(BaseModel):
     id = models.UUIDField(
         primary_key=True,
         default=uuid.uuid4,
@@ -339,7 +351,7 @@ class Task(models.Model):
         pass
 
 
-class TutorAssignment(models.Model):
+class TutorAssignment(BaseModel):
     tutor = models.ForeignKey(
         Tutor,
         on_delete=models.CASCADE,
@@ -359,7 +371,7 @@ class TutorAssignment(models.Model):
         return "{}".format(self.tutor)
 
 
-class Question(models.Model):
+class Question(BaseModel):
     id = models.UUIDField(
         primary_key=True,
         default=uuid.uuid4,
@@ -389,7 +401,7 @@ class Question(models.Model):
         pass
 
 
-class Answer(models.Model):
+class Answer(BaseModel):
     class Meta:
         unique_together = ('tutor', 'question',)
 
@@ -424,7 +436,7 @@ class Answer(models.Model):
         return "{}: {} -> {}".format(self.tutor, self.question, u(self.answer))
 
 
-class MailTutorTask(models.Model):
+class MailTutorTask(BaseModel):
     mail = models.ForeignKey(
         Mail,
         on_delete=models.CASCADE
@@ -440,8 +452,6 @@ class MailTutorTask(models.Model):
         on_delete=models.CASCADE,
         null=True
     )
-
-    created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return "{}: {} -> {} - {}".format(self.created_at, self.tutor, self.mail, self.task)

@@ -15,8 +15,16 @@ class TutorAdminForm(SemesterBasedForm):
         model = Tutor
         exclude = ["semester", "registration_time", "answers"]
 
+    def __init__(self, *args, **kwargs):
+        super(TutorAdminForm, self).__init__(*args, **kwargs)
+        self.fields['birthday'].required = False
+        self.fields['matriculation_number'].required = False
+
 
 class TutorForm(TutorAdminForm):
+    credits = forms.BooleanField(required=False, label=_("I want to receive ECTS"),
+                                 help_text=_(
+                                     "Birthday and Matriculation number are required if you want to receive ECTS."))
     dsgvo = forms.BooleanField(required=True)
 
     class Meta:
@@ -44,6 +52,18 @@ class TutorForm(TutorAdminForm):
                 if answer not in final_answers:
                     instance.answers.remove(answer)
         return instance
+
+    def clean(self):
+        credits = self.cleaned_data.get('credits')
+
+        if credits:
+            self.fields['birthday'].required = True
+            self.fields['matriculation_number'].required = True
+        else:
+            self.cleaned_data['birthday'] = None
+            self.cleaned_data['matriculation_number'] = None
+
+        return self.cleaned_data
 
 
 class EventAdminForm(SemesterBasedForm):
