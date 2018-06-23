@@ -25,6 +25,10 @@
 
     <div class="row">
         <div class="col-sm-12 table-responsive">
+            {% if perms.tutor.edit_tutors %}
+                <div class="unsaved-changes alert alert-danger" style="display: none;"
+                     role="alert">{% trans "This page contains unsaved changes." %}</div>
+            {% endif %}
             <table class="table table-hover">
                 <tr>
                     <th>{% trans "Name" %}</th>
@@ -118,15 +122,17 @@
                 {% endif %}
             </table>
             {% if perms.tutor.edit_tutors %}
+                <div class="unsaved-changes alert alert-danger" style="display: none;"
+                     role="alert">{% trans "This page contains unsaved changes." %}</div>
                 <div class="form-group">
                     <h2>Assigned Tutors:</h2>
-                    <table class="table tutorTable assigned_tutors">
+                    <table class="table tutorTable assigned_tutors css-serial">
                         <thead>
                         <tr>
+                            <th>#</th>
                             <th>{% trans "First name" %}</th>
                             <th>{% trans "Last name" %}</th>
                             <th>{% trans "Subject" %}</th>
-                            <th>{% trans "Status" %}</th>
                             <th>{% trans "Total Assigned" %}</th>
                             <th>{% trans "Registration time" %}</th>
                             {% for q in task.requirements.all %}
@@ -137,15 +143,13 @@
                         </thead>
                         <tbody>
                         {% for tutor in assigned_tutors %}
-                            <tr class="{% if tutor.status.key == "accepted" %}success{% elif tutor.status.key == "declined" %}danger{% endif %}">
+                            <tr>
+                                <td></td>
                                 <td>
                                     <a href="{% url "tutor_view" tutor.id %}">{{ tutor.first_name }}</a>
                                 </td>
                                 <td>
                                     <a href="{% url "tutor_view" tutor.id %}">{{ tutor.last_name }}</a>
-                                </td>
-                                <td>
-                                    {{ tutor.status.name }}
                                 </td>
                                 <td>
                                     {{ tutor.subject }}
@@ -168,13 +172,13 @@
                         </tbody>
                     </table>
                     <h2>Unassigned Tutors:</h2>
-                    <table class="table tutorTable unassigned_tutors">
+                    <table class="table tutorTable unassigned_tutors css-serial">
                         <thead>
                         <tr>
+                            <th>#</th>
                             <th>{% trans "First name" %}</th>
                             <th>{% trans "Last name" %}</th>
                             <th>{% trans "Subject" %}</th>
-                            <th>{% trans "Status" %}</th>
                             <th>{% trans "Total Assigned" %}</th>
                             <th>{% trans "Registration time" %}</th>
                             {% for q in task.requirements.all %}
@@ -185,15 +189,13 @@
                         </thead>
                         <tbody>
                         {% for tutor in unassigned_tutors %}
-                            <tr class="{% if tutor.status.key == "accepted" %}success{% elif tutor.status.key == "declined" %}danger{% endif %}">
+                            <tr>
+                                <td></td>
                                 <td>
                                     <a href="{% url "tutor_view" tutor.id %}">{{ tutor.first_name }}</a>
                                 </td>
                                 <td>
                                     <a href="{% url "tutor_view" tutor.id %}">{{ tutor.last_name }}</a>
-                                </td>
-                                <td>
-                                    {{ tutor.status.name }}
                                 </td>
                                 <td>
                                     {{ tutor.subject }}
@@ -234,67 +236,101 @@
         </div>
     </div>
 
-    <script type="text/javascript">
-        let assign_tutor = function (id, src) {
-            let el = $('select[multiple][name="tutors"] option[value="' + id + '"]');
-            el.prop('selected', true);
-            el.change();
-
-            let row = $(src).closest("tr");
-            $('.assigned_tutors').append(row);
-            $(src).addClass('unassign_button').removeClass('assign_button');
-            $(src).text('Unassign');
-        };
-
-        let unassign_tutor = function (id, src) {
-            let el = $('select[multiple][name="tutors"] option[value="' + id + '"]');
-            el.prop('selected', false);
-            el.change();
-
-            let row = $(src).closest("tr");
-            $('.unassigned_tutors').append(row);
-            $(src).addClass('assign_button').removeClass('unassign_button');
-            $(src).text('Assign');
-        };
-
-        let storage_id = 'select_{{ task.id }}';
-
-        let store_select = function () {
-            localStorage.setItem(storage_id, $('select[multiple][name="tutors"]').val());
-        };
-
-        let restore_select = function () {
-            if (localStorage.getItem(storage_id)) {
-                let items = localStorage.getItem(storage_id);
-                let select = $('select[multiple][name="tutors"]');
-                select.val().forEach(function (item) {
-                    unassign_tutor(item, $('tr button[data-id="' + item + '"]'));
-                });
-                select.val(items);
-                items.split(",").forEach(function (item) {
-                    assign_tutor(item, $('tr button[data-id="' + item + '"]'))
-                });
+    {% if perms.tutor.edit_tutors %}
+        <script type="text/javascript">
+            let initial_values = $('select[multiple][name="tutors"]').val();
+            if (initial_values === null) {
+                initial_values = "";
             }
-        };
 
-        restore_select();
-        store_select();
+            let assign_tutor = function (id, src) {
+                let el = $('select[multiple][name="tutors"] option[value="' + id + '"]');
+                el.prop('selected', true);
+                el.change();
 
-        $(document).on('click', '.assign_button', function () {
-            assign_tutor($(this).data("id"), $(this));
+                let row = $(src).closest("tr");
+                if (!initial_values.includes(id)) {
+                    $(row).addClass('success');
+                } else {
+                    $(row).removeClass('danger');
+                }
+                $('.assigned_tutors').append(row);
+                $(src).addClass('unassign_button').removeClass('assign_button');
+                $(src).text('Unassign');
+            };
+
+            let unassign_tutor = function (id, src) {
+                let el = $('select[multiple][name="tutors"] option[value="' + id + '"]');
+                el.prop('selected', false);
+                el.change();
+
+                let row = $(src).closest("tr");
+                $('.unassigned_tutors').append(row);
+                $(src).addClass('assign_button').removeClass('unassign_button');
+                $(src).text('Assign');
+                if (initial_values.includes(id)) {
+                    $(row).addClass('danger');
+                } else {
+                    $(row).removeClass('success');
+                }
+            };
+
+            let storage_id = 'select_{{ task.id }}';
+
+            let store_select = function () {
+                localStorage.setItem(storage_id, $('select[multiple][name="tutors"]').val());
+                toggle_unsaved_changes();
+            };
+
+            let toggle_unsaved_changes = function () {
+                let items = localStorage.getItem(storage_id);
+                if (items !== "null" && items != initial_values) {
+                    $('.unsaved-changes').css('display', 'block');
+                } else {
+                    $('.unsaved-changes').css('display', 'none');
+
+                }
+            };
+
+            let restore_select = function () {
+                if (localStorage.getItem(storage_id)) {
+                    let items = localStorage.getItem(storage_id);
+                    let select = $('select[multiple][name="tutors"]');
+
+                    toggle_unsaved_changes();
+
+                    if (select.val() !== null) {
+                        select.val().forEach(function (item) {
+                            unassign_tutor(item, $('tr button[data-id="' + item + '"]'));
+                        });
+                    }
+
+                    select.val(items);
+                    items.split(",").forEach(function (item) {
+                        assign_tutor(item, $('tr button[data-id="' + item + '"]'))
+                    });
+                }
+            };
+
+            restore_select();
             store_select();
-        });
-        $(document).on('click', '.unassign_button', function () {
-            unassign_tutor($(this).data("id"), $(this));
-            store_select();
-        });
 
-        $('button[type="submit"]').click(function () {
-            localStorage.removeItem(storage_id);
-        });
-        $('button[type="reset"]').click(function () {
-            localStorage.removeItem(storage_id);
-            location.reload();
-        });
-    </script>
+            $(document).on('click', '.assign_button', function () {
+                assign_tutor($(this).data("id"), $(this));
+                store_select();
+            });
+            $(document).on('click', '.unassign_button', function () {
+                unassign_tutor($(this).data("id"), $(this));
+                store_select();
+            });
+
+            $('button[type="submit"]').click(function () {
+                localStorage.removeItem(storage_id);
+            });
+            $('button[type="reset"]').click(function () {
+                localStorage.removeItem(storage_id);
+                location.reload();
+            });
+        </script>
+    {% endif %}
 {% endblock %}

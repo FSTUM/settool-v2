@@ -68,9 +68,10 @@
             </table>
             {% if perms.tutor.edit_tutors %}
                 <h2>{% trans "This event has the following tasks:" %}</h2>
-                <table class="table">
+                <table class="table css-serial">
                     <thead>
                     <tr>
+                        <th>#</th>
                         <th>{% trans "Name" %}</th>
                         <th>{% trans "Begin" %}</th>
                         <th>{% trans "End" %}</th>
@@ -80,6 +81,7 @@
                     <tbody>
                     {% for task in event.task_set.all %}
                         <tr>
+                            <td></td>
                             <td><a href="{% url "task_view" task.id %}">{{ task.name }}</a></td>
                             <td>{{ task.begin }}</td>
                             <td>{{ task.end }}</td>

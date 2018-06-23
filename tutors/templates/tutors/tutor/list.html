@@ -35,9 +35,10 @@
     <div class="row">
         <div class="col-sm-12">
             <div class="table-responsive">
-                <table id="tutorTable" class="table tablesorter table-striped table-hover">
+                <table id="tutorTable" class="table tablesorter table-striped table-hover css-serial">
                     <thead>
                     <tr>
+                        <th>#</th>
                         <th>{% trans "First name" %}</th>
                         <th>{% trans "Last name" %}</th>
                         <th>{% trans "Status" %}</th>
@@ -48,6 +49,7 @@
                     <tbody>
                     {% for tutor in tutors %}
                         <tr class="{% if tutor.status.key == "accepted" %}success{% elif tutor.status.key == "declined" %}danger{% endif %}">
+                            <td></td>
                             <td>
                                 <a href="{% url "tutor_view" tutor.id %}">{{ tutor.first_name }}</a>
                             </td>

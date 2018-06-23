@@ -25,9 +25,10 @@
     <div class="row">
         <div class="col-sm-12">
             <div class="table-responsive">
-                <table id="requirementTable" class="table tablesorter table-striped table-hover">
+                <table id="requirementTable" class="table tablesorter table-striped table-hover css-serial">
                     <thead>
                     <tr>
+                        <th>#</th>
                         <th>{% trans "Question" %}</th>
                         <th></th>
                     </tr>
@@ -35,6 +36,7 @@
                     <tbody>
                     {% for requirement in requirements %}
                         <tr>
+                            <td></td>
                             <td>
                                 <a href="{% url "requirement_view" requirement.id %}">{{ requirement.question }}</a>
                             </td>

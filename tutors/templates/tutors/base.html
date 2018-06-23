@@ -21,6 +21,8 @@
                 <li><a href="{% url 'tutor_list' %}">{% trans "all" %}</a></li>
                 <li><a href="{% url 'tutor_list_status' 'accepted' %}">{% trans "accepted" %}</a></li>
                 <li><a href="{% url 'tutor_list_status' 'declined' %}">{% trans "declined" %}</a></li>
+                <li><a href="{% url 'tutor_list_status' 'active' %}">{% trans "active" %}</a></li>
+                <li><a href="{% url 'tutor_list_status' 'inactive' %}">{% trans "inactive" %}</a></li>
             </ul>
             <h4>{% trans "Requirements" %}</h4>
             <ul class="nav nav-pills nav-stacked">

@@ -113,9 +113,10 @@
                 </tbody>
             </table>
             <h2>{% trans "Assigned Tasks" %}:</h2>
-            <table class="table">
+            <table class="table css-serial">
                 <thead>
                 <tr>
+                    <th>#</th>
                     <th>{% trans "Name" %}</th>
                     <th>{% trans "Begin" %}</th>
                     <th>{% trans "End" %}</th>
@@ -125,6 +126,7 @@
                 <tbody>
                 {% for assignment in tutor.tutorassignment_set.all %}
                     <tr>
+                        <td></td>
                         <td><a href="{% url "task_view" assignment.task.id %}">{{ assignment.task.name }}</a></td>
                         <td>{{ assignment.task.begin }}</td>
                         <td>{{ assignment.task.end }}</td>

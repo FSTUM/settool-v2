@@ -364,7 +364,7 @@ def task_view(request, uid):
     context = {
         'task': task,
         'assigned_tutors': assigned_tutors,
-        'unassigned_tutors': Tutor.objects.exclude(id__in=assigned_tutors.values("id")),
+        'unassigned_tutors': Tutor.objects.filter(status__key="accepted").exclude(id__in=assigned_tutors.values("id")),
         'assignment_form': form,
     }
     return render(request, 'tutors/task/view.html', context)
