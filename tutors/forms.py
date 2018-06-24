@@ -238,13 +238,14 @@ class SettingsAdminForm(SemesterBasedForm):
 
 
 class TutorMailAdminForm(forms.Form):
+    mail_template = forms.ModelChoiceField(label='Mail Template', queryset=Mail.objects.all(), required=True)
+
     tutors = forms.ModelMultipleChoiceField(
         label="Tutors (selected have not yet received this email)",
         widget=forms.CheckboxSelectMultiple,
         queryset=None,
         required=True
     )
-    mail_template = forms.ModelChoiceField(label='Mail Template', queryset=Mail.objects.all(), required=True)
 
     def __init__(self, *args, **kwargs):
         tutors = kwargs.pop('tutors')

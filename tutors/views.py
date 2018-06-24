@@ -479,7 +479,7 @@ def task_mail(request, uid, template=None):
                 subject=subject,
                 body=message
             )
-            email.send()
+            email.send(fail_silently=True)
 
             MailTutorTask.objects.create(tutor=tutor, mail=mail_template, task=task)
 
