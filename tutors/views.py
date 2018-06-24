@@ -560,7 +560,11 @@ def download_csv(fields, dest, context):
 @permission_required('tutors.edit_tutors')
 def tutors_settings_general(request):
     semester = get_object_or_404(Semester, pk=get_semester(request))
-    settings = get_object_or_404(Settings, semester=semester)
+    all = Settings.objects.filter(semester=semester)
+    if all.count() == 0:
+        settings = None
+    else:
+        settings = all.first()
 
     form = SettingsAdminForm(request.POST or None, semester=semester, instance=settings)
     if form.is_valid():
