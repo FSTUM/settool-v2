@@ -16,9 +16,9 @@ from django.utils.encoding import force_bytes, force_text
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 
 from common import utils
-from common.models import get_semester, Semester, Subject
+from common.models import get_semester, Semester, Subject, Mail
 from tutors.forms import TutorForm, TutorAdminForm, EventAdminForm, TaskAdminForm, RequirementAdminForm, AnswerForm, \
-    TaskAssignmentForm, SettingsAdminForm, TaskMailAdminForm, SubjectTutorCountAssignmentAdminForm
+    TaskAssignmentForm, SettingsAdminForm, TutorMailAdminForm, SubjectTutorCountAssignmentAdminForm
 from tutors.models import Tutor, Status, Settings, Event, Task, Question, Answer, MailTutorTask, \
     SubjectTutorCountAssignment
 from tutors.tokens import account_activation_token
@@ -435,10 +435,15 @@ def requirement_delete(request, uid):
 
 
 @permission_required('tutors.edit_tutors')
-def task_mail(request, uid):
+def task_mail(request, uid, template=None):
     semester = get_object_or_404(Semester, pk=get_semester(request))
     settings = get_object_or_404(Settings, semester=semester)
     task = get_object_or_404(Task, pk=uid)
+
+    if template is None:
+        template = settings.mail_task
+    else:
+        template = get_object_or_404(Mail, pk=template)
 
     tutor_data = {}
     for field in [x.name for x in Tutor._meta.fields if x.name not in ["semester", "status", "subject"]]:
@@ -451,10 +456,12 @@ def task_mail(request, uid):
         'tutor': tutor,
     })
 
-    subject = Template(settings.mail_task.subject).render(context)
-    body = Template(settings.mail_task.text).render(context)
+    subject = Template(template.subject).render(context)
+    body = Template(template.text).render(context)
 
-    form = TaskMailAdminForm(request.POST or None, task=task, settings=settings)
+    form = TutorMailAdminForm(request.POST or None,
+                              tutors=task.tutors.all(),
+                              template=template)
     if form.is_valid():
         tutors = form.cleaned_data["tutors"]
         mail_template = form.cleaned_data["mail_template"]

@@ -41,4 +41,10 @@
         </form>
     </div>
 
+    <script type="text/javascript">
+        $('select[name="mail_template"]').on('change', document, function (e) {
+            location.href = "{% url "task_mail" task.id %}" + $(this).val();
+        });
+    </script>
+
 {% endblock %}

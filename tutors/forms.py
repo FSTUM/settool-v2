@@ -237,7 +237,7 @@ class SettingsAdminForm(SemesterBasedForm):
         return cleaned_data
 
 
-class TaskMailAdminForm(forms.Form):
+class TutorMailAdminForm(forms.Form):
     tutors = forms.ModelMultipleChoiceField(
         label="Tutors (selected have not yet received this email)",
         widget=forms.CheckboxSelectMultiple,
@@ -247,14 +247,14 @@ class TaskMailAdminForm(forms.Form):
     mail_template = forms.ModelChoiceField(label='Mail Template', queryset=Mail.objects.all(), required=True)
 
     def __init__(self, *args, **kwargs):
-        task = kwargs.pop('task')
-        settings = kwargs.pop('settings')
-        super(TaskMailAdminForm, self).__init__(*args, **kwargs)
+        tutors = kwargs.pop('tutors')
+        template = kwargs.pop('template')
+        super(TutorMailAdminForm, self).__init__(*args, **kwargs)
 
-        self.fields["tutors"].queryset = task.tutors.all()
-        self.fields["tutors"].initial = Tutor.objects.exclude(id__in=MailTutorTask.objects.filter(
-            mail=settings.mail_task).values("tutor_id"))
-        self.fields["mail_template"].initial = settings.mail_task
+        self.fields["tutors"].queryset = tutors
+        self.fields["tutors"].initial = Tutor.objects.exclude(
+            id__in=MailTutorTask.objects.filter(mail=template).values("tutor_id"))
+        self.fields["mail_template"].initial = template
 
 
 class SubjectTutorCountAssignmentAdminForm(SemesterBasedForm):
