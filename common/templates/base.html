@@ -156,11 +156,11 @@
 
         <script type="text/javascript">
             jQuery.each($("select[multiple]:visible"), function () {
-                addLink(this, 'Deselect All', defaultCallback('deselect_all'));
-                addLink(this, 'Select All', defaultCallback('select_all'));
+                addLink(this, '{% trans "Deselect All" %}', defaultCallback('deselect_all'));
+                addLink(this, '{% trans "Select All" %}', defaultCallback('select_all'));
                 $(this).multiSelect({
-                    selectableHeader: "Selectable items",
-                    selectionHeader: "Selection items",
+                    selectableHeader: "{% trans "Selectable items" %}",
+                    selectionHeader: "{% trans "Selection items" %}",
                 });
             });
         </script>

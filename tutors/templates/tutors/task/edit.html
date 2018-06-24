@@ -29,7 +29,7 @@
     </form>
     <script type="text/javascript">
         let allowedSubjects = $('select[multiple][name="allowed_subjects"]');
-        addLink(allowedSubjects, 'Master', valueCallback('select', 'master'));
-        addLink(allowedSubjects, 'Bachelor', valueCallback('select', 'bachelor'));
+        addLink(allowedSubjects, '{% trans "Master" %}', valueCallback('select', 'master'));
+        addLink(allowedSubjects, '{% trans "Bachelor" %}', valueCallback('select', 'bachelor'));
     </script>
 {% endblock %}
