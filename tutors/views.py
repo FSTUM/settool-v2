@@ -568,7 +568,7 @@ def tutors_settings_general(request):
 
     form = SettingsAdminForm(request.POST or None, semester=semester, instance=settings)
     if form.is_valid():
-        form.save()
+        settings = form.save()
         settings.log(request.user, "Settings edited")
         messages.success(request, 'Saved Settings.')
 
