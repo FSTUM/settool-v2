@@ -18,6 +18,9 @@ urlpatterns = [
         path('edit/<uuid:uid>/', views.tutor_edit, name='tutor_edit'),
         path('export/<str:type>/', views.tutor_export, name='tutor_export'),
         path('export/<str:type>/<str:status>', views.tutor_export, name='tutor_export_status'),
+        path('mail/<str:status>/', views.tutor_mail, name='tutor_mail_status'),
+        path('mail/<str:status>/<int:template>', views.tutor_mail, name='tutor_mail_status_template'),
+
     ])),
     path('event/', include([
         path('list/', views.event_list, name='event_list'),
@@ -29,7 +32,7 @@ urlpatterns = [
     path('task/', include([
         path('list/', views.task_list, name='task_list'),
         path('add/', views.task_add, name='task_add'),
-        path('add/<uuid:eid>', views.task_add, name='task_add'),
+        path('add/<uuid:eid>', views.task_add, name='task_add_event'),
         path('edit/<uuid:uid>/', views.task_edit, name='task_edit'),
         path('delete/<uuid:uid>/', views.task_delete, name='task_delete'),
         path('view/<uuid:uid>/', views.task_view, name='task_view'),

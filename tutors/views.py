@@ -443,7 +443,7 @@ def task_mail(request, uid, template=None):
     if template is None:
         template = settings.mail_task
     else:
-        template = get_object_or_404(Mail, pk=template)
+        template = get_object_or_404(Mail, pk=template, sender=Mail.SET_TUTOR)
 
     tutor_data = {}
     for field in [x.name for x in Tutor._meta.fields if x.name not in ["semester", "status", "subject"]]:
@@ -490,7 +490,7 @@ def task_mail(request, uid, template=None):
 
     context = {
         "task": task,
-        "from": settings.mail_task.sender,
+        "from": template.sender,
         "subject": subject,
         "body": body,
         "form": form,
@@ -614,3 +614,68 @@ def tutors_settings_tutors(request):
     return render(request, 'tutors/settings/tutors.html', {
         'form_set': answer_formset,
     })
+
+
+@permission_required('tutors.edit_tutors')
+def tutor_mail(request, status=None, template=None):
+    if template is None:
+        template = Mail.objects.filter(sender=Mail.SET_TUTOR).last()
+        if template is None:
+            raise Http404
+    else:
+        template = get_object_or_404(Mail, pk=template, sender=Mail.SET_TUTOR)
+
+    if status is None:
+        tutors = Tutor.objects.all()
+    else:
+        tutors = Tutor.objects.filter(status__key=status)
+
+    tutor_data = {}
+    for field in [x.name for x in Tutor._meta.fields if x.name not in ["semester", "status", "subject"]]:
+        tutor_data[field] = "<" + field + ">"
+
+    tutor = Tutor(**tutor_data)
+
+    context = Context({
+        'tutor': tutor,
+    })
+
+    subject = Template(template.subject).render(context)
+    body = Template(template.text).render(context)
+
+    form = TutorMailAdminForm(request.POST or None,
+                              tutors=tutors,
+                              template=template)
+    if form.is_valid():
+        tutors = form.cleaned_data["tutors"]
+        mail_template = form.cleaned_data["mail_template"]
+
+        for tutor in tutors:
+            context = Context({
+                'tutor': tutor,
+            })
+            message = Template(mail_template.text).render(context)
+            subject = Template(mail_template.subject).render(context)
+            email = EmailMessage(
+                from_email=mail_template.sender,
+                to=[tutor.email],
+                subject=subject,
+                body=message
+            )
+            email.send()
+
+            MailTutorTask.objects.create(tutor=tutor, mail=mail_template, task=None)
+
+            tutor.log(request.user, "Send mail to %s." % tutor)
+
+        messages.success(request, 'Sent email to tutors.')
+        return redirect("tutor_list" if status is None else "tutor_list_status", status=status)
+
+    context = {
+        "from": template.sender,
+        "subject": subject,
+        "body": body,
+        "form": form,
+        "status": status,
+    }
+    return render(request, 'tutors/tutor/mail.html', context)

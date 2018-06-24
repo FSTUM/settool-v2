@@ -238,7 +238,9 @@ class SettingsAdminForm(SemesterBasedForm):
 
 
 class TutorMailAdminForm(forms.Form):
-    mail_template = forms.ModelChoiceField(label='Mail Template', queryset=Mail.objects.all(), required=True)
+    mail_template = forms.ModelChoiceField(label='Mail Template',
+                                           queryset=Mail.objects.filter(sender=Mail.SET_TUTOR),
+                                           required=True)
 
     tutors = forms.ModelMultipleChoiceField(
         label="Tutors (selected have not yet received this email)",
