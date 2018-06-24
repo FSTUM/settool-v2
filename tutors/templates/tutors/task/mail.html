@@ -2,7 +2,7 @@
 {% load i18n %}
 {% load bootstrap3 %}
 
-{% block title %}{% trans "SET Tutor" %} - {% trans "Task Send Mail" %}{% endblock %}
+{% block title %}{% trans "Tutor" %} - {% trans "Send email" %} - {{ task.event.name }} - {{ task }}{% endblock %}
 
 {% block tutorcontent %}
     <h1>{% trans "Send email" %} - {{ task.event.name }} - {{ task }}</h1>

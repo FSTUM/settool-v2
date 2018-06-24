@@ -2,7 +2,7 @@
 {% load i18n %}
 {% load bootstrap3 %}
 
-{% block title %}{% trans "SET Tutor" %} - {% trans "Event Details" %}{% endblock %}
+{% block title %}{% trans "Tutor" %} - {% trans "Event Details" %}{% endblock %}
 
 {% block tutorcontent %}
     <h1>{{ event }}</h1>
@@ -31,14 +31,14 @@
                     <td>{{ event.meeting_point }}</td>
                 </tr>
                 <tr>
-                    <th>Subjects</th>
+                    <th>{% trans "Subjects" %}</th>
                     <td>
                         {% if event.subjects.all|length == 0 %}
                             {% trans "No subjects." %}
                         {% else %}
                             <table>
                                 <tr>
-                                    <th>Subjects</th>
+                                    <th>{% trans "Subject" %}</th>
                                 </tr>
                                 {% for subject in event.subjects.all %}
                                     <tr>
@@ -67,8 +67,8 @@
                 {% endif %}
             </table>
             {% if perms.tutor.edit_tutors %}
-                <h2>{% trans "This event has the following tasks:" %} <a
-                        href="{% url "task_add" event.id %}">{% trans "Add Task" %}</a></h2>
+                <h2>{% trans "This event has the following tasks" %}: <a
+                        href="{% url "task_add_event" event.id %}">{% trans "Add Task" %}</a></h2>
 
                 <table class="table css-serial">
                     <thead>

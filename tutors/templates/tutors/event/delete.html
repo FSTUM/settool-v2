@@ -1,7 +1,7 @@
 {% extends "tutors/base.html" %}
 {% load i18n %}
 
-{% block title %}{% trans "SET" %} - {% trans "Delete email template" %}{% endblock %}
+{% block title %}{% trans "Tutor" %} - {% trans "Delete Event" %}{% endblock %}
 
 {% block tutorcontent %}
     <h1>
@@ -32,14 +32,14 @@
                     <td>{{ event.meeting_point }}</td>
                 </tr>
                 <tr>
-                    <th>Subjects</th>
+                    <th>{% trans "Subjects" %}</th>
                     <td>
                         {% if event.subjects.all|length == 0 %}
                             {% trans "No subjects." %}
                         {% else %}
                             <table>
                                 <tr>
-                                    <th>Subjects</th>
+                                    <th>{% trans "Subject" %}</th>
                                 </tr>
                                 {% for subject in event.subjects.all %}
                                     <tr>
@@ -52,7 +52,7 @@
                 </tr>
             </table>
             {% if perms.tutor.edit_tutors %}
-                <h2>{% trans "This event has the following tasks and will be deleted:" %}</h2>
+                <h2>{% trans "This event has the following tasks which will be deleted" %}:</h2>
                 <table class="table">
                     <thead>
                     <tr>

@@ -1,11 +1,11 @@
 {% extends "tutors/base.html" %}
 {% load i18n %}
 
-{% block title %}{% trans "SET" %} - {% trans "Delete email template" %}{% endblock %}
+{% block title %}{% trans "Tutor" %} - {% trans "Delete Task" %}{% endblock %}
 
 {% block tutorcontent %}
     <h1>
-        {% trans "Delete task" %}: {{ task }}
+        {% trans "Delete Task" %}: {{ task }}
     </h1>
 
     <div class="row">
@@ -37,14 +37,14 @@
                 </tr>
                 {% if perms.tutor.edit_tutors %}
                     <tr>
-                        <th>Tutors (min: {{ task.min_tutors }}, max: {{ task.max_tutors }})</th>
+                        <th>{% trans "Tutors" %} [{{ task.min_tutors }}, {{ task.max_tutors }}]</th>
                         <td>
                             {% if task.allowed_subjects.all|length == 0 %}
                                 {% trans "No subjects." %}
                             {% else %}
                                 <table>
                                     <tr>
-                                        <th>Subjects</th>
+                                        <th>{% trans "Subject" %}</th>
                                     </tr>
                                     {% for subject in task.allowed_subjects.all %}
                                         <tr>
@@ -56,14 +56,14 @@
                         </td>
                     </tr>
                     <tr>
-                        <th>Requirements</th>
+                        <th>{% trans "Requirements" %}</th>
                         <td>
                             {% if task.requirements.all|length == 0 %}
                                 {% trans "No requirements." %}
                             {% else %}
                                 <table>
                                     <tr>
-                                        <th>Requirement</th>
+                                        <th>{% trans "Requirement" %}</th>
                                     </tr>
                                     {% for requirement in task.requirements.all %}
                                         <tr>
@@ -77,14 +77,14 @@
                 {% endif %}
             </table>
             {% if perms.tutor.edit_tutors %}
-                <h2>The following tutor assignments will be deleted:</h2>
+                <h2>{% trans "The following tutor assignments will be deleted" %}:</h2>
                 {% if task.tutorassignment_set.all|length == 0 %}
                     {% trans "No Tutor is assigned." %}
                 {% else %}
                     <table class="table">
                         <thead>
                         <tr>
-                            <th>Tutor</th>
+                            <th>{% trans "Tutor" %}</th>
                         </tr>
                         </thead>
                         <tbody>

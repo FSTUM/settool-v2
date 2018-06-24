@@ -18,7 +18,7 @@
 {% endblock %}
 
 
-{% block title %}{% trans "SET Tutor" %} - {% trans "Task Details" %}{% endblock %}
+{% block title %}{% trans "Tutor" %} - {% trans "Task Details" %}{% endblock %}
 
 {% block tutorcontent %}
     <h1>{{ task.event.name }} - {{ task }}</h1>
@@ -56,14 +56,14 @@
                 </tr>
                 {% if perms.tutor.edit_tutors %}
                     <tr>
-                        <th>Tutors [{{ task.min_tutors }}, {{ task.max_tutors }}]</th>
+                        <th>{% trans "Tutors" %} [{{ task.min_tutors }}, {{ task.max_tutors }}]</th>
                         <td>
                             {% if task.allowed_subjects.all|length == 0 %}
                                 {% trans "No subjects." %}
                             {% else %}
                                 <table>
                                     <tr>
-                                        <th>Subjects</th>
+                                        <th>{% trans "Subjects" %}</th>
                                     </tr>
                                     {% for subject in task.allowed_subjects.all %}
                                         <tr>
@@ -75,14 +75,14 @@
                         </td>
                     </tr>
                     <tr>
-                        <th>Requirements</th>
+                        <th>{% trans "Requirements" %}</th>
                         <td>
                             {% if task.requirements.all|length == 0 %}
                                 {% trans "No requirements." %}
                             {% else %}
                                 <table>
                                     <tr>
-                                        <th>Name</th>
+                                        <th>{% trans "Requirement" %}</th>
                                     </tr>
                                     {% for requirement in task.requirements.all %}
                                         <tr>
@@ -125,7 +125,7 @@
                 <div class="unsaved-changes alert alert-danger" style="display: none;"
                      role="alert">{% trans "This page contains unsaved changes." %}</div>
                 <div class="form-group">
-                    <h2>Assigned Tutors:</h2>
+                    <h2>{% trans "Assigned Tutors" %}:</h2>
                     <table class="table tutorTable assigned_tutors css-serial">
                         <thead>
                         <tr>
@@ -171,7 +171,7 @@
                         {% endfor %}
                         </tbody>
                     </table>
-                    <h2>Unassigned Tutors:</h2>
+                    <h2>{% trans "Unassigned Tutors" %}:</h2>
                     <table class="table tutorTable unassigned_tutors css-serial">
                         <thead>
                         <tr>
@@ -256,7 +256,7 @@
                 }
                 $('.assigned_tutors').append(row);
                 $(src).addClass('unassign_button').removeClass('assign_button');
-                $(src).text('Unassign');
+                $(src).text('{% trans "Unassign" %}');
             };
 
             let unassign_tutor = function (id, src) {
@@ -267,7 +267,7 @@
                 let row = $(src).closest("tr");
                 $('.unassigned_tutors').append(row);
                 $(src).addClass('assign_button').removeClass('unassign_button');
-                $(src).text('Assign');
+                $(src).text({% trans "Assign" %});
                 if (initial_values.includes(id)) {
                     $(row).addClass('danger');
                 } else {
