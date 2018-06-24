@@ -332,10 +332,10 @@ def task_delete(request, uid):
 
 
 @permission_required('tutors.edit_tutors')
-def task_add(request):
+def task_add(request, eid=None):
     semester = get_object_or_404(Semester, pk=get_semester(request))
 
-    form = TaskAdminForm(request.POST or None, semester=semester)
+    form = TaskAdminForm(request.POST or None, semester=semester, initial={'event': eid})
     if form.is_valid():
         task = form.save()
         task.log(None, "Task added")

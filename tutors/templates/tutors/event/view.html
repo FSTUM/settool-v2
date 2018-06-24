@@ -67,7 +67,9 @@
                 {% endif %}
             </table>
             {% if perms.tutor.edit_tutors %}
-                <h2>{% trans "This event has the following tasks:" %}</h2>
+                <h2>{% trans "This event has the following tasks:" %} <a
+                        href="{% url "task_add" event.id %}">{% trans "Add Task" %}</a></h2>
+
                 <table class="table css-serial">
                     <thead>
                     <tr>
