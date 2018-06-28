@@ -32,6 +32,8 @@ class TutorForm(TutorAdminForm):
             'birthday': DatePickerInput(format='%Y-%m-%d'),
         }
 
+    field_order = ['first_name', 'last_name', 'email', 'credits', 'birthday', 'matriculation_number']
+
     def save(self, commit=True):
         instance = super(TutorForm, self).save(False)
         instance.save()
