@@ -55,13 +55,18 @@ class TutorForm(TutorAdminForm):
         credits = self.cleaned_data.get('credits')
 
         if credits:
-            self.fields['birthday'].required = True
-            self.fields['matriculation_number'].required = True
+            self.validate_required_field(cleaned_data=self.cleaned_data, field_name='birthday')
+            self.validate_required_field(cleaned_data=self.cleaned_data, field_name='matriculation_number')
         else:
             self.cleaned_data['birthday'] = None
             self.cleaned_data['matriculation_number'] = None
 
         return self.cleaned_data
+
+    def validate_required_field(self, cleaned_data, field_name, message="This field is required"):
+        if field_name in cleaned_data and cleaned_data[field_name] is None:
+            self._errors[field_name] = self.error_class([message])
+            del cleaned_data[field_name]
 
 
 class EventAdminForm(SemesterBasedForm):
