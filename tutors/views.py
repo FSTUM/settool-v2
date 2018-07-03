@@ -5,12 +5,12 @@ import unicodecsv as csv
 from django import http
 from django.contrib import messages
 from django.contrib.auth.decorators import permission_required
-from django.contrib.sites.shortcuts import get_current_site
 from django.core.mail import EmailMessage
 from django.forms import modelformset_factory, forms
 from django.http import HttpResponseRedirect, HttpResponse, Http404
 from django.shortcuts import render, get_object_or_404, redirect
 from django.template import Template, Context
+from django.urls import reverse
 from django.utils import timezone
 from django.utils.encoding import force_bytes, force_text
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
@@ -19,8 +19,7 @@ from settool_common import utils
 from settool_common.models import get_semester, Semester, Subject, Mail
 from tutors.forms import TutorForm, TutorAdminForm, EventAdminForm, TaskAdminForm, RequirementAdminForm, AnswerForm, \
     TaskAssignmentForm, SettingsAdminForm, TutorMailAdminForm, SubjectTutorCountAssignmentAdminForm
-from tutors.models import Tutor, Status, Settings, Event, Task, Question, Answer, MailTutorTask, \
-    SubjectTutorCountAssignment
+from tutors.models import Tutor, Settings, Event, Task, Question, Answer, MailTutorTask, SubjectTutorCountAssignment
 from tutors.tokens import account_activation_token
 
 
@@ -65,9 +64,10 @@ def tutor_signup(request):
 
         context = Context({
             'tutor': tutor,
-            'domain': get_current_site(request).domain,
-            'uid': urlsafe_base64_encode(force_bytes(tutor.pk)),
-            'token': account_activation_token.make_token(tutor),
+            'activation_url': request.build_absolute_uri(reverse('tutor_signup_confirm', kwargs={
+                'uidb64': urlsafe_base64_encode(force_bytes(tutor.pk)),
+                'token': account_activation_token.make_token(tutor)
+            }))
         })
         message = Template(settings.mail_registration.text).render(context)
         subject = Template(settings.mail_registration.subject).render(context)
@@ -107,7 +107,7 @@ def tutor_signup_confirm(request, uidb64, token):
     tutor = get_object_or_404(Tutor, pk=uid)
 
     if account_activation_token.check_token(tutor, token):
-        tutor.status = Status.objects.get(key="active")
+        tutor.status = Tutor.STATUS_ACTIVE
         tutor.save()
         return redirect('tutor_signup_success')
     else:
@@ -119,7 +119,7 @@ def tutor_list(request, status=None):
     if status is None:
         tutors = Tutor.objects.all()
     else:
-        tutors = Tutor.objects.filter(status__key=status)
+        tutors = Tutor.objects.filter(status=status)
     return render(request, 'tutors/tutor/list.html', {'tutors': tutors, 'status': status})
 
 
@@ -133,7 +133,7 @@ def tutor_accept(request, uid):
     tutor = get_object_or_404(Tutor, pk=uid)
     form = forms.Form(request.POST or None)
     if form.is_valid():
-        tutor.status = Status.objects.get(key='accepted')
+        tutor.status = Tutor.STATUS_ACCEPTED
         tutor.save()
         return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
     return http.HttpResponseBadRequest()
@@ -144,7 +144,7 @@ def tutor_decline(request, uid):
     tutor = get_object_or_404(Tutor, pk=uid)
     form = forms.Form(request.POST or None)
     if form.is_valid():
-        tutor.status = Status.objects.get(key='declined')
+        tutor.status = Tutor.STATUS_DECLINED
         tutor.save()
         return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
     return http.HttpResponseBadRequest()
@@ -364,7 +364,7 @@ def task_view(request, uid):
     context = {
         'task': task,
         'assigned_tutors': assigned_tutors,
-        'unassigned_tutors': Tutor.objects.filter(status__key="accepted").exclude(id__in=assigned_tutors.values("id")),
+        'unassigned_tutors': Tutor.objects.filter(status=Tutor.STATUS_ACCEPTED).exclude(id__in=assigned_tutors.values("id")),
         'assignment_form': form,
     }
     return render(request, 'tutors/task/view.html', context)
@@ -446,7 +446,7 @@ def task_mail(request, uid, template=None):
         template = get_object_or_404(Mail, pk=template, sender=Mail.SET_TUTOR)
 
     tutor_data = {}
-    for field in [x.name for x in Tutor._meta.fields if x.name not in ["semester", "status", "subject"]]:
+    for field in [x.name for x in Tutor._meta.fields if x.name not in ["semester", "subject"]]:
         tutor_data[field] = "<" + field + ">"
 
     tutor = Tutor(**tutor_data)
@@ -503,12 +503,9 @@ def tutor_export(request, type, status=None):
     if status is None:
         tutors = Tutor.objects.all()
     else:
-        tutors = Tutor.objects.filter(status__key=status)
+        tutors = Tutor.objects.filter(status=status)
 
-    filename = "tutors"
-    if status is not None:
-        filename += "_" + status
-    filename += "_" + time.strftime("%Y%m%d-%H%M")
+    filename = "tutors_" + time.strftime("%Y%m%d-%H%M")
 
     if type == "pdf":
         return download_pdf("tutors/tex/tutors.tex", filename + ".pdf", {"tutors": tutors})
@@ -632,10 +629,10 @@ def tutor_mail(request, status=None, template=None):
     if status is None:
         tutors = Tutor.objects.all()
     else:
-        tutors = Tutor.objects.filter(status__key=status)
+        tutors = Tutor.objects.filter(status=status)
 
     tutor_data = {}
-    for field in [x.name for x in Tutor._meta.fields if x.name not in ["semester", "status", "subject"]]:
+    for field in [x.name for x in Tutor._meta.fields if x.name not in ["semester", "subject"]]:
         tutor_data[field] = "<" + field + ">"
 
     tutor = Tutor(**tutor_data)

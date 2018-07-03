@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-10-05 13:04+0200\n"
+"POT-Creation-Date: 2018-07-04 00:12+0200\n"
 "PO-Revision-Date: 2016-09-30 23:28+0200\n"
 "Last-Translator: Sven Hertle <hertle@fs.tum.de>\n"
 "Language-Team: \n"
@@ -18,118 +18,320 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Poedit 1.8.9\n"
 
-#: settool_common/models.py:19
+#: .\settool_common\forms.py:31
+msgid "Email template:"
+msgstr ""
+
+#: .\settool_common\models.py:23
 msgid "Winter semester"
 msgstr "Wintersemester"
 
-#: settool_common/models.py:20
+#: .\settool_common\models.py:24
 msgid "Summer semester"
 msgstr "Sommersemester"
 
-#: settool_common/models.py:27
+#: .\settool_common\models.py:31
 msgid "Semester"
 msgstr "Semester"
 
-#: settool_common/models.py:31
+#: .\settool_common\models.py:35
 msgid "Year"
 msgstr "Jahr"
 
-#: settool_common/models.py:45
+#: .\settool_common\models.py:50
 msgid "Bachelor"
 msgstr "Bachelor"
 
-#: settool_common/models.py:46
+#: .\settool_common\models.py:51
 msgid "Master"
 msgstr "Master"
 
-#: settool_common/models.py:64
+#: .\settool_common\models.py:69
 msgid "Mathematics"
 msgstr "Mathematik"
 
-#: settool_common/models.py:65
+#: .\settool_common\models.py:70
 msgid "Physics"
 msgstr "Physik"
 
-#: settool_common/models.py:66
+#: .\settool_common\models.py:71
 msgid "Informatics"
 msgstr "Informatik"
 
-#: settool_common/models.py:67
+#: .\settool_common\models.py:72
 msgid "Informatics: Games Engineering"
 msgstr "Informatik: Games Engineering"
 
-#: settool_common/models.py:68
+#: .\settool_common\models.py:73
 msgid "Information Systems"
 msgstr "Wirtschaftsinformatik"
 
-#: settool_common/models.py:69
+#: .\settool_common\models.py:74
 msgid "Automotive Software Engineering"
 msgstr "Automotive Software Engineering"
 
-#: settool_common/models.py:70
+#: .\settool_common\models.py:75
 msgid "Computational Science and Engineering"
 msgstr "Computational Science and Engineering"
 
-#: settool_common/models.py:71
+#: .\settool_common\models.py:76
 msgid "Biomedical Computing"
 msgstr "Biomedical Computing"
 
-#: settool_common/models.py:72
+#: .\settool_common\models.py:77
 msgid "Robotics, Cognition, Intelligence"
 msgstr "Robotics, Cognition, Intelligence"
 
-#: settool_common/models.py:73
+#: .\settool_common\models.py:78
 msgid "Mathematics in Operatios Research"
 msgstr ""
 
-#: settool_common/models.py:74
+#: .\settool_common\models.py:79
 msgid "Mathematics in Science and Engineering"
 msgstr ""
 
-#: settool_common/models.py:75
+#: .\settool_common\models.py:80
 msgid "Mathematics in Finance and Acturial Science"
 msgstr ""
 
-#: settool_common/models.py:76
+#: .\settool_common\models.py:81
 msgid "Mathematics in Bioscience"
 msgstr ""
 
-#: settool_common/models.py:84
+#: .\settool_common\models.py:88
 msgid "Degree"
 msgstr "Abschluss"
 
-#: settool_common/models.py:91
+#: .\settool_common\models.py:95
+#: .\settool_common\templates\common\mail\list.html:28
+#: .\settool_common\templates\common\mail\send_failure.html:22
 msgid "Subject"
 msgstr "Studiengang"
 
-#: settool_common/templates/settool_common/base.html:23
+#: .\settool_common\models.py:136 .\settool_common\templates\base.html:28
+#: .\settool_common\templates\common\mail\add.html:5
+#: .\settool_common\templates\common\mail\delete.html:4
+#: .\settool_common\templates\common\mail\edit.html:5
+#: .\settool_common\templates\common\mail\list.html:18
+#: .\settool_common\templates\common\mail\send.html:5
+#: .\settool_common\templates\common\mail\send_failure.html:5
+#: .\settool_common\templates\common\mail\view.html:5
 msgid "SET"
 msgstr "SET"
 
-#: settool_common/templates/settool_common/base.html:51
+#: .\settool_common\models.py:137
+msgid "SET_FAHRT"
+msgstr ""
+
+#: .\settool_common\models.py:138
+msgid "SET_TUTOR"
+msgstr ""
+
+#: .\settool_common\models.py:145
+#: .\settool_common\templates\common\mail\send.html:28
+#: .\settool_common\templates\common\mail\send_failure.html:16
+msgid "From"
+msgstr ""
+
+#: .\settool_common\models.py:149
+#: .\settool_common\templates\common\mail\delete.html:15
+#: .\settool_common\templates\common\mail\send.html:34
+#: .\settool_common\templates\common\mail\view.html:14
+#, fuzzy
+#| msgid "Subject"
+msgid "Email subject"
+msgstr "Studiengang"
+
+#: .\settool_common\models.py:151
+msgid "You may use placeholders for the subject."
+msgstr ""
+
+#: .\settool_common\models.py:155
+#: .\settool_common\templates\common\mail\delete.html:19
+#: .\settool_common\templates\common\mail\list.html:29
+#: .\settool_common\templates\common\mail\send.html:37
+#: .\settool_common\templates\common\mail\send_failure.html:25
+#: .\settool_common\templates\common\mail\view.html:18
+msgid "Text"
+msgstr ""
+
+#: .\settool_common\models.py:156
+msgid "You may use placeholders for the text."
+msgstr ""
+
+#: .\settool_common\templates\base.html:59
 #, python-format
 msgid "Hello %(username)s!"
 msgstr "Hallo %(username)s!"
 
-#: settool_common/templates/settool_common/base.html:53
+#: .\settool_common\templates\base.html:61
 msgid "Logout"
 msgstr "Logout"
 
-#: settool_common/templates/settool_common/base.html:55
-#: settool_common/templates/settool_common/login.html:6
-#: settool_common/templates/settool_common/login.html:18
+#: .\settool_common\templates\base.html:63
+#: .\settool_common\templates\common\login.html:6
+#: .\settool_common\templates\common\login.html:18
 msgid "Login"
 msgstr "Login"
 
-#: settool_common/templates/settool_common/base.html:78
-#: settool_common/templates/settool_common/base.html:103
+#: .\settool_common\templates\base.html:86
+#: .\settool_common\templates\base.html:130
 msgid "Switch"
 msgstr "Switch"
 
-#: settool_common/templates/settool_common/base.html:124
+#: .\settool_common\templates\base.html:95
+msgid "SET-Fahrt"
+msgstr ""
+
+#: .\settool_common\templates\base.html:98
+msgid "SET-Tüten"
+msgstr ""
+
+#: .\settool_common\templates\base.html:101
+msgid "SET-Tutor"
+msgstr ""
+
+#: .\settool_common\templates\base.html:104
+msgid "Institutsführungen"
+msgstr ""
+
+#: .\settool_common\templates\base.html:107
+msgid "Settings"
+msgstr ""
+
+#: .\settool_common\templates\base.html:151
 msgid "Datenschutz"
 msgstr "Datenschutz"
 
-#: settool_common/templates/settool_common/base.html:125
+#: .\settool_common\templates\base.html:152
 msgid "Impressum"
 msgstr "Impressum"
+
+#: .\settool_common\templates\base.html:159
+msgid "Deselect All"
+msgstr ""
+
+#: .\settool_common\templates\base.html:160
+msgid "Select All"
+msgstr ""
+
+#: .\settool_common\templates\base.html:162
+msgid "Selectable items"
+msgstr ""
+
+#: .\settool_common\templates\base.html:163
+msgid "Selection items"
+msgstr ""
+
+#: .\settool_common\templates\common\base.html:9
+msgid "Email Templates"
+msgstr ""
+
+#: .\settool_common\templates\common\base.html:11
+msgid "All"
+msgstr ""
+
+#: .\settool_common\templates\common\base.html:12
+msgid "Add"
+msgstr ""
+
+#: .\settool_common\templates\common\mail\add.html:5
+#: .\settool_common\templates\common\mail\add.html:9
+msgid "Add email"
+msgstr ""
+
+#: .\settool_common\templates\common\mail\add.html:24
+#: .\settool_common\templates\common\mail\edit.html:23
+msgid "Submit"
+msgstr ""
+
+#: .\settool_common\templates\common\mail\add.html:26
+#: .\settool_common\templates\common\mail\delete.html:34
+#: .\settool_common\templates\common\mail\edit.html:25
+#: .\settool_common\templates\common\mail\send.html:23
+msgid "Cancel"
+msgstr ""
+
+#: .\settool_common\templates\common\mail\delete.html:4
+#: .\settool_common\templates\common\mail\delete.html:8
+msgid "Delete email"
+msgstr ""
+
+#: .\settool_common\templates\common\mail\delete.html:32
+#: .\settool_common\templates\common\mail\view.html:29
+msgid "Delete"
+msgstr ""
+
+#: .\settool_common\templates\common\mail\edit.html:5
+#: .\settool_common\templates\common\mail\edit.html:9
+msgid "Edit email"
+msgstr ""
+
+#: .\settool_common\templates\common\mail\list.html:18
+#: .\settool_common\templates\common\mail\list.html:22
+msgid "List email templates"
+msgstr ""
+
+#: .\settool_common\templates\common\mail\send.html:5
+#: .\settool_common\templates\common\mail\send.html:9
+#: .\settool_common\templates\common\mail\send_failure.html:5
+#: .\settool_common\templates\common\mail\send_failure.html:9
+msgid "Send email"
+msgstr ""
+
+#: .\settool_common\templates\common\mail\send.html:13
+msgid ""
+"Do you really want to send the following email to the participants below?"
+msgstr ""
+
+#: .\settool_common\templates\common\mail\send.html:21
+msgid "Send"
+msgstr ""
+
+#: .\settool_common\templates\common\mail\send.html:31
+#: .\settool_common\templates\common\mail\send_failure.html:19
+msgid "To"
+msgstr ""
+
+#: .\settool_common\templates\common\mail\send.html:31
+#: .\settool_common\templates\common\mail\send_failure.html:19
+msgid "see table below"
+msgstr ""
+
+#: .\settool_common\templates\common\mail\send.html:43
+#: .\settool_common\templates\common\mail\send_failure.html:31
+msgid "First name"
+msgstr ""
+
+#: .\settool_common\templates\common\mail\send.html:44
+#: .\settool_common\templates\common\mail\send_failure.html:32
+msgid "Surname"
+msgstr ""
+
+#: .\settool_common\templates\common\mail\send.html:45
+#: .\settool_common\templates\common\mail\send_failure.html:33
+msgid "Status"
+msgstr ""
+
+#: .\settool_common\templates\common\mail\send.html:46
+#: .\settool_common\templates\common\mail\send_failure.html:34
+msgid "Comment"
+msgstr ""
+
+#: .\settool_common\templates\common\mail\send_failure.html:13
+msgid ""
+"The emails were sent, but some emails failed, because a field was empty. "
+"Below you can find a list of all failed participants."
+msgstr ""
+
+#: .\settool_common\templates\common\mail\view.html:5
+msgid "Email details"
+msgstr ""
+
+#: .\settool_common\templates\common\mail\view.html:23
+msgid "Edit"
+msgstr ""
+
+#: .\settool_common\templates\common\settings.html:6
+msgid "Settings/Dashboard"
+msgstr ""

@@ -1,0 +1,795 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2018-07-04 00:12+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: .\tutors\forms.py:23
+msgid "I want to receive ECTS for my work as a SET tutor."
+msgstr "Ich möchte ECTS für meine Arbeit als SET Tutor erhalten."
+
+#: .\tutors\forms.py:24
+msgid "tutors_ects_agreement"
+msgstr ""
+"Ich bin damit einverstanden, dass mein Name, Geburtsdatum, Matrikelnummer "
+"und Studienfach an die jeweilige Fakultät zur ECTS Vergabe weitergegeben "
+"wird."
+
+#: .\tutors\forms.py:25
+msgid "I accept the terms and conditions of the following privacy policy:"
+msgstr "Ich stimme der folgenden Datenschutzerklärung zu:"
+
+#: .\tutors\forms.py:115 .\tutors\forms.py:176 .\tutors\forms.py:241
+msgid "Begin time must be before end time."
+msgstr "Der Startzeitpunkt muss vor dem Endzeitpunkt liegen."
+
+#: .\tutors\models.py:29
+msgid "Open registration"
+msgstr "Start der Registrierung"
+
+#: .\tutors\models.py:33
+msgid "Close registration"
+msgstr "Ende der Registrierung"
+
+#: .\tutors\models.py:38
+msgid "Mail Registration"
+msgstr "Mail Registrierung"
+
+#: .\tutors\models.py:46
+msgid "Mail Confirmed Place"
+msgstr "Mail Fixplatz"
+
+#: .\tutors\models.py:55
+msgid "Mail Waiting List"
+msgstr "Mail Warteliste"
+
+#: .\tutors\models.py:64
+msgid "Mail Task"
+msgstr "Mail Task"
+
+#: .\tutors\models.py:114 .\tutors\models.py:211 .\tutors\models.py:264
+#: .\tutors\models.py:369
+msgid "Semester"
+msgstr ""
+
+#: .\tutors\models.py:119 .\tutors\templates\tutors\task\view.html:133
+#: .\tutors\templates\tutors\task\view.html:179
+#: .\tutors\templates\tutors\tutor\delete.html:15
+#: .\tutors\templates\tutors\tutor\list.html:50
+#: .\tutors\templates\tutors\tutor\view.html:14
+msgid "First name"
+msgstr "Vorname"
+
+#: .\tutors\models.py:124 .\tutors\templates\tutors\task\view.html:134
+#: .\tutors\templates\tutors\task\view.html:180
+#: .\tutors\templates\tutors\tutor\list.html:51
+msgid "Last name"
+msgstr "Nachname"
+
+#: .\tutors\models.py:129
+msgid "Email address"
+msgstr "Email Adresse"
+
+#: .\tutors\models.py:133
+msgid "Registration Time"
+msgstr "Zeitpunkt der Registrierung"
+
+#: .\tutors\models.py:138
+msgid "Birthday"
+msgstr "Geburtstag"
+
+#: .\tutors\models.py:144
+msgid "Matriculation number"
+msgstr "Matrikelnummer"
+
+#: .\tutors\models.py:148
+msgid "The matriculation number has to be of the form 01234567."
+msgstr "Die Matrikelnummer muss die Form 01234567 haben."
+
+#: .\tutors\models.py:155
+msgid "Tshirt size"
+msgstr "T-Shirt Größe"
+
+#: .\tutors\models.py:161
+msgid "Tshirt as Girls cut"
+msgstr "T-Shirt als Girls cut"
+
+#: .\tutors\models.py:165 .\tutors\templates\tutors\tutor\list.html:54
+#: .\tutors\templates\tutors\tutor\view.html:43
+msgid "Status"
+msgstr ""
+
+#: .\tutors\models.py:173 .\tutors\templates\tutors\event\delete.html:42
+#: .\tutors\templates\tutors\event\view.html:41
+#: .\tutors\templates\tutors\task\delete.html:47
+#: .\tutors\templates\tutors\task\mail.html:21
+#: .\tutors\templates\tutors\task\view.html:135
+#: .\tutors\templates\tutors\task\view.html:181
+#: .\tutors\templates\tutors\tutor\delete.html:27
+#: .\tutors\templates\tutors\tutor\list.html:52
+#: .\tutors\templates\tutors\tutor\mail.html:21
+#: .\tutors\templates\tutors\tutor\view.html:26
+msgid "Subject"
+msgstr "Studienfach"
+
+#: .\tutors\models.py:178
+msgid "Comment"
+msgstr "Kommentar"
+
+#: .\tutors\models.py:185
+msgid "Tutor Answers"
+msgstr "Antworten des Tutors"
+
+#: .\tutors\models.py:216 .\tutors\templates\tutors\event\delete.html:15
+#: .\tutors\templates\tutors\event\delete.html:59
+#: .\tutors\templates\tutors\event\list.html:32
+#: .\tutors\templates\tutors\event\view.html:14
+#: .\tutors\templates\tutors\event\view.html:77
+#: .\tutors\templates\tutors\task\delete.html:15
+#: .\tutors\templates\tutors\task\list.html:34
+#: .\tutors\templates\tutors\task\view.html:34
+#: .\tutors\templates\tutors\tutor\delete.html:67
+#: .\tutors\templates\tutors\tutor\view.html:120
+msgid "Name"
+msgstr "Name"
+
+#: .\tutors\models.py:221 .\tutors\models.py:274
+#: .\tutors\templates\tutors\event\delete.html:27
+#: .\tutors\templates\tutors\event\view.html:26
+#: .\tutors\templates\tutors\task\delete.html:27
+#: .\tutors\templates\tutors\task\view.html:46
+msgid "Description"
+msgstr "Beschreibung"
+
+#: .\tutors\models.py:226 .\tutors\models.py:279
+#: .\tutors\templates\tutors\event\delete.html:19
+#: .\tutors\templates\tutors\event\delete.html:60
+#: .\tutors\templates\tutors\event\list.html:33
+#: .\tutors\templates\tutors\event\view.html:18
+#: .\tutors\templates\tutors\event\view.html:78
+#: .\tutors\templates\tutors\task\delete.html:19
+#: .\tutors\templates\tutors\task\list.html:35
+#: .\tutors\templates\tutors\task\view.html:38
+#: .\tutors\templates\tutors\tutor\delete.html:68
+#: .\tutors\templates\tutors\tutor\view.html:121
+msgid "Begin"
+msgstr "Start"
+
+#: .\tutors\models.py:229 .\tutors\models.py:283
+#: .\tutors\templates\tutors\event\delete.html:23
+#: .\tutors\templates\tutors\event\delete.html:61
+#: .\tutors\templates\tutors\event\list.html:34
+#: .\tutors\templates\tutors\event\view.html:22
+#: .\tutors\templates\tutors\event\view.html:79
+#: .\tutors\templates\tutors\task\delete.html:23
+#: .\tutors\templates\tutors\task\list.html:36
+#: .\tutors\templates\tutors\task\view.html:42
+#: .\tutors\templates\tutors\tutor\delete.html:69
+#: .\tutors\templates\tutors\tutor\view.html:122
+msgid "End"
+msgstr "Ende"
+
+#: .\tutors\models.py:233 .\tutors\templates\tutors\event\delete.html:31
+#: .\tutors\templates\tutors\event\delete.html:62
+#: .\tutors\templates\tutors\event\list.html:35
+#: .\tutors\templates\tutors\event\view.html:30
+#: .\tutors\templates\tutors\event\view.html:80
+#: .\tutors\templates\tutors\task\delete.html:31
+#: .\tutors\templates\tutors\task\list.html:37
+#: .\tutors\templates\tutors\task\view.html:50
+#: .\tutors\templates\tutors\tutor\delete.html:70
+#: .\tutors\templates\tutors\tutor\view.html:123
+msgid "Meeting Point"
+msgstr "Treffpunkt"
+
+#: .\tutors\models.py:239 .\tutors\templates\tutors\event\delete.html:35
+#: .\tutors\templates\tutors\event\view.html:34
+#: .\tutors\templates\tutors\task\view.html:66
+msgid "Subjects"
+msgstr "Studiengänge"
+
+#: .\tutors\models.py:269
+msgid "Task name"
+msgstr "Taskname"
+
+#: .\tutors\models.py:287
+msgid "Meeting point"
+msgstr "Treffpunkt"
+
+#: .\tutors\models.py:293 .\tutors\templates\tutors\task\delete.html:35
+#: .\tutors\templates\tutors\task\list.html:33
+#: .\tutors\templates\tutors\task\view.html:54
+msgid "Event"
+msgstr "Event"
+
+#: .\tutors\models.py:299
+msgid "Allowed Subjects"
+msgstr "Zugelassene Studiengänge"
+
+#: .\tutors\models.py:305 .\tutors\templates\tutors\base.html:27
+#: .\tutors\templates\tutors\task\delete.html:59
+#: .\tutors\templates\tutors\task\view.html:78
+msgid "Requirements"
+msgstr "Voraussetzungen"
+
+#: .\tutors\models.py:310
+msgid "Tutors (min)"
+msgstr "Tutoren (min)"
+
+#: .\tutors\models.py:316
+msgid "Tutors (max)"
+msgstr "Tutoren (max)"
+
+#: .\tutors\models.py:323
+msgid "Assigned tutors"
+msgstr "Eingeteilte Tutoren"
+
+#: .\tutors\models.py:352
+msgid "absent"
+msgstr "abwesend"
+
+#: .\tutors\models.py:374 .\tutors\templates\tutors\requirement\delete.html:15
+#: .\tutors\templates\tutors\requirement\list.html:32
+#: .\tutors\templates\tutors\requirement\view.html:14
+#: .\tutors\templates\tutors\tutor\delete.html:49
+#: .\tutors\templates\tutors\tutor\view.html:102
+msgid "Question"
+msgstr "Frage"
+
+#: .\tutors\models.py:414 .\tutors\templates\tutors\tutor\delete.html:50
+#: .\tutors\templates\tutors\tutor\view.html:103
+msgid "Answer"
+msgstr "Antwort"
+
+#: .\tutors\templates\tutors\base.html:9
+msgid "Events"
+msgstr "Events"
+
+#: .\tutors\templates\tutors\base.html:11
+#: .\tutors\templates\tutors\base.html:16
+#: .\tutors\templates\tutors\base.html:21
+#: .\tutors\templates\tutors\base.html:29
+msgid "All"
+msgstr "Alle"
+
+#: .\tutors\templates\tutors\base.html:12
+#: .\tutors\templates\tutors\base.html:17
+#: .\tutors\templates\tutors\base.html:30
+msgid "Add"
+msgstr "Hinzufügen"
+
+#: .\tutors\templates\tutors\base.html:14
+msgid "Tasks"
+msgstr "Tasks"
+
+#: .\tutors\templates\tutors\base.html:19
+#: .\tutors\templates\tutors\base.html:35
+#: .\tutors\templates\tutors\task\delete.html:40
+#: .\tutors\templates\tutors\task\view.html:59
+msgid "Tutors"
+msgstr "Tutoren"
+
+#: .\tutors\templates\tutors\base.html:22
+msgid "Accepted"
+msgstr "Angenommen"
+
+#: .\tutors\templates\tutors\base.html:23
+msgid "Open"
+msgstr "Offen"
+
+#: .\tutors\templates\tutors\base.html:24
+msgid "Declined"
+msgstr "Abgelehnt"
+
+#: .\tutors\templates\tutors\base.html:25
+msgid "Inactive"
+msgstr "Email-Verifikation ausstehend"
+
+#: .\tutors\templates\tutors\base.html:32
+msgid "Settings"
+msgstr "Einstellungen"
+
+#: .\tutors\templates\tutors\base.html:34
+msgid "General"
+msgstr "Allgemein"
+
+#: .\tutors\templates\tutors\event\add.html:5
+#: .\tutors\templates\tutors\event\delete.html:4
+#: .\tutors\templates\tutors\event\edit.html:5
+#: .\tutors\templates\tutors\event\list.html:19
+#: .\tutors\templates\tutors\event\view.html:5
+#: .\tutors\templates\tutors\requirement\add.html:5
+#: .\tutors\templates\tutors\requirement\delete.html:4
+#: .\tutors\templates\tutors\requirement\edit.html:5
+#: .\tutors\templates\tutors\requirement\list.html:19
+#: .\tutors\templates\tutors\requirement\view.html:5
+#: .\tutors\templates\tutors\settings\general.html:5
+#: .\tutors\templates\tutors\settings\tutors.html:5
+#: .\tutors\templates\tutors\task\add.html:5
+#: .\tutors\templates\tutors\task\delete.html:4
+#: .\tutors\templates\tutors\task\delete.html:87
+#: .\tutors\templates\tutors\task\edit.html:5
+#: .\tutors\templates\tutors\task\list.html:20
+#: .\tutors\templates\tutors\task\mail.html:5
+#: .\tutors\templates\tutors\task\view.html:21
+#: .\tutors\templates\tutors\tutor\confirmation_required.html:4
+#: .\tutors\templates\tutors\tutor\delete.html:4
+#: .\tutors\templates\tutors\tutor\edit.html:5
+#: .\tutors\templates\tutors\tutor\invalid.html:4
+#: .\tutors\templates\tutors\tutor\list.html:19
+#: .\tutors\templates\tutors\tutor\mail.html:5
+#: .\tutors\templates\tutors\tutor\registration_closed.html:5
+#: .\tutors\templates\tutors\tutor\signup.html:5
+#: .\tutors\templates\tutors\tutor\success.html:4
+#: .\tutors\templates\tutors\tutor\view.html:5
+msgid "Tutor"
+msgstr "Tutor"
+
+#: .\tutors\templates\tutors\event\add.html:5
+#: .\tutors\templates\tutors\event\add.html:9
+msgid "Add Event"
+msgstr "Event Hinzufügen"
+
+#: .\tutors\templates\tutors\event\add.html:21
+#: .\tutors\templates\tutors\event\edit.html:24
+#: .\tutors\templates\tutors\requirement\add.html:21
+#: .\tutors\templates\tutors\requirement\edit.html:23
+#: .\tutors\templates\tutors\settings\general.html:24
+#: .\tutors\templates\tutors\settings\tutors.html:24
+#: .\tutors\templates\tutors\task\add.html:21
+#: .\tutors\templates\tutors\task\edit.html:24
+#: .\tutors\templates\tutors\tutor\edit.html:31
+#: .\tutors\templates\tutors\tutor\signup.html:30
+msgid "Submit"
+msgstr "Absenden"
+
+#: .\tutors\templates\tutors\event\add.html:25
+#: .\tutors\templates\tutors\event\edit.html:32
+#: .\tutors\templates\tutors\task\add.html:25
+#: .\tutors\templates\tutors\task\edit.html:32
+msgid "Master"
+msgstr "Master"
+
+#: .\tutors\templates\tutors\event\add.html:26
+#: .\tutors\templates\tutors\event\edit.html:33
+#: .\tutors\templates\tutors\task\add.html:26
+#: .\tutors\templates\tutors\task\edit.html:33
+msgid "Bachelor"
+msgstr "Bachelor"
+
+#: .\tutors\templates\tutors\event\delete.html:4
+#: .\tutors\templates\tutors\event\delete.html:8
+msgid "Delete Event"
+msgstr "Event löschen"
+
+#: .\tutors\templates\tutors\event\delete.html:38
+#: .\tutors\templates\tutors\event\view.html:37
+#: .\tutors\templates\tutors\task\delete.html:43
+#: .\tutors\templates\tutors\task\view.html:62
+msgid "No subjects."
+msgstr "Keine Studiengänge."
+
+#: .\tutors\templates\tutors\event\delete.html:55
+msgid "This event has the following tasks which will be deleted"
+msgstr ""
+"Dieses Event besitzt die folgenden Tasks welche ebenfalls gelöscht werden"
+
+#: .\tutors\templates\tutors\event\delete.html:86
+#: .\tutors\templates\tutors\event\view.html:61
+#: .\tutors\templates\tutors\requirement\delete.html:28
+#: .\tutors\templates\tutors\requirement\view.html:26
+#: .\tutors\templates\tutors\task\delete.html:109
+#: .\tutors\templates\tutors\task\view.html:106
+#: .\tutors\templates\tutors\tutor\delete.html:94
+#: .\tutors\templates\tutors\tutor\view.html:88
+msgid "Delete"
+msgstr "Löschen"
+
+#: .\tutors\templates\tutors\event\delete.html:88
+#: .\tutors\templates\tutors\event\edit.html:26
+#: .\tutors\templates\tutors\requirement\delete.html:30
+#: .\tutors\templates\tutors\requirement\edit.html:24
+#: .\tutors\templates\tutors\settings\general.html:26
+#: .\tutors\templates\tutors\settings\tutors.html:26
+#: .\tutors\templates\tutors\task\delete.html:111
+#: .\tutors\templates\tutors\task\edit.html:26
+#: .\tutors\templates\tutors\task\mail.html:36
+#: .\tutors\templates\tutors\tutor\delete.html:96
+#: .\tutors\templates\tutors\tutor\edit.html:33
+#: .\tutors\templates\tutors\tutor\mail.html:37
+msgid "Cancel"
+msgstr "Abbruch"
+
+#: .\tutors\templates\tutors\event\edit.html:5
+#: .\tutors\templates\tutors\event\edit.html:9
+msgid "Edit Event"
+msgstr "Event bearbeiten"
+
+#: .\tutors\templates\tutors\event\list.html:19
+#: .\tutors\templates\tutors\event\list.html:23
+msgid "List of Events"
+msgstr "Liste der Events"
+
+#: .\tutors\templates\tutors\event\view.html:5
+msgid "Event Details"
+msgstr "Event Details"
+
+#: .\tutors\templates\tutors\event\view.html:54
+#: .\tutors\templates\tutors\requirement\view.html:19
+#: .\tutors\templates\tutors\task\view.html:99
+#: .\tutors\templates\tutors\tutor\view.html:81
+msgid "Edit"
+msgstr "Bearbeiten"
+
+#: .\tutors\templates\tutors\event\view.html:70
+msgid "This event has the following tasks"
+msgstr "Dieses Event hat die folgenden Tasks"
+
+#: .\tutors\templates\tutors\event\view.html:71
+#: .\tutors\templates\tutors\task\add.html:5
+#: .\tutors\templates\tutors\task\add.html:9
+msgid "Add Task"
+msgstr "Task Hinzufügen"
+
+#: .\tutors\templates\tutors\requirement\add.html:5
+#: .\tutors\templates\tutors\requirement\add.html:9
+msgid "Add Requirement"
+msgstr "Voraussetzung hinzufügen"
+
+#: .\tutors\templates\tutors\requirement\delete.html:4
+#: .\tutors\templates\tutors\requirement\delete.html:8
+msgid "Delete Requirement"
+msgstr "Voraussetzung löschen"
+
+#: .\tutors\templates\tutors\requirement\edit.html:5
+#: .\tutors\templates\tutors\requirement\edit.html:9
+msgid "Edit Requirement"
+msgstr "Voraussetzung bearbeiten"
+
+#: .\tutors\templates\tutors\requirement\list.html:19
+#: .\tutors\templates\tutors\requirement\list.html:23
+msgid "List of Requirements"
+msgstr "Liste der Voraussetzungen"
+
+#: .\tutors\templates\tutors\requirement\view.html:5
+msgid "Requirement Details"
+msgstr "Voraussetzung Details"
+
+#: .\tutors\templates\tutors\settings\general.html:5
+#: .\tutors\templates\tutors\settings\general.html:9
+msgid "General Settings"
+msgstr "Allgemeine Einstellungen"
+
+#: .\tutors\templates\tutors\settings\tutors.html:5
+#: .\tutors\templates\tutors\settings\tutors.html:9
+msgid "Tutor Settings"
+msgstr "Tutor Einstellungen"
+
+#: .\tutors\templates\tutors\task\delete.html:4
+#: .\tutors\templates\tutors\task\delete.html:8
+msgid "Delete Task"
+msgstr "Task löschen"
+
+#: .\tutors\templates\tutors\task\delete.html:62
+#: .\tutors\templates\tutors\task\view.html:81
+msgid "No requirements."
+msgstr "Keine Voraussetzungen."
+
+#: .\tutors\templates\tutors\task\delete.html:66
+#: .\tutors\templates\tutors\task\view.html:85
+msgid "Requirement"
+msgstr "Voraussetzung"
+
+#: .\tutors\templates\tutors\task\delete.html:80
+msgid "The following tutor assignments will be deleted"
+msgstr "Die folgenden Tutor-Einteilungen werden gelöscht"
+
+#: .\tutors\templates\tutors\task\delete.html:82
+msgid "No Tutor is assigned."
+msgstr "Kein Tutor ist eingeteilt."
+
+#: .\tutors\templates\tutors\task\edit.html:5
+#: .\tutors\templates\tutors\task\edit.html:9
+msgid "Edit Task"
+msgstr "Task bearbeiten"
+
+#: .\tutors\templates\tutors\task\list.html:20
+#: .\tutors\templates\tutors\task\list.html:24
+msgid "List of Tasks"
+msgstr "Liste der Tasks"
+
+#: .\tutors\templates\tutors\task\list.html:38
+msgid "# Missing Mails"
+msgstr "# fehlender Mails"
+
+#: .\tutors\templates\tutors\task\mail.html:5
+#: .\tutors\templates\tutors\task\mail.html:8
+msgid "Send email"
+msgstr "Email senden"
+
+#: .\tutors\templates\tutors\task\mail.html:12
+#: .\tutors\templates\tutors\tutor\mail.html:12
+msgid "Do you really want to send the following email to the tutors below?"
+msgstr ""
+"Möchtest du wirklich die folgende Email an die unten stehenden Tutoren "
+"senden?"
+
+#: .\tutors\templates\tutors\task\mail.html:15
+#: .\tutors\templates\tutors\tutor\mail.html:15
+msgid "From"
+msgstr "Von"
+
+#: .\tutors\templates\tutors\task\mail.html:18
+#: .\tutors\templates\tutors\tutor\mail.html:18
+msgid "To"
+msgstr "An"
+
+#: .\tutors\templates\tutors\task\mail.html:18
+#: .\tutors\templates\tutors\tutor\mail.html:18
+msgid "see table below"
+msgstr "siehe Tabelle unten"
+
+#: .\tutors\templates\tutors\task\mail.html:24
+#: .\tutors\templates\tutors\tutor\mail.html:24
+msgid "Text"
+msgstr "Text"
+
+#: .\tutors\templates\tutors\task\mail.html:33
+#: .\tutors\templates\tutors\tutor\mail.html:33
+msgid "Send"
+msgstr "Senden"
+
+#: .\tutors\templates\tutors\task\view.html:21
+msgid "Task Details"
+msgstr "Task Details"
+
+#: .\tutors\templates\tutors\task\view.html:30
+#: .\tutors\templates\tutors\task\view.html:126
+msgid "This page contains unsaved changes."
+msgstr "Diese Seite enthält ungespeicherte Änderungen."
+
+#: .\tutors\templates\tutors\task\view.html:113
+msgid "Send Mail"
+msgstr "Mail senden"
+
+#: .\tutors\templates\tutors\task\view.html:115
+msgid " missing mails"
+msgstr " fehlende Mails"
+
+#: .\tutors\templates\tutors\task\view.html:118
+msgid "Tutor List"
+msgstr "Liste der Tutoren"
+
+#: .\tutors\templates\tutors\task\view.html:128
+msgid "Assigned Tutors"
+msgstr "Eingeteilte Tutoren"
+
+#: .\tutors\templates\tutors\task\view.html:136
+#: .\tutors\templates\tutors\task\view.html:182
+#: .\tutors\templates\tutors\tutor\list.html:53
+msgid "Tasks Assigned"
+msgstr "Zugewiesene Tasks"
+
+#: .\tutors\templates\tutors\task\view.html:137
+#: .\tutors\templates\tutors\task\view.html:183
+#: .\tutors\templates\tutors\tutor\delete.html:39
+#: .\tutors\templates\tutors\tutor\list.html:55
+#: .\tutors\templates\tutors\tutor\view.html:38
+msgid "Registration time"
+msgstr "Registrierungszeitpunkt"
+
+#: .\tutors\templates\tutors\task\view.html:168
+#: .\tutors\templates\tutors\task\view.html:259
+msgid "Unassign"
+msgstr "Zuweisung aufheben"
+
+#: .\tutors\templates\tutors\task\view.html:174
+msgid "Unassigned Tutors"
+msgstr "Unzugeteilte Tutoren"
+
+#: .\tutors\templates\tutors\task\view.html:214
+#: .\tutors\templates\tutors\task\view.html:270
+msgid "Assign"
+msgstr "Zuweisen"
+
+#: .\tutors\templates\tutors\tutor\confirmation_required.html:4
+#: .\tutors\templates\tutors\tutor\registration_closed.html:5
+#: .\tutors\templates\tutors\tutor\signup.html:5
+#: .\tutors\templates\tutors\tutor\success.html:4
+msgid "Sign up"
+msgstr "Anmeldung"
+
+#: .\tutors\templates\tutors\tutor\confirmation_required.html:8
+msgid "Confirmation required"
+msgstr "Bestätigung notwendig"
+
+#: .\tutors\templates\tutors\tutor\confirmation_required.html:11
+msgid ""
+"You will get an email containing a confirmation link. A confirmation is "
+"required to complete the application."
+msgstr ""
+"Du wirst eine Email bekommen die einen Bestätigungslink enthält. Eine "
+"Bestätigung ist notwendig um deineAnmeldung abzuschließen."
+
+#: .\tutors\templates\tutors\tutor\delete.html:4
+#: .\tutors\templates\tutors\tutor\delete.html:8
+msgid "Delete Tutor"
+msgstr "Tutor löschen"
+
+#: .\tutors\templates\tutors\tutor\delete.html:19
+#: .\tutors\templates\tutors\tutor\view.html:18
+msgid "Surname"
+msgstr "Nachname"
+
+#: .\tutors\templates\tutors\tutor\delete.html:23
+#: .\tutors\templates\tutors\tutor\view.html:22
+msgid "Email"
+msgstr "Email"
+
+#: .\tutors\templates\tutors\tutor\delete.html:31
+#: .\tutors\templates\tutors\tutor\view.html:30
+msgid "T-Shirt Size"
+msgstr "T-Shirt Größe"
+
+#: .\tutors\templates\tutors\tutor\delete.html:35
+#: .\tutors\templates\tutors\tutor\view.html:34
+msgid "Girls Cut?"
+msgstr "Girls Cut?"
+
+#: .\tutors\templates\tutors\tutor\delete.html:43
+#: .\tutors\templates\tutors\tutor\edit.html:22
+#: .\tutors\templates\tutors\tutor\signup.html:24
+#: .\tutors\templates\tutors\tutor\view.html:96
+msgid "Questions"
+msgstr "Fragen"
+
+#: .\tutors\templates\tutors\tutor\delete.html:62
+msgid "The tutor is assigned to the following tasks"
+msgstr "Der Tutor ist für die folgenden Tasks eingeteilt"
+
+#: .\tutors\templates\tutors\tutor\edit.html:5
+#: .\tutors\templates\tutors\tutor\edit.html:9
+msgid "Edit Tutor"
+msgstr "Tutor bearbeiten"
+
+#: .\tutors\templates\tutors\tutor\invalid.html:4
+msgid "Sign up failed"
+msgstr "Anmeldung fehlgeschlagen"
+
+#: .\tutors\templates\tutors\tutor\invalid.html:8
+msgid "Confirmation failed"
+msgstr "Bestätigung fehlgeschlagen"
+
+#: .\tutors\templates\tutors\tutor\invalid.html:11
+msgid "The confirmation link was invalid."
+msgstr "Der Bestätigungslink war ungültig."
+
+#: .\tutors\templates\tutors\tutor\list.html:19
+#: .\tutors\templates\tutors\tutor\list.html:23
+msgid "List Tutors"
+msgstr "Liste der Tutoren"
+
+#: .\tutors\templates\tutors\tutor\list.html:29
+msgid "Export PDF"
+msgstr "PDF Export"
+
+#: .\tutors\templates\tutors\tutor\list.html:32
+msgid "Export CSV"
+msgstr "CSV Export"
+
+#: .\tutors\templates\tutors\tutor\list.html:35
+msgid "T-Shirt"
+msgstr "T-Shirt"
+
+#: .\tutors\templates\tutors\tutor\list.html:39
+msgid "Send Email"
+msgstr "Email senden"
+
+#: .\tutors\templates\tutors\tutor\mail.html:5
+#: .\tutors\templates\tutors\tutor\mail.html:8
+msgid "Send email to tutors"
+msgstr "Sende email an Tutoren"
+
+#: .\tutors\templates\tutors\tutor\registration_closed.html:9
+msgid "Sign up for SET Tutor"
+msgstr "Anmeldung als SET Tutor"
+
+#: .\tutors\templates\tutors\tutor\registration_closed.html:13
+msgid "The SET Tutor registration is currently not open."
+msgstr "Die SET Tutor Anmeldung ist derzeit nicht offen."
+
+#: .\tutors\templates\tutors\tutor\signup.html:9
+msgid "Sign up for SET-Tutor"
+msgstr "Anmeldung als SET Tutor"
+
+#: .\tutors\templates\tutors\tutor\signup.html:20
+msgid "tutors_privacy_policy"
+msgstr "<p>Ich bin damit einverstanden, dass meine Daten zu folgenden Zwecken erhoben, verarbeitet und genutzt werden:</p>"
+"<ul>"
+"<li>Erstellung von Tutorlisten</li>"
+"<li>Zusenden von Informationen vor und nach den Studieneinführungstagen per E-Mail</li>"
+"</ul>"
+"<p>"
+"Ich bin darauf hingewiesen worden, dass die im Rahmen der vorstehend genannten Zwecke erhobenen persönlichen Daten "
+"meiner Person unter Beachtung des Bayerischen Datenschutzgesetzes (BayDSG), erhoben, verarbeitet, genutzt und "
+"übermittelt werden. Die Daten werden spätestens sechs Monate nach Ende der Studieneinführungstage unwiderruflich "
+"gelöscht."
+"</p>"
+"<p>"
+"Ich bin zudem darauf hingewiesen worden, dass die Erhebung, Verarbeitung und Nutzung meiner Daten auf freiwilliger "
+"Basis erfolgt. Ferner, dass ich mein Einverständnis mit der Folge, dass ich bei den Studieneinführungstagen nicht als "
+"Tutor teilnehmen kann, verweigern bzw. jederzeit mit Wirkung für die Zukunft widerrufen kann."
+"</p>"
+"<p>"
+"Meine Widerrufserklärung werde ich richten an:"
+"</p>"
+"<address>"
+"Fachschaft MPI<br>"
+"Technische Universität München<br>"
+"Boltzmannstraße 3<br>"
+"85748 Garching<br>"
+"E-Mail: <a href=\"mailto:set-tutoren@fs.tum.de\">set-tutoren@fs.tum.de</a>"
+"</address>"
+"<p>"
+"Im Fall des Widerrufs werden mit dem Zugang meiner Widerrufserklärung meine Daten gelöscht."
+"</p>"
+
+
+#: .\tutors\templates\tutors\tutor\success.html:8
+msgid "You successfully signed up as SET Tutor"
+msgstr "Du hast deine Anmeldung als SET Tutor erfolgreich bestätigt."
+
+#: .\tutors\templates\tutors\tutor\success.html:11
+msgid ""
+"You will get all further information by email. This may take some time, "
+"because we manually check your registration."
+msgstr ""
+"Du wirst alle weiteren Information als Email erhalten. Dies kann einige Zeit "
+"beanspruchen, da wir jede Anmeldung manuell prüfen."
+
+#: .\tutors\templates\tutors\tutor\view.html:5
+msgid "Tutor Details"
+msgstr "Tutor Details"
+
+#: .\tutors\templates\tutors\tutor\view.html:51
+#: .\tutors\templates\tutors\tutor\view.html:56
+#: .\tutors\templates\tutors\tutor\view.html:64
+msgid "accept"
+msgstr "Akzeptieren"
+
+#: .\tutors\templates\tutors\tutor\view.html:53
+#: .\tutors\templates\tutors\tutor\view.html:58
+#: .\tutors\templates\tutors\tutor\view.html:61
+msgid "decline"
+msgstr "Ablehnen"
+
+#: .\tutors\templates\tutors\tutor\view.html:115
+msgid "Assigned Tasks"
+msgstr "Zugewiesene Tasks"
+
+
+msgid "accepted"
+msgstr "Angenommen"
+
+msgid "open"
+msgstr "Offen"
+
+msgid "declined"
+msgstr "Abgelehnt"
+
+msgid "inactive"
+msgstr "Email-Verifikation ausstehend"

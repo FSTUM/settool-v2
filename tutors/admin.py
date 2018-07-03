@@ -1,9 +1,8 @@
 from django.contrib import admin
 
-from .models import (Status, Tutor, Task, Event, TutorAssignment, Answer,
+from .models import (Tutor, Task, Event, TutorAssignment, Answer,
                      Question, Settings, MailTutorTask, SubjectTutorCountAssignment)
 
-admin.site.register(Status)
 admin.site.register(Tutor)
 admin.site.register(Task)
 admin.site.register(Event)

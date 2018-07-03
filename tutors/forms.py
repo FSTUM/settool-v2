@@ -20,10 +20,10 @@ class TutorAdminForm(SemesterBasedForm):
 
 
 class TutorForm(TutorAdminForm):
-    credits = forms.BooleanField(required=False, label=_("I want to receive ECTS"),
-                                 help_text=_(
-                                     "Birthday and Matriculation number are required if you want to receive ECTS."))
-    dsgvo = forms.BooleanField(required=True)
+    credits = forms.BooleanField(required=False, label=_("I want to receive ECTS for my work as a SET tutor."),
+                                 help_text=_("tutors_ects_agreement"))
+    dsgvo = forms.BooleanField(required=True, label=_("I accept the terms and conditions of the following privacy "
+                                                      "policy:"))
 
     class Meta:
         model = Tutor

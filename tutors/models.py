@@ -47,6 +47,7 @@ class Settings(BaseModel):
         related_name="tutors_mail_confirmed_place",
         on_delete=models.CASCADE,
         null=True,
+        blank=True,
     )
 
     mail_waiting_list = models.ForeignKey(
@@ -55,6 +56,7 @@ class Settings(BaseModel):
         related_name="tutors_mail_waiting_list",
         on_delete=models.CASCADE,
         null=True,
+        blank=True,
     )
 
     mail_task = models.ForeignKey(
@@ -63,6 +65,7 @@ class Settings(BaseModel):
         related_name="tutors_mail_task",
         on_delete=models.CASCADE,
         null=True,
+        blank=True,
     )
 
     def registration_open(self):
@@ -77,34 +80,6 @@ class Settings(BaseModel):
         pass
 
 
-class Status(BaseModel):
-    key = models.CharField(
-        _("Key name"),
-        max_length=30,
-        unique=True,
-    )
-
-    name = models.CharField(
-        _("Status name"),
-        max_length=30,
-    )
-
-    default_status = models.BooleanField(
-        _("Default status"),
-    )
-
-    def __str__(self):
-        return u(self.name)
-
-
-def get_default_status():
-    default = Status.objects.filter(default_status=True).order_by('pk').first()
-    if default:
-        return default.pk
-    else:
-        return 1
-
-
 class Tutor(BaseModel):
     class Meta:
         unique_together = ('semester', 'email',)
@@ -115,6 +90,17 @@ class Tutor(BaseModel):
         ('L', 'L'),
         ('XL', 'XL'),
         ('XXL', 'XXL')
+    )
+
+    STATUS_DECLINED = 'declined'
+    STATUS_ACCEPTED = 'accepted'
+    STATUS_INACTIVE = 'inactive'
+    STATUS_ACTIVE = 'active'
+    STATUS_OPTIONS = (
+        (STATUS_ACCEPTED, _(STATUS_ACCEPTED)),
+        (STATUS_ACTIVE, _(STATUS_ACTIVE)),
+        (STATUS_DECLINED, _(STATUS_DECLINED)),
+        (STATUS_INACTIVE, _(STATUS_INACTIVE)),
     )
 
     id = models.UUIDField(
@@ -175,11 +161,11 @@ class Tutor(BaseModel):
         _("Tshirt as Girls cut"),
     )
 
-    status = models.ForeignKey(
-        Status,
-        on_delete=models.SET_DEFAULT,
+    status = models.CharField(
         verbose_name=_("Status"),
-        default=get_default_status,
+        default=STATUS_INACTIVE,
+        choices=STATUS_OPTIONS,
+        max_length=100,
     )
 
     subject = models.ForeignKey(
@@ -234,7 +220,6 @@ class Event(BaseModel):
     description = models.TextField(
         _("Description"),
         blank=True,
-        null=True,
     )
 
     begin = models.DateTimeField(
@@ -288,7 +273,6 @@ class Task(BaseModel):
     description = models.TextField(
         _("Description"),
         blank=True,
-        null=True,
     )
 
     begin = models.DateTimeField(
@@ -325,11 +309,13 @@ class Task(BaseModel):
     min_tutors = models.IntegerField(
         _('Tutors (min)'),
         blank=True,
+        null=True,
     )
 
     max_tutors = models.IntegerField(
         _('Tutors (max)'),
         blank=True,
+        null=True,
     )
 
     tutors = models.ManyToManyField(
@@ -409,9 +395,9 @@ class Answer(BaseModel):
     NO = 'NO'
     MAYBE = 'MAYBE'
     ANSWERS = (
-        (YES, _("yes")),
-        (MAYBE, _("if need be")),
-        (NO, _("no")),
+        (YES, _(YES)),
+        (MAYBE, _(MAYBE)),
+        (NO, _(NO)),
     )
 
     tutor = models.ForeignKey(
@@ -450,6 +436,7 @@ class MailTutorTask(BaseModel):
     task = models.ForeignKey(
         Task,
         on_delete=models.CASCADE,
+        blank=True,
         null=True
     )
 

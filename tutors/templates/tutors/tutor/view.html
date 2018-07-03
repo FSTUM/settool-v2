@@ -42,24 +42,24 @@
                     <tr>
                         <th>{% trans "Status" %}</th>
                         <td>
-                            {{ tutor.status }}
+                            {% trans tutor.status %}
                             <form method="post" action="" id="status_form">
                                 {% csrf_token %}
 
-                                {% if tutor.status.key == "inactive" %}
+                                {% if tutor.status == "inactive" %}
                                     <a href="{% url "tutor_accept" tutor.id %}"
                                        class="btn btn-default">{% trans "accept" %}</a>
                                     <a href="{% url "tutor_decline" tutor.id %}"
                                        class="btn btn-default">{% trans "decline" %}</a>
-                                {% elif tutor.status.key == "active" %}
+                                {% elif tutor.status == "active" %}
                                     <a href="{% url "tutor_accept" tutor.id %}"
                                        class="btn btn-default">{% trans "accept" %}</a>
                                     <a href="{% url "tutor_decline" tutor.id %}"
                                        class="btn btn-default">{% trans "decline" %}</a>
-                                {% elif tutor.status.key == "accepted" %}
+                                {% elif tutor.status == "accepted" %}
                                     <a href="{% url "tutor_decline" tutor.id %}"
                                        class="btn btn-default">{% trans "decline" %}</a>
-                                {% elif tutor.status.key == "declined" %}
+                                {% elif tutor.status == "declined" %}
                                     <a href="{% url "tutor_accept" tutor.id %}"
                                        class="btn btn-default">{% trans "accept" %}</a>
                                 {% endif %}
