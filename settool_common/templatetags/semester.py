@@ -1,6 +1,6 @@
 from django import template
 
-from common.models import Semester, current_semester, get_semester as get_sem
+from settool_common.models import Semester, current_semester, get_semester as get_sem
 
 register = template.Library()
 

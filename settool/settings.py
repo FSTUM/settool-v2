@@ -45,7 +45,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'bootstrap3',
     'bootstrap_datepicker_plus',
-    'common',
+    'settool_common',
     'guidedtours',
     'bags',
     'fahrt',

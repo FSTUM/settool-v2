@@ -43,7 +43,7 @@ urlpatterns = [
     url(r'^$', TemplateView.as_view(template_name="base.html")),
 
     # common: choose semester
-    url(r'^semester/', include('common.urls')),
+    url(r'^semester/', include('settool_common.urls')),
 
     # guided tours
     url(r'^tours/', include('guidedtours.urls')),

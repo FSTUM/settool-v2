@@ -1,7 +1,7 @@
 from django import forms
 from django.utils.translation import ugettext_lazy as _
 
-from common.models import Semester
+from settool_common.models import Semester
 from .models import Company, Mail
 
 

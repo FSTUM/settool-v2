@@ -9,7 +9,7 @@ from django.http import Http404
 from django.shortcuts import render, get_object_or_404, redirect
 from django.utils import timezone
 
-from common.models import get_semester, Semester
+from settool_common.models import get_semester, Semester
 from .forms import ParticipantForm, ParticipantAdminForm, MailForm, \
     SelectParticipantForm, SelectMailForm, FilterParticipantsForm, FahrtForm
 from .models import Participant, Mail, Fahrt

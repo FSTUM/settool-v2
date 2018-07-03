@@ -15,8 +15,8 @@ from django.utils import timezone
 from django.utils.encoding import force_bytes, force_text
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 
-from common import utils
-from common.models import get_semester, Semester, Subject, Mail
+from settool_common import utils
+from settool_common.models import get_semester, Semester, Subject, Mail
 from tutors.forms import TutorForm, TutorAdminForm, EventAdminForm, TaskAdminForm, RequirementAdminForm, AnswerForm, \
     TaskAssignmentForm, SettingsAdminForm, TutorMailAdminForm, SubjectTutorCountAssignmentAdminForm
 from tutors.models import Tutor, Status, Settings, Event, Task, Question, Answer, MailTutorTask, \

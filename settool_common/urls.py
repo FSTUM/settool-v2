@@ -1,6 +1,6 @@
 from django.urls import path, include
 
-from . import views
+from settool_common import views
 
 urlpatterns = [
     path('', views.set_semester, name='set_semester'),

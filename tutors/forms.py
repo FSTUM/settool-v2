@@ -2,8 +2,8 @@ from bootstrap_datepicker_plus import DateTimePickerInput, DatePickerInput
 from django import forms
 from django.utils.translation import ugettext_lazy as _
 
-from common.forms import SemesterBasedForm
-from common.models import Mail, Subject
+from settool_common.forms import SemesterBasedForm
+from settool_common.models import Mail, Subject
 from tutors.models import Tutor, Event, Task, TutorAssignment, Question, Answer, Settings, MailTutorTask, \
     SubjectTutorCountAssignment
 

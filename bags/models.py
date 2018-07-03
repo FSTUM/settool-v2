@@ -8,8 +8,8 @@ from django.template import engines
 from django.utils import encoding
 from django.utils.translation import ugettext_lazy as _
 
-from common.models import Semester
-from common.utils import u
+from settool_common.models import Semester
+from settool_common.utils import u
 
 
 class Company(models.Model):

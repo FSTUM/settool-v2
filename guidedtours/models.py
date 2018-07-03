@@ -4,7 +4,7 @@ from django.core.mail import send_mail
 from django.template import engines
 from django.utils import timezone, encoding
 
-from common.models import Semester, Subject
+from settool_common.models import Semester, Subject
 
 
 @encoding.python_2_unicode_compatible

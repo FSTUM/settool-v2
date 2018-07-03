@@ -4,7 +4,7 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render, redirect
 from django.utils.http import is_safe_url
 
-from common.forms import MailForm
+from settool_common.forms import MailForm
 from .models import Semester, get_semester, Mail
 from .settings import SEMESTER_SESSION_KEY
 

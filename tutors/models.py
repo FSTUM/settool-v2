@@ -7,8 +7,8 @@ from django.db import models
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 
-from common.models import Semester, Subject, Mail
-from common.utils import u
+from settool_common.models import Semester, Subject, Mail
+from settool_common.utils import u
 
 
 class BaseModel(models.Model):

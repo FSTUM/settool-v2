@@ -5,7 +5,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.utils import timezone
 from django.db.models import Q
 
-from common.models import get_semester, Semester
+from settool_common.models import get_semester, Semester
 from .forms import ParticipantForm, TourForm, FilterParticipantsForm, \
     SelectMailForm, SelectParticipantForm, MailForm
 from .models import Tour, Participant, Mail

@@ -6,7 +6,7 @@ from django.forms import formset_factory
 from django.http import HttpResponse, HttpResponseBadRequest
 from django.shortcuts import render, get_object_or_404, redirect
 
-from common.models import get_semester, Semester
+from settool_common.models import get_semester, Semester
 from .forms import CompanyForm, MailForm, SelectMailForm, \
     FilterCompaniesForm, SelectCompanyForm, GiveawayForm, ImportForm, \
     UpdateFieldForm

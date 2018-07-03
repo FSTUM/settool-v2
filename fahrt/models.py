@@ -9,8 +9,8 @@ from django.template import engines
 from django.contrib.auth.models import User
 from django.utils import timezone, encoding
 
-from common.models import Semester, Subject
-from common.utils import u
+from settool_common.models import Semester, Subject
+from settool_common.utils import u
 
 
 class Fahrt(models.Model):
