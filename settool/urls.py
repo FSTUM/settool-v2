@@ -28,7 +28,7 @@ urlpatterns = [
     # login, logout
     url(r'^login/$',
         auth_views.login,
-        {'template_name': 'common/login.html'},
+        {'template_name': 'settool_common/login.html'},
         name='login'),
 
     url(r'^logout/$',
@@ -42,7 +42,7 @@ urlpatterns = [
     # index
     url(r'^$', TemplateView.as_view(template_name="base.html")),
 
-    # common: choose semester
+    # settool_common: choose semester
     url(r'^semester/', include('settool_common.urls')),
 
     # guided tours
