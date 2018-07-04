@@ -805,3 +805,9 @@ msgstr "Nein"
 
 msgid "Tutors (selected have not yet received this email)"
 msgstr "Tutoren (ausgewählte haben diese Email noch nicht erhalten)"
+
+msgid "The registration is possible between"
+msgstr "Die Registrierung ist möglich zwischen"
+
+msgid "and"
+msgstr "und"

@@ -28,7 +28,10 @@ def tutor_signup(request):
     settings = get_object_or_404(Settings, semester=semester)
 
     if not (settings.open_registration < timezone.now() < settings.close_registration):
-        return render(request, 'tutors/tutor/registration_closed.html', {})
+        return render(request, 'tutors/tutor/registration_closed.html', {
+            'start': settings.open_registration,
+            'end': settings.close_registration
+        })
 
     questions = Question.objects.all()
     question_count = questions.count()
