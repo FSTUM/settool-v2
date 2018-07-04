@@ -68,7 +68,7 @@ def tutor_signup(request):
         context = Context({
             'tutor': tutor,
             'activation_url': request.build_absolute_uri(reverse('tutor_signup_confirm', kwargs={
-                'uidb64': urlsafe_base64_encode(force_bytes(tutor.pk)),
+                'uidb64': urlsafe_base64_encode(force_bytes(tutor.pk)).decode(),
                 'token': account_activation_token.make_token(tutor)
             }))
         })
@@ -106,7 +106,7 @@ def tutor_signup_confirmation_required(request):
 
 
 def tutor_signup_confirm(request, uidb64, token):
-    uid = force_text(urlsafe_base64_decode(uidb64))
+    uid = urlsafe_base64_decode(uidb64).decode()
     tutor = get_object_or_404(Tutor, pk=uid)
 
     if account_activation_token.check_token(tutor, token):
