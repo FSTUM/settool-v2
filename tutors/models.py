@@ -38,7 +38,6 @@ class Settings(BaseModel):
         verbose_name=_("Mail Registration"),
         related_name="tutors_mail_registration",
         on_delete=models.CASCADE,
-        null=True,
     )
 
     mail_confirmed_place = models.ForeignKey(
