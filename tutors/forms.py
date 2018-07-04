@@ -22,14 +22,14 @@ class TutorAdminForm(SemesterBasedForm):
         super(TutorAdminForm, self).clean()
         mail = self.cleaned_data.get('email')
         if mail:
-            tutor = Tutor.objects.get(email=mail, semester=self.semester)
-            if tutor is not None and tutor.id != self.instance.id:
+            tutors = Tutor.objects.filter(email=mail, semester=self.semester)
+            if tutors.count() > 0 and tutors.first().id != self.instance.id:
                 self.add_error('email', _('The email address is already in use.'))
 
         matriculation_number = self.cleaned_data.get('matriculation_number')
         if matriculation_number:
-            tutor = Tutor.objects.get(matriculation_number=matriculation_number, semester=self.semester)
-            if tutor is not None and tutor.id != self.instance.id:
+            tutors = Tutor.objects.filter(matriculation_number=matriculation_number, semester=self.semester)
+            if tutors.count() > 0 and tutors.first().id != self.instance.id:
                 self.add_error('matriculation_number', _('The matriculation number is already in use.'))
 
 
