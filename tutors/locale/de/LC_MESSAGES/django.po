@@ -811,3 +811,9 @@ msgstr "Die Registrierung ist möglich zwischen"
 
 msgid "and"
 msgstr "und"
+
+msgid "The email address is already in use."
+msgstr "Die Email Adresse ist bereits in Verwendung."
+
+msgid "The matriculation number is already in use."
+msgstr "Die Matrikelnummer ist bereits in Verwendung."
