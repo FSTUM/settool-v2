@@ -18,10 +18,20 @@ class TutorAdminForm(SemesterBasedForm):
         self.fields['birthday'].required = False
         self.fields['matriculation_number'].required = False
 
+    def clean(self):
+        super(TutorAdminForm, self).clean()
+        mail = self.cleaned_data.get('email')
+        if mail:
+            if Tutor.objects.filter(email=mail, semester=self.semester).count() > 0:
+                self.add_error('email', _('The email address is already in use.'))
+
+        matriculation_number = self.cleaned_data.get('matriculation_number')
+        if matriculation_number:
+            if Tutor.objects.filter(matriculation_number=matriculation_number, semester=self.semester):
+                self.add_error('matriculation_number', _('The matriculation number is already in use.'))
+
 
 class TutorForm(TutorAdminForm):
-    credits = forms.BooleanField(required=False, label=_("I want to receive ECTS for my work as a SET tutor."),
-                                 help_text=_("tutors_ects_agreement"))
     dsgvo = forms.BooleanField(required=True, label=_("I accept the terms and conditions of the following privacy "
                                                       "policy:"))
 
@@ -32,7 +42,7 @@ class TutorForm(TutorAdminForm):
             'birthday': DatePickerInput(format='%Y-%m-%d'),
         }
 
-    field_order = ['first_name', 'last_name', 'email', 'credits', 'birthday', 'matriculation_number']
+    field_order = ['first_name', 'last_name', 'email', 'ects', 'birthday', 'matriculation_number']
 
     def save(self, commit=True):
         instance = super(TutorForm, self).save(False)
@@ -54,9 +64,10 @@ class TutorForm(TutorAdminForm):
         return instance
 
     def clean(self):
-        credits = self.cleaned_data.get('credits')
+        super(TutorForm, self).clean()
+        ects = self.cleaned_data.get('ects')
 
-        if credits:
+        if ects:
             self.validate_required_field(cleaned_data=self.cleaned_data, field_name='birthday')
             self.validate_required_field(cleaned_data=self.cleaned_data, field_name='matriculation_number')
         else:

@@ -133,6 +133,12 @@ class Tutor(BaseModel):
         auto_now_add=True,
     )
 
+    ects = models.BooleanField(
+        _("I want to receive ECTS for my work as a SET tutor."),
+        help_text=_("tutors_ects_agreement"),
+        default=False,
+    )
+
     birthday = models.DateField(
         _("Birthday"),
         null=True,
