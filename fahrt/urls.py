@@ -43,7 +43,7 @@ urlpatterns = [
     url(r'^signup/$', views.signup, name='fahrt_signup'),
     url(r'^success/$', views.signup_success, name='fahrt_signup_success'),
     url(r'^add/$', views.signup_internal, name='fahrt_signup_internal'),
-    url(r'^filter/$', views.filter, name='fahrt_filter'),
+    url(r'^filter/$', views.filter_participants, name='fahrt_filter'),
     url(r'^filtered/$', views.filtered_list,
         name='fahrt_filteredparticipants'),
     url(r'^emails/$', views.index_mails, name='fahrt_listmails'),
@@ -57,5 +57,3 @@ urlpatterns = [
     url(r'^changedate/$', views.change_date,
         name="fahrt_date"),
 ]
-
-

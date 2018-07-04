@@ -3,6 +3,7 @@ from django.utils.translation import ugettext_lazy as _
 
 from .models import Participant, Tour, Mail
 
+
 class ParticipantForm(forms.ModelForm):
     class Meta:
         model = Participant

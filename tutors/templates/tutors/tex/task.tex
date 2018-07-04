@@ -1,0 +1,31 @@
+\documentclass[a4paper]{article}
+\usepackage[utf8]{inputenc}
+
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{geometry}
+\usepackage{etoolbox}
+
+\geometry{left=20mm,right=20mm, top=30mm, bottom=30mm}
+
+\preto\tabular{\setcounter{magicrownumbers}{0}}
+\newcounter{magicrownumbers}
+\newcommand\rownumber{\stepcounter{magicrownumbers}\arabic{magicrownumbers}}
+
+\begin{document}
+
+    \section*{Tutorliste für {{ task.name|escape }} (Stand: \today)}
+
+    \begin{center}
+        \large
+        \begin{longtable}{|c|m{.15\textwidth}|m{.15\textwidth}|m{.23\textwidth}|m{.3\textwidth}|}
+            \hline \bfseries Nr & \bfseries Vorname & \bfseries Nachname & \bfseries Hauptfach & \bfseries
+            Unterschrift \\ \hline
+            \endhead
+            {% for tutor in tutors %}
+                \rownumber & {{ tutor.first_name|escape }} & {{ tutor.last_name|escape }} & {{ tutor.subject|escape }} & \newline
+\\\hline
+            {% endfor %}
+        \end{longtable}
+    \end{center}
+\end{document}

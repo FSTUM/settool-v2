@@ -1,18 +1,17 @@
-import simplejson
-
-from django.shortcuts import render, get_object_or_404, redirect
+from django import forms
 from django.contrib.auth.decorators import permission_required, \
     user_passes_test
-from django import forms
 from django.db.models import Q
 from django.forms import formset_factory
 from django.http import HttpResponse, HttpResponseBadRequest
+from django.shortcuts import render, get_object_or_404, redirect
 
 from settool_common.models import get_semester, Semester
 from .forms import CompanyForm, MailForm, SelectMailForm, \
     FilterCompaniesForm, SelectCompanyForm, GiveawayForm, ImportForm, \
     UpdateFieldForm
 from .models import Company, Mail
+
 
 @permission_required('bags.view_companies')
 def index(request):
@@ -64,16 +63,16 @@ def index(request):
 
     if "mailform" in request.POST:
         mailform = SelectMailForm(request.POST, semester=semester)
-        SelectCompanyFormSet = formset_factory(SelectCompanyForm, extra=0)
-        companyforms = SelectCompanyFormSet(request.POST,
-            initial=[{'id': c.id, 'selected': True} for c in companies],
-        )
+        select_company_form_set = formset_factory(SelectCompanyForm, extra=0)
+        companyforms = select_company_form_set(request.POST,
+                                            initial=[{'id': c.id, 'selected': True} for c in companies],
+                                            )
     else:
         mailform = SelectMailForm(None, semester=semester)
-        SelectCompanyFormSet = formset_factory(SelectCompanyForm, extra=0)
-        companyforms = SelectCompanyFormSet(None,
-            initial=[{'id': c.id, 'selected': True} for c in companies],
-        )
+        select_company_form_set = formset_factory(SelectCompanyForm, extra=0)
+        companyforms = select_company_form_set(None,
+                                            initial=[{'id': c.id, 'selected': True} for c in companies],
+                                            )
 
     if "mailform" in request.POST and mailform.is_valid() and \
             companyforms.is_valid():
@@ -160,14 +159,14 @@ def edit(request, company_pk):
     company = get_object_or_404(Company, pk=company_pk)
 
     form = CompanyForm(request.POST or None, semester=company.semester,
-            instance=company)
+                       instance=company)
     if form.is_valid():
         form.save()
 
         return redirect('viewcompany', company.id)
 
     context = {'form': form,
-        'company': company}
+               'company': company}
     return render(request, 'bags/edit.html', context)
 
 
@@ -185,8 +184,7 @@ def update_field(request, company_pk, field):
                 name != "company_{}_{}".format(company.pk, field):
             return HttpResponseBadRequest('')
 
-        changes = {}
-        changes[field] = value
+        changes = {field: value}
         Company.objects.filter(pk=company.pk).update(**changes)
         return HttpResponse('')
 
@@ -238,14 +236,14 @@ def edit_mail(request, mail_pk):
     mail = get_object_or_404(Mail, pk=mail_pk)
 
     form = MailForm(request.POST or None, semester=mail.semester,
-            instance=mail)
+                    instance=mail)
     if form.is_valid():
         form.save()
 
         return redirect('listmails')
 
     context = {'form': form,
-        'mail': mail}
+               'mail': mail}
     return render(request, 'bags/edit_mail.html', context)
 
 
@@ -271,7 +269,7 @@ def send_mail(request, mail_pk):
     sem = get_semester(request)
     semester = get_object_or_404(Semester, pk=sem)
     companies = semester.company_set.filter(id__in=selected_companies
-        ).order_by("name")
+                                            ).order_by("name")
 
     subject, text, from_email = mail.get_mail(request)
 

@@ -1,0 +1,336 @@
+{% extends "tutors/base.html" %}
+{% load i18n %}
+{% load bootstrap3 %}
+{% load task_extras %}
+
+{% block head %}
+    <script>
+        $(function () {
+            $(".tutorTable").tablesorter({
+                theme: "bootstrap",
+                widgets: ['zebra', 'columns', 'uitheme'],
+                headerTemplate: '{content} {icon}',
+                sortReset: true,
+                sortRestart: true
+            });
+        });
+    </script>
+{% endblock %}
+
+
+{% block title %}{% trans "Tutor" %} - {% trans "Task Details" %}{% endblock %}
+
+{% block tutorcontent %}
+    <h1>{{ task.event.name }} - {{ task }}</h1>
+
+    <div class="row">
+        <div class="col-sm-12 table-responsive">
+            {% if perms.tutor.edit_tutors %}
+                <div class="unsaved-changes alert alert-danger" style="display: none;"
+                     role="alert">{% trans "This page contains unsaved changes." %}</div>
+            {% endif %}
+            <table class="table table-hover">
+                <tr>
+                    <th>{% trans "Name" %}</th>
+                    <td>{{ task.name }}</td>
+                </tr>
+                <tr>
+                    <th>{% trans "Begin" %}</th>
+                    <td>{{ task.begin }}</td>
+                </tr>
+                <tr>
+                    <th>{% trans "End" %}</th>
+                    <td>{{ task.end }}</td>
+                </tr>
+                <tr>
+                    <th>{% trans "Description" %}</th>
+                    <td>{{ task.description }}</td>
+                </tr>
+                <tr>
+                    <th>{% trans "Meeting Point" %}</th>
+                    <td>{{ task.meeting_point }}</td>
+                </tr>
+                <tr>
+                    <th>{% trans "Event" %}</th>
+                    <td><a href="{% url "event_view" task.event.id %}">{{ task.event }}</a></td>
+                </tr>
+                {% if perms.tutor.edit_tutors %}
+                    <tr>
+                        <th>{% trans "Tutors" %} [{{ task.min_tutors }}, {{ task.max_tutors }}]</th>
+                        <td>
+                            {% if task.allowed_subjects.all|length == 0 %}
+                                {% trans "No subjects." %}
+                            {% else %}
+                                <table>
+                                    <tr>
+                                        <th>{% trans "Subjects" %}</th>
+                                    </tr>
+                                    {% for subject in task.allowed_subjects.all %}
+                                        <tr>
+                                            <td>{{ subject }}</td>
+                                        </tr>
+                                    {% endfor %}
+                                </table>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>{% trans "Requirements" %}</th>
+                        <td>
+                            {% if task.requirements.all|length == 0 %}
+                                {% trans "No requirements." %}
+                            {% else %}
+                                <table>
+                                    <tr>
+                                        <th>{% trans "Requirement" %}</th>
+                                    </tr>
+                                    {% for requirement in task.requirements.all %}
+                                        <tr>
+                                            <td>{{ requirement }}</td>
+                                        </tr>
+                                    {% endfor %}
+                                </table>
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endif %}
+                {% if perms.tutor.edit_tutors %}
+                    <tr>
+                        <th>{% trans "Edit" %}</th>
+                        <td>
+                            <a href="{% url "task_edit" task.id %}"><span
+                                    class="glyphicon glyphicon-edit"></span></a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>{% trans "Delete" %}</th>
+                        <td>
+                            <a href="{% url "task_delete" task.id %}"><span
+                                    class="glyphicon glyphicon-trash"></span></a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>{% trans "Send Mail" %}</th>
+                        <td><a href="{% url "task_mail" task.id %}"><span class="glyphicon
+                        glyphicon-envelope"></span></a> {% mail_task_count task %}{% trans " missing mails" %}</td>
+                    </tr>
+                    <tr>
+                        <th>{% trans "Tutor List" %}</th>
+                        <td><a href="{% url "task_export" "pdf" task.id %}"><span class="glyphicon
+                        glyphicon-list"></span></a></td>
+                    </tr>
+                {% endif %}
+            </table>
+            {% if perms.tutor.edit_tutors %}
+                <div class="unsaved-changes alert alert-danger" style="display: none;"
+                     role="alert">{% trans "This page contains unsaved changes." %}</div>
+                <div class="form-group">
+                    <h2>{% trans "Assigned Tutors" %}:</h2>
+                    <table class="table tutorTable assigned_tutors css-serial">
+                        <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>{% trans "First name" %}</th>
+                            <th>{% trans "Last name" %}</th>
+                            <th>{% trans "Subject" %}</th>
+                            <th>{% trans "Tasks Assigned" %}</th>
+                            <th>{% trans "Registration time" %}</th>
+                            {% for q in task.requirements.all %}
+                                <th>{{ q }}</th>
+                            {% endfor %}
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for tutor in assigned_tutors %}
+                            <tr>
+                                <td></td>
+                                <td>
+                                    <a href="{% url "tutor_view" tutor.id %}">{{ tutor.first_name }}</a>
+                                </td>
+                                <td>
+                                    <a href="{% url "tutor_view" tutor.id %}">{{ tutor.last_name }}</a>
+                                </td>
+                                <td>
+                                    {{ tutor.subject }}
+                                </td>
+                                <td>
+                                    {{ tutor.task_set.count }}
+                                </td>
+                                <td>
+                                    {{ tutor.registration_time }}
+                                </td>
+                                {% for q in tutor.answer_set.all|in_task:task.requirements.all %}
+                                    <td>{% trans q.answer %}</td>
+                                {% endfor %}
+                                <td>
+                                    <button class="btn btn-default unassign_button"
+                                            data-id="{{ tutor.id }}">{% trans "Unassign" %}</button>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                    <h2>{% trans "Unassigned Tutors" %}:</h2>
+                    <table class="table tutorTable unassigned_tutors css-serial">
+                        <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>{% trans "First name" %}</th>
+                            <th>{% trans "Last name" %}</th>
+                            <th>{% trans "Subject" %}</th>
+                            <th>{% trans "Tasks Assigned" %}</th>
+                            <th>{% trans "Registration time" %}</th>
+                            {% for q in task.requirements.all %}
+                                <th>{{ q }}</th>
+                            {% endfor %}
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for tutor in unassigned_tutors %}
+                            <tr>
+                                <td></td>
+                                <td>
+                                    <a href="{% url "tutor_view" tutor.id %}">{{ tutor.first_name }}</a>
+                                </td>
+                                <td>
+                                    <a href="{% url "tutor_view" tutor.id %}">{{ tutor.last_name }}</a>
+                                </td>
+                                <td>
+                                    {{ tutor.subject }}
+                                </td>
+                                <td>
+                                    {{ tutor.task_set.count }}
+                                </td>
+                                <td>
+                                    {{ tutor.registration_time }}
+                                </td>
+                                {% for q in tutor.answer_set.all|in_task:task.requirements.all %}
+                                    <td>{% trans q.answer %}</td>
+                                {% endfor %}
+                                <td>
+                                    <button class="btn btn-default assign_button"
+                                            data-id="{{ tutor.id }}">{% trans "Assign" %}</button>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                    <form method="post">
+                        {% csrf_token %}
+
+                        <select name="tutors" multiple style="display: none;">
+                            {% for tutor in assigned_tutors %}
+                                <option value="{{ tutor.id }}" selected>{{ tutor }}</option>
+                            {% endfor %}
+                            {% for tutor in unassigned_tutors %}
+                                <option value="{{ tutor.id }}">{{ tutor }}</option>
+                            {% endfor %}
+                        </select>
+                        <button type="submit" class="btn btn-default">Save Changes</button>
+                        <button type="reset" class="btn btn-default btn-danger">Reset Changes</button>
+                    </form>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+
+    {% if perms.tutor.edit_tutors %}
+        <script type="text/javascript">
+            let initial_values = $('select[multiple][name="tutors"]').val();
+            if (initial_values === null) {
+                initial_values = "";
+            }
+
+            let assign_tutor = function (id, src) {
+                let el = $('select[multiple][name="tutors"] option[value="' + id + '"]');
+                el.prop('selected', true);
+                el.change();
+
+                let row = $(src).closest("tr");
+                if (!initial_values.includes(id)) {
+                    $(row).addClass('success');
+                } else {
+                    $(row).removeClass('danger');
+                }
+                $('.assigned_tutors').append(row);
+                $(src).addClass('unassign_button').removeClass('assign_button');
+                $(src).text('{% trans "Unassign" %}');
+            };
+
+            let unassign_tutor = function (id, src) {
+                let el = $('select[multiple][name="tutors"] option[value="' + id + '"]');
+                el.prop('selected', false);
+                el.change();
+
+                let row = $(src).closest("tr");
+                $('.unassigned_tutors').append(row);
+                $(src).addClass('assign_button').removeClass('unassign_button');
+                $(src).text('{% trans "Assign" %}');
+                if (initial_values.includes(id)) {
+                    $(row).addClass('danger');
+                } else {
+                    $(row).removeClass('success');
+                }
+            };
+
+            let storage_id = 'select_{{ task.id }}';
+
+            let store_select = function () {
+                localStorage.setItem(storage_id, $('select[multiple][name="tutors"]').val());
+                toggle_unsaved_changes();
+            };
+
+            let toggle_unsaved_changes = function () {
+                let items = localStorage.getItem(storage_id);
+                if (items !== "null" && items != initial_values) {
+                    $('.unsaved-changes').css('display', 'block');
+                } else {
+                    $('.unsaved-changes').css('display', 'none');
+
+                }
+            };
+
+            let restore_select = function () {
+                if (localStorage.getItem(storage_id)) {
+                    let items = localStorage.getItem(storage_id);
+                    let select = $('select[multiple][name="tutors"]');
+
+                    toggle_unsaved_changes();
+
+                    if (select.val() !== null) {
+                        select.val().forEach(function (item) {
+                            unassign_tutor(item, $('tr button[data-id="' + item + '"]'));
+                        });
+                    }
+
+                    select.val(items);
+                    items.split(",").forEach(function (item) {
+                        assign_tutor(item, $('tr button[data-id="' + item + '"]'))
+                    });
+                }
+            };
+
+            restore_select();
+            store_select();
+
+            $(document).on('click', '.assign_button', function () {
+                assign_tutor($(this).data("id"), $(this));
+                store_select();
+            });
+            $(document).on('click', '.unassign_button', function () {
+                unassign_tutor($(this).data("id"), $(this));
+                store_select();
+            });
+
+            $('button[type="submit"]').click(function () {
+                localStorage.removeItem(storage_id);
+            });
+            $('button[type="reset"]').click(function () {
+                localStorage.removeItem(storage_id);
+                location.reload();
+            });
+        </script>
+    {% endif %}
+{% endblock %}

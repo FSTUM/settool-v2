@@ -1,11 +1,15 @@
 import datetime
+import re
 
+from django.core.mail import send_mail
 from django.db import models
-from django.utils.translation import ugettext_lazy as _
+from django.template import Template
 from django.utils import timezone
 from django.utils.deconstruct import deconstructible
+from django.utils.translation import ugettext_lazy as _
 
 from .settings import SEMESTER_SESSION_KEY
+
 
 @deconstructible
 class Semester(models.Model):
@@ -33,6 +37,7 @@ class Semester(models.Model):
 
     def __str__(self):
         return "{} {:4}".format(self.get_semester_display(), self.year)
+
 
 class Subject(models.Model):
     class Meta:
@@ -76,7 +81,6 @@ class Subject(models.Model):
         (BIOMATHE, _('Mathematics in Bioscience')),
     )
 
-
     degree = models.CharField(
         max_length=2,
         choices=DEGREE_CHOICES,
@@ -93,7 +97,8 @@ class Subject(models.Model):
 
     def __str__(self):
         return "{} {}".format(self.get_degree_display(),
-                self.get_subject_display())
+                              self.get_subject_display())
+
 
 def current_semester():
     now = timezone.now()
@@ -116,3 +121,68 @@ def get_semester(request):
         request.session[SEMESTER_SESSION_KEY] = sem
     return sem
 
+
+class Mail(models.Model):
+    semester = models.ForeignKey(
+        Semester,
+        on_delete=None,
+        related_name="set_mail_set",
+    )
+
+    SET = 'SET-Team <set@fs.tum.de>'
+    SET_FAHRT = 'SET-Fahrt-Team <setfahrt@fs.tum.de>'
+    SET_TUTOR = 'SET-Tutor-Team <settutor@fs.tum.de>'
+    FROM_CHOICES = (
+        (SET, _('SET')),
+        (SET_FAHRT, _('SET_FAHRT')),
+        (SET_TUTOR, _('SET_TUTOR')),
+    )
+
+    sender = models.CharField(
+        max_length=100,
+        choices=FROM_CHOICES,
+        default=SET,
+        verbose_name=_("From"),
+    )
+
+    subject = models.CharField(
+        _("Email subject"),
+        max_length=200,
+        help_text=_("You may use placeholders for the subject.")
+    )
+
+    text = models.TextField(
+        _("Text"),
+        help_text=_("You may use placeholders for the text."),
+    )
+
+    def __str__(self):
+        return self.subject
+
+    FROM_MAIL = ""
+
+    def get_mail(self, context):
+        subject_template = Template(self.subject)
+        subject = subject_template.render(context).rstrip()
+
+        text_template = Template(self.text)
+        text = text_template.render(context)
+
+        return subject, text, Mail.FROM_MAIL
+
+    def send_mail(self, context, recipient):
+        subject_template = Template(self.subject)
+        subject = subject_template.render(context).rstrip()
+
+        text_template = Template(self.text)
+        text = text_template.render(context)
+
+        regex = r"({{.*?}})"
+        subject_matches = re.match(regex, subject, re.MULTILINE)
+        text_matches = re.match(regex, text, re.MULTILINE)
+
+        if subject_matches is not None or text_matches is not None:
+            return False
+        else:
+            send_mail(subject, text, Mail.FROM_MAIL, [recipient], fail_silently=False)
+            return True

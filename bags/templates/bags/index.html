@@ -1,13 +1,13 @@
-{% extends "settool_common/base.html" %}
+{% extends "base.html" %}
 {% load i18n %}
 {% load bootstrap3 %}
 
 {% block head %}
 <script>
     function displayTrueFalse(value, sourceData) {
-        if(value == "True") {
+        if(value === "True") {
             $(this).html('<span style="color:green" class="glyphicon glyphicon-ok"></span>');
-        } else if(value == "False") {
+        } else if(value === "False") {
             $(this).html('<span style="color:red" class="glyphicon glyphicon-remove"></span>');
         } else {
             $(this).empty();
@@ -15,11 +15,11 @@
     }
 
     function displayTrueFalseNone(value, sourceData) {
-        if(value == "True") {
+        if(value === "True") {
             $(this).html('<span style="color:green" class="glyphicon glyphicon-ok"></span>');
-        } else if(value == "False") {
+        } else if(value === "False") {
             $(this).html('<span style="color:red" class="glyphicon glyphicon-remove"></span>');
-        } else if(value == "None") {
+        } else if(value === "None") {
             $(this).html('<span class="glyphicon glyphicon-question-sign"></span>');
         } else {
             $(this).empty();
@@ -117,7 +117,6 @@
         {% trans "List companies" %}
     </h1>
 
-    <p>
     <div class="row">
         <div class="col-lg-2">
             <a href="{% url "listmails" %}" class="btn btn-default">{% trans "Edit Email Templates" %}</a>
@@ -134,7 +133,6 @@
             </div>
         {% endif %}
     </div>
-    </p>
 
     <form id="filterform" method="post" action="">
         {% csrf_token %}

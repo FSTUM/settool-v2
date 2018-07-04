@@ -30,7 +30,6 @@ class ParticipantAdminForm(forms.ModelForm):
         self.semester = kwargs.pop('semester')
         super(ParticipantAdminForm, self).__init__(*args, **kwargs)
 
-
     def save(self, commit=True):
         instance = super(ParticipantAdminForm, self).save(False)
 
@@ -46,7 +45,7 @@ class ParticipantForm(ParticipantAdminForm):
     class Meta:
         model = Participant
         exclude = ["semester", "non_liability", "paid", "payment_deadline",
-            "status", "mailinglist", "comment", "registration_time"]
+                   "status", "mailinglist", "comment", "registration_time"]
 
     def clean(self):
         cleaned_data = super(ParticipantForm, self).clean()
@@ -54,6 +53,7 @@ class ParticipantForm(ParticipantAdminForm):
         if cleaned_data['car'] and not cleaned_data['car_places']:
             self.add_error("car_places",
                            _("This field is required if you have a car"))
+
 
 class MailForm(forms.ModelForm):
     class Meta:

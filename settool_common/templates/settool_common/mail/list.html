@@ -1,0 +1,50 @@
+{% extends "settool_common/base.html" %}
+{% load i18n %}
+
+{% block head %}
+    <script>
+        $(function () {
+            $("#mailTable").tablesorter({
+                theme: "bootstrap",
+                widgets: ['zebra', 'columns', 'uitheme'],
+                headerTemplate: '{content} {icon}',
+                sortReset: true,
+                sortRestart: true
+            });
+        });
+    </script>
+{% endblock %}
+
+{% block title %}{% trans "SET" %} - {% trans "List email templates" %}{% endblock %}
+
+{% block commoncontent %}
+    <h1>
+        {% trans "List email templates" %}
+    </h1>
+    <div class="table-responsive">
+        <table id="mailTable" class="table tablesorter">
+            <thead>
+            <tr>
+                <th>{% trans "Subject" %}</th>
+                <th>{% trans "Text" %}</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for mail in mails %}
+                <tr>
+                    <td>
+                        <a href="{% url "mail_view" mail.id %}">{{ mail.subject }}</a>
+                    </td>
+                    <td>{{ mail.text|slice:":100" }}{% if mail.text|length > 100 %}...{% endif %}</td>
+                    <td>
+                        <a href="{% url "mail_edit" mail.id %}"><span class="glyphicon glyphicon-edit"></span></a>
+                        <a href="{% url "mail_delete" mail.id %}"><span class="glyphicon glyphicon-trash"></span></a>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}
+

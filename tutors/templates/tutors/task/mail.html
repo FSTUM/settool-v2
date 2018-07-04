@@ -1,0 +1,50 @@
+{% extends "tutors/base.html" %}
+{% load i18n %}
+{% load bootstrap3 %}
+
+{% block title %}{% trans "Tutor" %} - {% trans "Send email" %} - {{ task.event.name }} - {{ task }}{% endblock %}
+
+{% block tutorcontent %}
+    <h1>{% trans "Send email" %} - {{ task.event.name }} - {{ task }}</h1>
+
+    <div class="row">
+        <p>
+            {% trans "Do you really want to send the following email to the tutors below?" %}
+        </p>
+        <p>
+            <strong>{% trans "From" %}</strong>: {{ from }}
+        </p>
+        <p>
+            <strong>{% trans "To" %}</strong>: {% trans "see table below" %}
+        </p>
+        <p>
+            <strong>{% trans "Subject" %}</strong>: {{ subject }}
+        </p>
+        <p>
+            <strong>{% trans "Text" %}</strong>:<br/>{{ body|linebreaks|urlize }}
+        </p>
+
+        <form method="post" action="">
+            {% csrf_token %}
+
+            <table class="table">
+                <tr>
+                    <td>
+                        <button type="submit" class="btn btn-default">{% trans "Send" %}</button>
+                    </td>
+                    <td><a href="{% url "task_view" task.id %}"
+                           class="btn btn-default btn-danger">{% trans "Cancel" %}</a></td>
+                </tr>
+            </table>
+
+            {% bootstrap_form form %}
+        </form>
+    </div>
+
+    <script type="text/javascript">
+        $('select[name="mail_template"]').on('change', document, function (e) {
+            location.href = "{% url "task_mail" task.id %}" + $(this).val();
+        });
+    </script>
+
+{% endblock %}

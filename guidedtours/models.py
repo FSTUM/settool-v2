@@ -5,16 +5,17 @@ from django.template import engines
 from django.utils import timezone, encoding
 
 from settool_common.models import Semester, Subject
-from settool_common.utils import u
+
 
 @encoding.python_2_unicode_compatible
 class Tour(models.Model):
     class Meta:
         permissions = (("view_participants",
-            "Can view and edit the list of participants"),)
+                        "Can view and edit the list of participants"),)
 
     semester = models.ForeignKey(
-        Semester
+        Semester,
+        on_delete=None
     )
 
     name = models.CharField(
@@ -45,18 +46,18 @@ class Tour(models.Model):
     )
 
     def __str__(self):
-        return u(self.name)
+        return self.name
 
     @property
     def registration_open(self):
-        return (self.open_registration < timezone.now() and
-                timezone.now() < self.close_registration)
+        return self.open_registration < timezone.now() < self.close_registration
 
 
 @encoding.python_2_unicode_compatible
 class Participant(models.Model):
     tour = models.ForeignKey(
         Tour,
+        on_delete=None,
         verbose_name=_("Tour"),
     )
 
@@ -81,6 +82,7 @@ class Participant(models.Model):
 
     subject = models.ForeignKey(
         Subject,
+        on_delete=None,
         verbose_name=_("Subject"),
     )
 
@@ -90,7 +92,7 @@ class Participant(models.Model):
     )
 
     def __str__(self):
-        return u("{} {}").format(u(self.firstname), u(self.surname))
+        return "{} {}".format(self.firstname, self.surname)
 
     @property
     def on_the_tour(self):
@@ -111,6 +113,7 @@ class Mail(models.Model):
     FROM_MAIL = "SET-Referat <set@fs.tum.de>"
     semester = models.ForeignKey(
         Semester,
+        on_delete=None,
         related_name="tours_mail_set",
     )
 
@@ -134,9 +137,9 @@ tour."),
 
     def __str__(self):
         if self.comment:
-            return u("{} ({})"). format(u(self.subject), u(self.comment))
+            return "{} ({})".format(self.subject, self.comment)
         else:
-            return u(self.subject)
+            return self.subject
 
     def get_mail(self, request):
         django_engine = engines['django']
@@ -151,7 +154,7 @@ tour."),
         text_template = django_engine.from_string(self.text)
         text = text_template.render(context)
 
-        return (subject, text, Mail.FROM_MAIL)
+        return subject, text, Mail.FROM_MAIL
 
     def send_mail(self, request, participant):
         django_engine = engines['django']
@@ -167,6 +170,4 @@ tour."),
         text = text_template.render(context)
 
         send_mail(subject, text, Mail.FROM_MAIL, [participant.email],
-            fail_silently=False)
-
-
+                  fail_silently=False)

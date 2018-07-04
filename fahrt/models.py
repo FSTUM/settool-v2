@@ -1,7 +1,6 @@
 from __future__ import unicode_literals
 
 import datetime
-from datetime import date, timedelta
 
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
@@ -10,15 +9,14 @@ from django.template import engines
 from django.contrib.auth.models import User
 from django.utils import timezone, encoding
 
-from django_mailman.models import List
-
-from settool_common.models import Semester, Subject, current_semester
+from settool_common.models import Semester, Subject
 from settool_common.utils import u
 
 
 class Fahrt(models.Model):
     semester = models.OneToOneField(
         Semester,
+        on_delete=None,
     )
 
     date = models.DateField(
@@ -35,18 +33,18 @@ class Fahrt(models.Model):
 
     @property
     def registration_open(self):
-        return (self.open_registration < timezone.now() and
-                timezone.now() < self.close_registration)
+        return self.open_registration < timezone.now() < self.close_registration
 
 
 @encoding.python_2_unicode_compatible
 class Participant(models.Model):
     class Meta:
         permissions = (("view_participants",
-            "Can view and edit the list of participants"),)
+                        "Can view and edit the list of participants"),)
 
     semester = models.ForeignKey(
         Semester,
+        on_delete=None,
         related_name="fahrt_participant",
     )
 
@@ -88,6 +86,7 @@ class Participant(models.Model):
 
     subject = models.ForeignKey(
         Subject,
+        on_delete=None,
         verbose_name=_("Subject"),
         related_name="fahrt_participant",
     )
@@ -96,7 +95,7 @@ class Participant(models.Model):
         _("Nutrition"),
         max_length=200,
         choices=(("normal", _("normal")), ("vegeterian", _("vegeterian")),
-            ("vegan", _("vegan"))),
+                 ("vegan", _("vegan"))),
     )
 
     allergies = models.CharField(
@@ -162,7 +161,7 @@ class Participant(models.Model):
     )
 
     def __str__(self):
-        return u("{0} {1}").format(u(self.firstname), u(self.surname))
+        return "{0} {1}".format(self.firstname, self.surname)
 
     def log(self, user, text):
         LogEntry.objects.create(
@@ -174,11 +173,11 @@ class Participant(models.Model):
     @property
     def u18(self):
         return not (
-            self.semester.fahrt.date.year - self.birthday.year > 18 or (
-            self.semester.fahrt.date.year - self.birthday.year == 18 and (
-            self.semester.fahrt.date.month > self.birthday.month or (
-            self.semester.fahrt.date.month == self.birthday.month and
-            self.semester.fahrt.date.day >= self.birthday.day))))
+                self.semester.fahrt.date.year - self.birthday.year > 18 or (
+                self.semester.fahrt.date.year - self.birthday.year == 18 and (
+                self.semester.fahrt.date.month > self.birthday.month or (
+                self.semester.fahrt.date.month == self.birthday.month and
+                self.semester.fahrt.date.day >= self.birthday.day))))
 
     @property
     def deadline_exceeded(self):
@@ -187,33 +186,12 @@ class Participant(models.Model):
     @property
     def deadline_soon(self):
         return self.payment_deadline < datetime.date.today() + \
-                datetime.timedelta(days=7)
+               datetime.timedelta(days=7)
 
     def toggle_mailinglist(self):
-        list_name = 'setfahrt-teilnehmer'
-        list_pwd = 'codioguhup'
-        list_email = 'setfahrt-teilnehmer@fs.tum.de'
-        list_url = 'https://mail.fs.tum.de/listenadmin'
-        list_encoding = 'iso-8859-1'
+        pass  # not implemented
 
-        mailinglist = List(
-            name=list_name,
-            password=list_pwd,
-            email=list_email,
-            main_url=list_url,
-            encoding=list_encoding,
-        )
-
-        members = mailinglist.get_all_members()
-        members = [m[0] for m in members]
-        if self.mailinglist:
-            if self.email not in members:
-                mailinglist.subscribe(self.email, "", "")
-        else:
-            if self.email in members:
-                mailinglist.unsubscribe(self.email)
-    
-    #def set_payment_deadline(self, weeks):
+    # def set_payment_deadline(self, weeks):
     #    today = date.today()
     #    delta = timedelta(days=weeks*7)
     #    deadline = today + delta
@@ -226,6 +204,7 @@ class Mail(models.Model):
     FROM_MAIL = "SET-Fahrt-Team <setfahrt@fs.tum.de>"
     semester = models.ForeignKey(
         Semester,
+        on_delete=None,
         related_name="fahrt_mail_set",
     )
 
@@ -248,7 +227,7 @@ name and {{frist}} for the individual payment deadline."),
 
     def __str__(self):
         if self.comment:
-            return u("{} ({})"). format(u(self.subject), u(self.comment))
+            return "{} ({})".format(self.subject, self.comment)
         else:
             return u(self.subject)
 
@@ -264,7 +243,7 @@ name and {{frist}} for the individual payment deadline."),
         text_template = django_engine.from_string(self.text)
         text = text_template.render(context)
 
-        return (subject, text, Mail.FROM_MAIL)
+        return subject, text, Mail.FROM_MAIL
 
     def send_mail(self, request, participant):
         django_engine = engines['django']
@@ -280,11 +259,11 @@ name and {{frist}} for the individual payment deadline."),
         text = text_template.render(context)
 
         if context['frist'] is None and ("{{frist}}" in self.text
-                or "{{frist}}" in self.subject):
+                                         or "{{frist}}" in self.subject):
             return False
         else:
             send_mail(subject, text, Mail.FROM_MAIL, [participant.email],
-                fail_silently=False)
+                      fail_silently=False)
             return True
 
 
@@ -292,10 +271,12 @@ name and {{frist}} for the individual payment deadline."),
 class LogEntry(models.Model):
     participant = models.ForeignKey(
         Participant,
+        on_delete=None
     )
 
     user = models.ForeignKey(
         User,
+        on_delete=None,
         related_name="mylogentry_set",
         blank=True,
         null=True,
@@ -312,4 +293,4 @@ class LogEntry(models.Model):
     )
 
     def __str__(self):
-        return u("{0}, {1}: {2}").format(self.time, self.user, u(self.text))
+        return "{0}, {1}: {2}".format(self.time, self.user, self.text)

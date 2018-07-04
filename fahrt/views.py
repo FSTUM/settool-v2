@@ -1,18 +1,18 @@
+from datetime import date, timedelta
+
 from django import forms
 from django.contrib.auth.decorators import permission_required
 from django.core.exceptions import ObjectDoesNotExist
-from django.db.models import Sum, F, Q
+from django.db.models import Sum, Q
 from django.forms import formset_factory
 from django.http import Http404
 from django.shortcuts import render, get_object_or_404, redirect
 from django.utils import timezone
 
-from datetime import date, timedelta
-
-from . models import Participant, Mail, Fahrt, LogEntry
+from settool_common.models import get_semester, Semester
 from .forms import ParticipantForm, ParticipantAdminForm, MailForm, \
     SelectParticipantForm, SelectMailForm, FilterParticipantsForm, FahrtForm
-from settool_common.models import get_semester, Semester
+from .models import Participant, Mail, Fahrt
 
 
 @permission_required('fahrt.view_participants')
@@ -24,8 +24,7 @@ def index(request):
 def list_registered(request):
     sem = get_semester(request)
     semester = get_object_or_404(Semester, pk=sem)
-    participants = semester.fahrt_participant.filter(status='registered'
-        ).order_by('surname')
+    participants = semester.fahrt_participant.filter(status='registered').order_by('surname')
 
     context = {
         'participants': participants,
@@ -37,8 +36,7 @@ def list_registered(request):
 def list_waitinglist(request):
     sem = get_semester(request)
     semester = get_object_or_404(Semester, pk=sem)
-    participants = semester.fahrt_participant.filter(status='waitinglist'
-        ).order_by('surname')
+    participants = semester.fahrt_participant.filter(status='waitinglist').order_by('surname')
 
     context = {
         'participants': participants,
@@ -50,8 +48,8 @@ def list_waitinglist(request):
 def list_confirmed(request):
     sem = get_semester(request)
     semester = get_object_or_404(Semester, pk=sem)
-    participants = semester.fahrt_participant.filter(status='confirmed'
-        ).order_by('payment_deadline', 'surname', 'firstname')
+    participants = semester.fahrt_participant.filter(status='confirmed').order_by('payment_deadline', 'surname',
+                                                                                  'firstname')
 
     u18s = [p for p in participants if p.u18]
     allergies = participants.exclude(allergies='').count()
@@ -86,8 +84,7 @@ def list_confirmed(request):
 def list_cancelled(request):
     sem = get_semester(request)
     semester = get_object_or_404(Semester, pk=sem)
-    participants = semester.fahrt_participant.filter(status='cancelled'
-        ).order_by('surname')
+    participants = semester.fahrt_participant.filter(status='cancelled').order_by('surname')
 
     context = {
         'participants': participants,
@@ -123,8 +120,8 @@ def edit(request, participant_pk):
     participant = get_object_or_404(Participant, pk=participant_pk)
 
     form = ParticipantAdminForm(request.POST or None,
-            semester=participant.semester,
-            instance=participant)
+                                semester=participant.semester,
+                                instance=participant)
     if form.is_valid():
         form.save()
         participant.log(request.user, "Participant edited")
@@ -162,7 +159,7 @@ def toggle_mailinglist(request, participant_pk):
         mailinglist=(not participant.mailinglist),
     )
     participant = get_object_or_404(Participant, pk=participant_pk)
-    participant.toggle_mailinglist()
+    participant.toggle_mailinglist()  # TODO does nothing
     participant.log(request.user, "Toggle mailinglist")
 
     return redirect('fahrt_viewparticipant', participant.id)
@@ -220,11 +217,12 @@ def set_payment_deadline(request, participant_pk, weeks):
 
     participant = get_object_or_404(Participant, pk=participant_pk)
     Participant.objects.filter(pk=participant_pk).update(
-        payment_deadline=date.today() + timedelta(days=weeks*7)
+        payment_deadline=date.today() + timedelta(days=weeks * 7)
     )
     participant.log(request.user, "Set deadline {} week".format(weeks))
 
     return redirect('fahrt_viewparticipant', participant_pk)
+
 
 @permission_required('fahrt.view_participants')
 def cancel(request, participant_pk):
@@ -285,7 +283,7 @@ def signup_success(request):
 
 
 @permission_required('fahrt.view_participants')
-def filter(request):
+def filter_participants(request):
     sem = get_semester(request)
     semester = get_object_or_404(Semester, pk=sem)
     participants = semester.fahrt_participant.order_by('surname')
@@ -360,11 +358,11 @@ def filtered_list(request):
         id__in=filtered_participants).order_by("surname")
 
     form = SelectMailForm(request.POST or None, semester=semester)
-    SelectParticipantFormSet = formset_factory(SelectParticipantForm,
-        extra=0)
-    participantforms = SelectParticipantFormSet(request.POST or None,
-        initial=[{'id': p.id, 'selected': True} for p in participants],
-    )
+    select_participant_form_set = formset_factory(SelectParticipantForm,
+                                                  extra=0)
+    participantforms = select_participant_form_set(request.POST or None,
+                                                   initial=[{'id': p.id, 'selected': True} for p in participants],
+                                                   )
 
     if form.is_valid() and participantforms.is_valid():
         mail = form.cleaned_data['mail']
@@ -430,7 +428,7 @@ def edit_mail(request, mail_pk):
     mail = get_object_or_404(Mail, pk=mail_pk)
 
     form = MailForm(request.POST or None, semester=mail.semester,
-            instance=mail)
+                    instance=mail)
     if form.is_valid():
         form.save()
 
@@ -511,8 +509,7 @@ def change_date(request):
             close_registration=timezone.now(),
         )
 
-    form = FahrtForm(request.POST or None, semester=semester,
-            instance=fahrt)
+    form = FahrtForm(request.POST or None, semester=semester, instance=fahrt)
     if form.is_valid():
         form.save()
 
