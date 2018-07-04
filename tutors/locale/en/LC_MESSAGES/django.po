@@ -76,3 +76,12 @@ msgstr "Declined"
 
 msgid "inactive"
 msgstr "Email-Verification missing"
+
+msgid "YES"
+msgstr "Yes"
+
+msgid "MAYBE"
+msgstr "Maybe"
+
+msgid "NO"
+msgstr "No"

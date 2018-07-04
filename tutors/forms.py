@@ -250,7 +250,7 @@ class TutorMailAdminForm(forms.Form):
                                            required=True)
 
     tutors = forms.ModelMultipleChoiceField(
-        label="Tutors (selected have not yet received this email)",
+        label=_("Tutors (selected have not yet received this email)"),
         widget=forms.CheckboxSelectMultiple,
         queryset=None,
         required=True

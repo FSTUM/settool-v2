@@ -599,7 +599,7 @@ msgstr "Zuweisung aufheben"
 
 #: .\tutors\templates\tutors\task\view.html:174
 msgid "Unassigned Tutors"
-msgstr "Unzugeteilte Tutoren"
+msgstr "Nicht eingeteilte Tutoren"
 
 #: .\tutors\templates\tutors\task\view.html:214
 #: .\tutors\templates\tutors\task\view.html:270
@@ -793,3 +793,15 @@ msgstr "Abgelehnt"
 
 msgid "inactive"
 msgstr "Email-Verifikation ausstehend"
+
+msgid "YES"
+msgstr "Ja"
+
+msgid "MAYBE"
+msgstr "Vielleicht"
+
+msgid "NO"
+msgstr "Nein"
+
+msgid "Tutors (selected have not yet received this email)"
+msgstr "Tutoren (ausgewählte haben diese Email noch nicht erhalten)"

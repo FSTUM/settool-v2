@@ -364,7 +364,8 @@ def task_view(request, uid):
     context = {
         'task': task,
         'assigned_tutors': assigned_tutors,
-        'unassigned_tutors': Tutor.objects.filter(status=Tutor.STATUS_ACCEPTED).exclude(id__in=assigned_tutors.values("id")),
+        'unassigned_tutors': Tutor.objects.filter(status=Tutor.STATUS_ACCEPTED).exclude(
+            id__in=assigned_tutors.values("id")),
         'assignment_form': form,
     }
     return render(request, 'tutors/task/view.html', context)
@@ -442,6 +443,8 @@ def task_mail(request, uid, template=None):
 
     if template is None:
         template = settings.mail_task
+        if template is None:
+            raise Http404
     else:
         template = get_object_or_404(Mail, pk=template, sender=Mail.SET_TUTOR)
 

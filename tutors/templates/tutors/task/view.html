@@ -161,7 +161,7 @@
                                     {{ tutor.registration_time }}
                                 </td>
                                 {% for q in tutor.answer_set.all|in_task:task.requirements.all %}
-                                    <td>{{ q.answer }}</td>
+                                    <td>{% trans q.answer %}</td>
                                 {% endfor %}
                                 <td>
                                     <button class="btn btn-default unassign_button"
@@ -207,7 +207,7 @@
                                     {{ tutor.registration_time }}
                                 </td>
                                 {% for q in tutor.answer_set.all|in_task:task.requirements.all %}
-                                    <td>{{ q.answer }}</td>
+                                    <td>{% trans q.answer %}</td>
                                 {% endfor %}
                                 <td>
                                     <button class="btn btn-default assign_button"
@@ -267,7 +267,7 @@
                 let row = $(src).closest("tr");
                 $('.unassigned_tutors').append(row);
                 $(src).addClass('assign_button').removeClass('unassign_button');
-                $(src).text({% trans "Assign" %});
+                $(src).text('{% trans "Assign" %}');
                 if (initial_values.includes(id)) {
                     $(row).addClass('danger');
                 } else {
