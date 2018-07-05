@@ -131,7 +131,7 @@ class Mail(models.Model):
 
     SET = 'SET-Team <set@fs.tum.de>'
     SET_FAHRT = 'SET-Fahrt-Team <setfahrt@fs.tum.de>'
-    SET_TUTOR = 'SET-Tutor-Team <settutor@fs.tum.de>'
+    SET_TUTOR = 'SET-Tutor-Team <set-tutoren@fs.tum.de>'
     FROM_CHOICES = (
         (SET, _('SET')),
         (SET_FAHRT, _('SET_FAHRT')),
