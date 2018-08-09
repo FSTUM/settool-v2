@@ -58,6 +58,15 @@ class Settings(BaseModel):
         blank=True,
     )
 
+    mail_declined_place = models.ForeignKey(
+        Mail,
+        verbose_name=_("Mail Declined Place"),
+        related_name="tutors_mail_declined_place",
+        on_delete=models.CASCADE,
+        null=True,
+        blank=True,
+    )
+
     mail_task = models.ForeignKey(
         Mail,
         verbose_name=_("Mail Task"),
@@ -461,6 +470,12 @@ class SubjectTutorCountAssignment(BaseModel):
     )
 
     wanted = models.IntegerField(
+        default=0,
+        null=True,
+        blank=True,
+    )
+
+    max = models.IntegerField(
         default=0,
         null=True,
         blank=True,

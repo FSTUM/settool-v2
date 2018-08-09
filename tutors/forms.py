@@ -290,4 +290,5 @@ class SubjectTutorCountAssignmentAdminForm(SemesterBasedForm):
 
     def __init__(self, *args, **kwargs):
         super(SubjectTutorCountAssignmentAdminForm, self).__init__(*args, **kwargs)
-        self.fields['wanted'].label = Subject.objects.get(pk=self.initial.get('subject'))
+        self.fields['wanted'].label = Subject.objects.get(pk=self.initial.get('subject')).__str__() + " Min"
+        self.fields['max'].label = Subject.objects.get(pk=self.initial.get('subject')).__str__() + " Max"

@@ -12,14 +12,15 @@ urlpatterns = [
         path('list/', views.tutor_list, name='tutor_list'),
         path('list/<str:status>/', views.tutor_list, name='tutor_list_status'),
         path('view/<uuid:uid>/', views.tutor_view, name='tutor_view'),
-        path('accept/<uuid:uid>/', views.tutor_accept, name='tutor_accept'),
-        path('decline/<uuid:uid>/', views.tutor_decline, name='tutor_decline'),
+        path('status/<uuid:uid>/<str:status>', views.tutor_change_status, name='tutor_change_status'),
         path('delete/<uuid:uid>/', views.tutor_delete, name='tutor_delete'),
         path('edit/<uuid:uid>/', views.tutor_edit, name='tutor_edit'),
         path('export/<str:type>/', views.tutor_export, name='tutor_export'),
         path('export/<str:type>/<str:status>', views.tutor_export, name='tutor_export_status'),
         path('mail/<str:status>/', views.tutor_mail, name='tutor_mail_status'),
         path('mail/<str:status>/<int:template>', views.tutor_mail, name='tutor_mail_status_template'),
+        path('mail/tutor/<uuid:uid>/', views.tutor_mail, name='tutor_mail_tutor'),
+        path('mail/tutor/<uuid:uid>/<int:template>', views.tutor_mail, name='tutor_mail_tutor_template'),
 
     ])),
     path('event/', include([

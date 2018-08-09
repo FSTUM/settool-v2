@@ -35,7 +35,8 @@
                 {% trans "T-Shirt" %}
                 List</a>
             {% if status is not None %}
-                <a href="{% url "tutor_mail_status" status %}"><span class="glyphicon glyphicon-envelope"></span>
+                <a href="{% url "tutor_mail_status" status %}"><span class="glyphicon
+                glyphicon-envelope"></span>
                     {% trans "Send Email" %}</a>
             {% endif %}
         </div>
@@ -50,8 +51,12 @@
                         <th>{% trans "First name" %}</th>
                         <th>{% trans "Last name" %}</th>
                         <th>{% trans "Subject" %}</th>
-                        <th>{% trans "Tasks Assigned" %}</th>
-                        <th>{% trans "Status" %}</th>
+                        {% if status == "accepted" %}
+                            <th>{% trans "Tasks Assigned" %}</th>
+                        {% endif %}
+                        {% if status is None %}
+                            <th>{% trans "Status" %}</th>
+                        {% endif %}
                         <th>{% trans "Registration time" %}</th>
                         <th></th>
                     </tr>
@@ -69,12 +74,16 @@
                             <td>
                                 {{ tutor.subject }}
                             </td>
-                            <td>
-                                {{ tutor.task_set.count }}
-                            </td>
-                            <td>
-                                {% trans tutor.status %}
-                            </td>
+                            {% if status == "accepted" %}
+                                <td>
+                                    {{ tutor.task_set.count }}
+                                </td>
+                            {% endif %}
+                            {% if status is None %}
+                                <td>
+                                    {% trans tutor.status %}
+                                </td>
+                            {% endif %}
                             <td>
                                 {{ tutor.registration_time }}
                             </td>
@@ -82,6 +91,8 @@
                                 <a href="{% url "tutor_edit" tutor.id %}"><span class="glyphicon glyphicon-edit"></span></a>
                                 <a href="{% url "tutor_delete" tutor.id %}"><span
                                         class="glyphicon glyphicon-trash"></span></a>
+                                <a href="{% url "tutor_mail_tutor" tutor.id %}"><span class="glyphicon
+                                glyphicon-envelope"></span></a>
                             </td>
                         </tr>
                     {% endfor %}

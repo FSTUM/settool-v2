@@ -12,7 +12,8 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.template import Template, Context
 from django.urls import reverse
 from django.utils import timezone
-from django.utils.encoding import force_bytes, force_text
+from django.utils.encoding import force_bytes
+from django.utils.formats import get_format
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 
 from settool_common import utils
@@ -123,7 +124,9 @@ def tutor_list(request, status=None):
         tutors = Tutor.objects.all()
     else:
         tutors = Tutor.objects.filter(status=status)
-    return render(request, 'tutors/tutor/list.html', {'tutors': tutors, 'status': status})
+    return render(request, 'tutors/tutor/list.html', {'tutors': tutors.order_by("registration_time"),
+                                                      'status': status,
+                                                      'datetime_format': get_format("DATETIME_FORMAT")})
 
 
 def tutor_view(request, uid):
@@ -132,22 +135,12 @@ def tutor_view(request, uid):
 
 
 @permission_required('tutors.edit_tutors')
-def tutor_accept(request, uid):
+def tutor_change_status(request, uid, status):
     tutor = get_object_or_404(Tutor, pk=uid)
     form = forms.Form(request.POST or None)
-    if form.is_valid():
-        tutor.status = Tutor.STATUS_ACCEPTED
-        tutor.save()
-        return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
-    return http.HttpResponseBadRequest()
 
-
-@permission_required('tutors.edit_tutors')
-def tutor_decline(request, uid):
-    tutor = get_object_or_404(Tutor, pk=uid)
-    form = forms.Form(request.POST or None)
-    if form.is_valid():
-        tutor.status = Tutor.STATUS_DECLINED
+    if form.is_valid() and status in [x for (x, y) in Tutor.STATUS_OPTIONS]:
+        tutor.status = status
         tutor.save()
         return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
     return http.HttpResponseBadRequest()
@@ -363,12 +356,12 @@ def task_view(request, uid):
         task.log(request.user, "Task Assignment edited")
         messages.success(request, 'Saved Task Assignment %s.' % task.name)
 
-    assigned_tutors = task.tutors.all()
+    assigned_tutors = task.tutors.all().order_by("last_name")
     context = {
         'task': task,
         'assigned_tutors': assigned_tutors,
         'unassigned_tutors': Tutor.objects.filter(status=Tutor.STATUS_ACCEPTED).exclude(
-            id__in=assigned_tutors.values("id")),
+            id__in=assigned_tutors.values("id")).order_by("last_name"),
         'assignment_form': form,
     }
     return render(request, 'tutors/task/view.html', context)
@@ -452,8 +445,11 @@ def task_mail(request, uid, template=None):
         template = get_object_or_404(Mail, pk=template, sender=Mail.SET_TUTOR)
 
     tutor_data = {}
-    for field in [x.name for x in Tutor._meta.fields if x.name not in ["semester", "subject"]]:
-        tutor_data[field] = "<" + field + ">"
+    for name, field in [(x.name, x) for x in Tutor._meta.fields if x.name not in ["semester", "subject"]]:
+        if field.get_internal_type() == "CharField":
+            tutor_data[name] = "<" + name + ">"
+        else:
+            tutor_data[name] = field.default
 
     tutor = Tutor(**tutor_data)
 
@@ -624,24 +620,33 @@ def tutors_settings_tutors(request):
 
 
 @permission_required('tutors.edit_tutors')
-def tutor_mail(request, status=None, template=None):
-    if template is None:
-        template = Mail.objects.filter(sender=Mail.SET_TUTOR).last()
-        if template is None:
-            raise Http404
-    else:
-        template = get_object_or_404(Mail, pk=template, sender=Mail.SET_TUTOR)
+def tutor_mail(request, status=None, template=None, uid=None):
+    semester = get_object_or_404(Semester, pk=get_semester(request))
+    settings = get_object_or_404(Settings, semester=semester)
+    template = default_tutor_mail_template(settings, status, template)
 
-    if status is None:
-        tutors = Tutor.objects.all()
+    if template is None:
+        raise Http404
+
+    if uid is None:
+        if status is None:
+            tutors = Tutor.objects.all()
+        else:
+            tutors = Tutor.objects.filter(status=status)
     else:
-        tutors = Tutor.objects.filter(status=status)
+        tutors = Tutor.objects.filter(pk=uid)
 
     tutor_data = {}
-    for field in [x.name for x in Tutor._meta.fields if x.name not in ["semester", "subject"]]:
-        tutor_data[field] = "<" + field + ">"
+    for name, field in [(x.name, x) for x in Tutor._meta.fields if x.name not in ["semester", "subject"]]:
+        if field.get_internal_type() == "CharField":
+            tutor_data[name] = "<" + name + ">"
+        else:
+            tutor_data[name] = field.default
 
-    tutor = Tutor(**tutor_data)
+    if uid is None:
+        tutor = Tutor(**tutor_data)
+    else:
+        tutor = tutors.first()
 
     context = Context({
         'tutor': tutor,
@@ -676,7 +681,7 @@ def tutor_mail(request, status=None, template=None):
             tutor.log(request.user, "Send mail to %s." % tutor)
 
         messages.success(request, 'Sent email to tutors.')
-        return redirect("tutor_list" if status is None else "tutor_list_status", status=status)
+        return redirect("tutor_list") if status is None else redirect("tutor_list_status", status=status)
 
     context = {
         "from": template.sender,
@@ -684,5 +689,23 @@ def tutor_mail(request, status=None, template=None):
         "body": body,
         "form": form,
         "status": status,
+        "template": template,
+        "tutor": tutor,
     }
     return render(request, 'tutors/tutor/mail.html', context)
+
+
+def default_tutor_mail_template(settings, status, template):
+    if template is None:
+        status_to_template = {
+            "active": settings.mail_waiting_list,
+            "accepted": settings.mail_confirmed_place,
+            "declined": settings.mail_declined_place,
+        }
+
+        if status in status_to_template:
+            return status_to_template[status]
+
+        return Mail.objects.filter(sender=Mail.SET_TUTOR).last()
+
+    return get_object_or_404(Mail, pk=template, sender=Mail.SET_TUTOR)

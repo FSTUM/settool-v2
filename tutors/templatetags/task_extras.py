@@ -14,3 +14,13 @@ def in_task(requirement, task_requirements):
 def mail_task_count(task):
     return Tutor.objects.filter(task=task).exclude(id__in=MailTutorTask.objects.filter(task=task).values(
         "tutor_id")).count()
+
+
+@register.filter(name='times')
+def times(number):
+    return range(number)
+
+
+@register.filter
+def subtract(value, arg):
+    return value - arg

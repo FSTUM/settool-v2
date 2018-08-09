@@ -44,7 +44,11 @@
 
     <script type="text/javascript">
         $('select[name="mail_template"]').on('change', document, function (e) {
-            location.href = "{% url "tutor_mail_status" status %}" + $(this).val();
+            {% if status is not None %}
+                location.href = "{% url "tutor_mail_status" status %}" + $(this).val();
+            {% else %}
+                location.href = "{% url "tutor_mail_tutor" tutor.id %}" + $(this).val();
+            {% endif %}
         });
     </script>
 
