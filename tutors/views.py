@@ -6,6 +6,7 @@ from django import http
 from django.contrib import messages
 from django.contrib.auth.decorators import permission_required
 from django.core.mail import EmailMessage
+from django.db.models import Count, Q
 from django.forms import modelformset_factory, forms
 from django.http import HttpResponseRedirect, HttpResponse, Http404
 from django.shortcuts import render, get_object_or_404, redirect
@@ -804,3 +805,39 @@ def tutor_batch_decline(request):
         "form": form
     }
     return render(request, 'tutors/tutor/batch_decline.html', context)
+
+
+@permission_required('tutors.edit_tutors')
+def dashboard(request):
+    semester = get_object_or_404(Semester, pk=get_semester(request))
+
+    counts = SubjectTutorCountAssignment.objects.filter(semester=semester)
+    count_results = {}
+    for c in counts:
+        counts_tutors = Tutor.objects.filter(semester=semester, subject=c.subject, status=Tutor.STATUS_ACCEPTED). \
+            aggregate(total=Count('subject'))
+        if counts_tutors is None:
+            count_results[c.subject] = (0, c.wanted)
+        else:
+            count_results[c.subject] = (counts_tutors['total'], c.wanted)
+
+    events = Event.objects.filter(semester=semester).filter(
+        Q(begin__gt=timezone.now()) | Q(end__gt=timezone.now())).order_by("begin")[:5]
+    tasks = Task.objects.filter(semester=semester).filter(
+        Q(begin__gt=timezone.now()) | Q(end__gt=timezone.now())).order_by("begin")[:5]
+
+    missing_mails = 0
+    for task in Task.objects.filter(semester=semester):
+        missing_mails += Tutor.objects.filter(task=task).exclude(id__in=MailTutorTask.objects.filter(task=task).values(
+            "tutor_id")).count()
+
+    accepted_tutors = Tutor.objects.filter(semester=semester, status=Tutor.STATUS_ACCEPTED).count()
+    waiting_tutors = Tutor.objects.filter(semester=semester, status=Tutor.STATUS_ACTIVE).count()
+    return render(request, 'tutors/dashboard/dashboard.html', {
+        'subject_counts': count_results,
+        'events': events,
+        'tasks': tasks,
+        'missing_mails': missing_mails,
+        'accepted_tutors': accepted_tutors,
+        'waiting_tutors': waiting_tutors
+    })

@@ -308,6 +308,7 @@ class TutorAcceptAdminForm(SemesterBasedForm):
         self.fields["tutors"].queryset = tutors
         self.fields["tutors"].initial = tutors
 
+
 class TutorDeclineAdminForm(SemesterBasedForm):
     tutors = forms.ModelMultipleChoiceField(
         label=_("Tutors (selected will be declined)"),
