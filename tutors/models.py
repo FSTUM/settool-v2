@@ -469,13 +469,13 @@ class SubjectTutorCountAssignment(BaseModel):
         on_delete=models.CASCADE
     )
 
-    wanted = models.IntegerField(
+    wanted = models.PositiveIntegerField(
         default=0,
         null=True,
         blank=True,
     )
 
-    max = models.IntegerField(
+    waitlist = models.PositiveIntegerField(
         default=0,
         null=True,
         blank=True,

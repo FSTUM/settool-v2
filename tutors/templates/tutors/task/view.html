@@ -160,13 +160,15 @@
                                 <td>
                                     {{ tutor.registration_time }}
                                 </td>
-                                {% with questions=tutor.answer_set.all|in_task:task.requirements.all q_c=questions|length t_c=task.requirements.all.count %}
-                                    {% for q in questions %}
-                                        <td>{% trans q.answer %}</td>
-                                    {% endfor %}
-                                    {% for i in q_c|subtract:t_c|times %}
-                                        <td>{{ i }}</td>
-                                    {% endfor %}
+                                {% with questions=tutor.answer_set.all|in_task:task.requirements.all q_c=task.requirements.all.count %}
+                                    {% with t_c=questions.count %}
+                                        {% for q in questions %}
+                                            <td>{% trans q.answer %}</td>
+                                        {% endfor %}
+                                        {% for i in q_c|subtract:t_c|times %}
+                                            <td>-</td>
+                                        {% endfor %}
+                                    {% endwith %}
                                 {% endwith %}
                                 <td>
                                     <button class="btn btn-default unassign_button"
@@ -211,13 +213,15 @@
                                 <td>
                                     {{ tutor.registration_time }}
                                 </td>
-                                {% with questions=tutor.answer_set.all|in_task:task.requirements.all q_c=questions|length t_c=task.requirements.all.count %}
-                                    {% for q in questions %}
-                                        <td>{% trans q.answer %}</td>
-                                    {% endfor %}
-                                    {% for i in q_c|subtract:t_c|times %}
-                                        <td>{{ i }}</td>
-                                    {% endfor %}
+                                {% with questions=tutor.answer_set.all|in_task:task.requirements.all q_c=task.requirements.all.count %}
+                                    {% with t_c=questions.count %}
+                                        {% for q in questions %}
+                                            <td>{% trans q.answer %}</td>
+                                        {% endfor %}
+                                        {% for i in q_c|subtract:t_c|times %}
+                                            <td>-</td>
+                                        {% endfor %}
+                                    {% endwith %}
                                 {% endwith %}
                                 <td>
                                     <button class="btn btn-default assign_button"

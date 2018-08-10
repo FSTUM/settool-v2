@@ -8,13 +8,22 @@
     <h1>
         {% trans "Tutor Settings" %}:
     </h1>
-
+    <hr>
     <form method="post" action="">
         {% csrf_token %}
 
         <div class="row">
             <div class="col-lg-12 form-horizontal">
-                {% bootstrap_formset form_set layout="horizontal" %}
+                {{ form_set.management_form }}
+                {% for form in form_set %}
+                    <div class="row">
+                        {% bootstrap_form_errors form %}
+                        {% bootstrap_form form layout='horizontal' %}
+                    </div>
+                    {% if not forloop.last %}
+                        <hr>
+                    {% endif %}
+                {% endfor %}
             </div>
         </div>
 

@@ -6,40 +6,42 @@
 
 {% block tutorcontent %}
     <h1>{% trans "Send email to tutors" %}</h1>
-
+    <hr>
     <div class="row">
-        <p>
-            {% trans "Do you really want to send the following email to the tutors below?" %}
-        </p>
-        <p>
-            <strong>{% trans "From" %}</strong>: {{ from }}
-        </p>
-        <p>
-            <strong>{% trans "To" %}</strong>: {% trans "see table below" %}
-        </p>
-        <p>
-            <strong>{% trans "Subject" %}</strong>: {{ subject }}
-        </p>
-        <p>
-            <strong>{% trans "Text" %}</strong>:<br/>{{ body|linebreaks|urlize }}
-        </p>
+        <div class="col-sm-12">
+            <p>
+                {% trans "Do you really want to send the following email to the tutors below?" %}
+            </p>
+            <p>
+                <strong>{% trans "From" %}</strong>: {{ from }}
+            </p>
+            <p>
+                <strong>{% trans "To" %}</strong>: {% trans "see table below" %}
+            </p>
+            <p>
+                <strong>{% trans "Subject" %}</strong>: {{ subject }}
+            </p>
+            <p>
+                <strong>{% trans "Text" %}</strong>:<br/>{{ body|linebreaks|urlize }}
+            </p>
 
-        <form method="post" action="">
-            {% csrf_token %}
+            <form method="post" action="">
+                {% csrf_token %}
 
-            <table class="table">
-                <tr>
-                    <td>
-                        <button type="submit" class="btn btn-default">{% trans "Send" %}</button>
-                    </td>
-                    <td><a href="{% if status is None %}{% url "tutor_list" %}{% else %}
+                <table class="table">
+                    <tr>
+                        <td>
+                            <button type="submit" class="btn btn-default">{% trans "Send" %}</button>
+                        </td>
+                        <td><a href="{% if status is None %}{% url "tutor_list" %}{% else %}
 {% url "tutor_list_status" status %}{% endif %}"
-                           class="btn btn-default btn-danger">{% trans "Cancel" %}</a></td>
-                </tr>
-            </table>
+                               class="btn btn-default btn-danger">{% trans "Cancel" %}</a></td>
+                    </tr>
+                </table>
 
-            {% bootstrap_form form %}
-        </form>
+                {% bootstrap_form form %}
+            </form>
+        </div>
     </div>
 
     <script type="text/javascript">

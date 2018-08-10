@@ -21,7 +21,8 @@ urlpatterns = [
         path('mail/<str:status>/<int:template>', views.tutor_mail, name='tutor_mail_status_template'),
         path('mail/tutor/<uuid:uid>/', views.tutor_mail, name='tutor_mail_tutor'),
         path('mail/tutor/<uuid:uid>/<int:template>', views.tutor_mail, name='tutor_mail_tutor_template'),
-
+        path('batch/accept/', views.tutor_batch_accept, name='tutor_batch_accept'),
+        path('batch/decline/', views.tutor_batch_decline, name='tutor_batch_decline'),
     ])),
     path('event/', include([
         path('list/', views.event_list, name='event_list'),

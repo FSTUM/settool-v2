@@ -4,13 +4,18 @@ from django.utils.translation import ugettext_lazy as _
 from .models import Mail
 
 
-class SemesterBasedForm(forms.ModelForm):
+class SemesterBasedForm(forms.Form):
     def __init__(self, *args, **kwargs):
         self.semester = kwargs.pop('semester')
         super(SemesterBasedForm, self).__init__(*args, **kwargs)
 
+
+class SemesterBasedModelForm(SemesterBasedForm, forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super(SemesterBasedModelForm, self).__init__(*args, **kwargs)
+
     def save(self, commit=True):
-        instance = super(SemesterBasedForm, self).save(False)
+        instance = super(SemesterBasedModelForm, self).save(False)
         instance.semester = self.semester
 
         if commit:
@@ -19,7 +24,7 @@ class SemesterBasedForm(forms.ModelForm):
         return instance
 
 
-class MailForm(SemesterBasedForm):
+class MailForm(SemesterBasedModelForm):
     class Meta:
         model = Mail
         exclude = ["semester"]

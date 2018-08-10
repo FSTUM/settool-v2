@@ -24,3 +24,8 @@ def times(number):
 @register.filter
 def subtract(value, arg):
     return value - arg
+
+
+@register.filter
+def are_accepted(tutorset):
+    return tutorset.filter(status=Tutor.STATUS_ACCEPTED)
