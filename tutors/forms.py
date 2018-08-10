@@ -291,3 +291,34 @@ class SubjectTutorCountAssignmentAdminForm(SemesterBasedModelForm):
         super(SubjectTutorCountAssignmentAdminForm, self).__init__(*args, **kwargs)
         self.fields['wanted'].label = Subject.objects.get(pk=self.initial.get('subject')).__str__()
         self.fields['waitlist'].label = _("Waiting List").__str__()
+
+
+class TutorAcceptAdminForm(SemesterBasedForm):
+    tutors = forms.ModelMultipleChoiceField(
+        label=_("Tutors (selected will be accepted)"),
+        widget=forms.CheckboxSelectMultiple,
+        required=True,
+        queryset=None
+    )
+
+    def __init__(self, *args, **kwargs):
+        tutors = kwargs.pop('tutors')
+        super(TutorAcceptAdminForm, self).__init__(*args, **kwargs)
+
+        self.fields["tutors"].queryset = tutors
+        self.fields["tutors"].initial = tutors
+
+class TutorDeclineAdminForm(SemesterBasedForm):
+    tutors = forms.ModelMultipleChoiceField(
+        label=_("Tutors (selected will be declined)"),
+        widget=forms.CheckboxSelectMultiple,
+        required=True,
+        queryset=None
+    )
+
+    def __init__(self, *args, **kwargs):
+        tutors = kwargs.pop('tutors')
+        super(TutorDeclineAdminForm, self).__init__(*args, **kwargs)
+
+        self.fields["tutors"].queryset = tutors
+        self.fields["tutors"].initial = tutors

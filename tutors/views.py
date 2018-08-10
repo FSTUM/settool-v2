@@ -18,7 +18,8 @@ from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from settool_common import utils
 from settool_common.models import get_semester, Semester, Subject, Mail
 from tutors.forms import TutorForm, TutorAdminForm, EventAdminForm, TaskAdminForm, RequirementAdminForm, AnswerForm, \
-    TaskAssignmentForm, SettingsAdminForm, TutorMailAdminForm, SubjectTutorCountAssignmentAdminForm
+    TaskAssignmentForm, SettingsAdminForm, TutorMailAdminForm, SubjectTutorCountAssignmentAdminForm, \
+    TutorAcceptAdminForm
 from tutors.models import Tutor, Settings, Event, Task, Question, Answer, MailTutorTask, SubjectTutorCountAssignment
 from tutors.tokens import account_activation_token
 
@@ -723,9 +724,83 @@ def default_tutor_mail_template(semester, settings, status, template):
 
 @permission_required('tutors.edit_tutors')
 def tutor_batch_accept(request):
-    pass
+    semester = get_object_or_404(Semester, pk=get_semester(request))
+    tutors_active = Tutor.objects.filter(semester=semester, status=Tutor.STATUS_ACTIVE)
+    tutors_accepted = Tutor.objects.filter(semester=semester, status=Tutor.STATUS_ACCEPTED)
+    counts = SubjectTutorCountAssignment.objects.filter(semester=semester)
+
+    tutor_ids = []
+    to_be_accepted = {}
+
+    for c in counts:
+        active = tutors_active.filter(subject=c.subject)
+        accepted_count = tutors_accepted.filter(subject=c.subject).count()
+
+        if c.wanted > accepted_count:
+            need = c.wanted - accepted_count
+            for t in active.order_by("registration_time")[:need]:
+                tutor_ids.append(t.id)
+
+                if c.subject not in to_be_accepted:
+                    to_be_accepted[c.subject] = []
+                to_be_accepted[c.subject].append(t)
+
+    form = TutorAcceptAdminForm(request.POST or None,
+                                tutors=Tutor.objects.filter(id__in=tutor_ids),
+                                semester=semester)
+    if form.is_valid():
+        tutors = form.cleaned_data["tutors"]
+        for tutor in tutors:
+            tutor.status = Tutor.STATUS_ACCEPTED
+            tutor.save()
+
+        return redirect("tutor_list_status", status=Tutor.STATUS_ACTIVE)
+
+    context = {
+        "to_be_accepted": to_be_accepted,
+        "form": form
+    }
+    return render(request, 'tutors/tutor/batch_accept.html', context)
 
 
 @permission_required('tutors.edit_tutors')
 def tutor_batch_decline(request):
-    pass
+    semester = get_object_or_404(Semester, pk=get_semester(request))
+    tutors_active = Tutor.objects.filter(semester=semester, status=Tutor.STATUS_ACTIVE)
+    tutors_accepted = Tutor.objects.filter(semester=semester, status=Tutor.STATUS_ACCEPTED)
+    counts = SubjectTutorCountAssignment.objects.filter(semester=semester)
+
+    tutor_ids = []
+    to_be_declined = {}
+
+    for c in counts:
+        active = tutors_active.filter(subject=c.subject)
+        accepted_count = tutors_accepted.filter(subject=c.subject).count()
+
+        keep = c.wanted - accepted_count + c.waitlist
+        if keep < 0:
+            keep = 0
+
+        for t in active.order_by("registration_time")[keep:]:
+            tutor_ids.append(t.id)
+
+            if c.subject not in to_be_declined:
+                to_be_declined[c.subject] = []
+            to_be_declined[c.subject].append(t)
+
+    form = TutorAcceptAdminForm(request.POST or None,
+                                tutors=Tutor.objects.filter(id__in=tutor_ids),
+                                semester=semester)
+    if form.is_valid():
+        tutors = form.cleaned_data["tutors"]
+        for tutor in tutors:
+            tutor.status = Tutor.STATUS_DECLINED
+            tutor.save()
+
+        return redirect("tutor_list_status", status=Tutor.STATUS_ACTIVE)
+
+    context = {
+        "to_be_declined": to_be_declined,
+        "form": form
+    }
+    return render(request, 'tutors/tutor/batch_decline.html', context)
