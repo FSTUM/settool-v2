@@ -702,7 +702,7 @@ msgstr "Email senden"
 #: .\tutors\templates\tutors\tutor\mail.html:5
 #: .\tutors\templates\tutors\tutor\mail.html:8
 msgid "Send email to tutors"
-msgstr "Sende email an Tutoren"
+msgstr "Sende Email an Tutoren"
 
 #: .\tutors\templates\tutors\tutor\registration_closed.html:9
 msgid "Sign up for SET Tutor"
