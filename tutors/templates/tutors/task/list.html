@@ -23,6 +23,7 @@
     <h1>
         {% trans "List of Tasks" %}
     </h1>
+    <hr>
     <div class="row">
         <div class="col-sm-12">
             <div class="table-responsive">
@@ -36,6 +37,7 @@
                         <th>{% trans "End" %}</th>
                         <th>{% trans "Meeting Point" %}</th>
                         <th>{% trans "# Missing Mails" %}</th>
+                        <th>{% trans "# Tutors" %}</th>
                         <th></th>
                     </tr>
                     </thead>
@@ -62,6 +64,9 @@
                             </td>
                             <td>
                                 {% mail_task_count task %}
+                            </td>
+                            <td>
+                                {{ task.tutors.count }}/{{ task.min_tutors|default_if_none:0 }}-{{ task.max_tutors|default_if_none:0 }}
                             </td>
                             <td>
                                 <a href="{% url "task_edit" task.id %}"><span

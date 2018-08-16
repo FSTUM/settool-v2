@@ -43,37 +43,28 @@
                         <th>{% trans "Status" %}</th>
                         <td>
                             {% trans tutor.status %}
-                            <form method="post" action="" id="status_form">
+                            <form method="post" action="">
                                 {% csrf_token %}
 
                                 {% if tutor.status == "inactive" %}
-                                    <a href="{% url "tutor_accept" tutor.id %}"
-                                       class="btn btn-default">{% trans "accept" %}</a>
-                                    <a href="{% url "tutor_decline" tutor.id %}"
-                                       class="btn btn-default">{% trans "decline" %}</a>
+                                    <button formaction="{% url "tutor_change_status" tutor.id "active" %}"
+                                            class="btn btn-default" type="submit">{% trans "open" %}</button>
                                 {% elif tutor.status == "active" %}
-                                    <a href="{% url "tutor_accept" tutor.id %}"
-                                       class="btn btn-default">{% trans "accept" %}</a>
-                                    <a href="{% url "tutor_decline" tutor.id %}"
-                                       class="btn btn-default">{% trans "decline" %}</a>
+                                    <button formaction="{% url "tutor_change_status" tutor.id "accepted" %}"
+                                            class="btn btn-default" type="submit">{% trans "accept" %}</button>
+                                    <button formaction="{% url "tutor_change_status" tutor.id "declined" %}"
+                                            class="btn btn-default" type="submit">{% trans "decline" %}</button>
                                 {% elif tutor.status == "accepted" %}
-                                    <a href="{% url "tutor_decline" tutor.id %}"
-                                       class="btn btn-default">{% trans "decline" %}</a>
+                                    <button formaction="{% url "tutor_change_status" tutor.id "active" %}"
+                                            class="btn btn-default" type="submit">{% trans "open" %}</button>
+                                    <button formaction="{% url "tutor_change_status" tutor.id "declined" %}"
+                                            class="btn btn-default" type="submit">{% trans "decline" %}</button>
                                 {% elif tutor.status == "declined" %}
-                                    <a href="{% url "tutor_accept" tutor.id %}"
-                                       class="btn btn-default">{% trans "accept" %}</a>
+                                    <button formaction="{% url "tutor_change_status" tutor.id "active" %}"
+                                            class="btn btn-default" type="submit">{% trans "open" %}</button>
+                                    <button formaction="{% url "tutor_change_status" tutor.id "accepted" %}"
+                                            class="btn btn-default" type="submit">{% trans "accept" %}</button>
                                 {% endif %}
-
-                                <script type="text/javascript">
-                                    $('#status_form a').each(function() {
-                                        $(this).click(function() {
-                                            let form = document.getElementById('status_form');
-                                            form.action = this.href;
-                                            form.submit();
-                                            return false;
-                                        });
-                                    });
-                                </script>
                             </form>
                         </td>
                     </tr>
@@ -89,6 +80,13 @@
                         <td>
                             <a href="{% url "tutor_delete" tutor.id %}"><span
                                     class="glyphicon glyphicon-trash"></span></a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>{% trans "Send Email" %}</th>
+                        <td>
+                            <a href="{% url "tutor_mail_tutor" tutor.id %}"><span class="glyphicon
+                                glyphicon-envelope"></span></a>
                         </td>
                     </tr>
                 {% endif %}
@@ -135,6 +133,29 @@
                 {% endfor %}
                 </tbody>
             </table>
+            {% if perms.tutor.edit_tutors %}
+                <h2>{% trans "Email log" %}</h2>
+                <table class="table css-serial">
+                    <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Mail</th>
+                        <th>Task</th>
+                        <th>Time</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for m in tutor.mailtutortask_set.all %}
+                        <tr>
+                            <td></td>
+                            <td>{{ m.mail }}</td>
+                            <td>{{ m.task|default_if_none:"-" }}</td>
+                            <td>{{ m.created_at }}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            {% endif %}
         </div>
     </div>
 

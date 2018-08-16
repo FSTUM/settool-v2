@@ -98,7 +98,7 @@
                             <li><a href="{% url "listcompanies" %}">{% trans "SET-Tüten" %}</a></li>
                         {% endif %}
                         {% if 'tutors.edit_tutors' in perms %}
-                            <li><a href="{% url "event_list" %}">{% trans "SET-Tutor" %}</a></li>
+                            <li><a href="{% url "tutor_dashboard" %}">{% trans "SET-Tutor" %}</a></li>
                         {% endif %}
                         {% if 'guidedtours.view_participants' in perms %}
                             <li><a href="{% url "tours_list" %}">{% trans "Institutsführungen" %}</a></li>

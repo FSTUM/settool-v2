@@ -2,13 +2,13 @@ from bootstrap_datepicker_plus import DateTimePickerInput, DatePickerInput
 from django import forms
 from django.utils.translation import ugettext_lazy as _
 
-from settool_common.forms import SemesterBasedForm
+from settool_common.forms import SemesterBasedModelForm, SemesterBasedForm
 from settool_common.models import Mail, Subject
 from tutors.models import Tutor, Event, Task, TutorAssignment, Question, Answer, Settings, MailTutorTask, \
     SubjectTutorCountAssignment
 
 
-class TutorAdminForm(SemesterBasedForm):
+class TutorAdminForm(SemesterBasedModelForm):
     class Meta:
         model = Tutor
         exclude = ["semester", "registration_time", "answers"]
@@ -84,7 +84,7 @@ class TutorForm(TutorAdminForm):
             del cleaned_data[field_name]
 
 
-class EventAdminForm(SemesterBasedForm):
+class EventAdminForm(SemesterBasedModelForm):
     class Meta:
         model = Event
         exclude = ["semester", "name", "description", "meeting_point"]
@@ -131,7 +131,7 @@ class EventAdminForm(SemesterBasedForm):
         return cleaned_data
 
 
-class TaskAdminForm(SemesterBasedForm):
+class TaskAdminForm(SemesterBasedModelForm):
     class Meta:
         model = Task
         exclude = ["semester", "name", "description", "meeting_point", "tutors"]
@@ -192,7 +192,7 @@ class TaskAdminForm(SemesterBasedForm):
         return cleaned_data
 
 
-class TaskAssignmentForm(SemesterBasedForm):
+class TaskAssignmentForm(SemesterBasedModelForm):
     class Meta:
         model = Task
         fields = ["tutors"]
@@ -214,7 +214,7 @@ class TaskAssignmentForm(SemesterBasedForm):
                     TutorAssignment.objects.filter(tutor=tutor, task=instance).delete()
 
 
-class RequirementAdminForm(SemesterBasedForm):
+class RequirementAdminForm(SemesterBasedModelForm):
     class Meta:
         model = Question
         exclude = ["semester", "question"]
@@ -235,7 +235,7 @@ class AnswerForm(forms.ModelForm):
         self.fields['answer'].choices = self.fields['answer'].choices[1:]
 
 
-class SettingsAdminForm(SemesterBasedForm):
+class SettingsAdminForm(SemesterBasedModelForm):
     class Meta:
         model = Settings
         exclude = ["semester", ]
@@ -257,10 +257,8 @@ class SettingsAdminForm(SemesterBasedForm):
         return cleaned_data
 
 
-class TutorMailAdminForm(forms.Form):
-    mail_template = forms.ModelChoiceField(label='Mail Template',
-                                           queryset=Mail.objects.filter(sender=Mail.SET_TUTOR),
-                                           required=True)
+class TutorMailAdminForm(SemesterBasedForm):
+    mail_template = forms.ModelChoiceField(label='Mail Template', queryset=None, required=True)
 
     tutors = forms.ModelMultipleChoiceField(
         label=_("Tutors (selected have not yet received this email)"),
@@ -277,10 +275,11 @@ class TutorMailAdminForm(forms.Form):
         self.fields["tutors"].queryset = tutors
         self.fields["tutors"].initial = Tutor.objects.exclude(
             id__in=MailTutorTask.objects.filter(mail=template).values("tutor_id"))
+        self.fields["mail_template"].queryset = Mail.objects.filter(semester=self.semester, sender=Mail.SET_TUTOR)
         self.fields["mail_template"].initial = template
 
 
-class SubjectTutorCountAssignmentAdminForm(SemesterBasedForm):
+class SubjectTutorCountAssignmentAdminForm(SemesterBasedModelForm):
     class Meta:
         model = SubjectTutorCountAssignment
         exclude = ["semester", ]
@@ -290,4 +289,37 @@ class SubjectTutorCountAssignmentAdminForm(SemesterBasedForm):
 
     def __init__(self, *args, **kwargs):
         super(SubjectTutorCountAssignmentAdminForm, self).__init__(*args, **kwargs)
-        self.fields['wanted'].label = Subject.objects.get(pk=self.initial.get('subject'))
+        self.fields['wanted'].label = Subject.objects.get(pk=self.initial.get('subject')).__str__()
+        self.fields['waitlist'].label = _("Waiting List").__str__()
+
+
+class TutorAcceptAdminForm(SemesterBasedForm):
+    tutors = forms.ModelMultipleChoiceField(
+        label=_("Tutors (selected will be accepted)"),
+        widget=forms.CheckboxSelectMultiple,
+        required=True,
+        queryset=None
+    )
+
+    def __init__(self, *args, **kwargs):
+        tutors = kwargs.pop('tutors')
+        super(TutorAcceptAdminForm, self).__init__(*args, **kwargs)
+
+        self.fields["tutors"].queryset = tutors
+        self.fields["tutors"].initial = tutors
+
+
+class TutorDeclineAdminForm(SemesterBasedForm):
+    tutors = forms.ModelMultipleChoiceField(
+        label=_("Tutors (selected will be declined)"),
+        widget=forms.CheckboxSelectMultiple,
+        required=True,
+        queryset=None
+    )
+
+    def __init__(self, *args, **kwargs):
+        tutors = kwargs.pop('tutors')
+        super(TutorDeclineAdminForm, self).__init__(*args, **kwargs)
+
+        self.fields["tutors"].queryset = tutors
+        self.fields["tutors"].initial = tutors

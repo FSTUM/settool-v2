@@ -6,19 +6,21 @@ from django import http
 from django.contrib import messages
 from django.contrib.auth.decorators import permission_required
 from django.core.mail import EmailMessage
+from django.db.models import Count, Q
 from django.forms import modelformset_factory, forms
 from django.http import HttpResponseRedirect, HttpResponse, Http404
 from django.shortcuts import render, get_object_or_404, redirect
 from django.template import Template, Context
 from django.urls import reverse
 from django.utils import timezone
-from django.utils.encoding import force_bytes, force_text
+from django.utils.encoding import force_bytes
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 
 from settool_common import utils
 from settool_common.models import get_semester, Semester, Subject, Mail
 from tutors.forms import TutorForm, TutorAdminForm, EventAdminForm, TaskAdminForm, RequirementAdminForm, AnswerForm, \
-    TaskAssignmentForm, SettingsAdminForm, TutorMailAdminForm, SubjectTutorCountAssignmentAdminForm
+    TaskAssignmentForm, SettingsAdminForm, TutorMailAdminForm, SubjectTutorCountAssignmentAdminForm, \
+    TutorAcceptAdminForm
 from tutors.models import Tutor, Settings, Event, Task, Question, Answer, MailTutorTask, SubjectTutorCountAssignment
 from tutors.tokens import account_activation_token
 
@@ -33,7 +35,7 @@ def tutor_signup(request):
             'end': settings.close_registration
         })
 
-    questions = Question.objects.all()
+    questions = Question.objects.filter(semester=semester)
     question_count = questions.count()
     answers_new = []
     for question in questions:
@@ -119,11 +121,15 @@ def tutor_signup_confirm(request, uidb64, token):
 
 @permission_required('tutors.edit_tutors')
 def tutor_list(request, status=None):
+    semester = get_object_or_404(Semester, pk=get_semester(request))
+
     if status is None:
-        tutors = Tutor.objects.all()
+        tutors = Tutor.objects.filter(semester=semester)
     else:
-        tutors = Tutor.objects.filter(status=status)
-    return render(request, 'tutors/tutor/list.html', {'tutors': tutors, 'status': status})
+        tutors = Tutor.objects.filter(semester=semester, status=status)
+    return render(request, 'tutors/tutor/list.html', {'tutors': tutors.order_by("registration_time"),
+                                                      'status': status,
+                                                      'questions': Question.objects.filter(semester=semester)})
 
 
 def tutor_view(request, uid):
@@ -132,22 +138,12 @@ def tutor_view(request, uid):
 
 
 @permission_required('tutors.edit_tutors')
-def tutor_accept(request, uid):
+def tutor_change_status(request, uid, status):
     tutor = get_object_or_404(Tutor, pk=uid)
     form = forms.Form(request.POST or None)
-    if form.is_valid():
-        tutor.status = Tutor.STATUS_ACCEPTED
-        tutor.save()
-        return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
-    return http.HttpResponseBadRequest()
 
-
-@permission_required('tutors.edit_tutors')
-def tutor_decline(request, uid):
-    tutor = get_object_or_404(Tutor, pk=uid)
-    form = forms.Form(request.POST or None)
-    if form.is_valid():
-        tutor.status = Tutor.STATUS_DECLINED
+    if form.is_valid() and status in [x for (x, y) in Tutor.STATUS_OPTIONS]:
+        tutor.status = status
         tutor.save()
         return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
     return http.HttpResponseBadRequest()
@@ -171,13 +167,14 @@ def tutor_delete(request, uid):
 
 
 def tutor_edit(request, uid):
+    semester = get_object_or_404(Semester, pk=get_semester(request))
     tutor = get_object_or_404(Tutor, pk=uid)
 
     question_count = Question.objects.count()
     answers_existing = Answer.objects.filter(tutor=tutor)
     answers_new = []
     if len(answers_existing) != question_count:
-        for question in Question.objects.all():
+        for question in Question.objects.filter(semester=semester):
             if answers_existing.filter(question=question).count() == 0:
                 a = Answer(tutor=tutor, question=question)
                 answers_new.append(a)
@@ -250,7 +247,8 @@ def event_edit(request, uid):
 
 @permission_required('tutors.edit_tutors')
 def event_list(request):
-    events = Event.objects.all().order_by('begin')
+    semester = get_object_or_404(Semester, pk=get_semester(request))
+    events = Event.objects.filter(semester=semester).order_by('begin')
     return render(request, 'tutors/event/list.html', {'events': events})
 
 
@@ -313,7 +311,8 @@ def task_edit(request, uid):
 
 @permission_required('tutors.edit_tutors')
 def task_list(request):
-    tasks = Task.objects.all().order_by('begin')
+    semester = get_object_or_404(Semester, pk=get_semester(request))
+    tasks = Task.objects.filter(semester=semester).order_by('begin')
     return render(request, 'tutors/task/list.html', {'tasks': tasks})
 
 
@@ -352,6 +351,7 @@ def task_add(request, eid=None):
 
 
 def task_view(request, uid):
+    semester = get_object_or_404(Semester, pk=get_semester(request))
     task = get_object_or_404(Task, pk=uid)
 
     if not request.user.has_perm('tutors.edit_tutors'):
@@ -363,12 +363,12 @@ def task_view(request, uid):
         task.log(request.user, "Task Assignment edited")
         messages.success(request, 'Saved Task Assignment %s.' % task.name)
 
-    assigned_tutors = task.tutors.all()
+    assigned_tutors = task.tutors.all().order_by("last_name")
     context = {
         'task': task,
         'assigned_tutors': assigned_tutors,
-        'unassigned_tutors': Tutor.objects.filter(status=Tutor.STATUS_ACCEPTED).exclude(
-            id__in=assigned_tutors.values("id")),
+        'unassigned_tutors': Tutor.objects.filter(semester=semester, status=Tutor.STATUS_ACCEPTED).exclude(
+            id__in=assigned_tutors.values("id")).order_by("last_name"),
         'assignment_form': form,
     }
     return render(request, 'tutors/task/view.html', context)
@@ -376,7 +376,8 @@ def task_view(request, uid):
 
 @permission_required('tutors.edit_tutors')
 def requirement_list(request):
-    questions = Question.objects.all()
+    semester = get_object_or_404(Semester, pk=get_semester(request))
+    questions = Question.objects.filter(semester=semester)
     return render(request, 'tutors/requirement/list.html', {'requirements': questions})
 
 
@@ -452,8 +453,11 @@ def task_mail(request, uid, template=None):
         template = get_object_or_404(Mail, pk=template, sender=Mail.SET_TUTOR)
 
     tutor_data = {}
-    for field in [x.name for x in Tutor._meta.fields if x.name not in ["semester", "subject"]]:
-        tutor_data[field] = "<" + field + ">"
+    for name, field in [(x.name, x) for x in Tutor._meta.fields if x.name not in ["semester", "subject"]]:
+        if field.get_internal_type() == "CharField":
+            tutor_data[name] = "<" + name + ">"
+        else:
+            tutor_data[name] = field.default
 
     tutor = Tutor(**tutor_data)
 
@@ -467,7 +471,8 @@ def task_mail(request, uid, template=None):
 
     form = TutorMailAdminForm(request.POST or None,
                               tutors=task.tutors.all(),
-                              template=template)
+                              template=template,
+                              semester=semester)
     if form.is_valid():
         tutors = form.cleaned_data["tutors"]
         mail_template = form.cleaned_data["mail_template"]
@@ -506,10 +511,12 @@ def task_mail(request, uid, template=None):
 
 @permission_required('tutors.edit_tutors')
 def tutor_export(request, type, status=None):
+    semester = get_object_or_404(Semester, pk=get_semester(request))
+
     if status is None:
-        tutors = Tutor.objects.all()
+        tutors = Tutor.objects.filter(semester=semester)
     else:
-        tutors = Tutor.objects.filter(status=status)
+        tutors = Tutor.objects.filter(semester=semester, status=status)
 
     filename = "tutors_" + time.strftime("%Y%m%d-%H%M")
 
@@ -624,24 +631,33 @@ def tutors_settings_tutors(request):
 
 
 @permission_required('tutors.edit_tutors')
-def tutor_mail(request, status=None, template=None):
-    if template is None:
-        template = Mail.objects.filter(sender=Mail.SET_TUTOR).last()
-        if template is None:
-            raise Http404
-    else:
-        template = get_object_or_404(Mail, pk=template, sender=Mail.SET_TUTOR)
+def tutor_mail(request, status=None, template=None, uid=None):
+    semester = get_object_or_404(Semester, pk=get_semester(request))
+    settings = get_object_or_404(Settings, semester=semester)
+    template = default_tutor_mail_template(semester, settings, status, template)
 
-    if status is None:
-        tutors = Tutor.objects.all()
+    if template is None:
+        raise Http404
+
+    if uid is None:
+        if status is None:
+            tutors = Tutor.objects.filter(semester=semester)
+        else:
+            tutors = Tutor.objects.filter(semester=semester, status=status)
     else:
-        tutors = Tutor.objects.filter(status=status)
+        tutors = Tutor.objects.filter(pk=uid)
 
     tutor_data = {}
-    for field in [x.name for x in Tutor._meta.fields if x.name not in ["semester", "subject"]]:
-        tutor_data[field] = "<" + field + ">"
+    for name, field in [(x.name, x) for x in Tutor._meta.fields if x.name not in ["semester", "subject"]]:
+        if field.get_internal_type() == "CharField":
+            tutor_data[name] = "<" + name + ">"
+        else:
+            tutor_data[name] = field.default
 
-    tutor = Tutor(**tutor_data)
+    if uid is None:
+        tutor = Tutor(**tutor_data)
+    else:
+        tutor = tutors.first()
 
     context = Context({
         'tutor': tutor,
@@ -652,7 +668,8 @@ def tutor_mail(request, status=None, template=None):
 
     form = TutorMailAdminForm(request.POST or None,
                               tutors=tutors,
-                              template=template)
+                              template=template,
+                              semester=semester)
     if form.is_valid():
         tutors = form.cleaned_data["tutors"]
         mail_template = form.cleaned_data["mail_template"]
@@ -676,7 +693,7 @@ def tutor_mail(request, status=None, template=None):
             tutor.log(request.user, "Send mail to %s." % tutor)
 
         messages.success(request, 'Sent email to tutors.')
-        return redirect("tutor_list" if status is None else "tutor_list_status", status=status)
+        return redirect("tutor_list") if status is None else redirect("tutor_list_status", status=status)
 
     context = {
         "from": template.sender,
@@ -684,5 +701,143 @@ def tutor_mail(request, status=None, template=None):
         "body": body,
         "form": form,
         "status": status,
+        "template": template,
+        "tutor": tutor,
     }
     return render(request, 'tutors/tutor/mail.html', context)
+
+
+def default_tutor_mail_template(semester, settings, status, template):
+    if template is None:
+        status_to_template = {
+            "active": settings.mail_waiting_list,
+            "accepted": settings.mail_confirmed_place,
+            "declined": settings.mail_declined_place,
+        }
+
+        if status in status_to_template:
+            return status_to_template[status]
+
+        return Mail.objects.filter(semester=semester, sender=Mail.SET_TUTOR).last()
+
+    return get_object_or_404(Mail, pk=template, sender=Mail.SET_TUTOR)
+
+
+@permission_required('tutors.edit_tutors')
+def tutor_batch_accept(request):
+    semester = get_object_or_404(Semester, pk=get_semester(request))
+    tutors_active = Tutor.objects.filter(semester=semester, status=Tutor.STATUS_ACTIVE)
+    tutors_accepted = Tutor.objects.filter(semester=semester, status=Tutor.STATUS_ACCEPTED)
+    counts = SubjectTutorCountAssignment.objects.filter(semester=semester)
+
+    tutor_ids = []
+    to_be_accepted = {}
+
+    for c in counts:
+        active = tutors_active.filter(subject=c.subject)
+        accepted_count = tutors_accepted.filter(subject=c.subject).count()
+
+        if c.wanted > accepted_count:
+            need = c.wanted - accepted_count
+            for t in active.order_by("registration_time")[:need]:
+                tutor_ids.append(t.id)
+
+                if c.subject not in to_be_accepted:
+                    to_be_accepted[c.subject] = []
+                to_be_accepted[c.subject].append(t)
+
+    form = TutorAcceptAdminForm(request.POST or None,
+                                tutors=Tutor.objects.filter(id__in=tutor_ids),
+                                semester=semester)
+    if form.is_valid():
+        tutors = form.cleaned_data["tutors"]
+        for tutor in tutors:
+            tutor.status = Tutor.STATUS_ACCEPTED
+            tutor.save()
+
+        return redirect("tutor_list_status", status=Tutor.STATUS_ACTIVE)
+
+    context = {
+        "to_be_accepted": to_be_accepted,
+        "form": form
+    }
+    return render(request, 'tutors/tutor/batch_accept.html', context)
+
+
+@permission_required('tutors.edit_tutors')
+def tutor_batch_decline(request):
+    semester = get_object_or_404(Semester, pk=get_semester(request))
+    tutors_active = Tutor.objects.filter(semester=semester, status=Tutor.STATUS_ACTIVE)
+    tutors_accepted = Tutor.objects.filter(semester=semester, status=Tutor.STATUS_ACCEPTED)
+    counts = SubjectTutorCountAssignment.objects.filter(semester=semester)
+
+    tutor_ids = []
+    to_be_declined = {}
+
+    for c in counts:
+        active = tutors_active.filter(subject=c.subject)
+        accepted_count = tutors_accepted.filter(subject=c.subject).count()
+
+        keep = c.wanted - accepted_count + c.waitlist
+        if keep < 0:
+            keep = 0
+
+        for t in active.order_by("registration_time")[keep:]:
+            tutor_ids.append(t.id)
+
+            if c.subject not in to_be_declined:
+                to_be_declined[c.subject] = []
+            to_be_declined[c.subject].append(t)
+
+    form = TutorAcceptAdminForm(request.POST or None,
+                                tutors=Tutor.objects.filter(id__in=tutor_ids),
+                                semester=semester)
+    if form.is_valid():
+        tutors = form.cleaned_data["tutors"]
+        for tutor in tutors:
+            tutor.status = Tutor.STATUS_DECLINED
+            tutor.save()
+
+        return redirect("tutor_list_status", status=Tutor.STATUS_ACTIVE)
+
+    context = {
+        "to_be_declined": to_be_declined,
+        "form": form
+    }
+    return render(request, 'tutors/tutor/batch_decline.html', context)
+
+
+@permission_required('tutors.edit_tutors')
+def dashboard(request):
+    semester = get_object_or_404(Semester, pk=get_semester(request))
+
+    counts = SubjectTutorCountAssignment.objects.filter(semester=semester)
+    count_results = {}
+    for c in counts:
+        counts_tutors = Tutor.objects.filter(semester=semester, subject=c.subject, status=Tutor.STATUS_ACCEPTED). \
+            aggregate(total=Count('subject'))
+        if counts_tutors is None:
+            count_results[c.subject] = (0, c.wanted)
+        else:
+            count_results[c.subject] = (counts_tutors['total'], c.wanted)
+
+    events = Event.objects.filter(semester=semester).filter(
+        Q(begin__gt=timezone.now()) | Q(end__gt=timezone.now())).order_by("begin")[:5]
+    tasks = Task.objects.filter(semester=semester).filter(
+        Q(begin__gt=timezone.now()) | Q(end__gt=timezone.now())).order_by("begin")[:5]
+
+    missing_mails = 0
+    for task in Task.objects.filter(semester=semester):
+        missing_mails += Tutor.objects.filter(task=task).exclude(id__in=MailTutorTask.objects.filter(task=task).values(
+            "tutor_id")).count()
+
+    accepted_tutors = Tutor.objects.filter(semester=semester, status=Tutor.STATUS_ACCEPTED).count()
+    waiting_tutors = Tutor.objects.filter(semester=semester, status=Tutor.STATUS_ACTIVE).count()
+    return render(request, 'tutors/dashboard/dashboard.html', {
+        'subject_counts': count_results,
+        'events': events,
+        'tasks': tasks,
+        'missing_mails': missing_mails,
+        'accepted_tutors': accepted_tutors,
+        'waiting_tutors': waiting_tutors
+    })

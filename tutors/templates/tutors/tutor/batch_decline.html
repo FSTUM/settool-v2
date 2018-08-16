@@ -1,0 +1,34 @@
+{% extends "tutors/base.html" %}
+{% load i18n %}
+{% load bootstrap3 %}
+
+{% block title %}{% trans "Tutor" %} - {% trans "Batch decline tutors" %}{% endblock %}
+
+{% block tutorcontent %}
+    <h1>{% trans "Batch decline tutors" %}</h1>
+    <hr>
+    <div class="row">
+        <div class="col-sm-12">
+            <p>
+                {% trans "Do you really want to decline the following tutors?" %}
+            </p>
+
+            <form method="post" action="">
+                {% csrf_token %}
+
+                <table class="table">
+                    <tr>
+                        <td>
+                            <button type="submit" class="btn btn-default">{% trans "Submit" %}</button>
+                        </td>
+                        <td><a href="{% url "tutor_list_status" "active" %}"
+                               class="btn btn-default btn-danger">{% trans "Cancel" %}</a></td>
+                    </tr>
+                </table>
+
+                {% bootstrap_form form %}
+            </form>
+        </div>
+    </div>
+
+{% endblock %}
