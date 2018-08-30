@@ -104,11 +104,13 @@ class Tutor(BaseModel):
     STATUS_ACCEPTED = 'accepted'
     STATUS_INACTIVE = 'inactive'
     STATUS_ACTIVE = 'active'
+    STATUS_EMPLOYEE = 'employee'
     STATUS_OPTIONS = (
         (STATUS_ACCEPTED, _(STATUS_ACCEPTED)),
         (STATUS_ACTIVE, _(STATUS_ACTIVE)),
         (STATUS_DECLINED, _(STATUS_DECLINED)),
         (STATUS_INACTIVE, _(STATUS_INACTIVE)),
+        (STATUS_EMPLOYEE, _(STATUS_EMPLOYEE))
     )
 
     id = models.UUIDField(
