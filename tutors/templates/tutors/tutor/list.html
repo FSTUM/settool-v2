@@ -33,10 +33,10 @@
                 <li><a href="{% if status is None %}{% url "tutor_export" "csv" %}{% else %}
 {% url "tutor_export_status" "csv" status %}{% endif %}"><span class="glyphicon glyphicon-file"></span>
                     {% trans "Export CSV" %}</a></li>
-                <li><a href="{% if status is None %}{% url "tutor_export" "tshirt" %}{% else %}
-{% url "tutor_export_status" "tshirt" status %}{% endif %}"><span class="glyphicon glyphicon-file"></span>
-                    {% trans "T-Shirt" %}
-                    List</a></li>
+                {% if status == "accepted" or status == "employee" %}
+                <li><a href="{% url "tutor_export_status" "tshirt" status %}"><span class="glyphicon glyphicon-file"></span>
+                    {% trans "T-Shirt List" %}</a></li>
+                {% endif %}
                 {% if status is not None %}
                     <li><a href="{% url "tutor_mail_status" status %}"><span class="glyphicon
                 glyphicon-envelope"></span>
