@@ -364,11 +364,15 @@ def task_view(request, uid):
         messages.success(request, 'Saved Task Assignment %s.' % task.name)
 
     assigned_tutors = task.tutors.all().order_by("last_name")
+    parallel_task_tutors = Tutor.objects.filter(Q(task__begin__gte=task.begin) | Q(task__end__lte=task.end),
+                                               Q(task__end__gt=task.begin),
+                                               Q(task__begin__lt=task.end))
     context = {
         'task': task,
         'assigned_tutors': assigned_tutors,
         'unassigned_tutors': Tutor.objects.filter(semester=semester, status=Tutor.STATUS_ACCEPTED).exclude(
-            id__in=assigned_tutors.values("id")).order_by("last_name"),
+            id__in=assigned_tutors.values("id")).exclude(id__in=parallel_task_tutors.values("id")).order_by(
+            "last_name"),
         'assignment_form': form,
     }
     return render(request, 'tutors/task/view.html', context)
