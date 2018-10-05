@@ -56,7 +56,7 @@
                 </tr>
                 {% if perms.tutor.edit_tutors %}
                     <tr>
-                        <th>{% trans "Tutors" %} [{{ task.min_tutors }}, {{ task.max_tutors }}]</th>
+                        <th>{% trans "Tutors" %} ({{ assigned_tutors|length }} / {{ task.min_tutors }} - {{ task.max_tutors }})</th>
                         <td>
                             {% if task.allowed_subjects.all|length == 0 %}
                                 {% trans "No subjects." %}
