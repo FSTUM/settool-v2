@@ -34,6 +34,10 @@
                     <th>{% trans "Girls Cut?" %}</th>
                     <td>{{ tutor.tshirt_girls_cut }}</td>
                 </tr>
+		<tr>
+		    <th>{% trans "Comment" %}</th>
+		    <td>{{ tutor.comment|linebreaks }}</td>
+		</tr>
                 <tr>
                     <th>{% trans "Registration time" %}</th>
                     <td>{{ tutor.registration_time }}</td>
