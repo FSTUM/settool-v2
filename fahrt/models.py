@@ -42,6 +42,12 @@ class Participant(models.Model):
         permissions = (("view_participants",
                         "Can view and edit the list of participants"),)
 
+    GENDER_CHOICES = (
+        ("male", _("male")),
+        ("female", _("female")),
+        ("diverse", _("diverse")),
+    )
+
     semester = models.ForeignKey(
         Semester,
         on_delete=models.CASCADE,
@@ -51,7 +57,7 @@ class Participant(models.Model):
     gender = models.CharField(
         _("Gender"),
         max_length=200,
-        choices=(("male", _("male")), ("female", _("female"))),
+        choices=GENDER_CHOICES,
     )
 
     firstname = models.CharField(
