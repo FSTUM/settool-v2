@@ -16,7 +16,7 @@ from settool_common.utils import u
 class Fahrt(models.Model):
     semester = models.OneToOneField(
         Semester,
-        on_delete=None,
+        on_delete=models.CASCADE,
     )
 
     date = models.DateField(
@@ -44,7 +44,7 @@ class Participant(models.Model):
 
     semester = models.ForeignKey(
         Semester,
-        on_delete=None,
+        on_delete=models.CASCADE,
         related_name="fahrt_participant",
     )
 
@@ -86,7 +86,7 @@ class Participant(models.Model):
 
     subject = models.ForeignKey(
         Subject,
-        on_delete=None,
+        on_delete=models.CASCADE,
         verbose_name=_("Subject"),
         related_name="fahrt_participant",
     )
@@ -204,7 +204,7 @@ class Mail(models.Model):
     FROM_MAIL = "SET-Fahrt-Team <setfahrt@fs.tum.de>"
     semester = models.ForeignKey(
         Semester,
-        on_delete=None,
+        on_delete=models.CASCADE,
         related_name="fahrt_mail_set",
     )
 
@@ -271,12 +271,12 @@ name and {{frist}} for the individual payment deadline."),
 class LogEntry(models.Model):
     participant = models.ForeignKey(
         Participant,
-        on_delete=None
+        on_delete=models.CASCADE,
     )
 
     user = models.ForeignKey(
         User,
-        on_delete=None,
+        on_delete=models.CASCADE,
         related_name="mylogentry_set",
         blank=True,
         null=True,

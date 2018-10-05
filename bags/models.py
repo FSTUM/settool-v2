@@ -19,7 +19,7 @@ class Company(models.Model):
 
     semester = models.ForeignKey(
         Semester,
-        on_delete=None
+        on_delete=models.CASCADE,
     )
 
     name = models.CharField(
@@ -135,7 +135,7 @@ class Mail(models.Model):
     FROM_MAIL = 'Sponsoring Team des SET-Referats <set-tueten@fs.tum.de>'
     semester = models.ForeignKey(
         Semester,
-        on_delete=None,
+        on_delete=models.CASCADE,
     )
 
     subject = models.CharField(

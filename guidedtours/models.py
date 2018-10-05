@@ -15,7 +15,7 @@ class Tour(models.Model):
 
     semester = models.ForeignKey(
         Semester,
-        on_delete=None
+        on_delete=models.CASCADE,
     )
 
     name = models.CharField(
@@ -57,7 +57,7 @@ class Tour(models.Model):
 class Participant(models.Model):
     tour = models.ForeignKey(
         Tour,
-        on_delete=None,
+        on_delete=models.CASCADE,
         verbose_name=_("Tour"),
     )
 
@@ -82,7 +82,7 @@ class Participant(models.Model):
 
     subject = models.ForeignKey(
         Subject,
-        on_delete=None,
+        on_delete=models.CASCADE,
         verbose_name=_("Subject"),
     )
 
@@ -113,7 +113,7 @@ class Mail(models.Model):
     FROM_MAIL = "SET-Referat <set@fs.tum.de>"
     semester = models.ForeignKey(
         Semester,
-        on_delete=None,
+        on_delete=models.CASCADE,
         related_name="tours_mail_set",
     )
 
