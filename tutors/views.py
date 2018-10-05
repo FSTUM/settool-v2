@@ -518,9 +518,9 @@ def tutor_export(request, type, status=None):
     semester = get_object_or_404(Semester, pk=get_semester(request))
 
     if status is None:
-        tutors = Tutor.objects.filter(semester=semester)
+        tutors = Tutor.objects.filter(semester=semester).order_by('last_name', 'first_name')
     else:
-        tutors = Tutor.objects.filter(semester=semester, status=status)
+        tutors = Tutor.objects.filter(semester=semester, status=status).order_by('last_name', 'first_name')
 
     filename = "tutors_" + time.strftime("%Y%m%d-%H%M")
 
@@ -537,10 +537,11 @@ def tutor_export(request, type, status=None):
 @permission_required('tutors.edit_tutors')
 def task_export(request, type, uid=None):
     task = Task.objects.get(pk=uid)
+    tutors = task.tutors.order_by('last_name', 'first_name')
 
     filename = "task_" + task.id.__str__() + "_" + time.strftime("%Y%m%d-%H%M")
     if type == "pdf":
-        return download_pdf("tutors/tex/task.tex", filename + ".pdf", {"task": task, "tutors": task.tutors.all()})
+        return download_pdf("tutors/tex/task.tex", filename + ".pdf", {"task": task, "tutors": tutors})
 
     raise Http404
 
