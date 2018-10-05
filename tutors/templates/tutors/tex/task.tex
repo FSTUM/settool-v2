@@ -1,3 +1,4 @@
+{% load latex %}
 \documentclass[a4paper]{article}
 \usepackage[utf8]{inputenc}
 
@@ -14,7 +15,7 @@
 
 \begin{document}
 
-    \section*{Tutorliste für {{ task.name|escape }} (Stand: \today)}
+    \section*{Tutorliste für {{ task.name|latex_escape }} (Stand: \today)}
 
     \begin{center}
         \large
@@ -23,7 +24,7 @@
             Unterschrift \\ \hline
             \endhead
             {% for tutor in tutors %}
-                \rownumber & {{ tutor.first_name|escape }} & {{ tutor.last_name|escape }} & {{ tutor.subject|escape }} & \newline
+                \rownumber & {{ tutor.first_name|latex_escape }} & {{ tutor.last_name|latex_escape }} & {{ tutor.subject|latex_escape }} & \newline
 \\\hline
             {% endfor %}
         \end{longtable}

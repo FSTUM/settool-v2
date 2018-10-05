@@ -1,3 +1,4 @@
+{% load latex %}
 \documentclass[a4paper]{article}
 \usepackage[utf8]{inputenc}
 
@@ -24,8 +25,8 @@
             Unterschrift \\ \hline
             \endhead
             {% for tutor in tutors %}
-                \rownumber & {{ tutor.first_name|escape }} & {{ tutor.last_name|escape }} &
-                {% if tutor.tshirt_girls_cut %}Girly {%endif %}{{ tutor.tshirt_size }} & \newline
+                \rownumber & {{ tutor.first_name|latex_escape }} & {{ tutor.last_name|latex_escape }} &
+                {% if tutor.tshirt_girls_cut %}Girly {%endif %}{{ tutor.tshirt_size|latex_escape }} & \newline
 \\\hline
             {% endfor %}
         \end{longtable}
