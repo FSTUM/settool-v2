@@ -22,7 +22,7 @@ class BaseModel(models.Model):
 class Settings(BaseModel):
     semester = models.OneToOneField(
         Semester,
-        on_delete=None
+        on_delete=models.CASCADE,
     )
 
     open_registration = models.DateTimeField(

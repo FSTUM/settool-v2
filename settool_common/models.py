@@ -125,7 +125,7 @@ def get_semester(request):
 class Mail(models.Model):
     semester = models.ForeignKey(
         Semester,
-        on_delete=None,
+        on_delete=models.CASCADE,
         related_name="set_mail_set",
     )
 
