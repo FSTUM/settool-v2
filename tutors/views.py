@@ -527,7 +527,7 @@ def tutor_export(request, type, status=None):
     if type == "pdf":
         return download_pdf("tutors/tex/tutors.tex", filename + ".pdf", {"tutors": tutors})
     elif type == "csv":
-        return download_csv(["last_name", "first_name", "subject"], filename + ".csv", tutors)
+        return download_csv(["last_name", "first_name", "subject", "matriculation_number", "birthday"], filename + ".csv", tutors)
     elif type == "tshirt":
         return download_pdf("tutors/tex/tshirts.tex", filename + ".pdf", {"tutors": tutors})
 
@@ -556,19 +556,13 @@ def download_pdf(file, dest, context):
 def download_csv(fields, dest, context):
     response = HttpResponse(content_type="text/csv")
     response['Content-Disposition'] = 'inline; filename=' + os.path.basename(dest)
-    writer = csv.writer(response, encoding='utf-8')
-    writer.writerow(["nr"] + fields)
 
-    for idx, obj in enumerate(context):
-        row = [idx + 1]
-        for field in fields:
-            val = getattr(obj, field)
-            if callable(val):
-                val = val()
-            else:
-                val = val
-            row.append(val)
-        writer.writerow(row)
+    writer = csv.writer(response, encoding='utf-8')
+    writer.writerow(fields)
+
+    for obj in context:
+        writer.writerow(getattr(obj, field) for field in fields)
+
     return response
 
 
