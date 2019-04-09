@@ -29,4 +29,18 @@
         </div>
         <button type="submit" class="btn btn-default">{% trans "Submit" %}</button>
     </form>
+
+    <script type="text/javascript">
+        var $ects = $('#id_ects');
+        var $matriculation_number = $('#id_matriculation_number').parent();
+        var $birthday = $('#id_birthday').parent().parent();
+
+        $matriculation_number.toggle($ects.is(':checked'));
+        $birthday.toggle($ects.is(':checked'));
+
+        $ects.change(function() {
+            $matriculation_number.toggle($ects.is(':checked'));
+            $birthday.toggle($ects.is(':checked'));
+        });
+    </script>
 {% endblock %}
