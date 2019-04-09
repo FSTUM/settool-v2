@@ -170,7 +170,7 @@ def tutor_edit(request, uid):
     semester = get_object_or_404(Semester, pk=get_semester(request))
     tutor = get_object_or_404(Tutor, pk=uid)
 
-    question_count = Question.objects.count()
+    question_count = Question.objects.filter(semester=semester).count()
     answers_existing = Answer.objects.filter(tutor=tutor)
     answers_new = []
     if len(answers_existing) != question_count:
