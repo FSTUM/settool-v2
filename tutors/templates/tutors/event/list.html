@@ -44,10 +44,10 @@
                             <td>
                                 <a href="{% url "event_view" event.id %}">{{ event.name }}</a>
                             </td>
-                            <td>
+                            <td data-text="{{ event.begin|date:"Y-m-d H:i" }}">
                                 {{ event.begin }}
                             </td>
-                            <td>
+                            <td data-text="{{ event.end|date:"Y-m-d H:i" }}">
                                 {{ event.end }}
                             </td>
                             <td>

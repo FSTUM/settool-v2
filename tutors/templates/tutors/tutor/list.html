@@ -130,7 +130,7 @@
                                     {% trans tutor.status %}
                                 </td>
                             {% endif %}
-                            <td>
+                            <td data-text="{{ tutor.registration_time|date:"Y-m-d H:i" }}">
                                 {{ tutor.registration_time }}
                             </td>
                             {% if status == "active" %}

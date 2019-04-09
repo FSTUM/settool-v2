@@ -53,10 +53,10 @@
                             <td>
                                 <a href="{% url "task_view" task.id %}">{{ task.name }}</a>
                             </td>
-                            <td>
+                            <td data-text="{{ task.begin|date:"Y-m-d H:i" }}">
                                 {{ task.begin }}
                             </td>
-                            <td>
+                            <td data-text="{{ task.end|date:"Y-m-d H:i" }}">
                                 {{ task.end }}
                             </td>
                             <td>
