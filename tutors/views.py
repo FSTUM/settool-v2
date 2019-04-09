@@ -166,6 +166,7 @@ def tutor_delete(request, uid):
     return render(request, 'tutors/tutor/delete.html', context)
 
 
+@permission_required('tutors.edit_tutors')
 def tutor_edit(request, uid):
     semester = get_object_or_404(Semester, pk=get_semester(request))
     tutor = get_object_or_404(Tutor, pk=uid)
@@ -191,40 +192,24 @@ def tutor_edit(request, uid):
 
     answer_formset = AnswerFormSet(request.POST or None, queryset=answers_existing, initial=initial_data)
 
-    if request.user.has_perm('tutors.edit_tutors'):
-        form = TutorAdminForm(request.POST or None, semester=tutor.semester, instance=tutor)
-        if form.is_valid() and answer_formset.is_valid():
-            form.save()
-            for answer in answer_formset:
-                res = answer.save(commit=False)
-                res.tutor_id = tutor.id
-                res.question_id = answer.cleaned_data.get('question').id
-                res.save()
-            tutor.log(request.user, "Tutor edited")
-            messages.success(request, 'Saved Tutor %s.' % tutor)
+    form = TutorAdminForm(request.POST or None, semester=tutor.semester, instance=tutor)
+    if form.is_valid() and answer_formset.is_valid():
+        form.save()
+        for answer in answer_formset:
+            res = answer.save(commit=False)
+            res.tutor_id = tutor.id
+            res.question_id = answer.cleaned_data.get('question').id
+            res.save()
+        tutor.log(request.user, "Tutor edited")
+        messages.success(request, 'Saved Tutor %s.' % tutor)
 
-            return redirect('tutor_view', tutor.id)
+        return redirect('tutor_view', tutor.id)
 
-        return render(request, 'tutors/tutor/edit.html', {
-            'form': form,
-            'answer_formset': answer_formset,
-            'tutor': tutor,
-        })
-    else:
-        if answer_formset.is_valid():
-            for answer in answer_formset:
-                res = answer.save(commit=False)
-                res.tutor_id = tutor.id
-                res.save()
-            tutor.log(request.user, "Tutor edited")
-            messages.success(request, 'Saved Tutor %s.' % tutor)
-
-            return redirect('tutor_view', tutor.id)
-
-        return render(request, 'tutors/tutor/edit.html', {
-            'answer_formset': answer_formset,
-            'tutor': tutor,
-        })
+    return render(request, 'tutors/tutor/edit.html', {
+        'form': form,
+        'answer_formset': answer_formset,
+        'tutor': tutor,
+    })
 
 
 @permission_required('tutors.edit_tutors')
