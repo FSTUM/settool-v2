@@ -366,7 +366,7 @@ msgstr "Bearbeiten"
 #~ msgstr "Nachname"
 
 #: .\tutors\templates\tutors\tutor\signup.html:20
-msgid "tutors_privacy_policy"
+msgid "tours_privacy_policy"
 msgstr "<p>Ich bin damit einverstanden, dass meine Daten zu folgenden Zwecken erhoben, verarbeitet und genutzt werden:</p>"
 "<ul>"
 "<li>Erstellung von Teilnehmerlisten</li>"

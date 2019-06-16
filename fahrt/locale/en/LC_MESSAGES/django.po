@@ -18,16 +18,12 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Poedit 1.8.4\n"
 
-#: .\tutors\forms.py:24
-msgid "tutors_ects_agreement"
-msgstr "With your permission your name, date of birth, matriculation number and study subject are passed on to your faculty to register your ECTS."
-
 #: .\tutors\forms.py:25
 msgid "I accept the terms and conditions of the following privacy policy:"
 msgstr ""
 
 #: .\tutors\templates\tutors\tutor\signup.html:20
-msgid "tutors_privacy_policy"
+msgid "fahrt_privacy_policy"
 msgstr "<p>With your permission, your data will be collected, processed, and used for the following purposes:</p>"
 "<ul>"
 "<li>Generation participant lists</li>"
