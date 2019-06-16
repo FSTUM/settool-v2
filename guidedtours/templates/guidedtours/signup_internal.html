@@ -11,10 +11,14 @@
 
     <form method="post" action="">
         {% csrf_token %}
-
+	
         <div class="row">
             <div class="col-xs-12 col-lg-5">
-                {% bootstrap_form form %}
+              {% bootstrap_form form %}
+
+	      <div class="well">
+		{% trans "tutors_privacy_policy" %}
+	      </div>
             </div>
         </div>
 
