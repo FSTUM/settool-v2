@@ -42,6 +42,9 @@ class ParticipantAdminForm(forms.ModelForm):
 
 
 class ParticipantForm(ParticipantAdminForm):
+    dsgvo = forms.BooleanField(required=True, label=_("I accept the terms and conditions of the following privacy "
+                                                      "policy:"))
+
     class Meta:
         model = Participant
         exclude = ["semester", "non_liability", "paid", "payment_deadline",
