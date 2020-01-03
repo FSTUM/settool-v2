@@ -13,11 +13,11 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='company',
             name='semester',
-            field=models.ForeignKey(on_delete=None, to='settool_common.Semester'),
+            field=models.ForeignKey(on_delete=models.CASCADE, to='settool_common.Semester'),
         ),
         migrations.AlterField(
             model_name='mail',
             name='semester',
-            field=models.ForeignKey(on_delete=None, to='settool_common.Semester'),
+            field=models.ForeignKey(on_delete=models.CASCADE, to='settool_common.Semester'),
         ),
     ]

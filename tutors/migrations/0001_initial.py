@@ -87,7 +87,7 @@ class Migration(migrations.Migration):
                 ('mail_registration', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='tutors_mail_registration', to='settool_common.Mail', verbose_name='Mail Registration')),
                 ('mail_task', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, related_name='tutors_mail_task', to='settool_common.Mail', verbose_name='Mail Task')),
                 ('mail_waiting_list', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, related_name='tutors_mail_waiting_list', to='settool_common.Mail', verbose_name='Mail Waiting List')),
-                ('semester', models.OneToOneField(on_delete=None, to='settool_common.Semester')),
+                ('semester', models.OneToOneField(on_delete=models.CASCADE, to='settool_common.Semester')),
             ],
             options={
                 'abstract': False,

@@ -36,7 +36,7 @@ class Fahrt(models.Model):
         return self.open_registration < timezone.now() < self.close_registration
 
 
-@encoding.python_2_unicode_compatible
+#@encoding.python_2_unicode_compatible
 class Participant(models.Model):
     class Meta:
         permissions = (("view_participants",
@@ -205,7 +205,7 @@ class Participant(models.Model):
     #    self.payment_deadline = deadline.strftime("%d.%m.%Y")
 
 
-@encoding.python_2_unicode_compatible
+#@encoding.python_2_unicode_compatible
 class Mail(models.Model):
     FROM_MAIL = "SET-Fahrt-Team <setfahrt@fs.tum.de>"
     semester = models.ForeignKey(
@@ -273,7 +273,7 @@ name and {{frist}} for the individual payment deadline."),
             return True
 
 
-@encoding.python_2_unicode_compatible
+#@encoding.python_2_unicode_compatible
 class LogEntry(models.Model):
     participant = models.ForeignKey(
         Participant,

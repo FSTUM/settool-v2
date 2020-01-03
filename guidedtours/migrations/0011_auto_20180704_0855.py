@@ -13,21 +13,21 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='mail',
             name='semester',
-            field=models.ForeignKey(on_delete=None, related_name='tours_mail_set', to='settool_common.Semester'),
+            field=models.ForeignKey(on_delete=models.CASCADE, related_name='tours_mail_set', to='settool_common.Semester'),
         ),
         migrations.AlterField(
             model_name='participant',
             name='subject',
-            field=models.ForeignKey(on_delete=None, to='settool_common.Subject', verbose_name='Subject'),
+            field=models.ForeignKey(on_delete=models.CASCADE, to='settool_common.Subject', verbose_name='Subject'),
         ),
         migrations.AlterField(
             model_name='participant',
             name='tour',
-            field=models.ForeignKey(on_delete=None, to='guidedtours.Tour', verbose_name='Tour'),
+            field=models.ForeignKey(on_delete=models.CASCADE, to='guidedtours.Tour', verbose_name='Tour'),
         ),
         migrations.AlterField(
             model_name='tour',
             name='semester',
-            field=models.ForeignKey(on_delete=None, to='settool_common.Semester'),
+            field=models.ForeignKey(on_delete=models.CASCADE, to='settool_common.Semester'),
         ),
     ]

@@ -14,31 +14,31 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='fahrt',
             name='semester',
-            field=models.OneToOneField(on_delete=None, to='settool_common.Semester'),
+            field=models.OneToOneField(on_delete=models.CASCADE, to='settool_common.Semester'),
         ),
         migrations.AlterField(
             model_name='logentry',
             name='participant',
-            field=models.ForeignKey(on_delete=None, to='fahrt.Participant'),
+            field=models.ForeignKey(on_delete=models.CASCADE, to='fahrt.Participant'),
         ),
         migrations.AlterField(
             model_name='logentry',
             name='user',
-            field=models.ForeignKey(blank=True, null=True, on_delete=None, related_name='mylogentry_set', to=settings.AUTH_USER_MODEL),
+            field=models.ForeignKey(blank=True, null=True, on_delete=models.CASCADE, related_name='mylogentry_set', to=settings.AUTH_USER_MODEL),
         ),
         migrations.AlterField(
             model_name='mail',
             name='semester',
-            field=models.ForeignKey(on_delete=None, related_name='fahrt_mail_set', to='settool_common.Semester'),
+            field=models.ForeignKey(on_delete=models.CASCADE, related_name='fahrt_mail_set', to='settool_common.Semester'),
         ),
         migrations.AlterField(
             model_name='participant',
             name='semester',
-            field=models.ForeignKey(on_delete=None, related_name='fahrt_participant', to='settool_common.Semester'),
+            field=models.ForeignKey(on_delete=models.CASCADE, related_name='fahrt_participant', to='settool_common.Semester'),
         ),
         migrations.AlterField(
             model_name='participant',
             name='subject',
-            field=models.ForeignKey(on_delete=None, related_name='fahrt_participant', to='settool_common.Subject', verbose_name='Subject'),
+            field=models.ForeignKey(on_delete=models.CASCADE, related_name='fahrt_participant', to='settool_common.Subject', verbose_name='Subject'),
         ),
     ]
