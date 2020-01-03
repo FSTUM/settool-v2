@@ -27,16 +27,16 @@ urlpatterns = [
 
     # login, logout
     url(r'^login/$',
-        auth_views.login,
-        {'template_name': 'settool_common/login.html'},
+        auth_views.LoginView.as_view(template_name = 'settool_common/login.html'),
+        #{'template_name': 'settool_common/login.html'},
         name='login'),
 
     url(r'^logout/$',
-        auth_views.logout,
-        {'next_page': '/'},
+        auth_views.LogoutView.as_view(next_page = '/'),
+        #{'next_page': '/'},
         name='logout'),
 
-    # localozation
+    # localization
     url(r'^i18n/', include('django.conf.urls.i18n')),
 
     # index
