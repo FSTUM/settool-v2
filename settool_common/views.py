@@ -12,9 +12,9 @@ from .settings import SEMESTER_SESSION_KEY
 @login_required
 def set_semester(request):
     redirect_url = request.POST.get('next', request.GET.get('next'))
-    if not is_safe_url(url=redirect_url, host=request.get_host()):
+    if not is_safe_url(url=redirect_url, allowed_hosts=request.get_host()):
         redirect_url = request.META.get('HTTP_REFERER')
-        if not is_safe_url(url=redirect_url, host=request.get_host()):
+        if not is_safe_url(url=redirect_url, allowed_hosts=request.get_host()):
             redirect_url = '/'
     response = HttpResponseRedirect(redirect_url)
     if request.method == 'POST':

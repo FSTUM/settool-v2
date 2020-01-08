@@ -17,3 +17,6 @@ Session.vim
 
 # txt2tags output
 TODO.*
+
+#pycharm
+.idea*
