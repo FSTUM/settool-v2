@@ -70,7 +70,8 @@ def tutor_signup(request):
         context = Context({
             'tutor': tutor,
             'activation_url': request.build_absolute_uri(reverse('tutor_signup_confirm', kwargs={
-                'uidb64': urlsafe_base64_encode(force_bytes(tutor.pk)).decode(),
+                'uidb64': urlsafe_base64_encode(force_bytes(tutor.pk)),
+                #'uidb64': urlsafe_base64_encode(force_bytes(tutor.pk)).decode(),
                 'token': account_activation_token.make_token(tutor)
             }))
         })
@@ -84,6 +85,7 @@ def tutor_signup(request):
             body=message
         )
         email.send()
+
 
         MailTutorTask.objects.create(tutor=tutor, mail=settings.mail_registration, task=None)
 
@@ -693,6 +695,7 @@ def tutor_mail(request, status=None, template=None, uid=None):
 
 def default_tutor_mail_template(semester, settings, status, template):
     if template is None:
+
         status_to_template = {
             "active": settings.mail_waiting_list,
             "accepted": settings.mail_confirmed_place,
@@ -700,6 +703,7 @@ def default_tutor_mail_template(semester, settings, status, template):
         }
 
         if status in status_to_template:
+
             return status_to_template[status]
 
         return Mail.objects.filter(semester=semester, sender=Mail.SET_TUTOR).last()
