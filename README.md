@@ -2,19 +2,23 @@
 
 It is recommended to use virtualenv:
 
-    pyvenv set-tool
+After cloning the project you can create a new virtualenv
+(assuming you are outside the folder you just cloned)
+
+    python3 -m venv set-tool
+
+Install all the requirements using:
+
     cd set-tool
     . ./bin/activate
 
-    git clone git@gitlab.fs.tum.de:biendarra/set-tool.git
-
-    pip install -r dependencies
+    pip3 install requirements.txt
 
 # Dependencies
 
 ## Software
 
- * Python 2 or 3
+ * Python 3
  * pdflatex (from TeX Live)
 
 ## Python modules
