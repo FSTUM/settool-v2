@@ -7,7 +7,6 @@ from django.utils import timezone, encoding
 from settool_common.models import Semester, Subject
 
 
-#@encoding.python_2_unicode_compatible
 class Tour(models.Model):
     class Meta:
         permissions = (("view_participants",
@@ -53,7 +52,6 @@ class Tour(models.Model):
         return self.open_registration < timezone.now() < self.close_registration
 
 
-#@encoding.python_2_unicode_compatible
 class Participant(models.Model):
     tour = models.ForeignKey(
         Tour,
@@ -108,7 +106,6 @@ class Participant(models.Model):
             return _("On waitinglist")
 
 
-#@encoding.python_2_unicode_compatible
 class Mail(models.Model):
     FROM_MAIL = "SET-Referat <set@fs.tum.de>"
     semester = models.ForeignKey(

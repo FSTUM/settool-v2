@@ -10,7 +10,6 @@ from django.contrib.auth.models import User
 from django.utils import timezone, encoding
 
 from settool_common.models import Semester, Subject
-from settool_common.utils import u
 
 
 class Fahrt(models.Model):
@@ -36,7 +35,6 @@ class Fahrt(models.Model):
         return self.open_registration < timezone.now() < self.close_registration
 
 
-#@encoding.python_2_unicode_compatible
 class Participant(models.Model):
     class Meta:
         permissions = (("view_participants",
@@ -205,7 +203,6 @@ class Participant(models.Model):
     #    self.payment_deadline = deadline.strftime("%d.%m.%Y")
 
 
-#@encoding.python_2_unicode_compatible
 class Mail(models.Model):
     FROM_MAIL = "SET-Fahrt-Team <setfahrt@fs.tum.de>"
     semester = models.ForeignKey(
@@ -235,7 +232,7 @@ name and {{frist}} for the individual payment deadline."),
         if self.comment:
             return "{} ({})".format(self.subject, self.comment)
         else:
-            return u(self.subject)
+            return str(self.subject)
 
     def get_mail(self, request):
         django_engine = engines['django']
@@ -273,7 +270,6 @@ name and {{frist}} for the individual payment deadline."),
             return True
 
 
-#@encoding.python_2_unicode_compatible
 class LogEntry(models.Model):
     participant = models.ForeignKey(
         Participant,

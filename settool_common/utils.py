@@ -1,19 +1,9 @@
 import os
 import shutil
-import sys
 from subprocess import call
 from tempfile import mkdtemp, mkstemp
 
 from django.template.loader import render_to_string
-
-# convert to unicode
-if sys.version_info < (3,):
-    def u(x):
-        # pylint: disable=E0602
-        return unicode(x)
-else:
-    def u(x):
-        return str(x)
 
 
 def latex_to_pdf(tex_path, context):

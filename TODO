@@ -89,8 +89,7 @@ SET-Referat
 
 
 = Tools/Workflow =
-- Python 2.7
-    - kompatibel zu Python 3
+- Python 3.7
     - indent 4
     - PEP8
     - kommentieren
@@ -104,7 +103,6 @@ SET-Referat
 
 
 = TODOs =
-- README.md
 - Django-Einführung
 
 

@@ -5,11 +5,9 @@ from __future__ import unicode_literals
 from django.core.mail import send_mail
 from django.db import models
 from django.template import engines
-from django.utils import encoding
 from django.utils.translation import ugettext_lazy as _
 
 from settool_common.models import Semester
-from settool_common.utils import u
 
 
 class Company(models.Model):
@@ -99,7 +97,7 @@ class Company(models.Model):
     )
 
     def __str__(self):
-        return u(self.name)
+        return str(self.name)
 
     @property
     def full_contact(self):
@@ -130,7 +128,7 @@ class Company(models.Model):
         return "{} {}".format(self.contact_firstname, self.contact_lastname)
 
 
-#@encoding.python_2_unicode_compatible
+# @encoding.python_2_unicode_compatible
 class Mail(models.Model):
     FROM_MAIL = 'Sponsoring Team des SET-Referats <set-tueten@fs.tum.de>'
     semester = models.ForeignKey(
@@ -160,7 +158,7 @@ class Mail(models.Model):
         if self.comment:
             return "{} ({})".format(self.subject, self.comment)
         else:
-            return u(self.subject)
+            return str(self.subject)
 
     def get_mail(self, request):
         # text from templates

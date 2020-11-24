@@ -8,7 +8,6 @@ from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 
 from settool_common.models import Semester, Subject, Mail
-from settool_common.utils import u
 
 
 class BaseModel(models.Model):
@@ -204,7 +203,7 @@ class Tutor(BaseModel):
     )
 
     def __str__(self):
-        return "{0} {1}".format(u(self.first_name), u(self.last_name))
+        return "{0} {1}".format(str(self.first_name), str(self.last_name))
 
     def log(self, user, text):
         # LogEntry.objects.create(
@@ -265,7 +264,7 @@ class Event(BaseModel):
         pass
 
     def __str__(self):
-        return "{0} {1}".format(u(self.name), u(self.begin.date()))
+        return "{0} {1}".format(str(self.name), str(self.begin.date()))
 
 
 class Task(BaseModel):
@@ -342,7 +341,7 @@ class Task(BaseModel):
     )
 
     def __str__(self):
-        return u(self.name)
+        return str(self.name)
 
     def log(self, user, text):
         # LogEntry.objects.create(
@@ -392,7 +391,7 @@ class Question(BaseModel):
     )
 
     def __str__(self):
-        return u(self.question)
+        return str(self.question)
 
     def log(self, user, text):
         # LogEntry.objects.create(
@@ -435,7 +434,7 @@ class Answer(BaseModel):
     )
 
     def __str__(self):
-        return "{}: {} -> {}".format(self.tutor, self.question, u(self.answer))
+        return "{}: {} -> {}".format(self.tutor, self.question, str(self.answer))
 
 
 class MailTutorTask(BaseModel):
