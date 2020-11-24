@@ -2,6 +2,7 @@ from __future__ import unicode_literals
 
 import datetime
 
+from dateutil.relativedelta import relativedelta
 from django.contrib.auth.models import User
 from django.core.mail import send_mail
 from django.db import models
@@ -175,20 +176,15 @@ class Participant(models.Model):
         )
 
     @property
-    def u18(self):
-        return not (
-                self.semester.fahrt.date.year - self.birthday.year > 18 or (
-                self.semester.fahrt.date.year - self.birthday.year == 18 and (
-                self.semester.fahrt.date.month > self.birthday.month or (
-                self.semester.fahrt.date.month == self.birthday.month and
-                self.semester.fahrt.date.day >= self.birthday.day))))
+    def u18(self) -> bool:
+        return relativedelta(self.birthday, self.semester.fahrt.date).years < 18
 
     @property
-    def deadline_exceeded(self):
+    def deadline_exceeded(self) -> bool:
         return self.payment_deadline < datetime.date.today()
 
     @property
-    def deadline_soon(self):
+    def deadline_soon(self) -> bool:
         return self.payment_deadline < datetime.date.today() + \
                datetime.timedelta(days=7)
 
@@ -234,7 +230,7 @@ name and {{frist}} for the individual payment deadline."),
         else:
             return str(self.subject)
 
-    def get_mail(self, request):
+    def get_mail(self):
         django_engine = engines['django']
         subject_template = django_engine.from_string(self.subject)
         context = {
@@ -248,7 +244,7 @@ name and {{frist}} for the individual payment deadline."),
 
         return subject, text, Mail.FROM_MAIL
 
-    def send_mail(self, request, participant):
+    def send_mail(self, participant):
         django_engine = engines['django']
         context = {
             'vorname': participant.firstname,

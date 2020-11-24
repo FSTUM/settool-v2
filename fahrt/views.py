@@ -465,13 +465,13 @@ def send_mail(request, mail_pk):
     participants = semester.fahrt_participant.filter(
         id__in=selected_participants).order_by("surname")
 
-    subject, text, from_email = mail.get_mail(request)
+    subject, text, from_email = mail.get_mail()
 
     form = forms.Form(request.POST or None)
     failed_participants = []
     if form.is_valid():
         for p in participants:
-            success = mail.send_mail(request, p)
+            success = mail.send_mail(p)
             if success:
                 p.log(request.user, "Mail '{0}' sent".format(mail))
             else:

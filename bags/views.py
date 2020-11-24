@@ -313,7 +313,7 @@ def import_companies(request):
             if new_semester.company_set.filter(name=c.name).exists():
                 continue
 
-            company = Company.objects.create(
+            Company.objects.create(
                 semester=new_semester,
                 name=c.name,
                 contact_gender=c.contact_gender,
@@ -331,7 +331,6 @@ def import_companies(request):
                 arrived=False,
                 contact_again=None,
             )
-
         return redirect("listcompanies")
 
     context = {

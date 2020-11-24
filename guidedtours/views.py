@@ -244,12 +244,10 @@ def delete_mail(request, mail_pk):
 def send_mail(request, mail_pk):
     mail = get_object_or_404(Mail, pk=mail_pk)
     selected_participants = request.session['selected_participants']
-    sem = get_semester(request)
-    semester = get_object_or_404(Semester, pk=sem)
     participants = Participant.objects.filter(
         id__in=selected_participants).order_by("surname")
 
-    subject, text, from_email = mail.get_mail(request)
+    subject, text, from_email = mail.get_mail()
 
     form = forms.Form(request.POST or None)
     if form.is_valid():
@@ -280,8 +278,7 @@ def signup(request):
 
     form = ParticipantForm(request.POST or None, tours=tours)
     if form.is_valid():
-        participant = form.save()
-
+        form.save()
         return redirect('tours_signup_success')
 
     context = {

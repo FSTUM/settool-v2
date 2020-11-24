@@ -138,7 +138,7 @@ tour."),
         else:
             return self.subject
 
-    def get_mail(self, request):
+    def get_mail(self):
         django_engine = engines['django']
         subject_template = django_engine.from_string(self.subject)
         context = {

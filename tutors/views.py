@@ -62,6 +62,7 @@ def tutor_signup(request):
     form = TutorForm(request.POST or None, semester=semester)
     if form.is_valid() and answer_formset.is_valid():
         tutor = form.save()
+        answer: AnswerForm
         for answer in answer_formset:
             res = answer.save(commit=False)
             res.tutor_id = tutor.id
@@ -197,6 +198,7 @@ def tutor_edit(request, uid):
     form = TutorAdminForm(request.POST or None, semester=tutor.semester, instance=tutor)
     if form.is_valid() and answer_formset.is_valid():
         form.save()
+        answer: AnswerForm
         for answer in answer_formset:
             res = answer.save(commit=False)
             res.tutor_id = tutor.id
@@ -501,7 +503,7 @@ def task_mail(request, uid, template=None):
 
 
 @permission_required('tutors.edit_tutors')
-def tutor_export(request, type, status=None):
+def tutor_export(request, file_type, status=None):
     semester = get_object_or_404(Semester, pk=get_semester(request))
 
     if status is None:
@@ -511,23 +513,24 @@ def tutor_export(request, type, status=None):
 
     filename = "tutors_" + time.strftime("%Y%m%d-%H%M")
 
-    if type == "pdf":
+    if file_type == "pdf":
         return download_pdf("tutors/tex/tutors.tex", filename + ".pdf", {"tutors": tutors})
-    elif type == "csv":
-        return download_csv(["last_name", "first_name", "subject", "matriculation_number", "birthday"], filename + ".csv", tutors)
-    elif type == "tshirt":
+    elif file_type == "csv":
+        return download_csv(["last_name", "first_name", "subject", "matriculation_number", "birthday"],
+                            filename + ".csv", tutors)
+    elif file_type == "tshirt":
         return download_pdf("tutors/tex/tshirts.tex", filename + ".pdf", {"tutors": tutors})
 
     raise Http404
 
 
 @permission_required('tutors.edit_tutors')
-def task_export(request, type, uid=None):
+def task_export(request, file_type, uid=None):
     task = Task.objects.get(pk=uid)
     tutors = task.tutors.order_by('last_name', 'first_name')
 
     filename = "task_" + task.id.__str__() + "_" + time.strftime("%Y%m%d-%H%M")
-    if type == "pdf":
+    if file_type == "pdf":
         return download_pdf("tutors/tex/task.tex", filename + ".pdf", {"task": task, "tutors": tutors})
 
     raise Http404
@@ -556,11 +559,11 @@ def download_csv(fields, dest, context):
 @permission_required('tutors.edit_tutors')
 def tutors_settings_general(request):
     semester = get_object_or_404(Semester, pk=get_semester(request))
-    all = Settings.objects.filter(semester=semester)
-    if all.count() == 0:
+    all_tutor_settings = Settings.objects.filter(semester=semester)
+    if all_tutor_settings.count() == 0:
         settings = None
     else:
-        settings = all.first()
+        settings = all_tutor_settings.first()
 
     form = SettingsAdminForm(request.POST or None, semester=semester, instance=settings)
     if form.is_valid():
@@ -603,6 +606,7 @@ def tutors_settings_tutors(request):
                                   initial=initial_data,
                                   form_kwargs={'semester': semester})
     if answer_formset.is_valid():
+        answer: AnswerForm
         for answer in answer_formset:
             res = answer.save(commit=False)
             res.semester = semester
