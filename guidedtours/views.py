@@ -1,9 +1,9 @@
 from django import forms
 from django.contrib.auth.decorators import permission_required
+from django.db.models import Q
 from django.forms import formset_factory
 from django.shortcuts import render, get_object_or_404, redirect
 from django.utils import timezone
-from django.db.models import Q
 
 from settool_common.models import get_semester, Semester
 from .forms import ParticipantForm, TourForm, FilterParticipantsForm, \
