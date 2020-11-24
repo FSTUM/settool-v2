@@ -1,17 +1,3 @@
-SET-Tool
-SET-Referat
-%%date(Last Update: %c)
-
-%!target: tex
-%!options(tex): --toc --enum-title
-%!encoding: utf-8
-
-%% README:
-% txt2tags TODO
-% pdflatex TODO.tex
-%%
-
-
 = Wishlist =
 == Allgemein ==
 - Mit set-tutoren/set-tueten an Mailserver anmelden
@@ -98,11 +84,8 @@ SET-Referat
 - jQuery
 - reportlab
 - lokal: SQLlight
-- git
-    - feature branches
+- git with feature branches
 
 
 = TODOs =
 - Django-Einführung
-
-
