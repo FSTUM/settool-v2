@@ -153,7 +153,7 @@ tour."),
 
         return subject, text, Mail.FROM_MAIL
 
-    def send_mail(self, request, participant):
+    def send_mail(self, participant):
         django_engine = engines['django']
         subject_template = django_engine.from_string(self.subject)
         context = {

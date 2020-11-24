@@ -160,7 +160,7 @@ class Mail(models.Model):
         else:
             return str(self.subject)
 
-    def get_mail(self, request):
+    def get_mail(self):
         # text from templates
         django_engine = engines['django']
         subject_template = django_engine.from_string(self.subject)
@@ -176,7 +176,7 @@ class Mail(models.Model):
 
         return subject, text, Mail.FROM_MAIL
 
-    def send_mail(self, request, company):
+    def send_mail(self, company):
         # text from templates
         django_engine = engines['django']
         subject_template = django_engine.from_string(self.subject)

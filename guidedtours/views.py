@@ -254,7 +254,7 @@ def send_mail(request, mail_pk):
     form = forms.Form(request.POST or None)
     if form.is_valid():
         for p in participants:
-            mail.send_mail(request, p)
+            mail.send_mail(p)
         return redirect('tours_filter')
 
     context = {
