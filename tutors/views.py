@@ -42,7 +42,8 @@ def tutor_signup(request):
         a = Answer(question=question)
         answers_new.append(a)
 
-    AnswerFormSet = modelformset_factory(Answer, form=AnswerForm,
+    AnswerFormSet = modelformset_factory(Answer,
+                                         form=AnswerForm,
                                          min_num=question_count,
                                          validate_min=True,
                                          max_num=question_count,
@@ -71,7 +72,7 @@ def tutor_signup(request):
             'tutor': tutor,
             'activation_url': request.build_absolute_uri(reverse('tutor_signup_confirm', kwargs={
                 'uidb64': urlsafe_base64_encode(force_bytes(tutor.pk)),
-                #'uidb64': urlsafe_base64_encode(force_bytes(tutor.pk)).decode(),
+                # 'uidb64': urlsafe_base64_encode(force_bytes(tutor.pk)).decode(),
                 'token': account_activation_token.make_token(tutor)
             }))
         })
@@ -85,7 +86,6 @@ def tutor_signup(request):
             body=message
         )
         email.send()
-
 
         MailTutorTask.objects.create(tutor=tutor, mail=settings.mail_registration, task=None)
 
@@ -352,8 +352,8 @@ def task_view(request, uid):
 
     assigned_tutors = task.tutors.all().order_by("last_name")
     parallel_task_tutors = Tutor.objects.filter(Q(task__begin__gte=task.begin) | Q(task__end__lte=task.end),
-                                               Q(task__end__gt=task.begin),
-                                               Q(task__begin__lt=task.end))
+                                                Q(task__end__gt=task.begin),
+                                                Q(task__begin__lt=task.end))
     context = {
         'task': task,
         'assigned_tutors': assigned_tutors,
@@ -588,7 +588,8 @@ def tutors_settings_tutors(request):
                 a = SubjectTutorCountAssignment(subject=subject)
                 subjects_new.append(a)
 
-    CountFormSet = modelformset_factory(SubjectTutorCountAssignment, form=SubjectTutorCountAssignmentAdminForm,
+    CountFormSet = modelformset_factory(SubjectTutorCountAssignment,
+                                        form=SubjectTutorCountAssignmentAdminForm,
                                         min_num=subject_count,
                                         validate_min=False,
                                         max_num=subject_count,
@@ -703,7 +704,6 @@ def default_tutor_mail_template(semester, settings, status, template):
         }
 
         if status in status_to_template:
-
             return status_to_template[status]
 
         return Mail.objects.filter(semester=semester, sender=Mail.SET_TUTOR).last()

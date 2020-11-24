@@ -65,14 +65,14 @@ def index(request):
         mailform = SelectMailForm(request.POST, semester=semester)
         select_company_form_set = formset_factory(SelectCompanyForm, extra=0)
         companyforms = select_company_form_set(request.POST,
-                                            initial=[{'id': c.id, 'selected': True} for c in companies],
-                                            )
+                                               initial=[{'id': c.id, 'selected': True} for c in companies],
+                                               )
     else:
         mailform = SelectMailForm(None, semester=semester)
         select_company_form_set = formset_factory(SelectCompanyForm, extra=0)
         companyforms = select_company_form_set(None,
-                                            initial=[{'id': c.id, 'selected': True} for c in companies],
-                                            )
+                                               initial=[{'id': c.id, 'selected': True} for c in companies],
+                                               )
 
     if "mailform" in request.POST and mailform.is_valid() and \
             companyforms.is_valid():
