@@ -1,7 +1,7 @@
 import os
 import time
 
-import unicodecsv as csv
+import csv
 from django import http
 from django.contrib import messages
 from django.contrib.auth.decorators import permission_required
@@ -546,8 +546,7 @@ def download_pdf(file, dest, context):
 def download_csv(fields, dest, context):
     response = HttpResponse(content_type="text/csv")
     response['Content-Disposition'] = 'inline; filename=' + os.path.basename(dest)
-
-    writer = csv.writer(response, encoding='utf-8')
+    writer = csv.writer(response, dialect=csv.excel)
     writer.writerow(fields)
 
     for obj in context:
