@@ -1,0 +1,4 @@
+bandit
+django-stubs
+pylint
+pylint-django
