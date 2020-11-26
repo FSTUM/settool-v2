@@ -27,3 +27,4 @@ TODO.*
 /share/
 /bin/
 /pyvenv.cfg
+/staticfiles/

@@ -143,7 +143,7 @@ def add(request):
         return redirect('viewcompany', company.id)
 
     context = {'form': form}
-    return render(request, 'bags/add.html', context)
+    return render(request, 'bags/add_company.html', context)
 
 
 @permission_required('bags.view_companies')
@@ -167,7 +167,7 @@ def edit(request, company_pk):
 
     context = {'form': form,
                'company': company}
-    return render(request, 'bags/edit.html', context)
+    return render(request, 'bags/edit_company.html', context)
 
 
 @permission_required('bags.view_companies')
@@ -203,7 +203,7 @@ def delete(request, company_pk):
 
     context = {'company': company,
                'form': form}
-    return render(request, 'bags/del.html', context)
+    return render(request, 'bags/del_company.html', context)
 
 
 @permission_required('bags.view_companies')

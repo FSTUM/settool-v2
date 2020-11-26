@@ -1,6 +1,6 @@
 {% extends "tutors/base.html" %}
 {% load i18n %}
-{% load bootstrap3 %}
+{% load bootstrap4 %}
 
 {% block title %}{% trans "Tutor" %} - {% trans "Edit Tutor" %}{% endblock %}
 
@@ -28,7 +28,7 @@
         <table class="table">
             <tr>
                 <td>
-                    <button type="submit" class="btn btn-default">{% trans "Submit" %}</button>
+                    <button type="submit" class="btn btn-primary">{% trans "Submit" %}</button>
                 </td>
                 <td><a href="{% url "tutor_view" tutor.id %}" class="btn btn-default">{% trans "Cancel" %}</a></td>
             </tr>
