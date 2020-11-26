@@ -91,9 +91,9 @@
         <th>{% trans "Payment deadline" %}</th>
         <td>
             {{ participant.payment_deadline }}
-            <a href="{% url "fahrt_set_payment_deadline" participant.id 1 %}" class="btn btn-default">{% trans "1 week" %}</a>
-            <br /><a href="{% url "fahrt_set_payment_deadline" participant.id 2 %}" class="btn btn-default">{% trans "2 weeks" %}</a>
-            <br /><a href="{% url "fahrt_set_payment_deadline" participant.id 3 %}" class="btn btn-default">{% trans "3 weeks" %}</a>
+            <a href="{% url "fahrt_set_payment_deadline" participant.id 1 %}" class="btn btn-secundary">{% trans "1 week" %}</a>
+            <br /><a href="{% url "fahrt_set_payment_deadline" participant.id 2 %}" class="btn btn-secundary">{% trans "2 weeks" %}</a>
+            <br /><a href="{% url "fahrt_set_payment_deadline" participant.id 3 %}" class="btn btn-secundary">{% trans "3 weeks" %}</a>
         </td>
     </tr>
     <tr>
@@ -101,13 +101,13 @@
         <td>
             {{ participant.status }}
             {% if participant.status == "registered" %}
-                <br /><a href="{% url "fahrt_confirm" participant.id %}" class="btn btn-default">{% trans "confirm" %}</a>
-                <br /><a href="{% url "fahrt_waitinglist" participant.id %}" class="btn btn-default">{% trans "waitinglist" %}</a>
+                <br /><a href="{% url "fahrt_confirm" participant.id %}" class="btn btn-secundary">{% trans "confirm" %}</a>
+                <br /><a href="{% url "fahrt_waitinglist" participant.id %}" class="btn btn-secundary">{% trans "waitinglist" %}</a>
             {% elif participant.status == "confirmed" %}
-                <br /><a href="{% url "fahrt_cancel" participant.id %}" class="btn btn-default">{% trans "cancel" %}</a>
+                <br /><a href="{% url "fahrt_cancel" participant.id %}" class="btn btn-secundary">{% trans "cancel" %}</a>
             {% elif participant.status == "waitinglist" %}
-                <br /><a href="{% url "fahrt_confirm" participant.id %}" class="btn btn-default">{% trans "confirm" %}</a>
-                <br /><a href="{% url "fahrt_cancel" participant.id %}" class="btn btn-default">{% trans "cancel" %}</a>
+                <br /><a href="{% url "fahrt_confirm" participant.id %}" class="btn btn-secundary">{% trans "confirm" %}</a>
+                <br /><a href="{% url "fahrt_cancel" participant.id %}" class="btn btn-secundary">{% trans "cancel" %}</a>
             {% endif %}
         </td>
     </tr>
@@ -150,7 +150,7 @@
         <form method="post" action="">
             {% csrf_token %}
             {% bootstrap_form form %}
-            <button type="submit" name="mailform" class="btn btn-default">{% trans "Send email" %}</button>
+            <button type="submit" name="mailform" class="btn btn-secundary">{% trans "Send email" %}</button>
         </form>
     </div>
     <div class="col-sm-1">

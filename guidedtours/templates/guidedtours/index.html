@@ -2,14 +2,37 @@
 {% load i18n %}
 
 {% block title %}{% trans "Guided tour" %} - {% trans "List tours" %}{% endblock %}
-
+{% block head %}
+    <script>
+        $(document).ready(function () {
+            $('#bagTable').DataTable();
+        });
+    </script>
+{% endblock %}
 {% block tourscontent %}
-    <h1>{% trans "Guided tours of an institute" %}</h1>
-
-    <ul>
-    {% for tour in tours %}
-        <li><a href="{% url "tours_view" tour.id %}">{{ tour.name }} ({{ tour.date }})</a></li>
-    {% endfor %}
-    </ul>
-
+    <div class="card">
+        <div class="card-header">
+            {% trans "Dashboard" %}
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table id="bagTable" class="table table-bordered dataTable">
+                    <thead>
+                    <tr>
+                        <th>{% trans "Tour" %}</th>
+                        <th>{% trans "Date" %}</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for tour in tours %}
+                        <tr>
+                            <td><a href="{% url "tours_view" tour.id %}">{{ tour.name }}</a></td>
+                            <td><a href="{% url "tours_view" tour.id %}">{{ tour.date }}</a></td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
 {% endblock %}

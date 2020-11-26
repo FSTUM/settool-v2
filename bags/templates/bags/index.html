@@ -33,109 +33,121 @@
     <h1>
         {% trans "List companies" %}
     </h1>
-
-    <div class="row">
-        <div class="col-lg-2">
-            <a href="{% url "listmails" %}" class="btn btn-default">{% trans "Edit Email Templates" %}</a>
-        </div>
-        <div class="col-lg-2">
-            <a href="{% url "addcompany" %}" class="btn btn-default">{% trans "Add Company" %}</a>
-        </div>
-        <div class="col-lg-2">
-            <a href="{% url "insert_giveaways" %}" class="btn btn-default">{% trans "Insert Giveaways" %}</a>
-        </div>
-        {% if user.is_staff %}
-            <div class="col-lg-2">
-                <a href="{% url "import_companies" %}" class="btn btn-default">{% trans "Import Companies" %}</a>
+    <div class="stacked">
+        <div class="card-columns">
+            <div class="card">
+                <div class="card-header">
+                    {% trans "0. Special Actions" %}
+                </div>
+                <div class="card-body">
+                    <div class="btn-group-vertical btn-group-lg" role="toolbar" aria-label="Modify Bags Toolbar">
+                        <button type="button" class="btn btn-secondary">
+                            <a href="{% url "listmails" %}"
+                               class="btn btn-secundary">{% trans "Edit Email Templates" %}</a>
+                        </button>
+                        <button type="button" class="btn btn-secondary">
+                            <a href="{% url "addcompany" %}" class="btn btn-secundary">{% trans "Add Company" %}</a>
+                        </button>
+                        <button type="button" class="btn btn-secondary">
+                            <a href="{% url "insert_giveaways" %}"
+                               class="btn btn-secundary">{% trans "Insert Giveaways" %}</a>
+                        </button>
+                        {% if user.is_staff %}
+                            <button type="button" class="btn btn-secondary">
+                                <a href="{% url "import_companies" %}"
+                                   class="btn btn-secundary">{% trans "Import Companies" %}</a>
+                            </button>
+                        {% endif %}
+                    </div>
+                </div>
             </div>
-        {% endif %}
-    </div>
-
-    <form id="filterform" method="post" action="">
-        {% csrf_token %}
-
-        <div class="row">
-            <div class="col-xs-12 col-lg-5">
-                {% bootstrap_form filterform %}
-                <noscript> 
-                    <button type="submit" name="filterform" class="btn btn-default">{% trans "Filter" %}</button>
-                </noscript>
+            <div class="card">
+                <div class="card-header">
+                    {% trans "1. Filter" %}
+                </div>
+                <div class="card-body">
+                    <form id="filterform" method="post" action="">
+                        {% csrf_token %}
+                        {% bootstrap_form filterform %}
+                    </form>
+                </div>
             </div>
         </div>
-    </form>
-
-    <p></p>
-
-    <form id="companyselectform" method="post" action="">
-        {% csrf_token %}
-        {{ companyforms.management_form }}
-
-    <table id="bagTable" class="table tablesorter">
-    <thead>
-    <tr>
-        <th></th>
-        <th><span class="glyphicon glyphicon-info-sign"></span></th>
-        <th>{% trans "Company" %}</th>
-        <th>{% trans "Contact" %}</th>
-        <th>{% trans "E-Mail" %}</th>
-        <th>{% trans "sent" %}</th>
-        <th>{% trans "successfully sent" %}</th>
-        <th>{% trans "Promise" %}</th>
-        <th>{% trans "Giveaways" %}</th>
-        <th>{% trans "Arrival time" %}</th>
-        <th>{% trans "Arrived" %}</th>
-        <th>{% trans "Comment" %}</th>
-        <th>{% trans "Participated last year" %}</th>
-        <th>{% trans "Giveaways last year" %}</th>
-        <th>{% trans "Contact again" %}</th>
-        <th>{% trans "Edit" %}</th>
-        <th>{% trans "Delete" %}</th>
-    </tr>
-    </thead>
-    <tbody>
-        {% for company, select in companies %}
-            <tr>
-                <td>
-                    {{ select.id.as_hidden }}
-                    {{ select.selected }}
-                </td>
-                <td>
-                    <a href="{% url "viewcompany" company.id %}">
-                        <span class="glyphicon glyphicon-info-sign"></span>
-                    </a>
-                </td>
-                <td>
-                    <a href="#" id="company_{{ company.id }}_name"
-                      data-type="text"
-                      data-pk="{{company.id}}"
-                      data-title='{% trans "Company" %}'
-                      data-url='{% url "updatecompany" company.id "name" %}'
-                      data-params="{csrfmiddlewaretoken:'{{csrf_token}}'}">
-                        {{ company.name }}
-                    </a>
-                </td>
-                <td>
-                    {{ company.full_contact }}
-                </td>
-                <td>
-                    <a href="#" id="company_{{ company.id }}_email"
-                      data-type="text"
-                      data-pk="{{company.id}}"
-                      data-title='{% trans "E-Mail" %}'
-                      data-url='{% url "updatecompany" company.id "email" %}'
-                      data-params="{csrfmiddlewaretoken:'{{csrf_token}}'}">
-                        {{ company.email }}
-                    </a>
-                </td>
-                <td>
-                    <a href="#" id="company_{{ company.id }}_email_sent"
-                      data-type="select"
-                      data-pk="{{company.id}}"
-                      data-title='{% trans "sent" %}'
-                      data-url='{% url "updatecompany" company.id "email_sent" %}'
-                      data-params="{csrfmiddlewaretoken:'{{csrf_token}}'}">
-                        {% if company.email_sent %}
-                            <span style="color:green" class="glyphicon glyphicon-ok">
+        <div class="card">
+            <div class="card-header">
+                {% trans "2. Select recipients and send mail" %}
+            </div>
+            <div class="card-body">
+                <form id="companyselectform" method="post" action="">
+                    {% csrf_token %}
+                    {{ companyforms.management_form }}
+                    <div class="table-responsive">
+                        <table id="bagTable" class="table table-bordered dataTable">
+                            <thead>
+                            <tr>
+                                <th><span class="glyphicon glyphicon-ok-circle"></span></th>
+                                <th><span class="glyphicon glyphicon-info-sign"></span></th>
+                                <th>{% trans "Company" %}</th>
+                                <th>{% trans "Contact" %}</th>
+                                <th>{% trans "E-Mail" %}</th>
+                                <th>{% trans "sent" %}</th>
+                                <th>{% trans "successfully sent" %}</th>
+                                <th>{% trans "Promise" %}</th>
+                                <th>{% trans "Giveaways" %}</th>
+                                <th>{% trans "Arrival time" %}</th>
+                                <th>{% trans "Arrived" %}</th>
+                                <th>{% trans "Comment" %}</th>
+                                <th>{% trans "Participated last year" %}</th>
+                                <th>{% trans "Giveaways last year" %}</th>
+                                <th>{% trans "Contact again" %}</th>
+                                <th>{% trans "Edit" %}</th>
+                                <th>{% trans "Delete" %}</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for company, select in companies %}
+                                <tr>
+                                    <td>
+                                        {{ select.id.as_hidden }}
+                                        {{ select.selected }}
+                                    </td>
+                                    <td>
+                                        <a href="{% url "viewcompany" company.id %}">
+                                            <span class="glyphicon glyphicon-info-sign"></span>
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <a href="#" id="company_{{ company.id }}_name"
+                                           data-type="text"
+                                           data-pk="{{ company.id }}"
+                                           data-title='{% trans "Company" %}'
+                                           data-url='{% url "updatecompany" company.id "name" %}'
+                                           data-params="{csrfmiddlewaretoken:'{{ csrf_token }}'}">
+                                            {{ company.name }}
+                                        </a>
+                                    </td>
+                                    <td>
+                                        {{ company.full_contact }}
+                                    </td>
+                                    <td>
+                                        <a href="#" id="company_{{ company.id }}_email"
+                                           data-type="text"
+                                           data-pk="{{ company.id }}"
+                                           data-title='{% trans "E-Mail" %}'
+                                           data-url='{% url "updatecompany" company.id "email" %}'
+                                           data-params="{csrfmiddlewaretoken:'{{ csrf_token }}'}">
+                                            {{ company.email }}
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <a href="#" id="company_{{ company.id }}_email_sent"
+                                           data-type="select"
+                                           data-pk="{{ company.id }}"
+                                           data-title='{% trans "sent" %}'
+                                           data-url='{% url "updatecompany" company.id "email_sent" %}'
+                                           data-params="{csrfmiddlewaretoken:'{{ csrf_token }}'}">
+                                            {% if company.email_sent %}
+                                                <span style="color:green" class="glyphicon glyphicon-ok">
                             </span>
                                             {% else %}
                                                 <span style="color:red" class="glyphicon glyphicon-remove">
@@ -294,36 +306,43 @@
                                                 <span style="color:red"
                                                       class="glyphicon glyphicon-question-sign">
                             </span>
-                        {% endif %}
-                    </a>
-                    {% if company.contact_again %}
-                        <span style="visibility:hidden">{% trans "yes" %}</span>
-                    {% elif company.contact_again == False %}
-                        <span style="visibility:hidden">{% trans "no" %}</span>
-                    {% else %}
-                        <span style="visibility:hidden">{% trans "unknown" %}</span>
-                    {% endif %}
-                </td>
-                <td>
-                    <a href="{% url "editcompany" company.id %}">
-                        <span class="glyphicon glyphicon-edit"></span>
-                    </a>
-                </td>
-                <td>
-                    <a href="{% url "delcompany" company.id %}">
-                        <span class="glyphicon glyphicon-trash"></span>
-                    </a>
-                </td>
-            </tr>
-        {% endfor %}
-    </tbody>
-    </table>
-    <div class="row">
-        <div class="col-xs-12 col-lg-5">
-            {% bootstrap_form mailform %}
-            <p><button type="submit" name="mailform" class="btn btn-default">{% trans "Send emails" %}</button></p>
+                                            {% endif %}
+                                        </a>
+                                        {% if company.contact_again %}
+                                            <span style="visibility:hidden">{% trans "yes" %}</span>
+                                        {% elif company.contact_again == False %}
+                                            <span style="visibility:hidden">{% trans "no" %}</span>
+                                        {% else %}
+                                            <span style="visibility:hidden">{% trans "unknown" %}</span>
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        <a href="{% url "editcompany" company.id %}">
+                                            <span class="glyphicon glyphicon-edit"></span>
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <a href="{% url "delcompany" company.id %}">
+                                            <span class="glyphicon glyphicon-trash"></span>
+                                        </a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12 col-lg-5">
+                            {% bootstrap_form mailform %}
+                            <p>
+                                <button type="submit" name="mailform"
+                                        class="btn btn-primary">{% trans "Send emails" %}</button>
+                            </p>
+                        </div>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
-    </form>
 {% endblock %}
 

@@ -165,7 +165,7 @@
                                     {% endwith %}
                                 {% endwith %}
                                 <td>
-                                    <button class="btn btn-default unassign_button"
+                                    <button class="btn btn-secundary unassign_button"
                                             data-id="{{ tutor.id }}">{% trans "Unassign" %}</button>
                                 </td>
                             </tr>
@@ -218,7 +218,7 @@
                                     {% endwith %}
                                 {% endwith %}
                                 <td>
-                                    <button class="btn btn-default assign_button"
+                                    <button class="btn btn-secundary assign_button"
                                             data-id="{{ tutor.id }}">{% trans "Assign" %}</button>
                                 </td>
                             </tr>
@@ -236,8 +236,8 @@
                                 <option value="{{ tutor.id }}">{{ tutor }}</option>
                             {% endfor %}
                         </select>
-                        <button type="submit" class="btn btn-default">Save Changes</button>
-                        <button type="reset" class="btn btn-default btn-danger">Reset Changes</button>
+                        <button type="submit" class="btn btn-secundary">Save Changes</button>
+                        <button type="reset" class="btn btn-secundary btn-danger">Reset Changes</button>
                     </form>
                 </div>
             {% endif %}

@@ -1,7 +1,6 @@
 from django import forms
 from django.contrib.auth.decorators import permission_required, \
     user_passes_test
-from django.db.models import Q
 from django.forms import formset_factory
 from django.http import HttpResponse, HttpResponseBadRequest
 from django.shortcuts import render, get_object_or_404, redirect
@@ -21,44 +20,21 @@ def index(request):
 
     filterform = FilterCompaniesForm(request.POST or None)
     if filterform.is_valid():
-        search = filterform.cleaned_data['search']
-        no_email_sent = filterform.cleaned_data['no_email_sent']
-        last_year = filterform.cleaned_data['last_year']
-        not_last_year = filterform.cleaned_data['not_last_year']
-        contact_again = filterform.cleaned_data['contact_again']
-        promise = filterform.cleaned_data['promise']
-        no_promise = filterform.cleaned_data['no_promise']
-        giveaways = filterform.cleaned_data['giveaways']
-        arrived = filterform.cleaned_data['arrived']
-
-        companies = semester.company_set.order_by("name")
-        if search:
-            companies = companies.filter(
-                Q(name__icontains=search) |
-                Q(contact_gender__icontains=search) |
-                Q(contact_firstname__icontains=search) |
-                Q(contact_lastname__icontains=search) |
-                Q(email__icontains=search) |
-                Q(giveaways__icontains=search) |
-                Q(giveaways_last_year__icontains=search) |
-                Q(arrival_time__icontains=search) |
-                Q(comment__icontains=search)
-            )
-        if no_email_sent:
+        if filterform.cleaned_data['no_email_sent']:
             companies = companies.filter(email_sent_success=False)
-        if last_year:
+        if filterform.cleaned_data['last_year']:
             companies = companies.filter(last_year=True)
-        if not_last_year:
+        if filterform.cleaned_data['not_last_year']:
             companies = companies.filter(last_year=False)
-        if contact_again:
+        if filterform.cleaned_data['contact_again']:
             companies = companies.filter(contact_again=True)
-        if promise:
+        if filterform.cleaned_data['promise']:
             companies = companies.filter(promise=True)
-        if no_promise:
+        if filterform.cleaned_data['no_promise']:
             companies = companies.exclude(promise=True)
-        if giveaways:
+        if filterform.cleaned_data['giveaways']:
             companies = companies.exclude(giveaways="")
-        if arrived:
+        if filterform.cleaned_data['arrived']:
             companies = companies.filter(arrived=True)
 
     if "mailform" in request.POST:

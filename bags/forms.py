@@ -70,60 +70,25 @@ class SelectMailForm(forms.Form):
         self.fields['mail'].queryset = semester.mail_set.all()
 
 
+def produce_boolean_field_with_autosubmit(label):
+    tmp = forms.BooleanField(
+        label_suffix=label,
+        required=False,
+    )
+
+    tmp.widget.attrs["onchange"] = "document.getElementById('filterform').submit()"
+    return tmp
+
+
 class FilterCompaniesForm(forms.Form):
-    search = forms.CharField(
-        label=_("Search pattern:"),
-        required=False,
-    )
-    search.widget.attrs["onchange"] = "document.getElementById('filterform').submit()"
-
-    no_email_sent = forms.BooleanField(
-        label=_("Email was not (successfully) sent"),
-        required=False,
-    )
-    no_email_sent.widget.attrs["onchange"] = "document.getElementById('filterform').submit()"
-
-    last_year = forms.BooleanField(
-        label=_("Participated last year"),
-        required=False,
-    )
-    last_year.widget.attrs["onchange"] = "document.getElementById('filterform').submit()"
-
-    not_last_year = forms.BooleanField(
-        label=_("Not participated last year"),
-        required=False,
-    )
-    not_last_year.widget.attrs["onchange"] = "document.getElementById('filterform').submit()"
-
-    contact_again = forms.BooleanField(
-        label=_("Contact again next year"),
-        required=False,
-    )
-    contact_again.widget.attrs["onchange"] = "document.getElementById('filterform').submit()"
-
-    promise = forms.BooleanField(
-        label=_("Promise given"),
-        required=False,
-    )
-    promise.widget.attrs["onchange"] = "document.getElementById('filterform').submit()"
-
-    no_promise = forms.BooleanField(
-        label=_("No promise"),
-        required=False,
-    )
-    no_promise.widget.attrs["onchange"] = "document.getElementById('filterform').submit()"
-
-    giveaways = forms.BooleanField(
-        label=_("Giveaways set"),
-        required=False,
-    )
-    giveaways.widget.attrs["onchange"] = "document.getElementById('filterform').submit()"
-
-    arrived = forms.BooleanField(
-        label=_("Giveaways already arrived"),
-        required=False,
-    )
-    arrived.widget.attrs["onchange"] = "document.getElementById('filterform').submit()"
+    no_email_sent = produce_boolean_field_with_autosubmit(_("Email was not (successfully) sent"))
+    last_year = produce_boolean_field_with_autosubmit(_("Participated last year"))
+    not_last_year = produce_boolean_field_with_autosubmit(_("Not participated last year"))
+    contact_again = produce_boolean_field_with_autosubmit(_("Contact again next year"))
+    promise = produce_boolean_field_with_autosubmit(_("Promise given"))
+    no_promise = produce_boolean_field_with_autosubmit(_("No promise"))
+    giveaways = produce_boolean_field_with_autosubmit(_("Giveaways set"))
+    arrived = produce_boolean_field_with_autosubmit(_("Giveaways already arrived"))
 
 
 class SelectCompanyForm(forms.Form):

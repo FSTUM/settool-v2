@@ -177,7 +177,7 @@ class Participant(models.Model):
 
     @property
     def u18(self) -> bool:
-        return relativedelta(self.birthday, self.semester.fahrt.date).years < 18
+        return relativedelta(self.semester.fahrt.date, self.birthday).years < 18
 
     @property
     def deadline_exceeded(self) -> bool:

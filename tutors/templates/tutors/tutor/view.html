@@ -56,22 +56,22 @@
 
                                 {% if tutor.status == "inactive" %}
                                     <button formaction="{% url "tutor_change_status" tutor.id "active" %}"
-                                            class="btn btn-default" type="submit">{% trans "open" %}</button>
+                                            class="btn btn-secundary" type="submit">{% trans "open" %}</button>
                                 {% elif tutor.status == "active" %}
                                     <button formaction="{% url "tutor_change_status" tutor.id "accepted" %}"
-                                            class="btn btn-default" type="submit">{% trans "accept" %}</button>
+                                            class="btn btn-secundary" type="submit">{% trans "accept" %}</button>
                                     <button formaction="{% url "tutor_change_status" tutor.id "declined" %}"
-                                            class="btn btn-default" type="submit">{% trans "decline" %}</button>
+                                            class="btn btn-secundary" type="submit">{% trans "decline" %}</button>
                                 {% elif tutor.status == "accepted" %}
                                     <button formaction="{% url "tutor_change_status" tutor.id "active" %}"
-                                            class="btn btn-default" type="submit">{% trans "open" %}</button>
+                                            class="btn btn-secundary" type="submit">{% trans "open" %}</button>
                                     <button formaction="{% url "tutor_change_status" tutor.id "declined" %}"
-                                            class="btn btn-default" type="submit">{% trans "decline" %}</button>
+                                            class="btn btn-secundary" type="submit">{% trans "decline" %}</button>
                                 {% elif tutor.status == "declined" %}
                                     <button formaction="{% url "tutor_change_status" tutor.id "active" %}"
-                                            class="btn btn-default" type="submit">{% trans "open" %}</button>
+                                            class="btn btn-secundary" type="submit">{% trans "open" %}</button>
                                     <button formaction="{% url "tutor_change_status" tutor.id "accepted" %}"
-                                            class="btn btn-default" type="submit">{% trans "accept" %}</button>
+                                            class="btn btn-secundary" type="submit">{% trans "accept" %}</button>
                                 {% endif %}
                             </form>
                         </td>
