@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load bootstrap4 %}
+
+{% block title %}{% trans "May the SET be ever in yor favour" %}{% endblock %}
+
+{% block content %}
+    {% if user.is_authenticated %}
+        <h1>
+            {% blocktrans with username=user.first_name %}Hello {{ username }}!{% endblocktrans %}
+        </h1>
+    {% else %}
+        <h1>
+            {% trans "Please Log in, to view everything" %}
+        </h1>
+    {% endif %}
+
+{% endblock %}
