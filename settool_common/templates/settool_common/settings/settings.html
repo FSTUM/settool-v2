@@ -1,0 +1,19 @@
+{% extends "settool_common/base.html" %}
+{% load i18n %}
+{% load bootstrap4 %}
+
+{% block set_common_navigation %}
+    {% if perms.set %}
+        <a href="{% url 'mail_add' %}">{% trans "Add" %}</a>
+        <a href="{% url 'mail_list' %}">{% trans "All" %}</a>
+    {% endif %}
+{% endblock %}
+
+{% block set_common_content %}
+    {% if perms.set %}
+        {% block setings %}
+        {% endblock %}
+    {% else %}
+        Sorry, but you have no Settings
+    {% endif %}
+{% endblock %}

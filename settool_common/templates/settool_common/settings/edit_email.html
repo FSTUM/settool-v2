@@ -1,14 +1,13 @@
-{% extends "settool_common/base.html" %}
+{% extends "settool_common/settings/settings.html" %}
 {% load i18n %}
 {% load bootstrap4 %}
 
 {% block title %}{% trans "SET" %} - {% trans "Edit email" %}{% endblock %}
 
-{% block commoncontent %}
-    <h1>
-        {% trans "Edit email" %}: {{ mail.subject }}
-    </h1>
-
+{% block set_common_headercontent %}
+    {% trans "Edit email" %}: {{ mail.subject }}
+{% endblock %}
+{% block setings %}
     <form method="post" action="">
         {% csrf_token %}
 
@@ -22,7 +21,7 @@
                 <td>
                     <button type="submit" class="btn btn-primary">{% trans "Submit" %}</button>
                 </td>
-                <td><a href="{% url "mail_list" %}" class="btn btn-secundary">{% trans "Cancel" %}</a></td>
+                <td><a href="{% url "mail_list" %}" class="btn btn-secondary">{% trans "Cancel" %}</a></td>
             </tr>
         </table>
     </form>

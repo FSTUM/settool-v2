@@ -12,5 +12,5 @@ urlpatterns = [
         path('view/<int:pk>/', views.mail_view, name="mail_view"),
         path('send/<int:pk>/', views.mail_send, name="mail_send"),
     ])),
-    path('settings/', views.common_settings, name="common_settings"),
+    path('settings/', views.mail_list, name='common_settings'),  # views.common_settings is to little information
 ]

@@ -34,7 +34,7 @@ def mail_list(request):
     mails = Mail.objects.filter(semester=semester)
 
     context = {'mails': mails}
-    return render(request, 'settool_common/mail/list.html', context)
+    return render(request, 'settool_common/settings/list_email_templates.html', context)
 
 
 @permission_required('set.mail')
@@ -44,7 +44,7 @@ def mail_view(request, pk):
     context = {
         'mail': mail,
     }
-    return render(request, 'settool_common/mail/view.html', context)
+    return render(request, 'settool_common/settings/email_details.html', context)
 
 
 @permission_required('set.mail')
@@ -57,7 +57,7 @@ def mail_add(request):
         return redirect('mail_list')
 
     context = {'form': form}
-    return render(request, 'settool_common/mail/add.html', context)
+    return render(request, 'settool_common/settings/add_email.html', context)
 
 
 @permission_required('set.mail')
@@ -73,7 +73,7 @@ def mail_edit(request, pk):
         'form': form,
         'mail': mail,
     }
-    return render(request, 'settool_common/mail/edit.html', context)
+    return render(request, 'settool_common/settings/edit_email.html', context)
 
 
 @permission_required('set.mail')
@@ -89,7 +89,7 @@ def mail_delete(request, pk):
         'mail': mail,
         'form': form
     }
-    return render(request, 'settool_common/mail/delete.html', context)
+    return render(request, 'settool_common/settings/delete_email.html', context)
 
 
 @permission_required('set.mail')
@@ -125,11 +125,11 @@ def mail_send(request, pk):
     }
 
     if failed_participants:
-        return render(request, 'settool_common/mail/send_failure.html', context)
+        return render(request, 'settool_common/mail/send_email_failure.html', context)
     else:
-        return render(request, 'settool_common/mail/send.html', context)
+        return render(request, 'settool_common/mail/send_email_confirmation.html', context)
 
 
 @permission_required('set.perms.set')
 def common_settings(request):
-    return render(request, 'settool_common/settings.html', {})
+    return render(request, 'settool_common/settings/settings.html', {})
