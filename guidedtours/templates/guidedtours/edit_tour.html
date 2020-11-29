@@ -1,13 +1,13 @@
-{% extends "base.html" %}
+{% extends "guidedtours/base.html" %}
 {% load i18n %}
 {% load bootstrap4 %}
 
-{% block title %}{% trans "SET" %} - {% trans "Edit email" %}{% endblock %}
+{% block title %}{% trans "Guided tour" %} - {% trans "Edit tour" %}{% endblock %}
 
-{% block content %}
+{% block tourscontent %}
     <div class="card">
         <div class="card-header">
-            {% trans "Edit email" %}: {{ mail.subject }}
+            {% trans "Edit tour" %}: {{ tour }}
         </div>
         <div class="card-body">
 
@@ -25,7 +25,7 @@
                         <td>
                             <button type="submit" class="btn btn-primary">{% trans "Submit" %}</button>
                         </td>
-                        <td><a href="{% url "fahrt_listmails" %}" class="btn btn-secondary">{% trans "Cancel" %}</a>
+                        <td><a href="{% url "tours_view" tour.id %}" class="btn btn-secondary">{% trans "Cancel" %}</a>
                         </td>
                     </tr>
                 </table>

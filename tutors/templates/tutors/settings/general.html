@@ -5,26 +5,32 @@
 {% block title %}{% trans "Tutor" %} - {% trans "General Settings" %}{% endblock %}
 
 {% block tutorcontent %}
-    <h1>
-        {% trans "General Settings" %}:
-    </h1>
-    <hr>
-    <form method="post" action="">
-        {% csrf_token %}
+    <div class="card">
+        <div class="card-header">
 
-        <div class="row">
-            <div class="col-lg-12">
-                {% bootstrap_form form %}
-            </div>
+            {% trans "General Settings" %}:
         </div>
+        <div class="card-body">
+            <hr>
+            <form method="post" action="">
+                {% csrf_token %}
 
-        <table class="table">
-            <tr>
-                <td>
-                    <button type="submit" class="btn btn-primary">{% trans "Submit" %}</button>
-                </td>
-                <td><a href="{% url "tutors_settings_general" %}" class="btn btn-secundary">{% trans "Cancel" %}</a></td>
-            </tr>
-        </table>
-    </form>
+                <div class="row">
+                    <div class="col-lg-12">
+                        {% bootstrap_form form %}
+                    </div>
+                </div>
+
+                <table class="table">
+                    <tr>
+                        <td>
+                            <button type="submit" class="btn btn-primary">{% trans "Submit" %}</button>
+                        </td>
+                        <td><a href="{% url "tutors_settings_general" %}"
+                               class="btn btn-secondary">{% trans "Cancel" %}</a></td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+    </div>
 {% endblock %}

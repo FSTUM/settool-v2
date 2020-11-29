@@ -4,90 +4,94 @@
 {% block title %}{% trans "Tutor" %} - {% trans "Delete Event" %}{% endblock %}
 
 {% block tutorcontent %}
-    <h1>
-        {% trans "Delete Event" %}: {{ event }}
-    </h1>
+    <div class="card">
+        <div class="card-header">
 
-    <div class="row">
-        <div class="col-sm-12">
-            <table class="table table-hover">
-                <tr>
-                    <th>{% trans "Name" %}</th>
-                    <td>{{ event.name }}</td>
-                </tr>
-                <tr>
-                    <th>{% trans "Begin" %}</th>
-                    <td>{{ event.begin }}</td>
-                </tr>
-                <tr>
-                    <th>{% trans "End" %}</th>
-                    <td>{{ event.end }}</td>
-                </tr>
-                <tr>
-                    <th>{% trans "Description" %}</th>
-                    <td>{{ event.description }}</td>
-                </tr>
-                <tr>
-                    <th>{% trans "Meeting Point" %}</th>
-                    <td>{{ event.meeting_point }}</td>
-                </tr>
-                <tr>
-                    <th>{% trans "Subjects" %}</th>
-                    <td>
-                        {% if event.subjects.all|length == 0 %}
-                            {% trans "No subjects." %}
-                        {% else %}
-                            <table>
-                                <tr>
-                                    <th>{% trans "Subject" %}</th>
-                                </tr>
-                                {% for subject in event.subjects.all %}
-                                    <tr>
-                                        <td>{{ subject }}</td>
-                                    </tr>
-                                {% endfor %}
-                            </table>
-                        {% endif %}
-                    </td>
-                </tr>
-            </table>
-            {% if perms.tutor.edit_tutors %}
-                <h2>{% trans "This event has the following tasks which will be deleted" %}:</h2>
-                <table class="table">
-                    <thead>
-                    <tr>
-                        <th>{% trans "Name" %}</th>
-                        <th>{% trans "Begin" %}</th>
-                        <th>{% trans "End" %}</th>
-                        <th>{% trans "Meeting Point" %}</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {% for task in event.task_set.all %}
+            {% trans "Delete Event" %}: {{ event }}
+        </div>
+        <div class="card-body">
+
+            <div class="row">
+                <div class="col-sm-12">
+                    <table class="table table-hover">
                         <tr>
-                            <td><a href="{% url "task_view" task.id %}">{{ task.name }}</a></td>
-                            <td>{{ task.begin }}</td>
-                            <td>{{ task.end }}</td>
-                            <td>{{ task.meeting_point }}</td>
+                            <th>{% trans "Name" %}</th>
+                            <td>{{ event.name }}</td>
                         </tr>
-                    {% endfor %}
-                    </tbody>
+                        <tr>
+                            <th>{% trans "Begin" %}</th>
+                            <td>{{ event.begin }}</td>
+                        </tr>
+                        <tr>
+                            <th>{% trans "End" %}</th>
+                            <td>{{ event.end }}</td>
+                        </tr>
+                        <tr>
+                            <th>{% trans "Description" %}</th>
+                            <td>{{ event.description }}</td>
+                        </tr>
+                        <tr>
+                            <th>{% trans "Meeting Point" %}</th>
+                            <td>{{ event.meeting_point }}</td>
+                        </tr>
+                        <tr>
+                            <th>{% trans "Subjects" %}</th>
+                            <td>
+                                {% if event.subjects.all|length == 0 %}
+                                    {% trans "No subjects." %}
+                                {% else %}
+                                    <table>
+                                        <tr>
+                                            <th>{% trans "Subject" %}</th>
+                                        </tr>
+                                        {% for subject in event.subjects.all %}
+                                            <tr>
+                                                <td>{{ subject }}</td>
+                                            </tr>
+                                        {% endfor %}
+                                    </table>
+                                {% endif %}
+                            </td>
+                        </tr>
+                    </table>
+                    {% if perms.tutor.edit_tutors %}
+                        <h2>{% trans "This event has the following tasks which will be deleted" %}:</h2>
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th>{% trans "Name" %}</th>
+                                <th>{% trans "Begin" %}</th>
+                                <th>{% trans "End" %}</th>
+                                <th>{% trans "Meeting Point" %}</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for task in event.task_set.all %}
+                                <tr>
+                                    <td><a href="{% url "task_view" task.id %}">{{ task.name }}</a></td>
+                                    <td>{{ task.begin }}</td>
+                                    <td>{{ task.end }}</td>
+                                    <td>{{ task.meeting_point }}</td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    {% endif %}
+                </div>
+            </div>
+
+            <form method="post" action="">
+                {% csrf_token %}
+
+                <table class="table">
+                    <tr>
+                        <td>
+                            <button type="submit" class="btn btn-danger">{% trans "Delete" %}</button>
+                        </td>
+                        <td><a href="{% url "event_list" %}" class="btn btn-secondary">{% trans "Cancel" %}</a></td>
+                    </tr>
                 </table>
-            {% endif %}
+            </form>
         </div>
     </div>
-
-    <form method="post" action="">
-        {% csrf_token %}
-
-        <table class="table">
-            <tr>
-                <td>
-                    <button type="submit" class="btn btn-secundary btn-danger">{% trans "Delete" %}</button>
-                </td>
-                <td><a href="{% url "event_list" %}" class="btn btn-secundary">{% trans "Cancel" %}</a></td>
-            </tr>
-        </table>
-    </form>
-
 {% endblock %}

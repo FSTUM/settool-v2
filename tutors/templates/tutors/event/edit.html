@@ -5,31 +5,37 @@
 {% block title %}{% trans "Tutor" %} - {% trans "Edit Event" %}{% endblock %}
 
 {% block tutorcontent %}
-    <h1>
-        {% trans "Edit Event" %}: {{ event }}
-    </h1>
-    <hr>
-    <form method="post" action="">
-        {% csrf_token %}
+    <div class="card">
+        <div class="card-header">
 
-        <div class="row">
-            <div class="col-lg-12">
-                {% bootstrap_form form %}
-            </div>
+            {% trans "Edit Event" %}: {{ event }}
         </div>
+        <div class="card-body">
+            <hr>
+            <form method="post" action="">
+                {% csrf_token %}
 
-        <table class="table">
-            <tr>
-                <td>
-                    <button type="submit" class="btn btn-primary">{% trans "Submit" %}</button>
-                </td>
-                <td><a href="{% url "event_view" event.id %}" class="btn btn-secundary">{% trans "Cancel" %}</a></td>
-            </tr>
-        </table>
-    </form>
-    <script type="text/javascript">
-        let subjects = $('select[multiple][name="subjects"]');
-        addLink(subjects, '{% trans "Master" %}', valueCallback('select', 'master'));
-        addLink(subjects, '{% trans "Bachelor" %}', valueCallback('select', 'bachelor'));
-    </script>
+                <div class="row">
+                    <div class="col-lg-12">
+                        {% bootstrap_form form %}
+                    </div>
+                </div>
+
+                <table class="table">
+                    <tr>
+                        <td>
+                            <button type="submit" class="btn btn-primary">{% trans "Submit" %}</button>
+                        </td>
+                        <td><a href="{% url "event_view" event.id %}" class="btn btn-secondary">{% trans "Cancel" %}</a>
+                        </td>
+                    </tr>
+                </table>
+            </form>
+            <script type="text/javascript">
+                let subjects = $('select[multiple][name="subjects"]');
+                addLink(subjects, '{% trans "Master" %}', valueCallback('select', 'master'));
+                addLink(subjects, '{% trans "Bachelor" %}', valueCallback('select', 'bachelor'));
+            </script>
+        </div>
+    </div>
 {% endblock %}

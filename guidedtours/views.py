@@ -69,7 +69,7 @@ def edit(request, tour_pk):
         'form': form,
         'tour': tour,
     }
-    return render(request, 'guidedtours/edit.html', context)
+    return render(request, 'guidedtours/edit_tour.html', context)
 
 
 @permission_required('guidedtours.view_participants')
@@ -86,7 +86,7 @@ def delete(request, tour_pk):
         'form': form,
         'tour': tour,
     }
-    return render(request, 'guidedtours/del.html', context)
+    return render(request, 'guidedtours/del_tour.html', context)
 
 
 @permission_required('guidedtours.view_participants')

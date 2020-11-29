@@ -5,21 +5,27 @@
 {% block title %}{% trans "Guided tour" %} - {% trans "Filter participants" %}{% endblock %}
 
 {% block tourscontent %}
-    <h1>
-        {% trans "Filter participants" %}
-    </h1>
+    <div class="card">
+        <div class="card-header">
+            {% trans "Filter participants" %}
+        </div>
+        <div class="card-body">
+            <form method="post" action="">
+                {% csrf_token %}
 
-    <form method="post" action="">
-        {% csrf_token %}
+                <div class="row">
+                    <div class="col-xs-12 col-lg-5">
+                        {% bootstrap_form filterform %}
+                        <p>
+                            <button type="submit" name="filterform"
+                                    class="btn btn-secondary">{% trans "filter" %}</button>
+                        </p>
+                    </div>
+                </div>
 
-    <div class="row">
-        <div class="col-xs-12 col-lg-5">
-            {% bootstrap_form filterform %}
-            <p><button type="submit" name="filterform" class="btn btn-secundary">{% trans "filter" %}</button></p>
+            </form>
         </div>
     </div>
-
-    </form>
 {% endblock %}
 
 

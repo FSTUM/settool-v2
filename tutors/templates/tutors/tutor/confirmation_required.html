@@ -4,9 +4,14 @@
 {% block title %}{% trans "Tutor" %} - {% trans "Sign up" %}{% endblock %}
 
 {% block content %}
-    <h1>
-        {% trans "Confirmation required" %}
-    </h1>
+    <div class="card">
+        <div class="card-header">
 
-    {% trans "You will get an email containing a confirmation link. A confirmation is required to complete the application." %}
+            {% trans "Confirmation required" %}
+        </div>
+        <div class="card-body">
+
+            {% trans "You will get an email containing a confirmation link. A confirmation is required to complete the application." %}
+        </div>
+    </div>
 {% endblock %}

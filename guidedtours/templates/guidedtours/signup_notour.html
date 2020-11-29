@@ -5,11 +5,15 @@
 {% block title %}{% trans "Guided tour" %} - {% trans "Sign up" %}{% endblock %}
 
 {% block content %}
-    <h1>
-        {% trans "Sign up for a guided tour" %}
-    </h1>
+    <div class="card">
+        <div class="card-header">
+            {% trans "Sign up for a guided tour" %}
+        </div>
+        <div class="card-body">
 
-    <p>
-        {% trans "There are no tours open for registration." %}
-    </p>
+            <p>
+                {% trans "There are no tours open for registration." %}
+            </p>
+        </div>
+    </div>
 {% endblock %}

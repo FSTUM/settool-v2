@@ -21,6 +21,7 @@
                 this.displayTrueFalse(value, _);
             }
         }
+
         $(document).ready(function () {
             $('#bagTable').DataTable();
         });
@@ -43,19 +44,19 @@
                     <div class="btn-group-vertical btn-group-lg" role="toolbar" aria-label="Modify Bags Toolbar">
                         <button type="button" class="btn btn-secondary">
                             <a href="{% url "listmails" %}"
-                               class="btn btn-secundary">{% trans "Edit Email Templates" %}</a>
+                               class="btn btn-secondary">{% trans "Edit Email Templates" %}</a>
                         </button>
                         <button type="button" class="btn btn-secondary">
-                            <a href="{% url "addcompany" %}" class="btn btn-secundary">{% trans "Add Company" %}</a>
+                            <a href="{% url "addcompany" %}" class="btn btn-secondary">{% trans "Add Company" %}</a>
                         </button>
                         <button type="button" class="btn btn-secondary">
                             <a href="{% url "insert_giveaways" %}"
-                               class="btn btn-secundary">{% trans "Insert Giveaways" %}</a>
+                               class="btn btn-secondary">{% trans "Insert Giveaways" %}</a>
                         </button>
                         {% if user.is_staff %}
                             <button type="button" class="btn btn-secondary">
                                 <a href="{% url "import_companies" %}"
-                                   class="btn btn-secundary">{% trans "Import Companies" %}</a>
+                                   class="btn btn-secondary">{% trans "Import Companies" %}</a>
                             </button>
                         {% endif %}
                     </div>

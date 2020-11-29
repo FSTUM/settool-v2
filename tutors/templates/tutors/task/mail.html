@@ -5,46 +5,50 @@
 {% block title %}{% trans "Tutor" %} - {% trans "Send email" %} - {{ task.event.name }} - {{ task }}{% endblock %}
 
 {% block tutorcontent %}
-    <h1>{% trans "Send email" %} - {{ task.event.name }} - {{ task }}</h1>
+    <div class="card">
+        <div class="card-header">
+            {% trans "Send email" %} - {{ task.event.name }} - {{ task }}</div>
+        <div class="card-body">
 
-    <div class="row">
-        <p>
-            {% trans "Do you really want to send the following email to the tutors below?" %}
-        </p>
-        <p>
-            <strong>{% trans "From" %}</strong>: {{ from }}
-        </p>
-        <p>
-            <strong>{% trans "To" %}</strong>: {% trans "see table below" %}
-        </p>
-        <p>
-            <strong>{% trans "Subject" %}</strong>: {{ subject }}
-        </p>
-        <p>
-            <strong>{% trans "Text" %}</strong>:<br/>{{ body|linebreaks|urlize }}
-        </p>
+            <div class="row">
+                <p>
+                    {% trans "Do you really want to send the following email to the tutors below?" %}
+                </p>
+                <p>
+                    <strong>{% trans "From" %}</strong>: {{ from }}
+                </p>
+                <p>
+                    <strong>{% trans "To" %}</strong>: {% trans "see table below" %}
+                </p>
+                <p>
+                    <strong>{% trans "Subject" %}</strong>: {{ subject }}
+                </p>
+                <p>
+                    <strong>{% trans "Text" %}</strong>:<br/>{{ body|linebreaks|urlize }}
+                </p>
 
-        <form method="post" action="">
-            {% csrf_token %}
+                <form method="post" action="">
+                    {% csrf_token %}
 
-            <table class="table">
-                <tr>
-                    <td>
-                        <button type="submit" class="btn btn-secundary">{% trans "Send" %}</button>
-                    </td>
-                    <td><a href="{% url "task_view" task.id %}"
-                           class="btn btn-secundary btn-danger">{% trans "Cancel" %}</a></td>
-                </tr>
-            </table>
+                    <table class="table">
+                        <tr>
+                            <td>
+                                <button type="submit" class="btn btn-secondary">{% trans "Send" %}</button>
+                            </td>
+                            <td><a href="{% url "task_view" task.id %}"
+                                   class="btn btn-danger">{% trans "Cancel" %}</a></td>
+                        </tr>
+                    </table>
 
-            {% bootstrap_form form %}
-        </form>
+                    {% bootstrap_form form %}
+                </form>
+            </div>
+
+            <script type="text/javascript">
+                $('select[name="mail_template"]').on('change', document, function (_) {
+                    location.href = "{% url "task_mail" task.id %}" + $(this).val();
+                });
+            </script>
+        </div>
     </div>
-
-    <script type="text/javascript">
-        $('select[name="mail_template"]').on('change', document, function (e) {
-            location.href = "{% url "task_mail" task.id %}" + $(this).val();
-        });
-    </script>
-
 {% endblock %}

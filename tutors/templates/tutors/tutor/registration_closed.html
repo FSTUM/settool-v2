@@ -5,14 +5,19 @@
 {% block title %}{% trans "Tutor" %} - {% trans "Sign up" %}{% endblock %}
 
 {% block content %}
-    <h1>
-        {% trans "Sign up for SET Tutor" %}
-    </h1>
-    <hr>
-    <p>
-        {% trans "The SET Tutor registration is currently not open." %}
-    </p>
-    <p>
-        {% trans "The registration is possible between" %} {{ start }} {% trans "and" %} {{ end }}.
-    </p>
+    <div class="card">
+        <div class="card-header">
+
+            {% trans "Sign up for SET Tutor" %}
+        </div>
+        <div class="card-body">
+            <hr>
+            <p>
+                {% trans "The SET Tutor registration is currently not open." %}
+            </p>
+            <p>
+                {% trans "The registration is possible between" %} {{ start }} {% trans "and" %} {{ end }}.
+            </p>
+        </div>
+    </div>
 {% endblock %}

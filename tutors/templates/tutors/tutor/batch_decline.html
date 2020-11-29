@@ -5,30 +5,35 @@
 {% block title %}{% trans "Tutor" %} - {% trans "Batch decline tutors" %}{% endblock %}
 
 {% block tutorcontent %}
-    <h1>{% trans "Batch decline tutors" %}</h1>
-    <hr>
-    <div class="row">
-        <div class="col-sm-12">
-            <p>
-                {% trans "Do you really want to decline the following tutors?" %}
-            </p>
+    <div class="card">
+        <div class="card-header">
+            {% trans "Batch decline tutors" %}
+        </div>
+        <div class="card-body">
+            <hr>
+            <div class="row">
+                <div class="col-sm-12">
+                    <p>
+                        {% trans "Do you really want to decline the following tutors?" %}
+                    </p>
 
-            <form method="post" action="">
-                {% csrf_token %}
+                    <form method="post" action="">
+                        {% csrf_token %}
 
-                <table class="table">
-                    <tr>
-                        <td>
-                            <button type="submit" class="btn btn-primary">{% trans "Submit" %}</button>
-                        </td>
-                        <td><a href="{% url "tutor_list_status" "active" %}"
-                               class="btn btn-secundary btn-danger">{% trans "Cancel" %}</a></td>
-                    </tr>
-                </table>
+                        <table class="table">
+                            <tr>
+                                <td>
+                                    <button type="submit" class="btn btn-primary">{% trans "Submit" %}</button>
+                                </td>
+                                <td><a href="{% url "tutor_list_status" "active" %}"
+                                       class="btn btn-danger">{% trans "Cancel" %}</a></td>
+                            </tr>
+                        </table>
 
-                {% bootstrap_form form %}
-            </form>
+                        {% bootstrap_form form %}
+                    </form>
+                </div>
+            </div>
         </div>
     </div>
-
 {% endblock %}

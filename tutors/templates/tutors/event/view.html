@@ -5,95 +5,100 @@
 {% block title %}{% trans "Tutor" %} - {% trans "Event Details" %}{% endblock %}
 
 {% block tutorcontent %}
-    <h1>{{ event }}</h1>
+    <div class="card">
+        <div class="card-header">
+            {{ event }}
+        </div>
+        <div class="card-body">
 
-    <div class="row">
-        <div class="col-sm-12">
-            <table class="table table-hover">
-                <tr>
-                    <th>{% trans "Name" %}</th>
-                    <td>{{ event.name }}</td>
-                </tr>
-                <tr>
-                    <th>{% trans "Begin" %}</th>
-                    <td>{{ event.begin }}</td>
-                </tr>
-                <tr>
-                    <th>{% trans "End" %}</th>
-                    <td>{{ event.end }}</td>
-                </tr>
-                <tr>
-                    <th>{% trans "Description" %}</th>
-                    <td>{{ event.description }}</td>
-                </tr>
-                <tr>
-                    <th>{% trans "Meeting Point" %}</th>
-                    <td>{{ event.meeting_point }}</td>
-                </tr>
-                <tr>
-                    <th>{% trans "Subjects" %}</th>
-                    <td>
-                        {% if event.subjects.all|length == 0 %}
-                            {% trans "No subjects." %}
-                        {% else %}
-                            <table>
-                                <tr>
-                                    <th>{% trans "Subject" %}</th>
-                                </tr>
-                                {% for subject in event.subjects.all %}
-                                    <tr>
-                                        <td>{{ subject }}</td>
-                                    </tr>
-                                {% endfor %}
-                            </table>
-                        {% endif %}
-                    </td>
-                </tr>
-                {% if perms.tutor.edit_tutors %}
-                    <tr>
-                        <th>{% trans "Edit" %}</th>
-                        <td>
-                            <a href="{% url "event_edit" event.id %}"><span
-                                    class="glyphicon glyphicon-edit"></span></a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>{% trans "Delete" %}</th>
-                        <td>
-                            <a href="{% url "event_delete" event.id %}"><span
-                                    class="glyphicon glyphicon-trash"></span></a>
-                        </td>
-                    </tr>
-                {% endif %}
-            </table>
-            {% if perms.tutor.edit_tutors %}
-                <h2>{% trans "This event has the following tasks" %}: <a
-                        href="{% url "task_add_event" event.id %}">{% trans "Add Task" %}</a></h2>
-
-                <table class="table css-serial">
-                    <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>{% trans "Name" %}</th>
-                        <th>{% trans "Begin" %}</th>
-                        <th>{% trans "End" %}</th>
-                        <th>{% trans "Meeting Point" %}</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {% for task in event.task_set.all %}
+            <div class="row">
+                <div class="col-sm-12">
+                    <table class="table table-hover">
                         <tr>
-                            <td></td>
-                            <td><a href="{% url "task_view" task.id %}">{{ task.name }}</a></td>
-                            <td>{{ task.begin }}</td>
-                            <td>{{ task.end }}</td>
-                            <td>{{ task.meeting_point }}</td>
+                            <th>{% trans "Name" %}</th>
+                            <td>{{ event.name }}</td>
                         </tr>
-                    {% endfor %}
-                    </tbody>
-                </table>
-            {% endif %}
+                        <tr>
+                            <th>{% trans "Begin" %}</th>
+                            <td>{{ event.begin }}</td>
+                        </tr>
+                        <tr>
+                            <th>{% trans "End" %}</th>
+                            <td>{{ event.end }}</td>
+                        </tr>
+                        <tr>
+                            <th>{% trans "Description" %}</th>
+                            <td>{{ event.description }}</td>
+                        </tr>
+                        <tr>
+                            <th>{% trans "Meeting Point" %}</th>
+                            <td>{{ event.meeting_point }}</td>
+                        </tr>
+                        <tr>
+                            <th>{% trans "Subjects" %}</th>
+                            <td>
+                                {% if event.subjects.all|length == 0 %}
+                                    {% trans "No subjects." %}
+                                {% else %}
+                                    <table>
+                                        <tr>
+                                            <th>{% trans "Subject" %}</th>
+                                        </tr>
+                                        {% for subject in event.subjects.all %}
+                                            <tr>
+                                                <td>{{ subject }}</td>
+                                            </tr>
+                                        {% endfor %}
+                                    </table>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% if perms.tutor.edit_tutors %}
+                            <tr>
+                                <th>{% trans "Edit" %}</th>
+                                <td>
+                                    <a href="{% url "event_edit" event.id %}"><span
+                                            class="glyphicon glyphicon-edit"></span></a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>{% trans "Delete" %}</th>
+                                <td>
+                                    <a href="{% url "event_delete" event.id %}"><span
+                                            class="glyphicon glyphicon-trash"></span></a>
+                                </td>
+                            </tr>
+                        {% endif %}
+                    </table>
+                    {% if perms.tutor.edit_tutors %}
+                        <h2>{% trans "This event has the following tasks" %}: <a
+                                href="{% url "task_add_event" event.id %}">{% trans "Add Task" %}</a></h2>
+
+                        <table class="table css-serial">
+                            <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>{% trans "Name" %}</th>
+                                <th>{% trans "Begin" %}</th>
+                                <th>{% trans "End" %}</th>
+                                <th>{% trans "Meeting Point" %}</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for task in event.task_set.all %}
+                                <tr>
+                                    <td></td>
+                                    <td><a href="{% url "task_view" task.id %}">{{ task.name }}</a></td>
+                                    <td>{{ task.begin }}</td>
+                                    <td>{{ task.end }}</td>
+                                    <td>{{ task.meeting_point }}</td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    {% endif %}
+                </div>
+            </div>
         </div>
     </div>
-
 {% endblock %}

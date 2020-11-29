@@ -5,50 +5,52 @@
 {% block title %}{% trans "SET-Fahrt" %} - {% trans "Send email" %}{% endblock %}
 
 {% block fahrtcontent %}
-    <h1>
-        {% trans "Send email" %}
-    </h1>
+    <div class="card">
+        <div class="card-header">
+            {% trans "Send email" %}
+        </div>
+        <div class="card-body">
 
-    <p>
-        {% trans "The emails were sent, but some emails failed, because a field was empty. Below you can find a list of all failed participants." %}
-    </p>
-    <p>
-        <strong>{% trans "From" %}</strong>: {{ from_email }}
-    </p>
-    <p>
-        <strong>{% trans "To" %}</strong>: {% trans "see table below" %}
-    </p>
-    <p>
-        <strong>{% trans "Subject" %}</strong>: {{ subject }}
-    </p>
-    <p>
-        <strong>{% trans "Text" %}</strong>:<br />{{ text|linebreaks|urlize }}
-    </p>
-    
-    <table class="table">
-    <thead>
-    <tr>
-        <th>{% trans "First name" %}</th>
-        <th>{% trans "Surname" %}</th>
-        <th>{% trans "Status" %}</th>
-        <th>{% trans "Comment" %}</th>
-    </tr>
-    </thead>
-    <tbody>
-        {% for participant in failed_participants %}
-            <tr>
-                <td>
-                    <a href="{% url "fahrt_viewparticipant" participant.id %}">{{ participant.firstname }}</a>
-                </td>
-                <td>
-                    <a href="{% url "fahrt_viewparticipant" participant.id %}">{{ participant.surname }}</a>
-                </td>
-                <td>{{ participant.status }}</td>
-                <td>{{ participant.comment }}</td>
-            </tr>
-        {% endfor %}
-    </tbody>
-    </table>
+            <p>
+                {% trans "The emails were sent, but some emails failed, because a field was empty. Below you can find a list of all failed participants." %}
+            </p>
+            <p>
+                <strong>{% trans "From" %}</strong>: {{ from_email }}
+            </p>
+            <p>
+                <strong>{% trans "To" %}</strong>: {% trans "see table below" %}
+            </p>
+            <p>
+                <strong>{% trans "Subject" %}</strong>: {{ subject }}
+            </p>
+            <p>
+                <strong>{% trans "Text" %}</strong>:<br/>{{ text|linebreaks|urlize }}
+            </p>
 
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>{% trans "First name" %}</th>
+                    <th>{% trans "Surname" %}</th>
+                    <th>{% trans "Status" %}</th>
+                    <th>{% trans "Comment" %}</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for participant in failed_participants %}
+                    <tr>
+                        <td>
+                            <a href="{% url "fahrt_viewparticipant" participant.id %}">{{ participant.firstname }}</a>
+                        </td>
+                        <td>
+                            <a href="{% url "fahrt_viewparticipant" participant.id %}">{{ participant.surname }}</a>
+                        </td>
+                        <td>{{ participant.status }}</td>
+                        <td>{{ participant.comment }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
 {% endblock %}
-

@@ -1,19 +1,19 @@
-{% extends "base.html" %}
+{% extends "guidedtours/base.html" %}
 {% load i18n %}
 
-{% block title %}{% trans "Freshmen bags" %} - {% trans "Delete company" %}{% endblock %}
+{% block title %}{% trans "Guided tour" %} - {% trans "Delete tour" %}{% endblock %}
 
-{% block content %}
+{% block tourscontent %}
     <div class="card">
         <div class="card-header">
-            {% trans "Delete company" %}: {{ company.name }}
+            {% trans "Delete tour" %}: {{ participant }}
         </div>
         <div class="card-body">
 
-            {% url "viewcompany" company.id as viewcompany %}
+            {% url "tours_view" tour.id as view %}
             <p>
-                {% blocktrans trimmed with name=company.name url=viewcompany %}
-                    Do you really want to delete the company <a href="{{ url }}">{{ name }}</a>?
+                {% blocktrans trimmed with name=tour url=view %}
+                    Do you really want to delete the tour <a href="{{ url }}">{{ name }}</a>?
                 {% endblocktrans %}
             </p>
             <form method="post" action="">
@@ -24,11 +24,10 @@
                         <td>
                             <button type="submit" class="btn btn-danger">{% trans "Delete" %}</button>
                         </td>
-                        <td><a href="{% url "listcompanies" %}" class="btn btn-secondary">{% trans "Cancel" %}</a></td>
+                        <td><a href="{{ view }}" class="btn btn-secondary">{% trans "Cancel" %}</a></td>
                     </tr>
                 </table>
             </form>
         </div>
     </div>
-
 {% endblock %}

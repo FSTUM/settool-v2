@@ -4,9 +4,14 @@
 {% block title %}{% trans "Tutor" %} - {% trans "Sign up failed" %}{% endblock %}
 
 {% block content %}
-    <h1>
-        {% trans "Confirmation failed" %}
-    </h1>
+    <div class="card">
+        <div class="card-header">
 
-    {% trans "The confirmation link was invalid." %}
+            {% trans "Confirmation failed" %}
+        </div>
+        <div class="card-body">
+
+            {% trans "The confirmation link was invalid." %}
+        </div>
+    </div>
 {% endblock %}

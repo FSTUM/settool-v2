@@ -5,24 +5,30 @@
 {% block title %}{% trans "Freshmen bags" %} - {% trans "Add company" %}{% endblock %}
 
 {% block content %}
-    <h1>
-        {% trans "Add a company" %}
-    </h1>
-
-    <form method="post" action="">
-        {% csrf_token %}
-
-        <div class="row">
-            <div class="col-xs-12 col-lg-5">
-                {% bootstrap_form form %}
-            </div>
+    <div class="card">
+        <div class="card-header">
+            {% trans "Add a company" %}
         </div>
+        <div class="card-body">
 
-        <table class="table">
-            <tr>
-                <td><button type="submit" class="btn btn-primary">{% trans "Submit" %}</button></td>
-                <td><a href="{% url "listcompanies" %}" class="btn btn-secundary">{% trans "Cancel" %}</a></td>
-            </tr>
-        </table>
-    </form>
+            <form method="post" action="">
+                {% csrf_token %}
+
+                <div class="row">
+                    <div class="col-xs-12 col-lg-5">
+                        {% bootstrap_form form %}
+                    </div>
+                </div>
+
+                <table class="table">
+                    <tr>
+                        <td>
+                            <button type="submit" class="btn btn-primary">{% trans "Submit" %}</button>
+                        </td>
+                        <td><a href="{% url "listcompanies" %}" class="btn btn-secondary">{% trans "Cancel" %}</a></td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+    </div>
 {% endblock %}

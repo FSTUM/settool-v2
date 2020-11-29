@@ -4,32 +4,37 @@
 {% block title %}{% trans "Tutor" %} - {% trans "Delete Requirement" %}{% endblock %}
 
 {% block commoncontent %}
-    <h1>
-        {% trans "Delete Requirement" %}: {{ requirement }}
-    </h1>
+    <div class="card">
+        <div class="card-header">
 
-    <div class="row">
-        <div class="col-sm-12">
-            <table class="table table-hover">
-                <tr>
-                    <th>{% trans "Question" %}</th>
-                    <td>{{ requirement.question }}</td>
-                </tr>
-            </table>
+            {% trans "Delete Requirement" %}: {{ requirement }}
+        </div>
+        <div class="card-body">
+
+            <div class="row">
+                <div class="col-sm-12">
+                    <table class="table table-hover">
+                        <tr>
+                            <th>{% trans "Question" %}</th>
+                            <td>{{ requirement.question }}</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
+            <form method="post" action="">
+                {% csrf_token %}
+
+                <table class="table">
+                    <tr>
+                        <td>
+                            <button type="submit" class="btn btn-danger">{% trans "Delete" %}</button>
+                        </td>
+                        <td><a href="{% url "requirement_list" %}" class="btn btn-secondary">{% trans "Cancel" %}</a>
+                        </td>
+                    </tr>
+                </table>
+            </form>
         </div>
     </div>
-
-    <form method="post" action="">
-        {% csrf_token %}
-
-        <table class="table">
-            <tr>
-                <td>
-                    <button type="submit" class="btn btn-secundary btn-danger">{% trans "Delete" %}</button>
-                </td>
-                <td><a href="{% url "requirement_list" %}" class="btn btn-secundary">{% trans "Cancel" %}</a></td>
-            </tr>
-        </table>
-    </form>
-
 {% endblock %}

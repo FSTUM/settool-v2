@@ -4,34 +4,39 @@
 {% block title %}{% trans "Freshmen bags" %} - {% trans "Delete email template" %}{% endblock %}
 
 {% block content %}
-    <h1>
-        {% trans "Delete email template" %}: {{ mail.subject }}
-    </h1>
-    
-    <p>
-        {% blocktrans trimmed %}
-        Do you really want to delete the following email template?
-        {% endblocktrans %}
-    </p>
-    <p>
-        <strong>{% trans "Subject" %}:</strong> {{ mail.subject }}
-    </p>
-    <p>
-        <strong>{% trans "Text" %}:</strong><br />{{ mail.text|linebreaks }}
-    </p>
-    <p>
-        <strong>{% trans "Comment" %}:</strong> {{ mail.comment }}
-    </p>
+    <div class="card">
+        <div class="card-header">
+            {% trans "Delete email template" %}: {{ mail.subject }}
+        </div>
+        <div class="card-body">
 
-    <form method="post" action="">
-        {% csrf_token %}
-    
-        <table class="table">
-            <tr>
-                <td><button type="submit" class="btn btn-secundary btn-danger">{% trans "Delete" %}</button></td>
-                <td><a href="{% url "listmails" %}" class="btn btn-secundary">{% trans "Cancel" %}</a></td>
-            </tr>
-        </table>
-    </form>
-    
+            <p>
+                {% blocktrans trimmed %}
+                    Do you really want to delete the following email template?
+                {% endblocktrans %}
+            </p>
+            <p>
+                <strong>{% trans "Subject" %}:</strong> {{ mail.subject }}
+            </p>
+            <p>
+                <strong>{% trans "Text" %}:</strong><br/>{{ mail.text|linebreaks }}
+            </p>
+            <p>
+                <strong>{% trans "Comment" %}:</strong> {{ mail.comment }}
+            </p>
+
+            <form method="post" action="">
+                {% csrf_token %}
+
+                <table class="table">
+                    <tr>
+                        <td>
+                            <button type="submit" class="btn btn-danger">{% trans "Delete" %}</button>
+                        </td>
+                        <td><a href="{% url "listmails" %}" class="btn btn-secondary">{% trans "Cancel" %}</a></td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+    </div>
 {% endblock %}

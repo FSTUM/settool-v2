@@ -5,27 +5,32 @@
 {% block title %}{% trans "Tutor" %} - {% trans "Edit Requirement" %}{% endblock %}
 
 {% block tutorcontent %}
-    <h1>
-        {% trans "Edit Requirement" %}: {{ event }}
-    </h1>
-    <hr>
-    <form method="post" action="">
-        {% csrf_token %}
+    <div class="card">
+        <div class="card-header">
 
-        <div class="row">
-            <div class="col-lg-12">
-                {% bootstrap_form form %}
-            </div>
+            {% trans "Edit Requirement" %}: {{ event }}
         </div>
+        <div class="card-body">
+            <hr>
+            <form method="post" action="">
+                {% csrf_token %}
 
-        <table class="table">
-            <tr>
-                <td>
-                    <button type="submit" class="btn btn-primary">{% trans "Submit" %}</button>
-                </td>
-                <td><a href="{% url "requirement_view" requirement.id %}"
-                       class="btn btn-secundary">{% trans "Cancel" %}</a></td>
-            </tr>
-        </table>
-    </form>
+                <div class="row">
+                    <div class="col-lg-12">
+                        {% bootstrap_form form %}
+                    </div>
+                </div>
+
+                <table class="table">
+                    <tr>
+                        <td>
+                            <button type="submit" class="btn btn-primary">{% trans "Submit" %}</button>
+                        </td>
+                        <td><a href="{% url "requirement_view" requirement.id %}"
+                               class="btn btn-secondary">{% trans "Cancel" %}</a></td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+    </div>
 {% endblock %}

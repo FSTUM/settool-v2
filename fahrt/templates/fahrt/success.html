@@ -4,9 +4,13 @@
 {% block title %}{% trans "SET-Fahrt" %} - {% trans "Sign up" %}{% endblock %}
 
 {% block content %}
-    <h1>
-        {% trans "You successfully signed up for the SET-Fahrt" %}
-    </h1>
+    <div class="card">
+        <div class="card-header">
+            {% trans "You successfully signed up for the SET-Fahrt" %}
+        </div>
+        <div class="card-body">
 
-    {% trans "You will get all further information by email. This may take some time, because we manually check your registration." %}
+            {% trans "You will get all further information by email. This may take some time, because we manually check your registration." %}
+        </div>
+    </div>
 {% endblock %}

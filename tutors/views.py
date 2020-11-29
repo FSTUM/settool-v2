@@ -1,7 +1,7 @@
+import csv
 import os
 import time
 
-import csv
 from django import http
 from django.contrib import messages
 from django.contrib.auth.decorators import permission_required

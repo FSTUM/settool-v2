@@ -5,18 +5,21 @@
 {% block title %}{% trans "Tutor" %} - {% trans "Add Requirement" %}{% endblock %}
 
 {% block tutorcontent %}
-    <h1>
-        {% trans "Add Requirement" %}
-    </h1>
-    <hr>
-    <form method="post" action="">
-        {% csrf_token %}
+    <div class="card">
+        <div class="card-header">
 
-        <div class="row">
-            <div class="col-lg-12">
-                {% bootstrap_form form %}
-            </div>
+            {% trans "Add Requirement" %}
         </div>
+        <div class="card-body">
+            <hr>
+            <form method="post" action="">
+                {% csrf_token %}
+
+                <div class="row">
+                    <div class="col-lg-12">
+                        {% bootstrap_form form %}
+                    </div>
+                </div>
 
         <button type="submit" class="btn btn-default">{% trans "Submit" %}</button>
     </form>

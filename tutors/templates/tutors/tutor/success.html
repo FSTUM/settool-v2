@@ -4,9 +4,14 @@
 {% block title %}{% trans "Tutor" %} - {% trans "Sign up" %}{% endblock %}
 
 {% block content %}
-    <h1>
-        {% trans "You successfully signed up as SET Tutor" %}
-    </h1>
-    <hr>
-    {% trans "You will get all further information by email. This may take some time, because we manually check your registration." %}
+    <div class="card">
+        <div class="card-header">
+
+            {% trans "You successfully signed up as SET Tutor" %}
+        </div>
+        <div class="card-body">
+            <hr>
+            {% trans "You will get all further information by email. This may take some time, because we manually check your registration." %}
+        </div>
+    </div>
 {% endblock %}
