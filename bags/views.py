@@ -55,7 +55,7 @@ def index(request):
         mail = mailform.cleaned_data['mail']
 
         selected_companies = []
-        for i, company in enumerate(companyforms):
+        for company in companyforms:
             try:
                 company_id = company.cleaned_data['id']
             except KeyError:

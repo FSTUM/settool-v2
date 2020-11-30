@@ -368,7 +368,7 @@ def filtered_list(request):
         mail = form.cleaned_data['mail']
 
         selected_participants = []
-        for i, participant in enumerate(participantforms):
+        for participant in participantforms:
             try:
                 participant_id = participant.cleaned_data['id']
             except KeyError:
