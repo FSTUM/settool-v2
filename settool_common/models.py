@@ -183,6 +183,5 @@ class Mail(models.Model):
 
         if subject_matches is not None or text_matches is not None:
             return False
-        else:
-            send_mail(subject, text, Mail.FROM_MAIL, [recipient], fail_silently=False)
-            return True
+        send_mail(subject, text, Mail.FROM_MAIL, [recipient], fail_silently=False)
+        return True

@@ -227,8 +227,7 @@ name and {{frist}} for the individual payment deadline."),
     def __str__(self):
         if self.comment:
             return "{} ({})".format(self.subject, self.comment)
-        else:
-            return str(self.subject)
+        return str(self.subject)
 
     def get_mail(self):
         django_engine = engines['django']
@@ -257,13 +256,10 @@ name and {{frist}} for the individual payment deadline."),
         text_template = django_engine.from_string(self.text)
         text = text_template.render(context)
 
-        if context['frist'] is None and ("{{frist}}" in self.text
-                                         or "{{frist}}" in self.subject):
+        if context['frist'] is None and ("{{frist}}" in self.text or "{{frist}}" in self.subject):
             return False
-        else:
-            send_mail(subject, text, Mail.FROM_MAIL, [participant.email],
-                      fail_silently=False)
-            return True
+        send_mail(subject, text, Mail.FROM_MAIL, [participant.email], fail_silently=False)
+        return True
 
 
 class LogEntry(models.Model):

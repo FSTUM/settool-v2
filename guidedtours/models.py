@@ -102,8 +102,7 @@ class Participant(models.Model):
     def status(self):
         if self.on_the_tour:
             return _("On the tour")
-        else:
-            return _("On waitinglist")
+        return _("On waitinglist")
 
 
 class Mail(models.Model):
@@ -135,8 +134,7 @@ tour."),
     def __str__(self):
         if self.comment:
             return "{} ({})".format(self.subject, self.comment)
-        else:
-            return self.subject
+        return self.subject
 
     def get_mail(self):
         django_engine = engines['django']

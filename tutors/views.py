@@ -118,8 +118,7 @@ def tutor_signup_confirm(request, uidb64, token):
         tutor.status = Tutor.STATUS_ACTIVE
         tutor.save()
         return redirect('tutor_signup_success')
-    else:
-        return redirect('tutor_signup_invalid')
+    return redirect('tutor_signup_invalid')
 
 
 @permission_required('tutors.edit_tutors')
@@ -515,10 +514,10 @@ def tutor_export(request, file_type, status=None):
 
     if file_type == "pdf":
         return download_pdf("tutors/tex/tutors.tex", filename + ".pdf", {"tutors": tutors})
-    elif file_type == "csv":
+    if file_type == "csv":
         return download_csv(["last_name", "first_name", "subject", "matriculation_number", "birthday"],
                             filename + ".csv", tutors)
-    elif file_type == "tshirt":
+    if file_type == "tshirt":
         return download_pdf("tutors/tex/tshirts.tex", filename + ".pdf", {"tutors": tutors})
 
     raise Http404

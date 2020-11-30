@@ -490,8 +490,7 @@ def send_mail(request, mail_pk):
 
     if failed_participants:
         return render(request, 'fahrt/send_mail_failure.html', context)
-    else:
-        return render(request, 'fahrt/send_mail.html', context)
+    return render(request, 'fahrt/send_mail.html', context)
 
 
 @permission_required('fahrt.view_participants')

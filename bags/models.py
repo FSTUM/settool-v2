@@ -108,20 +108,17 @@ class Company(models.Model):
     def anrede(self):
         if self.contact_gender and self.contact_lastname:
             return "Hallo {} {}".format(self.contact_gender, self.contact_lastname)
-        else:
-            return "Sehr geehrte Damen und Herren"
+        return "Sehr geehrte Damen und Herren"
 
     @property
     def formale_anrede(self):
         if self.contact_gender and self.contact_lastname:
             if self.contact_gender == "Herr":
                 return "Sehr geehrter Herr {}".format(self.contact_lastname)
-            elif self.contact_gender == "Frau":
+            if self.contact_gender == "Frau":
                 return "Sehr geehrte Frau {}".format(self.contact_lastname)
-            else:
-                return "Sehr geehrte Damen und Herren"
-        else:
             return "Sehr geehrte Damen und Herren"
+        return "Sehr geehrte Damen und Herren"
 
     @property
     def contact_name(self):
@@ -157,8 +154,7 @@ class Mail(models.Model):
     def __str__(self):
         if self.comment:
             return "{} ({})".format(self.subject, self.comment)
-        else:
-            return str(self.subject)
+        return str(self.subject)
 
     def get_mail(self):
         # text from templates
