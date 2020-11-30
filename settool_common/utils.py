@@ -23,7 +23,6 @@ def latex_to_pdf(tex_path, context):
     os.remove(texfilename)
     os.remove(texfilename + '.aux')
     os.remove(texfilename + '.log')
-    try:
-        shutil.rmtree(tmp_folder)
-    finally:
-        return result
+
+    shutil.rmtree(tmp_folder, ignore_errors=True)
+    return result

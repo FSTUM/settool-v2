@@ -29,7 +29,7 @@ def tutor_signup(request):
     semester = get_object_or_404(Semester, pk=get_semester(request))
     settings = get_object_or_404(Settings, semester=semester)
 
-    if not (settings.open_registration < timezone.now() < settings.close_registration):
+    if not settings.open_registration < timezone.now() < settings.close_registration:
         return render(request, 'tutors/tutor/registration_closed.html', {
             'start': settings.open_registration,
             'end': settings.close_registration
