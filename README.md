@@ -7,12 +7,13 @@ After cloning the project you can create a new virtualenv
 
     python3 -m venv set-tool
 
-Install all the requirements using:
+Install all the requirements needed for developement and testing using:
 
     cd set-tool
     . ./bin/activate
 
-    pip3 install requirements.txt
+    pip3 install -U -r requirements.txt
+    pip3 install -U -r requirements_dev.txt
 
 # Dependencies
 
@@ -27,22 +28,22 @@ See dependencies
 
 To update this file execute:
 
-    pip freeze > dependencies
+    pip3 freeze > dependencies
 
 # Run for development
 
 By default Django uses a SQLite database that can be generated using the
 following command inside the project directory:
 
-    python manage.py migrate
+    python3 manage.py migrate
 
 Then a superuser should be created:
 
-    python manage.py createsuperuser
+    python3 manage.py createsuperuser
 
 Now you can start the webserver for development:
 
-    python manage.py runserver
+    python3 manage.py runserver
 
 Now visit http://localhost:8000 with your browser.
 
@@ -50,14 +51,14 @@ Now visit http://localhost:8000 with your browser.
 
 Update the .po files with:
 
-    python manage.py makemessages -l de
+    python3 manage.py makemessages -l de
 
 Then edit the .po files, e.g. guidedtours/locale/de/LC_MESSAGES/django.po.
 poedit is an excellent GUI for this!
 
 Finally create the .mo files with the new translations:
 
-    python manage.py compilemessages
+    python3 manage.py compilemessages
 
 # LICENSE
 
