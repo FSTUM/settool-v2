@@ -14,7 +14,7 @@ class ParticipantForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         tours = kwargs.pop('tours')
-        super(ParticipantForm, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
         self.fields['tour'].queryset = tours
 
 
@@ -25,10 +25,10 @@ class TourForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         self.semester = kwargs.pop('semester')
-        super(TourForm, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
 
     def save(self, commit=True):
-        instance = super(TourForm, self).save(False)
+        instance = super().save(False)
         instance.semester = self.semester
         if commit:
             instance.save()
@@ -42,10 +42,10 @@ class MailForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         self.semester = kwargs.pop('semester')
-        super(MailForm, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
 
     def save(self, commit=True):
-        instance = super(MailForm, self).save(False)
+        instance = super().save(False)
         instance.semester = self.semester
         if commit:
             instance.save()
@@ -60,7 +60,7 @@ class SelectMailForm(forms.Form):
 
     def __init__(self, *args, **kwargs):
         semester = kwargs.pop('semester')
-        super(SelectMailForm, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
 
         self.fields['mail'].queryset = semester.tours_mail_set.all()
 
@@ -89,7 +89,7 @@ class FilterParticipantsForm(forms.Form):
 
     def __init__(self, *args, **kwargs):
         semester = kwargs.pop('semester')
-        super(FilterParticipantsForm, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
 
         self.fields['tour'].queryset = semester.tour_set
 

@@ -11,10 +11,10 @@ class FahrtForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         self.semester = kwargs.pop('semester')
-        super(FahrtForm, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
 
     def save(self, commit=True):
-        instance = super(FahrtForm, self).save(False)
+        instance = super().save(False)
         instance.semester = self.semester
         if commit:
             instance.save()
@@ -28,10 +28,10 @@ class ParticipantAdminForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         self.semester = kwargs.pop('semester')
-        super(ParticipantAdminForm, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
 
     def save(self, commit=True):
-        instance = super(ParticipantAdminForm, self).save(False)
+        instance = super().save(False)
 
         instance.semester = self.semester
 
@@ -51,7 +51,7 @@ class ParticipantForm(ParticipantAdminForm):
                    "status", "mailinglist", "comment", "registration_time"]
 
     def clean(self):
-        cleaned_data = super(ParticipantForm, self).clean()
+        cleaned_data = super().clean()
 
         if cleaned_data['car'] and not cleaned_data['car_places']:
             self.add_error("car_places",
@@ -65,10 +65,10 @@ class MailForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         self.semester = kwargs.pop('semester')
-        super(MailForm, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
 
     def save(self, commit=True):
-        instance = super(MailForm, self).save(False)
+        instance = super().save(False)
         instance.semester = self.semester
         if commit:
             instance.save()
@@ -83,7 +83,7 @@ class SelectMailForm(forms.Form):
 
     def __init__(self, *args, **kwargs):
         semester = kwargs.pop('semester')
-        super(SelectMailForm, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
 
         self.fields['mail'].queryset = semester.fahrt_mail_set.all()
 

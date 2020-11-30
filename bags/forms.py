@@ -12,10 +12,10 @@ class CompanyForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         self.semester = kwargs.pop('semester')
-        super(CompanyForm, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
 
     def save(self, commit=True):
-        instance = super(CompanyForm, self).save(False)
+        instance = super().save(False)
         instance.semester = self.semester
         if commit:
             instance.save()
@@ -34,7 +34,7 @@ class GiveawayForm(forms.Form):
 
     def __init__(self, *args, **kwargs):
         semester = kwargs.pop('semester')
-        super(GiveawayForm, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
 
         self.fields['company'].queryset = semester.company_set.filter(
             giveaways="").order_by('name')
@@ -47,10 +47,10 @@ class MailForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         self.semester = kwargs.pop('semester')
-        super(MailForm, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
 
     def save(self, commit=True):
-        instance = super(MailForm, self).save(False)
+        instance = super().save(False)
         instance.semester = self.semester
         if commit:
             instance.save()
@@ -65,7 +65,7 @@ class SelectMailForm(forms.Form):
 
     def __init__(self, *args, **kwargs):
         semester = kwargs.pop('semester')
-        super(SelectMailForm, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
 
         self.fields['mail'].queryset = semester.mail_set.all()
 
@@ -114,7 +114,7 @@ class ImportForm(forms.Form):
 
     def __init__(self, *args, **kwargs):
         semester = kwargs.pop('semester')
-        super(ImportForm, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
 
         self.fields['semester'].queryset = Semester.objects.exclude(pk=semester.pk)
 

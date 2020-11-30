@@ -14,12 +14,12 @@ class TutorAdminForm(SemesterBasedModelForm):
         exclude = ["semester", "registration_time", "answers"]
 
     def __init__(self, *args, **kwargs):
-        super(TutorAdminForm, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
         self.fields['birthday'].required = False
         self.fields['matriculation_number'].required = False
 
     def clean(self):
-        super(TutorAdminForm, self).clean()
+        super().clean()
         mail = self.cleaned_data.get('email')
         if mail:
             tutors = Tutor.objects.filter(email=mail, semester=self.semester)
@@ -47,7 +47,7 @@ class TutorForm(TutorAdminForm):
     field_order = ['first_name', 'last_name', 'email', 'ects', 'birthday', 'matriculation_number']
 
     def save(self, commit=True):
-        instance = super(TutorForm, self).save(False)
+        instance = super().save(False)
         instance.save()
 
         if 'answers' in self.changed_data:
@@ -66,7 +66,7 @@ class TutorForm(TutorAdminForm):
         return instance
 
     def clean(self):
-        super(TutorForm, self).clean()
+        super().clean()
         ects = self.cleaned_data.get('ects')
 
         if ects:
@@ -94,12 +94,12 @@ class EventAdminForm(SemesterBasedModelForm):
         }
 
     def __init__(self, *args, **kwargs):
-        super(EventAdminForm, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
         self.fields['description_de'].required = False
         self.fields['description_en'].required = False
 
     def save(self, commit=True):
-        instance = super(EventAdminForm, self).save(False)
+        instance = super().save(False)
         instance.save()
 
         if 'subjects' in self.changed_data:
@@ -119,7 +119,7 @@ class EventAdminForm(SemesterBasedModelForm):
         return instance
 
     def clean(self):
-        cleaned_data = super(EventAdminForm, self).clean()
+        cleaned_data = super().clean()
 
         begin = cleaned_data.get('begin')
         end = cleaned_data.get('end')
@@ -141,12 +141,12 @@ class TaskAdminForm(SemesterBasedModelForm):
         }
 
     def __init__(self, *args, **kwargs):
-        super(TaskAdminForm, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
         self.fields['description_de'].required = False
         self.fields['description_en'].required = False
 
     def save(self, commit=True):
-        instance = super(TaskAdminForm, self).save(False)
+        instance = super().save(False)
         instance.save()
 
         if 'allowed_subjects' in self.changed_data:
@@ -180,7 +180,7 @@ class TaskAdminForm(SemesterBasedModelForm):
         return instance
 
     def clean(self):
-        cleaned_data = super(TaskAdminForm, self).clean()
+        cleaned_data = super().clean()
 
         begin = cleaned_data.get('begin')
         end = cleaned_data.get('end')
@@ -198,7 +198,7 @@ class TaskAssignmentForm(SemesterBasedModelForm):
         fields = ["tutors"]
 
     def save(self, commit=True):
-        instance = super(TaskAssignmentForm, self).save(False)
+        instance = super().save(False)
         if 'tutors' in self.changed_data:
             final_tutors = self.cleaned_data['tutors'].all()
             initial_tutors = self.initial['tutors'] if 'tutors' in self.initial else []
@@ -230,7 +230,7 @@ class AnswerForm(forms.ModelForm):
         }
 
     def __init__(self, *args, **kwargs):
-        super(AnswerForm, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
         self.fields['answer'].label = Question.objects.get(pk=self.initial.get('question'))
         self.fields['answer'].choices = self.fields['answer'].choices[1:]
 
@@ -245,7 +245,7 @@ class SettingsAdminForm(SemesterBasedModelForm):
         }
 
     def clean(self):
-        cleaned_data = super(SettingsAdminForm, self).clean()
+        cleaned_data = super().clean()
 
         begin = cleaned_data.get('open_registration')
         end = cleaned_data.get('close_registration')
@@ -270,7 +270,7 @@ class TutorMailAdminForm(SemesterBasedForm):
     def __init__(self, *args, **kwargs):
         tutors = kwargs.pop('tutors')
         template = kwargs.pop('template')
-        super(TutorMailAdminForm, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
 
         self.fields["tutors"].queryset = tutors
         self.fields["tutors"].initial = Tutor.objects.exclude(
@@ -288,7 +288,7 @@ class SubjectTutorCountAssignmentAdminForm(SemesterBasedModelForm):
         }
 
     def __init__(self, *args, **kwargs):
-        super(SubjectTutorCountAssignmentAdminForm, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
         self.fields['wanted'].label = Subject.objects.get(pk=self.initial.get('subject')).__str__()
         self.fields['waitlist'].label = _("Waiting List").__str__()
 
@@ -303,7 +303,7 @@ class TutorAcceptAdminForm(SemesterBasedForm):
 
     def __init__(self, *args, **kwargs):
         tutors = kwargs.pop('tutors')
-        super(TutorAcceptAdminForm, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
 
         self.fields["tutors"].queryset = tutors
         self.fields["tutors"].initial = tutors
@@ -319,7 +319,7 @@ class TutorDeclineAdminForm(SemesterBasedForm):
 
     def __init__(self, *args, **kwargs):
         tutors = kwargs.pop('tutors')
-        super(TutorDeclineAdminForm, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
 
         self.fields["tutors"].queryset = tutors
         self.fields["tutors"].initial = tutors

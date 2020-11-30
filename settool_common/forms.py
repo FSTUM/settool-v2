@@ -7,15 +7,15 @@ from .models import Mail
 class SemesterBasedForm(forms.Form):
     def __init__(self, *args, **kwargs):
         self.semester = kwargs.pop('semester')
-        super(SemesterBasedForm, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
 
 
 class SemesterBasedModelForm(SemesterBasedForm, forms.ModelForm):
     def __init__(self, *args, **kwargs):
-        super(SemesterBasedModelForm, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
 
     def save(self, commit=True):
-        instance = super(SemesterBasedModelForm, self).save(False)
+        instance = super().save(False)
         instance.semester = self.semester
 
         if commit:
@@ -38,6 +38,6 @@ class SelectMailForm(forms.Form):
 
     def __init__(self, *args, **kwargs):
         semester = kwargs.pop('semester')
-        super(SelectMailForm, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
 
         self.fields['mail'].queryset = semester.fahrt_mail_set.all()
