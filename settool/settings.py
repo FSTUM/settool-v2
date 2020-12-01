@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/1.9/ref/settings/
 """
 
 import os
+from typing import List
 
 from django.utils.translation import ugettext_lazy as _
 
@@ -26,7 +27,7 @@ SECRET_KEY = 'CHANGE_ME_CHANGE_ME_CHANGE_ME_CHANGE_ME'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS: List[str] = []
 
 # Login URLs
 LOGIN_URL = '/login/'

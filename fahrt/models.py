@@ -181,12 +181,15 @@ class Participant(models.Model):
 
     @property
     def deadline_exceeded(self) -> bool:
+        if not self.payment_deadline:
+            return False
         return self.payment_deadline < datetime.date.today()
 
     @property
     def deadline_soon(self) -> bool:
-        return self.payment_deadline < datetime.date.today() + \
-               datetime.timedelta(days=7)
+        if not self.payment_deadline:
+            return False
+        return self.payment_deadline < datetime.date.today() + datetime.timedelta(days=7)
 
     def toggle_mailinglist(self):
         pass  # not implemented
