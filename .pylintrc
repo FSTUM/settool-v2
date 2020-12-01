@@ -15,7 +15,7 @@ ignore-patterns=
 
 # Use multiple processes to speed up Pylint. Specifying 0 will auto-detect the
 # number of processors available to use.
-jobs=1
+jobs=0
 
 # List of plugins (as comma separated values of python module names) to load,
 # usually to register additional checkers.
@@ -27,24 +27,17 @@ disable=print-statement,
         missing-module-docstring,
         missing-class-docstring,
         line-too-long,
-        invalid-name,
-        unused-argument,
         too-many-locals,
         too-many-statements,
         too-many-instance-arguments,
         too-few-public-methods,
-        too-many-arguments,
         too-many-instance-attributes,
-        too-many-branches,
-        too-many-lines,
         too-many-public-methods,
-        bad-indentation,
-        bad-continuation,
-        import-error,
         wildcard-import,
         no-self-use,
         duplicate-code,
         wrong-import-position,
         no-member,
         unused-import,
+        modelform-uses-exclude, # usage of exclude is sometimes valid.
         fixme, # no TODOs

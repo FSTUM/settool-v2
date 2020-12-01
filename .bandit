@@ -1,3 +1,3 @@
 [bandit]
-exclude: /.venv/,*_test.py,/tests/,/venv/,
+exclude: .venv, *_test.py, /venv/
 skips: B108
