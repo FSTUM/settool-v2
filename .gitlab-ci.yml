@@ -15,7 +15,7 @@ before_script:
     - pip3 install -U -r requirements.txt
     - pip3 install -U -r requirements_dev.txt
 
-all_tests:
+run_pytests:
   stage: test
   script:
     - python3 manage.py test
@@ -24,6 +24,7 @@ bandit:
   stage: linting
   script:
     - bandit -r .
+  allow_failure: true
 
 mypy:
   stage: linting
@@ -35,4 +36,4 @@ pylint:
   stage: linting
   script:
     - pylint ./**/*.py
-      allow_failure: true
+  allow_failure: true
