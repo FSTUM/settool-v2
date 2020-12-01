@@ -9,7 +9,7 @@ mypy:
 	mypy --ignore-missing-imports .
 
 bandit:
-	bandit -r .
+	bandit -r . -x .svn,CVS,.bzr,.hg,.git,__pycache__,.tox,.eggs,*.egg,*/lib/*,*venv/,bin,lib64,share,.mypy_cache
 
 test:
 	python3 manage.py test

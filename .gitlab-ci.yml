@@ -17,23 +17,27 @@ before_script:
 
 run_pytests:
   stage: test
+  needs: []
   script:
-    - python3 manage.py test
+    - make test
 
 bandit:
   stage: linting
-  script:
-    - bandit -r .
+  needs: []
   allow_failure: true
+  script:
+    - make bandit
 
 mypy:
   stage: linting
-  script:
-    - mypy --ignore-missing-imports .
+  needs: []
   allow_failure: true
+  script:
+    - make mypy
 
 pylint:
   stage: linting
-  script:
-    - pylint ./**/*.py
+  needs: []
   allow_failure: true
+  script:
+    - make pylint
