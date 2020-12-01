@@ -33,7 +33,7 @@ urlpatterns = [
     url(r'^i18n/', include('django.conf.urls.i18n')),
 
     # index
-    url(r'^$', TemplateView.as_view(template_name="../templates/main_index.html"), name="main-view"),
+    url(r'^$', TemplateView.as_view(template_name="settool_common/main_index.html"), name="main-view"),
 
     # settool_common: choose semester
     url(r'^semester/', include('settool_common.urls')),
