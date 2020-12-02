@@ -17,27 +17,26 @@ before_script:
 
 run_pytests:
   stage: test
-  needs: []
   script:
     - make test
 
 bandit:
   stage: linting
-  needs: []
+  needs: [test]
   allow_failure: true
   script:
     - make bandit
 
 mypy:
   stage: linting
-  needs: []
+  needs: [test]
   allow_failure: true
   script:
     - make mypy
 
 pylint:
   stage: linting
-  needs: []
+  needs: [test]
   allow_failure: true
   script:
     - make pylint
