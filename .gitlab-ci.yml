@@ -22,21 +22,21 @@ run_pytests:
 
 bandit:
   stage: linting
-  needs: [test]
+  needs: [run_pytests]
   allow_failure: true
   script:
     - make bandit
 
 mypy:
   stage: linting
-  needs: [test]
+  needs: [run_pytests]
   allow_failure: true
   script:
     - make mypy
 
 pylint:
   stage: linting
-  needs: [test]
+  needs: [run_pytests]
   allow_failure: true
   script:
     - make pylint
