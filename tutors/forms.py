@@ -263,7 +263,7 @@ class TutorMailAdminForm(SemesterBasedForm):
     tutors = forms.ModelMultipleChoiceField(
         label=_("Tutors (selected have not yet received this email)"),
         widget=forms.CheckboxSelectMultiple,
-        queryset=None,
+        queryset=Tutor.objects.none(),
         required=True
     )
 
@@ -298,7 +298,7 @@ class TutorAcceptAdminForm(SemesterBasedForm):
         label=_("Tutors (selected will be accepted)"),
         widget=forms.CheckboxSelectMultiple,
         required=True,
-        queryset=None
+        queryset=Tutor.objects.none()
     )
 
     def __init__(self, *args, **kwargs):
@@ -314,7 +314,7 @@ class TutorDeclineAdminForm(SemesterBasedForm):
         label=_("Tutors (selected will be declined)"),
         widget=forms.CheckboxSelectMultiple,
         required=True,
-        queryset=None
+        queryset=Tutor.objects.none()
     )
 
     def __init__(self, *args, **kwargs):
