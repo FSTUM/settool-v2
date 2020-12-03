@@ -41,105 +41,120 @@
 </head>
 
 <body>
-<nav class="navbar navbar-expand-lg navbar-light bg-light justify-content-between mb-3">
-    <div class="container">
-        <a class="navbar-brand" href={% url "main-view" %}>SET-TOOL</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
-                aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-            {# button to show menu on small devices#}
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNavDropdown">
-            {# links to the apps' index pages #}
-            <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-                {% if 'fahrt.view_participants' in perms %}
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url "fahrt_index" %}">{% trans "SET-Fahrt" %}</a></li>
-                {% endif %}
-                {% if 'bags.view_companies' in perms %}
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url "listcompanies" %}">{% trans "SET-Tüten" %}</a></li>
-                {% endif %}
-                {% if 'tutors.edit_tutors' in perms %}
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url "tutor_dashboard" %}">{% trans "SET-Tutor" %}</a></li>
-                {% endif %}
-                {% if 'guidedtours.view_participants' in perms %}
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url "tours_list" %}">{% trans "Institutsführungen" %}</a></li>
-                {% endif %}
-                {% if 'set.perms.set' in perms %}
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url "common_settings" %}">{% trans "Settings" %}</a></li>
-                {% endif %}
-            </ul>
-            <ul class="form-inline my-2 my-lg-0">
-                {# choose semester #}
-                {% if user.is_authenticated %}
-                    <form action="{% url 'set_semester' %}" method="post" class="navbar-form" role="form">
-                        <div class="form-group">
+<header>
+    <nav class="navbar navbar-expand-md navbar-dark bg-dark mb-3">
+        <div class="container">
+            <a class="navbar-brand" href={% url "main-view" %}>SET-TOOL</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
+                    aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+                {# button to show menu on small devices#}
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNavDropdown">
+                {# links to the apps' index pages #}
+                <ul class="navbar-nav">
+                    {% if 'fahrt.view_participants' in perms %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url "fahrt_index" %}">{% trans "SET-Fahrt" %}</a></li>
+                    {% endif %}
+                    {% if 'bags.view_companies' in perms %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url "listcompanies" %}">{% trans "SET-Tüten" %}</a></li>
+                    {% endif %}
+                    {% if 'tutors.edit_tutors' in perms %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url "tutor_dashboard" %}">{% trans "SET-Tutor" %}</a></li>
+                    {% endif %}
+                    {% if 'guidedtours.view_participants' in perms %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url "tours_list" %}">{% trans "Institutsführungen" %}</a></li>
+                    {% endif %}
+                    {% if 'set.perms.set' in perms %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url "common_settings" %}">{% trans "Settings" %}</a></li>
+                    {% endif %}
+                </ul>
+                <ul class="navbar-nav ml-auto">
+                    {# choose semester #}
+                    {% if user.is_authenticated %}
+
+                            <form action="{% url 'set_semester' %}" method="post" class="form-inline" role="form">
+                                <div class="form-group">
+                                    {% csrf_token %}
+                                    <input name="next" type="hidden" value=""/>
+
+                                    <select name="semester" onchange="this.form.submit()" class="form-control">
+                                        {% get_semester as SEMESTER_PK %}
+                                        {% get_available_semesters as semesters %}
+                                        {% for semester in semesters %}
+                                            <option value="{{ semester.pk }}"{% if semester.pk == SEMESTER_PK %}
+                                                    selected="selected"{% endif %}>
+                                                {{ semester }}
+                                            </option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <noscript>
+                                    <button type="submit" class="btn btn-secondary">{% trans "Switch" %}</button>
+                                </noscript>
+                            </form>
+
+                    {% endif %}
+                    {# end choose semester #}
+                    {# login #}
+                    {% if user.is_authenticated %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url "logout" %}">
+                                {% blocktrans trimmed with username=user.username|capfirst %}
+                                    Log out {{ username }}
+                                {% endblocktrans %}
+                            </a>
+                        </li>
+                    {% else %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url "login" %}">{% trans "Login" %}</a>
+                        </li>
+                    {% endif %}
+                    {# end login #}
+                    {# language chooser #}
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle"
+                           href="#"
+                           id="languageDropdown"
+                           role="button"
+                           data-toggle="dropdown"
+                           aria-haspopup="true"
+                           aria-expanded="false"
+                        >
+                            <i class="glyphicon glyphicon-globe align-middle"></i>
+                        </a>
+                        <form action="{% url 'set_language' %}" method="post"
+                              class="dropdown-menu dropdown-menu-right"
+                              aria-labelledby="languageDropdown"
+                        >
                             {% csrf_token %}
-                            <input name="next" type="hidden" value=""/>
-
-                            <select name="semester" onchange="this.form.submit()" class="form-control">
-                                {% get_semester as SEMESTER_PK %}
-                                {% get_available_semesters as semesters %}
-                                {% for semester in semesters %}
-                                    <option value="{{ semester.pk }}"{% if semester.pk == SEMESTER_PK %}
-                                            selected="selected"{% endif %}>
-                                        {{ semester }}
-                                    </option>
-                                {% endfor %}
-                            </select>
-                        </div>
-                        <noscript>
-                            <button type="submit" class="btn btn-secondary">{% trans "Switch" %}</button>
-                        </noscript>
-                    </form>
-                {% endif %}
-                {# end choose semester #}
-
-                {# language chooser #}
-                <form action="{% url 'set_language' %}" method="post" class="navbar-form navbar-right" role="form">
-                    <div class="form-group">
-                        {% csrf_token %}
-                        <input name="next" type="hidden" value=""/>
-
-                        <select name="language" onchange="this.form.submit()" class="form-control">
                             {% get_current_language as LANGUAGE_CODE %}
                             {% get_available_languages as LANGUAGES %}
                             {% get_language_info_list for LANGUAGES as languages %}
 
                             {% for language in languages %}
-                                <option value="{{ language.code }}"{% if language.code == LANGUAGE_CODE %}
-                                        selected="selected"{% endif %}>
+                                <button name="language"
+                                        class="dropdown-item {% if language.code == LANGUAGE_CODE %} active{% endif %}"
+                                        type="submit"
+                                        value="{{ language.code }}">
                                     {{ language.name_local }}
-                                </option>
+                                </button>
                             {% endfor %}
-                        </select>
-                    </div>
-                    <noscript>
-                        <button type="submit" class="btn btn-secondary">{% trans "Switch" %}</button>
-                    </noscript>
-                </form>
-                {# end language chooser #}
-                {# login #}
-                {% if user.is_authenticated %}
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url "logout" %}">{% trans "Logout" %}</a>
+                        </form>
                     </li>
-                {% else %}
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url "login" %}">{% trans "Login" %}</a>
-                    </li>
-                {% endif %}
-                {# end login #}
-            </ul>
+                    {# end language chooser #}
+                </ul>
+            </div>
         </div>
-    </div>
-</nav>
+    </nav>
+</header>
 
-<div class="container-fluid">
+<main role="main" class="container-fluid ">
     {# messages #}
     {% if messages %}
         {% bootstrap_messages messages %}
@@ -147,17 +162,22 @@
 
     {# content #}
     {% block content %}{% endblock %}
-</div>
+</main>
 
-<footer class="footer">
-    <div class="container">
-        <p class="text-muted">
-            <a href="http://fs.tum.de/datenschutz/">{% trans "Datenschutz" %}</a> |
-            <a href="http://fs.tum.de/impressum/">{% trans "Impressum" %}</a>
-        </p>
+<footer class="footer navbar navbar-expand navbar-dark bg-dark">
+    <div class="container-md">
+        <ul class="navbar-nav text-nowrap overflow-auto mx-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="http://fs.tum.de/datenschutz/">
+                    {% trans "Datenschutz" %}
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="http://fs.tum.de/impressum/">{% trans "Impressum" %}</a>
+            </li>
+        </ul>
     </div>
 </footer>
-
 <script type="text/javascript">
     jQuery.each($("select[multiple]:visible"), function () {
         addLink(this, '{% trans "Deselect All" %}', defaultCallback('deselect_all'));

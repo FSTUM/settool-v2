@@ -6,13 +6,12 @@
 
 {% block content %}
     {% if user.is_authenticated %}
-        <h1>
+        <div class="alert alert-dark" role="alert">
             {% blocktrans with username=user.first_name %}Hello {{ username }}!{% endblocktrans %}
-        </h1>
+        </div>
     {% else %}
-        <h1>
+        <div class="alert alert-warning" role="alert">
             {% trans "Please Log in, to view everything" %}
-        </h1>
+        </div>
     {% endif %}
-
 {% endblock %}
