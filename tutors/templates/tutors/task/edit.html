@@ -1,10 +1,10 @@
-{% extends "tutors/base.html" %}
+{% extends "tutors/base_tutors.html" %}
 {% load i18n %}
 {% load bootstrap4 %}
 
-{% block title %}{% trans "Tutor" %} - {% trans "Edit Task" %}{% endblock %}
+{% block set_common_headercontent %}{% trans "Edit Task" %}{% endblock %}
 
-{% block tutorcontent %}
+{% block set_common_content %}
     <div class="card">
         <div class="card-header">
 

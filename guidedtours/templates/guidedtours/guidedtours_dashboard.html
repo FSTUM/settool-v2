@@ -1,0 +1,33 @@
+{% extends "guidedtours/base_guildedtours.html" %}
+{% load i18n %}
+
+{% block head %}
+    <script>
+        $(document).ready(function () {
+            $('#bagTable').DataTable();
+        });
+    </script>
+{% endblock %}
+
+{% block set_common_headercontent %}{% trans "Dashboard" %}{% endblock %}
+
+{% block set_common_content %}
+    <div class="table-responsive">
+        <table id="bagTable" class="table table-bordered dataTable">
+            <thead>
+            <tr>
+                <th>{% trans "Tour" %}</th>
+                <th>{% trans "Date" %}</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for tour in tours %}
+                <tr>
+                    <td><a href="{% url "tours_view" tour.id %}">{{ tour.name }}</a></td>
+                    <td><a href="{% url "tours_view" tour.id %}">{{ tour.date }}</a></td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

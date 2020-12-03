@@ -1,4 +1,4 @@
-{% extends "tutors/base.html" %}
+{% extends "tutors/base_tutors.html" %}
 {% load i18n %}
 {% load bootstrap4 %}
 {% load task_extras %}
@@ -17,154 +17,145 @@
     </script>
 {% endblock %}
 
-{% block title %}{% trans "Tutor" %} - {% trans "List Tutors" %}{% endblock %}
+{% block set_common_headercontent %}{% trans "List Tutors" %}{% endblock %}
 
-{% block tutorcontent %}
-    <div class="card">
-        <div class="card-header">
-
-            {% trans "List Tutors" %}
-        </div>
-        <div class="card-body">
-            <hr>
-            <div class="row">
-                <div class="col-sm-12">
-                    <ul class="list-inline">
-                        <li><a href="{% if status is None %}{% url "tutor_export" "pdf" %}{% else %}
+{% block set_common_content %}
+    <div class="row">
+        <div class="col-sm-12">
+            <ul class="list-inline">
+                <li><a href="{% if status is None %}{% url "tutor_export" "pdf" %}{% else %}
 {% url "tutor_export_status" "pdf" status %}{% endif %}"><span class="glyphicon glyphicon-file"></span>
-                            {% trans "Export PDF" %}</a></li>
-                        <li><a href="{% if status is None %}{% url "tutor_export" "csv" %}{% else %}
+                    {% trans "Export PDF" %}</a></li>
+                <li><a href="{% if status is None %}{% url "tutor_export" "csv" %}{% else %}
 {% url "tutor_export_status" "csv" status %}{% endif %}"><span class="glyphicon glyphicon-file"></span>
-                            {% trans "Export CSV" %}</a></li>
-                        {% if status == "accepted" or status == "employee" %}
-                            <li><a href="{% url "tutor_export_status" "tshirt" status %}"><span
-                                    class="glyphicon glyphicon-file"></span>
-                                {% trans "T-Shirt List" %}</a></li>
-                        {% endif %}
-                        {% if status is not None %}
-                            <li><a href="{% url "tutor_mail_status" status %}"><span class="glyphicon
+                    {% trans "Export CSV" %}</a></li>
+                {% if status == "accepted" or status == "employee" %}
+                    <li><a href="{% url "tutor_export_status" "tshirt" status %}"><span
+                            class="glyphicon glyphicon-file"></span>
+                        {% trans "T-Shirt List" %}</a></li>
+                {% endif %}
+                {% if status is not None %}
+                    <li><a href="{% url "tutor_mail_status" status %}"><span class="glyphicon
                 glyphicon-envelope"></span>
-                                {% trans "Send Email" %}</a></li>
-                        {% endif %}
-                        {% if status == "active" %}
-                            <li>
-                                <a href="{% url "tutor_batch_accept" %}"
-                                   class="btn btn-primary">{% trans "Batch Accept" %}</a>
-                            </li>
-                            <li>
-                                <a href="{% url "tutor_batch_decline" %}"
-                                   class="btn btn-danger">{% trans "Batch Decline" %}</a>
-                            </li>
-                        {% endif %}
-                    </ul>
+                        {% trans "Send Email" %}</a></li>
+                {% endif %}
+                {% if status == "active" %}
+                    <li>
+                        <a href="{% url "tutor_batch_accept" %}"
+                           class="btn btn-primary">{% trans "Batch Accept" %}</a>
+                    </li>
+                    <li>
+                        <a href="{% url "tutor_batch_decline" %}"
+                           class="btn btn-danger">{% trans "Batch Decline" %}</a>
+                    </li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+    <hr>
+    {% if status == "active" %}
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="table-responsive">
+                    <table class="table table-striped table-hover">
+                        <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>{% trans "Question" %}</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for q in questions %}
+                            <tr>
+                                <td>Q{{ forloop.counter }}</td>
+                                <td>{% trans q.question %}</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
                 </div>
             </div>
-            <hr>
-            {% if status == "active" %}
-                <div class="row">
-                    <div class="col-sm-12">
-                        <div class="table-responsive">
-                            <table class="table table-striped table-hover">
-                                <thead>
-                                <tr>
-                                    <th>#</th>
-                                    <th>{% trans "Question" %}</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                {% for q in questions %}
-                                    <tr>
-                                        <td>Q{{ forloop.counter }}</td>
-                                        <td>{% trans q.question %}</td>
-                                    </tr>
-                                {% endfor %}
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            {% endif %}
-            <div class="row">
-                <div class="col-sm-12">
-                    <div class="table-responsive">
-                        <table id="tutorTable" class="table tablesorter table-striped table-hover css-serial">
-                            <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>{% trans "First name" %}</th>
-                                <th>{% trans "Last name" %}</th>
-                                <th>{% trans "Subject" %}</th>
-                                {% if status == "accepted" %}
-                                    <th>{% trans "Tasks Assigned" %}</th>
-                                {% endif %}
-                                {% if status is None %}
-                                    <th>{% trans "Status" %}</th>
-                                {% endif %}
-                                <th>{% trans "Registration time" %}</th>
-                                {% if status == "active" %}
-                                    {% for q in questions %}
-                                        <th>Q{{ forloop.counter }}</th>
-                                    {% endfor %}
-                                {% endif %}
-                                <th></th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            {% for tutor in tutors %}
-                                <tr>
-                                    <td></td>
-                                    <td>
-                                        <a href="{% url "tutor_view" tutor.id %}">{{ tutor.first_name }}</a>
-                                    </td>
-                                    <td>
-                                        <a href="{% url "tutor_view" tutor.id %}">{{ tutor.last_name }}</a>
-                                    </td>
-                                    <td>
-                                        {% with subject_info=tutor.subject.subjecttutorcountassignment_set.first accepted=tutor.subject.tutor_set|are_accepted %}
-                                            {{ tutor.subject }} ({{ accepted.count }}/{{ subject_info.wanted }})
-                                        {% endwith %}
-                                    </td>
-                                    {% if status == "accepted" %}
-                                        <td>
-                                            {{ tutor.task_set.count }}
-                                        </td>
-                                    {% endif %}
-                                    {% if status is None %}
-                                        <td>
-                                            {% trans tutor.status %}
-                                        </td>
-                                    {% endif %}
-                                    <td data-text="{{ tutor.registration_time|date:"Y-m-d H:i" }}">
-                                        {{ tutor.registration_time }}
-                                    </td>
-                                    {% if status == "active" %}
-                                        {% with q_c=questions|length answers=tutor.answer_set.all %}
-                                            {% with t_c=answers.count %}
-                                                {% for q in answers %}
-                                                    <td class="{% if q.answer == "YES" %}success
-{% elif q.answer == "NO" %}danger{% else %}warning{% endif %}"
-                                                    >{% trans q.answer %}</td>
-                                                {% endfor %}
-                                                {% for i in q_c|subtract:t_c|times %}
-                                                    <td>-</td>
-                                                {% endfor %}
-                                            {% endwith %}
-                                        {% endwith %}
-                                    {% endif %}
-                                    <td>
-                                        <a href="{% url "tutor_edit" tutor.id %}"><span
-                                                class="glyphicon glyphicon-edit"></span></a>
-                                        <a href="{% url "tutor_delete" tutor.id %}"><span
-                                                class="glyphicon glyphicon-trash"></span></a>
-                                        <a href="{% url "tutor_mail_tutor" tutor.id %}"><span class="glyphicon
-                                glyphicon-envelope"></span></a>
-                                    </td>
-                                </tr>
+        </div>
+    {% endif %}
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="table-responsive">
+                <table id="tutorTable" class="table tablesorter table-striped table-hover css-serial">
+                    <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>{% trans "First name" %}</th>
+                        <th>{% trans "Last name" %}</th>
+                        <th>{% trans "Subject" %}</th>
+                        {% if status == "accepted" %}
+                            <th>{% trans "Tasks Assigned" %}</th>
+                        {% endif %}
+                        {% if status is None %}
+                            <th>{% trans "Status" %}</th>
+                        {% endif %}
+                        <th>{% trans "Registration time" %}</th>
+                        {% if status == "active" %}
+                            {% for q in questions %}
+                                <th>Q{{ forloop.counter }}</th>
                             {% endfor %}
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
+                        {% endif %}
+                        <th></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for tutor in tutors %}
+                        <tr>
+                            <td></td>
+                            <td>
+                                <a href="{% url "tutor_view" tutor.id %}">{{ tutor.first_name }}</a>
+                            </td>
+                            <td>
+                                <a href="{% url "tutor_view" tutor.id %}">{{ tutor.last_name }}</a>
+                            </td>
+                            <td>
+                                {% with subject_info=tutor.subject.subjecttutorcountassignment_set.first accepted=tutor.subject.tutor_set|are_accepted %}
+                                    {{ tutor.subject }} ({{ accepted.count }}/{{ subject_info.wanted }})
+                                {% endwith %}
+                            </td>
+                            {% if status == "accepted" %}
+                                <td>
+                                    {{ tutor.task_set.count }}
+                                </td>
+                            {% endif %}
+                            {% if status is None %}
+                                <td>
+                                    {% trans tutor.status %}
+                                </td>
+                            {% endif %}
+                            <td data-text="{{ tutor.registration_time|date:"Y-m-d H:i" }}">
+                                {{ tutor.registration_time }}
+                            </td>
+                            {% if status == "active" %}
+                                {% with q_c=questions|length answers=tutor.answer_set.all %}
+                                    {% with t_c=answers.count %}
+                                        {% for q in answers %}
+                                            <td class="{% if q.answer == "YES" %}success
+{% elif q.answer == "NO" %}danger{% else %}warning{% endif %}"
+                                            >{% trans q.answer %}</td>
+                                        {% endfor %}
+                                        {% for i in q_c|subtract:t_c|times %}
+                                            <td>-</td>
+                                        {% endfor %}
+                                    {% endwith %}
+                                {% endwith %}
+                            {% endif %}
+                            <td>
+                                <a href="{% url "tutor_edit" tutor.id %}"><span
+                                        class="glyphicon glyphicon-edit"></span></a>
+                                <a href="{% url "tutor_delete" tutor.id %}"><span
+                                        class="glyphicon glyphicon-trash"></span></a>
+                                <a href="{% url "tutor_mail_tutor" tutor.id %}"><span class="glyphicon
+                                glyphicon-envelope"></span></a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>

@@ -4,8 +4,9 @@
 
 {% block set_common_navigation %}
     {% if perms.set %}
-        <a href="{% url 'mail_add' %}">{% trans "Add" %}</a>
-        <a href="{% url 'mail_list' %}">{% trans "All" %}</a>
+        <h4>{% trans "Email-Templates" %}</h4>
+        <a href="{% url 'mail_add' %}">{% trans "Add template" %}</a>
+        <a href="{% url 'mail_list' %}">{% trans "All templates" %}</a>
     {% endif %}
 {% endblock %}
 

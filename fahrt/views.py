@@ -17,7 +17,7 @@ from .models import Participant, Mail, Fahrt
 
 @permission_required('fahrt.view_participants')
 def index(request):
-    return render(request, 'fahrt/base.html', {})
+    return render(request, 'fahrt/fahrt_dashboard.html', {})
 
 
 @permission_required('fahrt.view_participants')
@@ -112,7 +112,7 @@ def view(request, participant_pk):
         'log_entries': log_entries,
         'form': form,
     }
-    return render(request, 'fahrt/view.html', context)
+    return render(request, 'fahrt/view_participant_details.html', context)
 
 
 @permission_required('fahrt.view_participants')
@@ -132,7 +132,7 @@ def edit(request, participant_pk):
         'form': form,
         'participant': participant,
     }
-    return render(request, 'fahrt/edit.html', context)
+    return render(request, 'fahrt/edit_participants.html', context)
 
 
 @permission_required('fahrt.view_participants')
@@ -149,7 +149,7 @@ def delete(request, participant_pk):
         'form': form,
         'participant': participant,
     }
-    return render(request, 'fahrt/del.html', context)
+    return render(request, 'fahrt/del_participant.html', context)
 
 
 @permission_required('fahrt.view_participants')
@@ -247,7 +247,7 @@ def signup(request):
         registration_open = fahrt.registration_open
 
     if not registration_open:
-        return render(request, 'fahrt/registration_closed.html', {})
+        return render(request, 'fahrt/standalone/registration_closed.html', {})
 
     form = ParticipantForm(request.POST or None, semester=semester)
     if form.is_valid():
@@ -258,7 +258,7 @@ def signup(request):
 
     context = {'semester': semester,
                'form': form}
-    return render(request, 'fahrt/signup.html', context)
+    return render(request, 'fahrt/standalone/signup.html', context)
 
 
 @permission_required('fahrt.view_participants')
@@ -279,7 +279,7 @@ def signup_internal(request):
 
 
 def signup_success(request):
-    return render(request, 'fahrt/success.html', {})
+    return render(request, 'fahrt/standalone/success.html', {})
 
 
 @permission_required('fahrt.view_participants')
@@ -346,7 +346,7 @@ def filter_participants(request):
         'participants': participants,
         'filterform': filterform,
     }
-    return render(request, 'fahrt/filter.html', context)
+    return render(request, 'fahrt/filter_participants.html', context)
 
 
 @permission_required('fahrt.view_participants')
@@ -438,7 +438,7 @@ def edit_mail(request, mail_pk):
         'form': form,
         'mail': mail,
     }
-    return render(request, 'fahrt/edit_mail.html', context)
+    return render(request, 'fahrt/standalone/edit_mail.html', context)
 
 
 @permission_required('fahrt.view_participants')

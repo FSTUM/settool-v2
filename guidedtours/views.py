@@ -18,7 +18,7 @@ def index(request):
     tours = semester.tour_set.all()
 
     context = {'tours': tours}
-    return render(request, 'guidedtours/index.html', context)
+    return render(request, 'guidedtours/guidedtours_dashboard.html', context)
 
 
 @permission_required('guidedtours.view_participants')
@@ -31,7 +31,7 @@ def view(request, tour_pk):
     context = {'tour': tour,
                'participants': participants,
                'waitinglist': waitinglist}
-    return render(request, 'guidedtours/view.html', context)
+    return render(request, 'guidedtours/list_tour-participants.html', context)
 
 
 @permission_required('guidedtours.view_participants')
@@ -50,7 +50,7 @@ def add(request):
     context = {
         'form': form,
     }
-    return render(request, 'guidedtours/add.html', context)
+    return render(request, 'guidedtours/add_tour.html', context)
 
 
 @permission_required('guidedtours.view_participants')
@@ -130,7 +130,7 @@ def filter_participants(request):
         'participants': participants,
         'filterform': filterform,
     }
-    return render(request, 'guidedtours/filter.html', context)
+    return render(request, 'guidedtours/filter_participants.html', context)
 
 
 @permission_required('guidedtours.view_participants')
@@ -274,7 +274,7 @@ def signup(request):
 
     if not tours:
         context = {'semester': semester}
-        return render(request, 'guidedtours/signup_notour.html', context)
+        return render(request, 'guidedtours/standalone/signup_notour.html', context)
 
     form = ParticipantForm(request.POST or None, tours=tours)
     if form.is_valid():
@@ -286,11 +286,11 @@ def signup(request):
         'form': form,
         'tours': tours,
     }
-    return render(request, 'guidedtours/signup.html', context)
+    return render(request, 'guidedtours/standalone/signup.html', context)
 
 
 def signup_success(request):
-    return render(request, 'guidedtours/success.html', {})
+    return render(request, 'guidedtours/standalone/success.html', {})
 
 
 @permission_required('guidedtours.view_participants')

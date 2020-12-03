@@ -1,33 +1,24 @@
-{% extends "tutors/base.html" %}
+{% extends "tutors/base_tutors.html" %}
 {% load i18n %}
 {% load bootstrap4 %}
 
-{% block title %}{% trans "Tutor" %} - {% trans "Add Task" %}{% endblock %}
+{% block set_common_headercontent %}{% trans "Add Task" %}{% endblock %}
 
-{% block tutorcontent %}
-    <div class="card">
-        <div class="card-header">
+{% block set_common_content %}
+    <form method="post" action="">
+        {% csrf_token %}
 
-            {% trans "Add Task" %}
+        <div class="row">
+            <div class="col-lg-12">
+                {% bootstrap_form form %}
+            </div>
         </div>
-        <div class="card-body">
-            <hr>
-            <form method="post" action="">
-                {% csrf_token %}
 
-                <div class="row">
-                    <div class="col-lg-12">
-                        {% bootstrap_form form %}
-                    </div>
-                </div>
-
-                <button type="submit" class="btn btn-primary">{% trans "Submit" %}</button>
-            </form>
-            <script type="text/javascript">
-                let allowedSubjects = $('select[multiple][name="allowed_subjects"]');
-                addLink(allowedSubjects, '{% trans "Master" %}', valueCallback('select', 'master'));
-                addLink(allowedSubjects, '{% trans "Bachelor" %}', valueCallback('select', 'bachelor'));
-            </script>
-        </div>
-    </div>
+        <button type="submit" class="btn btn-primary">{% trans "Submit" %}</button>
+    </form>
+    <script type="text/javascript">
+        let allowedSubjects = $('select[multiple][name="allowed_subjects"]');
+        addLink(allowedSubjects, '{% trans "Master" %}', valueCallback('select', 'master'));
+        addLink(allowedSubjects, '{% trans "Bachelor" %}', valueCallback('select', 'bachelor'));
+    </script>
 {% endblock %}

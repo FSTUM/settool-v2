@@ -1,16 +1,10 @@
-{% extends "guidedtours/base.html" %}
+{% extends "guidedtours/base_guildedtours.html" %}
 {% load i18n %}
 {% load bootstrap4 %}
 
-{% block title %}{% trans "Guided tour" %} - {% trans "Send email" %}{% endblock %}
+{% block set_common_headercontent %}{% trans "Send email" %}{% endblock %}
 
-{% block tourscontent %}
-    <div class="card">
-        <div class="card-header">
-            {% trans "Send email" %}
-        </div>
-        <div class="card-body">
-
+{% block set_common_content %}
             <p>
                 {% trans "Do you really want to send the following email to the participants below?" %}
             </p>
@@ -59,7 +53,5 @@
                 {% endfor %}
                 </tbody>
             </table>
-        </div>
-    </div>
 {% endblock %}
 

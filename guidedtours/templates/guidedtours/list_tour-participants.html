@@ -1,15 +1,13 @@
-{% extends "guidedtours/base.html" %}
+{% extends "guidedtours/base_guildedtours.html" %}
 {% load i18n %}
 
-{% block tourscontent %}
-    <div class="card">
-        <div class="card-header">
-            {% blocktrans trimmed with name=tour.name date=tour.date %}
-                List of participants for {{ name }} on {{ date }}
-            {% endblocktrans %}
-        </div>
-        <div class="card-body">
+{% block set_common_headercontent %}
+    {% blocktrans trimmed with name=tour.name date=tour.date %}
+        List of participants for {{ name }} on {{ date }}
+    {% endblocktrans %}
+{% endblock %}
 
+{% block set_common_content %}
             <table class="table">
                 <tr>
                     <th>#</th>
@@ -65,7 +63,4 @@
                     <span class="glyphicon glyphicon-trash"></span>
                 </a>
             </p>
-        </div>
-    </div>
-
 {% endblock %}

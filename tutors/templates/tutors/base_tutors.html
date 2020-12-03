@@ -1,0 +1,37 @@
+{% extends "base_card_layout.html" %}
+{% load i18n %}
+{% load bootstrap4 %}
+
+{% block set_common_navigation %}
+    {% if perms.tutors.edit_tutors %}
+        <h4>{% trans "Events" %}</h4>
+        <a class="nav-item" href="{% url 'event_list' %}">{% trans "All" %}</a>
+        <a class="nav-item" href="{% url 'event_add' %}">{% trans "Add" %}</a>
+
+        <hr>
+        <h4>{% trans "Tasks" %}</h4>
+        <a class="nav-item" href="{% url 'task_list' %}">{% trans "All" %}</a>
+        <a class="nav-item" href="{% url 'task_add' %}">{% trans "Add" %}</a>
+
+        <hr>
+        <h4>{% trans "Tutors" %}</h4>
+        <a class="nav-item" href="{% url 'tutor_list' %}">{% trans "All" %}</a>
+        <a class="nav-item" href="{% url 'tutor_list_status' 'accepted' %}">{% trans "Accepted" %}</a>
+        <a class="nav-item" href="{% url 'tutor_list_status' 'active' %}">{% trans "Open" %}</a>
+        <a class="nav-item" href="{% url 'tutor_list_status' 'declined' %}">{% trans "Declined" %}</a>
+        <a class="nav-item" href="{% url 'tutor_list_status' 'inactive' %}">{% trans "Inactive" %}</a>
+        <a class="nav-item" href="{% url 'tutor_list_status' 'employee' %}">{% trans "Employees" %}</a>
+
+        <hr>
+        <h4>{% trans "Requirements" %}</h4>
+        <a class="nav-item" href="{% url 'requirement_list' %}">{% trans "All" %}</a>
+        <a class="nav-item" href="{% url 'requirement_add' %}">{% trans "Add" %}</a>
+
+        <hr>
+        <h4>{% trans "Settings" %}</h4>
+        <a class="nav-item" href="{% url 'tutors_settings_general' %}">{% trans "General" %}</a>
+        <a class="nav-item" href="{% url 'tutors_settings_tutors' %}">{% trans "Tutors" %}</a>
+    {% else %}
+        <h4>{% trans "You dont have permission to view this page" %}</h4>
+    {% endif %}
+{% endblock %}

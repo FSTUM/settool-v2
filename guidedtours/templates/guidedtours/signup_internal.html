@@ -1,31 +1,23 @@
-{% extends "guidedtours/base.html" %}
+{% extends "guidedtours/base_guildedtours.html" %}
 {% load i18n %}
 {% load bootstrap4 %}
 
-{% block title %}{% trans "Guided tour" %} - {% trans "Sign up" %}{% endblock %}
+{% block set_common_headercontent %}{% trans "Sign up for a guided tour" %}{% endblock %}
 
-{% block tourscontent %}
-    <div class="card">
-        <div class="card-header">
-            {% trans "Sign up for a guided tour" %}
-        </div>
-        <div class="card-body">
+{% block set_common_content %}
+    <form method="post" action="">
+        {% csrf_token %}
 
-            <form method="post" action="">
-                {% csrf_token %}
+        <div class="row">
+            <div class="col-xs-12 col-lg-5">
+                {% bootstrap_form form %}
 
-                <div class="row">
-                    <div class="col-xs-12 col-lg-5">
-                        {% bootstrap_form form %}
-
-                        <div class="well">
-                            {% trans "tours_privacy_policy" %}
-                        </div>
-                    </div>
+                <div class="well">
+                    {% trans "tours_privacy_policy" %}
                 </div>
-
-                <button type="submit" class="btn btn-primary">{% trans "Submit" %}</button>
-            </form>
+            </div>
         </div>
-    </div>
+
+        <button type="submit" class="btn btn-primary">{% trans "Submit" %}</button>
+    </form>
 {% endblock %}

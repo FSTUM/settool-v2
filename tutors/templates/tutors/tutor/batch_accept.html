@@ -1,38 +1,31 @@
-{% extends "tutors/base.html" %}
+{% extends "tutors/base_tutors.html" %}
 {% load i18n %}
 {% load bootstrap4 %}
 
-{% block title %}{% trans "Tutor" %} - {% trans "Batch accept tutors" %}{% endblock %}
+{% block set_common_headercontent %}{% trans "Batch accept tutors" %}{% endblock %}
 
-{% block tutorcontent %}
-    <div class="card">
-        <div class="card-header">
-            {% trans "Batch accept tutors" %}</div>
-        <div class="card-body">
-            <hr>
-            <div class="row">
-                <div class="col-sm-12">
-                    <p>
-                        {% trans "Do you really want to accept the following tutors?" %}
-                    </p>
+{% block set_common_content %}
+    <div class="row">
+        <div class="col-sm-12">
+            <p>
+                {% trans "Do you really want to accept the following tutors?" %}
+            </p>
 
-                    <form method="post" action="">
-                        {% csrf_token %}
+            <form method="post" action="">
+                {% csrf_token %}
 
-                        <table class="table">
-                            <tr>
-                                <td>
-                                    <button type="submit" class="btn btn-primary">{% trans "Submit" %}</button>
-                                </td>
-                                <td><a href="{% url "tutor_list_status" "active" %}"
-                                       class="btn btn-danger">{% trans "Cancel" %}</a></td>
-                            </tr>
-                        </table>
+                <table class="table">
+                    <tr>
+                        <td>
+                            <button type="submit" class="btn btn-primary">{% trans "Submit" %}</button>
+                        </td>
+                        <td><a href="{% url "tutor_list_status" "active" %}"
+                               class="btn btn-danger">{% trans "Cancel" %}</a></td>
+                    </tr>
+                </table>
 
-                        {% bootstrap_form form %}
-                    </form>
-                </div>
-            </div>
+                {% bootstrap_form form %}
+            </form>
         </div>
     </div>
 {% endblock %}

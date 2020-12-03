@@ -30,7 +30,7 @@ def tutor_signup(request):
     settings = get_object_or_404(Settings, semester=semester)
 
     if not settings.open_registration < timezone.now() < settings.close_registration:
-        return render(request, 'tutors/tutor/registration_closed.html', {
+        return render(request, 'tutors/tutor/standalone/registration_closed.html', {
             'start': settings.open_registration,
             'end': settings.close_registration
         })
@@ -95,19 +95,19 @@ def tutor_signup(request):
     context = {'semester': semester,
                'answer_formset': answer_formset,
                'form': form}
-    return render(request, 'tutors/tutor/signup.html', context)
+    return render(request, 'tutors/tutor/standalone/signup.html', context)
 
 
 def tutor_signup_success(request):
-    return render(request, 'tutors/tutor/success.html')
+    return render(request, 'tutors/tutor/standalone/success.html')
 
 
 def tutor_signup_invalid(request):
-    return render(request, 'tutors/tutor/invalid.html')
+    return render(request, 'tutors/tutor/standalone/invalid.html')
 
 
 def tutor_signup_confirmation_required(request):
-    return render(request, 'tutors/tutor/confirmation_required.html')
+    return render(request, 'tutors/tutor/standalone/confirmation_required.html')
 
 
 def tutor_signup_confirm(request, uidb64, token):
@@ -823,7 +823,7 @@ def dashboard(request):
 
     accepted_tutors = Tutor.objects.filter(semester=semester, status=Tutor.STATUS_ACCEPTED).count()
     waiting_tutors = Tutor.objects.filter(semester=semester, status=Tutor.STATUS_ACTIVE).count()
-    return render(request, 'tutors/dashboard/dashboard.html', {
+    return render(request, 'tutors/dashboard.html', {
         'subject_counts': count_results,
         'events': events,
         'tasks': tasks,

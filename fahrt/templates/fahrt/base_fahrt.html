@@ -1,0 +1,23 @@
+{% extends "base_card_layout.html" %}
+{% load i18n %}
+{% load bootstrap4 %}
+
+{% block set_common_navigation %}
+    <h4>{% trans "General" %}</h4>
+    <a class="nav-item" href="{% url 'fahrt_signup_internal' %}">{% trans "Sign up" %}</a>
+    <a class="nav-item" href="{% url 'fahrt_date' %}">{% trans "Change date" %}</a>
+
+    <hr>
+    <h4>{% trans "Participants" %}</h4>
+    <a class="nav-item" href="{% url 'fahrt_list_registered' %}">{% trans "registered" %}</a>
+    <a class="nav-item" href="{% url 'fahrt_list_confirmed' %}">{% trans "confirmed" %}</a>
+    <a class="nav-item" href="{% url 'fahrt_list_waitinglist' %}">{% trans "waitinglist" %}</a>
+    <a class="nav-item" href="{% url 'fahrt_list_cancelled' %}">{% trans "cancelled" %}</a>
+
+    <hr>
+    <h4>{% trans "Mails" %}</h4>
+    <a class="nav-item" href="{% url 'fahrt_filter' %}">{% trans "Filter participants/Send emails" %}</a>
+    <a class="nav-item" href="{% url 'fahrt_listmails' %}">{% trans "List email templates" %}</a>
+    <a class="nav-item" href="{% url 'fahrt_addmail' %}">{% trans "Add email template" %}</a>
+
+{% endblock %}
