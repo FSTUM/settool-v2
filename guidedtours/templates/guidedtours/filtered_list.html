@@ -4,14 +4,8 @@
 
 {% block head %}
     <script>
-        $(function () {
-            $("#fahrtTable").tablesorter({
-                theme: "bootstrap",
-                widgets: ['zebra', 'columns', 'uitheme'],
-                headerTemplate: '{content} {icon}',
-                sortReset: true,
-                sortRestart: true
-            });
+        $(document).ready(function () {
+            $("#fahrtTable").DataTable();
         });
     </script>
 {% endblock %}
@@ -34,36 +28,37 @@
         </div>
 
         <p></p>
-
-        <table id="fahrtTable" class="table tablesorter">
-            <thead>
-            <tr>
-                <th></th>
-                <th>{% trans "First name" %}</th>
-                <th>{% trans "Surname" %}</th>
-                <th>{% trans "Subject" %}</th>
-                <th>{% trans "Status" %}</th>
-            </tr>
-            </thead>
-            <tbody>
-            {% for participant, select in participants %}
+        <div class="table-responsive">
+            <table id="fahrtTable" class="table table-bordered dataTable">
+                <thead>
                 <tr>
-                    <td>
-                        {{ select.id.as_hidden }}
-                        {{ select.selected }}
-                    </td>
-                    <td>
-                        {{ participant.firstname }}
-                    </td>
-                    <td>
-                        {{ participant.surname }}
-                    </td>
-                    <td>{{ participant.subject }}</td>
-                    <td>{{ participant.status }}</td>
+                    <th></th>
+                    <th>{% trans "First name" %}</th>
+                    <th>{% trans "Surname" %}</th>
+                    <th>{% trans "Subject" %}</th>
+                    <th>{% trans "Status" %}</th>
                 </tr>
-            {% endfor %}
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                {% for participant, select in participants %}
+                    <tr>
+                        <td>
+                            {{ select.id.as_hidden }}
+                            {{ select.selected }}
+                        </td>
+                        <td>
+                            {{ participant.firstname }}
+                        </td>
+                        <td>
+                            {{ participant.surname }}
+                        </td>
+                        <td>{{ participant.subject }}</td>
+                        <td>{{ participant.status }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
     </form>
 {% endblock %}
 

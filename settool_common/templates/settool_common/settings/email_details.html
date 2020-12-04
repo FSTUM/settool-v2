@@ -7,7 +7,7 @@
 {% block head %}
     <script>
         $(document).ready(function () {
-            $('#bagTable').DataTable();
+            $('#mailDetailsTable').DataTable();
         });
     </script>
 {% endblock %}
@@ -16,7 +16,7 @@
 {% endblock %}
 {% block setings %}
     <div class="table-responsive">
-        <table class="table table-bordered dataTable">
+        <table id="mailDetailsTable" class="table table-bordered dataTable">
             <tr>
                 <th>{% trans "Email subject" %}</th>
                 <td>{{ mail.subject }}</td>

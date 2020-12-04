@@ -78,26 +78,26 @@
                     {# choose semester #}
                     {% if user.is_authenticated %}
 
-                            <form action="{% url 'set_semester' %}" method="post" class="form-inline" role="form">
-                                <div class="form-group">
-                                    {% csrf_token %}
-                                    <input name="next" type="hidden" value=""/>
+                        <form action="{% url 'set_semester' %}" method="post" class="form-inline" role="form">
+                            <div class="form-group">
+                                {% csrf_token %}
+                                <input name="next" type="hidden" value=""/>
 
-                                    <select name="semester" onchange="this.form.submit()" class="form-control">
-                                        {% get_semester as SEMESTER_PK %}
-                                        {% get_available_semesters as semesters %}
-                                        {% for semester in semesters %}
-                                            <option value="{{ semester.pk }}"{% if semester.pk == SEMESTER_PK %}
-                                                    selected="selected"{% endif %}>
-                                                {{ semester }}
-                                            </option>
-                                        {% endfor %}
-                                    </select>
-                                </div>
-                                <noscript>
-                                    <button type="submit" class="btn btn-secondary">{% trans "Switch" %}</button>
-                                </noscript>
-                            </form>
+                                <select name="semester" onchange="this.form.submit()" class="form-control">
+                                    {% get_semester as SEMESTER_PK %}
+                                    {% get_available_semesters as semesters %}
+                                    {% for semester in semesters %}
+                                        <option value="{{ semester.pk }}"{% if semester.pk == SEMESTER_PK %}
+                                                selected="selected"{% endif %}>
+                                            {{ semester }}
+                                        </option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <noscript>
+                                <button type="submit" class="btn btn-secondary">{% trans "Switch" %}</button>
+                            </noscript>
+                        </form>
 
                     {% endif %}
                     {# end choose semester #}

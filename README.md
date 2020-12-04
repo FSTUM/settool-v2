@@ -19,8 +19,8 @@ Install all the requirements needed for developement and testing using:
 
 ## Software
 
- * Python 3
- * pdflatex (from TeX Live)
+* Python 3
+* pdflatex (from TeX Live)
 
 ## Python modules
 
@@ -32,8 +32,8 @@ To update this file, execute:
 
 # Run for development
 
-By default, Django uses a SQLite database that can be generated using the
-following command inside the project directory:
+By default, Django uses a SQLite database that can be generated using the following command inside the project
+directory:
 
     python3 manage.py migrate
 
@@ -53,8 +53,7 @@ Update the .po files with:
 
     python3 manage.py makemessages -l de
 
-Then edit the .po files, e.g. guidedtours/locale/de/LC_MESSAGES/django.po.
-poedit is an excellent GUI for this!
+Then edit the .po files, e.g. guidedtours/locale/de/LC_MESSAGES/django.po. poedit is an excellent GUI for this!
 
 Finally, create the .mo files with the new translations:
 
@@ -62,18 +61,15 @@ Finally, create the .mo files with the new translations:
 
 # LICENSE
 
-Copyright (C) 2015  Julian Biendarra, Frederic Naumann, Felix Hartmond,
-                    Michael Eder, Sven Hertle
+Copyright (C) 2015 Julian Biendarra, Frederic Naumann, Felix Hartmond, Michael Eder, Sven Hertle
 
-This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU Affero General Public License as
-published by the Free Software Foundation, either version 3 of the
-License, or (at your option) any later version.
+This program is free software: you can redistribute it and/or modify it under the terms of the GNU Affero General Public
+License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later
+version.
 
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU Affero General Public License for more details.
+This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Affero General Public License for more
+details.
 
-You should have received a copy of the GNU Affero General Public License
-along with this program.  If not, see <http://www.gnu.org/licenses/>.
+You should have received a copy of the GNU Affero General Public License along with this program. If not,
+see <http://www.gnu.org/licenses/>.

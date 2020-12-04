@@ -5,14 +5,8 @@
 
 {% block head %}
     <script>
-        $(function () {
-            $(".tutorTable").tablesorter({
-                theme: "bootstrap",
-                widgets: ['zebra', 'columns', 'uitheme'],
-                headerTemplate: '{content} {icon}',
-                sortReset: true,
-                sortRestart: true
-            });
+        $(document).ready(function () {
+            $(".tutorTable").DataTable();
         });
     </script>
 {% endblock %}

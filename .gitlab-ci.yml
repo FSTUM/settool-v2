@@ -5,15 +5,15 @@ stages:
   - linting
 
 variables:
-    PIP_CACHE_DIR: "$CI_PROJECT_DIR/.cache/pip"
+  PIP_CACHE_DIR: "$CI_PROJECT_DIR/.cache/pip"
 
 before_script:
-    - apt-get update && apt-get install -y build-essential libldap2-dev libsasl2-dev
-    - pip3 install virtualenv
-    - virtualenv -q .venv
-    - source .venv/bin/activate
-    - pip3 install -U -r requirements.txt
-    - pip3 install -U -r requirements_dev.txt
+  - apt-get update && apt-get install -y build-essential libldap2-dev libsasl2-dev
+  - pip3 install virtualenv
+  - virtualenv -q .venv
+  - source .venv/bin/activate
+  - pip3 install -U -r requirements.txt
+  - pip3 install -U -r requirements_dev.txt
 
 run_pytests:
   stage: test
@@ -22,21 +22,21 @@ run_pytests:
 
 bandit:
   stage: linting
-  needs: [run_pytests]
+  needs: [ run_pytests ]
   allow_failure: true
   script:
     - make bandit
 
 mypy:
   stage: linting
-  needs: [run_pytests]
+  needs: [ run_pytests ]
   allow_failure: true
   script:
     - make mypy
 
 pylint:
   stage: linting
-  needs: [run_pytests]
+  needs: [ run_pytests ]
   allow_failure: true
   script:
     - make pylint

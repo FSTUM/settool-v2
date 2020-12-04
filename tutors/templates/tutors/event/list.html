@@ -4,14 +4,8 @@
 
 {% block head %}
     <script>
-        $(function () {
-            $("#eventTable").tablesorter({
-                theme: "bootstrap",
-                widgets: ['zebra', 'columns', 'uitheme'],
-                headerTemplate: '{content} {icon}',
-                sortReset: true,
-                sortRestart: true
-            });
+        $(document).ready(function () {
+            $("#eventTable").DataTable();
         });
     </script>
 {% endblock %}
@@ -19,48 +13,44 @@
 {% block set_common_headercontent %}{% trans "List of Events" %}{% endblock %}
 
 {% block set_common_content %}
-    <div class="row">
-        <div class="col-sm-12">
-            <div class="table-responsive">
-                <table id="eventTable" class="table tablesorter table-striped table-hover css-serial">
-                    <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>{% trans "Name" %}</th>
-                        <th>{% trans "Begin" %}</th>
-                        <th>{% trans "End" %}</th>
-                        <th>{% trans "Meeting Point" %}</th>
-                        <th></th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {% for event in events %}
-                        <tr>
-                            <td></td>
-                            <td>
-                                <a href="{% url "event_view" event.id %}">{{ event.name }}</a>
-                            </td>
-                            <td data-text="{{ event.begin|date:"Y-m-d H:i" }}">
-                                {{ event.begin }}
-                            </td>
-                            <td data-text="{{ event.end|date:"Y-m-d H:i" }}">
-                                {{ event.end }}
-                            </td>
-                            <td>
-                                {{ event.meeting_point }}
-                            </td>
-                            <td>
-                                <a href="{% url "event_edit" event.id %}"><span
-                                        class="glyphicon glyphicon-edit"></span></a>
-                                <a href="{% url "event_delete" event.id %}"><span
-                                        class="glyphicon glyphicon-trash"></span></a>
-                            </td>
-                        </tr>
-                    {% endfor %}
-                    </tbody>
-                </table>
-            </div>
-        </div>
+    <div class="table-responsive">
+        <table id="eventTable" class="table table-bordered dataTable css-serial">
+            <thead>
+            <tr>
+                <th>#</th>
+                <th>{% trans "Name" %}</th>
+                <th>{% trans "Begin" %}</th>
+                <th>{% trans "End" %}</th>
+                <th>{% trans "Meeting Point" %}</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for event in events %}
+                <tr>
+                    <td></td>
+                    <td>
+                        <a href="{% url "event_view" event.id %}">{{ event.name }}</a>
+                    </td>
+                    <td data-text="{{ event.begin|date:"Y-m-d H:i" }}">
+                        {{ event.begin }}
+                    </td>
+                    <td data-text="{{ event.end|date:"Y-m-d H:i" }}">
+                        {{ event.end }}
+                    </td>
+                    <td>
+                        {{ event.meeting_point }}
+                    </td>
+                    <td>
+                        <a href="{% url "event_edit" event.id %}"><span
+                                class="glyphicon glyphicon-edit"></span></a>
+                        <a href="{% url "event_delete" event.id %}"><span
+                                class="glyphicon glyphicon-trash"></span></a>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
     </div>
 {% endblock %}
 
