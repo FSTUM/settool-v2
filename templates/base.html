@@ -42,7 +42,7 @@
 
 <body>
 <header>
-    <nav class="navbar navbar-expand-md navbar-dark bg-dark mb-3">
+    <nav class="navbar navbar-expand-md navbar-dark bg-dark mb-4">
         <div class="container">
             <a class="navbar-brand" href={% url "main-view" %}>SET-TOOL</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
@@ -154,13 +154,11 @@
     </nav>
 </header>
 
-<main role="main" class="container-fluid ">
-    {# messages #}
+<main role="main" class="container-fluid">
     {% if messages %}
         {% bootstrap_messages messages %}
     {% endif %}
 
-    {# content #}
     {% block content %}{% endblock %}
 </main>
 
