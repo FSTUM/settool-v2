@@ -3,7 +3,7 @@
 [._]s[a-w][a-z]
 *.un~
 Session.vim
-.netrwhistmypy --ignore-missing-imports .
+.netrwhist
 *~
 
 # python/django

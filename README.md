@@ -2,7 +2,7 @@
 
 It is recommended to use virtualenv:
 
-After cloning the project you can create a new virtualenv
+After cloning the project, you can create a new virtualenv
 (assuming you are outside the folder you just cloned)
 
     python3 -m venv set-tool
@@ -26,13 +26,13 @@ Install all the requirements needed for developement and testing using:
 
 See dependencies
 
-To update this file execute:
+To update this file, execute:
 
     pip3 freeze > dependencies
 
 # Run for development
 
-By default Django uses a SQLite database that can be generated using the
+By default, Django uses a SQLite database that can be generated using the
 following command inside the project directory:
 
     python3 manage.py migrate
@@ -56,7 +56,7 @@ Update the .po files with:
 Then edit the .po files, e.g. guidedtours/locale/de/LC_MESSAGES/django.po.
 poedit is an excellent GUI for this!
 
-Finally create the .mo files with the new translations:
+Finally, create the .mo files with the new translations:
 
     python3 manage.py compilemessages
 
