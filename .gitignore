@@ -27,3 +27,4 @@ TODO.*
 /bin/
 /pyvenv.cfg
 /staticfiles/
+.idea
