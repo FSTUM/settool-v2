@@ -19,7 +19,6 @@ Session.vim
 TODO.*
 
 #pycharm
-.idea*
 /lib/
 /lib64/
 /lib64/*
