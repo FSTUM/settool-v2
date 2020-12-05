@@ -26,14 +26,14 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
 
     # login, logout
-    url(r'^login/$', auth_views.LoginView.as_view(template_name='settool_common/login.html'), name='login'),
+    url(r'^login/$', auth_views.LoginView.as_view(template_name='login.html'), name='login'),
     url(r'^logout/$', auth_views.LogoutView.as_view(next_page='/'), name='logout'),
 
     # localization
     url(r'^i18n/', include('django.conf.urls.i18n')),
 
     # index
-    url(r'^$', TemplateView.as_view(template_name="settool_common/main_index.html"), name="main-view"),
+    url(r'^$', TemplateView.as_view(template_name="main_index.html"), name="main-view"),
 
     # settool_common: choose semester
     url(r'^semester/', include('settool_common.urls')),
