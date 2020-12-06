@@ -1,12 +1,13 @@
 {% extends "base_card_layout.html" %}
+{% load active_link_tags %}
 {% load i18n %}
 {% load bootstrap4 %}
 
 {% block set_common_navigation %}
     {% if perms.set %}
-        <h4>{% trans "Email-Templates" %}</h4>
-        <a href="{% url 'mail_add' %}">{% trans "Add template" %}</a>
-        <a href="{% url 'mail_list' %}">{% trans "All templates" %}</a>
+        <h4 class="navbar-text">{% trans "Email-Templates" %}</h4>
+        <a class="nav-link {% active_link 'mail_add' %}" href="{% url 'mail_add' %}">{% trans "Add template" %}</a>
+        <a class="nav-link {% active_link 'mail_list' %}" href="{% url 'mail_list' %}">{% trans "All templates" %}</a>
     {% endif %}
 {% endblock %}
 

@@ -127,8 +127,3 @@ def mail_send(request, pk):
     if failed_participants:
         return render(request, 'settool_common/mail/send_email_failure.html', context)
     return render(request, 'settool_common/mail/send_email_confirmation.html', context)
-
-
-@permission_required('set.perms.set')
-def common_settings(request):
-    return render(request, 'settool_common/settings/settings.html', {})

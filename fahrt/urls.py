@@ -1,4 +1,5 @@
 from django.conf.urls import url
+from django.views.generic import RedirectView
 
 from . import views
 
@@ -28,9 +29,10 @@ urlpatterns = [
     url(r'^filter/$', views.filter_participants, name='fahrt_filter'),
     url(r'^filtered/$', views.filtered_list, name='fahrt_filteredparticipants'),
     url(r'^emails/$', views.index_mails, name='fahrt_listmails'),
-    url(r'^emails/add/$', views.add_mail, name='fahrt_addmail'),
-    url(r'^emails/edit/(?P<mail_pk>[0-9]+)/$', views.edit_mail, name="fahrt_editmail"),
-    url(r'^emails/del/(?P<mail_pk>[0-9]+)/$', views.delete_mail, name="fahrt_delmail"),
-    url(r'^emails/send/(?P<mail_pk>[0-9]+)/$', views.send_mail, name="fahrt_sendmail"),
+    url(r'^email/$', RedirectView.as_view(pattern_name="fahrt_listmails")),  # due to active_link
+    url(r'^email/add/$', views.add_mail, name='fahrt_addmail'),
+    url(r'^email/edit/(?P<mail_pk>[0-9]+)/$', views.edit_mail, name="fahrt_editmail"),
+    url(r'^email/del/(?P<mail_pk>[0-9]+)/$', views.delete_mail, name="fahrt_delmail"),
+    url(r'^email/send/(?P<mail_pk>[0-9]+)/$', views.send_mail, name="fahrt_sendmail"),
     url(r'^changedate/$', views.change_date, name="fahrt_date"),
 ]

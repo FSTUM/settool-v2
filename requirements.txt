@@ -3,3 +3,4 @@ django-bootstrap4
 django-modeltranslation>=0.16.1
 django-bootstrap-datepicker-plus
 python-dateutil~=2.8.1
+django-active-link

@@ -45,7 +45,7 @@ def add(request):
     if form.is_valid():
         form.save()
 
-        return redirect('tours_list')
+        return redirect('tours_list_tours')
 
     context = {
         'form': form,
@@ -80,7 +80,7 @@ def delete(request, tour_pk):
     if form.is_valid():
         tour.delete()
 
-        return redirect('tours_list')
+        return redirect('tours_list_tours')
 
     context = {
         'form': form,

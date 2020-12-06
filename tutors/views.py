@@ -122,10 +122,10 @@ def tutor_signup_confirm(request, uidb64, token):
 
 
 @permission_required('tutors.edit_tutors')
-def tutor_list(request, status=None):
+def tutor_list(request, status):
     semester = get_object_or_404(Semester, pk=get_semester(request))
 
-    if status is None:
+    if status == 'all':
         tutors = Tutor.objects.filter(semester=semester)
     else:
         tutors = Tutor.objects.filter(semester=semester, status=status)

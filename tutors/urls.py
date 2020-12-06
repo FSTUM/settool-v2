@@ -1,4 +1,5 @@
 from django.urls import path, include
+from django.views.generic import RedirectView
 
 from . import views
 
@@ -11,7 +12,7 @@ urlpatterns = [
         path('signup/confirm/<uidb64>/<token>/', views.tutor_signup_confirm, name='tutor_signup_confirm'),
         path('signup/invalid/', views.tutor_signup_invalid, name='tutor_signup_invalid'),
         path('list/', views.tutor_list, name='tutor_list'),
-        path('list/<str:status>/', views.tutor_list, name='tutor_list_status'),
+        path('list/<str:status>', views.tutor_list, name='tutor_list_status'),
         path('view/<uuid:uid>/', views.tutor_view, name='tutor_view'),
         path('status/<uuid:uid>/<str:status>', views.tutor_change_status, name='tutor_change_status'),
         path('delete/<uuid:uid>/', views.tutor_delete, name='tutor_delete'),
@@ -51,7 +52,8 @@ urlpatterns = [
         path('view/<uuid:uid>/', views.requirement_view, name='requirement_view'),
     ])),
     path('settings/', include([
-        path('', views.tutors_settings_general, name='tutors_settings_general'),
+        path('', RedirectView.as_view(pattern_name="tutors_settings_general")),
+        path('general/', views.tutors_settings_general, name='tutors_settings_general'),
         path('tutors/', views.tutors_settings_tutors, name='tutors_settings_tutors')
     ]))
 ]
