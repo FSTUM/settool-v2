@@ -36,7 +36,9 @@ directory:
 
 Then a superuser should be created:
 
-    python3 manage.py createsuperuser --username=YourName
+    python3 manage.py createsuperuser
+
+This does not set the `fist_name`, so we show the user his `username` instead. If you want your `fist_name` to be shown instead, you have to add your fist Name in the admin pannel. 
 
 Now you can start the webserver for development:
 

@@ -105,9 +105,16 @@
                     {% if user.is_authenticated %}
                         <li class="nav-item">
                             <a class="nav-link" href="{% url "logout" %}">
-                                {% blocktrans trimmed with username=user.username|capfirst %}
-                                    Log out {{ username }}
-                                {% endblocktrans %}
+                                {# provide a Useful name, even if the User has not specified his first name #}
+                                {% if user.first_name %}
+                                    {% blocktrans trimmed with username=user.first_name|capfirst %}
+                                        Log out {{ username }}
+                                    {% endblocktrans %}
+                                {% else %}
+                                    {% blocktrans trimmed with username=user.username|capfirst %}
+                                        Log out {{ username }}
+                                    {% endblocktrans %}
+                                {% endif %}
                             </a>
                         </li>
                     {% else %}
