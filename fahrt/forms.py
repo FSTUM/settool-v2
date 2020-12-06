@@ -1,4 +1,8 @@
+from datetime import date
+
+from bootstrap_datepicker_plus import DatePickerInput
 from django import forms
+from django.core.exceptions import ValidationError
 from django.utils.translation import ugettext_lazy as _
 
 from .models import Participant, Mail, Fahrt
@@ -49,13 +53,22 @@ class ParticipantForm(ParticipantAdminForm):
         model = Participant
         exclude = ["semester", "non_liability", "paid", "payment_deadline",
                    "status", "mailinglist", "comment", "registration_time"]
+        widgets = {
+            'birthday': DatePickerInput(format='%Y-%m-%d'),
+        }
 
     def clean(self):
         cleaned_data = super().clean()
-
         if cleaned_data['car'] and not cleaned_data['car_places']:
-            self.add_error("car_places",
-                           _("This field is required if you have a car"))
+            self.add_error("car_places", _("This field is required if you have a car"))
+        value = cleaned_data["birthday"]
+        if value == date.today():
+            self.add_error("birthday", _("You cant be born today."))
+            raise ValidationError(_("You cant be born today."), code="birthday")
+            # required, as current template does not have an error place
+        if value > date.today():
+            self.add_error("birthday", _("You cant be born in the future."))
+            raise ValidationError(_("You cant be born in the future."), code="birthday")
 
 
 class MailForm(forms.ModelForm):
