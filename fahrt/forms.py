@@ -61,12 +61,12 @@ class ParticipantForm(ParticipantAdminForm):
         cleaned_data = super().clean()
         if cleaned_data['car'] and not cleaned_data['car_places']:
             self.add_error("car_places", _("This field is required if you have a car"))
-        value = cleaned_data["birthday"]
-        if value == date.today():
+        birthday = cleaned_data["birthday"]
+        if birthday == date.today():
             self.add_error("birthday", _("You cant be born today."))
             raise ValidationError(_("You cant be born today."), code="birthday")
             # required, as current template does not have an error place
-        if value > date.today():
+        if birthday > date.today():
             self.add_error("birthday", _("You cant be born in the future."))
             raise ValidationError(_("You cant be born in the future."), code="birthday")
 
