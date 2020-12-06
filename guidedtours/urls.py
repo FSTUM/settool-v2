@@ -4,8 +4,9 @@ from django.views.generic import RedirectView
 from . import views
 
 urlpatterns = [
-    url(r'^$', RedirectView.as_view(pattern_name="tours_list_tours"), name="tour_main_index"),  # needed for active_link
-    url(r'^list/$', views.index, name='tours_list_tours'),
+    url(r'^$', RedirectView.as_view(pattern_name="tours_dashboard"), name="tour_main_index"),  # needed for active_link
+    url(r'^dashboard/$', views.dashboard, name='tours_dashboard'),
+    url(r'^list/$', views.list_tours, name='tours_list_tours'),
     url(r'^view/(?P<tour_pk>[0-9]+)/$', views.view, name="tours_view"),
     url(r'^signup/$', views.signup, name='tours_signup'),
     url(r'^add/participant/$', views.signup_internal, name='tours_signup_internal'),

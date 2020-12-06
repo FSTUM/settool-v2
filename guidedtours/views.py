@@ -12,13 +12,18 @@ from .models import Tour, Participant, Mail
 
 
 @permission_required('guidedtours.view_participants')
-def index(request):
+def list_tours(request):
     sem = get_semester(request)
     semester = get_object_or_404(Semester, pk=sem)
     tours = semester.tour_set.all()
 
     context = {'tours': tours}
-    return render(request, 'guidedtours/guidedtours_dashboard.html', context)
+    return render(request, 'guidedtours/list_tours.html', context)
+
+
+@permission_required('guidedtours.view_participants')
+def dashboard(request):
+    return render(request, 'guidedtours/tour_dashboard.html')
 
 
 @permission_required('guidedtours.view_participants')

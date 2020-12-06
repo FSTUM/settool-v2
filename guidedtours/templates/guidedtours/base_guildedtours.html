@@ -5,6 +5,8 @@
 
 
 {% block set_common_navigation %}
+    <a class="nav-link {% active_link 'tours_dashboard' %}" href="{% url 'tours_dashboard' %}">{% trans "Dashboard" %}</a>
+
     <h4 class="navbar-text">{% trans "General" %}</h4>
     <a class="nav-link {% active_link 'tours_signup' %}" href="{% url 'tours_signup' %}">{% trans "Sign up" %}</a>
 

@@ -4,8 +4,8 @@ from django.views.generic import RedirectView
 from . import views
 
 urlpatterns = [
-    url(r'^$', RedirectView.as_view(pattern_name="fahrt_index")),  # due to active_link
-    url(r'^dashboard/$', views.index, name="fahrt_index"),
+    url(r'^$', RedirectView.as_view(pattern_name='fahrt_index'), name='fahrt_main_index'),  # due to active_link
+    url(r'^dashboard/$', views.index, name='fahrt_index'),
     url(r'^list/registered/$', views.list_registered, name='fahrt_list_registered'),
     url(r'^list/confirmed/$', views.list_confirmed, name='fahrt_list_confirmed'),
     url(r'^list/waitinglist/$', views.list_waitinglist, name='fahrt_list_waitinglist'),
