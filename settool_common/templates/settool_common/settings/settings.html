@@ -6,8 +6,8 @@
 {% block set_common_navigation %}
     {% if perms.set %}
         <h4 class="navbar-text">{% trans "Email-Templates" %}</h4>
-        <a class="nav-link {% active_link 'mail_add' %}" href="{% url 'mail_add' %}">{% trans "Add template" %}</a>
         <a class="nav-link {% active_link 'mail_list' %}" href="{% url 'mail_list' %}">{% trans "All templates" %}</a>
+        <a class="nav-link {% active_link 'mail_add' %}" href="{% url 'mail_add' %}">{% trans "Add template" %}</a>
     {% endif %}
 {% endblock %}
 

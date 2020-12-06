@@ -5,6 +5,8 @@
 
 {% block set_common_navigation %}
     {% if perms.tutors.edit_tutors %}
+        <a class="nav-link {% active_link 'tutor_dashboard' %}" href="{% url 'tutor_dashboard' %}">{% trans "Dashboard" %}</a>
+
         <h4 class="navbar-text">{% trans "Events" %}</h4>
         <a class="nav-link {% active_link 'event_list' %}" href="{% url 'event_list' %}">{% trans "All" %}</a>
         <a class="nav-link {% active_link 'event_add' %}" href="{% url 'event_add' %}">{% trans "Add" %}</a>
