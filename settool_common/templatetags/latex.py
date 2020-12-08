@@ -7,8 +7,6 @@ register = template.Library()
 def latex_escape(string):
     string = str(string)
 
-    print(string)
-
     string = string.replace('\\', '\\textbackslash ')
     string = string.replace(' ', '\\ ')
     string = string.replace('&', '\\&')
@@ -20,7 +18,5 @@ def latex_escape(string):
     string = string.replace('}', '\\}')
     string = string.replace('~', '\\textasciitilde ')
     string = string.replace('^', '\\textasciicircum ')
-
-    print(string)
 
     return '{' + string + '}'

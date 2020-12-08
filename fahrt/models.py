@@ -198,7 +198,6 @@ class Participant(models.Model):
     #    today = date.today()
     #    delta = timedelta(days=weeks*7)
     #    deadline = today + delta
-    #    print(deadline.strftime("%d.%m.%Y")
     #    self.payment_deadline = deadline.strftime("%d.%m.%Y")
 
 
