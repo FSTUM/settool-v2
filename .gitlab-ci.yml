@@ -17,6 +17,7 @@ before_script:
 
 run_pytests:
   stage: test
+  retry: 2
   script:
     - make test
 
@@ -24,6 +25,7 @@ bandit:
   stage: linting
   needs: [ run_pytests ]
   allow_failure: true
+  retry: 2
   script:
     - make bandit
 
@@ -31,6 +33,7 @@ mypy:
   stage: linting
   needs: [ run_pytests ]
   allow_failure: true
+  retry: 2
   script:
     - make mypy
 
@@ -38,5 +41,6 @@ pylint:
   stage: linting
   needs: [ run_pytests ]
   allow_failure: true
+  retry: 2
   script:
     - make pylint
