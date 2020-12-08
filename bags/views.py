@@ -71,10 +71,10 @@ def index(request):
         return redirect('sendmail', mail.id)
 
     companies_and_select = []
-    for c in companies:
-        for s in companyforms:
-            if s.initial['id'] == c.id:
-                companies_and_select.append((c, s))
+    for company in companies:
+        for company_form in companyforms:
+            if company_form.initial['id'] == company.id:
+                companies_and_select.append((company, company_form))
                 break
 
     context = {
@@ -152,11 +152,11 @@ def update_field(request, company_pk, field):
 
     form = UpdateFieldForm(request.POST or None)
     if form.is_valid():
-        pk = form.cleaned_data['pk']
+        private_key = form.cleaned_data['pk']
         name = form.cleaned_data['name']
         value = form.cleaned_data['value']
 
-        if pk != company.pk or \
+        if private_key != company.pk or \
                 name != f"company_{company.pk}_{field}":
             return HttpResponseBadRequest('')
 
@@ -251,9 +251,9 @@ def send_mail(request, mail_pk):
 
     form = forms.Form(request.POST or None)
     if form.is_valid():
-        for c in companies:
-            mail.send_mail(c)
-            semester.company_set.filter(id=c.id).update(
+        for company in companies:
+            mail.send_mail(company)
+            semester.company_set.filter(id=company.id).update(
                 email_sent=True,
                 email_sent_success=True,
             )
@@ -284,23 +284,23 @@ def import_companies(request):
         if only_contact_again:
             companies = old_semester.company_set.filter(contact_again=True)
 
-        for c in companies:
+        for company in companies:
             # do not import company when it already exists
-            if new_semester.company_set.filter(name=c.name).exists():
+            if new_semester.company_set.filter(name=company.name).exists():
                 continue
 
             Company.objects.create(
                 semester=new_semester,
-                name=c.name,
-                contact_gender=c.contact_gender,
-                contact_firstname=c.contact_firstname,
-                contact_lastname=c.contact_lastname,
-                email=c.email,
+                name=company.name,
+                contact_gender=company.contact_gender,
+                contact_firstname=company.contact_firstname,
+                contact_lastname=company.contact_lastname,
+                email=company.email,
                 email_sent=False,
                 email_sent_success=False,
                 promise=None,
                 giveaways="",
-                giveaways_last_year=c.giveaways,
+                giveaways_last_year=company.giveaways,
                 arrival_time="",
                 comment="",
                 last_year=True,

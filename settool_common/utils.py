@@ -1,6 +1,6 @@
 import os
 import shutil
-# the calls in this method are fine, as they are only local and all input is templated
+# the calls in this method are fine, as they are and all input is predefined by django.
 from subprocess import call  # nosec
 from tempfile import mkdtemp, mkstemp
 
@@ -18,8 +18,8 @@ def latex_to_pdf(tex_path, context):
     call(['pdflatex', '-output-directory', tmp_folder, filename])
 
     # Move resulting PDF to a more permanent location
-    with open(f"{filename}.pdf", "rb") as f:
-        result = f.read()
+    with open(f"{filename}.pdf", "rb") as rendered_pdf:
+        result = rendered_pdf.read()
     # Remove folder and contained intermediate files
     shutil.rmtree(tmp_folder, ignore_errors=True)
     return result

@@ -39,8 +39,7 @@ def tutor_signup(request):
     question_count = questions.count()
     answers_new = []
     for question in questions:
-        a = Answer(question=question)
-        answers_new.append(a)
+        answers_new.append(Answer(question=question))
 
     AnswerFormSet = modelformset_factory(Answer,
                                          form=AnswerForm,
@@ -179,8 +178,7 @@ def tutor_edit(request, uid):
     if len(answers_existing) != question_count:
         for question in Question.objects.filter(semester=semester):
             if answers_existing.filter(question=question).count() == 0:
-                a = Answer(tutor=tutor, question=question)
-                answers_new.append(a)
+                answers_new.append(Answer(tutor=tutor, question=question))
 
     AnswerFormSet = modelformset_factory(Answer, form=AnswerForm,
                                          min_num=question_count,
@@ -586,8 +584,7 @@ def tutors_settings_tutors(request):
     if len(subjects_existing) != subject_count:
         for subject in Subject.objects.all():
             if subjects_existing.filter(subject=subject).count() == 0:
-                a = SubjectTutorCountAssignment(subject=subject)
-                subjects_new.append(a)
+                subjects_new.append(SubjectTutorCountAssignment(subject=subject))
 
     CountFormSet = modelformset_factory(SubjectTutorCountAssignment,
                                         form=SubjectTutorCountAssignmentAdminForm,
@@ -598,7 +595,9 @@ def tutors_settings_tutors(request):
                                         can_delete=False,
                                         can_order=False)
 
-    initial_data = [{'subject': a.subject.id, 'wanted': a.wanted} for a in subjects_new]
+    initial_data = [{'subject': tutor_subject_assignment.subject.id,
+                     'wanted': tutor_subject_assignment.wanted}
+                    for tutor_subject_assignment in subjects_new]
     answer_formset = CountFormSet(request.POST or None,
                                   queryset=subjects_existing,
                                   initial=initial_data,

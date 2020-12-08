@@ -38,8 +38,8 @@ def mail_list(request):
 
 
 @permission_required('set.mail')
-def mail_view(request, pk):
-    mail = Mail.objects.get(pk=pk)
+def mail_view(request, private_key):
+    mail = Mail.objects.get(pk=private_key)
 
     context = {
         'mail': mail,
@@ -61,8 +61,8 @@ def mail_add(request):
 
 
 @permission_required('set.mail')
-def mail_edit(request, pk):
-    mail = get_object_or_404(Mail, pk=pk)
+def mail_edit(request, private_key):
+    mail = get_object_or_404(Mail, pk=private_key)
 
     form = MailForm(request.POST or None, semester=mail.semester, instance=mail)
     if form.is_valid():
@@ -77,8 +77,8 @@ def mail_edit(request, pk):
 
 
 @permission_required('set.mail')
-def mail_delete(request, pk):
-    mail = get_object_or_404(Mail, pk=pk)
+def mail_delete(request, private_key):
+    mail = get_object_or_404(Mail, pk=private_key)
 
     form = forms.Form(request.POST or None)
     if form.is_valid():
@@ -93,8 +93,8 @@ def mail_delete(request, pk):
 
 
 @permission_required('set.mail')
-def mail_send(request, pk):
-    mail = get_object_or_404(Mail, pk=pk)
+def mail_send(request, private_key):
+    mail = get_object_or_404(Mail, pk=private_key)
     selected_participants = request.session['selected_participants']
     sem = get_semester(request)
     semester = get_object_or_404(Semester, pk=sem)
@@ -106,12 +106,12 @@ def mail_send(request, pk):
     form = forms.Form(request.POST or None)
     failed_participants = []
     if form.is_valid():
-        for p in participants:
-            success = mail.send_mail(request, p)
+        for participant in participants:
+            success = mail.send_mail(request, participant)
             if success:
-                p.log(request.user, f"Mail '{mail}' sent")
+                participant.log(request.user, f"Mail '{mail}' sent")
             else:
-                failed_participants.append(p)
+                failed_participants.append(participant)
         if not failed_participants:
             return redirect('mail_list')
 

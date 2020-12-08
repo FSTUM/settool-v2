@@ -173,10 +173,10 @@ def filtered_list(request):
         return redirect('tours_sendmail', mail.id)
 
     participants_and_select = []
-    for p in participants:
-        for s in participantforms:
-            if s.initial['id'] == p.id:
-                participants_and_select.append((p, s))
+    for participant in participants:
+        for participant_form in participantforms:
+            if participant_form.initial['id'] == participant.id:
+                participants_and_select.append((participant, participant_form))
                 break
 
     context = {
@@ -256,8 +256,8 @@ def send_mail(request, mail_pk):
 
     form = forms.Form(request.POST or None)
     if form.is_valid():
-        for p in participants:
-            mail.send_mail(p)
+        for participant in participants:
+            mail.send_mail(participant)
         return redirect('tours_filter')
 
     context = {
