@@ -219,7 +219,7 @@ def set_payment_deadline(request, participant_pk, weeks):
     Participant.objects.filter(pk=participant_pk).update(
         payment_deadline=date.today() + timedelta(days=weeks * 7)
     )
-    participant.log(request.user, "Set deadline {} week".format(weeks))
+    participant.log(request.user, f"Set deadline {weeks} week")
 
     return redirect('fahrt_viewparticipant', participant_pk)
 
@@ -473,7 +473,7 @@ def send_mail(request, mail_pk):
         for p in participants:
             success = mail.send_mail(p)
             if success:
-                p.log(request.user, "Mail '{0}' sent".format(mail))
+                p.log(request.user, f"Mail '{mail}' sent")
             else:
                 failed_participants.append(p)
         if not failed_participants:

@@ -1,6 +1,3 @@
-# -*- coding: utf-8 -*-
-
-
 from django.core.mail import send_mail
 from django.db import models
 from django.template import engines
@@ -100,28 +97,27 @@ class Company(models.Model):
 
     @property
     def full_contact(self):
-        return "{} {} {}".format(self.contact_gender, self.contact_firstname,
-                                 self.contact_lastname)
+        return f"{self.contact_gender} {self.contact_firstname} {self.contact_lastname}"
 
     @property
     def anrede(self):
         if self.contact_gender and self.contact_lastname:
-            return "Hallo {} {}".format(self.contact_gender, self.contact_lastname)
+            return f"Hallo {self.contact_gender} {self.contact_lastname}"
         return "Sehr geehrte Damen und Herren"
 
     @property
     def formale_anrede(self):
         if self.contact_gender and self.contact_lastname:
             if self.contact_gender == "Herr":
-                return "Sehr geehrter Herr {}".format(self.contact_lastname)
+                return f"Sehr geehrter Herr {self.contact_lastname}"
             if self.contact_gender == "Frau":
-                return "Sehr geehrte Frau {}".format(self.contact_lastname)
+                return f"Sehr geehrte Frau {self.contact_lastname}"
             return "Sehr geehrte Damen und Herren"
         return "Sehr geehrte Damen und Herren"
 
     @property
     def contact_name(self):
-        return "{} {}".format(self.contact_firstname, self.contact_lastname)
+        return f"{self.contact_firstname} {self.contact_lastname}"
 
 
 # @encoding.python_2_unicode_compatible
@@ -152,7 +148,7 @@ class Mail(models.Model):
 
     def __str__(self):
         if self.comment:
-            return "{} ({})".format(self.subject, self.comment)
+            return f"{self.subject} ({self.comment})"
         return str(self.subject)
 
     def get_mail(self):

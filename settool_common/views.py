@@ -109,7 +109,7 @@ def mail_send(request, pk):
         for p in participants:
             success = mail.send_mail(request, p)
             if success:
-                p.log(request.user, "Mail '{0}' sent".format(mail))
+                p.log(request.user, f"Mail '{mail}' sent")
             else:
                 failed_participants.append(p)
         if not failed_participants:

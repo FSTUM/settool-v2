@@ -1,5 +1,3 @@
-from __future__ import unicode_literals
-
 import uuid
 
 from django.core.validators import RegexValidator
@@ -203,7 +201,7 @@ class Tutor(BaseModel):
     )
 
     def __str__(self):
-        return "{0} {1}".format(str(self.first_name), str(self.last_name))
+        return f"{self.first_name} {self.last_name}"
 
     def log(self, user, text):
         # LogEntry.objects.create(
@@ -264,7 +262,7 @@ class Event(BaseModel):
         pass
 
     def __str__(self):
-        return "{0} {1}".format(str(self.name), str(self.begin.date()))
+        return f"{self.name} {self.begin.date()}"
 
 
 class Task(BaseModel):
@@ -369,7 +367,7 @@ class TutorAssignment(BaseModel):
     )
 
     def __str__(self):
-        return "{}".format(self.tutor)
+        return f"{self.tutor}"
 
 
 class Question(BaseModel):
@@ -434,7 +432,7 @@ class Answer(BaseModel):
     )
 
     def __str__(self):
-        return "{}: {} -> {}".format(self.tutor, self.question, str(self.answer))
+        return f"{self.tutor}: {self.question} -> {self.answer}"
 
 
 class MailTutorTask(BaseModel):
@@ -456,7 +454,7 @@ class MailTutorTask(BaseModel):
     )
 
     def __str__(self):
-        return "{}: {} -> {} - {}".format(self.created_at, self.tutor, self.mail, self.task)
+        return f"{self.created_at}: {self.tutor} -> {self.mail} - {self.task}"
 
 
 class SubjectTutorCountAssignment(BaseModel):

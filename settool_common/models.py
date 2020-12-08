@@ -36,7 +36,7 @@ class Semester(models.Model):
     )
 
     def __str__(self):
-        return "{} {:4}".format(self.get_semester_display(), self.year)
+        return f"{self.get_semester_display()} {self.year:4}"
 
 
 class Subject(models.Model):
@@ -96,8 +96,7 @@ class Subject(models.Model):
     )
 
     def __str__(self):
-        return "{} {}".format(self.get_degree_display(),
-                              self.get_subject_display())
+        return f"{self.get_degree_display()} {self.get_subject_display()}"
 
 
 def current_semester():

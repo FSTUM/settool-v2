@@ -19,4 +19,4 @@ def latex_escape(string):
     string = string.replace('~', '\\textasciitilde ')
     string = string.replace('^', '\\textasciicircum ')
 
-    return '{' + string + '}'
+    return f'{{string}}'

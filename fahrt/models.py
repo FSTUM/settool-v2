@@ -1,5 +1,3 @@
-from __future__ import unicode_literals
-
 import datetime
 
 from dateutil.relativedelta import relativedelta
@@ -166,7 +164,7 @@ class Participant(models.Model):
     )
 
     def __str__(self):
-        return "{0} {1}".format(self.firstname, self.surname)
+        return f"{self.firstname} {self.surname}"
 
     def log(self, user, text):
         LogEntry.objects.create(
@@ -228,7 +226,7 @@ name and {{frist}} for the individual payment deadline."),
 
     def __str__(self):
         if self.comment:
-            return "{} ({})".format(self.subject, self.comment)
+            return f"{self.subject} ({self.comment})"
         return str(self.subject)
 
     def get_mail(self):
@@ -289,4 +287,4 @@ class LogEntry(models.Model):
     )
 
     def __str__(self):
-        return "{0}, {1}: {2}".format(self.time, self.user, self.text)
+        return f"{self.time}, {self.user}: {self.text}"

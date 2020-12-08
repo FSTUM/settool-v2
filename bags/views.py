@@ -157,7 +157,7 @@ def update_field(request, company_pk, field):
         value = form.cleaned_data['value']
 
         if pk != company.pk or \
-                name != "company_{}_{}".format(company.pk, field):
+                name != f"company_{company.pk}_{field}":
             return HttpResponseBadRequest('')
 
         changes = {field: value}

@@ -19,7 +19,7 @@ Install all the requirements needed for developement and testing using:
   
 # Dependencies
 
-- Python 3
+- Python 3.7
 - Python modules listed in `requirements.txt`
 - pdflatex (from TeX Live)
 

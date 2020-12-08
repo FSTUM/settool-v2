@@ -158,7 +158,7 @@ def tutor_delete(request, uid):
     form = forms.Form(request.POST or None)
     if form.is_valid():
         tutor.delete()
-        messages.success(request, 'Deleted Tutor %s.' % tutor)
+        messages.success(request, f'Deleted Tutor {tutor}.')
         return redirect("tutor_list")
 
     context = {
@@ -204,7 +204,7 @@ def tutor_edit(request, uid):
             res.question_id = answer.cleaned_data.get('question').id
             res.save()
         tutor.log(request.user, "Tutor edited")
-        messages.success(request, 'Saved Tutor %s.' % tutor)
+        messages.success(request, f'Saved Tutor {tutor}.')
 
         return redirect('tutor_view', tutor.id)
 
@@ -223,7 +223,7 @@ def event_edit(request, uid):
     if form.is_valid():
         form.save()
         event.log(request.user, "Event edited")
-        messages.success(request, 'Saved Event %s.' % event.name)
+        messages.success(request, f'Saved Event {event.name}.')
 
         return redirect('event_view', event.id)
 
@@ -247,7 +247,7 @@ def event_delete(request, uid):
     form = forms.Form(request.POST or None)
     if form.is_valid():
         event.delete()
-        messages.success(request, 'Deleted Event %s.' % event.name)
+        messages.success(request, f'Deleted Event {event.name}.')
         return redirect("event_list")
 
     context = {
@@ -265,7 +265,7 @@ def event_add(request):
     if form.is_valid():
         event = form.save()
         event.log(None, "Event added")
-        messages.success(request, 'Added Event %s.' % event.name)
+        messages.success(request, f'Added Event {event.name}.')
 
         return redirect('event_list')
 
@@ -287,7 +287,7 @@ def task_edit(request, uid):
     if form.is_valid():
         form.save()
         task.log(request.user, "Task edited")
-        messages.success(request, 'Saved Task %s.' % task.name)
+        messages.success(request, f'Saved Task {task.name}.')
 
         return redirect('task_view', task.id)
 
@@ -311,7 +311,7 @@ def task_delete(request, uid):
     form = forms.Form(request.POST or None)
     if form.is_valid():
         task.delete()
-        messages.success(request, 'Deleted Task %s.' % task.name)
+        messages.success(request, f'Deleted Task {task.name}.')
         return redirect("task_list")
 
     context = {
@@ -329,7 +329,7 @@ def task_add(request, eid=None):
     if form.is_valid():
         task = form.save()
         task.log(None, "Task added")
-        messages.success(request, 'Added Task %s.' % task.name)
+        messages.success(request, f'Added Task {task.name}.')
 
         return redirect('task_list')
 
@@ -349,7 +349,7 @@ def task_view(request, uid):
     if form.is_valid():
         form.save()
         task.log(request.user, "Task Assignment edited")
-        messages.success(request, 'Saved Task Assignment %s.' % task.name)
+        messages.success(request, f'Saved Task Assignment {task.name}.')
 
     assigned_tutors = task.tutors.all().order_by("last_name")
     parallel_task_tutors = Tutor.objects.filter(Q(task__begin__gte=task.begin) | Q(task__end__lte=task.end),
@@ -387,7 +387,7 @@ def requirement_add(request):
     if form.is_valid():
         question = form.save()
         question.log(None, "Requirement added")
-        messages.success(request, 'Added Requirement %s.' % question.question)
+        messages.success(request, f'Added Requirement {question.question}.')
 
         return redirect('requirement_list')
 
@@ -404,7 +404,7 @@ def requirement_edit(request, uid):
     if form.is_valid():
         form.save()
         question.log(request.user, "Question edited")
-        messages.success(request, 'Saved Task %s.' % question.question)
+        messages.success(request, f'Saved Task {question.question}.')
 
         return redirect('requirement_view', question.id)
 
@@ -421,7 +421,7 @@ def requirement_delete(request, uid):
     form = forms.Form(request.POST or None)
     if form.is_valid():
         question.delete()
-        messages.success(request, 'Deleted Question %s.' % question.question)
+        messages.success(request, f'Deleted Question {question.question}.')
         return redirect("requirement_list")
 
     context = {
@@ -447,7 +447,7 @@ def task_mail(request, uid, template=None):
     tutor_data = {}
     for name, field in [(x.name, x) for x in Tutor._meta.fields if x.name not in ["semester", "subject"]]:
         if field.get_internal_type() == "CharField":
-            tutor_data[name] = "<" + name + ">"
+            tutor_data[name] = f"<{name}>"
         else:
             tutor_data[name] = field.default
 
@@ -486,9 +486,9 @@ def task_mail(request, uid, template=None):
 
             MailTutorTask.objects.create(tutor=tutor, mail=mail_template, task=task)
 
-            task.log(request.user, "Send mail to %s." % tutor)
+            task.log(request.user, f"Send mail to {tutor}.")
 
-        messages.success(request, 'Send email for Task %s.' % task.name)
+        messages.success(request, f'Send email for {task.name}.')
         return redirect("task_list")
 
     context = {
@@ -510,15 +510,15 @@ def tutor_export(request, file_type, status=None):
     else:
         tutors = Tutor.objects.filter(semester=semester, status=status).order_by('last_name', 'first_name')
 
-    filename = "tutors_" + time.strftime("%Y%m%d-%H%M")
+    filename = f"tutors_{time.strftime('%Y%m%d-%H%M')}"
 
     if file_type == "pdf":
-        return download_pdf("tutors/tex/tutors.tex", filename + ".pdf", {"tutors": tutors})
+        return download_pdf("tutors/tex/tutors.tex", f"{filename}.pdf", {"tutors": tutors})
     if file_type == "csv":
         return download_csv(["last_name", "first_name", "subject", "matriculation_number", "birthday"],
-                            filename + ".csv", tutors)
+                            f"{filename}.csv", tutors)
     if file_type == "tshirt":
-        return download_pdf("tutors/tex/tshirts.tex", filename + ".pdf", {"tutors": tutors})
+        return download_pdf("tutors/tex/tshirts.tex", f"{filename}.pdf", {"tutors": tutors})
 
     raise Http404
 
@@ -528,9 +528,9 @@ def task_export(request, file_type, uid=None):
     task = Task.objects.get(pk=uid)
     tutors = task.tutors.order_by('last_name', 'first_name')
 
-    filename = "task_" + task.id.__str__() + "_" + time.strftime("%Y%m%d-%H%M")
+    filename = f"task_{task.id}_{time.strftime('%Y%m%d-%H%M')}"
     if file_type == "pdf":
-        return download_pdf("tutors/tex/task.tex", filename + ".pdf", {"task": task, "tutors": tutors})
+        return download_pdf("tutors/tex/task.tex", f"{filename}.pdf", {"task": task, "tutors": tutors})
 
     raise Http404
 
@@ -538,13 +538,13 @@ def task_export(request, file_type, uid=None):
 def download_pdf(file, dest, context):
     pdf = utils.latex_to_pdf(file, context)
     response = HttpResponse(pdf, content_type="application/pdf")
-    response['Content-Disposition'] = 'inline; filename=' + os.path.basename(dest)
+    response['Content-Disposition'] = f'inline; filename={os.path.basename(dest)}'
     return response
 
 
 def download_csv(fields, dest, context):
     response = HttpResponse(content_type="text/csv")
-    response['Content-Disposition'] = 'inline; filename=' + os.path.basename(dest)
+    response['Content-Disposition'] = f'inline; filename={os.path.basename(dest)}'
     writer = csv.writer(response, dialect=csv.excel)
     writer.writerow(fields)
 
@@ -639,7 +639,7 @@ def tutor_mail(request, status=None, template=None, uid=None):
     tutor_data = {}
     for name, field in [(x.name, x) for x in Tutor._meta.fields if x.name not in ["semester", "subject"]]:
         if field.get_internal_type() == "CharField":
-            tutor_data[name] = "<" + name + ">"
+            tutor_data[name] = f"<{name}>"
         else:
             tutor_data[name] = field.default
 
@@ -679,7 +679,7 @@ def tutor_mail(request, status=None, template=None, uid=None):
 
             MailTutorTask.objects.create(tutor=tutor, mail=mail_template, task=None)
 
-            tutor.log(request.user, "Send mail to %s." % tutor)
+            tutor.log(request.user, f"Send mail to {tutor}.")
 
         messages.success(request, 'Sent email to tutors.')
         return redirect("tutor_list") if status is None else redirect("tutor_list_status", status=status)
