@@ -17,10 +17,13 @@
                 <table class="table">
                     <tr>
                         <td>
-                            <button type="submit" class="btn btn-primary">{% trans "Submit" %}</button>
+                            <button type="submit" class="btn btn-danger">{% trans "Accept" %}</button>
                         </td>
-                        <td><a href="{% url "tutor_list_status" "active" %}"
-                               class="btn btn-danger">{% trans "Cancel" %}</a></td>
+                        <td>
+                            <a href="{% url "tutor_list_status" "active" %}" class="btn btn-secondary">
+                                {% trans "Cancel" %}
+                            </a>
+                        </td>
                     </tr>
                 </table>
 
