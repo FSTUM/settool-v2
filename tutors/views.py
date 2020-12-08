@@ -72,6 +72,7 @@ def tutor_signup(request):
     for question in questions:
         answers_new.append(Answer(question=question))
 
+    # pylint: disable=invalid-name
     AnswerFormSet = modelformset_factory(
         Answer,
         form=AnswerForm,
@@ -232,6 +233,7 @@ def tutor_edit(request, uid):
             if answers_existing.filter(question=question).count() == 0:
                 answers_new.append(Answer(tutor=tutor, question=question))
 
+    # pylint: disable=invalid-name
     AnswerFormSet = modelformset_factory(
         Answer,
         form=AnswerForm,
@@ -696,6 +698,7 @@ def tutors_settings_tutors(request):
             if subjects_existing.filter(subject=subject).count() == 0:
                 subjects_new.append(SubjectTutorCountAssignment(subject=subject))
 
+    # pylint: disable=invalid-name
     CountFormSet = modelformset_factory(
         SubjectTutorCountAssignment,
         form=SubjectTutorCountAssignmentAdminForm,
@@ -857,23 +860,23 @@ def tutor_batch_accept(request):
     semester = get_object_or_404(Semester, pk=get_semester(request))
     tutors_active = Tutor.objects.filter(semester=semester, status=Tutor.STATUS_ACTIVE)
     tutors_accepted = Tutor.objects.filter(semester=semester, status=Tutor.STATUS_ACCEPTED)
-    counts = SubjectTutorCountAssignment.objects.filter(semester=semester)
+    assignments_wish_counter = SubjectTutorCountAssignment.objects.filter(semester=semester)
 
     tutor_ids = []
     to_be_accepted = {}
 
-    for c in counts:
-        active_tutors = tutors_active.filter(subject=c.subject)
-        accepted_count = tutors_accepted.filter(subject=c.subject).count()
+    for assignment_wish_counter in assignments_wish_counter:
+        active_tutors = tutors_active.filter(subject=assignment_wish_counter.subject)
+        accepted_count = tutors_accepted.filter(subject=assignment_wish_counter.subject).count()
 
-        if c.wanted > accepted_count:
-            need = c.wanted - accepted_count
+        if assignment_wish_counter.wanted > accepted_count:
+            need = assignment_wish_counter.wanted - accepted_count
             for tutor in active_tutors.order_by("registration_time")[:need]:
                 tutor_ids.append(tutor.id)
 
-                if c.subject not in to_be_accepted:
-                    to_be_accepted[c.subject] = []
-                to_be_accepted[c.subject].append(tutor)
+                if assignment_wish_counter.subject not in to_be_accepted:
+                    to_be_accepted[assignment_wish_counter.subject] = []
+                to_be_accepted[assignment_wish_counter.subject].append(tutor)
 
     form = TutorAcceptAdminForm(
         request.POST or None,
@@ -900,25 +903,25 @@ def tutor_batch_decline(request):
     semester = get_object_or_404(Semester, pk=get_semester(request))
     tutors_active = Tutor.objects.filter(semester=semester, status=Tutor.STATUS_ACTIVE)
     tutors_accepted = Tutor.objects.filter(semester=semester, status=Tutor.STATUS_ACCEPTED)
-    counts = SubjectTutorCountAssignment.objects.filter(semester=semester)
+    assignments_wish_counter = SubjectTutorCountAssignment.objects.filter(semester=semester)
 
     tutor_ids = []
     to_be_declined = {}
 
-    for c in counts:
-        active_tutors = tutors_active.filter(subject=c.subject)
-        accepted_count = tutors_accepted.filter(subject=c.subject).count()
+    for assignment_wish_counter in assignments_wish_counter:
+        active_tutors = tutors_active.filter(subject=assignment_wish_counter.subject)
+        accepted_count = tutors_accepted.filter(subject=assignment_wish_counter.subject).count()
 
-        keep = c.wanted - accepted_count + c.waitlist
+        keep = assignment_wish_counter.wanted - accepted_count + assignment_wish_counter.waitlist
         if keep < 0:
             keep = 0
 
         for tutor in active_tutors.order_by("registration_time")[keep:]:
             tutor_ids.append(tutor.id)
 
-            if c.subject not in to_be_declined:
-                to_be_declined[c.subject] = []
-            to_be_declined[c.subject].append(tutor)
+            if assignment_wish_counter.subject not in to_be_declined:
+                to_be_declined[assignment_wish_counter.subject] = []
+            to_be_declined[assignment_wish_counter.subject].append(tutor)
 
     form = TutorAcceptAdminForm(
         request.POST or None,
@@ -944,18 +947,21 @@ def tutor_batch_decline(request):
 def dashboard(request):
     semester = get_object_or_404(Semester, pk=get_semester(request))
 
-    counts = SubjectTutorCountAssignment.objects.filter(semester=semester)
+    assignments_wish_counter = SubjectTutorCountAssignment.objects.filter(semester=semester)
     count_results = {}
-    for c in counts:
+    for assignment_wish_counter in assignments_wish_counter:
         counts_tutors = Tutor.objects.filter(
             semester=semester,
-            subject=c.subject,
+            subject=assignment_wish_counter.subject,
             status=Tutor.STATUS_ACCEPTED,
         ).aggregate(total=Count("subject"))
         if counts_tutors is None:
-            count_results[c.subject] = (0, c.wanted)
+            count_results[assignment_wish_counter.subject] = (0, assignment_wish_counter.wanted)
         else:
-            count_results[c.subject] = (counts_tutors["total"], c.wanted)
+            count_results[assignment_wish_counter.subject] = (
+                counts_tutors["total"],
+                assignment_wish_counter.wanted,
+            )
 
     events = (
         Event.objects.filter(semester=semester)
