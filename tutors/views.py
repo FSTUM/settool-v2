@@ -863,17 +863,17 @@ def tutor_batch_accept(request):
     to_be_accepted = {}
 
     for c in counts:
-        active = tutors_active.filter(subject=c.subject)
+        active_tutors = tutors_active.filter(subject=c.subject)
         accepted_count = tutors_accepted.filter(subject=c.subject).count()
 
         if c.wanted > accepted_count:
             need = c.wanted - accepted_count
-            for t in active.order_by("registration_time")[:need]:
-                tutor_ids.append(t.id)
+            for tutor in active_tutors.order_by("registration_time")[:need]:
+                tutor_ids.append(tutor.id)
 
                 if c.subject not in to_be_accepted:
                     to_be_accepted[c.subject] = []
-                to_be_accepted[c.subject].append(t)
+                to_be_accepted[c.subject].append(tutor)
 
     form = TutorAcceptAdminForm(
         request.POST or None,
@@ -906,19 +906,19 @@ def tutor_batch_decline(request):
     to_be_declined = {}
 
     for c in counts:
-        active = tutors_active.filter(subject=c.subject)
+        active_tutors = tutors_active.filter(subject=c.subject)
         accepted_count = tutors_accepted.filter(subject=c.subject).count()
 
         keep = c.wanted - accepted_count + c.waitlist
         if keep < 0:
             keep = 0
 
-        for t in active.order_by("registration_time")[keep:]:
-            tutor_ids.append(t.id)
+        for tutor in active_tutors.order_by("registration_time")[keep:]:
+            tutor_ids.append(tutor.id)
 
             if c.subject not in to_be_declined:
                 to_be_declined[c.subject] = []
-            to_be_declined[c.subject].append(t)
+            to_be_declined[c.subject].append(tutor)
 
     form = TutorAcceptAdminForm(
         request.POST or None,
