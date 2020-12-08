@@ -1,6 +1,7 @@
 import csv
 import os
 import time
+from typing import Dict
 
 from django import http
 from django.contrib import messages
@@ -756,14 +757,7 @@ def tutor_mail(request, status=None, template=None, uid=None):
     else:
         tutors = Tutor.objects.filter(pk=uid)
 
-    tutor_data = {}
-    for name, field in [
-        (x.name, x) for x in Tutor._meta.fields if x.name not in ["semester", "subject"]
-    ]:
-        if field.get_internal_type() == "CharField":
-            tutor_data[name] = f"<{name}>"
-        else:
-            tutor_data[name] = field.default
+    tutor_data = extract_tutor_data()
 
     if uid is None:
         tutor = Tutor(**tutor_data)
@@ -789,27 +783,8 @@ def tutor_mail(request, status=None, template=None, uid=None):
         tutors = form.cleaned_data["tutors"]
         mail_template = form.cleaned_data["mail_template"]
 
-        for tutor in tutors:
-            context = Context(
-                {
-                    "tutor": tutor,
-                },
-            )
-            message = Template(mail_template.text).render(context)
-            subject = Template(mail_template.subject).render(context)
-            email = EmailMessage(
-                from_email=mail_template.sender,
-                to=[tutor.email],
-                subject=subject,
-                body=message,
-            )
-            email.send()
+        send_email_to_all_tutors(mail_template, tutors, request)
 
-            MailTutorTask.objects.create(tutor=tutor, mail=mail_template, task=None)
-
-            tutor.log(request.user, f"Send mail to {tutor}.")
-
-        messages.success(request, "Sent email to tutors.")
         if status is None:
             return redirect("tutor_list")
         return redirect("tutor_list_status", status=status)
@@ -824,6 +799,41 @@ def tutor_mail(request, status=None, template=None, uid=None):
         "tutor": tutor,
     }
     return render(request, "tutors/tutor/mail.html", context)
+
+
+def extract_tutor_data() -> Dict[str, str]:
+    tutor_data = {}
+    for name, field in [
+        (x.name, x) for x in Tutor._meta.fields if x.name not in ["semester", "subject"]
+    ]:
+        if field.get_internal_type() == "CharField":
+            tutor_data[name] = f"<{name}>"
+        else:
+            tutor_data[name] = field.default
+    return tutor_data
+
+
+def send_email_to_all_tutors(mail_template, tutors, request):
+    for tutor in tutors:
+        context = Context(
+            {
+                "tutor": tutor,
+            },
+        )
+        message = Template(mail_template.text).render(context)
+        subject = Template(mail_template.subject).render(context)
+        email = EmailMessage(
+            from_email=mail_template.sender,
+            to=[tutor.email],
+            subject=subject,
+            body=message,
+        )
+        email.send()
+
+        MailTutorTask.objects.create(tutor=tutor, mail=mail_template, task=None)
+
+        tutor.log(request.user, f"Send mail to {tutor}.")
+    messages.success(request, "Sent email to tutors.")
 
 
 def default_tutor_mail_template(semester, settings, status, template):
