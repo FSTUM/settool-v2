@@ -810,11 +810,9 @@ def tutor_mail(request, status=None, template=None, uid=None):
             tutor.log(request.user, f"Send mail to {tutor}.")
 
         messages.success(request, "Sent email to tutors.")
-        return (
-            redirect("tutor_list")
-            if status is None
-            else redirect("tutor_list_status", status=status)
-        )
+        if status is None:
+            return redirect("tutor_list")
+        return redirect("tutor_list_status", status=status)
 
     context = {
         "from": template.sender,
@@ -830,7 +828,6 @@ def tutor_mail(request, status=None, template=None, uid=None):
 
 def default_tutor_mail_template(semester, settings, status, template):
     if template is None:
-
         status_to_template = {
             "active": settings.mail_waiting_list,
             "accepted": settings.mail_confirmed_place,
