@@ -69,3 +69,10 @@ repos:
                 - flake8-print
                 - flake8-use-fstring
                 - flake8-django
+    - repo: local
+      hooks:
+          - id: django-migrations
+            name: django-migrations
+            entry: ./manage.py makemigrations
+            language: system
+            pass_filenames: false
