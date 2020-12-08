@@ -45,6 +45,14 @@ repos:
       rev: 1.6.3
       hooks:
           - id: bandit
+    - repo: local
+      hooks:
+          - id: pylint
+            name: pylint
+            entry: pylint
+            language: system
+            types: [python]
+            exclude: migrations
     - repo: https://gitlab.com/PyCQA/flake8
       rev: 3.8.4
       hooks:
