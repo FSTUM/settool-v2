@@ -77,6 +77,19 @@ The following Stages are availible:
 | linting | mypy        | Executes [mypy](https://mypy-lang.org/), a tool type checks your code                         |
 | linting | pylint      | Executes [Pylint](https://pypi.org/project/pylint/),  a tool type checks your code            |
 
+# pre-commit
+
+Code quality is ensured via various tools bundled in [`pre-commit`](https://github.com/pre-commit/pre-commit/).
+
+You can install `pre-commit`, so it will automatically run on commit:
+```console
+pre-commit install
+```
+This will check all files modified by your commit and will prevent the commit if a hook fails. To check all files, you can run
+```console
+pre-commit run --all-files
+```
+
 # Translation
 
 Update the .po files with:
@@ -85,6 +98,4 @@ Update the .po files with:
 
 Then edit the .po files, e.g. `guidedtours/locale/de/LC_MESSAGES/django.po`. Poedit is an excellent GUI for this!
 
-Finally, create the .mo files with the new translations:
-
-    python3 manage.py compilemessages
+`pre-commit` will automatically create the `.mo`-files for you.
