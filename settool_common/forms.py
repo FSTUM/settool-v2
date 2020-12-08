@@ -6,7 +6,7 @@ from .models import Mail
 
 class SemesterBasedForm(forms.Form):
     def __init__(self, *args, **kwargs):
-        self.semester = kwargs.pop('semester')
+        self.semester = kwargs.pop("semester")
         super().__init__(*args, **kwargs)
 
 
@@ -37,7 +37,7 @@ class SelectMailForm(forms.Form):
     )
 
     def __init__(self, *args, **kwargs):
-        semester = kwargs.pop('semester')
+        semester = kwargs.pop("semester")
         super().__init__(*args, **kwargs)
 
-        self.fields['mail'].queryset = semester.fahrt_mail_set.all()
+        self.fields["mail"].queryset = semester.fahrt_mail_set.all()

@@ -6,12 +6,16 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('fahrt', '0007_auto_20160906_1441'),
+        ("fahrt", "0007_auto_20160906_1441"),
     ]
 
     operations = [
         migrations.AlterModelOptions(
-            name='participant',
-            options={'permissions': (('view_participants', 'Can view and edit the list of participants'),)},
+            name="participant",
+            options={
+                "permissions": (
+                    ("view_participants", "Can view and edit the list of participants"),
+                ),
+            },
         ),
     ]

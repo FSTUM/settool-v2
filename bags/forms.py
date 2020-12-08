@@ -2,7 +2,9 @@ from django import forms
 from django.utils.translation import ugettext_lazy as _
 
 from settool_common.models import Semester
-from .models import Company, Mail
+
+from .models import Company
+from .models import Mail
 
 
 class CompanyForm(forms.ModelForm):
@@ -11,7 +13,7 @@ class CompanyForm(forms.ModelForm):
         exclude = ["semester"]
 
     def __init__(self, *args, **kwargs):
-        self.semester = kwargs.pop('semester')
+        self.semester = kwargs.pop("semester")
         super().__init__(*args, **kwargs)
 
     def save(self, commit=True):
@@ -33,11 +35,12 @@ class GiveawayForm(forms.Form):
     )
 
     def __init__(self, *args, **kwargs):
-        semester = kwargs.pop('semester')
+        semester = kwargs.pop("semester")
         super().__init__(*args, **kwargs)
 
-        self.fields['company'].queryset = semester.company_set.filter(
-            giveaways="").order_by('name')
+        self.fields["company"].queryset = semester.company_set.filter(
+            giveaways="",
+        ).order_by("name")
 
 
 class MailForm(forms.ModelForm):
@@ -46,7 +49,7 @@ class MailForm(forms.ModelForm):
         exclude = ["semester"]
 
     def __init__(self, *args, **kwargs):
-        self.semester = kwargs.pop('semester')
+        self.semester = kwargs.pop("semester")
         super().__init__(*args, **kwargs)
 
     def save(self, commit=True):
@@ -64,10 +67,10 @@ class SelectMailForm(forms.Form):
     )
 
     def __init__(self, *args, **kwargs):
-        semester = kwargs.pop('semester')
+        semester = kwargs.pop("semester")
         super().__init__(*args, **kwargs)
 
-        self.fields['mail'].queryset = semester.mail_set.all()
+        self.fields["mail"].queryset = semester.mail_set.all()
 
 
 def produce_boolean_field_with_autosubmit(label):
@@ -106,17 +109,18 @@ class ImportForm(forms.Form):
     )
 
     only_contact_again = forms.BooleanField(
-        label=_("Only companies who explicitly said contact again (otherwise \
-            all companies except the ones which said to not contact again \
-            will be used)"),
+        label=_(
+            "Only companies who explicitly said contact again (otherwise all companies except the "
+            "ones which said to not contact again will be used)",
+        ),
         required=False,
     )
 
     def __init__(self, *args, **kwargs):
-        semester = kwargs.pop('semester')
+        semester = kwargs.pop("semester")
         super().__init__(*args, **kwargs)
 
-        self.fields['semester'].queryset = Semester.objects.exclude(pk=semester.pk)
+        self.fields["semester"].queryset = Semester.objects.exclude(pk=semester.pk)
 
 
 class UpdateFieldForm(forms.Form):

@@ -4,13 +4,18 @@ from django.template import engines
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 
-from settool_common.models import Semester, Subject
+from settool_common.models import Semester
+from settool_common.models import Subject
 
 
 class Tour(models.Model):
     class Meta:
-        permissions = (("view_participants",
-                        "Can view and edit the list of participants"),)
+        permissions = (
+            (
+                "view_participants",
+                "Can view and edit the list of participants",
+            ),
+        )
 
     semester = models.ForeignKey(
         Semester,
@@ -94,8 +99,8 @@ class Participant(models.Model):
 
     @property
     def on_the_tour(self):
-        participants = self.tour.participant_set.order_by('time')
-        participants = participants[:self.tour.capacity]
+        participants = self.tour.participant_set.order_by("time")
+        participants = participants[: self.tour.capacity]
         return self in participants
 
     @property
@@ -120,9 +125,10 @@ class Mail(models.Model):
 
     text = models.TextField(
         _("Text"),
-        help_text=_("You may use {{vorname}} for the participant's first \
-name, {{tour}} for the name of the tour, {{zeit}} for the time of the \
-tour."),
+        help_text=_(
+            "You may use {{vorname}} for the participant's first name, {{tour}} for the name of "
+            "the tour, {{zeit}} for the time of the tour.",
+        ),
     )
 
     comment = models.CharField(
@@ -137,12 +143,12 @@ tour."),
         return self.subject
 
     def get_mail(self):
-        django_engine = engines['django']
+        django_engine = engines["django"]
         subject_template = django_engine.from_string(self.subject)
         context = {
-            'vorname': "<Vorname>",
-            'tour': "<Tour>",
-            'zeit': "<Zeit>",
+            "vorname": "<Vorname>",
+            "tour": "<Tour>",
+            "zeit": "<Zeit>",
         }
         subject = subject_template.render(context).rstrip()
 
@@ -152,17 +158,22 @@ tour."),
         return subject, text, Mail.FROM_MAIL
 
     def send_mail(self, participant):
-        django_engine = engines['django']
+        django_engine = engines["django"]
         subject_template = django_engine.from_string(self.subject)
         context = {
-            'vorname': participant.firstname,
-            'tour': participant.tour.name,
-            'zeit': participant.tour.date,
+            "vorname": participant.firstname,
+            "tour": participant.tour.name,
+            "zeit": participant.tour.date,
         }
         subject = subject_template.render(context).rstrip()
 
         text_template = django_engine.from_string(self.text)
         text = text_template.render(context)
 
-        send_mail(subject, text, Mail.FROM_MAIL, [participant.email],
-                  fail_silently=False)
+        send_mail(
+            subject,
+            text,
+            Mail.FROM_MAIL,
+            [participant.email],
+            fail_silently=False,
+        )

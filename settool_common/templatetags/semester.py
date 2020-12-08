@@ -1,6 +1,8 @@
 from django import template
 
-from settool_common.models import Semester, current_semester, get_semester as get_sem
+from settool_common.models import current_semester
+from settool_common.models import get_semester as get_sem
+from settool_common.models import Semester
 
 register = template.Library()
 
@@ -12,7 +14,7 @@ def get_available_semesters():
 
 @register.simple_tag(takes_context=True)
 def get_semester(context):
-    request = context['request']
+    request = context["request"]
     return get_sem(request)
 
 

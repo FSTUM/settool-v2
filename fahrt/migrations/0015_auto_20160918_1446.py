@@ -2,19 +2,26 @@
 
 import django.db.models.deletion
 from django.conf import settings
-from django.db import migrations, models
+from django.db import migrations
+from django.db import models
 
 
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('fahrt', '0013_auto_20160917_1750'),
+        ("fahrt", "0013_auto_20160917_1750"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='logentry',
-            name='user',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, related_name='mylogentry_set', to=settings.AUTH_USER_MODEL),
+            model_name="logentry",
+            name="user",
+            field=models.ForeignKey(
+                blank=True,
+                null=True,
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="mylogentry_set",
+                to=settings.AUTH_USER_MODEL,
+            ),
         ),
     ]

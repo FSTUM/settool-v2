@@ -6,12 +6,14 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('settool_common', '0002_auto_20151220_1628'),
+        ("settool_common", "0002_auto_20151220_1628"),
     ]
 
     operations = [
         migrations.AlterModelOptions(
-            name='semester',
-            options={'ordering': ['year', 'semester']},
+            name="semester",
+            options={
+                "ordering": ["year", "semester"],
+            },
         ),
     ]

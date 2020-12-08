@@ -1,8 +1,8 @@
 import os
 import shutil
-# the calls in this method are fine, as they are and all input is predefined by django.
-from subprocess import call  # nosec
-from tempfile import mkdtemp, mkstemp
+from subprocess import call  # nosec: calls are only local and input is templated
+from tempfile import mkdtemp
+from tempfile import mkstemp
 
 from django.template.loader import render_to_string
 
@@ -15,7 +15,7 @@ def latex_to_pdf(tex_path, context):
     os.write(file, render_to_string(tex_path, context).encode())
     os.close(file)
     # Compile the TeX file with PDFLaTeX
-    call(['pdflatex', '-output-directory', tmp_folder, filename])
+    call(["pdflatex", "-output-directory", tmp_folder, filename])
 
     # Move resulting PDF to a more permanent location
     with open(f"{filename}.pdf", "rb") as rendered_pdf:

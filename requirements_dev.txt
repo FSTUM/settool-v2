@@ -1,4 +1,5 @@
 bandit
 django-stubs
+pre-commit
 pylint
 pylint-django

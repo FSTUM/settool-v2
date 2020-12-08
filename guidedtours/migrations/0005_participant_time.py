@@ -2,19 +2,23 @@
 
 import datetime
 
-from django.db import migrations, models
+from django.db import migrations
+from django.db import models
 
 
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('guidedtours', '0004_participant_subject'),
+        ("guidedtours", "0004_participant_subject"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='participant',
-            name='time',
-            field=models.DateTimeField(default=datetime.datetime.now, verbose_name='Registration Time'),
+            model_name="participant",
+            name="time",
+            field=models.DateTimeField(
+                default=datetime.datetime.now,
+                verbose_name="Registration Time",
+            ),
         ),
     ]

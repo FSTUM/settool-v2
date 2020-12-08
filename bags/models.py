@@ -8,8 +8,12 @@ from settool_common.models import Semester
 
 class Company(models.Model):
     class Meta:
-        permissions = (("view_companies",
-                        "Can view and edit the companies"),)
+        permissions = (
+            (
+                "view_companies",
+                "Can view and edit the companies",
+            ),
+        )
 
     semester = models.ForeignKey(
         Semester,
@@ -122,7 +126,7 @@ class Company(models.Model):
 
 # @encoding.python_2_unicode_compatible
 class Mail(models.Model):
-    FROM_MAIL = 'Sponsoring Team des SET-Referats <set-tueten@fs.tum.de>'
+    FROM_MAIL = "Sponsoring Team des SET-Referats <set-tueten@fs.tum.de>"
     semester = models.ForeignKey(
         Semester,
         on_delete=models.CASCADE,
@@ -136,8 +140,10 @@ class Mail(models.Model):
     text = models.TextField(
         _("Text"),
         help_text=_(
-            'You may use {{firma}} for the company name, {{anrede}} for the greeting "Hallo Herr/Frau XYZ" and '
-            '{{formale_anrede}} for the formal greeting "Sehr geehrte/r Herr/Frau XYZ".'),
+            'You may use {{firma}} for the company name, {{anrede}} for the greeting "Hallo '
+            'Herr/Frau XYZ" and {{formale_anrede}} for the formal greeting "Sehr geehrte/r '
+            'Herr/Frau XYZ".',
+        ),
     )
 
     comment = models.CharField(
@@ -153,12 +159,12 @@ class Mail(models.Model):
 
     def get_mail(self):
         # text from templates
-        django_engine = engines['django']
+        django_engine = engines["django"]
         subject_template = django_engine.from_string(self.subject)
         context = {
-            'firma': "<Firma>",
-            'anrede': "<Hallo Herr/Frau XYZ>",
-            'formale_anrede': "<Sehr geehrte/r Herr/Frau XYZ>",
+            "firma": "<Firma>",
+            "anrede": "<Hallo Herr/Frau XYZ>",
+            "formale_anrede": "<Sehr geehrte/r Herr/Frau XYZ>",
         }
         subject = subject_template.render(context).rstrip()
 
@@ -169,17 +175,22 @@ class Mail(models.Model):
 
     def send_mail(self, company):
         # text from templates
-        django_engine = engines['django']
+        django_engine = engines["django"]
         subject_template = django_engine.from_string(self.subject)
         context = {
-            'firma': company.name,
-            'anrede': company.anrede,
-            'formale_anrede': company.formale_anrede,
+            "firma": company.name,
+            "anrede": company.anrede,
+            "formale_anrede": company.formale_anrede,
         }
         subject = subject_template.render(context).rstrip()
 
         text_template = django_engine.from_string(self.text)
         text = text_template.render(context)
 
-        send_mail(subject, text, Mail.FROM_MAIL, [company.email],
-                  fail_silently=False)
+        send_mail(
+            subject,
+            text,
+            Mail.FROM_MAIL,
+            [company.email],
+            fail_silently=False,
+        )

@@ -1,11 +1,21 @@
-from bootstrap_datepicker_plus import DateTimePickerInput, DatePickerInput
+from bootstrap_datepicker_plus import DatePickerInput
+from bootstrap_datepicker_plus import DateTimePickerInput
 from django import forms
 from django.utils.translation import ugettext_lazy as _
 
-from settool_common.forms import SemesterBasedModelForm, SemesterBasedForm
-from settool_common.models import Mail, Subject
-from tutors.models import Tutor, Event, Task, TutorAssignment, Question, Answer, Settings, MailTutorTask, \
-    SubjectTutorCountAssignment
+from settool_common.forms import SemesterBasedForm
+from settool_common.forms import SemesterBasedModelForm
+from settool_common.models import Mail
+from settool_common.models import Subject
+from tutors.models import Answer
+from tutors.models import Event
+from tutors.models import MailTutorTask
+from tutors.models import Question
+from tutors.models import Settings
+from tutors.models import SubjectTutorCountAssignment
+from tutors.models import Task
+from tutors.models import Tutor
+from tutors.models import TutorAssignment
 
 
 class TutorAdminForm(SemesterBasedModelForm):
@@ -15,44 +25,54 @@ class TutorAdminForm(SemesterBasedModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['birthday'].required = False
-        self.fields['matriculation_number'].required = False
+        self.fields["birthday"].required = False
+        self.fields["matriculation_number"].required = False
 
     def clean(self):
         super().clean()
-        mail = self.cleaned_data.get('email')
+        mail = self.cleaned_data.get("email")
         if mail:
             tutors = Tutor.objects.filter(email=mail, semester=self.semester)
             if tutors.count() > 0 and tutors.first().id != self.instance.id:
-                self.add_error('email', _('The email address is already in use.'))
+                self.add_error("email", _("The email address is already in use."))
 
-        matriculation_number = self.cleaned_data.get('matriculation_number')
+        matriculation_number = self.cleaned_data.get("matriculation_number")
         if matriculation_number:
-            tutors = Tutor.objects.filter(matriculation_number=matriculation_number, semester=self.semester)
+            tutors = Tutor.objects.filter(
+                matriculation_number=matriculation_number,
+                semester=self.semester,
+            )
             if tutors.count() > 0 and tutors.first().id != self.instance.id:
-                self.add_error('matriculation_number', _('The matriculation number is already in use.'))
+                self.add_error(
+                    "matriculation_number",
+                    _("The matriculation number is already in use."),
+                )
 
 
 class TutorForm(TutorAdminForm):
-    dsgvo = forms.BooleanField(required=True, label=_("I accept the terms and conditions of the following privacy "
-                                                      "policy:"))
+    dsgvo = forms.BooleanField(
+        required=True,
+        label=_(
+            "I accept the terms and conditions of the following privacy " "policy:",
+        ),
+    )
 
     class Meta:
         model = Tutor
         exclude = ["semester", "status", "registration_time", "answers"]
         widgets = {
-            'birthday': DatePickerInput(format='%Y-%m-%d'),
+            "birthday": DatePickerInput(format="%Y-%m-%d"),
         }
 
-    field_order = ['first_name', 'last_name', 'email', 'ects', 'birthday', 'matriculation_number']
+    field_order = ["first_name", "last_name", "email", "ects", "birthday", "matriculation_number"]
 
     def save(self, commit=True):
         instance = super().save(False)
         instance.save()
 
-        if 'answers' in self.changed_data:
-            final_answers = self.cleaned_data['answers'].all()
-            initial_answers = self.initial['answers'] if 'answers' in self.initial else []
+        if "answers" in self.changed_data:
+            final_answers = self.cleaned_data["answers"].all()
+            initial_answers = self.initial["answers"] if "answers" in self.initial else []
 
             # create and save new members
             for answer in final_answers:
@@ -67,14 +87,17 @@ class TutorForm(TutorAdminForm):
 
     def clean(self):
         super().clean()
-        ects = self.cleaned_data.get('ects')
+        ects = self.cleaned_data.get("ects")
 
         if ects:
-            self.validate_required_field(cleaned_data=self.cleaned_data, field_name='birthday')
-            self.validate_required_field(cleaned_data=self.cleaned_data, field_name='matriculation_number')
+            self.validate_required_field(cleaned_data=self.cleaned_data, field_name="birthday")
+            self.validate_required_field(
+                cleaned_data=self.cleaned_data,
+                field_name="matriculation_number",
+            )
         else:
-            self.cleaned_data['birthday'] = None
-            self.cleaned_data['matriculation_number'] = None
+            self.cleaned_data["birthday"] = None
+            self.cleaned_data["matriculation_number"] = None
 
         return self.cleaned_data
 
@@ -89,22 +112,22 @@ class EventAdminForm(SemesterBasedModelForm):
         model = Event
         exclude = ["semester", "name", "description", "meeting_point"]
         widgets = {
-            'begin': DateTimePickerInput(format='%Y-%m-%d %H:%M'),
-            'end': DateTimePickerInput(format='%Y-%m-%d %H:%M'),
+            "begin": DateTimePickerInput(format="%Y-%m-%d %H:%M"),
+            "end": DateTimePickerInput(format="%Y-%m-%d %H:%M"),
         }
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['description_de'].required = False
-        self.fields['description_en'].required = False
+        self.fields["description_de"].required = False
+        self.fields["description_en"].required = False
 
     def save(self, commit=True):
         instance = super().save(False)
         instance.save()
 
-        if 'subjects' in self.changed_data:
-            final_subjects = self.cleaned_data['subjects'].all()
-            initial_subjects = self.initial['subjects'] if 'subjects' in self.initial else []
+        if "subjects" in self.changed_data:
+            final_subjects = self.cleaned_data["subjects"].all()
+            initial_subjects = self.initial["subjects"] if "subjects" in self.initial else []
 
             # create and save new members
             for subject in final_subjects:
@@ -121,13 +144,13 @@ class EventAdminForm(SemesterBasedModelForm):
     def clean(self):
         cleaned_data = super().clean()
 
-        begin = cleaned_data.get('begin')
-        end = cleaned_data.get('end')
+        begin = cleaned_data.get("begin")
+        end = cleaned_data.get("end")
         if begin and end:
             if end <= begin:
                 msg = _("Begin time must be before end time.")
-                self.add_error('begin', msg)
-                self.add_error('end', msg)
+                self.add_error("begin", msg)
+                self.add_error("end", msg)
         return cleaned_data
 
 
@@ -136,22 +159,24 @@ class TaskAdminForm(SemesterBasedModelForm):
         model = Task
         exclude = ["semester", "name", "description", "meeting_point", "tutors"]
         widgets = {
-            'begin': DateTimePickerInput(format='%Y-%m-%d %H:%M'),
-            'end': DateTimePickerInput(format='%Y-%m-%d %H:%M'),
+            "begin": DateTimePickerInput(format="%Y-%m-%d %H:%M"),
+            "end": DateTimePickerInput(format="%Y-%m-%d %H:%M"),
         }
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['description_de'].required = False
-        self.fields['description_en'].required = False
+        self.fields["description_de"].required = False
+        self.fields["description_en"].required = False
 
     def save(self, commit=True):
         instance = super().save(False)
         instance.save()
 
-        if 'allowed_subjects' in self.changed_data:
-            final_subjects = self.cleaned_data['allowed_subjects'].all()
-            initial_subjects = self.initial['allowed_subjects'] if 'allowed_subjects' in self.initial else []
+        if "allowed_subjects" in self.changed_data:
+            final_subjects = self.cleaned_data["allowed_subjects"].all()
+            initial_subjects = (
+                self.initial["allowed_subjects"] if "allowed_subjects" in self.initial else []
+            )
 
             # create and save new members
             for subject in final_subjects:
@@ -163,9 +188,11 @@ class TaskAdminForm(SemesterBasedModelForm):
                 if subject not in final_subjects:
                     instance.allowed_subjects.remove(subject)
 
-        if 'requirements' in self.changed_data:
-            final_requirements = self.cleaned_data['requirements'].all()
-            initial_requirements = self.initial['requirements'] if 'requirements' in self.initial else []
+        if "requirements" in self.changed_data:
+            final_requirements = self.cleaned_data["requirements"].all()
+            initial_requirements = (
+                self.initial["requirements"] if "requirements" in self.initial else []
+            )
 
             # create and save new members
             for subject in final_requirements:
@@ -182,13 +209,13 @@ class TaskAdminForm(SemesterBasedModelForm):
     def clean(self):
         cleaned_data = super().clean()
 
-        begin = cleaned_data.get('begin')
-        end = cleaned_data.get('end')
+        begin = cleaned_data.get("begin")
+        end = cleaned_data.get("end")
         if begin and end:
             if end <= begin:
                 msg = _("Begin time must be before end time.")
-                self.add_error('begin', msg)
-                self.add_error('end', msg)
+                self.add_error("begin", msg)
+                self.add_error("end", msg)
         return cleaned_data
 
 
@@ -199,9 +226,9 @@ class TaskAssignmentForm(SemesterBasedModelForm):
 
     def save(self, commit=True):
         instance = super().save(False)
-        if 'tutors' in self.changed_data:
-            final_tutors = self.cleaned_data['tutors'].all()
-            initial_tutors = self.initial['tutors'] if 'tutors' in self.initial else []
+        if "tutors" in self.changed_data:
+            final_tutors = self.cleaned_data["tutors"].all()
+            initial_tutors = self.initial["tutors"] if "tutors" in self.initial else []
 
             # create and save new members
             for tutor in final_tutors:
@@ -225,72 +252,76 @@ class AnswerForm(forms.ModelForm):
         model = Answer
         exclude = ["tutor"]
         widgets = {
-            'question': forms.HiddenInput,
-            'answer': forms.RadioSelect,
+            "question": forms.HiddenInput,
+            "answer": forms.RadioSelect,
         }
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['answer'].label = Question.objects.get(pk=self.initial.get('question'))
-        self.fields['answer'].choices = self.fields['answer'].choices[1:]
+        self.fields["answer"].label = Question.objects.get(pk=self.initial.get("question"))
+        self.fields["answer"].choices = self.fields["answer"].choices[1:]
 
 
 class SettingsAdminForm(SemesterBasedModelForm):
     class Meta:
         model = Settings
-        exclude = ["semester", ]
+        exclude = ["semester"]
         widgets = {
-            'open_registration': DateTimePickerInput(format='%Y-%m-%d %H:%M'),
-            'close_registration': DateTimePickerInput(format='%Y-%m-%d %H:%M'),
+            "open_registration": DateTimePickerInput(format="%Y-%m-%d %H:%M"),
+            "close_registration": DateTimePickerInput(format="%Y-%m-%d %H:%M"),
         }
 
     def clean(self):
         cleaned_data = super().clean()
 
-        begin = cleaned_data.get('open_registration')
-        end = cleaned_data.get('close_registration')
+        begin = cleaned_data.get("open_registration")
+        end = cleaned_data.get("close_registration")
         if begin and end:
             if end <= begin:
                 msg = _("Begin time must be before end time.")
-                self.add_error('open_registration', msg)
-                self.add_error('close_registration', msg)
+                self.add_error("open_registration", msg)
+                self.add_error("close_registration", msg)
         return cleaned_data
 
 
 class TutorMailAdminForm(SemesterBasedForm):
-    mail_template = forms.ModelChoiceField(label='Mail Template', queryset=None, required=True)
+    mail_template = forms.ModelChoiceField(label="Mail Template", queryset=None, required=True)
 
     tutors = forms.ModelMultipleChoiceField(
         label=_("Tutors (selected have not yet received this email)"),
         widget=forms.CheckboxSelectMultiple,
         queryset=Tutor.objects.none(),
-        required=True
+        required=True,
     )
 
     def __init__(self, *args, **kwargs):
-        tutors = kwargs.pop('tutors')
-        template = kwargs.pop('template')
+        tutors = kwargs.pop("tutors")
+        template = kwargs.pop("template")
         super().__init__(*args, **kwargs)
 
         self.fields["tutors"].queryset = tutors
         self.fields["tutors"].initial = Tutor.objects.exclude(
-            id__in=MailTutorTask.objects.filter(mail=template).values("tutor_id"))
-        self.fields["mail_template"].queryset = Mail.objects.filter(semester=self.semester, sender=Mail.SET_TUTOR)
+            id__in=MailTutorTask.objects.filter(mail=template).values("tutor_id"),
+        )
+        self.fields["mail_template"].queryset = Mail.objects.filter(
+            semester=self.semester,
+            sender=Mail.SET_TUTOR,
+        )
         self.fields["mail_template"].initial = template
 
 
 class SubjectTutorCountAssignmentAdminForm(SemesterBasedModelForm):
     class Meta:
         model = SubjectTutorCountAssignment
-        exclude = ["semester", ]
+        exclude = ["semester"]
         widgets = {
-            'subject': forms.HiddenInput,
+            "subject": forms.HiddenInput,
         }
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['wanted'].label = Subject.objects.get(pk=self.initial.get('subject')).__str__()
-        self.fields['waitlist'].label = _("Waiting List").__str__()
+        self.fields["wanted"].label = Subject.objects.get(pk=self.initial.get("subject")).__str__()
+        self.fields["waitlist"].label = _("Waiting List").__str__()
 
 
 class TutorAcceptAdminForm(SemesterBasedForm):
@@ -298,11 +329,11 @@ class TutorAcceptAdminForm(SemesterBasedForm):
         label=_("Tutors (selected will be accepted)"),
         widget=forms.CheckboxSelectMultiple,
         required=True,
-        queryset=Tutor.objects.none()
+        queryset=Tutor.objects.none(),
     )
 
     def __init__(self, *args, **kwargs):
-        tutors = kwargs.pop('tutors')
+        tutors = kwargs.pop("tutors")
         super().__init__(*args, **kwargs)
 
         self.fields["tutors"].queryset = tutors
@@ -314,11 +345,11 @@ class TutorDeclineAdminForm(SemesterBasedForm):
         label=_("Tutors (selected will be declined)"),
         widget=forms.CheckboxSelectMultiple,
         required=True,
-        queryset=Tutor.objects.none()
+        queryset=Tutor.objects.none(),
     )
 
     def __init__(self, *args, **kwargs):
-        tutors = kwargs.pop('tutors')
+        tutors = kwargs.pop("tutors")
         super().__init__(*args, **kwargs)
 
         self.fields["tutors"].queryset = tutors
