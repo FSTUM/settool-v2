@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-06-19 17:09+0200\n"
+"POT-Creation-Date: 2020-12-09 15:45+0100\n"
 "PO-Revision-Date: 2017-06-19 17:15+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -18,156 +18,154 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Poedit 1.8.11\n"
 
-#: bags/forms.py:27 bags/templates/bags/filtered_index.html:45
-#: bags/templates/bags/index.html:52 bags/templates/bags/send_mail.html:41
+#: bags/forms.py bags/templates/bags/filtered_index.html
+#: bags/templates/bags/index.html bags/templates/bags/send_mail.html
 msgid "Company"
 msgstr "Firma"
 
-#: bags/forms.py:31 bags/models.py:64
-#: bags/templates/bags/filtered_index.html:51 bags/templates/bags/index.html:58
-#: bags/templates/bags/send_mail.html:47 bags/templates/bags/view.html:53
+#: bags/forms.py bags/models.py bags/templates/bags/filtered_index.html
+#: bags/templates/bags/index.html bags/templates/bags/send_mail.html
+#: bags/templates/bags/view.html
 msgid "Giveaways"
 msgstr "Giveaways"
 
-#: bags/forms.py:62
+#: bags/forms.py
 msgid "Email template:"
 msgstr "E-Mail-Vorlage:"
 
-#: bags/forms.py:73
-msgid "Search pattern:"
-msgstr "Schlagwort:"
-
-#: bags/forms.py:79
+#: bags/forms.py
 msgid "Email was not (successfully) sent"
 msgstr "E-Mail wurde noch nicht (erfolgreich) versendet"
 
-#: bags/forms.py:85 bags/models.py:88
-#: bags/templates/bags/filtered_index.html:54 bags/templates/bags/index.html:62
-#: bags/templates/bags/send_mail.html:50 bags/templates/bags/view.html:73
+#: bags/forms.py bags/models.py bags/templates/bags/filtered_index.html
+#: bags/templates/bags/index.html bags/templates/bags/send_mail.html
+#: bags/templates/bags/view.html
 msgid "Participated last year"
 msgstr "Letztes Jahr was geschickt"
 
-#: bags/forms.py:91
+#: bags/forms.py
 msgid "Not participated last year"
 msgstr "Letztes Jahr nicht teilgenommen"
 
-#: bags/forms.py:97
+#: bags/forms.py
 msgid "Contact again next year"
 msgstr "Nächstes Jahr erneut kontaktieren"
 
-#: bags/forms.py:103
+#: bags/forms.py
 msgid "Promise given"
 msgstr "Zugesagt"
 
-#: bags/forms.py:109
+#: bags/forms.py
 msgid "No promise"
 msgstr "Keine Zusage"
 
-#: bags/forms.py:115
+#: bags/forms.py
 msgid "Giveaways set"
 msgstr "Giveaways eingetragen"
 
-#: bags/forms.py:121
+#: bags/forms.py
 msgid "Giveaways already arrived"
 msgstr "Giveaways sind bereits angekommen"
 
-#: bags/forms.py:138
+#: bags/forms.py
 msgid "Import from semester"
 msgstr "Importieren von Semester"
 
-#: bags/forms.py:142
+#: bags/forms.py
+#, fuzzy
+#| msgid ""
+#| "Only companies who explicitly said contact again (otherwise             "
+#| "all companies except the ones which said to not contact again             "
+#| "will be used)"
 msgid ""
-"Only companies who explicitly said contact again (otherwise             all "
-"companies except the ones which said to not contact again             will "
-"be used)"
+"Only companies who explicitly said contact again (otherwise all companies "
+"except the ones which said to not contact again will be used)"
 msgstr ""
 "Nur Firmen die explizit gebeten haben, sie nochmal zu kontaktieren (sonst "
 "werden alle Firmen genommen, die sich nicht explizit gegen eine erneute "
 "Kontaktaufnahme ausgesprochen haben)"
 
-#: bags/models.py:24 bags/templates/bags/view.html:15
+#: bags/models.py bags/templates/bags/view.html
 msgid "Name"
 msgstr "Name"
 
-#: bags/models.py:29
+#: bags/models.py
 msgid "Contact person (Gender)"
 msgstr "Kontaktperson (Geschlecht)"
 
-#: bags/models.py:31
+#: bags/models.py
 msgid "Herr"
 msgstr "Herr"
 
-#: bags/models.py:31
+#: bags/models.py
 msgid "Frau"
 msgstr "Frau"
 
-#: bags/models.py:36
+#: bags/models.py
 msgid "Contact person (First Name)"
 msgstr "Kontaktperson (Vorname)"
 
-#: bags/models.py:42
+#: bags/models.py
 msgid "Contact person (Last Name)"
 msgstr "Kontaktperson (Nachname)"
 
-#: bags/models.py:48
+#: bags/models.py
 msgid "Email address"
 msgstr "E-Mailadresse"
 
-#: bags/models.py:52
+#: bags/models.py
 msgid "Email sent"
 msgstr "E-Mail gesendet"
 
-#: bags/models.py:56
+#: bags/models.py
 msgid "Email successfully sent"
 msgstr "E-Mail erfolgreich gesendet"
 
-#: bags/models.py:60 bags/templates/bags/filtered_index.html:50
-#: bags/templates/bags/index.html:57 bags/templates/bags/send_mail.html:46
-#: bags/templates/bags/view.html:43
+#: bags/models.py bags/templates/bags/filtered_index.html
+#: bags/templates/bags/index.html bags/templates/bags/send_mail.html
+#: bags/templates/bags/view.html
 msgid "Promise"
 msgstr "Zusage"
 
-#: bags/models.py:70 bags/templates/bags/index.html:63
-#: bags/templates/bags/view.html:81
+#: bags/models.py bags/templates/bags/index.html bags/templates/bags/view.html
 msgid "Giveaways last year"
 msgstr "Giveaways von letztem Jahr"
 
-#: bags/models.py:76 bags/templates/bags/filtered_index.html:52
-#: bags/templates/bags/index.html:59 bags/templates/bags/send_mail.html:48
-#: bags/templates/bags/view.html:57
+#: bags/models.py bags/templates/bags/filtered_index.html
+#: bags/templates/bags/index.html bags/templates/bags/send_mail.html
+#: bags/templates/bags/view.html
 msgid "Arrival time"
 msgstr "Ankunftszeit"
 
-#: bags/models.py:82 bags/models.py:149 bags/templates/bags/del_mail.html:23
-#: bags/templates/bags/filtered_index.html:53 bags/templates/bags/index.html:61
-#: bags/templates/bags/index_mails.html:30
-#: bags/templates/bags/send_mail.html:49 bags/templates/bags/view.html:61
+#: bags/models.py bags/templates/bags/del_mail.html
+#: bags/templates/bags/filtered_index.html bags/templates/bags/index.html
+#: bags/templates/bags/index_mails.html bags/templates/bags/send_mail.html
+#: bags/templates/bags/view.html
 msgid "Comment"
 msgstr "Kommentar"
 
-#: bags/models.py:92 bags/templates/bags/filtered_index.html:55
-#: bags/templates/bags/index.html:60 bags/templates/bags/send_mail.html:51
-#: bags/templates/bags/view.html:65
+#: bags/models.py bags/templates/bags/filtered_index.html
+#: bags/templates/bags/index.html bags/templates/bags/send_mail.html
+#: bags/templates/bags/view.html
 msgid "Arrived"
 msgstr "Angekommen"
 
-#: bags/models.py:96 bags/templates/bags/filtered_index.html:56
-#: bags/templates/bags/index.html:64 bags/templates/bags/send_mail.html:52
-#: bags/templates/bags/view.html:85
+#: bags/models.py bags/templates/bags/filtered_index.html
+#: bags/templates/bags/index.html bags/templates/bags/send_mail.html
+#: bags/templates/bags/view.html
 msgid "Contact again"
 msgstr "Erneut kontaktieren"
 
-#: bags/models.py:139
+#: bags/models.py
 msgid "Email subject"
 msgstr "Betreff der E-Mail"
 
-#: bags/models.py:144 bags/templates/bags/del_mail.html:20
-#: bags/templates/bags/index_mails.html:29
-#: bags/templates/bags/send_mail.html:35
+#: bags/models.py bags/templates/bags/del_mail.html
+#: bags/templates/bags/index_mails.html bags/templates/bags/send_mail.html
 msgid "Text"
 msgstr "Text"
 
-#: bags/models.py:145
+#: bags/models.py
 msgid ""
 "You may use {{firma}} for the company name, {{anrede}} for the greeting "
 "\"Hallo Herr/Frau XYZ\" and {{formale_anrede}} for the formal greeting "
@@ -177,194 +175,219 @@ msgstr ""
 "Herr/Frau XYZ\" und {{formale_anrede}} für die formale Anrede \"Sehr geehrte/"
 "r Herr/Frau XYZ\" verwenden."
 
-#: bags/templates/bags/add.html:5 bags/templates/bags/add_mail.html:5
-#: bags/templates/bags/del.html:4 bags/templates/bags/del_mail.html:4
-#: bags/templates/bags/edit.html:5 bags/templates/bags/edit_mail.html:5
-#: bags/templates/bags/filtered_index.html:19
-#: bags/templates/bags/import_companies.html:5
-#: bags/templates/bags/index.html:19 bags/templates/bags/index_mails.html:18
-#: bags/templates/bags/insert_giveaways.html:5
-#: bags/templates/bags/send_mail.html:5 bags/templates/bags/view.html:4
+#: bags/templates/bags/add_company.html bags/templates/bags/add_mail.html
+#: bags/templates/bags/del_company.html bags/templates/bags/del_mail.html
+#: bags/templates/bags/edit_company.html bags/templates/bags/edit_mail.html
+#: bags/templates/bags/filtered_index.html
+#: bags/templates/bags/import_companies.html bags/templates/bags/index.html
+#: bags/templates/bags/index_mails.html
+#: bags/templates/bags/insert_giveaways.html bags/templates/bags/send_mail.html
+#: bags/templates/bags/view.html
 msgid "Freshmen bags"
 msgstr "Erstitüten"
 
-#: bags/templates/bags/add.html:5
-msgid "Add company"
-msgstr "Firma hinzufügen"
-
-#: bags/templates/bags/add.html:9
+#: bags/templates/bags/add_company.html
 msgid "Add a company"
 msgstr "Firma hinzufügen"
 
-#: bags/templates/bags/add.html:23 bags/templates/bags/add_mail.html:23
-#: bags/templates/bags/edit.html:21 bags/templates/bags/edit_mail.html:23
-#: bags/templates/bags/insert_giveaways.html:21
+#: bags/templates/bags/add_company.html bags/templates/bags/add_mail.html
+#: bags/templates/bags/edit_company.html bags/templates/bags/edit_mail.html
+#: bags/templates/bags/insert_giveaways.html
 msgid "Submit"
 msgstr "Eintragen"
 
-#: bags/templates/bags/add.html:24 bags/templates/bags/add_mail.html:24
-#: bags/templates/bags/del.html:23 bags/templates/bags/del_mail.html:32
-#: bags/templates/bags/edit.html:22 bags/templates/bags/edit_mail.html:24
-#: bags/templates/bags/send_mail.html:21
+#: bags/templates/bags/add_company.html bags/templates/bags/add_mail.html
+#: bags/templates/bags/del_company.html bags/templates/bags/del_mail.html
+#: bags/templates/bags/edit_company.html bags/templates/bags/edit_mail.html
+#: bags/templates/bags/send_mail.html
 msgid "Cancel"
 msgstr "Abbrechen"
 
-#: bags/templates/bags/add_mail.html:5 bags/templates/bags/add_mail.html:9
+#: bags/templates/bags/add_mail.html
 msgid "Add email"
 msgstr "E-Mail-Vorlage hinzufügen"
 
-#: bags/templates/bags/del.html:4 bags/templates/bags/del.html:8
+#: bags/templates/bags/del_company.html
 msgid "Delete company"
 msgstr "Firma löschen"
 
-#: bags/templates/bags/del.html:13
+#: bags/templates/bags/del_company.html
 #, python-format
 msgid ""
 "Do you really want to delete the company <a href=\"%(url)s\">%(name)s</a>?"
 msgstr ""
 "Soll die Firma <a href=\"%(url)s\">%(name)s</a> wirklich gelöscht werden?"
 
-#: bags/templates/bags/del.html:22 bags/templates/bags/del_mail.html:31
-#: bags/templates/bags/filtered_index.html:58 bags/templates/bags/index.html:66
-#: bags/templates/bags/index_mails.html:31
-#: bags/templates/bags/send_mail.html:54 bags/templates/bags/view.html:101
+#: bags/templates/bags/del_company.html bags/templates/bags/del_mail.html
+#: bags/templates/bags/filtered_index.html bags/templates/bags/index.html
+#: bags/templates/bags/index_mails.html bags/templates/bags/send_mail.html
+#: bags/templates/bags/view.html
 msgid "Delete"
 msgstr "Löschen"
 
-#: bags/templates/bags/del_mail.html:4 bags/templates/bags/del_mail.html:8
+#: bags/templates/bags/del_mail.html
 msgid "Delete email template"
 msgstr "E-Mail-Vorlage löschen"
 
-#: bags/templates/bags/del_mail.html:12
+#: bags/templates/bags/del_mail.html
 msgid "Do you really want to delete the following email template?"
 msgstr "Soll die folgende E-Mail-Vorlage wirklich gelöscht werden?"
 
-#: bags/templates/bags/del_mail.html:17 bags/templates/bags/index_mails.html:28
-#: bags/templates/bags/send_mail.html:32
+#: bags/templates/bags/del_mail.html bags/templates/bags/index_mails.html
+#: bags/templates/bags/send_mail.html
 msgid "Subject"
 msgstr "Betreff"
 
-#: bags/templates/bags/edit.html:5 bags/templates/bags/edit.html:9
+#: bags/templates/bags/edit_company.html
 msgid "Edit company"
 msgstr "Firma bearbeiten"
 
-#: bags/templates/bags/edit_mail.html:5 bags/templates/bags/edit_mail.html:9
+#: bags/templates/bags/edit_mail.html
 msgid "Edit email"
 msgstr "E-Mail-Vorlage bearbeiten"
 
-#: bags/templates/bags/filtered_index.html:19
-#: bags/templates/bags/filtered_index.html:23 bags/templates/bags/index.html:19
-#: bags/templates/bags/index.html:23
+#: bags/templates/bags/filtered_index.html bags/templates/bags/index.html
 msgid "List companies"
 msgstr "Firmenliste"
 
-#: bags/templates/bags/filtered_index.html:33
+#: bags/templates/bags/filtered_index.html bags/templates/bags/index.html
 msgid "Send emails"
 msgstr "E-Mails senden"
 
-#: bags/templates/bags/filtered_index.html:34 bags/templates/bags/index.html:28
+#: bags/templates/bags/filtered_index.html bags/templates/bags/index.html
 msgid "Edit Email Templates"
 msgstr "E-Mail-Vorlage bearbeiten"
 
-#: bags/templates/bags/filtered_index.html:35 bags/templates/bags/index.html:31
+#: bags/templates/bags/filtered_index.html bags/templates/bags/index.html
 msgid "Add Company"
 msgstr "Firma hinzufügen"
 
-#: bags/templates/bags/filtered_index.html:46 bags/templates/bags/index.html:53
-#: bags/templates/bags/send_mail.html:42 bags/templates/bags/view.html:19
+#: bags/templates/bags/filtered_index.html bags/templates/bags/index.html
+#: bags/templates/bags/send_mail.html bags/templates/bags/view.html
 msgid "Contact"
 msgstr "Kontakt"
 
-#: bags/templates/bags/filtered_index.html:47 bags/templates/bags/index.html:54
-#: bags/templates/bags/send_mail.html:43 bags/templates/bags/view.html:23
+#: bags/templates/bags/filtered_index.html bags/templates/bags/index.html
+#: bags/templates/bags/send_mail.html bags/templates/bags/view.html
 msgid "E-Mail"
 msgstr "E-Mail"
 
-#: bags/templates/bags/filtered_index.html:48 bags/templates/bags/index.html:55
-#: bags/templates/bags/send_mail.html:44 bags/templates/bags/view.html:27
+#: bags/templates/bags/filtered_index.html bags/templates/bags/index.html
+#: bags/templates/bags/send_mail.html bags/templates/bags/view.html
 msgid "sent"
 msgstr "gesendet"
 
-#: bags/templates/bags/filtered_index.html:49 bags/templates/bags/index.html:56
-#: bags/templates/bags/send_mail.html:45 bags/templates/bags/view.html:35
+#: bags/templates/bags/filtered_index.html bags/templates/bags/index.html
+#: bags/templates/bags/send_mail.html bags/templates/bags/view.html
 msgid "successfully sent"
 msgstr "erfolgreich gesendet"
 
-#: bags/templates/bags/filtered_index.html:57 bags/templates/bags/index.html:65
-#: bags/templates/bags/send_mail.html:53 bags/templates/bags/view.html:95
+#: bags/templates/bags/filtered_index.html bags/templates/bags/index.html
+#: bags/templates/bags/send_mail.html bags/templates/bags/view.html
 msgid "Edit"
 msgstr "Bearbeiten"
 
-#: bags/templates/bags/import_companies.html:5
-#: bags/templates/bags/import_companies.html:9
+#: bags/templates/bags/import_companies.html bags/templates/bags/index.html
 msgid "Import Companies"
 msgstr "Firmen importieren"
 
-#: bags/templates/bags/import_companies.html:21
+#: bags/templates/bags/import_companies.html
 msgid "Import"
 msgstr "Importieren"
 
-#: bags/templates/bags/import_companies.html:22
-#: bags/templates/bags/insert_giveaways.html:22
+#: bags/templates/bags/import_companies.html
+#: bags/templates/bags/insert_giveaways.html
 msgid "Back"
 msgstr "zurück"
 
-#: bags/templates/bags/index.html:42
-msgid "Filter"
-msgstr "Filtern"
+#: bags/templates/bags/index.html
+msgid "0. Special Actions"
+msgstr ""
 
-#: bags/templates/bags/index_mails.html:18
-#: bags/templates/bags/index_mails.html:22
-msgid "List email templates"
-msgstr "E-Mail-Vorlagen"
-
-#: bags/templates/bags/index_mails.html:52
-msgid "Add Email"
-msgstr "E-Mail-Vorlage hinzufügen"
-
-#: bags/templates/bags/index_mails.html:53
-msgid "Edit Companies"
-msgstr "Firmenliste"
-
-#: bags/templates/bags/insert_giveaways.html:5
-#: bags/templates/bags/insert_giveaways.html:9
+#: bags/templates/bags/index.html bags/templates/bags/insert_giveaways.html
 msgid "Insert Giveaways"
 msgstr "Giveaways einfügen"
 
-#: bags/templates/bags/send_mail.html:5 bags/templates/bags/send_mail.html:9
+#: bags/templates/bags/index.html
+#, fuzzy
+#| msgid "Filter"
+msgid "1. Filter"
+msgstr "Filtern"
+
+#: bags/templates/bags/index.html
+msgid "2. Select recipients and send mail"
+msgstr ""
+
+#: bags/templates/bags/index.html
+msgid "yes"
+msgstr ""
+
+#: bags/templates/bags/index.html
+msgid "no"
+msgstr ""
+
+#: bags/templates/bags/index.html
+msgid "unknown"
+msgstr ""
+
+#: bags/templates/bags/index.html
+#, fuzzy
+#| msgid "Contact again"
+msgid "Enter contact again"
+msgstr "Erneut kontaktieren"
+
+#: bags/templates/bags/index_mails.html
+msgid "List email templates"
+msgstr "E-Mail-Vorlagen"
+
+#: bags/templates/bags/index_mails.html
+msgid "Add Email"
+msgstr "E-Mail-Vorlage hinzufügen"
+
+#: bags/templates/bags/index_mails.html
+msgid "Edit Companies"
+msgstr "Firmenliste"
+
+#: bags/templates/bags/send_mail.html
 msgid "Send email"
 msgstr "E-Mail senden"
 
-#: bags/templates/bags/send_mail.html:13
+#: bags/templates/bags/send_mail.html
 msgid "Do you really want to send the following email to the companies below?"
 msgstr ""
 "Soll die folgende E-Mail wirklich an die untenstehenden Firmen geschickt "
 "werden?"
 
-#: bags/templates/bags/send_mail.html:20
+#: bags/templates/bags/send_mail.html
 msgid "Send"
 msgstr "Senden"
 
-#: bags/templates/bags/send_mail.html:26
+#: bags/templates/bags/send_mail.html
 msgid "From"
 msgstr "Von"
 
-#: bags/templates/bags/send_mail.html:29
+#: bags/templates/bags/send_mail.html
 msgid "To"
 msgstr "An"
 
-#: bags/templates/bags/send_mail.html:29
+#: bags/templates/bags/send_mail.html
 msgid "see table below"
 msgstr "siehe Tabelle unten"
 
-#: bags/templates/bags/view.html:4
+#: bags/templates/bags/view.html
 msgid "Company Details"
 msgstr "Firmendetails"
 
-#: bags/templates/bags/view.html:8
+#: bags/templates/bags/view.html
 msgid "Company details"
 msgstr "Firmendetails"
 
-#: bags/templates/bags/view.html:110
+#: bags/templates/bags/view.html
 msgid "back"
 msgstr "zurück"
+
+#~ msgid "Search pattern:"
+#~ msgstr "Schlagwort:"
+
+#~ msgid "Add company"
+#~ msgstr "Firma hinzufügen"
