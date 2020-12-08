@@ -25,7 +25,7 @@ Install all the requirements needed for developement and testing using:
 
 Developement needs in addition to those named before
 - Python modules listed in `requirements_dev.txt`
-- build-essential
+- `build-essential` to run the Makefile
 
 # Run for development
 
@@ -45,6 +45,37 @@ Now you can start the webserver for development:
     python3 manage.py runserver
 
 Now visit http://localhost:8000 with your browser.
+
+# Test CI locally
+
+you have three options:
+- via the included Makefile
+  - run
+
+        make JOB
+  
+    to execute a job locally.
+  - alternatively run
+    
+        make STAGE
+  
+    to execute a Stage locally.
+
+- If you want to execute the whole CI (using docker) localy, run
+  
+      sudo gitlab-runner exec docker JOB
+  
+  This assumes you have already installed gitlab-runner localy as by gitlab documentation.
+  **This option is only nessesary if you run into CI Problems or want to test the CI localy.**
+
+The following Stages are availible:
+
+|**Stage**| **Job**     | **Description**                                                                               |
+|---------|-------------|-----------------------------------------------------------------------------------------------|
+| test    | run_pytests | Runs all the pytests                                                                          |
+| linting | bandit      | Executes [Bandit](https://pypi.org/project/bandit/), a tool that finds common security issues |
+| linting | mypy        | Executes [mypy](https://mypy-lang.org/), a tool type checks your code                         |
+| linting | pylint      | Executes [Pylint](https://pypi.org/project/pylint/),  a tool type checks your code            |
 
 # Translation
 

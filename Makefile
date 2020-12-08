@@ -1,6 +1,10 @@
-.PHONY: lint test bandit mypy pylint
+.PHONY: lint linting test bandit mypy pylint
 
-lint: pylint mypy bandit
+lint: linting
+
+linting: pylint mypy bandit
+
+test: run_pytests
 
 pylint:
 	pylint ./**/*.py
@@ -11,5 +15,5 @@ mypy:
 bandit:
 	bandit -r . -x .svn,CVS,.bzr,.hg,.git,__pycache__,.tox,.eggs,*.egg,*/lib/*,*venv/,bin,lib64,share,.mypy_cache
 
-test:
+run_pytests:
 	python3 manage.py test
