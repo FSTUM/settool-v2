@@ -81,3 +81,13 @@ repos:
             entry: ./manage.py check --fail-level=INFO
             language: system
             pass_filenames: false
+          - id: django-makemessages
+            name: django-makemessages
+            entry: ./manage.py makemessages -a --add-location=file --ignore="venv/*"
+            language: system
+            pass_filenames: false
+          - id: django-compilemessages
+            name: django-compilemessages
+            entry: ./manage.py compilemessages --ignore="venv/*"
+            language: system
+            pass_filenames: false
