@@ -23,13 +23,8 @@ from .models import Company
 from .models import Mail
 
 
-@permission_required("bags.view_companies")
-def index(request):
-    sem = get_semester(request)
-    semester = get_object_or_404(Semester, pk=sem)
+def get_possibly_filtered_companies(filterform, semester):
     companies = semester.company_set.order_by("name")
-
-    filterform = FilterCompaniesForm(request.POST or None)
     if filterform.is_valid():
         if filterform.cleaned_data["no_email_sent"]:
             companies = companies.filter(email_sent_success=False)
@@ -47,6 +42,15 @@ def index(request):
             companies = companies.exclude(giveaways="")
         if filterform.cleaned_data["arrived"]:
             companies = companies.filter(arrived=True)
+    return companies
+
+
+@permission_required("bags.view_companies")
+def index(request):
+    sem = get_semester(request)
+    semester = get_object_or_404(Semester, pk=sem)
+    filterform = FilterCompaniesForm(request.POST or None)
+    companies = get_possibly_filtered_companies(filterform, semester)
 
     if "mailform" in request.POST:
         mailform = SelectMailForm(request.POST, semester=semester)

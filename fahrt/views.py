@@ -309,62 +309,12 @@ def signup_success(request):
 def filter_participants(request):
     sem = get_semester(request)
     semester = get_object_or_404(Semester, pk=sem)
+
     participants = semester.fahrt_participant.order_by("surname")
 
     filterform = FilterParticipantsForm(request.POST or None)
-
     if filterform.is_valid():
-        search = filterform.cleaned_data["search"]
-        non_liability = filterform.cleaned_data["non_liability"]
-        u18 = filterform.cleaned_data["u18"]
-        car = filterform.cleaned_data["car"]
-        paid = filterform.cleaned_data["paid"]
-        payment_deadline = filterform.cleaned_data["payment_deadline"]
-        mailinglist = filterform.cleaned_data["mailinglist"]
-        status = filterform.cleaned_data["status"]
-
-        if search:
-            participants = participants.filter(
-                Q(firstname__icontains=search)
-                | Q(surname__icontains=search)
-                | Q(comment__icontains=search),
-            )
-
-        if non_liability:
-            participants = participants.filter(non_liability__isnull=False)
-        elif non_liability is False:
-            participants = participants.filter(non_liability__isnull=True)
-
-        if car is not None:
-            participants = participants.filter(car=car)
-
-        if paid:
-            participants = participants.filter(paid__isnull=False)
-        elif paid is False:
-            participants = participants.filter(paid__isnull=True)
-
-        if payment_deadline:
-            participants = participants.filter(
-                payment_deadline__lt=timezone.now().date(),
-            )
-        elif payment_deadline is False:
-            participants = participants.filter(
-                payment_deadline__ge=timezone.now().date(),
-            )
-
-        if mailinglist is not None:
-            participants = participants.filter(mailinglist=mailinglist)
-
-        if status:
-            participants = participants.filter(status=status)
-
-        if u18:
-            participants = [p for p in participants if p.u18]
-        elif u18 is False:
-            participants = [p for p in participants if not p.u18]
-
-        filtered_participants = [p.id for p in participants]
-        request.session["filtered_participants"] = filtered_participants
+        set_request_session_filtered_participants(filterform, participants, request)
         return redirect("fahrt_filteredparticipants")
 
     context = {
@@ -372,6 +322,59 @@ def filter_participants(request):
         "filterform": filterform,
     }
     return render(request, "fahrt/filter_participants.html", context)
+
+
+def set_request_session_filtered_participants(filterform, participants, request):
+    search = filterform.cleaned_data["search"]
+    if search:
+        participants = participants.filter(
+            Q(firstname__icontains=search)
+            | Q(surname__icontains=search)
+            | Q(comment__icontains=search),
+        )
+
+    non_liability = filterform.cleaned_data["non_liability"]
+    if non_liability:
+        participants = participants.filter(non_liability__isnull=False)
+    elif non_liability is False:
+        participants = participants.filter(non_liability__isnull=True)
+
+    car = filterform.cleaned_data["car"]
+    if car is not None:
+        participants = participants.filter(car=car)
+
+    paid = filterform.cleaned_data["paid"]
+    if paid:
+        participants = participants.filter(paid__isnull=False)
+    elif paid is False:
+        participants = participants.filter(paid__isnull=True)
+
+    payment_deadline = filterform.cleaned_data["payment_deadline"]
+    if payment_deadline:
+        participants = participants.filter(
+            payment_deadline__lt=timezone.now().date(),
+        )
+    elif payment_deadline is False:
+        participants = participants.filter(
+            payment_deadline__ge=timezone.now().date(),
+        )
+
+    mailinglist = filterform.cleaned_data["mailinglist"]
+    if mailinglist is not None:
+        participants = participants.filter(mailinglist=mailinglist)
+
+    status = filterform.cleaned_data["status"]
+    if status:
+        participants = participants.filter(status=status)
+
+    u18 = filterform.cleaned_data["u18"]
+    if u18:
+        participants = [p for p in participants if p.u18]
+    elif u18 is False:
+        participants = [p for p in participants if not p.u18]
+
+    filtered_participants = [p.id for p in participants]
+    request.session["filtered_participants"] = filtered_participants
 
 
 @permission_required("fahrt.view_participants")
