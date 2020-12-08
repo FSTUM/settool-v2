@@ -1,3 +1,0 @@
-[bandit]
-exclude = migrations
-skips: B108
