@@ -1,7 +1,7 @@
 import datetime
 
 from dateutil.relativedelta import relativedelta
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 from django.core.mail import send_mail
 from django.db import models
 from django.template import engines
@@ -279,7 +279,7 @@ class LogEntry(models.Model):
     )
 
     user = models.ForeignKey(
-        User,
+        get_user_model(),
         on_delete=models.CASCADE,
         related_name="mylogentry_set",
         blank=True,
