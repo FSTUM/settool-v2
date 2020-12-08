@@ -11,9 +11,6 @@ class SemesterBasedForm(forms.Form):
 
 
 class SemesterBasedModelForm(SemesterBasedForm, forms.ModelForm):
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-
     def save(self, commit=True):
         instance = super().save(False)
         instance.semester = self.semester
