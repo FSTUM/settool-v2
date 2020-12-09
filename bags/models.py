@@ -56,8 +56,9 @@ class Company(models.Model):
         _("Email successfully sent"),
     )
 
-    promise = models.NullBooleanField(
+    promise = models.BooleanField(
         _("Promise"),
+        null=True,
     )
 
     giveaways = models.CharField(
@@ -92,8 +93,9 @@ class Company(models.Model):
         _("Arrived"),
     )
 
-    contact_again = models.NullBooleanField(
+    contact_again = models.BooleanField(
         _("Contact again"),
+        null=True,
     )
 
     def __str__(self):
