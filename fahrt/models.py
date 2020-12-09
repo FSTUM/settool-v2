@@ -30,6 +30,9 @@ class Fahrt(models.Model):
         _("Close registration"),
     )
 
+    def __str__(self):
+        return f"Fahrt {self.semester} at {self.date}"
+
     @property
     def registration_open(self):
         return self.open_registration < timezone.now() < self.close_registration

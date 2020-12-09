@@ -118,7 +118,7 @@ def get_semester(request):
     except KeyError:
         sem = current_semester().pk
         request.session[SEMESTER_SESSION_KEY] = sem
-    return sem
+    return sem  # noqa: R504
 
 
 class Mail(models.Model):

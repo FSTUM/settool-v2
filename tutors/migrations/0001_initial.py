@@ -653,7 +653,7 @@ class Migration(migrations.Migration):
                         null=True,
                         validators=[
                             django.core.validators.RegexValidator(
-                                "^[0-9]{8,8}$",
+                                r"^[0-9]{8,8}$",  # noqa: FS003
                                 message="The matriculation number has to be of the form 01234567.",
                             ),
                         ],

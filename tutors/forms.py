@@ -146,11 +146,10 @@ class EventAdminForm(SemesterBasedModelForm):
 
         begin = cleaned_data.get("begin")
         end = cleaned_data.get("end")
-        if begin and end:
-            if end <= begin:
-                msg = _("Begin time must be before end time.")
-                self.add_error("begin", msg)
-                self.add_error("end", msg)
+        if begin and end and end <= begin:
+            msg = _("Begin time must be before end time.")
+            self.add_error("begin", msg)
+            self.add_error("end", msg)
         return cleaned_data
 
 
@@ -211,11 +210,10 @@ class TaskAdminForm(SemesterBasedModelForm):
 
         begin = cleaned_data.get("begin")
         end = cleaned_data.get("end")
-        if begin and end:
-            if end <= begin:
-                msg = _("Begin time must be before end time.")
-                self.add_error("begin", msg)
-                self.add_error("end", msg)
+        if begin and end and end <= begin:
+            msg = _("Begin time must be before end time.")
+            self.add_error("begin", msg)
+            self.add_error("end", msg)
         return cleaned_data
 
 
@@ -276,11 +274,10 @@ class SettingsAdminForm(SemesterBasedModelForm):
 
         begin = cleaned_data.get("open_registration")
         end = cleaned_data.get("close_registration")
-        if begin and end:
-            if end <= begin:
-                msg = _("Begin time must be before end time.")
-                self.add_error("open_registration", msg)
-                self.add_error("close_registration", msg)
+        if begin and end and end <= begin:
+            msg = _("Begin time must be before end time.")
+            self.add_error("open_registration", msg)
+            self.add_error("close_registration", msg)
         return cleaned_data
 
 

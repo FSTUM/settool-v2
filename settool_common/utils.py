@@ -22,4 +22,4 @@ def latex_to_pdf(tex_path, context):
         result = rendered_pdf.read()
     # Remove folder and contained intermediate files
     shutil.rmtree(tmp_folder, ignore_errors=True)
-    return result
+    return result  # noqa: R504

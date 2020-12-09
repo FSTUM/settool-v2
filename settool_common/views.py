@@ -22,7 +22,6 @@ def set_semester(request):
         redirect_url = request.META.get("HTTP_REFERER")
         if not is_safe_url(url=redirect_url, allowed_hosts=request.get_host()):
             redirect_url = "/"
-    response = HttpResponseRedirect(redirect_url)
     if request.method == "POST":
         semester_pk = int(request.POST.get("semester"))
         try:
@@ -31,7 +30,7 @@ def set_semester(request):
             pass
         else:
             request.session[SEMESTER_SESSION_KEY] = semester_pk
-    return response
+    return HttpResponseRedirect(redirect_url)
 
 
 @permission_required("set.mail")

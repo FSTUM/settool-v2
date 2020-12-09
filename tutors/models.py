@@ -160,7 +160,7 @@ class Tutor(BaseModel):
         max_length=8,
         validators=[
             RegexValidator(
-                r"^[0-9]{8,8}$",
+                r"^[0-9]{8,8}$",  # noqa: FS003
                 message=_("The matriculation number has to be of the form 01234567."),
             ),
         ],

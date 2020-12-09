@@ -42,7 +42,7 @@ def get_possibly_filtered_companies(filterform, semester):
             companies = companies.exclude(giveaways="")
         if filterform.cleaned_data["arrived"]:
             companies = companies.filter(arrived=True)
-    return companies
+    return companies  # noqa: R504
 
 
 @permission_required("bags.view_companies")

@@ -196,7 +196,7 @@ def tutor_change_status(request, uid, status):
     tutor = get_object_or_404(Tutor, pk=uid)
     form = forms.Form(request.POST or None)
 
-    if form.is_valid() and status in [x for (x, y) in Tutor.STATUS_OPTIONS]:
+    if form.is_valid() and status in (x for x, _ in Tutor.STATUS_OPTIONS):
         tutor.status = status
         tutor.save()
         return HttpResponseRedirect(request.META.get("HTTP_REFERER", "/"))
