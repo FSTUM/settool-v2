@@ -14,14 +14,14 @@ from .settings import SEMESTER_SESSION_KEY
 @deconstructible
 class Semester(models.Model):
     class Meta:
-        unique_together = (('semester', 'year'),)
-        ordering = ['year', 'semester']
+        unique_together = (("semester", "year"),)
+        ordering = ["year", "semester"]
 
-    WINTER = 'WS'
-    SUMMER = 'SS'
+    WINTER = "WS"
+    SUMMER = "SS"
     SEMESTER_CHOICES = (
-        (WINTER, _('Winter semester')),
-        (SUMMER, _('Summer semester')),
+        (WINTER, _("Winter semester")),
+        (SUMMER, _("Summer semester")),
     )
 
     semester = models.CharField(
@@ -36,49 +36,49 @@ class Semester(models.Model):
     )
 
     def __str__(self):
-        return "{} {:4}".format(self.get_semester_display(), self.year)
+        return f"{self.get_semester_display()} {self.year:4}"
 
 
 class Subject(models.Model):
     class Meta:
-        unique_together = (('degree', 'subject'),)
-        ordering = ['degree', 'subject']
+        unique_together = (("degree", "subject"),)
+        ordering = ["degree", "subject"]
 
-    BACHELOR = 'BA'
-    MASTER = 'MA'
+    BACHELOR = "BA"
+    MASTER = "MA"
     DEGREE_CHOICES = (
-        (BACHELOR, _('Bachelor')),
-        (MASTER, _('Master')),
+        (BACHELOR, _("Bachelor")),
+        (MASTER, _("Master")),
     )
 
-    MATHEMATICS = 'Mathe'
-    PHYSICS = 'Physik'
-    INFORMATICS = 'Info'
-    GAMES_ENGINEERING = 'Games'
-    INFORMATION_SYSTEMS = 'Winfo'
-    ASE = 'ASE'
-    CSE = 'CSE'
-    BMC = 'BMC'
-    ROBOTICS = 'Robotics'
-    OPERATIONS_RESEARCH = 'Mathe OR'
-    SCIENCE_ENGINEERING = 'Mathe SE'
-    FINANCE = 'Mathe Finance'
-    BIOMATHE = 'Mathe Bio'
+    MATHEMATICS = "Mathe"
+    PHYSICS = "Physik"
+    INFORMATICS = "Info"
+    GAMES_ENGINEERING = "Games"
+    INFORMATION_SYSTEMS = "Winfo"
+    ASE = "ASE"
+    CSE = "CSE"
+    BMC = "BMC"
+    ROBOTICS = "Robotics"
+    OPERATIONS_RESEARCH = "Mathe OR"
+    SCIENCE_ENGINEERING = "Mathe SE"
+    FINANCE = "Mathe Finance"
+    BIOMATHE = "Mathe Bio"
 
     SUBJECT_CHOICES = (
-        (MATHEMATICS, _('Mathematics')),
-        (PHYSICS, _('Physics')),
-        (INFORMATICS, _('Informatics')),
-        (GAMES_ENGINEERING, _('Informatics: Games Engineering')),
-        (INFORMATION_SYSTEMS, _('Information Systems')),
-        (ASE, _('Automotive Software Engineering')),
-        (CSE, _('Computational Science and Engineering')),
-        (BMC, _('Biomedical Computing')),
-        (ROBOTICS, _('Robotics, Cognition, Intelligence')),
-        (OPERATIONS_RESEARCH, _('Mathematics in Operatios Research')),
-        (SCIENCE_ENGINEERING, _('Mathematics in Science and Engineering')),
-        (FINANCE, _('Mathematics in Finance and Acturial Science')),
-        (BIOMATHE, _('Mathematics in Bioscience')),
+        (MATHEMATICS, _("Mathematics")),
+        (PHYSICS, _("Physics")),
+        (INFORMATICS, _("Informatics")),
+        (GAMES_ENGINEERING, _("Informatics: Games Engineering")),
+        (INFORMATION_SYSTEMS, _("Information Systems")),
+        (ASE, _("Automotive Software Engineering")),
+        (CSE, _("Computational Science and Engineering")),
+        (BMC, _("Biomedical Computing")),
+        (ROBOTICS, _("Robotics, Cognition, Intelligence")),
+        (OPERATIONS_RESEARCH, _("Mathematics in Operatios Research")),
+        (SCIENCE_ENGINEERING, _("Mathematics in Science and Engineering")),
+        (FINANCE, _("Mathematics in Finance and Acturial Science")),
+        (BIOMATHE, _("Mathematics in Bioscience")),
     )
 
     degree = models.CharField(
@@ -96,8 +96,7 @@ class Subject(models.Model):
     )
 
     def __str__(self):
-        return "{} {}".format(self.get_degree_display(),
-                              self.get_subject_display())
+        return f"{self.get_degree_display()} {self.get_subject_display()}"
 
 
 def current_semester():
@@ -119,7 +118,7 @@ def get_semester(request):
     except KeyError:
         sem = current_semester().pk
         request.session[SEMESTER_SESSION_KEY] = sem
-    return sem
+    return sem  # noqa: R504
 
 
 class Mail(models.Model):
@@ -129,13 +128,13 @@ class Mail(models.Model):
         related_name="set_mail_set",
     )
 
-    SET = 'SET-Team <set@fs.tum.de>'
-    SET_FAHRT = 'SET-Fahrt-Team <setfahrt@fs.tum.de>'
-    SET_TUTOR = 'SET-Tutor-Team <set-tutoren@fs.tum.de>'
+    SET = "SET-Team <set@fs.tum.de>"
+    SET_FAHRT = "SET-Fahrt-Team <setfahrt@fs.tum.de>"
+    SET_TUTOR = "SET-Tutor-Team <set-tutoren@fs.tum.de>"
     FROM_CHOICES = (
-        (SET, _('SET')),
-        (SET_FAHRT, _('SET_FAHRT')),
-        (SET_TUTOR, _('SET_TUTOR')),
+        (SET, _("SET")),
+        (SET_FAHRT, _("SET_FAHRT")),
+        (SET_TUTOR, _("SET_TUTOR")),
     )
 
     sender = models.CharField(
@@ -148,7 +147,7 @@ class Mail(models.Model):
     subject = models.CharField(
         _("Email subject"),
         max_length=200,
-        help_text=_("You may use placeholders for the subject.")
+        help_text=_("You may use placeholders for the subject."),
     )
 
     text = models.TextField(
@@ -183,6 +182,5 @@ class Mail(models.Model):
 
         if subject_matches is not None or text_matches is not None:
             return False
-        else:
-            send_mail(subject, text, Mail.FROM_MAIL, [recipient], fail_silently=False)
-            return True
+        send_mail(subject, text, Mail.FROM_MAIL, [recipient], fail_silently=False)
+        return True

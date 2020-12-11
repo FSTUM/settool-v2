@@ -1,58 +1,74 @@
-from datetime import date, timedelta
+from datetime import date
+from datetime import timedelta
 
 from django import forms
 from django.contrib.auth.decorators import permission_required
 from django.core.exceptions import ObjectDoesNotExist
-from django.db.models import Sum, Q
+from django.db.models import Q
+from django.db.models import Sum
 from django.forms import formset_factory
 from django.http import Http404
-from django.shortcuts import render, get_object_or_404, redirect
+from django.shortcuts import get_object_or_404
+from django.shortcuts import redirect
+from django.shortcuts import render
 from django.utils import timezone
 
-from settool_common.models import get_semester, Semester
-from .forms import ParticipantForm, ParticipantAdminForm, MailForm, \
-    SelectParticipantForm, SelectMailForm, FilterParticipantsForm, FahrtForm
-from .models import Participant, Mail, Fahrt
+from settool_common.models import get_semester
+from settool_common.models import Semester
+
+from .forms import FahrtForm
+from .forms import FilterParticipantsForm
+from .forms import MailForm
+from .forms import ParticipantAdminForm
+from .forms import ParticipantForm
+from .forms import SelectMailForm
+from .forms import SelectParticipantForm
+from .models import Fahrt
+from .models import Mail
+from .models import Participant
 
 
-@permission_required('fahrt.view_participants')
+@permission_required("fahrt.view_participants")
 def index(request):
-    return render(request, 'fahrt/base.html', {})
+    return render(request, "fahrt/fahrt_dashboard.html", {})
 
 
-@permission_required('fahrt.view_participants')
+@permission_required("fahrt.view_participants")
 def list_registered(request):
     sem = get_semester(request)
     semester = get_object_or_404(Semester, pk=sem)
-    participants = semester.fahrt_participant.filter(status='registered').order_by('surname')
+    participants = semester.fahrt_participant.filter(status="registered").order_by("surname")
 
     context = {
-        'participants': participants,
+        "participants": participants,
     }
-    return render(request, 'fahrt/list_registered.html', context)
+    return render(request, "fahrt/list_registered.html", context)
 
 
-@permission_required('fahrt.view_participants')
+@permission_required("fahrt.view_participants")
 def list_waitinglist(request):
     sem = get_semester(request)
     semester = get_object_or_404(Semester, pk=sem)
-    participants = semester.fahrt_participant.filter(status='waitinglist').order_by('surname')
+    participants = semester.fahrt_participant.filter(status="waitinglist").order_by("surname")
 
     context = {
-        'participants': participants,
+        "participants": participants,
     }
-    return render(request, 'fahrt/list_waitinglist.html', context)
+    return render(request, "fahrt/list_waitinglist.html", context)
 
 
-@permission_required('fahrt.view_participants')
+@permission_required("fahrt.view_participants")
 def list_confirmed(request):
     sem = get_semester(request)
     semester = get_object_or_404(Semester, pk=sem)
-    participants = semester.fahrt_participant.filter(status='confirmed').order_by('payment_deadline', 'surname',
-                                                                                  'firstname')
+    participants = semester.fahrt_participant.filter(status="confirmed").order_by(
+        "payment_deadline",
+        "surname",
+        "firstname",
+    )
 
     u18s = [p for p in participants if p.u18]
-    allergies = participants.exclude(allergies='').count()
+    allergies = participants.exclude(allergies="").count()
 
     number = participants.count()
     num_women = participants.filter(gender="female").count()
@@ -61,81 +77,84 @@ def list_confirmed(request):
     else:
         proportion_of_women = int(num_women * 1.0 / number * 100)
 
-    places = participants.filter(car=True).aggregate(places=Sum('car_places'))
-    places = places['places'] or 0
+    places = participants.filter(car=True).aggregate(places=Sum("car_places"))
+    places = places["places"] or 0
 
     context = {
-        'participants': participants,
-        'number': number,
-        'non_liability': participants.filter(
-            non_liability__isnull=False).count(),
-        'paid': participants.filter(paid__isnull=False).count(),
-        'places': places,
-        'cars': participants.filter(car=True).count(),
-        'u18s': len(u18s),
-        'allergies': allergies,
-        'num_women': num_women,
-        'proportion_of_women': proportion_of_women,
+        "participants": participants,
+        "number": number,
+        "non_liability": participants.filter(
+            non_liability__isnull=False,
+        ).count(),
+        "paid": participants.filter(paid__isnull=False).count(),
+        "places": places,
+        "cars": participants.filter(car=True).count(),
+        "u18s": len(u18s),
+        "allergies": allergies,
+        "num_women": num_women,
+        "proportion_of_women": proportion_of_women,
     }
-    return render(request, 'fahrt/list_confirmed.html', context)
+    return render(request, "fahrt/list_confirmed.html", context)
 
 
-@permission_required('fahrt.view_participants')
+@permission_required("fahrt.view_participants")
 def list_cancelled(request):
     sem = get_semester(request)
     semester = get_object_or_404(Semester, pk=sem)
-    participants = semester.fahrt_participant.filter(status='cancelled').order_by('surname')
+    participants = semester.fahrt_participant.filter(status="cancelled").order_by("surname")
 
     context = {
-        'participants': participants,
+        "participants": participants,
     }
-    return render(request, 'fahrt/list_cancelled.html', context)
+    return render(request, "fahrt/list_cancelled.html", context)
 
 
-@permission_required('fahrt.view_participants')
+@permission_required("fahrt.view_participants")
 def view(request, participant_pk):
     participant = get_object_or_404(Participant, pk=participant_pk)
-    log_entries = participant.logentry_set.order_by('time')
+    log_entries = participant.logentry_set.order_by("time")
     sem = get_semester(request)
     semester = get_object_or_404(Semester, pk=sem)
 
     form = SelectMailForm(request.POST or None, semester=semester)
 
     if form.is_valid():
-        mail = form.cleaned_data['mail']
-        request.session['selected_participants'] = [participant.id]
+        mail = form.cleaned_data["mail"]
+        request.session["selected_participants"] = [participant.id]
 
-        return redirect('fahrt_sendmail', mail.id)
+        return redirect("fahrt_sendmail", mail.id)
 
     context = {
-        'participant': participant,
-        'log_entries': log_entries,
-        'form': form,
+        "participant": participant,
+        "log_entries": log_entries,
+        "form": form,
     }
-    return render(request, 'fahrt/view.html', context)
+    return render(request, "fahrt/view_participant_details.html", context)
 
 
-@permission_required('fahrt.view_participants')
+@permission_required("fahrt.view_participants")
 def edit(request, participant_pk):
     participant = get_object_or_404(Participant, pk=participant_pk)
 
-    form = ParticipantAdminForm(request.POST or None,
-                                semester=participant.semester,
-                                instance=participant)
+    form = ParticipantAdminForm(
+        request.POST or None,
+        semester=participant.semester,
+        instance=participant,
+    )
     if form.is_valid():
         form.save()
         participant.log(request.user, "Participant edited")
 
-        return redirect('fahrt_viewparticipant', participant.id)
+        return redirect("fahrt_viewparticipant", participant.id)
 
     context = {
-        'form': form,
-        'participant': participant,
+        "form": form,
+        "participant": participant,
     }
-    return render(request, 'fahrt/edit.html', context)
+    return render(request, "fahrt/edit_participants.html", context)
 
 
-@permission_required('fahrt.view_participants')
+@permission_required("fahrt.view_participants")
 def delete(request, participant_pk):
     participant = get_object_or_404(Participant, pk=participant_pk)
 
@@ -143,16 +162,16 @@ def delete(request, participant_pk):
     if form.is_valid():
         participant.delete()
 
-        return redirect('fahrt_index')
+        return redirect("fahrt_index")
 
     context = {
-        'form': form,
-        'participant': participant,
+        "form": form,
+        "participant": participant,
     }
-    return render(request, 'fahrt/del.html', context)
+    return render(request, "fahrt/del_participant.html", context)
 
 
-@permission_required('fahrt.view_participants')
+@permission_required("fahrt.view_participants")
 def toggle_mailinglist(request, participant_pk):
     participant = get_object_or_404(Participant, pk=participant_pk)
     Participant.objects.filter(pk=participant_pk).update(
@@ -162,10 +181,10 @@ def toggle_mailinglist(request, participant_pk):
     participant.toggle_mailinglist()  # TODO does nothing
     participant.log(request.user, "Toggle mailinglist")
 
-    return redirect('fahrt_viewparticipant', participant.id)
+    return redirect("fahrt_viewparticipant", participant.id)
 
 
-@permission_required('fahrt.view_participants')
+@permission_required("fahrt.view_participants")
 def set_paid(request, participant_pk):
     participant = get_object_or_404(Participant, pk=participant_pk)
     Participant.objects.filter(pk=participant_pk).update(
@@ -173,10 +192,10 @@ def set_paid(request, participant_pk):
     )
     participant.log(request.user, "Set paid")
 
-    return redirect('fahrt_viewparticipant', participant_pk)
+    return redirect("fahrt_viewparticipant", participant_pk)
 
 
-@permission_required('fahrt.view_participants')
+@permission_required("fahrt.view_participants")
 def set_nonliability(request, participant_pk):
     participant = get_object_or_404(Participant, pk=participant_pk)
     Participant.objects.filter(pk=participant_pk).update(
@@ -184,10 +203,10 @@ def set_nonliability(request, participant_pk):
     )
     participant.log(request.user, "Set non-liability")
 
-    return redirect('fahrt_viewparticipant', participant_pk)
+    return redirect("fahrt_viewparticipant", participant_pk)
 
 
-@permission_required('fahrt.view_participants')
+@permission_required("fahrt.view_participants")
 def confirm(request, participant_pk):
     participant = get_object_or_404(Participant, pk=participant_pk)
     Participant.objects.filter(pk=participant_pk).update(
@@ -195,10 +214,10 @@ def confirm(request, participant_pk):
     )
     participant.log(request.user, "Confirmed")
 
-    return redirect('fahrt_viewparticipant', participant_pk)
+    return redirect("fahrt_viewparticipant", participant_pk)
 
 
-@permission_required('fahrt.view_participants')
+@permission_required("fahrt.view_participants")
 def waitinglist(request, participant_pk):
     participant = get_object_or_404(Participant, pk=participant_pk)
     Participant.objects.filter(pk=participant_pk).update(
@@ -206,10 +225,10 @@ def waitinglist(request, participant_pk):
     )
     participant.log(request.user, "On waitinglist")
 
-    return redirect('fahrt_viewparticipant', participant_pk)
+    return redirect("fahrt_viewparticipant", participant_pk)
 
 
-@permission_required('fahrt.view_participants')
+@permission_required("fahrt.view_participants")
 def set_payment_deadline(request, participant_pk, weeks):
     weeks = int(weeks)  # save due to regex in urls.py
     if weeks not in [1, 2, 3]:
@@ -217,14 +236,14 @@ def set_payment_deadline(request, participant_pk, weeks):
 
     participant = get_object_or_404(Participant, pk=participant_pk)
     Participant.objects.filter(pk=participant_pk).update(
-        payment_deadline=date.today() + timedelta(days=weeks * 7)
+        payment_deadline=date.today() + timedelta(days=weeks * 7),
     )
-    participant.log(request.user, "Set deadline {} week".format(weeks))
+    participant.log(request.user, f"Set deadline {weeks} week")
 
-    return redirect('fahrt_viewparticipant', participant_pk)
+    return redirect("fahrt_viewparticipant", participant_pk)
 
 
-@permission_required('fahrt.view_participants')
+@permission_required("fahrt.view_participants")
 def cancel(request, participant_pk):
     participant = get_object_or_404(Participant, pk=participant_pk)
     Participant.objects.filter(pk=participant_pk).update(
@@ -232,7 +251,7 @@ def cancel(request, participant_pk):
     )
     participant.log(request.user, "Cancelled")
 
-    return redirect('fahrt_viewparticipant', participant_pk)
+    return redirect("fahrt_viewparticipant", participant_pk)
 
 
 def signup(request):
@@ -247,21 +266,23 @@ def signup(request):
         registration_open = fahrt.registration_open
 
     if not registration_open:
-        return render(request, 'fahrt/registration_closed.html', {})
+        return render(request, "fahrt/standalone/registration_closed.html", {})
 
     form = ParticipantForm(request.POST or None, semester=semester)
     if form.is_valid():
         participant = form.save()
         participant.log(None, "Signed up")
 
-        return redirect('fahrt_signup_success')
+        return redirect("fahrt_signup_success")
 
-    context = {'semester': semester,
-               'form': form}
-    return render(request, 'fahrt/signup.html', context)
+    context = {
+        "semester": semester,
+        "form": form,
+    }
+    return render(request, "fahrt/standalone/signup.html", context)
 
 
-@permission_required('fahrt.view_participants')
+@permission_required("fahrt.view_participants")
 def signup_internal(request):
     sem = get_semester(request)
     semester = get_object_or_404(Semester, pk=sem)
@@ -271,144 +292,155 @@ def signup_internal(request):
         participant = form.save()
         participant.log(request.user, "Signed up")
 
-        return redirect('fahrt_list_registered')
+        return redirect("fahrt_list_registered")
 
-    context = {'semester': semester,
-               'form': form}
-    return render(request, 'fahrt/add.html', context)
+    context = {
+        "semester": semester,
+        "form": form,
+    }
+    return render(request, "fahrt/add.html", context)
 
 
 def signup_success(request):
-    return render(request, 'fahrt/success.html', {})
+    return render(request, "fahrt/standalone/success.html", {})
 
 
-@permission_required('fahrt.view_participants')
+@permission_required("fahrt.view_participants")
 def filter_participants(request):
     sem = get_semester(request)
     semester = get_object_or_404(Semester, pk=sem)
-    participants = semester.fahrt_participant.order_by('surname')
+
+    participants = semester.fahrt_participant.order_by("surname")
 
     filterform = FilterParticipantsForm(request.POST or None)
-
     if filterform.is_valid():
-        search = filterform.cleaned_data['search']
-        non_liability = filterform.cleaned_data['non_liability']
-        u18 = filterform.cleaned_data['u18']
-        car = filterform.cleaned_data['car']
-        paid = filterform.cleaned_data['paid']
-        payment_deadline = filterform.cleaned_data['payment_deadline']
-        mailinglist = filterform.cleaned_data['mailinglist']
-        status = filterform.cleaned_data['status']
-
-        if search:
-            participants = participants.filter(
-                Q(firstname__icontains=search) |
-                Q(surname__icontains=search) |
-                Q(comment__icontains=search)
-            )
-
-        if non_liability:
-            participants = participants.filter(non_liability__isnull=False)
-        elif non_liability is False:
-            participants = participants.filter(non_liability__isnull=True)
-
-        if car is not None:
-            participants = participants.filter(car=car)
-
-        if paid:
-            participants = participants.filter(paid__isnull=False)
-        elif paid is False:
-            participants = participants.filter(paid__isnull=True)
-
-        if payment_deadline:
-            participants = participants.filter(
-                payment_deadline__lt=timezone.now().date())
-        elif payment_deadline is False:
-            participants = participants.filter(
-                payment_deadline__ge=timezone.now().date())
-
-        if mailinglist is not None:
-            participants = participants.filter(mailinglist=mailinglist)
-
-        if status:
-            participants = participants.filter(status=status)
-
-        if u18:
-            participants = [p for p in participants if p.u18]
-        elif u18 is False:
-            participants = [p for p in participants if not p.u18]
-
-        filtered_participants = [p.id for p in participants]
-        request.session['filtered_participants'] = filtered_participants
-        return redirect('fahrt_filteredparticipants')
+        set_request_session_filtered_participants(filterform, participants, request)
+        return redirect("fahrt_filteredparticipants")
 
     context = {
-        'participants': participants,
-        'filterform': filterform,
+        "participants": participants,
+        "filterform": filterform,
     }
-    return render(request, 'fahrt/filter.html', context)
+    return render(request, "fahrt/filter_participants.html", context)
 
 
-@permission_required('fahrt.view_participants')
+def set_request_session_filtered_participants(filterform, participants, request):
+    search = filterform.cleaned_data["search"]
+    if search:
+        participants = participants.filter(
+            Q(firstname__icontains=search)
+            | Q(surname__icontains=search)
+            | Q(comment__icontains=search),
+        )
+
+    non_liability = filterform.cleaned_data["non_liability"]
+    if non_liability:
+        participants = participants.filter(non_liability__isnull=False)
+    elif non_liability is False:
+        participants = participants.filter(non_liability__isnull=True)
+
+    car = filterform.cleaned_data["car"]
+    if car is not None:
+        participants = participants.filter(car=car)
+
+    paid = filterform.cleaned_data["paid"]
+    if paid:
+        participants = participants.filter(paid__isnull=False)
+    elif paid is False:
+        participants = participants.filter(paid__isnull=True)
+
+    payment_deadline = filterform.cleaned_data["payment_deadline"]
+    if payment_deadline:
+        participants = participants.filter(
+            payment_deadline__lt=timezone.now().date(),
+        )
+    elif payment_deadline is False:
+        participants = participants.filter(
+            payment_deadline__ge=timezone.now().date(),
+        )
+
+    mailinglist = filterform.cleaned_data["mailinglist"]
+    if mailinglist is not None:
+        participants = participants.filter(mailinglist=mailinglist)
+
+    status = filterform.cleaned_data["status"]
+    if status:
+        participants = participants.filter(status=status)
+
+    u18 = filterform.cleaned_data["u18"]
+    if u18:
+        participants = [p for p in participants if p.u18]
+    elif u18 is False:
+        participants = [p for p in participants if not p.u18]
+
+    filtered_participants = [p.id for p in participants]
+    request.session["filtered_participants"] = filtered_participants
+
+
+@permission_required("fahrt.view_participants")
 def filtered_list(request):
-    filtered_participants = request.session['filtered_participants']
+    filtered_participants = request.session["filtered_participants"]
     sem = get_semester(request)
     semester = get_object_or_404(Semester, pk=sem)
     participants = semester.fahrt_participant.filter(
-        id__in=filtered_participants).order_by("surname")
+        id__in=filtered_participants,
+    ).order_by("surname")
 
     form = SelectMailForm(request.POST or None, semester=semester)
-    select_participant_form_set = formset_factory(SelectParticipantForm,
-                                                  extra=0)
-    participantforms = select_participant_form_set(request.POST or None,
-                                                   initial=[{'id': p.id, 'selected': True} for p in participants],
-                                                   )
+    select_participant_form_set = formset_factory(
+        SelectParticipantForm,
+        extra=0,
+    )
+    participantforms = select_participant_form_set(
+        request.POST or None,
+        initial=[{"id": p.id, "selected": True} for p in participants],
+    )
 
     if form.is_valid() and participantforms.is_valid():
-        mail = form.cleaned_data['mail']
+        mail = form.cleaned_data["mail"]
 
         selected_participants = []
-        for i, participant in enumerate(participantforms):
+        for participant in participantforms:
             try:
-                participant_id = participant.cleaned_data['id']
+                participant_id = participant.cleaned_data["id"]
             except KeyError:
                 continue
             try:
-                selected = participant.cleaned_data['selected']
+                selected = participant.cleaned_data["selected"]
             except KeyError:
                 selected = False
             if selected:
                 selected_participants.append(participant_id)
 
-        request.session['selected_participants'] = selected_participants
-        return redirect('fahrt_sendmail', mail.id)
+        request.session["selected_participants"] = selected_participants
+        return redirect("fahrt_sendmail", mail.id)
 
     participants_and_select = []
-    for p in participants:
-        for s in participantforms:
-            if s.initial['id'] == p.id:
-                participants_and_select.append((p, s))
+    for participant in participants:
+        for participant_form in participantforms:
+            if participant_form.initial["id"] == participant.id:
+                participants_and_select.append((participant, participant_form))
                 break
 
     context = {
-        'participants': participants_and_select,
-        'form': form,
-        'participantforms': participantforms,
+        "participants": participants_and_select,
+        "form": form,
+        "participantforms": participantforms,
     }
-    return render(request, 'fahrt/filtered_list.html', context)
+    return render(request, "fahrt/filtered_list.html", context)
 
 
-@permission_required('fahrt.view_participants')
+@permission_required("fahrt.view_participants")
 def index_mails(request):
     sem = get_semester(request)
     semester = get_object_or_404(Semester, pk=sem)
     mails = semester.fahrt_mail_set.all()
 
-    context = {'mails': mails}
-    return render(request, 'fahrt/index_mails.html', context)
+    context = {"mails": mails}
+    return render(request, "fahrt/index_mails.html", context)
 
 
-@permission_required('fahrt.view_participants')
+@permission_required("fahrt.view_participants")
 def add_mail(request):
     sem = get_semester(request)
     semester = get_object_or_404(Semester, pk=sem)
@@ -417,31 +449,34 @@ def add_mail(request):
     if form.is_valid():
         form.save()
 
-        return redirect('fahrt_listmails')
+        return redirect("fahrt_listmails")
 
-    context = {'form': form}
-    return render(request, 'fahrt/add_mail.html', context)
+    context = {"form": form}
+    return render(request, "fahrt/add_mail.html", context)
 
 
-@permission_required('fahrt.view_participants')
+@permission_required("fahrt.view_participants")
 def edit_mail(request, mail_pk):
     mail = get_object_or_404(Mail, pk=mail_pk)
 
-    form = MailForm(request.POST or None, semester=mail.semester,
-                    instance=mail)
+    form = MailForm(
+        request.POST or None,
+        semester=mail.semester,
+        instance=mail,
+    )
     if form.is_valid():
         form.save()
 
-        return redirect('fahrt_listmails')
+        return redirect("fahrt_listmails")
 
     context = {
-        'form': form,
-        'mail': mail,
+        "form": form,
+        "mail": mail,
     }
-    return render(request, 'fahrt/edit_mail.html', context)
+    return render(request, "fahrt/standalone/edit_mail.html", context)
 
 
-@permission_required('fahrt.view_participants')
+@permission_required("fahrt.view_participants")
 def delete_mail(request, mail_pk):
     mail = get_object_or_404(Mail, pk=mail_pk)
 
@@ -449,52 +484,54 @@ def delete_mail(request, mail_pk):
     if form.is_valid():
         mail.delete()
 
-        return redirect('fahrt_listmails')
+        return redirect("fahrt_listmails")
 
-    context = {'mail': mail,
-               'form': form}
-    return render(request, 'fahrt/del_mail.html', context)
+    context = {
+        "mail": mail,
+        "form": form,
+    }
+    return render(request, "fahrt/del_mail.html", context)
 
 
-@permission_required('fahrt.view_participants')
+@permission_required("fahrt.view_participants")
 def send_mail(request, mail_pk):
     mail = get_object_or_404(Mail, pk=mail_pk)
-    selected_participants = request.session['selected_participants']
+    selected_participants = request.session["selected_participants"]
     sem = get_semester(request)
     semester = get_object_or_404(Semester, pk=sem)
     participants = semester.fahrt_participant.filter(
-        id__in=selected_participants).order_by("surname")
+        id__in=selected_participants,
+    ).order_by("surname")
 
-    subject, text, from_email = mail.get_mail(request)
+    subject, text, from_email = mail.get_mail()
 
     form = forms.Form(request.POST or None)
     failed_participants = []
     if form.is_valid():
-        for p in participants:
-            success = mail.send_mail(request, p)
+        for participant in participants:
+            success = mail.send_mail(participant)
             if success:
-                p.log(request.user, "Mail '{0}' sent".format(mail))
+                participant.log(request.user, f"Mail '{mail}' sent")
             else:
-                failed_participants.append(p)
+                failed_participants.append(participant)
         if not failed_participants:
-            return redirect('fahrt_filter')
+            return redirect("fahrt_filter")
 
     context = {
-        'participants': participants,
-        'failed_participants': failed_participants,
-        'subject': subject,
-        'text': text,
-        'from_email': from_email,
-        'form': form,
+        "participants": participants,
+        "failed_participants": failed_participants,
+        "subject": subject,
+        "text": text,
+        "from_email": from_email,
+        "form": form,
     }
 
     if failed_participants:
-        return render(request, 'fahrt/send_mail_failure.html', context)
-    else:
-        return render(request, 'fahrt/send_mail.html', context)
+        return render(request, "fahrt/send_mail_failure.html", context)
+    return render(request, "fahrt/send_mail.html", context)
 
 
-@permission_required('fahrt.view_participants')
+@permission_required("fahrt.view_participants")
 def change_date(request):
     sem = get_semester(request)
     semester = get_object_or_404(Semester, pk=sem)
@@ -513,9 +550,9 @@ def change_date(request):
     if form.is_valid():
         form.save()
 
-        return redirect('fahrt_date')
+        return redirect("fahrt_date")
 
     context = {
-        'form': form,
+        "form": form,
     }
-    return render(request, 'fahrt/change_date.html', context)
+    return render(request, "fahrt/change_date.html", context)

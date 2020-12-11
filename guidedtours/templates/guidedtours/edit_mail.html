@@ -1,14 +1,10 @@
-{% extends "guidedtours/base.html" %}
+{% extends "guidedtours/base_guildedtours.html" %}
 {% load i18n %}
-{% load bootstrap3 %}
+{% load bootstrap4 %}
 
-{% block title %}{% trans "Guided Tour" %} - {% trans "Edit email" %}{% endblock %}
+{% block set_common_headercontent %}{% trans "Edit email" %}: {{ mail.subject }}{% endblock %}
 
-{% block tourscontent %}
-    <h1>
-        {% trans "Edit email" %}: {{ mail.subject }}
-    </h1>
-
+{% block set_common_content %}
     <form method="post" action="">
         {% csrf_token %}
 
@@ -18,10 +14,13 @@
             </div>
         </div>
 
-    <table class="table">
+        <table class="table">
             <tr>
-                <td><button type="submit" class="btn btn-default">{% trans "Submit" %}</button></td>
-                <td><a href="{% url "tours_listmails" %}" class="btn btn-default">{% trans "Cancel" %}</a></td>
+                <td>
+                    <button type="submit" class="btn btn-primary">{% trans "Submit" %}</button>
+                </td>
+                <td><a href="{% url "tours_listmails" %}" class="btn btn-secondary">{% trans "Cancel" %}</a>
+                </td>
             </tr>
         </table>
     </form>

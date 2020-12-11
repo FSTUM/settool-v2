@@ -1,16 +1,15 @@
-from __future__ import unicode_literals
-
 import datetime
 
-from django.db import models
-from django.utils.translation import ugettext_lazy as _
+from dateutil.relativedelta import relativedelta
+from django.contrib.auth import get_user_model
 from django.core.mail import send_mail
+from django.db import models
 from django.template import engines
-from django.contrib.auth.models import User
-from django.utils import timezone, encoding
+from django.utils import timezone
+from django.utils.translation import ugettext_lazy as _
 
-from settool_common.models import Semester, Subject
-from settool_common.utils import u
+from settool_common.models import Semester
+from settool_common.models import Subject
 
 
 class Fahrt(models.Model):
@@ -31,16 +30,22 @@ class Fahrt(models.Model):
         _("Close registration"),
     )
 
+    def __str__(self):
+        return f"Fahrt {self.semester} at {self.date}"
+
     @property
     def registration_open(self):
         return self.open_registration < timezone.now() < self.close_registration
 
 
-#@encoding.python_2_unicode_compatible
 class Participant(models.Model):
     class Meta:
-        permissions = (("view_participants",
-                        "Can view and edit the list of participants"),)
+        permissions = (
+            (
+                "view_participants",
+                "Can view and edit the list of participants",
+            ),
+        )
 
     GENDER_CHOICES = (
         ("male", _("male")),
@@ -100,8 +105,11 @@ class Participant(models.Model):
     nutrition = models.CharField(
         _("Nutrition"),
         max_length=200,
-        choices=(("normal", _("normal")), ("vegeterian", _("vegeterian")),
-                 ("vegan", _("vegan"))),
+        choices=(
+            ("normal", _("normal")),
+            ("vegeterian", _("vegeterian")),
+            ("vegan", _("vegan")),
+        ),
     )
 
     allergies = models.CharField(
@@ -145,7 +153,7 @@ class Participant(models.Model):
             ("registered", _("registered")),
             ("confirmed", _("confirmed")),
             ("waitinglist", _("waitinglist")),
-            ("cancelled", _("cancelled"))
+            ("cancelled", _("cancelled")),
         ),
         default="registered",
     )
@@ -167,7 +175,7 @@ class Participant(models.Model):
     )
 
     def __str__(self):
-        return "{0} {1}".format(self.firstname, self.surname)
+        return f"{self.firstname} {self.surname}"
 
     def log(self, user, text):
         LogEntry.objects.create(
@@ -177,22 +185,20 @@ class Participant(models.Model):
         )
 
     @property
-    def u18(self):
-        return not (
-                self.semester.fahrt.date.year - self.birthday.year > 18 or (
-                self.semester.fahrt.date.year - self.birthday.year == 18 and (
-                self.semester.fahrt.date.month > self.birthday.month or (
-                self.semester.fahrt.date.month == self.birthday.month and
-                self.semester.fahrt.date.day >= self.birthday.day))))
+    def u18(self) -> bool:
+        return relativedelta(self.semester.fahrt.date, self.birthday).years < 18
 
     @property
-    def deadline_exceeded(self):
+    def deadline_exceeded(self) -> bool:
+        if not self.payment_deadline:
+            return False
         return self.payment_deadline < datetime.date.today()
 
     @property
-    def deadline_soon(self):
-        return self.payment_deadline < datetime.date.today() + \
-               datetime.timedelta(days=7)
+    def deadline_soon(self) -> bool:
+        if not self.payment_deadline:
+            return False
+        return self.payment_deadline < datetime.date.today() + datetime.timedelta(days=7)
 
     def toggle_mailinglist(self):
         pass  # not implemented
@@ -201,11 +207,9 @@ class Participant(models.Model):
     #    today = date.today()
     #    delta = timedelta(days=weeks*7)
     #    deadline = today + delta
-    #    print(deadline.strftime("%d.%m.%Y")
     #    self.payment_deadline = deadline.strftime("%d.%m.%Y")
 
 
-#@encoding.python_2_unicode_compatible
 class Mail(models.Model):
     FROM_MAIL = "SET-Fahrt-Team <setfahrt@fs.tum.de>"
     semester = models.ForeignKey(
@@ -221,8 +225,10 @@ class Mail(models.Model):
 
     text = models.TextField(
         _("Text"),
-        help_text=_("You may use {{vorname}} for the participant's first \
-name and {{frist}} for the individual payment deadline."),
+        help_text=_(
+            "You may use {{vorname}} for the participant's first name and {{frist}} for the "
+            "individual payment deadline.",
+        ),
     )
 
     comment = models.CharField(
@@ -233,16 +239,15 @@ name and {{frist}} for the individual payment deadline."),
 
     def __str__(self):
         if self.comment:
-            return "{} ({})".format(self.subject, self.comment)
-        else:
-            return u(self.subject)
+            return f"{self.subject} ({self.comment})"
+        return str(self.subject)
 
-    def get_mail(self, request):
-        django_engine = engines['django']
+    def get_mail(self):
+        django_engine = engines["django"]
         subject_template = django_engine.from_string(self.subject)
         context = {
-            'vorname': "<Vorname>",
-            'frist': "<Zahlungsfrist>",
+            "vorname": "<Vorname>",
+            "frist": "<Zahlungsfrist>",
         }
         subject = subject_template.render(context).rstrip()
 
@@ -251,11 +256,11 @@ name and {{frist}} for the individual payment deadline."),
 
         return subject, text, Mail.FROM_MAIL
 
-    def send_mail(self, request, participant):
-        django_engine = engines['django']
+    def send_mail(self, participant):
+        django_engine = engines["django"]
         context = {
-            'vorname': participant.firstname,
-            'frist': participant.payment_deadline,
+            "vorname": participant.firstname,
+            "frist": participant.payment_deadline,
         }
 
         subject_template = django_engine.from_string(self.subject)
@@ -264,16 +269,12 @@ name and {{frist}} for the individual payment deadline."),
         text_template = django_engine.from_string(self.text)
         text = text_template.render(context)
 
-        if context['frist'] is None and ("{{frist}}" in self.text
-                                         or "{{frist}}" in self.subject):
+        if context["frist"] is None and ("{{frist}}" in self.text or "{{frist}}" in self.subject):
             return False
-        else:
-            send_mail(subject, text, Mail.FROM_MAIL, [participant.email],
-                      fail_silently=False)
-            return True
+        send_mail(subject, text, Mail.FROM_MAIL, [participant.email], fail_silently=False)
+        return True
 
 
-#@encoding.python_2_unicode_compatible
 class LogEntry(models.Model):
     participant = models.ForeignKey(
         Participant,
@@ -281,7 +282,7 @@ class LogEntry(models.Model):
     )
 
     user = models.ForeignKey(
-        User,
+        get_user_model(),
         on_delete=models.CASCADE,
         related_name="mylogentry_set",
         blank=True,
@@ -299,4 +300,4 @@ class LogEntry(models.Model):
     )
 
     def __str__(self):
-        return "{0}, {1}: {2}".format(self.time, self.user, self.text)
+        return f"{self.time}, {self.user}: {self.text}"

@@ -1,7 +1,13 @@
+from datetime import date
+
+from bootstrap_datepicker_plus import DatePickerInput
 from django import forms
+from django.core.exceptions import ValidationError
 from django.utils.translation import ugettext_lazy as _
 
-from .models import Participant, Mail, Fahrt
+from .models import Fahrt
+from .models import Mail
+from .models import Participant
 
 
 class FahrtForm(forms.ModelForm):
@@ -10,11 +16,11 @@ class FahrtForm(forms.ModelForm):
         exclude = ["semester"]
 
     def __init__(self, *args, **kwargs):
-        self.semester = kwargs.pop('semester')
-        super(FahrtForm, self).__init__(*args, **kwargs)
+        self.semester = kwargs.pop("semester")
+        super().__init__(*args, **kwargs)
 
     def save(self, commit=True):
-        instance = super(FahrtForm, self).save(False)
+        instance = super().save(False)
         instance.semester = self.semester
         if commit:
             instance.save()
@@ -27,11 +33,11 @@ class ParticipantAdminForm(forms.ModelForm):
         exclude = ["semester", "registration_time"]
 
     def __init__(self, *args, **kwargs):
-        self.semester = kwargs.pop('semester')
-        super(ParticipantAdminForm, self).__init__(*args, **kwargs)
+        self.semester = kwargs.pop("semester")
+        super().__init__(*args, **kwargs)
 
     def save(self, commit=True):
-        instance = super(ParticipantAdminForm, self).save(False)
+        instance = super().save(False)
 
         instance.semester = self.semester
 
@@ -42,20 +48,41 @@ class ParticipantAdminForm(forms.ModelForm):
 
 
 class ParticipantForm(ParticipantAdminForm):
-    dsgvo = forms.BooleanField(required=True, label=_("I accept the terms and conditions of the following privacy "
-                                                      "policy:"))
+    dsgvo = forms.BooleanField(
+        required=True,
+        label=_(
+            "I accept the terms and conditions of the following privacy " "policy:",
+        ),
+    )
 
     class Meta:
         model = Participant
-        exclude = ["semester", "non_liability", "paid", "payment_deadline",
-                   "status", "mailinglist", "comment", "registration_time"]
+        exclude = [
+            "semester",
+            "non_liability",
+            "paid",
+            "payment_deadline",
+            "status",
+            "mailinglist",
+            "comment",
+            "registration_time",
+        ]
+        widgets = {
+            "birthday": DatePickerInput(format="%Y-%m-%d"),
+        }
 
     def clean(self):
-        cleaned_data = super(ParticipantForm, self).clean()
-
-        if cleaned_data['car'] and not cleaned_data['car_places']:
-            self.add_error("car_places",
-                           _("This field is required if you have a car"))
+        cleaned_data = super().clean()
+        if cleaned_data["car"] and not cleaned_data["car_places"]:
+            self.add_error("car_places", _("This field is required if you have a car"))
+        birthday = cleaned_data["birthday"]
+        if birthday == date.today():
+            self.add_error("birthday", _("You cant be born today."))
+            raise ValidationError(_("You cant be born today."), code="birthday")
+            # required, as current template does not have an error place
+        if birthday > date.today():
+            self.add_error("birthday", _("You cant be born in the future."))
+            raise ValidationError(_("You cant be born in the future."), code="birthday")
 
 
 class MailForm(forms.ModelForm):
@@ -64,11 +91,11 @@ class MailForm(forms.ModelForm):
         exclude = ["semester"]
 
     def __init__(self, *args, **kwargs):
-        self.semester = kwargs.pop('semester')
-        super(MailForm, self).__init__(*args, **kwargs)
+        self.semester = kwargs.pop("semester")
+        super().__init__(*args, **kwargs)
 
     def save(self, commit=True):
-        instance = super(MailForm, self).save(False)
+        instance = super().save(False)
         instance.semester = self.semester
         if commit:
             instance.save()
@@ -82,10 +109,10 @@ class SelectMailForm(forms.Form):
     )
 
     def __init__(self, *args, **kwargs):
-        semester = kwargs.pop('semester')
-        super(SelectMailForm, self).__init__(*args, **kwargs)
+        semester = kwargs.pop("semester")
+        super().__init__(*args, **kwargs)
 
-        self.fields['mail'].queryset = semester.fahrt_mail_set.all()
+        self.fields["mail"].queryset = semester.fahrt_mail_set.all()
 
 
 class FilterParticipantsForm(forms.Form):

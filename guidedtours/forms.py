@@ -1,34 +1,47 @@
+from bootstrap_datepicker_plus import DatePickerInput
+from bootstrap_datepicker_plus import DateTimePickerInput
 from django import forms
 from django.utils.translation import ugettext_lazy as _
 
-from .models import Participant, Tour, Mail
+from .models import Mail
+from .models import Participant
+from .models import Tour
 
 
 class ParticipantForm(forms.ModelForm):
-    dsgvo = forms.BooleanField(required=True, label=_("I accept the terms and conditions of the following privacy "
-                                                      "policy:"))
+    dsgvo = forms.BooleanField(
+        required=True,
+        label=_(
+            "I accept the terms and conditions of the following privacy " "policy:",
+        ),
+    )
 
     class Meta:
         model = Participant
         exclude = ["time"]
 
     def __init__(self, *args, **kwargs):
-        tours = kwargs.pop('tours')
-        super(ParticipantForm, self).__init__(*args, **kwargs)
-        self.fields['tour'].queryset = tours
+        tours = kwargs.pop("tours")
+        super().__init__(*args, **kwargs)
+        self.fields["tour"].queryset = tours
 
 
 class TourForm(forms.ModelForm):
     class Meta:
         model = Tour
         exclude = ["semester"]
+        widgets = {
+            "date": DatePickerInput(format="%Y-%m-%d"),
+            "open_registration": DateTimePickerInput(format="%Y-%m-%d %H:%M"),
+            "close_registration": DateTimePickerInput(format="%Y-%m-%d %H:%M"),
+        }
 
     def __init__(self, *args, **kwargs):
-        self.semester = kwargs.pop('semester')
-        super(TourForm, self).__init__(*args, **kwargs)
+        self.semester = kwargs.pop("semester")
+        super().__init__(*args, **kwargs)
 
     def save(self, commit=True):
-        instance = super(TourForm, self).save(False)
+        instance = super().save(False)
         instance.semester = self.semester
         if commit:
             instance.save()
@@ -41,11 +54,11 @@ class MailForm(forms.ModelForm):
         exclude = ["semester"]
 
     def __init__(self, *args, **kwargs):
-        self.semester = kwargs.pop('semester')
-        super(MailForm, self).__init__(*args, **kwargs)
+        self.semester = kwargs.pop("semester")
+        super().__init__(*args, **kwargs)
 
     def save(self, commit=True):
-        instance = super(MailForm, self).save(False)
+        instance = super().save(False)
         instance.semester = self.semester
         if commit:
             instance.save()
@@ -59,10 +72,10 @@ class SelectMailForm(forms.Form):
     )
 
     def __init__(self, *args, **kwargs):
-        semester = kwargs.pop('semester')
-        super(SelectMailForm, self).__init__(*args, **kwargs)
+        semester = kwargs.pop("semester")
+        super().__init__(*args, **kwargs)
 
-        self.fields['mail'].queryset = semester.tours_mail_set.all()
+        self.fields["mail"].queryset = semester.tours_mail_set.all()
 
 
 class FilterParticipantsForm(forms.Form):
@@ -88,10 +101,10 @@ class FilterParticipantsForm(forms.Form):
     )
 
     def __init__(self, *args, **kwargs):
-        semester = kwargs.pop('semester')
-        super(FilterParticipantsForm, self).__init__(*args, **kwargs)
+        semester = kwargs.pop("semester")
+        super().__init__(*args, **kwargs)
 
-        self.fields['tour'].queryset = semester.tour_set
+        self.fields["tour"].queryset = semester.tour_set
 
 
 class SelectParticipantForm(forms.Form):

@@ -1,0 +1,5 @@
+django-stubs
+mypy
+pre-commit
+pylint
+pylint-django

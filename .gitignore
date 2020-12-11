@@ -19,4 +19,12 @@ Session.vim
 TODO.*
 
 #pycharm
-.idea*
+/lib/
+/lib64/
+/lib64/*
+/include/
+/share/
+/bin/
+/pyvenv.cfg
+/staticfiles/
+.idea

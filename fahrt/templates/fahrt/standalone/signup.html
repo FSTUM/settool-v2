@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load bootstrap4 %}
+
+{% block title %}{% trans "SET-Fahrt" %} - {% trans "Sign up" %}{% endblock %}
+
+{% block content %}
+    <div class="card">
+        <div class="card-header">
+            {% trans "Sign up for the SET-Fahrt" %}
+        </div>
+        <div class="card-body">
+            <form method="post" action="">
+                {% csrf_token %}
+
+                <div class="row">
+                    <div class="col-xs-12 col-lg-5">
+                        {% bootstrap_form form %}
+                        <div class="well">
+                            {% trans "fahrt_privacy_policy" %}
+                        </div>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-primary">{% trans "Submit" %}</button>
+            </form>
+        </div>
+    </div>
+{% endblock %}

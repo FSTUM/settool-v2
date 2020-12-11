@@ -1,89 +1,74 @@
-{% extends "tutors/base.html" %}
+{% extends "tutors/base_tutors.html" %}
 {% load i18n %}
-{% load bootstrap3 %}
+{% load bootstrap4 %}
 {% load task_extras %}
 
 {% block head %}
     <script>
-        $(function () {
-            $("#taskTable").tablesorter({
-                theme: "bootstrap",
-                widgets: ['zebra', 'columns', 'uitheme'],
-                headerTemplate: '{content} {icon}',
-                sortReset: true,
-                sortRestart: true
-            });
+        $(document).ready(function () {
+            $("#taskTable").DataTable();
         });
     </script>
 {% endblock %}
 
-{% block title %}{% trans "Tutor" %} - {% trans "List of Tasks" %}{% endblock %}
+{% block set_common_headercontent %}{% trans "List of Tasks" %}{% endblock %}
 
-{% block tutorcontent %}
-    <h1>
-        {% trans "List of Tasks" %}
-    </h1>
-    <hr>
-    <div class="row">
-        <div class="col-sm-12">
-            <div class="table-responsive">
-                <table id="taskTable" class="table tablesorter table-striped table-hover css-serial">
-                    <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>{% trans "Event" %}</th>
-                        <th>{% trans "Name" %}</th>
-                        <th>{% trans "Begin" %}</th>
-                        <th>{% trans "End" %}</th>
-                        <th>{% trans "Meeting Point" %}</th>
-                        <th>{% trans "# Missing Mails" %}</th>
-                        <th>{% trans "# Tutors" %}</th>
-                        <th></th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {% for task in tasks %}
-                        <tr class="{% if task.tutors.count < task.min_tutors %}danger
+{% block set_common_content %}
+    <div class="table-responsive">
+        <table id="taskTable" class="table dataTable css-serial">
+            <thead>
+            <tr>
+                <th>#</th>
+                <th>{% trans "Event" %}</th>
+                <th>{% trans "Name" %}</th>
+                <th>{% trans "Begin" %}</th>
+                <th>{% trans "End" %}</th>
+                <th>{% trans "Meeting Point" %}</th>
+                <th>{% trans "# Missing Mails" %}</th>
+                <th>{% trans "# Tutors" %}</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for task in tasks %}
+                <tr class="{% if task.tutors.count < task.min_tutors %}danger
 {% elif task.min_tutors <= task.tutors.count and task.tutors.count <= task.max_tutors %}success
 {% elif  task.max_tutors < task.tutors.count %}warning{% endif %}">
-                            <td></td>
-                            <td>
-                                {{ task.event.name }}
-                            </td>
-                            <td>
-                                <a href="{% url "task_view" task.id %}">{{ task.name }}</a>
-                            </td>
-                            <td data-text="{{ task.begin|date:"Y-m-d H:i" }}">
-                                {{ task.begin }}
-                            </td>
-                            <td data-text="{{ task.end|date:"Y-m-d H:i" }}">
-                                {{ task.end }}
-                            </td>
-                            <td>
-                                {{ task.meeting_point }}
-                            </td>
-                            <td>
-                                {% mail_task_count task %}
-                            </td>
-                            <td>
-                                {{ task.tutors.count }}/{{ task.min_tutors|default_if_none:0 }}-{{ task.max_tutors|default_if_none:0 }}
-                            </td>
-                            <td>
-                                <a href="{% url "task_edit" task.id %}"><span
-                                        class="glyphicon glyphicon-edit"></span></a>
-                                <a href="{% url "task_delete" task.id %}"><span
-                                        class="glyphicon glyphicon-trash"></span></a>
-                                <a href="{% url "task_mail" task.id %}"><span
-                                        class="glyphicon glyphicon-envelope"></span></a>
-                                <a href="{% url "task_export" "pdf" task.id %}"><span
-                                        class="glyphicon glyphicon-list"></span></a>
-                            </td>
-                        </tr>
-                    {% endfor %}
-                    </tbody>
-                </table>
-            </div>
-        </div>
+                    <td></td>
+                    <td>
+                        {{ task.event.name }}
+                    </td>
+                    <td>
+                        <a href="{% url "task_view" task.id %}">{{ task.name }}</a>
+                    </td>
+                    <td data-text="{{ task.begin|date:"Y-m-d H:i" }}">
+                        {{ task.begin }}
+                    </td>
+                    <td data-text="{{ task.end|date:"Y-m-d H:i" }}">
+                        {{ task.end }}
+                    </td>
+                    <td>
+                        {{ task.meeting_point }}
+                    </td>
+                    <td>
+                        {% mail_task_count task %}
+                    </td>
+                    <td>
+                        {{ task.tutors.count }}/{{ task.min_tutors|default_if_none:0 }}-{{ task.max_tutors|default_if_none:0 }}
+                    </td>
+                    <td>
+                        <a href="{% url "task_edit" task.id %}"><span
+                                class="glyphicon glyphicon-edit"></span></a>
+                        <a href="{% url "task_delete" task.id %}"><span
+                                class="glyphicon glyphicon-trash"></span></a>
+                        <a href="{% url "task_mail" task.id %}"><span
+                                class="glyphicon glyphicon-envelope"></span></a>
+                        <a href="{% url "task_export" "pdf" task.id %}"><span
+                                class="glyphicon glyphicon-list"></span></a>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
     </div>
 {% endblock %}
-

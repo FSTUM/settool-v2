@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load bootstrap4 %}
+
+{% block title %}{% trans "Freshmen bags" %}{% endblock %}
+
+{% block content %}
+    <div class="card">
+        <div class="card-header">
+            {% trans "Add a company" %}
+        </div>
+        <div class="card-body">
+
+            <form method="post" action="">
+                {% csrf_token %}
+
+                <div class="row">
+                    <div class="col-xs-12 col-lg-5">
+                        {% bootstrap_form form %}
+                    </div>
+                </div>
+
+                <table class="table">
+                    <tr>
+                        <td>
+                            <button type="submit" class="btn btn-primary">{% trans "Submit" %}</button>
+                        </td>
+                        <td><a href="{% url "listcompanies" %}" class="btn btn-secondary">{% trans "Cancel" %}</a></td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+    </div>
+{% endblock %}

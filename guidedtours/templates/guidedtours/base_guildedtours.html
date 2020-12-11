@@ -1,0 +1,21 @@
+{% extends "base_card_layout.html" %}
+{% load i18n %}
+{% load bootstrap4 %}
+{% load active_link_tags %}
+
+
+{% block set_common_navigation %}
+    <a class="nav-link {% active_link 'tours_dashboard' %}" href="{% url 'tours_dashboard' %}">{% trans "Dashboard" %}</a>
+
+    <h4 class="navbar-text">{% trans "General" %}</h4>
+    <a class="nav-link {% active_link 'tours_signup' %}" href="{% url 'tours_signup' %}">{% trans "Sign up" %}</a>
+
+    <h4 class="navbar-text">{% trans "Tours" %}</h4>
+    <a class="nav-link {% active_link 'tours_list_tours' %}" href="{% url 'tours_list_tours' %}">{% trans "List tours" %}</a>
+    <a class="nav-link {% active_link 'tours_add_tour' %}" href="{% url 'tours_add_tour' %}">{% trans "Add tour" %}</a>
+
+    <h4 class="navbar-text">{% trans "Mails" %}</h4>
+    <a class="nav-link {% active_link 'tours_listmails' %}" href="{% url 'tours_listmails' %}">{% trans "List email templates" %}</a>
+    <a class="nav-link {% active_link 'tours_filter' %}" href="{% url 'tours_filter' %}">{% trans "Filter participants/Send emails" %}</a>
+    <a class="nav-link {% active_link 'tours_addmail' %}" href="{% url 'tours_addmail' %}">{% trans "Add email template" %}</a>
+{% endblock %}

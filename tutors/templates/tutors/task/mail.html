@@ -1,12 +1,10 @@
-{% extends "tutors/base.html" %}
+{% extends "tutors/base_tutors.html" %}
 {% load i18n %}
-{% load bootstrap3 %}
+{% load bootstrap4 %}
 
-{% block title %}{% trans "Tutor" %} - {% trans "Send email" %} - {{ task.event.name }} - {{ task }}{% endblock %}
+{% block set_common_headercontent %}{% trans "Send email" %} - {{ task.event.name }} - {{ task }}{% endblock %}
 
-{% block tutorcontent %}
-    <h1>{% trans "Send email" %} - {{ task.event.name }} - {{ task }}</h1>
-
+{% block set_common_content %}
     <div class="row">
         <p>
             {% trans "Do you really want to send the following email to the tutors below?" %}
@@ -30,10 +28,10 @@
             <table class="table">
                 <tr>
                     <td>
-                        <button type="submit" class="btn btn-default">{% trans "Send" %}</button>
+                        <button type="submit" class="btn btn-secondary">{% trans "Send" %}</button>
                     </td>
                     <td><a href="{% url "task_view" task.id %}"
-                           class="btn btn-default btn-danger">{% trans "Cancel" %}</a></td>
+                           class="btn btn-danger">{% trans "Cancel" %}</a></td>
                 </tr>
             </table>
 
@@ -42,9 +40,8 @@
     </div>
 
     <script type="text/javascript">
-        $('select[name="mail_template"]').on('change', document, function (e) {
+        $('select[name="mail_template"]').on('change', document, function (_) {
             location.href = "{% url "task_mail" task.id %}" + $(this).val();
         });
     </script>
-
 {% endblock %}

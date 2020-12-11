@@ -1,0 +1,26 @@
+[MASTER]
+ignore=migrations
+jobs=0
+load-plugins=pylint_django
+
+[MESSAGES CONTROL]
+disable=print-statement,
+        missing-function-docstring,
+        missing-module-docstring,
+        missing-class-docstring,
+        too-few-public-methods,
+        too-many-public-methods,
+        too-many-locals,
+        too-many-statements,
+        too-many-instance-arguments,
+        too-many-instance-attributes,
+        too-many-ancestors,
+        line-too-long,
+        wildcard-import,
+        no-self-use,
+        no-member,
+        duplicate-code,
+        wrong-import-position,
+        unused-import,
+        modelform-uses-exclude, # usage of exclude is sometimes valid.
+        fixme, # no TODOs

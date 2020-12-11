@@ -1,5 +1,3 @@
-from __future__ import unicode_literals
-
 import uuid
 
 from django.core.validators import RegexValidator
@@ -7,8 +5,9 @@ from django.db import models
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 
-from settool_common.models import Semester, Subject, Mail
-from settool_common.utils import u
+from settool_common.models import Mail
+from settool_common.models import Semester
+from settool_common.models import Subject
 
 
 class BaseModel(models.Model):
@@ -90,27 +89,27 @@ class Settings(BaseModel):
 
 class Tutor(BaseModel):
     class Meta:
-        unique_together = ('semester', 'email',)
+        unique_together = ("semester", "email")
 
     TSHIRT_SIZES = (
-        ('S', 'S'),
-        ('M', 'M'),
-        ('L', 'L'),
-        ('XL', 'XL'),
-        ('XXL', 'XXL')
+        ("S", "S"),
+        ("M", "M"),
+        ("L", "L"),
+        ("XL", "XL"),
+        ("XXL", "XXL"),
     )
 
-    STATUS_DECLINED = 'declined'
-    STATUS_ACCEPTED = 'accepted'
-    STATUS_INACTIVE = 'inactive'
-    STATUS_ACTIVE = 'active'
-    STATUS_EMPLOYEE = 'employee'
+    STATUS_DECLINED = "declined"
+    STATUS_ACCEPTED = "accepted"
+    STATUS_INACTIVE = "inactive"
+    STATUS_ACTIVE = "active"
+    STATUS_EMPLOYEE = "employee"
     STATUS_OPTIONS = (
         (STATUS_ACCEPTED, _(STATUS_ACCEPTED)),
         (STATUS_ACTIVE, _(STATUS_ACTIVE)),
         (STATUS_DECLINED, _(STATUS_DECLINED)),
         (STATUS_INACTIVE, _(STATUS_INACTIVE)),
-        (STATUS_EMPLOYEE, _(STATUS_EMPLOYEE))
+        (STATUS_EMPLOYEE, _(STATUS_EMPLOYEE)),
     )
 
     id = models.UUIDField(
@@ -159,10 +158,12 @@ class Tutor(BaseModel):
     matriculation_number = models.CharField(
         _("Matriculation number"),
         max_length=8,
-        validators=[RegexValidator(
-            r'^[0-9]{8,8}$',
-            message=_('The matriculation number has to be of the form 01234567.'),
-        )],
+        validators=[
+            RegexValidator(
+                r"^[0-9]{8,8}$",  # noqa: FS003
+                message=_("The matriculation number has to be of the form 01234567."),
+            ),
+        ],
         null=True,
         blank=True,
     )
@@ -197,14 +198,14 @@ class Tutor(BaseModel):
     )
 
     answers = models.ManyToManyField(
-        'Question',
+        "Question",
         verbose_name=_("Tutor Answers"),
-        through='Answer',
+        through="Answer",
         blank=True,
     )
 
     def __str__(self):
-        return "{0} {1}".format(u(self.first_name), u(self.last_name))
+        return f"{self.first_name} {self.last_name}"
 
     def log(self, user, text):
         # LogEntry.objects.create(
@@ -265,7 +266,7 @@ class Event(BaseModel):
         pass
 
     def __str__(self):
-        return "{0} {1}".format(u(self.name), u(self.begin.date()))
+        return f"{self.name} {self.begin.date()}"
 
 
 class Task(BaseModel):
@@ -317,19 +318,19 @@ class Task(BaseModel):
     )
 
     requirements = models.ManyToManyField(
-        'Question',
+        "Question",
         verbose_name=_("Requirements"),
         blank=True,
     )
 
     min_tutors = models.IntegerField(
-        _('Tutors (min)'),
+        _("Tutors (min)"),
         blank=True,
         null=True,
     )
 
     max_tutors = models.IntegerField(
-        _('Tutors (max)'),
+        _("Tutors (max)"),
         blank=True,
         null=True,
     )
@@ -337,12 +338,12 @@ class Task(BaseModel):
     tutors = models.ManyToManyField(
         Tutor,
         verbose_name=_("Assigned tutors"),
-        through='TutorAssignment',
+        through="TutorAssignment",
         blank=True,
     )
 
     def __str__(self):
-        return u(self.name)
+        return str(self.name)
 
     def log(self, user, text):
         # LogEntry.objects.create(
@@ -370,7 +371,7 @@ class TutorAssignment(BaseModel):
     )
 
     def __str__(self):
-        return "{}".format(self.tutor)
+        return f"{self.tutor}"
 
 
 class Question(BaseModel):
@@ -392,7 +393,7 @@ class Question(BaseModel):
     )
 
     def __str__(self):
-        return u(self.question)
+        return str(self.question)
 
     def log(self, user, text):
         # LogEntry.objects.create(
@@ -405,11 +406,11 @@ class Question(BaseModel):
 
 class Answer(BaseModel):
     class Meta:
-        unique_together = ('tutor', 'question',)
+        unique_together = ("tutor", "question")
 
-    YES = 'YES'
-    NO = 'NO'
-    MAYBE = 'MAYBE'
+    YES = "YES"
+    NO = "NO"
+    MAYBE = "MAYBE"
     ANSWERS = (
         (YES, _(YES)),
         (MAYBE, _(MAYBE)),
@@ -435,40 +436,40 @@ class Answer(BaseModel):
     )
 
     def __str__(self):
-        return "{}: {} -> {}".format(self.tutor, self.question, u(self.answer))
+        return f"{self.tutor}: {self.question} -> {self.answer}"
 
 
 class MailTutorTask(BaseModel):
     mail = models.ForeignKey(
         Mail,
-        on_delete=models.CASCADE
+        on_delete=models.CASCADE,
     )
 
     tutor = models.ForeignKey(
         Tutor,
-        on_delete=models.CASCADE
+        on_delete=models.CASCADE,
     )
 
     task = models.ForeignKey(
         Task,
         on_delete=models.CASCADE,
         blank=True,
-        null=True
+        null=True,
     )
 
     def __str__(self):
-        return "{}: {} -> {} - {}".format(self.created_at, self.tutor, self.mail, self.task)
+        return f"{self.created_at}: {self.tutor} -> {self.mail} - {self.task}"
 
 
 class SubjectTutorCountAssignment(BaseModel):
     semester = models.ForeignKey(
         Semester,
-        on_delete=models.CASCADE
+        on_delete=models.CASCADE,
     )
 
     subject = models.ForeignKey(
         Subject,
-        on_delete=models.CASCADE
+        on_delete=models.CASCADE,
     )
 
     wanted = models.PositiveIntegerField(

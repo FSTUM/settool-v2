@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-10-05 13:04+0200\n"
+"POT-Creation-Date: 2020-12-09 15:45+0100\n"
 "PO-Revision-Date: 2016-09-30 23:28+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -18,10 +18,88 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Poedit 1.8.9\n"
 
-#: settool/settings.py:125
+#: settool/settings.py
 msgid "German"
 msgstr ""
 
-#: settool/settings.py:126
+#: settool/settings.py
 msgid "English"
+msgstr ""
+
+#: templates/base.html
+msgid "SET "
+msgstr ""
+
+#: templates/base.html
+msgid "SET-Fahrt"
+msgstr ""
+
+#: templates/base.html
+msgid "SET-Tüten"
+msgstr ""
+
+#: templates/base.html
+msgid "SET-Tutor"
+msgstr ""
+
+#: templates/base.html
+msgid "Institutsführungen"
+msgstr ""
+
+#: templates/base.html
+msgid "Settings"
+msgstr ""
+
+#: templates/base.html
+msgid "Switch"
+msgstr ""
+
+#: templates/base.html
+#, python-format
+msgid "Log out %(username)s"
+msgstr ""
+
+#: templates/base.html templates/login.html
+msgid "Login"
+msgstr ""
+
+#: templates/base.html
+msgid "Datenschutz"
+msgstr ""
+
+#: templates/base.html
+msgid "Impressum"
+msgstr ""
+
+#: templates/base.html
+msgid "Deselect All"
+msgstr ""
+
+#: templates/base.html
+msgid "Select All"
+msgstr ""
+
+#: templates/base.html
+msgid "Selectable items"
+msgstr ""
+
+#: templates/base.html
+msgid "Selection items"
+msgstr ""
+
+#: templates/base_card_layout.html
+msgid "Navigation"
+msgstr ""
+
+#: templates/main_index.html
+msgid "May the SET be ever in yor favour"
+msgstr ""
+
+#: templates/main_index.html
+#, python-format
+msgid "Hello %(username)s!"
+msgstr ""
+
+#: templates/main_index.html
+msgid "Please Log in, to view everything"
 msgstr ""

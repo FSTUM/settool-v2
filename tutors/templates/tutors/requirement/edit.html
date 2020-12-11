@@ -1,14 +1,10 @@
-{% extends "tutors/base.html" %}
+{% extends "tutors/base_tutors.html" %}
 {% load i18n %}
-{% load bootstrap3 %}
+{% load bootstrap4 %}
 
-{% block title %}{% trans "Tutor" %} - {% trans "Edit Requirement" %}{% endblock %}
+{% block set_common_headercontent %}{% trans "Edit Requirement" %}: {{ event }}{% endblock %}
 
-{% block tutorcontent %}
-    <h1>
-        {% trans "Edit Requirement" %}: {{ event }}
-    </h1>
-    <hr>
+{% block set_common_content %}
     <form method="post" action="">
         {% csrf_token %}
 
@@ -21,10 +17,10 @@
         <table class="table">
             <tr>
                 <td>
-                    <button type="submit" class="btn btn-default">{% trans "Submit" %}</button>
+                    <button type="submit" class="btn btn-primary">{% trans "Submit" %}</button>
                 </td>
                 <td><a href="{% url "requirement_view" requirement.id %}"
-                       class="btn btn-default">{% trans "Cancel" %}</a></td>
+                       class="btn btn-secondary">{% trans "Cancel" %}</a></td>
             </tr>
         </table>
     </form>

@@ -1,39 +1,25 @@
 import os
 import shutil
-import sys
-from subprocess import call
-from tempfile import mkdtemp, mkstemp
+from subprocess import call  # nosec: calls are only local and input is templated
+from tempfile import mkdtemp
+from tempfile import mkstemp
 
 from django.template.loader import render_to_string
-
-# convert to unicode
-if sys.version_info < (3,):
-    def u(x):
-        # pylint: disable=E0602
-        return unicode(x)
-else:
-    def u(x):
-        return str(x)
 
 
 def latex_to_pdf(tex_path, context):
     # In a temporary folder, make a temporary file
     tmp_folder = mkdtemp()
-    texfile, texfilename = mkstemp(dir=tmp_folder)
+    file, filename = mkstemp(dir=tmp_folder)
     # Pass the TeX template through Django templating engine and into the temp file
-    os.write(texfile, render_to_string(tex_path, context).encode())
-    os.close(texfile)
+    os.write(file, render_to_string(tex_path, context).encode())
+    os.close(file)
     # Compile the TeX file with PDFLaTeX
-    call(['pdflatex', '-output-directory', tmp_folder, texfilename])
+    call(["pdflatex", "-output-directory", tmp_folder, filename])
 
-    with open(texfilename + ".pdf", "rb") as f:
-        result = f.read()
     # Move resulting PDF to a more permanent location
-    # Remove intermediate files
-    os.remove(texfilename)
-    os.remove(texfilename + '.aux')
-    os.remove(texfilename + '.log')
-    try:
-        shutil.rmtree(tmp_folder)
-    finally:
-        return result
+    with open(f"{filename}.pdf", "rb") as rendered_pdf:
+        result = rendered_pdf.read()
+    # Remove folder and contained intermediate files
+    shutil.rmtree(tmp_folder, ignore_errors=True)
+    return result  # noqa: R504

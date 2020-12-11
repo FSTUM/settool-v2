@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load bootstrap4 %}
+
+{% block title %}{% trans "SET-Fahrt" %} - {% trans "Sign up" %}{% endblock %}
+
+{% block content %}
+    <div class="card">
+        <div class="card-header">
+            {% trans "Sign up for the SET-Fahrt" %}
+        </div>
+        <div class="card-body">
+            <p>
+                {% trans "The SET-Fahrt is currently not open for registration." %}
+            </p>
+        </div>
+    </div>
+{% endblock %}

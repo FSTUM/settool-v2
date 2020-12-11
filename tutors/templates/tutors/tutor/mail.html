@@ -1,11 +1,10 @@
-{% extends "tutors/base.html" %}
+{% extends "tutors/base_tutors.html" %}
 {% load i18n %}
-{% load bootstrap3 %}
+{% load bootstrap4 %}
 
-{% block title %}{% trans "Tutor" %} - {% trans "Send email to tutors" %}{% endblock %}
+{% block set_common_headercontent %}{% trans "Send email to tutors" %}{% endblock %}
 
-{% block tutorcontent %}
-    <h1>{% trans "Send email to tutors" %}</h1>
+{% block set_common_content %}
     <hr>
     <div class="row">
         <div class="col-sm-12">
@@ -31,11 +30,11 @@
                 <table class="table">
                     <tr>
                         <td>
-                            <button type="submit" class="btn btn-default">{% trans "Send" %}</button>
+                            <button type="submit" class="btn btn-secondary">{% trans "Send" %}</button>
                         </td>
                         <td><a href="{% if status is None %}{% url "tutor_list" %}{% else %}
 {% url "tutor_list_status" status %}{% endif %}"
-                               class="btn btn-default btn-danger">{% trans "Cancel" %}</a></td>
+                               class="btn btn-danger">{% trans "Cancel" %}</a></td>
                     </tr>
                 </table>
 
@@ -45,7 +44,7 @@
     </div>
 
     <script type="text/javascript">
-        $('select[name="mail_template"]').on('change', document, function (e) {
+        $('select[name="mail_template"]').on('change', document, function (_) {
             {% if status is not None %}
                 location.href = "{% url "tutor_mail_status" status %}" + $(this).val();
             {% else %}
@@ -53,5 +52,4 @@
             {% endif %}
         });
     </script>
-
 {% endblock %}

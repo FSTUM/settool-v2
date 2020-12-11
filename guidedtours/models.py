@@ -1,17 +1,21 @@
-from django.db import models
-from django.utils.translation import ugettext_lazy as _
 from django.core.mail import send_mail
+from django.db import models
 from django.template import engines
-from django.utils import timezone, encoding
+from django.utils import timezone
+from django.utils.translation import ugettext_lazy as _
 
-from settool_common.models import Semester, Subject
+from settool_common.models import Semester
+from settool_common.models import Subject
 
 
-#@encoding.python_2_unicode_compatible
 class Tour(models.Model):
     class Meta:
-        permissions = (("view_participants",
-                        "Can view and edit the list of participants"),)
+        permissions = (
+            (
+                "view_participants",
+                "Can view and edit the list of participants",
+            ),
+        )
 
     semester = models.ForeignKey(
         Semester,
@@ -53,7 +57,6 @@ class Tour(models.Model):
         return self.open_registration < timezone.now() < self.close_registration
 
 
-#@encoding.python_2_unicode_compatible
 class Participant(models.Model):
     tour = models.ForeignKey(
         Tour,
@@ -92,23 +95,21 @@ class Participant(models.Model):
     )
 
     def __str__(self):
-        return "{} {}".format(self.firstname, self.surname)
+        return f"{self.firstname} {self.surname}"
 
     @property
     def on_the_tour(self):
-        participants = self.tour.participant_set.order_by('time')
-        participants = participants[:self.tour.capacity]
+        participants = self.tour.participant_set.order_by("time")
+        participants = participants[: self.tour.capacity]
         return self in participants
 
     @property
     def status(self):
         if self.on_the_tour:
             return _("On the tour")
-        else:
-            return _("On waitinglist")
+        return _("On waitinglist")
 
 
-#@encoding.python_2_unicode_compatible
 class Mail(models.Model):
     FROM_MAIL = "SET-Referat <set@fs.tum.de>"
     semester = models.ForeignKey(
@@ -124,9 +125,10 @@ class Mail(models.Model):
 
     text = models.TextField(
         _("Text"),
-        help_text=_("You may use {{vorname}} for the participant's first \
-name, {{tour}} for the name of the tour, {{zeit}} for the time of the \
-tour."),
+        help_text=_(
+            "You may use {{vorname}} for the participant's first name, {{tour}} for the name of "
+            "the tour, {{zeit}} for the time of the tour.",
+        ),
     )
 
     comment = models.CharField(
@@ -137,17 +139,16 @@ tour."),
 
     def __str__(self):
         if self.comment:
-            return "{} ({})".format(self.subject, self.comment)
-        else:
-            return self.subject
+            return f"{self.subject} ({self.comment})"
+        return self.subject
 
-    def get_mail(self, request):
-        django_engine = engines['django']
+    def get_mail(self):
+        django_engine = engines["django"]
         subject_template = django_engine.from_string(self.subject)
         context = {
-            'vorname': "<Vorname>",
-            'tour': "<Tour>",
-            'zeit': "<Zeit>",
+            "vorname": "<Vorname>",
+            "tour": "<Tour>",
+            "zeit": "<Zeit>",
         }
         subject = subject_template.render(context).rstrip()
 
@@ -156,18 +157,23 @@ tour."),
 
         return subject, text, Mail.FROM_MAIL
 
-    def send_mail(self, request, participant):
-        django_engine = engines['django']
+    def send_mail(self, participant):
+        django_engine = engines["django"]
         subject_template = django_engine.from_string(self.subject)
         context = {
-            'vorname': participant.firstname,
-            'tour': participant.tour.name,
-            'zeit': participant.tour.date,
+            "vorname": participant.firstname,
+            "tour": participant.tour.name,
+            "zeit": participant.tour.date,
         }
         subject = subject_template.render(context).rstrip()
 
         text_template = django_engine.from_string(self.text)
         text = text_template.render(context)
 
-        send_mail(subject, text, Mail.FROM_MAIL, [participant.email],
-                  fail_silently=False)
+        send_mail(
+            subject,
+            text,
+            Mail.FROM_MAIL,
+            [participant.email],
+            fail_silently=False,
+        )

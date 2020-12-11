@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load bootstrap4 %}
+
+{% block title %}{% trans "May the SET be ever in yor favour" %}{% endblock %}
+
+{% block content %}
+    {% if user.is_authenticated %}
+        <div class="alert alert-dark" role="alert">
+            {% if user.first_name %}
+                {% blocktrans with username=user.first_name|capfirst %}Hello {{ username }}!{% endblocktrans %}
+            {% else %}
+                {% blocktrans with username=user.username|capfirst %}Hello {{ username }}!{% endblocktrans %}
+            {% endif %}
+        </div>
+    {% else %}
+        <div class="alert alert-warning" role="alert">
+            {% trans "Please Log in, to view everything" %}
+        </div>
+    {% endif %}
+{% endblock %}

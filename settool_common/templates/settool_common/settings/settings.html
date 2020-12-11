@@ -1,0 +1,21 @@
+{% extends "base_card_layout.html" %}
+{% load active_link_tags %}
+{% load i18n %}
+{% load bootstrap4 %}
+
+{% block set_common_navigation %}
+    {% if perms.set %}
+        <h4 class="navbar-text">{% trans "Email-Templates" %}</h4>
+        <a class="nav-link {% active_link 'mail_list' %}" href="{% url 'mail_list' %}">{% trans "All templates" %}</a>
+        <a class="nav-link {% active_link 'mail_add' %}" href="{% url 'mail_add' %}">{% trans "Add template" %}</a>
+    {% endif %}
+{% endblock %}
+
+{% block set_common_content %}
+    {% if perms.set %}
+        {% block setings %}
+        {% endblock %}
+    {% else %}
+        Sorry, but you have no Settings
+    {% endif %}
+{% endblock %}

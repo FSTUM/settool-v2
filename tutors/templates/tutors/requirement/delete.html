@@ -1,13 +1,9 @@
-{% extends "settool_common/base.html" %}
+{% extends "tutors/base_tutors.html" %}
 {% load i18n %}
 
-{% block title %}{% trans "Tutor" %} - {% trans "Delete Requirement" %}{% endblock %}
+{% block set_common_headercontent %}{% trans "Delete Requirement" %}: {{ requirement }}{% endblock %}
 
 {% block commoncontent %}
-    <h1>
-        {% trans "Delete Requirement" %}: {{ requirement }}
-    </h1>
-
     <div class="row">
         <div class="col-sm-12">
             <table class="table table-hover">
@@ -25,11 +21,11 @@
         <table class="table">
             <tr>
                 <td>
-                    <button type="submit" class="btn btn-default btn-danger">{% trans "Delete" %}</button>
+                    <button type="submit" class="btn btn-danger">{% trans "Delete" %}</button>
                 </td>
-                <td><a href="{% url "requirement_list" %}" class="btn btn-default">{% trans "Cancel" %}</a></td>
+                <td><a href="{% url "requirement_list" %}" class="btn btn-secondary">{% trans "Cancel" %}</a>
+                </td>
             </tr>
         </table>
     </form>
-
 {% endblock %}

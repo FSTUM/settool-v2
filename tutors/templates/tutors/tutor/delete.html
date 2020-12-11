@@ -1,13 +1,9 @@
-{% extends "tutors/base.html" %}
+{% extends "tutors/base_tutors.html" %}
 {% load i18n %}
 
-{% block title %}{% trans "Tutor" %} - {% trans "Delete Tutor" %}{% endblock %}
+{% block set_common_headercontent %}{% trans "Delete Tutor" %}{% endblock %}
 
-{% block tutorcontent %}
-    <h1>
-        {% trans "Delete Tutor" %}: {{ tutor }}
-    </h1>
-
+{% block set_common_content %}
     <div class="row">
         <div class="col-sm-12">
             <table class="table table-hover">
@@ -74,7 +70,8 @@
                 {% for assignment in tutor.tutorassignment_set.all %}
                     <tr>
                         <td></td>
-                        <td><a href="{% url "task_view" assignment.task.id %}">{{ assignment.task.name }}</a></td>
+                        <td><a href="{% url "task_view" assignment.task.id %}">{{ assignment.task.name }}</a>
+                        </td>
                         <td>{{ assignment.task.begin }}</td>
                         <td>{{ assignment.task.end }}</td>
                         <td>{{ assignment.task.meeting_point }}</td>
@@ -91,11 +88,10 @@
         <table class="table">
             <tr>
                 <td>
-                    <button type="submit" class="btn btn-default btn-danger">{% trans "Delete" %}</button>
+                    <button type="submit" class="btn btn-danger">{% trans "Delete" %}</button>
                 </td>
-                <td><a href="{% url "tutor_list" %}" class="btn btn-default">{% trans "Cancel" %}</a></td>
+                <td><a href="{% url "tutor_list" %}" class="btn btn-secondary">{% trans "Cancel" %}</a></td>
             </tr>
         </table>
     </form>
-
 {% endblock %}

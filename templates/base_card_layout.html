@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load bootstrap4 %}
+{% block content %}
+    <div class="row">
+        <div class="col-md-3 mb-4">
+            <div class="card">
+                <div class="card-header">
+                    {% trans "Navigation" %}
+                </div>
+                <div class="card-body">
+                    <nav class="nav flex-column nav-pills">
+                        {% block set_common_navigation %}{% endblock %}
+                    </nav>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-9">
+            {% block set_common_maincard_override %}
+                <div class="card">
+                    <div class="card-header">
+                        {% block set_common_headercontent %}{% endblock %}
+                    </div>
+                    <div class="card-body">
+                        {% block set_common_content %}{% endblock %}
+                    </div>
+                </div>
+            {% endblock %}
+        </div>
+    </div>
+{% endblock %}

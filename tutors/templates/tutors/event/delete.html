@@ -1,13 +1,9 @@
-{% extends "tutors/base.html" %}
+{% extends "tutors/base_tutors.html" %}
 {% load i18n %}
 
-{% block title %}{% trans "Tutor" %} - {% trans "Delete Event" %}{% endblock %}
+{% block set_common_headercontent %}{% trans "Delete Event" %}: {{ event }}{% endblock %}
 
-{% block tutorcontent %}
-    <h1>
-        {% trans "Delete Event" %}: {{ event }}
-    </h1>
-
+{% block set_common_content %}
     <div class="row">
         <div class="col-sm-12">
             <table class="table table-hover">
@@ -83,11 +79,10 @@
         <table class="table">
             <tr>
                 <td>
-                    <button type="submit" class="btn btn-default btn-danger">{% trans "Delete" %}</button>
+                    <button type="submit" class="btn btn-danger">{% trans "Delete" %}</button>
                 </td>
-                <td><a href="{% url "event_list" %}" class="btn btn-default">{% trans "Cancel" %}</a></td>
+                <td><a href="{% url "event_list" %}" class="btn btn-secondary">{% trans "Cancel" %}</a></td>
             </tr>
         </table>
     </form>
-
 {% endblock %}

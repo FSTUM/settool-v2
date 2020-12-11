@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block set_common_headercontent %}{% trans "Sign up" %}{% endblock %}
+
+{% block content %}
+    <div class="card">
+        <div class="card-header">
+
+            {% trans "Confirmation required" %}
+        </div>
+        <div class="card-body">
+
+            {% trans "You will get an email containing a confirmation link. A confirmation is required to complete the application." %}
+        </div>
+    </div>
+{% endblock %}

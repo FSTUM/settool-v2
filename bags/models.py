@@ -1,21 +1,19 @@
-# -*- coding: utf-8 -*-
-
-from __future__ import unicode_literals
-
 from django.core.mail import send_mail
 from django.db import models
 from django.template import engines
-from django.utils import encoding
 from django.utils.translation import ugettext_lazy as _
 
 from settool_common.models import Semester
-from settool_common.utils import u
 
 
 class Company(models.Model):
     class Meta:
-        permissions = (("view_companies",
-                        "Can view and edit the companies"),)
+        permissions = (
+            (
+                "view_companies",
+                "Can view and edit the companies",
+            ),
+        )
 
     semester = models.ForeignKey(
         Semester,
@@ -58,8 +56,9 @@ class Company(models.Model):
         _("Email successfully sent"),
     )
 
-    promise = models.NullBooleanField(
+    promise = models.BooleanField(
         _("Promise"),
+        null=True,
     )
 
     giveaways = models.CharField(
@@ -94,45 +93,42 @@ class Company(models.Model):
         _("Arrived"),
     )
 
-    contact_again = models.NullBooleanField(
+    contact_again = models.BooleanField(
         _("Contact again"),
+        null=True,
     )
 
     def __str__(self):
-        return u(self.name)
+        return str(self.name)
 
     @property
     def full_contact(self):
-        return "{} {} {}".format(self.contact_gender, self.contact_firstname,
-                                 self.contact_lastname)
+        return f"{self.contact_gender} {self.contact_firstname} {self.contact_lastname}"
 
     @property
     def anrede(self):
         if self.contact_gender and self.contact_lastname:
-            return "Hallo {} {}".format(self.contact_gender, self.contact_lastname)
-        else:
-            return "Sehr geehrte Damen und Herren"
+            return f"Hallo {self.contact_gender} {self.contact_lastname}"
+        return "Sehr geehrte Damen und Herren"
 
     @property
     def formale_anrede(self):
         if self.contact_gender and self.contact_lastname:
             if self.contact_gender == "Herr":
-                return "Sehr geehrter Herr {}".format(self.contact_lastname)
-            elif self.contact_gender == "Frau":
-                return "Sehr geehrte Frau {}".format(self.contact_lastname)
-            else:
-                return "Sehr geehrte Damen und Herren"
-        else:
+                return f"Sehr geehrter Herr {self.contact_lastname}"
+            if self.contact_gender == "Frau":
+                return f"Sehr geehrte Frau {self.contact_lastname}"
             return "Sehr geehrte Damen und Herren"
+        return "Sehr geehrte Damen und Herren"
 
     @property
     def contact_name(self):
-        return "{} {}".format(self.contact_firstname, self.contact_lastname)
+        return f"{self.contact_firstname} {self.contact_lastname}"
 
 
-#@encoding.python_2_unicode_compatible
+# @encoding.python_2_unicode_compatible
 class Mail(models.Model):
-    FROM_MAIL = 'Sponsoring Team des SET-Referats <set-tueten@fs.tum.de>'
+    FROM_MAIL = "Sponsoring Team des SET-Referats <set-tueten@fs.tum.de>"
     semester = models.ForeignKey(
         Semester,
         on_delete=models.CASCADE,
@@ -146,8 +142,10 @@ class Mail(models.Model):
     text = models.TextField(
         _("Text"),
         help_text=_(
-            'You may use {{firma}} for the company name, {{anrede}} for the greeting "Hallo Herr/Frau XYZ" and '
-            '{{formale_anrede}} for the formal greeting "Sehr geehrte/r Herr/Frau XYZ".'),
+            'You may use {{firma}} for the company name, {{anrede}} for the greeting "Hallo '
+            'Herr/Frau XYZ" and {{formale_anrede}} for the formal greeting "Sehr geehrte/r '
+            'Herr/Frau XYZ".',
+        ),
     )
 
     comment = models.CharField(
@@ -158,18 +156,17 @@ class Mail(models.Model):
 
     def __str__(self):
         if self.comment:
-            return "{} ({})".format(self.subject, self.comment)
-        else:
-            return u(self.subject)
+            return f"{self.subject} ({self.comment})"
+        return str(self.subject)
 
-    def get_mail(self, request):
+    def get_mail(self):
         # text from templates
-        django_engine = engines['django']
+        django_engine = engines["django"]
         subject_template = django_engine.from_string(self.subject)
         context = {
-            'firma': "<Firma>",
-            'anrede': "<Hallo Herr/Frau XYZ>",
-            'formale_anrede': "<Sehr geehrte/r Herr/Frau XYZ>",
+            "firma": "<Firma>",
+            "anrede": "<Hallo Herr/Frau XYZ>",
+            "formale_anrede": "<Sehr geehrte/r Herr/Frau XYZ>",
         }
         subject = subject_template.render(context).rstrip()
 
@@ -178,19 +175,24 @@ class Mail(models.Model):
 
         return subject, text, Mail.FROM_MAIL
 
-    def send_mail(self, request, company):
+    def send_mail(self, company):
         # text from templates
-        django_engine = engines['django']
+        django_engine = engines["django"]
         subject_template = django_engine.from_string(self.subject)
         context = {
-            'firma': company.name,
-            'anrede': company.anrede,
-            'formale_anrede': company.formale_anrede,
+            "firma": company.name,
+            "anrede": company.anrede,
+            "formale_anrede": company.formale_anrede,
         }
         subject = subject_template.render(context).rstrip()
 
         text_template = django_engine.from_string(self.text)
         text = text_template.render(context)
 
-        send_mail(subject, text, Mail.FROM_MAIL, [company.email],
-                  fail_silently=False)
+        send_mail(
+            subject,
+            text,
+            Mail.FROM_MAIL,
+            [company.email],
+            fail_silently=False,
+        )

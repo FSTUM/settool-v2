@@ -1,5 +1,5 @@
 """
-WSGI config for settool project.
+WSGI config for set-tool project.
 
 It exposes the WSGI callable as a module-level variable named ``application``.
 

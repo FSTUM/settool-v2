@@ -1,14 +1,10 @@
-{% extends "tutors/base.html" %}
+{% extends "tutors/base_tutors.html" %}
 {% load i18n %}
-{% load bootstrap3 %}
+{% load bootstrap4 %}
 
-{% block title %}{% trans "Tutor" %} - {% trans "Add Event" %}{% endblock %}
+{% block set_common_headercontent %}{% trans "Add Event" %}{% endblock %}
 
-{% block tutorcontent %}
-    <h1>
-        {% trans "Add Event" %}
-    </h1>
-    <hr>
+{% block set_common_content %}
     <form method="post" action="">
         {% csrf_token %}
 
@@ -18,7 +14,7 @@
             </div>
         </div>
 
-        <button type="submit" class="btn btn-default">{% trans "Submit" %}</button>
+        <button type="submit" class="btn btn-primary">{% trans "Submit" %}</button>
     </form>
     <script type="text/javascript">
         let subjects = $('select[multiple][name="subjects"]');

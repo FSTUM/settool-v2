@@ -1,6 +1,7 @@
 from django import template
 
-from tutors.models import Tutor, MailTutorTask
+from tutors.models import MailTutorTask
+from tutors.models import Tutor
 
 register = template.Library()
 
@@ -12,11 +13,18 @@ def in_task(requirement, task_requirements):
 
 @register.simple_tag
 def mail_task_count(task):
-    return Tutor.objects.filter(task=task).exclude(id__in=MailTutorTask.objects.filter(task=task).values(
-        "tutor_id")).count()
+    return (
+        Tutor.objects.filter(task=task)
+        .exclude(
+            id__in=MailTutorTask.objects.filter(task=task).values(
+                "tutor_id",
+            ),
+        )
+        .count()
+    )
 
 
-@register.filter(name='times')
+@register.filter(name="times")
 def times(number):
     return range(number)
 

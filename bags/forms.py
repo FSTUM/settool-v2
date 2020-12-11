@@ -2,7 +2,9 @@ from django import forms
 from django.utils.translation import ugettext_lazy as _
 
 from settool_common.models import Semester
-from .models import Company, Mail
+
+from .models import Company
+from .models import Mail
 
 
 class CompanyForm(forms.ModelForm):
@@ -11,11 +13,11 @@ class CompanyForm(forms.ModelForm):
         exclude = ["semester"]
 
     def __init__(self, *args, **kwargs):
-        self.semester = kwargs.pop('semester')
-        super(CompanyForm, self).__init__(*args, **kwargs)
+        self.semester = kwargs.pop("semester")
+        super().__init__(*args, **kwargs)
 
     def save(self, commit=True):
-        instance = super(CompanyForm, self).save(False)
+        instance = super().save(False)
         instance.semester = self.semester
         if commit:
             instance.save()
@@ -33,11 +35,12 @@ class GiveawayForm(forms.Form):
     )
 
     def __init__(self, *args, **kwargs):
-        semester = kwargs.pop('semester')
-        super(GiveawayForm, self).__init__(*args, **kwargs)
+        semester = kwargs.pop("semester")
+        super().__init__(*args, **kwargs)
 
-        self.fields['company'].queryset = semester.company_set.filter(
-            giveaways="").order_by('name')
+        self.fields["company"].queryset = semester.company_set.filter(
+            giveaways="",
+        ).order_by("name")
 
 
 class MailForm(forms.ModelForm):
@@ -46,11 +49,11 @@ class MailForm(forms.ModelForm):
         exclude = ["semester"]
 
     def __init__(self, *args, **kwargs):
-        self.semester = kwargs.pop('semester')
-        super(MailForm, self).__init__(*args, **kwargs)
+        self.semester = kwargs.pop("semester")
+        super().__init__(*args, **kwargs)
 
     def save(self, commit=True):
-        instance = super(MailForm, self).save(False)
+        instance = super().save(False)
         instance.semester = self.semester
         if commit:
             instance.save()
@@ -64,66 +67,31 @@ class SelectMailForm(forms.Form):
     )
 
     def __init__(self, *args, **kwargs):
-        semester = kwargs.pop('semester')
-        super(SelectMailForm, self).__init__(*args, **kwargs)
+        semester = kwargs.pop("semester")
+        super().__init__(*args, **kwargs)
 
-        self.fields['mail'].queryset = semester.mail_set.all()
+        self.fields["mail"].queryset = semester.mail_set.all()
+
+
+def produce_boolean_field_with_autosubmit(label):
+    tmp = forms.BooleanField(
+        label_suffix=label,
+        required=False,
+    )
+
+    tmp.widget.attrs["onchange"] = "document.getElementById('filterform').submit()"
+    return tmp
 
 
 class FilterCompaniesForm(forms.Form):
-    search = forms.CharField(
-        label=_("Search pattern:"),
-        required=False,
-    )
-    search.widget.attrs["onchange"] = "document.getElementById('filterform').submit()"
-
-    no_email_sent = forms.BooleanField(
-        label=_("Email was not (successfully) sent"),
-        required=False,
-    )
-    no_email_sent.widget.attrs["onchange"] = "document.getElementById('filterform').submit()"
-
-    last_year = forms.BooleanField(
-        label=_("Participated last year"),
-        required=False,
-    )
-    last_year.widget.attrs["onchange"] = "document.getElementById('filterform').submit()"
-
-    not_last_year = forms.BooleanField(
-        label=_("Not participated last year"),
-        required=False,
-    )
-    not_last_year.widget.attrs["onchange"] = "document.getElementById('filterform').submit()"
-
-    contact_again = forms.BooleanField(
-        label=_("Contact again next year"),
-        required=False,
-    )
-    contact_again.widget.attrs["onchange"] = "document.getElementById('filterform').submit()"
-
-    promise = forms.BooleanField(
-        label=_("Promise given"),
-        required=False,
-    )
-    promise.widget.attrs["onchange"] = "document.getElementById('filterform').submit()"
-
-    no_promise = forms.BooleanField(
-        label=_("No promise"),
-        required=False,
-    )
-    no_promise.widget.attrs["onchange"] = "document.getElementById('filterform').submit()"
-
-    giveaways = forms.BooleanField(
-        label=_("Giveaways set"),
-        required=False,
-    )
-    giveaways.widget.attrs["onchange"] = "document.getElementById('filterform').submit()"
-
-    arrived = forms.BooleanField(
-        label=_("Giveaways already arrived"),
-        required=False,
-    )
-    arrived.widget.attrs["onchange"] = "document.getElementById('filterform').submit()"
+    no_email_sent = produce_boolean_field_with_autosubmit(_("Email was not (successfully) sent"))
+    last_year = produce_boolean_field_with_autosubmit(_("Participated last year"))
+    not_last_year = produce_boolean_field_with_autosubmit(_("Not participated last year"))
+    contact_again = produce_boolean_field_with_autosubmit(_("Contact again next year"))
+    promise = produce_boolean_field_with_autosubmit(_("Promise given"))
+    no_promise = produce_boolean_field_with_autosubmit(_("No promise"))
+    giveaways = produce_boolean_field_with_autosubmit(_("Giveaways set"))
+    arrived = produce_boolean_field_with_autosubmit(_("Giveaways already arrived"))
 
 
 class SelectCompanyForm(forms.Form):
@@ -141,17 +109,18 @@ class ImportForm(forms.Form):
     )
 
     only_contact_again = forms.BooleanField(
-        label=_("Only companies who explicitly said contact again (otherwise \
-            all companies except the ones which said to not contact again \
-            will be used)"),
+        label=_(
+            "Only companies who explicitly said contact again (otherwise all companies except the "
+            "ones which said to not contact again will be used)",
+        ),
         required=False,
     )
 
     def __init__(self, *args, **kwargs):
-        semester = kwargs.pop('semester')
-        super(ImportForm, self).__init__(*args, **kwargs)
+        semester = kwargs.pop("semester")
+        super().__init__(*args, **kwargs)
 
-        self.fields['semester'].queryset = Semester.objects.exclude(pk=semester.pk)
+        self.fields["semester"].queryset = Semester.objects.exclude(pk=semester.pk)
 
 
 class UpdateFieldForm(forms.Form):

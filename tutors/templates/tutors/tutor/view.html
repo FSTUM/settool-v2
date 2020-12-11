@@ -1,12 +1,10 @@
-{% extends "tutors/base.html" %}
+{% extends "tutors/base_tutors.html" %}
 {% load i18n %}
-{% load bootstrap3 %}
+{% load bootstrap4 %}
 
-{% block title %}{% trans "Tutor" %} - {% trans "Tutor Details" %}{% endblock %}
+{% block set_common_headercontent %}{% trans "Tutor Details" %}{% endblock %}
 
-{% block tutorcontent %}
-    <h1>{{ tutor }}</h1>
-
+{% block set_common_content %}
     <div class="row">
         <div class="col-sm-12">
             <table class="table table-hover">
@@ -56,22 +54,26 @@
 
                                 {% if tutor.status == "inactive" %}
                                     <button formaction="{% url "tutor_change_status" tutor.id "active" %}"
-                                            class="btn btn-default" type="submit">{% trans "open" %}</button>
+                                            class="btn btn-secondary" type="submit">{% trans "open" %}</button>
                                 {% elif tutor.status == "active" %}
                                     <button formaction="{% url "tutor_change_status" tutor.id "accepted" %}"
-                                            class="btn btn-default" type="submit">{% trans "accept" %}</button>
+                                            class="btn btn-secondary"
+                                            type="submit">{% trans "accept" %}</button>
                                     <button formaction="{% url "tutor_change_status" tutor.id "declined" %}"
-                                            class="btn btn-default" type="submit">{% trans "decline" %}</button>
+                                            class="btn btn-secondary"
+                                            type="submit">{% trans "decline" %}</button>
                                 {% elif tutor.status == "accepted" %}
                                     <button formaction="{% url "tutor_change_status" tutor.id "active" %}"
-                                            class="btn btn-default" type="submit">{% trans "open" %}</button>
+                                            class="btn btn-secondary" type="submit">{% trans "open" %}</button>
                                     <button formaction="{% url "tutor_change_status" tutor.id "declined" %}"
-                                            class="btn btn-default" type="submit">{% trans "decline" %}</button>
+                                            class="btn btn-secondary"
+                                            type="submit">{% trans "decline" %}</button>
                                 {% elif tutor.status == "declined" %}
                                     <button formaction="{% url "tutor_change_status" tutor.id "active" %}"
-                                            class="btn btn-default" type="submit">{% trans "open" %}</button>
+                                            class="btn btn-secondary" type="submit">{% trans "open" %}</button>
                                     <button formaction="{% url "tutor_change_status" tutor.id "accepted" %}"
-                                            class="btn btn-default" type="submit">{% trans "accept" %}</button>
+                                            class="btn btn-secondary"
+                                            type="submit">{% trans "accept" %}</button>
                                 {% endif %}
                             </form>
                         </td>
@@ -131,7 +133,8 @@
                 {% for assignment in tutor.tutorassignment_set.all %}
                     <tr>
                         <td></td>
-                        <td><a href="{% url "task_view" assignment.task.id %}">{{ assignment.task.name }}</a></td>
+                        <td><a href="{% url "task_view" assignment.task.id %}">{{ assignment.task.name }}</a>
+                        </td>
                         <td>{{ assignment.task.begin }}</td>
                         <td>{{ assignment.task.end }}</td>
                         <td>{{ assignment.task.meeting_point }}</td>
@@ -164,5 +167,4 @@
             {% endif %}
         </div>
     </div>
-
 {% endblock %}

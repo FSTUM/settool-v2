@@ -1,0 +1,24 @@
+{% extends "base_card_layout.html" %}
+{% load active_link_tags %}
+{% load i18n %}
+{% load bootstrap4 %}
+
+{% block set_common_navigation %}
+    <a class="nav-link {% active_link 'fahrt_index' %}" href="{% url 'fahrt_index' %}">{% trans "Dashboard" %}</a>
+
+    <h4 class="navbar-text">{% trans "General" %}</h4>
+    <a class="nav-link {% active_link 'fahrt_signup_internal' %}" href="{% url 'fahrt_signup_internal' %}">{% trans "Sign up" %}</a>
+    <a class="nav-link {% active_link 'fahrt_date' %}" href="{% url 'fahrt_date' %}">{% trans "Change date" %}</a>
+
+    <h4 class="navbar-text">{% trans "Participants" %}</h4>
+    <a class="nav-link {% active_link 'fahrt_list_registered' %}" href="{% url 'fahrt_list_registered' %}">{% trans "registered" %}</a>
+    <a class="nav-link {% active_link 'fahrt_list_confirmed' %}" href="{% url 'fahrt_list_confirmed' %}">{% trans "confirmed" %}</a>
+    <a class="nav-link {% active_link 'fahrt_list_waitinglist' %}" href="{% url 'fahrt_list_waitinglist' %}">{% trans "waitinglist" %}</a>
+    <a class="nav-link {% active_link 'fahrt_list_cancelled' %}" href="{% url 'fahrt_list_cancelled' %}">{% trans "cancelled" %}</a>
+
+    <h4 class="navbar-text">{% trans "Mails" %}</h4>
+    <a class="nav-link {% active_link 'fahrt_listmails' %}" href="{% url 'fahrt_listmails' %}">{% trans "List email templates" %}</a>
+    <a class="nav-link {% active_link 'fahrt_filter' %}" href="{% url 'fahrt_filter' %}">{% trans "Filter participants/Send emails" %}</a>
+    <a class="nav-link {% active_link 'fahrt_addmail' %}" href="{% url 'fahrt_addmail' %}">{% trans "Add email template" %}</a>
+
+{% endblock %}
