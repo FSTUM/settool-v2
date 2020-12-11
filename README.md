@@ -1,70 +1,78 @@
-# Install
+# Installation
 
-First make shure that all the requirements are met
-    
-    sudo apt-get update && sudo apt-get install -y build-essential
-    pip3 install virtualenv
+1. Install system dependencies
 
-It is recommended to use virtualenv.
-After cloning the project, you can create the new virtualenv by
+    ```bash
+    sudo apt-get update
+    sudo apt-get install -y python3-pip python3.7-venv texlive-base texlive-lang-german texlive-fonts-recommended
+    ```
 
-    virtualenv -q .venv
+2. Install python-dependencies in virtual environment
 
-Install all the requirements needed for developement and testing using:
+    ```bash
+    python3 -m venv venv
+    source venv/bin/activate
+    python3 -m pip install --upgrade pip
+    python3 -m pip install -r requirements.txt
+    ```
 
-    source .venv/bin/activate
+# Development
 
-    pip3 install -U -r requirements.txt
-    pip3 install -U -r requirements_dev.txt
-  
-# Dependencies
+1. Install additional dependencies after you installed the dependencies listed in [Installation](#installation)
 
-- Python 3.7
-- Python modules listed in `requirements.txt`
-- pdflatex (from TeX Live)
+    ```bash
+    sudo apt-get install -y gettext
+    python3 -m pip install -r requirements_dev.txt
+    ```
 
-Developement needs in addition to those named before
-- Python modules listed in `requirements_dev.txt`
-- `build-essential` to run the Makefile
+2. Create the SQLite-database by running the following command inside the project directory:
 
-# Run for development
-
-By default, Django uses a SQLite database that can be generated using the following command inside the project
-directory:
-
+    ```bash
     python3 manage.py migrate
+    ```
 
-Then a superuser should be created:
+3. Create an admin-account by running the following command inside the project directory:
 
+    ```bash
     python3 manage.py createsuperuser
+    ```
 
-This does not set the `fist_name`, so we show the user his `username` instead. If you want your `fist_name` to be shown instead, you have to add your fist Name in the admin pannel. 
+    Note that this doesn't set the `fist_name`, thus the `username` is shown on the website. If you want your `fist_name` to be shown instead, you have to add your fist name in the admin interface.
 
-Now you can start the webserver for development:
+4. Start the local webserver
 
+    ```bash
     python3 manage.py runserver
+    ```
 
-Now visit http://localhost:8000 with your browser.
+    You can now visist http://localhost:8000/ in your browser
 
-# pre-commit
+## pre-commit
 
 Code quality is ensured via various tools bundled in [`pre-commit`](https://github.com/pre-commit/pre-commit/).
 
 You can install `pre-commit`, so it will automatically run on commit:
-```console
+
+```bash
 pre-commit install
 ```
+
 This will check all files modified by your commit and will prevent the commit if a hook fails. To check all files, you can run
-```console
+
+```bash
 pre-commit run --all-files
 ```
 
-# Translation
+This will also be run by CI if you push to the repository.
 
-Update the .po files with:
+## Translation
 
-    python3 manage.py makemessages -l de
+1. Update the `.po`-files with
 
-Then edit the .po files, e.g. `guidedtours/locale/de/LC_MESSAGES/django.po`. Poedit is an excellent GUI for this!
+    ```bash
+    python manage.py makemessages -a
+    ```
 
-`pre-commit` will automatically create the `.mo`-files for you.
+2. Edit the `.po`-files, e.g. `guidedtours/locale/de/LC_MESSAGES/django.po`. [Poedit](https://poedit.net) is an excellent GUI for this!
+
+Note that `pre-commit` will automatically compuile the translations for you.
