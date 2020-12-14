@@ -1,0 +1,454 @@
+[
+  {
+    "model": "settool_common.semester",
+    "pk": 1,
+    "fields": {
+      "semester": "WS",
+      "year": 2019
+    }
+  },
+  {
+    "model": "settool_common.semester",
+    "pk": 2,
+    "fields": {
+      "semester": "SS",
+      "year": 2021
+    }
+  },
+  {
+    "model": "settool_common.subject",
+    "pk": 1,
+    "fields": {
+      "degree": "BA",
+      "subject": "Info"
+    }
+  },
+  {
+    "model": "settool_common.subject",
+    "pk": 2,
+    "fields": {
+      "degree": "MA",
+      "subject": "Mathe"
+    }
+  },
+  {
+    "model": "tutors.tutor",
+    "pk": "12e4e2e3-fa70-4075-86f2-fe8c2b95126f",
+    "fields": {
+      "created_at": "2020-12-14T07:59:28.211Z",
+      "updated_at": "2020-12-14T07:59:28.211Z",
+      "semester": 1,
+      "first_name": "Firstname_4",
+      "last_name": "Lastname_4",
+      "email": "4@test.com",
+      "registration_time": "2020-12-14T07:59:28.211Z",
+      "ects": false,
+      "birthday": "2020-12-14",
+      "matriculation_number": "04",
+      "tshirt_size": "XXL",
+      "tshirt_girls_cut": true,
+      "status": "declined",
+      "subject": 2,
+      "comment": ""
+    }
+  },
+  {
+    "model": "tutors.tutor",
+    "pk": "2667db55-530c-45b2-a3aa-70d895f76cf0",
+    "fields": {
+      "created_at": "2020-12-14T07:59:28.201Z",
+      "updated_at": "2020-12-14T07:59:28.201Z",
+      "semester": 2,
+      "first_name": "Firstname_1",
+      "last_name": "Lastname_1",
+      "email": "1@test.com",
+      "registration_time": "2020-12-14T07:59:28.201Z",
+      "ects": false,
+      "birthday": "2020-12-14",
+      "matriculation_number": "01",
+      "tshirt_size": "M",
+      "tshirt_girls_cut": false,
+      "status": "declined",
+      "subject": 2,
+      "comment": ""
+    }
+  },
+  {
+    "model": "tutors.tutor",
+    "pk": "27c6aa21-630f-4d3b-a8c1-e502bbcd3488",
+    "fields": {
+      "created_at": "2020-12-14T07:59:28.234Z",
+      "updated_at": "2020-12-14T07:59:28.234Z",
+      "semester": 1,
+      "first_name": "Firstname_12",
+      "last_name": "Lastname_12",
+      "email": "12@test.com",
+      "registration_time": "2020-12-14T07:59:28.234Z",
+      "ects": false,
+      "birthday": "2020-12-14",
+      "matriculation_number": "12",
+      "tshirt_size": "L",
+      "tshirt_girls_cut": false,
+      "status": "accepted",
+      "subject": 1,
+      "comment": ""
+    }
+  },
+  {
+    "model": "tutors.tutor",
+    "pk": "27edc654-c70b-49eb-8bab-a6484e547e68",
+    "fields": {
+      "created_at": "2020-12-14T07:59:28.226Z",
+      "updated_at": "2020-12-14T07:59:28.226Z",
+      "semester": 2,
+      "first_name": "Firstname_9",
+      "last_name": "Lastname_9",
+      "email": "9@test.com",
+      "registration_time": "2020-12-14T07:59:28.226Z",
+      "ects": false,
+      "birthday": "2020-12-14",
+      "matriculation_number": "09",
+      "tshirt_size": "XXL",
+      "tshirt_girls_cut": true,
+      "status": "accepted",
+      "subject": 2,
+      "comment": ""
+    }
+  },
+  {
+    "model": "tutors.tutor",
+    "pk": "2984ea4f-08e7-41c6-9b2c-9f0ebf0a5856",
+    "fields": {
+      "created_at": "2020-12-14T07:59:28.252Z",
+      "updated_at": "2020-12-14T07:59:28.252Z",
+      "semester": 1,
+      "first_name": "Firstname_18",
+      "last_name": "Lastname_18",
+      "email": "18@test.com",
+      "registration_time": "2020-12-14T07:59:28.252Z",
+      "ects": false,
+      "birthday": "2020-12-14",
+      "matriculation_number": "18",
+      "tshirt_size": "XL",
+      "tshirt_girls_cut": true,
+      "status": "accepted",
+      "subject": 1,
+      "comment": ""
+    }
+  },
+  {
+    "model": "tutors.tutor",
+    "pk": "356a8bb4-e8d4-4383-8484-136117e7fb36",
+    "fields": {
+      "created_at": "2020-12-14T07:59:28.231Z",
+      "updated_at": "2020-12-14T07:59:28.231Z",
+      "semester": 2,
+      "first_name": "Firstname_11",
+      "last_name": "Lastname_11",
+      "email": "11@test.com",
+      "registration_time": "2020-12-14T07:59:28.231Z",
+      "ects": false,
+      "birthday": "2020-12-14",
+      "matriculation_number": "11",
+      "tshirt_size": "M",
+      "tshirt_girls_cut": true,
+      "status": "accepted",
+      "subject": 1,
+      "comment": ""
+    }
+  },
+  {
+    "model": "tutors.tutor",
+    "pk": "60d28a29-bc1d-46de-827a-cc3ebdbcba84",
+    "fields": {
+      "created_at": "2020-12-14T07:59:28.240Z",
+      "updated_at": "2020-12-14T07:59:28.240Z",
+      "semester": 1,
+      "first_name": "Firstname_14",
+      "last_name": "Lastname_14",
+      "email": "14@test.com",
+      "registration_time": "2020-12-14T07:59:28.240Z",
+      "ects": false,
+      "birthday": "2020-12-14",
+      "matriculation_number": "14",
+      "tshirt_size": "XXL",
+      "tshirt_girls_cut": false,
+      "status": "accepted",
+      "subject": 1,
+      "comment": ""
+    }
+  },
+  {
+    "model": "tutors.tutor",
+    "pk": "61d63091-4377-4440-b9da-da03d684fc0a",
+    "fields": {
+      "created_at": "2020-12-14T07:59:28.228Z",
+      "updated_at": "2020-12-14T07:59:28.228Z",
+      "semester": 1,
+      "first_name": "Firstname_10",
+      "last_name": "Lastname_10",
+      "email": "10@test.com",
+      "registration_time": "2020-12-14T07:59:28.228Z",
+      "ects": false,
+      "birthday": "2020-12-14",
+      "matriculation_number": "10",
+      "tshirt_size": "S",
+      "tshirt_girls_cut": false,
+      "status": "accepted",
+      "subject": 2,
+      "comment": ""
+    }
+  },
+  {
+    "model": "tutors.tutor",
+    "pk": "72e8841f-7672-450d-95c8-662235f825c9",
+    "fields": {
+      "created_at": "2020-12-14T07:59:28.214Z",
+      "updated_at": "2020-12-14T07:59:28.214Z",
+      "semester": 2,
+      "first_name": "Firstname_5",
+      "last_name": "Lastname_5",
+      "email": "5@test.com",
+      "registration_time": "2020-12-14T07:59:28.214Z",
+      "ects": false,
+      "birthday": "2020-12-14",
+      "matriculation_number": "05",
+      "tshirt_size": "S",
+      "tshirt_girls_cut": true,
+      "status": "accepted",
+      "subject": 1,
+      "comment": ""
+    }
+  },
+  {
+    "model": "tutors.tutor",
+    "pk": "8502b8a6-48b6-441c-927d-7dbabc9005e8",
+    "fields": {
+      "created_at": "2020-12-14T07:59:28.217Z",
+      "updated_at": "2020-12-14T07:59:28.217Z",
+      "semester": 1,
+      "first_name": "Firstname_6",
+      "last_name": "Lastname_6",
+      "email": "6@test.com",
+      "registration_time": "2020-12-14T07:59:28.217Z",
+      "ects": false,
+      "birthday": "2020-12-14",
+      "matriculation_number": "06",
+      "tshirt_size": "M",
+      "tshirt_girls_cut": true,
+      "status": "accepted",
+      "subject": 2,
+      "comment": ""
+    }
+  },
+  {
+    "model": "tutors.tutor",
+    "pk": "8d7ef610-70fa-4588-b1b8-a2fa86574146",
+    "fields": {
+      "created_at": "2020-12-14T07:59:28.246Z",
+      "updated_at": "2020-12-14T07:59:28.246Z",
+      "semester": 1,
+      "first_name": "Firstname_16",
+      "last_name": "Lastname_16",
+      "email": "16@test.com",
+      "registration_time": "2020-12-14T07:59:28.246Z",
+      "ects": false,
+      "birthday": "2020-12-14",
+      "matriculation_number": "16",
+      "tshirt_size": "M",
+      "tshirt_girls_cut": true,
+      "status": "accepted",
+      "subject": 1,
+      "comment": ""
+    }
+  },
+  {
+    "model": "tutors.tutor",
+    "pk": "96b49b65-eb92-43dd-876d-b1aee999991e",
+    "fields": {
+      "created_at": "2020-12-14T07:59:28.220Z",
+      "updated_at": "2020-12-14T07:59:28.220Z",
+      "semester": 2,
+      "first_name": "Firstname_7",
+      "last_name": "Lastname_7",
+      "email": "7@test.com",
+      "registration_time": "2020-12-14T07:59:28.220Z",
+      "ects": false,
+      "birthday": "2020-12-14",
+      "matriculation_number": "07",
+      "tshirt_size": "L",
+      "tshirt_girls_cut": true,
+      "status": "accepted",
+      "subject": 1,
+      "comment": ""
+    }
+  },
+  {
+    "model": "tutors.tutor",
+    "pk": "ad4b1f04-c501-4724-bab2-e94ad4758cfa",
+    "fields": {
+      "created_at": "2020-12-14T07:59:28.254Z",
+      "updated_at": "2020-12-14T07:59:28.254Z",
+      "semester": 2,
+      "first_name": "Firstname_19",
+      "last_name": "Lastname_19",
+      "email": "19@test.com",
+      "registration_time": "2020-12-14T07:59:28.254Z",
+      "ects": false,
+      "birthday": "2020-12-14",
+      "matriculation_number": "19",
+      "tshirt_size": "XXL",
+      "tshirt_girls_cut": true,
+      "status": "accepted",
+      "subject": 2,
+      "comment": ""
+    }
+  },
+  {
+    "model": "tutors.tutor",
+    "pk": "c9030752-473f-46f4-bae2-5cdc17c30bde",
+    "fields": {
+      "created_at": "2020-12-14T07:59:28.237Z",
+      "updated_at": "2020-12-14T07:59:28.237Z",
+      "semester": 2,
+      "first_name": "Firstname_13",
+      "last_name": "Lastname_13",
+      "email": "13@test.com",
+      "registration_time": "2020-12-14T07:59:28.237Z",
+      "ects": false,
+      "birthday": "2020-12-14",
+      "matriculation_number": "13",
+      "tshirt_size": "XL",
+      "tshirt_girls_cut": false,
+      "status": "accepted",
+      "subject": 1,
+      "comment": ""
+    }
+  },
+  {
+    "model": "tutors.tutor",
+    "pk": "ca71fa7a-68d1-4f9b-948c-a388273f376b",
+    "fields": {
+      "created_at": "2020-12-14T07:59:28.208Z",
+      "updated_at": "2020-12-14T07:59:28.208Z",
+      "semester": 2,
+      "first_name": "Firstname_3",
+      "last_name": "Lastname_3",
+      "email": "3@test.com",
+      "registration_time": "2020-12-14T07:59:28.208Z",
+      "ects": false,
+      "birthday": "2020-12-14",
+      "matriculation_number": "03",
+      "tshirt_size": "XL",
+      "tshirt_girls_cut": false,
+      "status": "declined",
+      "subject": 2,
+      "comment": ""
+    }
+  },
+  {
+    "model": "tutors.tutor",
+    "pk": "ca796961-3731-4aeb-af65-c1aefcb1ad26",
+    "fields": {
+      "created_at": "2020-12-14T07:59:28.223Z",
+      "updated_at": "2020-12-14T07:59:28.223Z",
+      "semester": 1,
+      "first_name": "Firstname_8",
+      "last_name": "Lastname_8",
+      "email": "8@test.com",
+      "registration_time": "2020-12-14T07:59:28.223Z",
+      "ects": false,
+      "birthday": "2020-12-14",
+      "matriculation_number": "08",
+      "tshirt_size": "XL",
+      "tshirt_girls_cut": true,
+      "status": "accepted",
+      "subject": 1,
+      "comment": ""
+    }
+  },
+  {
+    "model": "tutors.tutor",
+    "pk": "d2fea97b-d75d-4ff2-9798-63a16b86c3cd",
+    "fields": {
+      "created_at": "2020-12-14T07:59:28.193Z",
+      "updated_at": "2020-12-14T07:59:28.193Z",
+      "semester": 1,
+      "first_name": "Firstname_0",
+      "last_name": "Lastname_0",
+      "email": "0@test.com",
+      "registration_time": "2020-12-14T07:59:28.193Z",
+      "ects": false,
+      "birthday": "2020-12-14",
+      "matriculation_number": "00",
+      "tshirt_size": "S",
+      "tshirt_girls_cut": true,
+      "status": "declined",
+      "subject": 1,
+      "comment": ""
+    }
+  },
+  {
+    "model": "tutors.tutor",
+    "pk": "d4e8958e-bc6b-43d0-a9ca-bd28306ae9ee",
+    "fields": {
+      "created_at": "2020-12-14T07:59:28.243Z",
+      "updated_at": "2020-12-14T07:59:28.243Z",
+      "semester": 2,
+      "first_name": "Firstname_15",
+      "last_name": "Lastname_15",
+      "email": "15@test.com",
+      "registration_time": "2020-12-14T07:59:28.243Z",
+      "ects": false,
+      "birthday": "2020-12-14",
+      "matriculation_number": "15",
+      "tshirt_size": "S",
+      "tshirt_girls_cut": false,
+      "status": "accepted",
+      "subject": 1,
+      "comment": ""
+    }
+  },
+  {
+    "model": "tutors.tutor",
+    "pk": "eaf85ee1-9e0c-4998-81b5-e4847aa4220b",
+    "fields": {
+      "created_at": "2020-12-14T07:59:28.249Z",
+      "updated_at": "2020-12-14T07:59:28.249Z",
+      "semester": 2,
+      "first_name": "Firstname_17",
+      "last_name": "Lastname_17",
+      "email": "17@test.com",
+      "registration_time": "2020-12-14T07:59:28.249Z",
+      "ects": false,
+      "birthday": "2020-12-14",
+      "matriculation_number": "17",
+      "tshirt_size": "L",
+      "tshirt_girls_cut": true,
+      "status": "accepted",
+      "subject": 1,
+      "comment": ""
+    }
+  },
+  {
+    "model": "tutors.tutor",
+    "pk": "f07d04ab-4d5e-4ad3-b661-a38038c7b01a",
+    "fields": {
+      "created_at": "2020-12-14T07:59:28.204Z",
+      "updated_at": "2020-12-14T07:59:28.204Z",
+      "semester": 1,
+      "first_name": "Firstname_2",
+      "last_name": "Lastname_2",
+      "email": "2@test.com",
+      "registration_time": "2020-12-14T07:59:28.205Z",
+      "ects": false,
+      "birthday": "2020-12-14",
+      "matriculation_number": "02",
+      "tshirt_size": "L",
+      "tshirt_girls_cut": false,
+      "status": "declined",
+      "subject": 1,
+      "comment": ""
+    }
+  }
+]
