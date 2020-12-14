@@ -42,7 +42,7 @@ def list_registered(request):
     context = {
         "participants": participants,
     }
-    return render(request, "fahrt/list_registered.html", context)
+    return render(request, "fahrt/participants/list_registered.html", context)
 
 
 @permission_required("fahrt.view_participants")
@@ -54,7 +54,7 @@ def list_waitinglist(request):
     context = {
         "participants": participants,
     }
-    return render(request, "fahrt/list_waitinglist.html", context)
+    return render(request, "fahrt/participants/list_waitinglist.html", context)
 
 
 @permission_required("fahrt.view_participants")
@@ -94,7 +94,7 @@ def list_confirmed(request):
         "num_women": num_women,
         "proportion_of_women": proportion_of_women,
     }
-    return render(request, "fahrt/list_confirmed.html", context)
+    return render(request, "fahrt/participants/list_confirmed.html", context)
 
 
 @permission_required("fahrt.view_participants")
@@ -106,7 +106,7 @@ def list_cancelled(request):
     context = {
         "participants": participants,
     }
-    return render(request, "fahrt/list_cancelled.html", context)
+    return render(request, "fahrt/participants/list_cancelled.html", context)
 
 
 @permission_required("fahrt.view_participants")
@@ -129,7 +129,7 @@ def view(request, participant_pk):
         "log_entries": log_entries,
         "form": form,
     }
-    return render(request, "fahrt/view_participant_details.html", context)
+    return render(request, "fahrt/participants/view_participant_details.html", context)
 
 
 @permission_required("fahrt.view_participants")
@@ -151,7 +151,7 @@ def edit(request, participant_pk):
         "form": form,
         "participant": participant,
     }
-    return render(request, "fahrt/edit_participants.html", context)
+    return render(request, "fahrt/participants/edit_participants.html", context)
 
 
 @permission_required("fahrt.view_participants")
@@ -168,7 +168,7 @@ def delete(request, participant_pk):
         "form": form,
         "participant": participant,
     }
-    return render(request, "fahrt/del_participant.html", context)
+    return render(request, "fahrt/participants/del_participant.html", context)
 
 
 @permission_required("fahrt.view_participants")
@@ -298,7 +298,7 @@ def signup_internal(request):
         "semester": semester,
         "form": form,
     }
-    return render(request, "fahrt/add.html", context)
+    return render(request, "fahrt/general/add_participant.html", context)
 
 
 def signup_success(request):
@@ -321,7 +321,7 @@ def filter_participants(request):
         "participants": participants,
         "filterform": filterform,
     }
-    return render(request, "fahrt/filter_participants.html", context)
+    return render(request, "fahrt/mail/filter_participants_send_mail.html", context)
 
 
 def set_request_session_filtered_participants(filterform, participants, request):
@@ -427,7 +427,7 @@ def filtered_list(request):
         "form": form,
         "participantforms": participantforms,
     }
-    return render(request, "fahrt/filtered_list.html", context)
+    return render(request, "fahrt/mail/list_filtered_participants_send_mail.html", context)
 
 
 @permission_required("fahrt.view_participants")
@@ -437,7 +437,7 @@ def index_mails(request):
     mails = semester.fahrt_mail_set.all()
 
     context = {"mails": mails}
-    return render(request, "fahrt/index_mails.html", context)
+    return render(request, "fahrt/mail/index_mails.html", context)
 
 
 @permission_required("fahrt.view_participants")
@@ -452,7 +452,7 @@ def add_mail(request):
         return redirect("fahrt_listmails")
 
     context = {"form": form}
-    return render(request, "fahrt/add_mail.html", context)
+    return render(request, "fahrt/mail/add_mail.html", context)
 
 
 @permission_required("fahrt.view_participants")
@@ -490,7 +490,7 @@ def delete_mail(request, mail_pk):
         "mail": mail,
         "form": form,
     }
-    return render(request, "fahrt/del_mail.html", context)
+    return render(request, "fahrt/mail/del_mail.html", context)
 
 
 @permission_required("fahrt.view_participants")
@@ -527,8 +527,8 @@ def send_mail(request, mail_pk):
     }
 
     if failed_participants:
-        return render(request, "fahrt/send_mail_failure.html", context)
-    return render(request, "fahrt/send_mail.html", context)
+        return render(request, "fahrt/mail/send_mail_failure.html", context)
+    return render(request, "fahrt/mail/send_mail.html", context)
 
 
 @permission_required("fahrt.view_participants")
@@ -555,4 +555,4 @@ def change_date(request):
     context = {
         "form": form,
     }
-    return render(request, "fahrt/change_date.html", context)
+    return render(request, "fahrt/general/change_date.html", context)

@@ -1,14 +1,9 @@
-{% extends "base.html" %}
+{% extends "bags/base_bags.html" %}
 {% load i18n %}
 
-{% block title %}{% trans "Freshmen bags" %} - {% trans "Company Details" %}{% endblock %}
+{% block set_common_headercontent %}{% trans "Company Details" %}{% endblock %}
 
-{% block content %}
-    <div class="card">
-        <div class="card-header">
-            {% trans "Company details" %}
-        </div>
-        <div class="card-body">
+{% block set_common_content %}
             <table class="table">
                 <tr>
                     <th>{% trans "Name" %}</th>
@@ -105,7 +100,7 @@
                     </td>
                 </tr>
             </table>
+            <p><a href="{% url "bags_dashboard" %}" class="btn btn-secondary">{% trans "Back" %}</a></p>
         </div>
-        <p><a href="{% url "listcompanies" %}" class="btn btn-secondary">{% trans "back" %}</a></p>
     </div>
 {% endblock %}

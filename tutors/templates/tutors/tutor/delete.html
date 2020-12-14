@@ -56,7 +56,7 @@
                 </tbody>
             </table>
             <h2>{% trans "The tutor is assigned to the following tasks" %}:</h2>
-            <table class="table css-serial">
+            <table class="table">
                 <thead>
                 <tr>
                     <th>#</th>
@@ -69,7 +69,7 @@
                 <tbody>
                 {% for assignment in tutor.tutorassignment_set.all %}
                     <tr>
-                        <td></td>
+                        <td>{{ forloop.counter }}</td>
                         <td><a href="{% url "task_view" assignment.task.id %}">{{ assignment.task.name }}</a>
                         </td>
                         <td>{{ assignment.task.begin }}</td>
@@ -90,7 +90,7 @@
                 <td>
                     <button type="submit" class="btn btn-danger">{% trans "Delete" %}</button>
                 </td>
-                <td><a href="{% url "tutor_list" %}" class="btn btn-secondary">{% trans "Cancel" %}</a></td>
+                <td><a href="{% url "tutor_list_status_all" %}" class="btn btn-secondary">{% trans "Cancel" %}</a></td>
             </tr>
         </table>
     </form>

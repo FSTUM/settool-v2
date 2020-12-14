@@ -1,34 +1,20 @@
-{% extends "base.html" %}
+{% extends "bags/base_bags.html" %}
 {% load i18n %}
 {% load bootstrap4 %}
 
-{% block title %}{% trans "Freshmen bags" %}{% endblock %}
+{% block set_common_headercontent %}{% trans "Add email" %}{% endblock %}
 
-{% block content %}
-    <div class="card">
-        <div class="card-header">
-            {% trans "Add email" %}
+{% block set_common_content %}
+    <form method="post" action="">
+        {% csrf_token %}
+
+        <div class="row">
+            <div class="col-xs-12 col-lg-5">
+                {% bootstrap_form form %}
+            </div>
         </div>
-        <div class="card-body">
 
-            <form method="post" action="">
-                {% csrf_token %}
-
-                <div class="row">
-                    <div class="col-xs-12 col-lg-5">
-                        {% bootstrap_form form %}
-                    </div>
-                </div>
-
-                <table class="table">
-                    <tr>
-                        <td>
-                            <button type="submit" class="btn btn-primary">{% trans "Submit" %}</button>
-                        </td>
-                        <td><a href="{% url "listmails" %}" class="btn btn-secondary">{% trans "Cancel" %}</a></td>
-                    </tr>
-                </table>
-            </form>
-        </div>
-    </div>
+        <button type="submit" class="btn btn-primary">{% trans "Submit" %}</button>
+        <a href="{% url "listmails" %}" class="btn btn-secondary">{% trans "Cancel" %}</a>
+    </form>
 {% endblock %}

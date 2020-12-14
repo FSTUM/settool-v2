@@ -14,7 +14,7 @@
 
 {% block set_common_content %}
     <div class="table-responsive">
-        <table id="requirementTable" class="table dataTable table-striped table-hover css-serial">
+        <table id="requirementTable" class="table dataTable table-striped table-hover">
             <thead>
             <tr>
                 <th>#</th>
@@ -25,7 +25,7 @@
             <tbody>
             {% for requirement in requirements %}
                 <tr>
-                    <td></td>
+                    <td>{{ forloop.counter }}</td>
                     <td>
                         <a href="{% url "requirement_view" requirement.id %}">{{ requirement.question }}</a>
                     </td>

@@ -16,12 +16,12 @@
         <a class="nav-link {% active_link 'task_add' %}" href="{% url 'task_add' %}">{% trans "Add" %}</a>
 
         <h4 class="navbar-text">{% trans "Tutors" %}</h4>
-        <a class="nav-link" href="{% url 'tutor_list_status' 'all' %}">{% trans "All" %}</a>{#TODO add active links#}
-        <a class="nav-link" href="{% url 'tutor_list_status' 'accepted' %}">{% trans "Accepted" %}</a>{#TODO#}
-        <a class="nav-link" href="{% url 'tutor_list_status' 'active' %}">{% trans "Open" %}</a>{#TODO#}
-        <a class="nav-link" href="{% url 'tutor_list_status' 'declined' %}">{% trans "Declined" %}</a>{#TODO#}
-        <a class="nav-link" href="{% url 'tutor_list_status' 'inactive' %}">{% trans "Inactive" %}</a>{#TODO#}
-        <a class="nav-link" href="{% url 'tutor_list_status' 'employee' %}">{% trans "Employees" %}</a>{#TODO#}
+        <a class="nav-link {% active_link 'tutor_list_status_all' %}" href="{% url 'tutor_list_status_all' %}">{% trans "All" %}</a>
+        <a class="nav-link {% active_link 'tutor_list_status_accepted' %}" href="{% url 'tutor_list_status_accepted' %}">{% trans "Accepted" %}</a>
+        <a class="nav-link {% active_link 'tutor_list_status_active' %}" href="{% url 'tutor_list_status_active' %}">{% trans "Open" %}</a>
+        <a class="nav-link {% active_link 'tutor_list_status_declined' %}" href="{% url 'tutor_list_status_declined' %}">{% trans "Declined" %}</a>
+        <a class="nav-link {% active_link 'tutor_list_status_inactive' %}" href="{% url 'tutor_list_status_inactive' %}">{% trans "Inactive" %}</a>
+        <a class="nav-link {% active_link 'tutor_list_status_employee' %}" href="{% url 'tutor_list_status_employee' %}">{% trans "Employees" %}</a>
 
         <h4 class="navbar-text">{% trans "Requirements" %}</h4>
         <a class="nav-link {% active_link 'requirement_list' %}" href="{% url 'requirement_list' %}">

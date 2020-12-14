@@ -15,34 +15,50 @@
 
 {% block set_common_content %}
 
-    <ul class="list-inline">
-        <li><a href="{% if status is None %}{% url "tutor_export" "pdf" %}{% else %}
-{% url "tutor_export_status" "pdf" status %}{% endif %}"><span class="glyphicon glyphicon-file"></span>
-            {% trans "Export PDF" %}</a></li>
-        <li><a href="{% if status is None %}{% url "tutor_export" "csv" %}{% else %}
-{% url "tutor_export_status" "csv" status %}{% endif %}"><span class="glyphicon glyphicon-file"></span>
-            {% trans "Export CSV" %}</a></li>
+    <div class="row">
+        <div class="col-sm p-1">
+            <a class="btn btn-secondary btn-block" href="{% if status is None %}{% url "tutor_export" "pdf" %}{% else %}
+{% url "tutor_export_status" "pdf" status %}{% endif %}">
+                <span class="glyphicon glyphicon-file"></span>
+                {% trans "Export PDF" %}
+            </a>
+        </div>
+        <div class="col-sm p-1">
+            <a class="btn btn-secondary btn-block" href="{% if status is None %}{% url "tutor_export" "csv" %}{% else %}
+{% url "tutor_export_status" "csv" status %}{% endif %}">
+                <span class="glyphicon glyphicon-file"></span>
+                {% trans "Export CSV" %}
+            </a>
+        </div>
         {% if status == "accepted" or status == "employee" %}
-            <li><a href="{% url "tutor_export_status" "tshirt" status %}"><span
-                    class="glyphicon glyphicon-file"></span>
-                {% trans "T-Shirt List" %}</a></li>
+            <div class="col-sm p-1">
+                <a class="btn btn-secondary btn-block" href="{% url "tutor_export_status" "tshirt" status %}">
+                    <span class="glyphicon glyphicon-file"></span>
+                    {% trans "T-Shirt List" %}
+                </a>
+            </div>
         {% endif %}
         {% if status is not None %}
-            <li><a href="{% url "tutor_mail_status" status %}"><span class="glyphicon
-                glyphicon-envelope"></span>
-                {% trans "Send Email" %}</a></li>
+            <div class="col-sm p-1">
+                <a class="btn btn-secondary btn-block" href="{% url "tutor_mail_status" status %}">
+                    <span class="glyphicon glyphicon-envelope"></span>
+                    {% trans "Send Email" %}
+                </a>
+            </div>
         {% endif %}
         {% if status == "active" %}
-            <li>
-                <a href="{% url "tutor_batch_accept" %}"
-                   class="btn btn-primary">{% trans "Batch Accept" %}</a>
-            </li>
-            <li>
-                <a href="{% url "tutor_batch_decline" %}"
-                   class="btn btn-danger">{% trans "Batch Decline" %}</a>
-            </li>
+            <div class="col-sm p-1">
+                <a class="btn btn-primary btn-block" href="{% url "tutor_batch_accept" %}">
+                    {% trans "Batch Accept" %}
+                </a>
+            </div>
+            <div class="col-sm p-1">
+                <a class="btn btn-danger btn-block" href="{% url "tutor_batch_decline" %}">
+                    {% trans "Batch Decline" %}
+                </a>
+            </div>
         {% endif %}
-    </ul>
+    </div>
     <hr>
     {% if status == "active" %}
         <div class="table-responsive">
@@ -66,7 +82,7 @@
     {% endif %}
 
     <div class="table-responsive">
-        <table id="tutorTable" class="table dataTable css-serial">
+        <table id="tutorTable" class="table dataTable">
             <thead>
             <tr>
                 <th>#</th>

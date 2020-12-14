@@ -30,15 +30,6 @@ body {
     margin: 1rem;
 }
 
-.css-serial {
-    counter-reset: serial-number; /* Set the serial number counter to 0 */
-}
-
-.css-serial td:first-child:before {
-    counter-increment: serial-number; /* Increment the serial number counter */
-    content: counter(serial-number); /* Display the counter */
-}
-
 .table {
     margin-bottom: 1rem;
 }

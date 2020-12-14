@@ -6,7 +6,7 @@ from . import views
 urlpatterns = [
     url(
         r"^$",
-        RedirectView.as_view(pattern_name="listcompanies"),
+        RedirectView.as_view(pattern_name="bags_dashboard"),
         name="bags_main_index",
     ),
     url(
@@ -30,9 +30,9 @@ urlpatterns = [
         name="delcompany",
     ),
     url(
-        r"^list$",
-        views.index,
-        name="listcompanies",
+        r"^dashboard$",
+        views.bags_dashboard,
+        name="bags_dashboard",
     ),
     url(
         r"^giveaways/$",

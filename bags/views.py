@@ -46,7 +46,7 @@ def get_possibly_filtered_companies(filterform, semester):
 
 
 @permission_required("bags.view_companies")
-def index(request):
+def bags_dashboard(request):
     sem = get_semester(request)
     semester = get_object_or_404(Semester, pk=sem)
     filterform = FilterCompaniesForm(request.POST or None)
@@ -99,7 +99,7 @@ def index(request):
         "mailform": mailform,
         "companyforms": companyforms,
     }
-    return render(request, "bags/index.html", context)
+    return render(request, "bags/bags_dashboard.html", context)
 
 
 @permission_required("bags.view_companies")
@@ -195,7 +195,7 @@ def delete(request, company_pk):
     if form.is_valid():
         company.delete()
 
-        return redirect("listcompanies")
+        return redirect("bags_dashboard")
 
     context = {
         "company": company,
@@ -287,7 +287,7 @@ def send_mail(request, mail_pk):
                 email_sent=True,
                 email_sent_success=True,
             )
-        return redirect("listcompanies")
+        return redirect("bags_dashboard")
 
     context = {
         "companies": companies,
@@ -337,7 +337,7 @@ def import_companies(request):
                 arrived=False,
                 contact_again=None,
             )
-        return redirect("listcompanies")
+        return redirect("bags_dashboard")
 
     context = {
         "form": form,

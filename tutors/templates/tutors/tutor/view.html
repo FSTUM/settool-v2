@@ -119,7 +119,7 @@
                 </tbody>
             </table>
             <h2>{% trans "Assigned Tasks" %}:</h2>
-            <table class="table css-serial">
+            <table class="table">
                 <thead>
                 <tr>
                     <th>#</th>
@@ -132,7 +132,7 @@
                 <tbody>
                 {% for assignment in tutor.tutorassignment_set.all %}
                     <tr>
-                        <td></td>
+                        <td>{{ forloop.counter }}</td>
                         <td><a href="{% url "task_view" assignment.task.id %}">{{ assignment.task.name }}</a>
                         </td>
                         <td>{{ assignment.task.begin }}</td>
@@ -144,7 +144,7 @@
             </table>
             {% if perms.tutor.edit_tutors %}
                 <h2>{% trans "Email log" %}</h2>
-                <table class="table css-serial">
+                <table class="table">
                     <thead>
                     <tr>
                         <th>#</th>
@@ -156,7 +156,7 @@
                     <tbody>
                     {% for m in tutor.mailtutortask_set.all %}
                         <tr>
-                            <td></td>
+                            <td>{{ forloop.counter }}</td>
                             <td>{{ m.mail }}</td>
                             <td>{{ m.task|default_if_none:"-" }}</td>
                             <td>{{ m.created_at }}</td>
