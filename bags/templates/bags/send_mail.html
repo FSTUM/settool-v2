@@ -1,16 +1,10 @@
-{% extends "base.html" %}
+{% extends "bags/base_bags.html" %}
 {% load i18n %}
 {% load bootstrap4 %}
 
-{% block title %}{% trans "Freshmen bags" %} - {% trans "Send email" %}{% endblock %}
+{% block set_common_headercontent %}{% trans "Send email" %}{% endblock %}
 
-{% block content %}
-    <div class="card">
-        <div class="card-header">
-            {% trans "Send email" %}
-        </div>
-        <div class="card-body">
-
+{% block set_common_content %}
             <p>
                 {% trans "Do you really want to send the following email to the companies below?" %}
             </p>
@@ -22,7 +16,7 @@
                         <td>
                             <button type="submit" class="btn btn-secondary">{% trans "Send" %}</button>
                         </td>
-                        <td><a href="{% url "listcompanies" %}" class="btn btn-secondary">{% trans "Cancel" %}</a></td>
+                        <td><a href="{% url "bags_dashboard" %}" class="btn btn-secondary">{% trans "Cancel" %}</a></td>
                     </tr>
                 </table>
             </form>

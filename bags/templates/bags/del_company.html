@@ -1,34 +1,19 @@
-{% extends "base.html" %}
+{% extends "bags/base_bags.html" %}
 {% load i18n %}
 
-{% block title %}{% trans "Freshmen bags" %}{% endblock %}
+{% block set_common_headercontent %}{% trans "Delete company" %}: {{ company.name }}{% endblock %}
 
-{% block content %}
-    <div class="card">
-        <div class="card-header">
-            {% trans "Delete company" %}: {{ company.name }}
-        </div>
-        <div class="card-body">
+{% block set_common_content %}
+    {% url "viewcompany" company.id as viewcompany %}
+    <p>
+        {% blocktrans trimmed with name=company.name url=viewcompany %}
+            Do you really want to delete the company <a href="{{ url }}">{{ name }}</a>?
+        {% endblocktrans %}
+    </p>
+    <form method="post" action="">
+        {% csrf_token %}
 
-            {% url "viewcompany" company.id as viewcompany %}
-            <p>
-                {% blocktrans trimmed with name=company.name url=viewcompany %}
-                    Do you really want to delete the company <a href="{{ url }}">{{ name }}</a>?
-                {% endblocktrans %}
-            </p>
-            <form method="post" action="">
-                {% csrf_token %}
-
-                <table class="table">
-                    <tr>
-                        <td>
-                            <button type="submit" class="btn btn-danger">{% trans "Delete" %}</button>
-                        </td>
-                        <td><a href="{% url "listcompanies" %}" class="btn btn-secondary">{% trans "Cancel" %}</a></td>
-                    </tr>
-                </table>
-            </form>
-        </div>
-    </div>
-
+        <button type="submit" class="btn btn-danger">{% trans "Delete" %}</button>
+        <a href="{% url "bags_dashboard" %}" class="btn btn-secondary">{% trans "Cancel" %}</a>
+    </form>
 {% endblock %}

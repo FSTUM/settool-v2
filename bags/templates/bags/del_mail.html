@@ -1,42 +1,28 @@
-{% extends "base.html" %}
+{% extends "bags/base_bags.html" %}
 {% load i18n %}
 
-{% block title %}{% trans "Freshmen bags" %}{% endblock %}
+{% block set_common_headercontent %}{% trans "Delete email template" %}: {{ mail.subject }}{% endblock %}
 
-{% block content %}
-    <div class="card">
-        <div class="card-header">
-            {% trans "Delete email template" %}: {{ mail.subject }}
-        </div>
-        <div class="card-body">
+{% block set_common_content %}
+    <p>
+        {% blocktrans trimmed %}
+            Do you really want to delete the following email template?
+        {% endblocktrans %}
+    </p>
+    <p>
+        <strong>{% trans "Subject" %}:</strong> {{ mail.subject }}
+    </p>
+    <p>
+        <strong>{% trans "Text" %}:</strong><br/>{{ mail.text|linebreaks }}
+    </p>
+    <p>
+        <strong>{% trans "Comment" %}:</strong> {{ mail.comment }}
+    </p>
 
-            <p>
-                {% blocktrans trimmed %}
-                    Do you really want to delete the following email template?
-                {% endblocktrans %}
-            </p>
-            <p>
-                <strong>{% trans "Subject" %}:</strong> {{ mail.subject }}
-            </p>
-            <p>
-                <strong>{% trans "Text" %}:</strong><br/>{{ mail.text|linebreaks }}
-            </p>
-            <p>
-                <strong>{% trans "Comment" %}:</strong> {{ mail.comment }}
-            </p>
+    <form method="post" action="">
+        {% csrf_token %}
 
-            <form method="post" action="">
-                {% csrf_token %}
-
-                <table class="table">
-                    <tr>
-                        <td>
-                            <button type="submit" class="btn btn-danger">{% trans "Delete" %}</button>
-                        </td>
-                        <td><a href="{% url "listmails" %}" class="btn btn-secondary">{% trans "Cancel" %}</a></td>
-                    </tr>
-                </table>
-            </form>
-        </div>
-    </div>
+        <button type="submit" class="btn btn-danger">{% trans "Delete" %}</button>
+        <a href="{% url "listmails" %}" class="btn btn-secondary">{% trans "Cancel" %}</a>
+    </form>
 {% endblock %}

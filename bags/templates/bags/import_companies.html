@@ -1,16 +1,10 @@
-{% extends "base.html" %}
+{% extends "bags/base_bags.html" %}
 {% load i18n %}
 {% load bootstrap4 %}
 
-{% block title %}{% trans "Freshmen bags" %}{% endblock %}
+{% block set_common_headercontent %}{% trans "Import Companies" %}{% endblock %}
 
-{% block content %}
-    <div class="card">
-        <div class="card-header">
-            {% trans "Import Companies" %}
-        </div>
-        <div class="card-body">
-
+{% block set_common_content %}
             <form method="post" action="">
                 {% csrf_token %}
 
@@ -18,18 +12,9 @@
                     <div class="col-xs-12 col-lg-5">
                         {% bootstrap_form form %}
 
-                        <table class="table">
-                            <tr>
-                                <td>
-                                    <button type="submit" class="btn btn-secondary">{% trans "Import" %}</button>
-                                </td>
-                                <td><a href="{% url "listcompanies" %}" class="btn btn-secondary">{% trans "Back" %}</a>
-                                </td>
-                            </tr>
-                        </table>
+                        <button type="submit" class="btn btn-danger">{% trans "Import" %}</button>
+                        <a href="{% url "bags_dashboard" %}" class="btn btn-secondary">{% trans "Cancel" %}</a>
                     </div>
                 </div>
             </form>
-        </div>
-    </div>
 {% endblock %}

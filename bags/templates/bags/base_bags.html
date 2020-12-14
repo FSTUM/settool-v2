@@ -1,0 +1,22 @@
+{% extends "base_card_layout.html" %}
+{% load i18n %}
+{% load bootstrap4 %}
+{% load active_link_tags %}
+
+{% block set_common_navigation %}
+    <a class="nav-link {% active_link 'bags_dashboard' %}" href="{% url 'bags_dashboard' %}">{% trans "Dashboard" %}</a>
+    <h4 class="navbar-text">{% trans "General" %}</h4>
+    <a class="nav-link {% active_link 'addcompany' %}" href="{% url "addcompany" %}">{% trans "Add Company" %}</a>
+    <a class="nav-link {% active_link 'insert_giveaways' %}" href="{% url "insert_giveaways" %}">
+        {% trans "Insert Giveaways" %}
+    </a>
+    <a class="nav-link {% active_link 'listmails' %}" href="{% url "listmails" %}">
+        {% trans "Edit Email Templates" %}
+    </a>
+    {% if user.is_staff %}
+        <h4 class="navbar-text">{% trans "Importing" %}</h4>
+        <a class="nav-link {% active_link 'import_companies' %}" href="{% url "import_companies" %}">
+            {% trans "Import Companies" %}
+        </a>
+    {% endif %}
+{% endblock %}

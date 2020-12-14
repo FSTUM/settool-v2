@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "bags/base_bags.html" %}
 {% load i18n %}
 
 {% block head %}
@@ -9,14 +9,9 @@
     </script>
 {% endblock %}
 
-{% block title %}{% trans "Freshmen bags" %} - {% trans "List email templates" %}{% endblock %}
+{% block set_common_headercontent %}{% trans "List email templates" %}{% endblock %}
 
-{% block content %}
-    <div class="card">
-        <div class="card-header">
-            {% trans "List email templates" %}
-        </div>
-        <div class="card-body">
+{% block set_common_content %}
             <div class="table-responsive">
                 <table id="mailTable" class="table dataTable">
                     <thead>
@@ -44,13 +39,8 @@
                     </tbody>
                 </table>
             </div>
-            <table class="table">
-                <tr>
-                    <td><a href="{% url "addmail" %}" class="btn btn-secondary">{% trans "Add Email" %}</a></td>
-                    <td><a href="{% url "listcompanies" %}" class="btn btn-secondary">{% trans "Edit Companies" %}</a>
-                    </td>
-                </tr>
-            </table>
+            <a href="{% url "addmail" %}" class="btn btn-primary">{% trans "Add Email" %}</a>
+            <a href="{% url "bags_dashboard" %}" class="btn btn-secondary">{% trans "Cancel" %}</a>
         </div>
     </div>
 {% endblock %}
