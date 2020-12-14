@@ -46,13 +46,46 @@ urlpatterns = [
                 ),
                 path(
                     "list/",
-                    views.tutor_list,
-                    name="tutor_list",
-                ),
-                path(
-                    "list/<str:status>",
-                    views.tutor_list,
-                    name="tutor_list_status",
+                    include(
+                        [
+                            path(
+                                "all/",
+                                views.tutor_list,
+                                {"status": "all"},
+                                name="tutor_list_status_all",
+                            ),
+                            path(
+                                "accepted/",
+                                views.tutor_list,
+                                {"status": "accepted"},
+                                name="tutor_list_status_accepted",
+                            ),
+                            path(
+                                "active/",
+                                views.tutor_list,
+                                {"status": "active"},
+                                name="tutor_list_status_active",
+                            ),
+                            path(
+                                "declined/",
+                                views.tutor_list,
+                                {"status": "declined"},
+                                name="tutor_list_status_declined",
+                            ),
+                            path(
+                                "inactive/",
+                                views.tutor_list,
+                                {"status": "inactive"},
+                                name="tutor_list_status_inactive",
+                            ),
+                            path(
+                                "employee/",
+                                views.tutor_list,
+                                {"status": "employee"},
+                                name="tutor_list_status_employee",
+                            ),
+                        ],
+                    ),
                 ),
                 path(
                     "view/<uuid:uid>/",

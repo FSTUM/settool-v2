@@ -211,7 +211,7 @@ def tutor_delete(request, uid):
     if form.is_valid():
         tutor.delete()
         messages.success(request, f"Deleted Tutor {tutor}.")
-        return redirect("tutor_list")
+        return redirect("tutor_list_status_all")
 
     context = {
         "tutor": tutor,
@@ -789,7 +789,7 @@ def tutor_mail(request, status=None, template=None, uid=None):
         send_email_to_all_tutors(mail_template, tutors, request)
 
         if status is None:
-            return redirect("tutor_list")
+            return redirect("tutor_list_status_all")
         return redirect("tutor_list_status", status=status)
 
     context = {

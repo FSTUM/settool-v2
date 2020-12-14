@@ -1,6 +1,7 @@
 from datetime import date
 
-from bootstrap_datepicker_plus import DatePickerInput, DateTimePickerInput
+from bootstrap_datepicker_plus import DatePickerInput
+from bootstrap_datepicker_plus import DateTimePickerInput
 from django import forms
 from django.core.exceptions import ValidationError
 from django.utils.translation import ugettext_lazy as _

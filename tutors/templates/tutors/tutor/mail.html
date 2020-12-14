@@ -32,7 +32,7 @@
                         <td>
                             <button type="submit" class="btn btn-secondary">{% trans "Send" %}</button>
                         </td>
-                        <td><a href="{% if status is None %}{% url "tutor_list" %}{% else %}
+                        <td><a href="{% if status is None %}{% url "tutor_list_status_all" %}{% else %}
 {% url "tutor_list_status" status %}{% endif %}"
                                class="btn btn-danger">{% trans "Cancel" %}</a></td>
                     </tr>
