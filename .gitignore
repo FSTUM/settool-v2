@@ -29,3 +29,7 @@ TODO.*
 /staticfiles/
 .idea
 /venv/
+
+# coverage
+.coverage
+coverage.xml
