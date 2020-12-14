@@ -200,6 +200,18 @@ msgid "Add email"
 msgstr "E-Mail-Vorlage hinzufügen"
 
 #: bags/templates/bags/bags_dashboard.html
+msgid "yes"
+msgstr ""
+
+#: bags/templates/bags/bags_dashboard.html
+msgid "no"
+msgstr ""
+
+#: bags/templates/bags/bags_dashboard.html
+msgid "unknown"
+msgstr ""
+
+#: bags/templates/bags/bags_dashboard.html
 #: bags/templates/bags/filtered_index.html
 msgid "List companies"
 msgstr "Firmenliste"
@@ -238,18 +250,6 @@ msgstr "erfolgreich gesendet"
 
 #: bags/templates/bags/bags_dashboard.html
 msgid "Actions"
-msgstr ""
-
-#: bags/templates/bags/bags_dashboard.html
-msgid "yes"
-msgstr ""
-
-#: bags/templates/bags/bags_dashboard.html
-msgid "no"
-msgstr ""
-
-#: bags/templates/bags/bags_dashboard.html
-msgid "unknown"
 msgstr ""
 
 #: bags/templates/bags/bags_dashboard.html

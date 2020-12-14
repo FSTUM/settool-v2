@@ -3,6 +3,12 @@
 {% load bootstrap4 %}
 
 {% block head %}
+    <script crossorigin="anonymous"
+            integrity="sha512-u2P0FelsRQD/z5EkW5vRp8RRm9oe23rKSqvHBFAXnnES8tPRVIl6oBexyBE1WaOA4rPhXf035iKWU/DCbzRftw=="
+            src="https://cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.1/bootstrap-editable/js/bootstrap-editable.min.js"></script>
+    <link crossorigin="anonymous"
+          href="https://cdn.jsdelivr.net/npm/x-editable@1.5.1/dist/bootstrap-editable/css/bootstrap-editable.css"
+          integrity="sha256-YsJ7Lkc/YB0+ssBKz0c0GTx0RI+BnXcKH5SpnttERaY=" rel="stylesheet">
     <script>
         function displayTrueFalse(value, _) {
             if (value === "True") {
@@ -15,15 +21,109 @@
         }
 
         function displayTrueFalseNone(value, _) {
-            if (value === "None") {
+            if (value === "True") {
+                $(this).html('<span style="color:green" class="glyphicon glyphicon-ok"></span>');
+            } else if (value === "False") {
+                $(this).html('<span style="color:red" class="glyphicon glyphicon-remove"></span>');
+            } else if (value === "None") {
                 $(this).html('<span class="glyphicon glyphicon-question-sign"></span>');
             } else {
-                this.displayTrueFalse(value, _);
+                $(this).empty();
             }
         }
 
         $(document).ready(function () {
-            $('#bagTable').DataTable();
+            $('#bagTable').DataTable({
+                "order": [[1, 'asc'], [2, 'asc']],
+                "columnDefs": [{"targets": 0, "orderable": false}, {"targets": 13, "orderable": false}],
+                "paging": false,
+            });
+            $.fn.editableform.buttons = '<button type="submit" class="btn btn-primary btn-sm editable-submit"><i class="glyphicon glyphicon-ok"></i></button>' +
+                '<button type="button" class="btn btn-secondary btn-sm editable-cancel"><i class="glyphicon glyphicon-remove"></i></button>';
+            $.fn.editableform.loading = '<div class="editableform-loading"></div>'
+            {% for company, select in companies %}
+                $("#company_{{ company.id }}_email").editable({
+                    mode: 'inline',
+                });
+                $("#company_{{ company.id }}_email_sent").editable({
+                    mode: 'inline',
+                    escape: false,
+                    value: "{{ company.email_sent }}",
+                    source: [
+                        {value: "True", text: '{% trans "yes" %}'},
+                        {value: "False", text: '{% trans "no" %}'}
+                    ],
+                    display: displayTrueFalse
+                });
+                $("#company_{{ company.id }}_email_sent_success").editable({
+                    mode: 'inline',
+                    escape: false,
+                    value: "{{ company.email_sent_success }}",
+                    source: [
+                        {value: "True", text: '{% trans "yes" %}'},
+                        {value: "False", text: '{% trans "no" %}'}
+                    ],
+                    display: displayTrueFalse
+                });
+                $("#company_{{ company.id }}_promise").editable({
+                    mode: 'inline',
+                    escape: false,
+                    value: "{{ company.promise }}",
+                    source: [
+                        {value: "None", text: '{% trans "unknown" %}'},
+                        {value: "True", text: '{% trans "yes" %}'},
+                        {value: "False", text: '{% trans "no" %}'}
+                    ],
+                    display: displayTrueFalseNone
+                });
+                $("#company_{{ company.id }}_giveaways").editable({
+                    mode: 'inline',
+                    emptytext: '-'
+                });
+                $("#company_{{ company.id }}_arrival_time").editable({
+                    mode: 'inline',
+                    emptytext: '-'
+                });
+                $("#company_{{ company.id }}_arrived").editable({
+                    mode: 'inline',
+                    escape: false,
+                    value: "{{ company.arrived }}",
+                    source: [
+                        {value: "True", text: '{% trans "yes" %}'},
+                        {value: "False", text: '{% trans "no" %}'}
+                    ],
+                    display: displayTrueFalse
+                });
+                $("#company_{{ company.id }}_last_year").editable({
+                    mode: 'inline',
+                    escape: false,
+                    value: "{{ company.last_year }}",
+                    source: [
+                        {value: "True", text: '{% trans "yes" %}'},
+                        {value: "False", text: '{% trans "no" %}'}
+                    ],
+                    display: displayTrueFalse
+                });
+                $("#company_{{ company.id }}_giveaways_last_year").editable({
+                    mode: 'inline',
+                    emptytext: '-'
+                });
+                $("#company_{{ company.id }}_contact_again").editable({
+                    mode: 'inline',
+                    escape: false,
+                    value: "{{ company.contact_again }}",
+                    source: [
+                        {value: "None", text: '{% trans "unknown" %}'},
+                        {value: "True", text: '{% trans "yes" %}'},
+                        {value: "False", text: '{% trans "no" %}'}
+                    ],
+                    display: displayTrueFalseNone
+                });
+                $("#company_{{ company.id }}_comment").editable({
+                    mode: 'inline',
+                    emptytext: '-'
+                });
+            {% endfor %}
         });
     </script>
 {% endblock %}
@@ -75,12 +175,7 @@
                             {{ select.selected }}
                         </td>
                         <td>
-                            <a href="{% url "viewcompany" company.id %}" id="company_{{ company.id }}_name"
-                               data-type="text"
-                               data-pk="{{ company.id }}"
-                               data-title='{% trans "Company" %}'
-                               data-url='{% url "updatecompany" company.id "name" %}'
-                               data-params="{csrfmiddlewaretoken:'{{ csrf_token }}'}">
+                            <a href="{% url "viewcompany" company.id %}">
                                 {{ company.name }}
                             </a>
                         </td>
