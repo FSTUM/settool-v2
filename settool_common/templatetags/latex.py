@@ -7,8 +7,12 @@ register = template.Library()
 def latex_escape(string):
     string = str(string)
 
-    string = string.replace("\\", "\\textbackslash ")
+    string = string.replace("\\", "\\textbackslash")
     string = string.replace(" ", "\\ ")
+    string = string.replace(
+        "\\textbackslash",
+        "\\textbackslash ",
+    )  # needed to break out of circular dependency between the first two replacements
     string = string.replace("&", "\\&")
     string = string.replace("%", "\\%")
     string = string.replace("$", "\\$")

@@ -81,6 +81,11 @@ repos:
             entry: ./manage.py check --fail-level=INFO
             language: system
             pass_filenames: false
+          - id: django-test
+            name: django-test
+            entry: coverage run ./manage.py test --no-input
+            language: system
+            pass_filenames: false
           - id: django-makemessages
             name: django-makemessages
             entry: ./manage.py makemessages -a --add-location=file --ignore="venv/*"
@@ -89,5 +94,12 @@ repos:
           - id: django-compilemessages
             name: django-compilemessages
             entry: ./manage.py compilemessages --ignore="venv/*"
+            language: system
+            pass_filenames: false
+    - repo: local
+      hooks:
+          - id: report coverage
+            name: report coverage
+            entry: coverage xml
             language: system
             pass_filenames: false

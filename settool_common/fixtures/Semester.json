@@ -1,0 +1,18 @@
+[
+{
+    "model": "settool_common.semester",
+    "pk": 1,
+    "fields": {
+        "semester": "WS",
+        "year": 2019
+    }
+},
+{
+    "model": "settool_common.semester",
+    "pk": 2,
+    "fields": {
+        "semester": "SS",
+        "year": 2021
+    }
+}
+]
