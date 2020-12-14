@@ -114,7 +114,7 @@
             {% if perms.tutor.edit_tutors %}
                 <div class="form-group">
                     <h2>{% trans "Assigned Tutors" %}:</h2>
-                    <table class="table tutorTable assigned_tutors css-serial">
+                    <table class="table tutorTable assigned_tutors">
                         <thead>
                         <tr>
                             <th>#</th>
@@ -132,7 +132,7 @@
                         <tbody>
                         {% for tutor in assigned_tutors %}
                             <tr>
-                                <td></td>
+                                <td>{{ forloop.counter }}</td>
                                 <td>
                                     <a href="{% url "tutor_view" tutor.id %}">{{ tutor.first_name }}</a>
                                 </td>
@@ -167,7 +167,7 @@
                         </tbody>
                     </table>
                     <h2>{% trans "Unassigned Tutors" %}:</h2>
-                    <table class="table tutorTable unassigned_tutors css-serial">
+                    <table class="table tutorTable unassigned_tutors">
                         <thead>
                         <tr>
                             <th>#</th>
@@ -185,7 +185,7 @@
                         <tbody>
                         {% for tutor in unassigned_tutors %}
                             <tr>
-                                <td></td>
+                                <td>{{ forloop.counter }}</td>
                                 <td>
                                     <a href="{% url "tutor_view" tutor.id %}">{{ tutor.first_name }}</a>
                                 </td>

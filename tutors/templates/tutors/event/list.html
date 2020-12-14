@@ -14,7 +14,7 @@
 
 {% block set_common_content %}
     <div class="table-responsive">
-        <table id="eventTable" class="table dataTable css-serial">
+        <table id="eventTable" class="table dataTable">
             <thead>
             <tr>
                 <th>#</th>
@@ -28,7 +28,7 @@
             <tbody>
             {% for event in events %}
                 <tr>
-                    <td></td>
+                    <td>{{ forloop.counter }}</td>
                     <td>
                         <a href="{% url "event_view" event.id %}">{{ event.name }}</a>
                     </td>

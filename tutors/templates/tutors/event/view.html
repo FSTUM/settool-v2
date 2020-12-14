@@ -68,7 +68,7 @@
                 <h2>{% trans "This event has the following tasks" %}: <a
                         href="{% url "task_add_event" event.id %}">{% trans "Add Task" %}</a></h2>
 
-                <table class="table css-serial">
+                <table class="table">
                     <thead>
                     <tr>
                         <th>#</th>
@@ -81,7 +81,7 @@
                     <tbody>
                     {% for task in event.task_set.all %}
                         <tr>
-                            <td></td>
+                            <td>{{ forloop.counter }}</td>
                             <td><a href="{% url "task_view" task.id %}">{{ task.name }}</a></td>
                             <td>{{ task.begin }}</td>
                             <td>{{ task.end }}</td>

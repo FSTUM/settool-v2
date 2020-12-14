@@ -15,7 +15,7 @@
 
 {% block set_common_content %}
     <div class="table-responsive">
-        <table id="taskTable" class="table dataTable css-serial">
+        <table id="taskTable" class="table dataTable">
             <thead>
             <tr>
                 <th>#</th>
@@ -34,7 +34,7 @@
                 <tr class="{% if task.tutors.count < task.min_tutors %}danger
 {% elif task.min_tutors <= task.tutors.count and task.tutors.count <= task.max_tutors %}success
 {% elif  task.max_tutors < task.tutors.count %}warning{% endif %}">
-                    <td></td>
+                    <td>{{ forloop.counter }}</td>
                     <td>
                         {{ task.event.name }}
                     </td>
