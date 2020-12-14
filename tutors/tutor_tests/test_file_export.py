@@ -4,7 +4,7 @@ import django.test
 from django.http import HttpResponse
 
 from settool_common.models import Semester
-from settool_common.utils import get_logged_in_client
+from settool_common.utils import get_mocked_logged_in_client
 from settool_common.utils import latex_to_pdf
 from tutors.models import Task
 from tutors.models import Tutor
@@ -28,7 +28,7 @@ class TutorExportTest(django.test.TestCase):
     fixtures = ["Tutors.json"]
 
     def setUp(self):
-        self.client = get_logged_in_client()
+        self.client = get_mocked_logged_in_client()
         self.csv_header = b"last_name,first_name,subject,matriculation_number,birthday\r\n"
 
     def test_csv_tutor_export(self):
@@ -162,7 +162,7 @@ class TaskExportTest(django.test.TestCase):
     fixtures = ["Tutors.json"]
 
     def setUp(self):
-        self.client = self.client = get_logged_in_client()
+        self.client = self.client = get_mocked_logged_in_client()
 
     def test_pdf_task_export_no_data(self):
         self.task_pdf_generation("3cd2b4b0-c36f-4348-8a93-b3bb72029f46")

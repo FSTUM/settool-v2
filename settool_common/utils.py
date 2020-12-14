@@ -8,6 +8,8 @@ from django.contrib.auth import get_user_model
 from django.template.loader import render_to_string
 from django.test.client import Client
 
+from settool_common.settings import SEMESTER_SESSION_KEY
+
 
 def latex_to_pdf(tex_path, context):
     # In a temporary folder, make a temporary file
@@ -27,7 +29,7 @@ def latex_to_pdf(tex_path, context):
     return result  # noqa: R504
 
 
-def get_logged_in_client():
+def get_mocked_logged_in_client():
     client = Client()
 
     user = get_user_model().objects.create_user(  # nosec: this is a unittest
@@ -36,4 +38,6 @@ def get_logged_in_client():
         is_superuser=True,
     )
     client.force_login(user)
+    client.session[SEMESTER_SESSION_KEY] = 2  # pk=2 ^= SS 21
+    client.session.save()
     return client
