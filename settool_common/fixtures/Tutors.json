@@ -450,5 +450,50 @@
       "subject": 1,
       "comment": ""
     }
+  },
+  {
+    "model": "tutors.event",
+    "pk": 1,
+    "fields": {
+      "created_at": "2020-12-14T07:59:28.204Z",
+      "updated_at": "2020-12-14T07:59:28.204Z",
+      "semester": 1,
+      "name": "Test-Event",
+      "description": "Test-Event-Description",
+      "begin": "2020-12-14T07:59:28.211Z",
+      "end": "2021-12-14T07:59:28.211Z",
+      "meeting_point": "MI"
+    }
+  },
+  {
+    "model": "tutors.task",
+    "pk": "3cd2b4b0c36f43488a93b3bb72029f46",
+    "fields": {
+      "created_at": "2020-12-14T07:59:28.204Z",
+      "updated_at": "2020-12-14T07:59:28.204Z",
+      "semester": 1,
+      "name": "Test-Task",
+      "description": "Test-Task-Description",
+      "begin": "2020-12-14T07:59:28.211Z",
+      "end": "2021-12-14T07:59:28.211Z",
+      "meeting_point": "MI",
+      "event": 1
+    }
+  },
+  {
+    "model": "tutors.task",
+    "pk": "3cd2b4b0c36f43488a93b3bb72029f47",
+    "fields": {
+      "created_at": "2020-12-14T07:59:28.204Z",
+      "updated_at": "2020-12-14T07:59:28.204Z",
+      "semester": 1,
+      "name": "Test-Task-With Tutors",
+      "description": "Test-Task-Description",
+      "begin": "2020-12-14T07:59:28.211Z",
+      "end": "2021-12-14T07:59:28.211Z",
+      "meeting_point": "MI",
+      "event": 1,
+      "tutors": ["ad4b1f04-c501-4724-bab2-e94ad4758cfa","72e8841f-7672-450d-95c8-662235f825c9"]
+    }
   }
 ]
