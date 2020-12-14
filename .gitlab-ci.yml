@@ -14,7 +14,7 @@ pre-commit:
             - .cache/pre-commit
             - venv
     script:
-        - apt-get -qq install -y xmlsec1 libldap2-dev libsasl2-dev gettext
+        - apt-get -qq install -y gettext texlive-base texlive-lang-german texlive-fonts-recommended texlive-latex-extra
         - python -m venv venv
         - source venv/bin/activate
         - pip install --upgrade pip
