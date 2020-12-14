@@ -42,8 +42,9 @@ msgstr "E-Mail-Vorlage:"
 msgid "Search pattern:"
 msgstr "Schlagwort:"
 
-#: fahrt/forms.py fahrt/models.py fahrt/templates/fahrt/list_confirmed.html
-#: fahrt/templates/fahrt/view_participant_details.html
+#: fahrt/forms.py fahrt/models.py
+#: fahrt/templates/fahrt/participants/list_confirmed.html
+#: fahrt/templates/fahrt/participants/view_participant_details.html
 msgid "Non-liability submitted"
 msgstr "Haftungsausschluss abgegeben"
 
@@ -56,7 +57,7 @@ msgid "With car"
 msgstr "Mit Auto"
 
 #: fahrt/forms.py fahrt/models.py
-#: fahrt/templates/fahrt/view_participant_details.html
+#: fahrt/templates/fahrt/participants/view_participant_details.html
 msgid "Paid"
 msgstr "Bezahlt"
 
@@ -68,10 +69,11 @@ msgstr "Zahlungsfrist vorbei"
 msgid "On mailinglist"
 msgstr "Auf Mailingliste"
 
-#: fahrt/forms.py fahrt/models.py fahrt/templates/fahrt/filtered_list.html
-#: fahrt/templates/fahrt/send_mail.html
-#: fahrt/templates/fahrt/send_mail_failure.html
-#: fahrt/templates/fahrt/view_participant_details.html
+#: fahrt/forms.py fahrt/models.py
+#: fahrt/templates/fahrt/mail/list_filtered_participants_send_mail.html
+#: fahrt/templates/fahrt/mail/send_mail.html
+#: fahrt/templates/fahrt/mail/send_mail_failure.html
+#: fahrt/templates/fahrt/participants/view_participant_details.html
 msgid "Status"
 msgstr "Status"
 
@@ -84,7 +86,7 @@ msgid "confirmed"
 msgstr "bestätigt"
 
 #: fahrt/forms.py fahrt/models.py fahrt/templates/fahrt/base_fahrt.html
-#: fahrt/templates/fahrt/view_participant_details.html
+#: fahrt/templates/fahrt/participants/view_participant_details.html
 msgid "waitinglist"
 msgstr "Warteliste"
 
@@ -116,29 +118,32 @@ msgstr "Weiblich"
 msgid "diverse"
 msgstr ""
 
-#: fahrt/models.py fahrt/templates/fahrt/view_participant_details.html
+#: fahrt/models.py
+#: fahrt/templates/fahrt/participants/view_participant_details.html
 msgid "Gender"
 msgstr "Geschlecht"
 
-#: fahrt/models.py fahrt/templates/fahrt/filtered_list.html
-#: fahrt/templates/fahrt/list_cancelled.html
-#: fahrt/templates/fahrt/list_confirmed.html
-#: fahrt/templates/fahrt/list_registered.html
-#: fahrt/templates/fahrt/list_waitinglist.html
-#: fahrt/templates/fahrt/send_mail.html
-#: fahrt/templates/fahrt/send_mail_failure.html
-#: fahrt/templates/fahrt/view_participant_details.html
+#: fahrt/models.py
+#: fahrt/templates/fahrt/mail/list_filtered_participants_send_mail.html
+#: fahrt/templates/fahrt/mail/send_mail.html
+#: fahrt/templates/fahrt/mail/send_mail_failure.html
+#: fahrt/templates/fahrt/participants/list_cancelled.html
+#: fahrt/templates/fahrt/participants/list_confirmed.html
+#: fahrt/templates/fahrt/participants/list_registered.html
+#: fahrt/templates/fahrt/participants/list_waitinglist.html
+#: fahrt/templates/fahrt/participants/view_participant_details.html
 msgid "First name"
 msgstr "Vorname"
 
-#: fahrt/models.py fahrt/templates/fahrt/filtered_list.html
-#: fahrt/templates/fahrt/list_cancelled.html
-#: fahrt/templates/fahrt/list_confirmed.html
-#: fahrt/templates/fahrt/list_registered.html
-#: fahrt/templates/fahrt/list_waitinglist.html
-#: fahrt/templates/fahrt/send_mail.html
-#: fahrt/templates/fahrt/send_mail_failure.html
-#: fahrt/templates/fahrt/view_participant_details.html
+#: fahrt/models.py
+#: fahrt/templates/fahrt/mail/list_filtered_participants_send_mail.html
+#: fahrt/templates/fahrt/mail/send_mail.html
+#: fahrt/templates/fahrt/mail/send_mail_failure.html
+#: fahrt/templates/fahrt/participants/list_cancelled.html
+#: fahrt/templates/fahrt/participants/list_confirmed.html
+#: fahrt/templates/fahrt/participants/list_registered.html
+#: fahrt/templates/fahrt/participants/list_waitinglist.html
+#: fahrt/templates/fahrt/participants/view_participant_details.html
 msgid "Surname"
 msgstr "Nachname"
 
@@ -150,22 +155,26 @@ msgstr "Geburtstag"
 msgid "Email address"
 msgstr "E-Mail Adresse"
 
-#: fahrt/models.py fahrt/templates/fahrt/view_participant_details.html
+#: fahrt/models.py
+#: fahrt/templates/fahrt/participants/view_participant_details.html
 msgid "Phone"
 msgstr "Telefon"
 
-#: fahrt/models.py fahrt/templates/fahrt/view_participant_details.html
+#: fahrt/models.py
+#: fahrt/templates/fahrt/participants/view_participant_details.html
 msgid "Mobile phone"
 msgstr "Handy"
 
-#: fahrt/models.py fahrt/templates/fahrt/del_mail.html
-#: fahrt/templates/fahrt/index_mails.html fahrt/templates/fahrt/send_mail.html
-#: fahrt/templates/fahrt/send_mail_failure.html
-#: fahrt/templates/fahrt/view_participant_details.html
+#: fahrt/models.py fahrt/templates/fahrt/mail/del_mail.html
+#: fahrt/templates/fahrt/mail/index_mails.html
+#: fahrt/templates/fahrt/mail/send_mail.html
+#: fahrt/templates/fahrt/mail/send_mail_failure.html
+#: fahrt/templates/fahrt/participants/view_participant_details.html
 msgid "Subject"
 msgstr "Betreff"
 
-#: fahrt/models.py fahrt/templates/fahrt/view_participant_details.html
+#: fahrt/models.py
+#: fahrt/templates/fahrt/participants/view_participant_details.html
 msgid "Nutrition"
 msgstr "Essen"
 
@@ -181,10 +190,10 @@ msgstr "vegetarisch"
 msgid "vegan"
 msgstr "vegan"
 
-#: fahrt/models.py fahrt/templates/fahrt/list_confirmed.html
-#: fahrt/templates/fahrt/list_registered.html
-#: fahrt/templates/fahrt/list_waitinglist.html
-#: fahrt/templates/fahrt/view_participant_details.html
+#: fahrt/models.py fahrt/templates/fahrt/participants/list_confirmed.html
+#: fahrt/templates/fahrt/participants/list_registered.html
+#: fahrt/templates/fahrt/participants/list_waitinglist.html
+#: fahrt/templates/fahrt/participants/view_participant_details.html
 msgid "Allergies"
 msgstr "Allergien"
 
@@ -196,28 +205,29 @@ msgstr "Fahre mit dem Auto"
 msgid "Number of people I can take along additionally"
 msgstr "Anzahl an Leuten, die ich zusätzlich mitnehmen kann"
 
-#: fahrt/models.py fahrt/templates/fahrt/list_cancelled.html
-#: fahrt/templates/fahrt/view_participant_details.html
+#: fahrt/models.py fahrt/templates/fahrt/participants/list_cancelled.html
+#: fahrt/templates/fahrt/participants/view_participant_details.html
 msgid "Payment deadline"
 msgstr "Zahlungsfrist"
 
-#: fahrt/models.py fahrt/templates/fahrt/view_participant_details.html
+#: fahrt/models.py
+#: fahrt/templates/fahrt/participants/view_participant_details.html
 msgid "Mailing list"
 msgstr "Mailingliste"
 
-#: fahrt/models.py fahrt/templates/fahrt/del_mail.html
-#: fahrt/templates/fahrt/filtered_list.html
-#: fahrt/templates/fahrt/index_mails.html
-#: fahrt/templates/fahrt/list_cancelled.html
-#: fahrt/templates/fahrt/send_mail.html
-#: fahrt/templates/fahrt/send_mail_failure.html
-#: fahrt/templates/fahrt/view_participant_details.html
+#: fahrt/models.py fahrt/templates/fahrt/mail/del_mail.html
+#: fahrt/templates/fahrt/mail/index_mails.html
+#: fahrt/templates/fahrt/mail/list_filtered_participants_send_mail.html
+#: fahrt/templates/fahrt/mail/send_mail.html
+#: fahrt/templates/fahrt/mail/send_mail_failure.html
+#: fahrt/templates/fahrt/participants/list_cancelled.html
+#: fahrt/templates/fahrt/participants/view_participant_details.html
 msgid "Comment"
 msgstr "Kommentar"
 
-#: fahrt/models.py fahrt/templates/fahrt/list_registered.html
-#: fahrt/templates/fahrt/list_waitinglist.html
-#: fahrt/templates/fahrt/view_participant_details.html
+#: fahrt/models.py fahrt/templates/fahrt/participants/list_registered.html
+#: fahrt/templates/fahrt/participants/list_waitinglist.html
+#: fahrt/templates/fahrt/participants/view_participant_details.html
 msgid "Registration time"
 msgstr "Anmeldezeitpunkt"
 
@@ -225,9 +235,10 @@ msgstr "Anmeldezeitpunkt"
 msgid "Email subject"
 msgstr "E-Mail Betreff"
 
-#: fahrt/models.py fahrt/templates/fahrt/del_mail.html
-#: fahrt/templates/fahrt/index_mails.html fahrt/templates/fahrt/send_mail.html
-#: fahrt/templates/fahrt/send_mail_failure.html
+#: fahrt/models.py fahrt/templates/fahrt/mail/del_mail.html
+#: fahrt/templates/fahrt/mail/index_mails.html
+#: fahrt/templates/fahrt/mail/send_mail.html
+#: fahrt/templates/fahrt/mail/send_mail_failure.html
 msgid "Text"
 msgstr "Text"
 
@@ -242,32 +253,6 @@ msgstr ""
 #: fahrt/models.py
 msgid "Time"
 msgstr "Zeit"
-
-#: fahrt/templates/fahrt/add.html
-#, fuzzy
-#| msgid "Sign up for the SET-Fahrt"
-msgid "Add Participant to the SET-Fahrt"
-msgstr "Anmeldung zur SET-Fahrt"
-
-#: fahrt/templates/fahrt/add.html fahrt/templates/fahrt/add_mail.html
-#: fahrt/templates/fahrt/change_date.html
-#: fahrt/templates/fahrt/edit_participants.html
-#: fahrt/templates/fahrt/standalone/edit_mail.html
-#: fahrt/templates/fahrt/standalone/signup.html
-msgid "Submit"
-msgstr "Absendne"
-
-#: fahrt/templates/fahrt/add_mail.html
-msgid "Add email"
-msgstr "E-Mail hinzufügen"
-
-#: fahrt/templates/fahrt/add_mail.html fahrt/templates/fahrt/del_mail.html
-#: fahrt/templates/fahrt/del_participant.html
-#: fahrt/templates/fahrt/edit_participants.html
-#: fahrt/templates/fahrt/send_mail.html
-#: fahrt/templates/fahrt/standalone/edit_mail.html
-msgid "Cancel"
-msgstr "Abbrechen"
 
 #: fahrt/templates/fahrt/base_fahrt.html
 #: fahrt/templates/fahrt/fahrt_dashboard.html
@@ -285,7 +270,8 @@ msgstr "Allgemein"
 msgid "Sign up"
 msgstr "Anmelden"
 
-#: fahrt/templates/fahrt/base_fahrt.html fahrt/templates/fahrt/change_date.html
+#: fahrt/templates/fahrt/base_fahrt.html
+#: fahrt/templates/fahrt/general/change_date.html
 msgid "Change date"
 msgstr "Datum ändern"
 
@@ -297,7 +283,8 @@ msgstr "Teilnehmer"
 msgid "Mails"
 msgstr "E-Mails"
 
-#: fahrt/templates/fahrt/base_fahrt.html fahrt/templates/fahrt/index_mails.html
+#: fahrt/templates/fahrt/base_fahrt.html
+#: fahrt/templates/fahrt/mail/index_mails.html
 msgid "List email templates"
 msgstr "E-Mail-Vorlagen auflisten"
 
@@ -309,137 +296,96 @@ msgstr "Teilnehmer filtern/E-Mails senden"
 msgid "Add email template"
 msgstr "E-Mail-Vorlage hinzufügen"
 
-#: fahrt/templates/fahrt/del_mail.html
+#: fahrt/templates/fahrt/general/add_participant.html
+#, fuzzy
+#| msgid "Sign up for the SET-Fahrt"
+msgid "Add Participant to the SET-Fahrt"
+msgstr "Anmeldung zur SET-Fahrt"
+
+#: fahrt/templates/fahrt/general/add_participant.html
+#: fahrt/templates/fahrt/general/change_date.html
+#: fahrt/templates/fahrt/mail/add_mail.html
+#: fahrt/templates/fahrt/participants/edit_participants.html
+#: fahrt/templates/fahrt/standalone/edit_mail.html
+#: fahrt/templates/fahrt/standalone/signup.html
+msgid "Submit"
+msgstr "Absendne"
+
+#: fahrt/templates/fahrt/mail/add_mail.html
+msgid "Add email"
+msgstr "E-Mail hinzufügen"
+
+#: fahrt/templates/fahrt/mail/add_mail.html
+#: fahrt/templates/fahrt/mail/del_mail.html
+#: fahrt/templates/fahrt/mail/send_mail.html
+#: fahrt/templates/fahrt/participants/del_participant.html
+#: fahrt/templates/fahrt/participants/edit_participants.html
+#: fahrt/templates/fahrt/standalone/edit_mail.html
+msgid "Cancel"
+msgstr "Abbrechen"
+
+#: fahrt/templates/fahrt/mail/del_mail.html
 msgid "Delete email template"
 msgstr "E-Mail-Vorlage löschen"
 
-#: fahrt/templates/fahrt/del_mail.html
+#: fahrt/templates/fahrt/mail/del_mail.html
 msgid "Do you really want to delete the following email template?"
 msgstr "Willst du wirklich die folgende E-Mail-Vorlage löschen?"
 
-#: fahrt/templates/fahrt/del_mail.html
-#: fahrt/templates/fahrt/del_participant.html
-#: fahrt/templates/fahrt/index_mails.html
-#: fahrt/templates/fahrt/view_participant_details.html
+#: fahrt/templates/fahrt/mail/del_mail.html
+#: fahrt/templates/fahrt/mail/index_mails.html
+#: fahrt/templates/fahrt/participants/del_participant.html
+#: fahrt/templates/fahrt/participants/view_participant_details.html
 msgid "Delete"
 msgstr "Löschen"
 
-#: fahrt/templates/fahrt/del_participant.html
-msgid "Delete Participant"
-msgstr "Teilnehmer löschen"
-
-#: fahrt/templates/fahrt/del_participant.html
-#, python-format
-msgid ""
-"Do you really want to delete the participant <a href=\"%(url)s\">%(name)s</"
-"a>?"
-msgstr ""
-"Willst du wirklich den Teilnehmer <a href=\"%(url)s\">%(name)s</a> löschen?"
-
-#: fahrt/templates/fahrt/edit_participants.html
-#, fuzzy
-#| msgid "Edit participant"
-msgid "Edit participants"
-msgstr "Teilnehmer bearbeiten"
-
-#: fahrt/templates/fahrt/filter_participants.html
+#: fahrt/templates/fahrt/mail/filter_participants_send_mail.html
 msgid "Filter participants"
 msgstr "Teilnehmer filtern"
 
-#: fahrt/templates/fahrt/filter_participants.html
+#: fahrt/templates/fahrt/mail/filter_participants_send_mail.html
 msgid "filter"
 msgstr "filtern"
 
-#: fahrt/templates/fahrt/filtered_list.html
+#: fahrt/templates/fahrt/mail/list_filtered_participants_send_mail.html
 msgid "Filtered participants"
 msgstr "Gefilterte Teilnehmer"
 
-#: fahrt/templates/fahrt/filtered_list.html
+#: fahrt/templates/fahrt/mail/list_filtered_participants_send_mail.html
 msgid "Send emails"
 msgstr "E-Mails senden"
 
-#: fahrt/templates/fahrt/list_cancelled.html
-msgid "List cancelled participants"
-msgstr "Abgesagte Teilnehmer auflisten"
-
-#: fahrt/templates/fahrt/list_confirmed.html
-msgid "List confirmed participants"
-msgstr "Bestätigte Teilnehmer auflisten"
-
-#: fahrt/templates/fahrt/list_confirmed.html
-msgid "Paid/Payment deadline"
-msgstr "Bezahlt/Zahlungsfrist"
-
-#: fahrt/templates/fahrt/list_confirmed.html
-#: fahrt/templates/fahrt/list_registered.html
-#: fahrt/templates/fahrt/list_waitinglist.html
-#: fahrt/templates/fahrt/view_participant_details.html
-msgid "Car"
-msgstr "Auto"
-
-#: fahrt/templates/fahrt/list_confirmed.html
-#: fahrt/templates/fahrt/list_registered.html
-#: fahrt/templates/fahrt/list_waitinglist.html
-#: fahrt/templates/fahrt/view_participant_details.html
-msgid "U18"
-msgstr "U18"
-
-#: fahrt/templates/fahrt/list_confirmed.html
-#: fahrt/templates/fahrt/list_registered.html
-#: fahrt/templates/fahrt/list_waitinglist.html
-#: fahrt/templates/fahrt/view_participant_details.html
-msgid "additional seats"
-msgstr "zusätzliche Plätze"
-
-#: fahrt/templates/fahrt/list_confirmed.html
-#, python-format
-msgid "%(number)s, thereof women: %(women)s"
-msgstr "%(number)s, davon Frauen: %(women)s"
-
-#: fahrt/templates/fahrt/list_confirmed.html
-#, python-format
-msgid "%(places)s places in %(cars)s cars"
-msgstr "%(places)s Sitze in %(cars)s Autos"
-
-#: fahrt/templates/fahrt/list_registered.html
-msgid "List registered participants"
-msgstr "Angemeldete Teilnehmer auflisten"
-
-#: fahrt/templates/fahrt/list_waitinglist.html
-msgid "List participants on waitinglist"
-msgstr "Warteliste"
-
-#: fahrt/templates/fahrt/send_mail.html
-#: fahrt/templates/fahrt/send_mail_failure.html
-#: fahrt/templates/fahrt/view_participant_details.html
+#: fahrt/templates/fahrt/mail/send_mail.html
+#: fahrt/templates/fahrt/mail/send_mail_failure.html
+#: fahrt/templates/fahrt/participants/view_participant_details.html
 msgid "Send email"
 msgstr "E-Mail senden"
 
-#: fahrt/templates/fahrt/send_mail.html
+#: fahrt/templates/fahrt/mail/send_mail.html
 msgid ""
 "Do you really want to send the following email to the participants below?"
 msgstr "Willst du wirklich die folgende E-Mail an die Teilnehmer unten senden?"
 
-#: fahrt/templates/fahrt/send_mail.html
+#: fahrt/templates/fahrt/mail/send_mail.html
 msgid "Send"
 msgstr "Senden"
 
-#: fahrt/templates/fahrt/send_mail.html
-#: fahrt/templates/fahrt/send_mail_failure.html
+#: fahrt/templates/fahrt/mail/send_mail.html
+#: fahrt/templates/fahrt/mail/send_mail_failure.html
 msgid "From"
 msgstr "Von"
 
-#: fahrt/templates/fahrt/send_mail.html
-#: fahrt/templates/fahrt/send_mail_failure.html
+#: fahrt/templates/fahrt/mail/send_mail.html
+#: fahrt/templates/fahrt/mail/send_mail_failure.html
 msgid "To"
 msgstr "An"
 
-#: fahrt/templates/fahrt/send_mail.html
-#: fahrt/templates/fahrt/send_mail_failure.html
+#: fahrt/templates/fahrt/mail/send_mail.html
+#: fahrt/templates/fahrt/mail/send_mail_failure.html
 msgid "see table below"
 msgstr "siehe Tabelle unten"
 
-#: fahrt/templates/fahrt/send_mail_failure.html
+#: fahrt/templates/fahrt/mail/send_mail_failure.html
 msgid ""
 "The emails were sent, but some emails failed, because a field was empty. "
 "Below you can find a list of all failed participants."
@@ -447,6 +393,107 @@ msgstr ""
 "Die E-Mails wurden versendet, allerdings sind manche E-Mails fehlgeschlagen, "
 "weil ein Template-Feld leer war. Unten sind die fehlgeschlagenen Teilnehmer "
 "aufgelistet."
+
+#: fahrt/templates/fahrt/participants/del_participant.html
+msgid "Delete Participant"
+msgstr "Teilnehmer löschen"
+
+#: fahrt/templates/fahrt/participants/del_participant.html
+#, python-format
+msgid ""
+"Do you really want to delete the participant <a href=\"%(url)s\">%(name)s</"
+"a>?"
+msgstr ""
+"Willst du wirklich den Teilnehmer <a href=\"%(url)s\">%(name)s</a> löschen?"
+
+#: fahrt/templates/fahrt/participants/edit_participants.html
+#, fuzzy
+#| msgid "Edit participant"
+msgid "Edit participants"
+msgstr "Teilnehmer bearbeiten"
+
+#: fahrt/templates/fahrt/participants/list_cancelled.html
+msgid "List cancelled participants"
+msgstr "Abgesagte Teilnehmer auflisten"
+
+#: fahrt/templates/fahrt/participants/list_confirmed.html
+msgid "List confirmed participants"
+msgstr "Bestätigte Teilnehmer auflisten"
+
+#: fahrt/templates/fahrt/participants/list_confirmed.html
+msgid "Paid/Payment deadline"
+msgstr "Bezahlt/Zahlungsfrist"
+
+#: fahrt/templates/fahrt/participants/list_confirmed.html
+#: fahrt/templates/fahrt/participants/list_registered.html
+#: fahrt/templates/fahrt/participants/list_waitinglist.html
+#: fahrt/templates/fahrt/participants/view_participant_details.html
+msgid "Car"
+msgstr "Auto"
+
+#: fahrt/templates/fahrt/participants/list_confirmed.html
+#: fahrt/templates/fahrt/participants/list_registered.html
+#: fahrt/templates/fahrt/participants/list_waitinglist.html
+#: fahrt/templates/fahrt/participants/view_participant_details.html
+msgid "U18"
+msgstr "U18"
+
+#: fahrt/templates/fahrt/participants/list_confirmed.html
+#: fahrt/templates/fahrt/participants/list_registered.html
+#: fahrt/templates/fahrt/participants/list_waitinglist.html
+#: fahrt/templates/fahrt/participants/view_participant_details.html
+msgid "additional seats"
+msgstr "zusätzliche Plätze"
+
+#: fahrt/templates/fahrt/participants/list_confirmed.html
+#, python-format
+msgid "%(number)s, thereof women: %(women)s"
+msgstr "%(number)s, davon Frauen: %(women)s"
+
+#: fahrt/templates/fahrt/participants/list_confirmed.html
+#, python-format
+msgid "%(places)s places in %(cars)s cars"
+msgstr "%(places)s Sitze in %(cars)s Autos"
+
+#: fahrt/templates/fahrt/participants/list_registered.html
+msgid "List registered participants"
+msgstr "Angemeldete Teilnehmer auflisten"
+
+#: fahrt/templates/fahrt/participants/list_waitinglist.html
+msgid "List participants on waitinglist"
+msgstr "Warteliste"
+
+#: fahrt/templates/fahrt/participants/view_participant_details.html
+msgid "Participant Details"
+msgstr "Teilnehmer Details"
+
+#: fahrt/templates/fahrt/participants/view_participant_details.html
+msgid "Email"
+msgstr "E-Mail"
+
+#: fahrt/templates/fahrt/participants/view_participant_details.html
+msgid "1 week"
+msgstr "1 Woche"
+
+#: fahrt/templates/fahrt/participants/view_participant_details.html
+msgid "2 weeks"
+msgstr "2 Wochen"
+
+#: fahrt/templates/fahrt/participants/view_participant_details.html
+msgid "3 weeks"
+msgstr "3 Wochen"
+
+#: fahrt/templates/fahrt/participants/view_participant_details.html
+msgid "confirm"
+msgstr "bestätigen"
+
+#: fahrt/templates/fahrt/participants/view_participant_details.html
+msgid "cancel"
+msgstr "abbrechen"
+
+#: fahrt/templates/fahrt/participants/view_participant_details.html
+msgid "Edit"
+msgstr "Bearbeiten"
 
 #: fahrt/templates/fahrt/standalone/edit_mail.html
 msgid "SET"
@@ -504,38 +551,6 @@ msgid ""
 msgstr ""
 "Du wirst alle weiteren Informationen per E-Mail erhalten. Dies kann etwas "
 "dauern, da wir deine Anmeldung manuell überprüfen."
-
-#: fahrt/templates/fahrt/view_participant_details.html
-msgid "Participant Details"
-msgstr "Teilnehmer Details"
-
-#: fahrt/templates/fahrt/view_participant_details.html
-msgid "Email"
-msgstr "E-Mail"
-
-#: fahrt/templates/fahrt/view_participant_details.html
-msgid "1 week"
-msgstr "1 Woche"
-
-#: fahrt/templates/fahrt/view_participant_details.html
-msgid "2 weeks"
-msgstr "2 Wochen"
-
-#: fahrt/templates/fahrt/view_participant_details.html
-msgid "3 weeks"
-msgstr "3 Wochen"
-
-#: fahrt/templates/fahrt/view_participant_details.html
-msgid "confirm"
-msgstr "bestätigen"
-
-#: fahrt/templates/fahrt/view_participant_details.html
-msgid "cancel"
-msgstr "abbrechen"
-
-#: fahrt/templates/fahrt/view_participant_details.html
-msgid "Edit"
-msgstr "Bearbeiten"
 
 #~ msgid "Change Date"
 #~ msgstr "Datum ändern"
