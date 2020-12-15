@@ -33,7 +33,7 @@
     <link href="{% static "css/multi-select.min.css" %}" rel="stylesheet"/>
     <link href="{% static "css/style.css" %}" rel="stylesheet">
 
-    <title>{% trans "SET " %} {% block title %}{% endblock %}</title>
+    <title>{% block title %}{% endblock %}</title>
 
     {% block head %}{% endblock %}
     {% block extrahead %}       {# Extra Resources Start #}
@@ -61,7 +61,7 @@
                     {% endif %}
                     {% if 'bags.view_companies' in perms %}
                         <a class="nav-link {% active_link 'bags_main_index' %}" href="{% url "bags_main_index" %}">
-                            {% trans "SET-Tüten" %}
+                            {% trans "SET-Bags" %}
                         </a>
                     {% endif %}
                     {% if 'tutors.edit_tutors' in perms %}
@@ -71,7 +71,7 @@
                     {% endif %}
                     {% if 'guidedtours.view_participants' in perms %}
                         <a class="nav-link {% active_link 'tour_main_index' %}" href="{% url "tour_main_index" %}">
-                            {% trans "Institutsführungen" %}
+                            {% trans "Guided tours of the institutes" %}
                         </a>
                     {% endif %}
                     {% if 'set.perms.set' in perms %}
@@ -181,11 +181,11 @@
         <ul class="navbar-nav text-nowrap overflow-auto mx-auto">
             <li class="nav-item">
                 <a class="nav-link" href="http://fs.tum.de/datenschutz/">
-                    {% trans "Datenschutz" %}
+                    {% trans "Data protection" %}
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="http://fs.tum.de/impressum/">{% trans "Impressum" %}</a>
+                <a class="nav-link" href="http://fs.tum.de/impressum/">{% trans "Imprint" %}</a>
             </li>
         </ul>
     </div>

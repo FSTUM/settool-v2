@@ -8,15 +8,15 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-12-09 15:45+0100\n"
-"PO-Revision-Date: 2016-10-19 00:11+0200\n"
-"Last-Translator: Sven Hertle <hertle@fs.tum.de>\n"
+"PO-Revision-Date: 2020-12-16 00:00+0100\n"
+"Last-Translator: Frank Elsinga <elsinga@fs.tum.de>\n"
 "Language-Team: \n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 1.8.4\n"
+"X-Generator: Poedit 2.4.2\n"
 
 #: fahrt/forms.py
 msgid "I accept the terms and conditions of the following privacy policy:"
@@ -24,15 +24,15 @@ msgstr "Ich stimme der folgenden Datenschutzerklärung zu:"
 
 #: fahrt/forms.py
 msgid "This field is required if you have a car"
-msgstr "Dieses Feld muss ausgefüllt werden wenn du ein Auto hast."
+msgstr "Dieses Feld muss ausgefüllt werden wenn du ein Auto hast"
 
 #: fahrt/forms.py
 msgid "You cant be born today."
-msgstr ""
+msgstr "Du kannst nicht heute geboren worden sein."
 
 #: fahrt/forms.py
 msgid "You cant be born in the future."
-msgstr ""
+msgstr "Du kannst nicht in der Zukunft geboren worden sein."
 
 #: fahrt/forms.py
 msgid "Email template:"
@@ -116,7 +116,7 @@ msgstr "Weiblich"
 
 #: fahrt/models.py
 msgid "diverse"
-msgstr ""
+msgstr "Divers"
 
 #: fahrt/models.py
 #: fahrt/templates/fahrt/participants/view_participant_details.html
@@ -257,7 +257,7 @@ msgstr "Zeit"
 #: fahrt/templates/fahrt/base_fahrt.html
 #: fahrt/templates/fahrt/fahrt_dashboard.html
 msgid "Dashboard"
-msgstr ""
+msgstr "Dashboard"
 
 #: fahrt/templates/fahrt/base_fahrt.html
 msgid "General"
@@ -297,8 +297,6 @@ msgid "Add email template"
 msgstr "E-Mail-Vorlage hinzufügen"
 
 #: fahrt/templates/fahrt/general/add_participant.html
-#, fuzzy
-#| msgid "Sign up for the SET-Fahrt"
 msgid "Add Participant to the SET-Fahrt"
 msgstr "Anmeldung zur SET-Fahrt"
 
@@ -407,8 +405,6 @@ msgstr ""
 "Willst du wirklich den Teilnehmer <a href=\"%(url)s\">%(name)s</a> löschen?"
 
 #: fahrt/templates/fahrt/participants/edit_participants.html
-#, fuzzy
-#| msgid "Edit participant"
 msgid "Edit participants"
 msgstr "Teilnehmer bearbeiten"
 
@@ -497,7 +493,7 @@ msgstr "Bearbeiten"
 
 #: fahrt/templates/fahrt/standalone/edit_mail.html
 msgid "SET"
-msgstr ""
+msgstr "SET"
 
 #: fahrt/templates/fahrt/standalone/edit_mail.html
 msgid "Edit email"

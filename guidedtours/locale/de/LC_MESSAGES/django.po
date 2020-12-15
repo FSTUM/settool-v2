@@ -8,15 +8,15 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-12-09 15:45+0100\n"
-"PO-Revision-Date: 2016-09-30 23:28+0200\n"
-"Last-Translator: \n"
+"PO-Revision-Date: 2020-12-16 00:24+0100\n"
+"Last-Translator: Frank Elsinga <elsinga@fs.tum.de>\n"
 "Language-Team: \n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 1.8.9\n"
+"X-Generator: Poedit 2.4.2\n"
 
 #: guidedtours/forms.py
 msgid "I accept the terms and conditions of the following privacy policy:"
@@ -28,7 +28,7 @@ msgstr "E-Mail Vorlage:"
 
 #: guidedtours/forms.py
 msgid "Search pattern"
-msgstr "Suchwort:"
+msgstr "Suchwort"
 
 #: guidedtours/forms.py guidedtours/templates/guidedtours/filtered_list.html
 #: guidedtours/templates/guidedtours/send_mail.html
@@ -168,7 +168,7 @@ msgstr "Intitutsführung hinzufügen"
 #: guidedtours/templates/guidedtours/base_guildedtours.html
 #: guidedtours/templates/guidedtours/tour_dashboard.html
 msgid "Dashboard"
-msgstr ""
+msgstr "Dashboard"
 
 #: guidedtours/templates/guidedtours/base_guildedtours.html
 msgid "General"
@@ -273,8 +273,6 @@ msgid "Edit"
 msgstr "Bearbeiten"
 
 #: guidedtours/templates/guidedtours/list_tours.html
-#, fuzzy
-#| msgid "List tours"
 msgid "List of all tours"
 msgstr "Liste der Institutsführungen"
 
@@ -349,7 +347,7 @@ msgstr "Derzeit kannst du dich für keine Institutsführung anmelden."
 
 #: guidedtours/templates/guidedtours/standalone/success.html
 msgid "You successfully signed up for a guided tour"
-msgstr "Du hast dich erfolgreich für eine Intitutsführung angemeldet."
+msgstr "Du hast dich erfolgreich für eine Institutsführung angemeldet"
 
 #: guidedtours/templates/guidedtours/standalone/success.html
 msgid "You will get all further information by email."
