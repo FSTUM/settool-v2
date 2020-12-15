@@ -98,8 +98,15 @@ repos:
             pass_filenames: false
     - repo: local
       hooks:
-          - id: report coverage
-            name: report coverage
+          - id: export coverage
+            name: export coverage
             entry: coverage xml
             language: system
             pass_filenames: false
+          - id: report coverage
+            name: report coverage
+            entry: coverage report
+            language: system
+            pass_filenames: false
+            verbose: true
+            
