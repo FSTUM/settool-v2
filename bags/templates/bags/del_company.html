@@ -6,9 +6,9 @@
 {% block set_common_content %}
     {% url "viewcompany" company.id as viewcompany %}
     <p>
-        {% blocktrans trimmed with name=company.name url=viewcompany %}
+        {% blocktranslate trimmed with name=company.name url=viewcompany %}
             Do you really want to delete the company <a href="{{ url }}">{{ name }}</a>?
-        {% endblocktrans %}
+        {% endblocktranslate %}
     </p>
     <form method="post" action="">
         {% csrf_token %}

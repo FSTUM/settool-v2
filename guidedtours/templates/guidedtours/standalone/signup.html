@@ -32,9 +32,9 @@
                             {% for tour in tours %}
                                 <li>
                                     <strong>
-                                        {% blocktrans trimmed with name=tour.name date=tour.date %}
+                                        {% blocktranslate trimmed with name=tour.name date=tour.date %}
                                             {{ name }} on {{ date }}:
-                                        {% endblocktrans %}
+                                        {% endblocktranslate %}
                                     </strong>
                                     <p>{{ tour.description }}</p>
                                 </li>

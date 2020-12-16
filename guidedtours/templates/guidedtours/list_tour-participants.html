@@ -2,9 +2,9 @@
 {% load i18n %}
 
 {% block set_common_headercontent %}
-    {% blocktrans trimmed with name=tour.name date=tour.date %}
+    {% blocktranslate trimmed with name=tour.name date=tour.date %}
         List of participants for {{ name }} on {{ date }}
-    {% endblocktrans %}
+    {% endblocktranslate %}
 {% endblock %}
 
 {% block set_common_content %}
