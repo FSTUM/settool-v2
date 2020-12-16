@@ -3,6 +3,8 @@
 {% load i18n %}
 {% load bootstrap4 %}
 {% load semester %}
+{# provide a Useful name, even if the User has not specified his first name #}
+{% firstof user.first_name|capfirst user.username|capfirst "Username" as username %}
 <!DOCTYPE html>
 <html lang="de">
 <head>
@@ -33,7 +35,7 @@
     <link href="{% static "css/multi-select.min.css" %}" rel="stylesheet"/>
     <link href="{% static "css/style.css" %}" rel="stylesheet">
 
-    <title>{% trans "SET " %} {% block title %}{% endblock %}</title>
+    <title>{% block title %}{% endblock %}</title>
 
     {% block head %}{% endblock %}
     {% block extrahead %}       {# Extra Resources Start #}
@@ -61,7 +63,7 @@
                     {% endif %}
                     {% if 'bags.view_companies' in perms %}
                         <a class="nav-link {% active_link 'bags_main_index' %}" href="{% url "bags_main_index" %}">
-                            {% trans "SET-Tüten" %}
+                            {% trans "SET-Bags" %}
                         </a>
                     {% endif %}
                     {% if 'tutors.edit_tutors' in perms %}
@@ -71,7 +73,7 @@
                     {% endif %}
                     {% if 'guidedtours.view_participants' in perms %}
                         <a class="nav-link {% active_link 'tour_main_index' %}" href="{% url "tour_main_index" %}">
-                            {% trans "Institutsführungen" %}
+                            {% trans "Guided tours of the institutes" %}
                         </a>
                     {% endif %}
                     {% if 'set.perms.set' in perms %}
@@ -109,26 +111,19 @@
                     {% endif %}
                     {# end choose semester #}
                     {# login #}
-                    {% if user.is_authenticated %}
-                        <li class="nav-item">
+                    <li class="nav-item">
+                        {% if user.is_authenticated %}
                             <a class="nav-link" href="{% url "logout" %}">
-                                {# provide a Useful name, even if the User has not specified his first name #}
-                                {% if user.first_name %}
-                                    {% blocktrans trimmed with username=user.first_name|capfirst %}
-                                        Log out {{ username }}
-                                    {% endblocktrans %}
-                                {% else %}
-                                    {% blocktrans trimmed with username=user.username|capfirst %}
-                                        Log out {{ username }}
-                                    {% endblocktrans %}
-                                {% endif %}
+                                {% blocktranslate trimmed %}
+                                    Log out {{ username }}
+                                {% endblocktranslate %}
                             </a>
-                        </li>
-                    {% else %}
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url "login" %}">{% trans "Login" %}</a>
-                        </li>
-                    {% endif %}
+                        {% else %}
+                            <a class="nav-link" href="{% url "login" %}">
+                                {% trans "Login" %}
+                            </a>
+                        {% endif %}
+                    </li>
                     {# end login #}
                     {# language chooser #}
                     <li class="nav-item dropdown">
@@ -181,11 +176,11 @@
         <ul class="navbar-nav text-nowrap overflow-auto mx-auto">
             <li class="nav-item">
                 <a class="nav-link" href="http://fs.tum.de/datenschutz/">
-                    {% trans "Datenschutz" %}
+                    {% trans "Data protection" %}
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="http://fs.tum.de/impressum/">{% trans "Impressum" %}</a>
+                <a class="nav-link" href="http://fs.tum.de/impressum/">{% trans "Imprint" %}</a>
             </li>
         </ul>
     </div>

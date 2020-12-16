@@ -6,9 +6,9 @@
 {% block set_common_content %}
     {% url "tours_view" tour.id as view %}
     <p>
-        {% blocktrans trimmed with name=tour url=view %}
+        {% blocktranslate trimmed with name=tour url=view %}
             Do you really want to delete the tour <a href="{{ url }}">{{ name }}</a>?
-        {% endblocktrans %}
+        {% endblocktranslate %}
     </p>
     <form method="post" action="">
         {% csrf_token %}

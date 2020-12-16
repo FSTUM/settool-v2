@@ -8,15 +8,15 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-12-09 15:45+0100\n"
-"PO-Revision-Date: 2017-06-19 17:15+0200\n"
-"Last-Translator: \n"
+"PO-Revision-Date: 2020-12-15 23:59+0100\n"
+"Last-Translator: Frank Elsinga <elsinga@fs.tum.de>\n"
 "Language-Team: \n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 1.8.11\n"
+"X-Generator: Poedit 2.4.2\n"
 
 #: bags/forms.py bags/templates/bags/bags_dashboard.html
 #: bags/templates/bags/filtered_index.html bags/templates/bags/send_mail.html
@@ -65,25 +65,20 @@ msgstr "Giveaways eingetragen"
 
 #: bags/forms.py
 msgid "Giveaways already arrived"
-msgstr "Giveaways sind bereits angekommen"
+msgstr "Giveaways bereits angekommen"
 
 #: bags/forms.py
 msgid "Import from semester"
 msgstr "Importieren von Semester"
 
 #: bags/forms.py
-#, fuzzy
-#| msgid ""
-#| "Only companies who explicitly said contact again (otherwise             "
-#| "all companies except the ones which said to not contact again             "
-#| "will be used)"
 msgid ""
 "Only companies who explicitly said contact again (otherwise all companies "
 "except the ones which said to not contact again will be used)"
 msgstr ""
-"Nur Firmen die explizit gebeten haben, sie nochmal zu kontaktieren (sonst "
-"werden alle Firmen genommen, die sich nicht explizit gegen eine erneute "
-"Kontaktaufnahme ausgesprochen haben)"
+"Nur Unternehmen, die ausdrücklich gesagt haben, Kontakt wieder (sonst werden "
+"alle Unternehmen außer denen, die angeblich nicht mehr Kontakt aufnehmen) "
+"verwendet)"
 
 #: bags/models.py bags/templates/bags/view.html
 msgid "Name"
@@ -201,15 +196,15 @@ msgstr "E-Mail-Vorlage hinzufügen"
 
 #: bags/templates/bags/bags_dashboard.html
 msgid "yes"
-msgstr ""
+msgstr "ja"
 
 #: bags/templates/bags/bags_dashboard.html
 msgid "no"
-msgstr ""
+msgstr "nein"
 
 #: bags/templates/bags/bags_dashboard.html
 msgid "unknown"
-msgstr ""
+msgstr "unbekannt"
 
 #: bags/templates/bags/bags_dashboard.html
 #: bags/templates/bags/filtered_index.html
@@ -218,11 +213,11 @@ msgstr "Firmenliste"
 
 #: bags/templates/bags/bags_dashboard.html
 msgid "Availible Filters"
-msgstr ""
+msgstr "Zur Verfügung stehende Filter"
 
 #: bags/templates/bags/bags_dashboard.html
 msgid "Select recipients and send mail"
-msgstr ""
+msgstr "Empfänger auswählen und E-Mail senden"
 
 #: bags/templates/bags/bags_dashboard.html
 #: bags/templates/bags/filtered_index.html bags/templates/bags/send_mail.html
@@ -250,11 +245,9 @@ msgstr "erfolgreich gesendet"
 
 #: bags/templates/bags/bags_dashboard.html
 msgid "Actions"
-msgstr ""
+msgstr "Actionen"
 
 #: bags/templates/bags/bags_dashboard.html
-#, fuzzy
-#| msgid "Contact again"
 msgid "Enter contact again"
 msgstr "Erneut kontaktieren"
 
@@ -265,11 +258,11 @@ msgstr "E-Mails senden"
 
 #: bags/templates/bags/base_bags.html
 msgid "Dashboard"
-msgstr ""
+msgstr "Dashboard"
 
 #: bags/templates/bags/base_bags.html
 msgid "General"
-msgstr ""
+msgstr "Gereral"
 
 #: bags/templates/bags/base_bags.html bags/templates/bags/filtered_index.html
 msgid "Add Company"
@@ -284,8 +277,6 @@ msgid "Edit Email Templates"
 msgstr "E-Mail-Vorlage bearbeiten"
 
 #: bags/templates/bags/base_bags.html
-#, fuzzy
-#| msgid "Import"
 msgid "Importing"
 msgstr "Importieren"
 
@@ -380,7 +371,7 @@ msgstr "Firmendetails"
 
 #: bags/templates/bags/view.html
 msgid "Back"
-msgstr "zurück"
+msgstr "Zurück"
 
 #~ msgid "Freshmen bags"
 #~ msgstr "Erstitüten"

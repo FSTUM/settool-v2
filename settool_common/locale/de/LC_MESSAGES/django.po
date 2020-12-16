@@ -8,19 +8,19 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-12-09 15:45+0100\n"
-"PO-Revision-Date: 2016-09-30 23:28+0200\n"
-"Last-Translator: Sven Hertle <hertle@fs.tum.de>\n"
+"PO-Revision-Date: 2020-12-16 00:22+0100\n"
+"Last-Translator: Frank Elsinga <elsinga@fs.tum.de>\n"
 "Language-Team: \n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 1.8.9\n"
+"X-Generator: Poedit 2.4.2\n"
 
 #: settool_common/forms.py
 msgid "Email template:"
-msgstr ""
+msgstr "E-Mail Template:"
 
 #: settool_common/models.py
 msgid "Winter semester"
@@ -84,19 +84,19 @@ msgstr "Robotics, Cognition, Intelligence"
 
 #: settool_common/models.py
 msgid "Mathematics in Operatios Research"
-msgstr ""
+msgstr "Mathematics in Operatios Research"
 
 #: settool_common/models.py
 msgid "Mathematics in Science and Engineering"
-msgstr ""
+msgstr "Mathematics in Science and Engineering"
 
 #: settool_common/models.py
 msgid "Mathematics in Finance and Acturial Science"
-msgstr ""
+msgstr "Mathematics in Finance and Acturial Science"
 
 #: settool_common/models.py
 msgid "Mathematics in Bioscience"
-msgstr ""
+msgstr "Mathematics in Bioscience"
 
 #: settool_common/models.py
 msgid "Degree"
@@ -119,30 +119,28 @@ msgstr "SET"
 
 #: settool_common/models.py
 msgid "SET_FAHRT"
-msgstr ""
+msgstr "SET_FAHRT"
 
 #: settool_common/models.py
 msgid "SET_TUTOR"
-msgstr ""
+msgstr "SET_TUTOR"
 
 #: settool_common/models.py
 #: settool_common/templates/settool_common/mail/send_email_confirmation.html
 #: settool_common/templates/settool_common/mail/send_email_failure.html
 msgid "From"
-msgstr ""
+msgstr "Von"
 
 #: settool_common/models.py
 #: settool_common/templates/settool_common/mail/send_email_confirmation.html
 #: settool_common/templates/settool_common/settings/delete_email.html
 #: settool_common/templates/settool_common/settings/email_details.html
-#, fuzzy
-#| msgid "Subject"
 msgid "Email subject"
-msgstr "Studiengang"
+msgstr "E-Mail Betreff"
 
 #: settool_common/models.py
 msgid "You may use placeholders for the subject."
-msgstr ""
+msgstr "Du kannst Platzhalter für den Betreff verwenden."
 
 #: settool_common/models.py
 #: settool_common/templates/settool_common/mail/send_email_confirmation.html
@@ -150,86 +148,91 @@ msgstr ""
 #: settool_common/templates/settool_common/settings/delete_email.html
 #: settool_common/templates/settool_common/settings/email_details.html
 msgid "Text"
-msgstr ""
+msgstr "Text"
 
 #: settool_common/models.py
 msgid "You may use placeholders for the text."
-msgstr ""
+msgstr "Du kannst Platzhalter für den Text verwenden."
 
 #: settool_common/templates/settool_common/mail/send_email_confirmation.html
 #: settool_common/templates/settool_common/mail/send_email_failure.html
 msgid "Send email"
-msgstr ""
+msgstr "E-Mail senden"
 
 #: settool_common/templates/settool_common/mail/send_email_confirmation.html
 msgid ""
 "Do you really want to send the following email to the participants below?"
 msgstr ""
+"Möchtest du wirklich die folgende E-Mail an die unten aufgeführten "
+"Teilnehmer senden?"
 
 #: settool_common/templates/settool_common/mail/send_email_confirmation.html
 msgid "Send"
-msgstr ""
+msgstr "Senden"
 
 #: settool_common/templates/settool_common/mail/send_email_confirmation.html
 #: settool_common/templates/settool_common/settings/add_email.html
 #: settool_common/templates/settool_common/settings/delete_email.html
 #: settool_common/templates/settool_common/settings/edit_email.html
 msgid "Cancel"
-msgstr ""
+msgstr "Abbrechen"
 
 #: settool_common/templates/settool_common/mail/send_email_confirmation.html
 #: settool_common/templates/settool_common/mail/send_email_failure.html
 msgid "To"
-msgstr ""
+msgstr "An"
 
 #: settool_common/templates/settool_common/mail/send_email_confirmation.html
 #: settool_common/templates/settool_common/mail/send_email_failure.html
 msgid "see table below"
-msgstr ""
+msgstr "siehe Tabelle unten"
 
 #: settool_common/templates/settool_common/mail/send_email_confirmation.html
 #: settool_common/templates/settool_common/mail/send_email_failure.html
 msgid "First name"
-msgstr ""
+msgstr "Vorname"
 
 #: settool_common/templates/settool_common/mail/send_email_confirmation.html
 #: settool_common/templates/settool_common/mail/send_email_failure.html
 msgid "Surname"
-msgstr ""
+msgstr "Nachname"
 
 #: settool_common/templates/settool_common/mail/send_email_confirmation.html
 #: settool_common/templates/settool_common/mail/send_email_failure.html
 msgid "Status"
-msgstr ""
+msgstr "Status"
 
 #: settool_common/templates/settool_common/mail/send_email_confirmation.html
 #: settool_common/templates/settool_common/mail/send_email_failure.html
 msgid "Comment"
-msgstr ""
+msgstr "Kommentar"
 
 #: settool_common/templates/settool_common/mail/send_email_failure.html
 msgid ""
 "The emails were sent, but some emails failed, because a field was empty. "
 "Below you can find a list of all failed participants."
 msgstr ""
+"Die E-Mails wurden versendet, aber einige E-Mails schlugen fehl, weil ein "
+"Feld leer war. Nachfolgend finden Sie eine Liste aller fehlgeschlagenen "
+"Teilnehmer."
 
 #: settool_common/templates/settool_common/settings/add_email.html
 msgid "Add email"
-msgstr ""
+msgstr "E-Mail hinzufügen"
 
 #: settool_common/templates/settool_common/settings/add_email.html
 #: settool_common/templates/settool_common/settings/edit_email.html
 msgid "Submit"
-msgstr ""
+msgstr "Eintragen"
 
 #: settool_common/templates/settool_common/settings/delete_email.html
 msgid "Delete email"
-msgstr ""
+msgstr "E-Mail löschen"
 
 #: settool_common/templates/settool_common/settings/delete_email.html
 #: settool_common/templates/settool_common/settings/email_details.html
 msgid "Delete"
-msgstr ""
+msgstr "Löschen"
 
 #: settool_common/templates/settool_common/settings/edit_email.html
 msgid "Edit email"
@@ -237,43 +240,39 @@ msgstr ""
 
 #: settool_common/templates/settool_common/settings/email_details.html
 msgid "Email details"
-msgstr ""
+msgstr "E-Mail Details"
 
 #: settool_common/templates/settool_common/settings/email_details.html
 msgid "Edit"
-msgstr ""
+msgstr "Bearbeiten"
 
 #: settool_common/templates/settool_common/settings/list_email_templates.html
 msgid "List email templates"
-msgstr ""
+msgstr "E-Mail-Vorlagen auflisten"
 
 #: settool_common/templates/settool_common/settings/list_email_templates.html
-#, fuzzy
-#| msgid "Subject"
 msgid "EMail Subject"
-msgstr "Studiengang"
+msgstr "E-Mail Betreff"
 
 #: settool_common/templates/settool_common/settings/list_email_templates.html
-#, fuzzy
-#| msgid "Subject"
 msgid "EMail Text"
-msgstr "Studiengang"
+msgstr "E-Mail Betreff"
 
 #: settool_common/templates/settool_common/settings/list_email_templates.html
 msgid "actions"
-msgstr ""
+msgstr "Aktionen"
 
 #: settool_common/templates/settool_common/settings/settings.html
 msgid "Email-Templates"
-msgstr ""
+msgstr "E-Mail-Vorlagen"
 
 #: settool_common/templates/settool_common/settings/settings.html
 msgid "All templates"
-msgstr ""
+msgstr "Alle E-Mail-Vorlagen"
 
 #: settool_common/templates/settool_common/settings/settings.html
 msgid "Add template"
-msgstr ""
+msgstr "E-Mail-Vorlage hinzufügen"
 
 #~ msgid "Hello %(username)s!"
 #~ msgstr "Hallo %(username)s!"

@@ -6,9 +6,9 @@
 {% block set_common_content %}
     {% url "fahrt_viewparticipant" participant.id as viewparticipant %}
     <p>
-        {% blocktrans trimmed with name=participant url=viewparticipant %}
+        {% blocktranslate trimmed with name=participant url=viewparticipant %}
             Do you really want to delete the participant <a href="{{ url }}">{{ name }}</a>?
-        {% endblocktrans %}
+        {% endblocktranslate %}
     </p>
     <form method="post" action="">
         {% csrf_token %}

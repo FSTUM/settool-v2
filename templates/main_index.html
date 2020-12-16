@@ -7,11 +7,7 @@
 {% block content %}
     {% if user.is_authenticated %}
         <div class="alert alert-dark" role="alert">
-            {% if user.first_name %}
-                {% blocktrans with username=user.first_name|capfirst %}Hello {{ username }}!{% endblocktrans %}
-            {% else %}
-                {% blocktrans with username=user.username|capfirst %}Hello {{ username }}!{% endblocktrans %}
-            {% endif %}
+            {% blocktranslate %}Hello {{ username }}!{% endblocktranslate %}
         </div>
     {% else %}
         <div class="alert alert-warning" role="alert">
