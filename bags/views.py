@@ -188,7 +188,7 @@ def update_field(request, company_pk, field):
 
         changes = {field: value}
         Company.objects.filter(pk=company.pk).update(**changes)
-        return HttpResponse("")
+        return HttpResponse(f"#{name}")
 
     return HttpResponseBadRequest("")
 

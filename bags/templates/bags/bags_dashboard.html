@@ -4,36 +4,34 @@
 
 {% block head %}
 <script
-    crossorigin="anonymous"
-    integrity="sha512-u2P0FelsRQD/z5EkW5vRp8RRm9oe23rKSqvHBFAXnnES8tPRVIl6oBexyBE1WaOA4rPhXf035iKWU/DCbzRftw=="
-    src="https://cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.1/bootstrap-editable/js/bootstrap-editable.min.js"
+    crossorigin='anonymous'
+    src="https://cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/jquery-editable/js/jquery-editable-poshytip.min.js"
 ></script>
 <link
-    crossorigin="anonymous"
-    href="https://cdn.jsdelivr.net/npm/x-editable@1.5.1/dist/bootstrap-editable/css/bootstrap-editable.css"
-    integrity="sha256-YsJ7Lkc/YB0+ssBKz0c0GTx0RI+BnXcKH5SpnttERaY="
-    rel="stylesheet"
->
+    crossorigin='anonymous'
+    href='https://cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/jquery-editable/css/jquery-editable.css'
+    rel='stylesheet'
+/>
 <script>
-    const displayTrueFalse = (value) => {
+    const displayTrueFalse = (value, _, response) => {
         if (value === 'True') {
-            $(this).html('<span style="color:green" class="glyphicon glyphicon-ok"></span>');
+            $(response).html('<span style="color:green" class="glyphicon glyphicon-ok"></span>');
         } else if (value === 'False') {
-            $(this).html('<span style="color:red" class="glyphicon glyphicon-remove"></span>');
+            $(response).html('<span style="color:red" class="glyphicon glyphicon-remove"></span>');
         } else {
-            $(this).empty();
+            $(response).empty();
         }
     };
 
-    const displayTrueFalseNone = (value) => {
+    const displayTrueFalseNone = (value, _, response) => {
         if (value === 'True') {
-            $(this).html('<span style="color:green" class="glyphicon glyphicon-ok"></span>');
+            $(response).html('<span style="color:green" class="glyphicon glyphicon-ok"></span>');
         } else if (value === 'False') {
-            $(this).html('<span style="color:red" class="glyphicon glyphicon-remove"></span>');
+            $(response).html('<span style="color:red" class="glyphicon glyphicon-remove"></span>');
         } else if (value === 'None') {
-            $(this).html('<span class="glyphicon glyphicon-question-sign"></span>');
+            $(response).html('<span class="glyphicon glyphicon-question-sign"></span>');
         } else {
-            $(this).empty();
+            $(response).empty();
         }
     };
 
