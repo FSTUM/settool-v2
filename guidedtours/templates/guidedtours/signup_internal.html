@@ -5,19 +5,27 @@
 {% block set_common_headercontent %}{% trans "Sign up for a guided tour" %}{% endblock %}
 
 {% block set_common_content %}
-    <form method="post" action="">
-        {% csrf_token %}
+<form
+    method="post"
+    action=""
+>
+    {% csrf_token %}
 
-        <div class="row">
-            <div class="col-xs-12 col-lg-5">
-                {% bootstrap_form form %}
+    <div class="row">
+        <div class="col-xs-12 col-lg-5">
+            {% bootstrap_form form %}
 
-                <div class="well">
-                    {% trans "tours_privacy_policy" %}
-                </div>
+            <div class="well">
+                {% trans "tours_privacy_policy" %}
             </div>
         </div>
+    </div>
 
-        <button type="submit" class="btn btn-primary">{% trans "Submit" %}</button>
-    </form>
+    <button
+        type="submit"
+        class="btn btn-primary"
+    >
+        {% trans "Submit" %}
+    </button>
+</form>
 {% endblock %}

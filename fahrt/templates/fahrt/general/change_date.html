@@ -5,15 +5,23 @@
 {% block  set_common_headercontent %}{% trans "Change date" %}{% endblock %}
 
 {% block set_common_content %}
-    <form method="post" action="">
-        {% csrf_token %}
+<form
+    method="post"
+    action=""
+>
+    {% csrf_token %}
 
-        <div class="row">
-            <div class="col-xs-12 col-lg-5">
-                {% bootstrap_form form %}
-            </div>
+    <div class="row">
+        <div class="col-xs-12 col-lg-5">
+            {% bootstrap_form form %}
         </div>
+    </div>
 
-        <button type="submit" class="btn btn-primary">{% trans "Submit" %}</button>
-    </form>
+    <button
+        type="submit"
+        class="btn btn-primary"
+    >
+        {% trans "Submit" %}
+    </button>
+</form>
 {% endblock %}

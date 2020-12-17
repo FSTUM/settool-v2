@@ -1,37 +1,35 @@
-function addLink(parent, label, callback) {
-    let a = document.createElement('a');
+// eslint-disable-next-line no-unused-vars
+const addLink = (parent, label, callback) => {
+    const a = document.createElement('a');
     a.href = '#';
     a.text = label;
     $(a).click(callback);
     $(a).insertAfter(parent);
-}
+};
 
-let defaultCallback = function (action) {
-    return function () {
-        $(this).parent()
-            .find('select[multiple]')
-            .multiSelect(action);
+// eslint-disable-next-line no-unused-vars
+const defaultCallback = (action) => {
+    return () => {
+        $(this).parent().find('select[multiple]').multiSelect(action);
         return false;
     };
 };
 
-let valueCallback = function (action, value) {
-    return function () {
-        let elements = $(this).parent()
+// eslint-disable-next-line no-unused-vars
+const valueCallback = (action, value) => {
+    return () => {
+        const elements = $(this)
+            .parent()
             .find('select[multiple]')
             .find('option')
-            .map(function (idx, option) {
-                if ($(option)
-                    .text()
-                    .toLowerCase()
-                    .includes(value)) {
+            .map((idx, option) => {
+                if ($(option).text().toLowerCase().includes(value)) {
                     return option.value;
                 }
+                return null;
             });
 
-        $(this).parent()
-            .find('select[multiple]')
-            .multiSelect(action, elements);
+        $(this).parent().find('select[multiple]').multiSelect(action, elements);
         return false;
     };
 };

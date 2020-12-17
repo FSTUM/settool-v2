@@ -5,13 +5,23 @@
 {% block title %}{% trans "May the SET be ever in yor favour" %}{% endblock %}
 
 {% block content %}
-    {% if user.is_authenticated %}
-        <div class="alert alert-dark" role="alert">
-            {% blocktranslate %}Hello {{ username }}!{% endblocktranslate %}
-        </div>
+{% if user.is_authenticated %}
+<div
+    class="alert alert-dark"
+    role="alert"
+>
+    {% if user.first_name %}
+    {% blocktranslate with username=user.first_name|capfirst %}Hello {{ username }}!{% endblocktranslate %}
     {% else %}
-        <div class="alert alert-warning" role="alert">
-            {% trans "Please Log in, to view everything" %}
-        </div>
+    {% blocktranslate with username=user.username|capfirst %}Hello {{ username }}!{% endblocktranslate %}
     {% endif %}
+</div>
+{% else %}
+<div
+    class="alert alert-warning"
+    role="alert"
+>
+    {% trans "Please Log in, to view everything" %}
+</div>
+{% endif %}
 {% endblock %}
