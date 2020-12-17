@@ -62,7 +62,7 @@
         rel="stylesheet"
     >
 
-    <title>{% block title %}{% endblock %}</title>
+    <title>{% block title %}{% trans "May the SET be ever in yor favour" %}{% endblock %}</title>
 
     {% block head %}{% endblock %}
     {% block extrahead %} {# Extra Resources Start #}
@@ -268,7 +268,7 @@
 
         {% block content %}{% endblock %}
     </main>
-
+    {% block after_content %}{% endblock %}
     <footer class="footer navbar navbar-expand navbar-dark bg-dark">
         <div class="container-md">
             <ul class="navbar-nav text-nowrap overflow-auto mx-auto">
@@ -301,6 +301,7 @@
             });
         });
     </script>
+    {% block defered_script %} {% endblock %}
 </body>
 
 </html>

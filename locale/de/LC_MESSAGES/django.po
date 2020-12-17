@@ -27,6 +27,10 @@ msgid "English"
 msgstr "Englisch"
 
 #: templates/base.html
+msgid "May the SET be ever in yor favour"
+msgstr "May the SET be ever in yor favour"
+
+#: templates/base.html
 msgid "SET-Fahrt"
 msgstr "SET-Fahrt"
 
@@ -86,10 +90,6 @@ msgstr "Auswahl-Elemente"
 #: templates/base_card_layout.html
 msgid "Navigation"
 msgstr "Navigation"
-
-#: templates/main_index.html
-msgid "May the SET be ever in yor favour"
-msgstr ""
 
 #: templates/main_index.html
 #, python-format
