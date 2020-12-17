@@ -2,43 +2,46 @@
 {% load i18n %}
 
 {% block head %}
-    <script>
-        $(document).ready(function () {
-            $('#emailTable').DataTable();
-        });
-    </script>
+<script>
+    $(document).ready(() => {
+        $('#emailTable').DataTable();
+    });
+</script>
 {% endblock %}
 
 {% block set_common_headercontent %}
-    {% trans "List email templates" %}
+{% trans "List email templates" %}
 {% endblock %}
 
 {% block setings %}
-    <div class="table-responsive">
-        <table id="emailTable" class="table dataTable">
-            <thead>
+<div class="table-responsive">
+    <table
+        id="emailTable"
+        class="table dataTable"
+    >
+        <thead>
             <tr>
                 <th>{% trans "EMail Subject" %}</th>
                 <th>{% trans "EMail Text" %}</th>
                 <th>{% trans "actions" %}</th>
             </tr>
-            </thead>
-            <tbody>
+        </thead>
+        <tbody>
             {% for mail in mails %}
-                <tr>
-                    <td>
-                        <a href="{% url "mail_view" mail.id %}">{{ mail.subject }}</a>
-                    </td>
-                    <td>{{ mail.text|slice:":100" }}{% if mail.text|length > 100 %}...{% endif %}</td>
-                    <td>
-                        <a href="{% url "mail_edit" mail.id %}"><span
-                                class="glyphicon glyphicon-edit"></span></a>
-                        <a href="{% url "mail_delete" mail.id %}"><span
-                                class="glyphicon glyphicon-trash"></span></a>
-                    </td>
-                </tr>
+            <tr>
+                <td>
+                    <a href="{% url "mail_view" mail.id %}">{{ mail.subject }}</a>
+                </td>
+                <td>
+                    {{ mail.text|slice:":100" }}{% if mail.text|length > 100 %}...{% endif %}
+                </td>
+                <td>
+                    <a href="{% url "mail_edit" mail.id %}"><span class="glyphicon glyphicon-edit"></span></a>
+                    <a href="{% url "mail_delete" mail.id %}"><span class="glyphicon glyphicon-trash"></span></a>
+                </td>
+            </tr>
             {% endfor %}
-            </tbody>
-        </table>
-    </div>
+        </tbody>
+    </table>
+</div>
 {% endblock %}

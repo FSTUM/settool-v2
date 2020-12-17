@@ -4,25 +4,38 @@
 {% block set_common_headercontent %}{% trans "Delete email template" %}: {{ mail.subject }}{% endblock %}
 
 {% block set_common_content %}
-    <p>
-        {% blocktranslate trimmed %}
-            Do you really want to delete the following email template?
-        {% endblocktranslate %}
-    </p>
-    <p>
-        <strong>{% trans "Subject" %}:</strong> {{ mail.subject }}
-    </p>
-    <p>
-        <strong>{% trans "Text" %}:</strong><br/>{{ mail.text|linebreaks }}
-    </p>
-    <p>
-        <strong>{% trans "Comment" %}:</strong> {{ mail.comment }}
-    </p>
+<p>
+    {% blocktranslate trimmed %}
+    Do you really want to delete the following email template?
+    {% endblocktranslate %}
+</p>
+<p>
+    <strong>{% trans "Subject" %}:</strong> {{ mail.subject }}
+</p>
+<p>
+    <strong>{% trans "Text" %}:</strong><br />{{ mail.text|linebreaks }}
+</p>
+<p>
+    <strong>{% trans "Comment" %}:</strong> {{ mail.comment }}
+</p>
 
-    <form method="post" action="">
-        {% csrf_token %}
+<form
+    method="post"
+    action=""
+>
+    {% csrf_token %}
 
-        <button type="submit" class="btn btn-danger">{% trans "Delete" %}</button>
-        <a href="{% url "listmails" %}" class="btn btn-secondary">{% trans "Cancel" %}</a>
-    </form>
+    <button
+        type="submit"
+        class="btn btn-danger"
+    >
+        {% trans "Delete" %}
+    </button>
+    <a
+        href="{% url "listmails" %}"
+        class="btn btn-secondary"
+    >
+        {% trans "Cancel" %}
+    </a>
+</form>
 {% endblock %}

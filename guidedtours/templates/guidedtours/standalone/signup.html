@@ -5,46 +5,54 @@
 {% block set_common_headercontent %}{% trans "Sign up" %}{% endblock %}
 
 {% block content %}
-    <div class="card">
-        <div class="card-header">
-            {% trans "Sign up for a guided tour" %}
-        </div>
-        <div class="card-body">
+<div class="card">
+    <div class="card-header">
+        {% trans "Sign up for a guided tour" %}
+    </div>
+    <div class="card-body">
 
-            <form method="post" action="">
-                {% csrf_token %}
+        <form
+            method="post"
+            action=""
+        >
+            {% csrf_token %}
 
-                <div class="row">
-                    <div class="col-xs-12 col-lg-5">
-                        {% bootstrap_form form %}
+            <div class="row">
+                <div class="col-xs-12 col-lg-5">
+                    {% bootstrap_form form %}
 
-                        <div class="well">
-                            {% trans "tours_privacy_policy" %}
-                        </div>
-                    </div>
-                    <div class="col-xs-12 col-lg-1">
-                    </div>
-                    <div class="col-xs-12 col-lg-5">
-                        <h2>
-                            {% trans "Guided tours" %}
-                        </h2>
-                        <ul>
-                            {% for tour in tours %}
-                                <li>
-                                    <strong>
-                                        {% blocktranslate trimmed with name=tour.name date=tour.date %}
-                                            {{ name }} on {{ date }}:
-                                        {% endblocktranslate %}
-                                    </strong>
-                                    <p>{{ tour.description }}</p>
-                                </li>
-                            {% endfor %}
-                        </ul>
+                    <div class="well">
+                        {% trans "tours_privacy_policy" %}
                     </div>
                 </div>
+                <div class="col-xs-12 col-lg-1">
+                </div>
+                <div class="col-xs-12 col-lg-5">
+                    <h2>
+                        {% trans "Guided tours" %}
+                    </h2>
+                    <ul>
+                        {% for tour in tours %}
+                        <li>
+                            <strong>
+                                {% blocktranslate trimmed with name=tour.name date=tour.date %}
+                                {{ name }} on {{ date }}:
+                                {% endblocktranslate %}
+                            </strong>
+                            <p>{{ tour.description }}</p>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
 
-                <button type="submit" class="btn btn-primary">{% trans "Submit" %}</button>
-            </form>
-        </div>
+            <button
+                type="submit"
+                class="btn btn-primary"
+            >
+                {% trans "Submit" %}
+            </button>
+        </form>
     </div>
+</div>
 {% endblock %}

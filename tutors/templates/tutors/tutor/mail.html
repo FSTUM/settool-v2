@@ -5,51 +5,68 @@
 {% block set_common_headercontent %}{% trans "Send email to tutors" %}{% endblock %}
 
 {% block set_common_content %}
-    <hr>
-    <div class="row">
-        <div class="col-sm-12">
-            <p>
-                {% trans "Do you really want to send the following email to the tutors below?" %}
-            </p>
-            <p>
-                <strong>{% trans "From" %}</strong>: {{ from }}
-            </p>
-            <p>
-                <strong>{% trans "To" %}</strong>: {% trans "see table below" %}
-            </p>
-            <p>
-                <strong>{% trans "Subject" %}</strong>: {{ subject }}
-            </p>
-            <p>
-                <strong>{% trans "Text" %}</strong>:<br/>{{ body|linebreaks|urlize }}
-            </p>
+<hr>
+<div class="row">
+    <div class="col-sm-12">
+        <p>
+            {% trans "Do you really want to send the following email to the tutors below?" %}
+        </p>
+        <p>
+            <strong>{% trans "From" %}</strong>: {{ from }}
+        </p>
+        <p>
+            <strong>{% trans "To" %}</strong>: {% trans "see table below" %}
+        </p>
+        <p>
+            <strong>{% trans "Subject" %}</strong>: {{ subject }}
+        </p>
+        <p>
+            <strong>{% trans "Text" %}</strong>:<br />{{ body|linebreaks|urlize }}
+        </p>
 
-            <form method="post" action="">
-                {% csrf_token %}
+        <form
+            method="post"
+            action=""
+        >
+            {% csrf_token %}
 
-                <table class="table">
-                    <tr>
-                        <td>
-                            <button type="submit" class="btn btn-secondary">{% trans "Send" %}</button>
-                        </td>
-                        <td><a href="{% if status is None %}{% url "tutor_list_status_all" %}{% else %}
-{% url "tutor_list_status" status %}{% endif %}"
-                               class="btn btn-danger">{% trans "Cancel" %}</a></td>
-                    </tr>
-                </table>
+            <table class="table">
+                <tr>
+                    <td>
+                        <button
+                            type="submit"
+                            class="btn btn-secondary"
+                        >
+                            {% trans "Send" %}
+                        </button>
+                    </td>
+                    <td>
+                        <a
+                            href="{% if status is None %}{% url "tutor_list_status_all" %}{% else %}{% url "tutor_list_status" status %}{% endif %}"
+                            class="btn btn-danger"
+                        >
+                            {% trans "Cancel" %}
+                        </a>
+                    </td>
+                </tr>
+            </table>
 
-                {% bootstrap_form form %}
-            </form>
-        </div>
+            {% bootstrap_form form %}
+        </form>
     </div>
+</div>
 
-    <script type="text/javascript">
-        $('select[name="mail_template"]').on('change', document, function (_) {
-            {% if status is not None %}
-                location.href = "{% url "tutor_mail_status" status %}" + $(this).val();
-            {% else %}
-                location.href = "{% url "tutor_mail_tutor" tutor.id %}" + $(this).val();
-            {% endif %}
-        });
-    </script>
+{% if status is not None %}
+<script type="text/javascript">
+    $('select[name="mail_template"]').on('change', document, () => {
+        window.location.href = `{% url "tutor_mail_status" status %}${$(this).val()}`;
+    });
+</script>
+{% else %}
+<script type="text/javascript">
+    $('select[name="mail_template"]').on('change', document, () => {
+        window.location.href = `{% url "tutor_mail_tutor" tutor.id %}${$(this).val()}`;
+    });
+</script>
+{% endif %}
 {% endblock %}

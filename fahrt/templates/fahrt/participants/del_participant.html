@@ -4,22 +4,37 @@
 {% block  set_common_headercontent %}{% trans "Delete Participant" %}{% endblock %}
 
 {% block set_common_content %}
-    {% url "fahrt_viewparticipant" participant.id as viewparticipant %}
-    <p>
-        {% blocktranslate trimmed with name=participant url=viewparticipant %}
-            Do you really want to delete the participant <a href="{{ url }}">{{ name }}</a>?
-        {% endblocktranslate %}
-    </p>
-    <form method="post" action="">
-        {% csrf_token %}
+{% url "fahrt_viewparticipant" participant.id as viewparticipant %}
+<p>
+    {% blocktranslate trimmed with name=participant url=viewparticipant %}
+    Do you really want to delete the participant <a href="{{ url }}">{{ name }}</a>?
+    {% endblocktranslate %}
+</p>
+<form
+    method="post"
+    action=""
+>
+    {% csrf_token %}
 
-        <table class="table">
-            <tr>
-                <td>
-                    <button type="submit" class="btn btn-danger">{% trans "Delete" %}</button>
-                </td>
-                <td><a href="{{ viewparticipant }}" class="btn btn-secondary">{% trans "Cancel" %}</a></td>
-            </tr>
-        </table>
-    </form>
+    <table class="table">
+        <tr>
+            <td>
+                <button
+                    type="submit"
+                    class="btn btn-danger"
+                >
+                    {% trans "Delete" %}
+                </button>
+            </td>
+            <td>
+                <a
+                    href="{{ viewparticipant }}"
+                    class="btn btn-secondary"
+                >
+                    {% trans "Cancel" %}
+                </a>
+            </td>
+        </tr>
+    </table>
+</form>
 {% endblock %}

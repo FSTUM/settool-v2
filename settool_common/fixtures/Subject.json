@@ -1,18 +1,18 @@
 [
-{
-    "model": "settool_common.subject",
-    "pk": 1,
-    "fields": {
-        "degree": "BA",
-        "subject": "Info"
+    {
+        "model": "settool_common.subject",
+        "pk": 1,
+        "fields": {
+            "degree": "BA",
+            "subject": "Info"
+        }
+    },
+    {
+        "model": "settool_common.subject",
+        "pk": 2,
+        "fields": {
+            "degree": "MA",
+            "subject": "Mathe"
+        }
     }
-},
-{
-    "model": "settool_common.subject",
-    "pk": 2,
-    "fields": {
-        "degree": "MA",
-        "subject": "Mathe"
-    }
-}
 ]

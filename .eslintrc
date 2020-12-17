@@ -1,0 +1,14 @@
+{
+    "plugins": ["html", "jinja2"],
+    "extends": ["airbnb-base", "prettier", "plugin:prettier/recommended"],
+    "env": {
+        "browser": true,
+        "commonjs": true,
+        "jquery": true,
+        "es6": true
+    },
+    "rules": {
+        "jsx-a11y/label-has-associated-control": "off",
+        "import/no-cycle": "off"
+    }
+}

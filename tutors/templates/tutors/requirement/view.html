@@ -5,26 +5,24 @@
 {% block set_common_headercontent %}{% trans "Details for requirement " %} {{ requirement }}{% endblock %}
 
 {% block set_common_content %}
-    <table class="table table-hover">
-        <tr>
-            <th>{% trans "Question" %}</th>
-            <td>{{ requirement.question }}</td>
-        </tr>
-        {% if perms.tutor.edit_tutors %}
-            <tr>
-                <th>{% trans "Edit" %}</th>
-                <td>
-                    <a href="{% url "requirement_edit" requirement.id %}"><span
-                            class="glyphicon glyphicon-edit"></span></a>
-                </td>
-            </tr>
-            <tr>
-                <th>{% trans "Delete" %}</th>
-                <td>
-                    <a href="{% url "requirement_delete" requirement.id %}"><span
-                            class="glyphicon glyphicon-trash"></span></a>
-                </td>
-            </tr>
-        {% endif %}
-    </table>
+<table class="table table-hover">
+    <tr>
+        <th>{% trans "Question" %}</th>
+        <td>{{ requirement.question }}</td>
+    </tr>
+    {% if perms.tutor.edit_tutors %}
+    <tr>
+        <th>{% trans "Edit" %}</th>
+        <td>
+            <a href="{% url "requirement_edit" requirement.id %}"><span class="glyphicon glyphicon-edit"></span></a>
+        </td>
+    </tr>
+    <tr>
+        <th>{% trans "Delete" %}</th>
+        <td>
+            <a href="{% url "requirement_delete" requirement.id %}"><span class="glyphicon glyphicon-trash"></span></a>
+        </td>
+    </tr>
+    {% endif %}
+</table>
 {% endblock %}

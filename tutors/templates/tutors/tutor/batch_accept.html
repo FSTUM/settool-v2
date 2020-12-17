@@ -5,30 +5,41 @@
 {% block set_common_headercontent %}{% trans "Batch accept tutors" %}{% endblock %}
 
 {% block set_common_content %}
-    <div class="row">
-        <div class="col-sm-12">
-            <p>
-                {% trans "Do you really want to accept the following tutors?" %}
-            </p>
+<div class="row">
+    <div class="col-sm-12">
+        <p>
+            {% trans "Do you really want to accept the following tutors?" %}
+        </p>
 
-            <form method="post" action="">
-                {% csrf_token %}
+        <form
+            method="post"
+            action=""
+        >
+            {% csrf_token %}
 
-                <table class="table">
-                    <tr>
-                        <td>
-                            <button type="submit" class="btn btn-danger">{% trans "Accept" %}</button>
-                        </td>
-                        <td>
-                            <a href="{% url "tutor_list_status" "active" %}" class="btn btn-secondary">
-                                {% trans "Cancel" %}
-                            </a>
-                        </td>
-                    </tr>
-                </table>
+            <table class="table">
+                <tr>
+                    <td>
+                        <button
+                            type="submit"
+                            class="btn btn-danger"
+                        >
+                            {% trans "Accept" %}
+                        </button>
+                    </td>
+                    <td>
+                        <a
+                            href="{% url "tutor_list_status" "active" %}"
+                            class="btn btn-secondary"
+                        >
+                            {% trans "Cancel" %}
+                        </a>
+                    </td>
+                </tr>
+            </table>
 
-                {% bootstrap_form form %}
-            </form>
-        </div>
+            {% bootstrap_form form %}
+        </form>
     </div>
+</div>
 {% endblock %}

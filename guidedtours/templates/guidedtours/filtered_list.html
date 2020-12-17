@@ -3,34 +3,45 @@
 {% load bootstrap4 %}
 
 {% block head %}
-    <script>
-        $(document).ready(function () {
-            $("#fahrtTable").DataTable();
-        });
-    </script>
+<script>
+    $(document).ready(() => {
+        $('fahrtTable').DataTable();
+    });
+</script>
 {% endblock %}
 
 {% block set_common_headercontent %}{% trans "Filtered participants" %}{% endblock %}
 
 {% block set_common_content %}
-    <form method="post" action="">
-        {% csrf_token %}
-        {{ participantforms.management_form }}
+<form
+    method="post"
+    action=""
+>
+    {% csrf_token %}
+    {{ participantforms.management_form }}
 
-        <div class="row">
-            <div class="col-xs-12 col-lg-5">
-                {% bootstrap_form form %}
-                <p>
-                    <button type="submit" name="mailform"
-                            class="btn btn-secondary">{% trans "Send emails" %}</button>
-                </p>
-            </div>
+    <div class="row">
+        <div class="col-xs-12 col-lg-5">
+            {% bootstrap_form form %}
+            <p>
+                <button
+                    type="submit"
+                    name="mailform"
+                    class="btn btn-secondary"
+                >
+                    {% trans "Send emails" %}
+                </button>
+            </p>
         </div>
+    </div>
 
-        <p></p>
-        <div class="table-responsive">
-            <table id="fahrtTable" class="table dataTable">
-                <thead>
+    <p></p>
+    <div class="table-responsive">
+        <table
+            id="fahrtTable"
+            class="table dataTable"
+        >
+            <thead>
                 <tr>
                     <th></th>
                     <th>{% trans "First name" %}</th>
@@ -38,26 +49,30 @@
                     <th>{% trans "Subject" %}</th>
                     <th>{% trans "Status" %}</th>
                 </tr>
-                </thead>
-                <tbody>
+            </thead>
+            <tbody>
                 {% for participant, select in participants %}
-                    <tr>
-                        <td>
-                            {{ select.id.as_hidden }}
-                            {{ select.selected }}
-                        </td>
-                        <td>
-                            {{ participant.firstname }}
-                        </td>
-                        <td>
-                            {{ participant.surname }}
-                        </td>
-                        <td>{{ participant.subject }}</td>
-                        <td>{{ participant.status }}</td>
-                    </tr>
+                <tr>
+                    <td>
+                        {{ select.id.as_hidden }}
+                        {{ select.selected }}
+                    </td>
+                    <td>
+                        {{ participant.firstname }}
+                    </td>
+                    <td>
+                        {{ participant.surname }}
+                    </td>
+                    <td>
+                        {{ participant.subject }}
+                    </td>
+                    <td>
+                        {{ participant.status }}
+                    </td>
+                </tr>
                 {% endfor %}
-                </tbody>
-            </table>
-        </div>
-    </form>
+            </tbody>
+        </table>
+    </div>
+</form>
 {% endblock %}
