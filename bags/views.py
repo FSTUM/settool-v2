@@ -176,7 +176,13 @@ def update_field(request, company_pk, field):
         private_key = form.cleaned_data["pk"]
         name = form.cleaned_data["name"]
         value = form.cleaned_data["value"]
-
+        str_to_bool_map = {
+            "True": True,
+            "False": False,
+            "None": None,
+        }
+        if value in str_to_bool_map.keys():
+            value = str_to_bool_map[value]
         if private_key != company.pk or name != f"company_{company.pk}_{field}":
             return HttpResponseBadRequest("")
 
