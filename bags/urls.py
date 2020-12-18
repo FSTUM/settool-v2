@@ -1,76 +1,85 @@
-from django.conf.urls import url
+from django.urls import include
+from django.urls import path
+from django.urls import re_path
 from django.views.generic import RedirectView
 
 from . import views
 
 urlpatterns = [
-    url(
-        r"^$",
+    path(
+        "",
         RedirectView.as_view(pattern_name="bags_dashboard"),
         name="bags_main_index",
     ),
-    url(
-        r"^add/$",
+    path(
+        "add/",
         views.add,
         name="addcompany",
     ),
-    url(
-        r"^view/(?P<company_pk>[0-9]+)/$",
+    path(
+        "view/<int:company_pk>/",
         views.view,
         name="viewcompany",
     ),
-    url(
-        r"^edit/(?P<company_pk>[0-9]+)/$",
+    path(
+        "edit/<int:company_pk>/",
         views.edit,
         name="editcompany",
     ),
-    url(
-        r"^del/(?P<company_pk>[0-9]+)/$",
+    path(
+        "del/<int:company_pk>/",
         views.delete,
         name="delcompany",
     ),
-    url(
-        r"^dashboard$",
+    path(
+        "dashboard/",
         views.bags_dashboard,
         name="bags_dashboard",
     ),
-    url(
-        r"^giveaways/$",
+    path(
+        "giveaways/",
         views.insert_giveaways,
         name="insert_giveaways",
     ),
-    url(
-        r"^import/$",
+    path(
+        "import/",
         views.import_companies,
         name="import_companies",
     ),
-    url(
-        r"^emails/$",
-        views.index_mails,
-        name="listmails",
+    path(
+        "emails/",
+        include(
+            [
+                path(
+                    "",
+                    views.index_mails,
+                    name="listmails",
+                ),
+                path(
+                    "add/",
+                    views.add_mail,
+                    name="addmail",
+                ),
+                path(
+                    "edit/<int:mail_pk>/",
+                    views.edit_mail,
+                    name="editmail",
+                ),
+                path(
+                    "del/<int:mail_pk>/",
+                    views.delete_mail,
+                    name="delmail",
+                ),
+                path(
+                    "send/<int:mail_pk>/",
+                    views.send_mail,
+                    name="sendmail",
+                ),
+            ],
+        ),
     ),
-    url(
-        r"^emails/add/$",
-        views.add_mail,
-        name="addmail",
-    ),
-    url(
-        r"^emails/edit/(?P<mail_pk>[0-9]+)/$",
-        views.edit_mail,
-        name="editmail",
-    ),
-    url(
-        r"^emails/del/(?P<mail_pk>[0-9]+)/$",
-        views.delete_mail,
-        name="delmail",
-    ),
-    url(
-        r"^emails/send/(?P<mail_pk>[0-9]+)/$",
-        views.send_mail,
-        name="sendmail",
-    ),
-    url(
-        r"^update/(?P<company_pk>[0-9]+)/(?P<field>[a-z_]+)/$",
+    re_path(
+        r"^update/(?P<company_pk>[0-9]+)/(?P<field>[a-z_]+)/",
         views.update_field,
         name="updatecompany",
     ),
