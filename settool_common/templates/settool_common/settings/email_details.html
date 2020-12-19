@@ -1,4 +1,4 @@
-{% extends "settool_common/settings/settings.html" %}
+{% extends "settool_common/settings/base_settings.html" %}
 {% load i18n %}
 {% load bootstrap4 %}
 
@@ -16,7 +16,7 @@
 {{ mail }}
 {% endblock %}
 
-{% block setings %}
+{% block set_common_content %}
 <div class="table-responsive">
     <table
         id="mailDetailsTable"

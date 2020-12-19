@@ -5,6 +5,12 @@
 
 {% block set_common_navigation %}
 {% if perms.set %}
+<a
+    class="nav-link {% active_link 'settings_dashboard' %}"
+    href="{% url 'settings_dashboard' %}"
+>
+    {% trans "Dashboard" %}
+</a>
 <h4 class="navbar-text">{% trans "Email-Templates" %}</h4>
 <a
     class="nav-link {% active_link 'mail_list' %}"
@@ -18,13 +24,6 @@
 >
     {% trans "Add template" %}
 </a>
-{% endif %}
-{% endblock %}
-
-{% block set_common_content %}
-{% if perms.set %}
-{% block setings %}
-{% endblock %}
 {% else %}
 Sorry, but you have no Settings
 {% endif %}

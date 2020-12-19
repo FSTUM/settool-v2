@@ -1,4 +1,4 @@
-{% extends "settool_common/settings/settings.html" %}
+{% extends "settool_common/settings/base_settings.html" %}
 {% load i18n %}
 {% load bootstrap4 %}
 
@@ -8,7 +8,7 @@
 {% trans "Add email" %}
 {% endblock %}
 
-{% block setings %}
+{% block set_common_content %}
 <form
     method="post"
     action=""
@@ -21,25 +21,17 @@
         </div>
     </div>
 
-    <table class="table">
-        <tr>
-            <td>
-                <button
-                    type="submit"
-                    class="btn btn-primary"
-                >
-                    {% trans "Submit" %}
-                </button>
-            </td>
-            <td>
-                <a
-                    href="{% url "mail_list" %}"
-                    class="btn btn-secondary"
-                >
-                    {% trans "Cancel" %}
-                </a>
-            </td>
-        </tr>
-    </table>
+    <button
+        type="submit"
+        class="btn btn-primary"
+    >
+        {% trans "Submit" %}
+    </button>
+    <a
+        href="{% url "mail_list" %}"
+        class="btn btn-secondary"
+    >
+        {% trans "Cancel" %}
+    </a>
 </form>
 {% endblock %}

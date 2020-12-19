@@ -1,4 +1,4 @@
-{% extends "settool_common/settings/settings.html" %}
+{% extends "settool_common/settings/base_settings.html" %}
 {% load i18n %}
 {% load bootstrap4 %}
 
@@ -7,7 +7,8 @@
 {% block set_common_headercontent %}
 {% trans "Edit email" %}: {{ mail.subject }}
 {% endblock %}
-{% block setings %}
+
+{% block set_common_content %}
 <form
     method="post"
     action=""

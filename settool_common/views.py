@@ -1,3 +1,5 @@
+from typing import List
+
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.decorators import permission_required
 from django.forms import forms
@@ -133,3 +135,17 @@ def mail_send(request, private_key):
     if failed_participants:
         return render(request, "settool_common/mail/send_email_failure.html", context)
     return render(request, "settool_common/mail/send_email_confirmation.html", context)
+
+
+@permission_required("set.mail")
+def dashboard(request):
+    mail_template_count: List[int] = []
+    mail_template_sender: List[str] = []
+    for mail_sender_explicite, _ in Mail.FROM_CHOICES:
+        mail_template_count.append(Mail.objects.filter(sender=mail_sender_explicite).count())
+        mail_template_sender.append(mail_sender_explicite)
+    context = {
+        "mail_template_count": mail_template_count,
+        "mail_template_sender": mail_template_sender,
+    }
+    return render(request, "settool_common/settings/settings_dashboard.html", context)

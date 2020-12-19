@@ -225,6 +225,23 @@ msgstr "E-Mail hinzufügen"
 msgid "Submit"
 msgstr "Eintragen"
 
+#: settool_common/templates/settool_common/settings/base_settings.html
+#: settool_common/templates/settool_common/settings/settings_dashboard.html
+msgid "Dashboard"
+msgstr "Dashboard"
+
+#: settool_common/templates/settool_common/settings/base_settings.html
+msgid "Email-Templates"
+msgstr "E-Mail-Vorlagen"
+
+#: settool_common/templates/settool_common/settings/base_settings.html
+msgid "All templates"
+msgstr "Alle E-Mail-Vorlagen"
+
+#: settool_common/templates/settool_common/settings/base_settings.html
+msgid "Add template"
+msgstr "E-Mail-Vorlage hinzufügen"
+
 #: settool_common/templates/settool_common/settings/delete_email.html
 msgid "Delete email"
 msgstr "E-Mail löschen"
@@ -262,17 +279,11 @@ msgstr "E-Mail Betreff"
 msgid "actions"
 msgstr "Aktionen"
 
-#: settool_common/templates/settool_common/settings/settings.html
-msgid "Email-Templates"
+#: settool_common/templates/settool_common/settings/settings_dashboard.html
+#, fuzzy
+#| msgid "Email-Templates"
+msgid "Email-templates by sender"
 msgstr "E-Mail-Vorlagen"
-
-#: settool_common/templates/settool_common/settings/settings.html
-msgid "All templates"
-msgstr "Alle E-Mail-Vorlagen"
-
-#: settool_common/templates/settool_common/settings/settings.html
-msgid "Add template"
-msgstr "E-Mail-Vorlage hinzufügen"
 
 #~ msgid "Hello %(username)s!"
 #~ msgstr "Hallo %(username)s!"
