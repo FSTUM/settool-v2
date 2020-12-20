@@ -12,13 +12,13 @@
     {% csrf_token %}
 
     <div class="row">
-        <div class="col-lg-12 form-horizontal">
+        <div class="col form-horizontal">
             {{ form_set.management_form }}
             {% for form in form_set %}
-            <div class="row">
-                {% bootstrap_form_errors form %}
-                {% bootstrap_form form layout='horizontal' %}
-            </div>
+
+            {% bootstrap_form_errors form %}
+            {% bootstrap_form form layout='horizontal' %}
+
             {% if not forloop.last %}
             <hr>
             {% endif %}
@@ -26,25 +26,17 @@
         </div>
     </div>
 
-    <table class="table">
-        <tr>
-            <td>
-                <button
-                    type="submit"
-                    class="btn btn-primary"
-                >
-                    {% trans "Submit" %}
-                </button>
-            </td>
-            <td>
-                <a
-                    href="{% url "tutors_settings_tutors" %}"
-                    class="btn btn-secondary"
-                >
-                    {% trans "Cancel" %}
-                </a>
-            </td>
-        </tr>
-    </table>
+    <button
+        type="submit"
+        class="btn btn-primary"
+    >
+        {% trans "Submit" %}
+    </button>
+    <a
+        href="{% url "tutor_main_index" %}"
+        class="btn btn-secondary"
+    >
+        {% trans "Cancel" %}
+    </a>
 </form>
 {% endblock %}
