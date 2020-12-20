@@ -163,7 +163,7 @@
                     <th><span class="glyphicon glyphicon-ok-circle"></span></th>
                     <th>{% trans "Company" %}</th>
                     <th>{% trans "Contact" %}</th>
-                    <th>{% trans "E-Mail" %}</th>
+                    <th>{% trans "Email" %}</th>
                     <th>{% trans "sent" %}</th>
                     <th>{% trans "successfully sent" %}</th>
                     <th>{% trans "Promise" %}</th>
@@ -198,7 +198,7 @@
                             id="company_{{ company.id }}_email"
                             data-type="text"
                             data-pk="{{ company.id }}"
-                            data-title='{% trans "E-Mail" %}'
+                            data-title='{% trans "Email" %}'
                             data-url='{% url "updatecompany" company.id "email" %}'
                             data-params="{csrfmiddlewaretoken:'{{ csrf_token }}'}"
                         >
