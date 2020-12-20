@@ -171,26 +171,31 @@ msgstr ""
 "Herr/Frau XYZ\" und {{formale_anrede}} für die formale Anrede \"Sehr geehrte/"
 "r Herr/Frau XYZ\" verwenden."
 
-#: bags/templates/bags/add_company.html
+#: bags/templates/bags/add_company.html bags/templates/bags/base_bags.html
 msgid "Add a company"
 msgstr "Firma hinzufügen"
 
-#: bags/templates/bags/add_company.html bags/templates/bags/add_mail.html
-#: bags/templates/bags/edit_company.html bags/templates/bags/edit_mail.html
-#: bags/templates/bags/insert_giveaways.html
+#: bags/templates/bags/add_company.html bags/templates/bags/add_giveaway.html
+#: bags/templates/bags/add_mail.html bags/templates/bags/edit_company.html
+#: bags/templates/bags/edit_mail.html
 msgid "Submit"
 msgstr "Eintragen"
 
-#: bags/templates/bags/add_company.html bags/templates/bags/add_mail.html
-#: bags/templates/bags/del_company.html bags/templates/bags/del_mail.html
-#: bags/templates/bags/edit_company.html bags/templates/bags/edit_mail.html
-#: bags/templates/bags/import_companies.html
-#: bags/templates/bags/index_mails.html
-#: bags/templates/bags/insert_giveaways.html bags/templates/bags/send_mail.html
+#: bags/templates/bags/add_company.html bags/templates/bags/add_giveaway.html
+#: bags/templates/bags/add_mail.html bags/templates/bags/del_company.html
+#: bags/templates/bags/del_mail.html bags/templates/bags/edit_company.html
+#: bags/templates/bags/edit_mail.html bags/templates/bags/import_companies.html
+#: bags/templates/bags/index_mails.html bags/templates/bags/send_mail.html
 msgid "Cancel"
 msgstr "Abbrechen"
 
-#: bags/templates/bags/add_mail.html
+#: bags/templates/bags/add_giveaway.html bags/templates/bags/base_bags.html
+#, fuzzy
+#| msgid "Giveaways"
+msgid "Add a giveaway"
+msgstr "Giveaways"
+
+#: bags/templates/bags/add_mail.html bags/templates/bags/index_mails.html
 msgid "Add email"
 msgstr "E-Mail-Vorlage hinzufügen"
 
@@ -228,8 +233,10 @@ msgstr "Kontakt"
 #: bags/templates/bags/bags_dashboard.html
 #: bags/templates/bags/filtered_index.html bags/templates/bags/send_mail.html
 #: bags/templates/bags/view.html
-msgid "E-Mail"
-msgstr "E-Mail"
+#, fuzzy
+#| msgid "Add Email"
+msgid "Email"
+msgstr "E-Mail-Vorlage hinzufügen"
 
 #: bags/templates/bags/bags_dashboard.html
 #: bags/templates/bags/filtered_index.html bags/templates/bags/send_mail.html
@@ -264,24 +271,20 @@ msgstr "Dashboard"
 msgid "General"
 msgstr "Gereral"
 
-#: bags/templates/bags/base_bags.html bags/templates/bags/filtered_index.html
-msgid "Add Company"
-msgstr "Firma hinzufügen"
-
-#: bags/templates/bags/base_bags.html bags/templates/bags/insert_giveaways.html
-msgid "Insert Giveaways"
-msgstr "Giveaways einfügen"
-
-#: bags/templates/bags/base_bags.html bags/templates/bags/filtered_index.html
-msgid "Edit Email Templates"
-msgstr "E-Mail-Vorlage bearbeiten"
+#: bags/templates/bags/base_bags.html
+#, fuzzy
+#| msgid "List email templates"
+msgid "Edit email-templates"
+msgstr "E-Mail-Vorlagen"
 
 #: bags/templates/bags/base_bags.html
 msgid "Importing"
 msgstr "Importieren"
 
-#: bags/templates/bags/base_bags.html bags/templates/bags/import_companies.html
-msgid "Import Companies"
+#: bags/templates/bags/base_bags.html
+#, fuzzy
+#| msgid "Import Companies"
+msgid "Import companies"
 msgstr "Firmen importieren"
 
 #: bags/templates/bags/del_company.html
@@ -322,10 +325,24 @@ msgstr "Firma bearbeiten"
 msgid "Edit email"
 msgstr "E-Mail-Vorlage bearbeiten"
 
+#: bags/templates/bags/filtered_index.html
+#, fuzzy
+#| msgid "Edit Email Templates"
+msgid "Edit email Templates"
+msgstr "E-Mail-Vorlage bearbeiten"
+
+#: bags/templates/bags/filtered_index.html
+msgid "Add Company"
+msgstr "Firma hinzufügen"
+
 #: bags/templates/bags/filtered_index.html bags/templates/bags/send_mail.html
 #: bags/templates/bags/view.html
 msgid "Edit"
 msgstr "Bearbeiten"
+
+#: bags/templates/bags/import_companies.html
+msgid "Import Companies"
+msgstr "Firmen importieren"
 
 #: bags/templates/bags/import_companies.html
 msgid "Import"
@@ -334,10 +351,6 @@ msgstr "Importieren"
 #: bags/templates/bags/index_mails.html
 msgid "List email templates"
 msgstr "E-Mail-Vorlagen"
-
-#: bags/templates/bags/index_mails.html
-msgid "Add Email"
-msgstr "E-Mail-Vorlage hinzufügen"
 
 #: bags/templates/bags/send_mail.html
 msgid "Send email"
@@ -372,6 +385,12 @@ msgstr "Firmendetails"
 #: bags/templates/bags/view.html
 msgid "Back"
 msgstr "Zurück"
+
+#~ msgid "E-Mail"
+#~ msgstr "E-Mail"
+
+#~ msgid "Insert Giveaways"
+#~ msgstr "Giveaways einfügen"
 
 #~ msgid "Freshmen bags"
 #~ msgstr "Erstitüten"

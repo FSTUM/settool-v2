@@ -54,8 +54,8 @@
 </div>
 
 <script type="text/javascript">
-    $('select[name="mail_template"]').on('change', document, () => {
-        window.location.href = `{% url "task_mail" task.id %}${$(this).val()}`;
-    });
-</script>
+        $('select[name="mail_template"]').on('change', document, () => {
+            window.location.href = `{% url "task_mail" task.id %}${$(this).val()}`;
+        });
+    </script>
 {% endblock %}

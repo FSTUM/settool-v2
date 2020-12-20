@@ -77,20 +77,20 @@ msgstr "Auf Mailingliste"
 msgid "Status"
 msgstr "Status"
 
-#: fahrt/forms.py fahrt/models.py fahrt/templates/fahrt/base_fahrt.html
+#: fahrt/forms.py fahrt/models.py
 msgid "registered"
 msgstr "registriert"
 
-#: fahrt/forms.py fahrt/models.py fahrt/templates/fahrt/base_fahrt.html
+#: fahrt/forms.py fahrt/models.py
 msgid "confirmed"
 msgstr "bestätigt"
 
-#: fahrt/forms.py fahrt/models.py fahrt/templates/fahrt/base_fahrt.html
+#: fahrt/forms.py fahrt/models.py
 #: fahrt/templates/fahrt/participants/view_participant_details.html
 msgid "waitinglist"
 msgstr "Warteliste"
 
-#: fahrt/forms.py fahrt/models.py fahrt/templates/fahrt/base_fahrt.html
+#: fahrt/forms.py fahrt/models.py
 msgid "cancelled"
 msgstr "abgesagt"
 
@@ -280,6 +280,30 @@ msgid "Participants"
 msgstr "Teilnehmer"
 
 #: fahrt/templates/fahrt/base_fahrt.html
+#, fuzzy
+#| msgid "Filtered participants"
+msgid "Registered participants"
+msgstr "Gefilterte Teilnehmer"
+
+#: fahrt/templates/fahrt/base_fahrt.html
+#, fuzzy
+#| msgid "List confirmed participants"
+msgid "Confirmed participants"
+msgstr "Bestätigte Teilnehmer auflisten"
+
+#: fahrt/templates/fahrt/base_fahrt.html
+#, fuzzy
+#| msgid "waitinglist"
+msgid "Waitinglist "
+msgstr "Warteliste"
+
+#: fahrt/templates/fahrt/base_fahrt.html
+#, fuzzy
+#| msgid "List cancelled participants"
+msgid "Cancelled participants"
+msgstr "Abgesagte Teilnehmer auflisten"
+
+#: fahrt/templates/fahrt/base_fahrt.html
 msgid "Mails"
 msgstr "E-Mails"
 
@@ -289,7 +313,9 @@ msgid "List email templates"
 msgstr "E-Mail-Vorlagen auflisten"
 
 #: fahrt/templates/fahrt/base_fahrt.html
-msgid "Filter participants/Send emails"
+#, fuzzy
+#| msgid "Filter participants/Send emails"
+msgid "Filter participants/ Send emails"
 msgstr "Teilnehmer filtern/E-Mails senden"
 
 #: fahrt/templates/fahrt/base_fahrt.html
@@ -318,6 +344,7 @@ msgstr "E-Mail hinzufügen"
 #: fahrt/templates/fahrt/mail/send_mail.html
 #: fahrt/templates/fahrt/participants/del_participant.html
 #: fahrt/templates/fahrt/participants/edit_participants.html
+#: fahrt/templates/fahrt/participants/view_participant_details.html
 #: fahrt/templates/fahrt/standalone/edit_mail.html
 msgid "Cancel"
 msgstr "Abbrechen"
@@ -342,7 +369,9 @@ msgid "Filter participants"
 msgstr "Teilnehmer filtern"
 
 #: fahrt/templates/fahrt/mail/filter_participants_send_mail.html
-msgid "filter"
+#, fuzzy
+#| msgid "filter"
+msgid "Filter"
 msgstr "filtern"
 
 #: fahrt/templates/fahrt/mail/list_filtered_participants_send_mail.html
@@ -484,10 +513,6 @@ msgid "confirm"
 msgstr "bestätigen"
 
 #: fahrt/templates/fahrt/participants/view_participant_details.html
-msgid "cancel"
-msgstr "abbrechen"
-
-#: fahrt/templates/fahrt/participants/view_participant_details.html
 msgid "Edit"
 msgstr "Bearbeiten"
 
@@ -547,6 +572,9 @@ msgid ""
 msgstr ""
 "Du wirst alle weiteren Informationen per E-Mail erhalten. Dies kann etwas "
 "dauern, da wir deine Anmeldung manuell überprüfen."
+
+#~ msgid "cancel"
+#~ msgstr "abbrechen"
 
 #~ msgid "Change Date"
 #~ msgstr "Datum ändern"

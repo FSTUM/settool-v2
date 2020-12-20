@@ -120,7 +120,7 @@ def insert_giveaways(request):
     context = {
         "form": form,
     }
-    return render(request, "bags/insert_giveaways.html", context)
+    return render(request, "bags/add_giveaway.html", context)
 
 
 @permission_required("bags.view_companies")

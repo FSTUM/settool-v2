@@ -284,16 +284,32 @@ msgid "Events"
 msgstr "Events"
 
 #: tutors/templates/tutors/base_tutors.html
-msgid "All"
-msgstr "Alle"
+#, fuzzy
+#| msgid "List of Events"
+msgid "List all events"
+msgstr "Liste der Events"
 
 #: tutors/templates/tutors/base_tutors.html
-msgid "Add"
-msgstr "Hinzufügen"
+#, fuzzy
+#| msgid "Add Event"
+msgid "Add an event"
+msgstr "Event Hinzufügen"
 
 #: tutors/templates/tutors/base_tutors.html
 msgid "Tasks"
 msgstr "Tasks"
+
+#: tutors/templates/tutors/base_tutors.html
+#, fuzzy
+#| msgid "List of Tasks"
+msgid "List all tasks"
+msgstr "Liste der Tasks"
+
+#: tutors/templates/tutors/base_tutors.html
+#, fuzzy
+#| msgid "Add Task"
+msgid "Add a task"
+msgstr "Task Hinzufügen"
 
 #: tutors/templates/tutors/base_tutors.html
 #: tutors/templates/tutors/task/delete.html
@@ -302,32 +318,68 @@ msgid "Tutors"
 msgstr "Tutoren"
 
 #: tutors/templates/tutors/base_tutors.html
-msgid "Accepted"
-msgstr "Angenommen"
+#, fuzzy
+#| msgid "List Tutors"
+msgid "All tutors"
+msgstr "Liste der Tutoren"
 
 #: tutors/templates/tutors/base_tutors.html
-msgid "Open"
-msgstr "Offen"
+#, fuzzy
+#| msgid "# Accepted Tutors"
+msgid "Accepted tutors"
+msgstr "# Angenommene Tutoren"
 
 #: tutors/templates/tutors/base_tutors.html
-msgid "Declined"
-msgstr "Abgelehnt"
+#, fuzzy
+#| msgid "List Tutors"
+msgid "Open tutors"
+msgstr "Liste der Tutoren"
 
 #: tutors/templates/tutors/base_tutors.html
-msgid "Inactive"
-msgstr "Email-Verifikation ausstehend"
+#, fuzzy
+#| msgid "Batch decline tutors"
+msgid "Declined tutors"
+msgstr "Alle Tutoren ablehnen"
 
 #: tutors/templates/tutors/base_tutors.html
-msgid "Employees"
+#, fuzzy
+#| msgid "List Tutors"
+msgid "Inactive tutors"
+msgstr "Liste der Tutoren"
+
+#: tutors/templates/tutors/base_tutors.html
+#, fuzzy
+#| msgid "Employees"
+msgid "List employees"
 msgstr "Employees"
+
+#: tutors/templates/tutors/base_tutors.html
+#, fuzzy
+#| msgid "List of Requirements"
+msgid "List all requirements"
+msgstr "Liste der Voraussetzungen"
+
+#: tutors/templates/tutors/base_tutors.html
+#, fuzzy
+#| msgid "Add Requirement"
+msgid "Add a requirement"
+msgstr "Voraussetzung hinzufügen"
 
 #: tutors/templates/tutors/base_tutors.html
 msgid "Settings"
 msgstr "Einstellungen"
 
 #: tutors/templates/tutors/base_tutors.html
-msgid "General"
-msgstr "Allgemein"
+#, fuzzy
+#| msgid "General Settings"
+msgid "General settings"
+msgstr "Allgemeine Einstellungen"
+
+#: tutors/templates/tutors/base_tutors.html
+#, fuzzy
+#| msgid "Tutor Settings"
+msgid "Tutor settings"
+msgstr "Tutor Einstellungen"
 
 #: tutors/templates/tutors/base_tutors.html
 msgid "You dont have permission to view this page"
@@ -467,7 +519,9 @@ msgid "Add Task"
 msgstr "Task Hinzufügen"
 
 #: tutors/templates/tutors/requirement/add.html
-msgid "Add Requirement"
+#, fuzzy
+#| msgid "Add Requirement"
+msgid "Add a Requirement"
 msgstr "Voraussetzung hinzufügen"
 
 #: tutors/templates/tutors/requirement/delete.html
@@ -533,6 +587,8 @@ msgid "# Tutors"
 msgstr "# Tutoren"
 
 #: tutors/templates/tutors/task/mail.html
+#: tutors/templates/tutors/tutor/list.html
+#: tutors/templates/tutors/tutor/view.html
 msgid "Send email"
 msgstr "Email senden"
 
@@ -694,11 +750,6 @@ msgid "T-Shirt List"
 msgstr "T-Shirt Liste"
 
 #: tutors/templates/tutors/tutor/list.html
-#: tutors/templates/tutors/tutor/view.html
-msgid "Send Email"
-msgstr "Email senden"
-
-#: tutors/templates/tutors/tutor/list.html
 msgid "Batch Accept"
 msgstr "Alle Akzeptieren"
 
@@ -822,6 +873,40 @@ msgstr "Zugewiesene Tasks"
 #: tutors/templates/tutors/tutor/view.html
 msgid "Email log"
 msgstr "E-Mail Log"
+
+#, fuzzy
+#~| msgid "Batch accept tutors"
+#~ msgid "List accepted tutors"
+#~ msgstr "Alle Tutoren akzeptieren"
+
+#, fuzzy
+#~| msgid "List of Requirements"
+#~ msgid "List a requirement"
+#~ msgstr "Liste der Voraussetzungen"
+
+#~ msgid "All"
+#~ msgstr "Alle"
+
+#~ msgid "Add"
+#~ msgstr "Hinzufügen"
+
+#~ msgid "Accepted"
+#~ msgstr "Angenommen"
+
+#~ msgid "Open"
+#~ msgstr "Offen"
+
+#~ msgid "Declined"
+#~ msgstr "Abgelehnt"
+
+#~ msgid "Inactive"
+#~ msgstr "Email-Verifikation ausstehend"
+
+#~ msgid "General"
+#~ msgstr "Allgemein"
+
+#~ msgid "Send Email"
+#~ msgstr "Email senden"
 
 #~ msgid "Requirement Details"
 #~ msgstr "Voraussetzung Details"

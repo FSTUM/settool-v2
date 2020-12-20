@@ -30,25 +30,25 @@
     class="nav-link {% active_link 'fahrt_list_registered' %}"
     href="{% url 'fahrt_list_registered' %}"
 >
-    {% trans "registered" %}
+    {% trans "Registered participants" %}
 </a>
 <a
     class="nav-link {% active_link 'fahrt_list_confirmed' %}"
     href="{% url 'fahrt_list_confirmed' %}"
 >
-    {% trans "confirmed" %}
+    {% trans "Confirmed participants" %}
 </a>
 <a
     class="nav-link {% active_link 'fahrt_list_waitinglist' %}"
     href="{% url 'fahrt_list_waitinglist' %}"
 >
-    {% trans "waitinglist" %}
+    {% trans "Waitinglist " %}
 </a>
 <a
     class="nav-link {% active_link 'fahrt_list_cancelled' %}"
     href="{% url 'fahrt_list_cancelled' %}"
 >
-    {% trans "cancelled" %}
+    {% trans "Cancelled participants" %}
 </a>
 
 <h4 class="navbar-text">{% trans "Mails" %}</h4>
@@ -62,7 +62,7 @@
     class="nav-link {% active_link 'fahrt_filter' %}"
     href="{% url 'fahrt_filter' %}"
 >
-    {% trans "Filter participants/Send emails" %}
+    {% trans "Filter participants/ Send emails" %}
 </a>
 <a
     class="nav-link {% active_link 'fahrt_addmail' %}"

@@ -84,7 +84,6 @@ msgid "Surname"
 msgstr "Nachname"
 
 #: guidedtours/models.py
-#: guidedtours/templates/guidedtours/list_tour-participants.html
 msgid "E-Mail"
 msgstr "E-Mail"
 
@@ -244,7 +243,9 @@ msgid "Filter participants"
 msgstr "Teilnehmer filtern"
 
 #: guidedtours/templates/guidedtours/filter_participants.html
-msgid "filter"
+#, fuzzy
+#| msgid "filter"
+msgid "Filter"
 msgstr "filtern"
 
 #: guidedtours/templates/guidedtours/filtered_list.html
@@ -265,8 +266,20 @@ msgid "Last name"
 msgstr "Nachname"
 
 #: guidedtours/templates/guidedtours/list_tour-participants.html
+#, fuzzy
+#| msgid "E-Mail"
+msgid "EMail"
+msgstr "E-Mail"
+
+#: guidedtours/templates/guidedtours/list_tour-participants.html
 msgid "Waiting list"
 msgstr "Warteliste"
+
+#: guidedtours/templates/guidedtours/list_tour-participants.html
+#, fuzzy
+#| msgid "Edit email"
+msgid "Email"
+msgstr "E-Mail-Vorlage bearbeiten"
 
 #: guidedtours/templates/guidedtours/list_tour-participants.html
 msgid "Edit"
