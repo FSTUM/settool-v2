@@ -1,7 +1,10 @@
+from typing import Dict
 from typing import List
+from typing import Union
 
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.decorators import permission_required
+from django.db.models import Count
 from django.forms import forms
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404
@@ -139,13 +142,14 @@ def mail_send(request, private_key):
 
 @permission_required("set.mail")
 def dashboard(request):
-    mail_template_count: List[int] = []
-    mail_template_sender: List[str] = []
-    for mail_sender_explicite, _ in Mail.FROM_CHOICES:
-        mail_template_count.append(Mail.objects.filter(sender=mail_sender_explicite).count())
-        mail_template_sender.append(mail_sender_explicite)
+    mail_templates_by_sender: List[Dict[str, Union[str, int]]] = (
+        Mail.objects.values("sender")
+        .annotate(sender_count=Count("sender"))
+        .order_by("-sender_count")
+    )
+
     context = {
-        "mail_template_count": mail_template_count,
-        "mail_template_sender": mail_template_sender,
+        "mail_template_sender": [sender["sender"] for sender in mail_templates_by_sender],
+        "mail_template_count": [sender["sender_count"] for sender in mail_templates_by_sender],
     }
     return render(request, "settool_common/settings/settings_dashboard.html", context)
