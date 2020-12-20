@@ -5,5 +5,37 @@
 {% block  set_common_headercontent %}{% trans "Dashboard" %}{% endblock %}
 
 {% block set_common_content %}
-<h1>TODO</h1>
+<h5 class="card-title">{% trans "Patricipants by status" %}</h5>
+<div
+    class="chart-container"
+    style="position: relative; height:40vh; width:80vw"
+>
+    <canvas id='participants_by_group_chart'></canvas>
+</div>
+{% endblock %}
+
+{% block defered_script %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+<script>
+        /* global Chart */
+        const ctx = document.getElementById('participants_by_group_chart').getContext('2d');
+
+        /* eslint no-new: off */
+        new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                labels: {{ participants_by_group_labels|safe }},
+                datasets: [
+                    {
+                        label: 'Email Templates by sender',
+                        data: {{ participants_by_group_data }},
+                        backgroundColor: ['rgb(255, 99, 132)', 'rgb(54, 162, 235)', 'rgb(255, 205, 86)'],
+                    },
+                ],
+            },
+            options: {
+                maintainAspectRatio: false,
+            },
+        });
+    </script>
 {% endblock %}

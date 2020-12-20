@@ -276,7 +276,7 @@ msgid "EMail Text"
 msgstr "E-Mail Betreff"
 
 #: settool_common/templates/settool_common/settings/list_email_templates.html
-msgid "actions"
+msgid "Actions"
 msgstr "Aktionen"
 
 #: settool_common/templates/settool_common/settings/settings_dashboard.html

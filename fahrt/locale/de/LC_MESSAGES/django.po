@@ -322,6 +322,10 @@ msgstr "Teilnehmer filtern/E-Mails senden"
 msgid "Add email template"
 msgstr "E-Mail-Vorlage hinzufügen"
 
+#: fahrt/templates/fahrt/fahrt_dashboard.html
+msgid "Patricipants by status"
+msgstr "Teilnehmer grupiert nach Status"
+
 #: fahrt/templates/fahrt/general/add_participant.html
 msgid "Add Participant to the SET-Fahrt"
 msgstr "Anmeldung zur SET-Fahrt"
@@ -572,6 +576,9 @@ msgid ""
 msgstr ""
 "Du wirst alle weiteren Informationen per E-Mail erhalten. Dies kann etwas "
 "dauern, da wir deine Anmeldung manuell überprüfen."
+
+#~ msgid "Email-templates by sender"
+#~ msgstr "E-Mail-Vorlagen gruppiert nach Sende-Adresse"
 
 #~ msgid "cancel"
 #~ msgstr "abbrechen"
