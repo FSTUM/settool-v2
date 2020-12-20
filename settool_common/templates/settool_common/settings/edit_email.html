@@ -20,25 +20,17 @@
             {% bootstrap_form form %}
         </div>
     </div>
-    <table class="table">
-        <tr>
-            <td>
-                <button
-                    type="submit"
-                    class="btn btn-primary"
-                >
-                    {% trans "Submit" %}
-                </button>
-            </td>
-            <td>
-                <a
-                    href="{% url "mail_list" %}"
-                    class="btn btn-secondary"
-                >
-                    {% trans "Cancel" %}
-                </a>
-            </td>
-        </tr>
-    </table>
+    <button
+        type="submit"
+        class="btn btn-primary"
+    >
+        {% trans "Submit" %}
+    </button>
+    <a
+        href="{% url "mail_list" %}"
+        class="btn btn-secondary"
+    >
+        {% trans "Cancel" %}
+    </a>
 </form>
 {% endblock %}

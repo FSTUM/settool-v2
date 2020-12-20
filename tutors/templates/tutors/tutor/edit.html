@@ -24,25 +24,17 @@
             {% bootstrap_formset answer_formset %}
         </div>
     </div>
-    <table class="table">
-        <tr>
-            <td>
-                <button
-                    type="submit"
-                    class="btn btn-primary"
-                >
-                    {% trans "Submit" %}
-                </button>
-            </td>
-            <td>
-                <a
-                    href="{% url "tutor_view" tutor.id %}"
-                    class="btn btn-secondary"
-                >
-                    {% trans "Cancel" %}
-                </a>
-            </td>
-        </tr>
-    </table>
+    <button
+        type="submit"
+        class="btn btn-primary"
+    >
+        {% trans "Submit" %}
+    </button>
+    <a
+        href="{% url "tutor_view" tutor.id %}"
+        class="btn btn-secondary"
+    >
+        {% trans "Cancel" %}
+    </a>
 </form>
 {% endblock %}

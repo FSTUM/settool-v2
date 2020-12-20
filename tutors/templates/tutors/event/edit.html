@@ -17,26 +17,18 @@
         </div>
     </div>
 
-    <table class="table">
-        <tr>
-            <td>
-                <button
-                    type="submit"
-                    class="btn btn-primary"
-                >
-                    {% trans "Submit" %}
-                </button>
-            </td>
-            <td>
-                <a
-                    href="{% url "event_view" event.id %}"
-                    class="btn btn-secondary"
-                >
-                    {% trans "Cancel" %}
-                </a>
-            </td>
-        </tr>
-    </table>
+    <button
+        type="submit"
+        class="btn btn-primary"
+    >
+        {% trans "Submit" %}
+    </button>
+    <a
+        href="{% url "event_view" event.id %}"
+        class="btn btn-secondary"
+    >
+        {% trans "Cancel" %}
+    </a>
 </form>
 
 <script type="text/javascript">

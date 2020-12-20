@@ -15,26 +15,19 @@
 >
     {% csrf_token %}
 
-    <table class="table">
-        <tr>
-            <td>
-                <button
-                    type="submit"
-                    class="btn btn-secondary"
-                >
-                    {% trans "Send" %}
-                </button>
-            </td>
-            <td>
-                <a
-                    href="{% url "fahrt_filter" %}"
-                    class="btn btn-secondary"
-                >
-                    {% trans "Cancel" %}
-                </a>
-            </td>
-        </tr>
-    </table>
+
+    <button
+        type="submit"
+        class="btn btn-secondary"
+    >
+        {% trans "Send" %}
+    </button>
+    <a
+        href="{% url "fahrt_filter" %}"
+        class="btn btn-secondary"
+    >
+        {% trans "Cancel" %}
+    </a>
 </form>
 <p>
     <strong>{% trans "From" %}</strong>: {{ from_email }}

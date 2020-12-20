@@ -27,27 +27,18 @@
         action=""
     >
         {% csrf_token %}
-
-        <table class="table">
-            <tr>
-                <td>
-                    <button
-                        type="submit"
-                        class="btn btn-secondary"
-                    >
-                        {% trans "Send" %}
-                    </button>
-                </td>
-                <td>
-                    <a
-                        href="{% url "task_view" task.id %}"
-                        class="btn btn-danger"
-                    >
-                        {% trans "Cancel" %}
-                    </a>
-                </td>
-            </tr>
-        </table>
+        <button
+            type="submit"
+            class="btn btn-secondary"
+        >
+            {% trans "Send" %}
+        </button>
+        <a
+            href="{% url "task_view" task.id %}"
+            class="btn btn-danger"
+        >
+            {% trans "Cancel" %}
+        </a>
 
         {% bootstrap_form form %}
     </form>
