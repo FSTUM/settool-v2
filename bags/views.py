@@ -139,11 +139,11 @@ def add(request):
 
 
 @permission_required("bags.view_companies")
-def view(request, company_pk):
+def company_details(request, company_pk):
     company = get_object_or_404(Company, pk=company_pk)
 
     context = {"company": company}
-    return render(request, "bags/view.html", context)
+    return render(request, "bags/company_details.html", context)
 
 
 @permission_required("bags.view_companies")

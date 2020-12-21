@@ -18,7 +18,7 @@ urlpatterns = [
     ),
     path(
         "view/<int:company_pk>/",
-        views.view,
+        views.company_details,
         name="viewcompany",
     ),
     path(
