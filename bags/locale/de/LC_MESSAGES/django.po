@@ -251,6 +251,7 @@ msgid "successfully sent"
 msgstr "erfolgreich gesendet"
 
 #: bags/templates/bags/bags_dashboard.html
+#: bags/templates/bags/filtered_index.html
 msgid "Actions"
 msgstr "Actionen"
 
@@ -295,15 +296,13 @@ msgstr "Firmendetails"
 msgid "Back"
 msgstr "Zurück"
 
-#: bags/templates/bags/company_details.html
-#: bags/templates/bags/filtered_index.html bags/templates/bags/send_mail.html
+#: bags/templates/bags/company_details.html bags/templates/bags/send_mail.html
 msgid "Edit"
 msgstr "Bearbeiten"
 
 #: bags/templates/bags/company_details.html
 #: bags/templates/bags/del_company.html bags/templates/bags/del_mail.html
-#: bags/templates/bags/filtered_index.html bags/templates/bags/index_mails.html
-#: bags/templates/bags/send_mail.html
+#: bags/templates/bags/index_mails.html bags/templates/bags/send_mail.html
 msgid "Delete"
 msgstr "Löschen"
 

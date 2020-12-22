@@ -215,25 +215,8 @@
                             data-url='{% url "updatecompany" company.id "email_sent" %}'
                             data-params="{csrfmiddlewaretoken:'{{ csrf_token }}'}"
                         >
-                            {% if company.email_sent %}
-                            <span
-                                style="color:green"
-                                class="glyphicon glyphicon-ok"
-                            >
-                            </span>
-                            {% else %}
-                            <span
-                                style="color:red"
-                                class="glyphicon glyphicon-remove"
-                            >
-                            </span>
-                            {% endif %}
+                            {% include "true_false_none_span.html" with value=company.email_sent %}
                         </a>
-                        {% if company.email_sent %}
-                        <span style="visibility:hidden">{% trans "yes" %}</span>
-                        {% else %}
-                        <span style="visibility:hidden">{% trans "no" %}</span>
-                        {% endif %}
                     </td>
                     <td>
                         <a
@@ -245,25 +228,8 @@
                             data-url='{% url "updatecompany" company.id "email_sent_success" %}'
                             data-params="{csrfmiddlewaretoken:'{{ csrf_token }}'}"
                         >
-                            {% if company.email_sent_success %}
-                            <span
-                                style="color:green"
-                                class="glyphicon glyphicon-ok"
-                            >
-                            </span>
-                            {% else %}
-                            <span
-                                style="color:red"
-                                class="glyphicon glyphicon-remove"
-                            >
-                            </span>
-                            {% endif %}
+                            {% include "true_false_none_span.html" with value=company.email_sent_success %}
                         </a>
-                        {% if company.email_sent_success %}
-                        <span style="visibility:hidden">{% trans "yes" %}</span>
-                        {% else %}
-                        <span style="visibility:hidden">{% trans "no" %}</span>
-                        {% endif %}
                     </td>
                     <td>
                         <a
@@ -275,30 +241,8 @@
                             data-url='{% url "updatecompany" company.id "promise" %}'
                             data-params="{csrfmiddlewaretoken:'{{ csrf_token }}'}"
                         >
-                            {% if company.promise %}
-                            <span
-                                style="color:green"
-                                class="glyphicon glyphicon-ok"
-                            >
-                            </span>
-                            {% elif company.promise == False %}
-                            <span
-                                style="color:red"
-                                class="glyphicon glyphicon-remove"
-                            >
-                            </span>
-                            {% else %}
-                            <span class="glyphicon glyphicon-question-sign">
-                            </span>
-                            {% endif %}
+                            {% include "true_false_none_span.html" with value=company.promise %}
                         </a>
-                        {% if company.promise %}
-                        <span style="visibility:hidden">{% trans "yes" %}</span>
-                        {% elif company.promise == False %}
-                        <span style="visibility:hidden">{% trans "no" %}</span>
-                        {% else %}
-                        <span style="visibility:hidden">{% trans "unknown" %}</span>
-                        {% endif %}
                     </td>
                     <td>
                         <a
@@ -336,25 +280,8 @@
                             data-url='{% url "updatecompany" company.id "arrived" %}'
                             data-params="{csrfmiddlewaretoken:'{{ csrf_token }}'}"
                         >
-                            {% if company.arrived %}
-                            <span
-                                style="color:green"
-                                class="glyphicon glyphicon-ok"
-                            >
-                            </span>
-                            {% else %}
-                            <span
-                                style="color:red"
-                                class="glyphicon glyphicon-remove"
-                            >
-                            </span>
-                            {% endif %}
+                            {% include "true_false_none_span.html" with value=company.arrived %}
                         </a>
-                        {% if company.arrived %}
-                        <span style="visibility:hidden">{% trans "yes" %}</span>
-                        {% else %}
-                        <span style="visibility:hidden">{% trans "no" %}</span>
-                        {% endif %}
                     </td>
                     <td>
                         <a
@@ -366,25 +293,8 @@
                             data-url='{% url "updatecompany" company.id "last_year" %}'
                             data-params="{csrfmiddlewaretoken:'{{ csrf_token }}'}"
                         >
-                            {% if company.last_year %}
-                            <span
-                                style="color:green"
-                                class="glyphicon glyphicon-ok"
-                            >
-                            </span>
-                            {% else %}
-                            <span
-                                style="color:red"
-                                class="glyphicon glyphicon-remove"
-                            >
-                            </span>
-                            {% endif %}
+                            {% include "true_false_none_span.html" with value=company.last_year %}
                         </a>
-                        {% if company.last_year %}
-                        <span style="visibility:hidden">{% trans "yes" %}</span>
-                        {% else %}
-                        <span style="visibility:hidden">{% trans "no" %}</span>
-                        {% endif %}
                     </td>
                     <td>
                         <a
@@ -409,33 +319,8 @@
                             data-url='{% url "updatecompany" company.id "contact_again" %}'
                             data-params="{csrfmiddlewaretoken:'{{ csrf_token }}'}"
                         >
-                            {% if company.contact_again %}
-                            <span
-                                style="color:green"
-                                class="glyphicon glyphicon-ok"
-                            >
-                            </span>
-                            {% elif company.contact_again == False %}
-                            <span
-                                style="color:red"
-                                class="glyphicon glyphicon-remove"
-                            >
-                            </span>
-                            {% else %}
-                            <span
-                                style="color:red"
-                                class="glyphicon glyphicon-question-sign"
-                            >
-                            </span>
-                            {% endif %}
+                            {% include "true_false_none_span.html" with value=company.contact_again %}
                         </a>
-                        {% if company.contact_again %}
-                        <span style="visibility:hidden">{% trans "yes" %}</span>
-                        {% elif company.contact_again == False %}
-                        <span style="visibility:hidden">{% trans "no" %}</span>
-                        {% else %}
-                        <span style="visibility:hidden">{% trans "unknown" %}</span>
-                        {% endif %}
                     </td>
                     <td>
                         <a href="{% url "editcompany" company.id %}">

@@ -86,7 +86,6 @@ msgid "confirmed"
 msgstr "bestätigt"
 
 #: fahrt/forms.py fahrt/models.py
-#: fahrt/templates/fahrt/participants/view_participant_details.html
 msgid "waitinglist"
 msgstr "Warteliste"
 
@@ -471,8 +470,9 @@ msgstr "U18"
 #: fahrt/templates/fahrt/participants/list_registered.html
 #: fahrt/templates/fahrt/participants/list_waitinglist.html
 #: fahrt/templates/fahrt/participants/view_participant_details.html
-msgid "additional seats"
-msgstr "zusätzliche Plätze"
+#, python-format
+msgid "%(additional_seats)s additional seats"
+msgstr "%(additional_seats)s zusätzliche Plätze"
 
 #: fahrt/templates/fahrt/participants/list_confirmed.html
 #, python-format
@@ -513,8 +513,12 @@ msgid "3 weeks"
 msgstr "3 Wochen"
 
 #: fahrt/templates/fahrt/participants/view_participant_details.html
-msgid "confirm"
-msgstr "bestätigen"
+msgid "Confirm participant"
+msgstr "Teilnehmer annehmen"
+
+#: fahrt/templates/fahrt/participants/view_participant_details.html
+msgid "Add participant to waitinglist"
+msgstr "Teilnehmer der Warteliste hinzufügen"
 
 #: fahrt/templates/fahrt/participants/view_participant_details.html
 msgid "Edit"
@@ -576,6 +580,9 @@ msgid ""
 msgstr ""
 "Du wirst alle weiteren Informationen per E-Mail erhalten. Dies kann etwas "
 "dauern, da wir deine Anmeldung manuell überprüfen."
+
+#~ msgid "confirm"
+#~ msgstr "bestätigen"
 
 #~ msgid "Email-templates by sender"
 #~ msgstr "E-Mail-Vorlagen gruppiert nach Sende-Adresse"

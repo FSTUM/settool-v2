@@ -100,5 +100,17 @@ msgstr "Hallo %(username)s!"
 msgid "Please Log in, to view everything"
 msgstr "Bitte logge dich ein, um alles zu sehen"
 
+#: templates/true_false_none_span.html
+msgid "Yes"
+msgstr "Ja"
+
+#: templates/true_false_none_span.html
+msgid "No"
+msgstr "Nein"
+
+#: templates/true_false_none_span.html
+msgid "Unknown"
+msgstr "Unbekannt"
+
 #~ msgid "SET "
 #~ msgstr "SET "

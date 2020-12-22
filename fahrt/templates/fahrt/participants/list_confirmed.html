@@ -32,39 +32,16 @@
         <tbody>
             {% for participant in participants %}
             <tr>
+                <td><a href="{% url "fahrt_viewparticipant" participant.id %}">{{ participant.firstname }}</a></td>
+                <td><a href="{% url "fahrt_viewparticipant" participant.id %}">{{ participant.surname }}</a></td>
+                <td>{% include "true_false_none_span.html" with value=participant.non_liability %}</td>
                 <td>
-                    <a href="{% url "fahrt_viewparticipant" participant.id %}">{{ participant.firstname }}</a>
-                </td>
-                <td>
-                    <a href="{% url "fahrt_viewparticipant" participant.id %}">{{ participant.surname }}</a>
-                </td>
-                {% if participant.non_liability %}
-                <td>
+                    {% if participant.paid %}
                     <span
                         style="color:green"
                         class="glyphicon glyphicon-ok"
                     ></span>
-                    <span style="visibility:hidden">ja</span>
-                </td>
-                {% else %}
-                <td>
-                    <span
-                        style="color:red"
-                        class="glyphicon glyphicon-remove"
-                    ></span>
-                    <span style="visibility:hidden">nein</span>
-                </td>
-                {% endif %}
-                {% if participant.paid %}
-                <td>
-                    <span
-                        style="color:green"
-                        class="glyphicon glyphicon-ok"
-                    ></span>
-                    <span style="visibility:hidden">ja</span>
-                </td>
-                {% elif participant.payment_deadline %}
-                <td>
+                    {% elif participant.payment_deadline %}
                     {% if participant.deadline_exceeded %}
                     <span
                         style="color:red"
@@ -72,87 +49,68 @@
                     ></span>&nbsp;
                     {% elif participant.deadline_soon %}
                     <span
-                        style="color:orange"
+                        style="color:darkorange"
                         class="glyphicon glyphicon-warning-sign"
                     ></span>&nbsp;
                     {% endif %}
                     {{ participant.payment_deadline }}
+                    {% endif %}
                 </td>
-                {% else %}
-                <td></td>
-                {% endif %}
-                {% if participant.car %}
                 <td>
-                    <span
-                        style="color:green"
-                        class="glyphicon glyphicon-ok"
-                    ></span>
-                    {{ participant.car_places }} {% trans "additional seats" %}
+                    {% include "true_false_none_span.html" with value=participant.car %}
+                    {% if participant.car %}
+                    {% blocktranslate trimmed with additional_seats=participant.car_places %}
+                    {{ additional_seats }} additional seats
+                    {% endblocktranslate %}
+                    {% endif %}
                 </td>
-                {% else %}
                 <td>
-                    <span
-                        style="color:red"
-                        class="glyphicon glyphicon-remove"
-                    ></span>
-                </td>
-                {% endif %}
-                {% if participant.u18 %}
-                <td>
+                    {% if participant.u18 %}
                     <span
                         style="color:red"
                         class="glyphicon glyphicon-ok"
                     ></span>
-                    <span style="visibility:hidden">ja</span>
-                </td>
-                {% else %}
+                    {% endif %}
                 <td>
-                    <span style="visibility:hidden">nein</span>
-                </td>
-                {% endif %}
-                {% if participant.allergies %}
-                <td>
+                    {% if participant.allergies %}
                     <span
                         style="color:red"
                         class="glyphicon glyphicon-ok"
                     ></span>
-                    <span style="visibility:hidden">ja</span>
+                    {% endif %}
                 </td>
-                {% else %}
-                <td>
-                    <span style="visibility:hidden">nein</span>
-                </td>
-                {% endif %}
             </tr>
             {% endfor %}
         </tbody>
-        <tr>
-            <th>Total:</th>
-            <th>
-                {% blocktranslate trimmed with number=number women=num_women %}
-                {{ number }}, thereof women: {{ women }}
-                {% endblocktranslate %}
+        <tfoot>
+            <tr>
+                <th>Total:</th>
+                <th>
+                    {% blocktranslate trimmed with number=number women=num_women %}
+                    {{ number }}, thereof women: {{ women }}
+                    {% endblocktranslate %}
 
-                {% if proportion_of_women < 5 %}
-                <span style='color: red;'>+_+</span>
-                {% elif proportion_of_women < 25 %}
-                <span style='color: red;'>:-(</span>
-                {% elif proportion_of_women < 40 %}
-                <span style='color: black;'>:-|</span>
-                {% else %}
-                <span style='color: green;'>:-)</span>
-                {% endif %}
-            </th>
-            <th>{{ non_liability }}</th>
-            <th>{{ paid }}</th>
-            <th>
-                {% blocktranslate trimmed with places=places cars=cars %}
-                {{ places }} places in {{ cars }} cars
-                {% endblocktranslate %}
-            </th>
-            <th>{{ u18s }}</th>
-            <th>{{ allergies }}</th>
-        </tr>
+                    {% if proportion_of_women < 5 %}
+                    <span style='color: red;'>+_+</span>
+                    {% elif proportion_of_women < 25 %}
+                    <span style='color: red;'>:-(</span>
+                    {% elif proportion_of_women < 40 %}
+                    <span style='color: black;'>:-|</span>
+                    {% else %}
+                    <span style='color: green;'>:-)</span>
+                    {% endif %}
+                </th>
+                <th>{{ non_liability }}</th>
+                <th>{{ paid }}</th>
+                <th>
+                    {% blocktranslate trimmed with places=places cars=cars %}
+                    {{ places }} places in {{ cars }} cars
+                    {% endblocktranslate %}
+                </th>
+                <th>{{ u18s }}</th>
+                <th>{{ allergies }}</th>
+            </tr>
+        </tfoot>
     </table>
 </div>
 {% endblock %}
