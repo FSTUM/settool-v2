@@ -15,9 +15,9 @@
 <script>
     const displayTrueFalse = (value, _, response) => {
         if (value === 'True') {
-            $(response).html('{% include "true_false_none_span.html" with value=True%}');
+            $(response).html(`{% include "true_false_none_span.html" with value=True%}`);
         } else if (value === 'False') {
-            $(response).html('{% include "true_false_none_span.html" with value=False%}');
+            $(response).html(`{% include "true_false_none_span.html" with value=False%}`);
         } else {
             $(response).empty();
         }
@@ -25,11 +25,11 @@
 
     const displayTrueFalseNone = (value, _, response) => {
         if (value === 'True') {
-            $(response).html('{% include "true_false_none_span.html" with value=True%}');
+            $(response).html(`{% include "true_false_none_span.html" with value=True%}`);
         } else if (value === 'False') {
-            $(response).html('{% include "true_false_none_span.html" with value=False%}');
+            $(response).html(`{% include "true_false_none_span.html" with value=False%}`);
         } else if (value === 'None') {
-            $(response).html('{% include "true_false_none_span.html" with value=None %}');
+            $(response).html(`{% include "true_false_none_span.html" with value=None %}`);
         } else {
             $(response).empty();
         }
