@@ -10,7 +10,7 @@
 </script>
 {% endblock %}
 
-{% block  set_common_headercontent %}{% trans "List confirmed participants" %}{% endblock %}
+{% block set_common_headercontent %}{% trans "List confirmed participants" %}{% endblock %}
 
 {% block set_common_content %}
 <div class="table-responsive">
@@ -37,16 +37,10 @@
                 <td>{% include "true_false_none_span.html" with value=participant.non_liability %}</td>
                 <td>
                     {% if participant.paid %}
-                    <span
-                        style="color:green"
-                        class="glyphicon glyphicon-ok"
-                    ></span>
+                    {% include "true_false_none_span.html" with value=True %}
                     {% elif participant.payment_deadline %}
                     {% if participant.deadline_exceeded %}
-                    <span
-                        style="color:red"
-                        class="glyphicon glyphicon-remove"
-                    ></span>&nbsp;
+                    {% include "true_false_none_span.html" with value=False %}
                     {% elif participant.deadline_soon %}
                     <span
                         style="color:darkorange"
@@ -64,21 +58,8 @@
                     {% endblocktranslate %}
                     {% endif %}
                 </td>
-                <td>
-                    {% if participant.u18 %}
-                    <span
-                        style="color:red"
-                        class="glyphicon glyphicon-ok"
-                    ></span>
-                    {% endif %}
-                <td>
-                    {% if participant.allergies %}
-                    <span
-                        style="color:red"
-                        class="glyphicon glyphicon-ok"
-                    ></span>
-                    {% endif %}
-                </td>
+                <td>{% include "true_false_none_span.html" with value=participant.u18 inverted_colors=True %}</td>
+                <td>{% include "true_false_none_span.html" with value=participant.allergies inverted_colors=True %}</td>
             </tr>
             {% endfor %}
         </tbody>

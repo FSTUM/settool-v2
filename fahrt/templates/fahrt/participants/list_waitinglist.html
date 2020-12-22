@@ -43,20 +43,10 @@
                     {% endif %}
                 </td>
                 <td>
-                    {% if participant.u18 %}
-                    <span
-                        style="color:red"
-                        class="glyphicon glyphicon-ok"
-                    ></span>
-                    {% endif %}
+                    {% include "true_false_none_span.html" with value=participant.u18 inverted_colors=True %}
                 </td>
                 <td>
-                    {% if participant.allergies %}
-                    <span
-                        style="color:red"
-                        class="glyphicon glyphicon-ok"
-                    ></span>
-                    {% endif %}
+                    {% include "true_false_none_span.html" with value=participant.allergies inverted_colors=True %}
                 </td>
             </tr>
             {% endfor %}

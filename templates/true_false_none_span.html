@@ -1,20 +1,20 @@
 {% load i18n %}
 {% if value %}
 <span
-    style="color:green"
+    style="color:{% if inverted_colors %} red{% else %} green{% endif %}"
     class="glyphicon glyphicon-ok"
 ></span>
-<span style="visibility:hidden">{% trans "Yes" %}</span>
+<span style="display: none;">{% trans "Yes" %}</span>
 {% elif value == False %}
 <span
-    style="color:red"
+    style="color:{% if inverted_colors %} green{% else %} red{% endif %}"
     class="glyphicon glyphicon-remove"
 ></span>
-<span style="visibility:hidden">{% trans "No" %}</span>
+<span style="display: none;">{% trans "No" %}</span>
 {% else %}
 <span
     style="color:orange"
     class="glyphicon glyphicon-question-sign"
 ></span>
-<span style="visibility:hidden">{% trans "Unknown" %}</span>
+<span style="display: none;">{% trans "Unknown" %}</span>
 {% endif %}

@@ -22,14 +22,7 @@
             </tr>
             <tr>
                 <th>{% trans "U18" %}</th>
-                <td>
-                    {% if participant.u18 %}
-                    <span
-                        style="color:red"
-                        class="glyphicon glyphicon-ok"
-                    ></span>
-                    {% endif %}
-                </td>
+                <td>{% include "true_false_none_span.html" with value=participant.u18 inverted_colors=True %}</td>
             </tr>
             <tr>
                 <th>{% trans "Email" %}</th>
@@ -89,78 +82,92 @@
             <tr>
                 <th>{% trans "Payment deadline" %}</th>
                 <td>
-                    {{ participant.payment_deadline }}
-                    <div class='btn-group btn-group-sm'>
-                        <a
-                            href="{% url "fahrt_set_payment_deadline" participant.id 1 %}"
-                            class="btn btn-secondary"
-                        >
-                            {% trans "1 week" %}
-                        </a>
-                        <a
-                            href="{% url "fahrt_set_payment_deadline" participant.id 2 %}"
-                            class="btn btn-secondary"
-                        >
-                            {% trans "2 weeks" %}
-                        </a>
-                        <a
-                            href="{% url "fahrt_set_payment_deadline" participant.id 3 %}"
-                            class="btn btn-secondary"
-                        >
-                            {% trans "3 weeks" %}
-                        </a>
+                    <div class='col'>
+                        <div class='row'>
+                            {{ participant.payment_deadline }}
+                        </div>
+                        <div class='row mt-1'>
+                            <div class='btn-group btn-block btn-group-sm'>
+                                <a
+                                    href="{% url "fahrt_set_payment_deadline" participant.id 1 %}"
+                                    class="btn btn-secondary"
+                                >
+                                    {% trans "1 week" %}
+                                </a>
+                                <a
+                                    href="{% url "fahrt_set_payment_deadline" participant.id 2 %}"
+                                    class="btn btn-secondary"
+                                >
+                                    {% trans "2 weeks" %}
+                                </a>
+                                <a
+                                    href="{% url "fahrt_set_payment_deadline" participant.id 3 %}"
+                                    class="btn btn-secondary"
+                                >
+                                    {% trans "3 weeks" %}
+                                </a>
+                            </div>
+                        </div>
                     </div>
                 </td>
             </tr>
             <tr>
                 <th>{% trans "Status" %}</th>
                 <td>
-                    {{ participant.status }}
-                    {% if participant.status == "registered" %}
-                    <div class='btn-group btn-group-sm'>
-                        <a
-                            href="{% url "fahrt_confirm" participant.id %}"
-                            class="btn btn-secondary"
-                        >
-                            {% trans "Confirm participant" %}
-                        </a>
-                        <a
-                            href="{% url "fahrt_waitinglist" participant.id %}"
-                            class="btn btn-secondary"
-                        >
-                            {% trans "Add participant to waitinglist" %}
-                        </a>
-                    </div>
-                    {% elif participant.status == "confirmed" %}
-                    <a
-                        href="{% url "fahrt_cancel" participant.id %}"
-                        class="btn btn-secondary btn-sm"
-                    >
-                        {% trans "Cancel" %}
-                    </a>
-                    {% elif participant.status == "waitinglist" %}
-                    <div class='btn-group btn-group-sm'>
-                        <a
-                            href="{% url "fahrt_confirm" participant.id %}"
-                            class="btn btn-secondary"
-                        >
-                            {% trans "Confirm participant" %}
-                        </a>
-                        <a
-                            href="{% url "fahrt_cancel" participant.id %}"
-                            class="btn btn-secondary"
-                        >
-                            {% trans "Cancel" %}
-                        </a>
-                    </div>
-                    {% endif %}
+
+                    <div class='col'>
+                        <div class='row'>
+                            {{ participant.status }}
+                        </div>
+                        <div class='row mt-1'>
+                            {% if participant.status == "registered" %}
+                            <div class='btn-group btn-block btn-group-sm'>
+                                <a
+                                    href="{% url "fahrt_confirm" participant.id %}"
+                                    class="btn btn-secondary"
+                                >
+                                    {% trans "Confirm participant" %}
+                                </a>
+                                <a
+                                    href="{% url "fahrt_waitinglist" participant.id %}"
+                                    class="btn btn-secondary"
+                                >
+                                    {% trans "Add participant to waitinglist" %}
+                                </a>
+                            </div>
+                            {% elif participant.status == "confirmed" %}
+                            <a
+                                href="{% url "fahrt_cancel" participant.id %}"
+                                class="btn btn-secondary btn-block btn-sm"
+                            >
+                                {% trans "Cancel" %}
+                            </a>
+                            {% elif participant.status == "waitinglist" %}
+                            <div class='btn-group btn-block btn-group-sm'>
+                                <a
+                                    href="{% url "fahrt_confirm" participant.id %}"
+                                    class="btn btn-secondary"
+                                >
+                                    {% trans "Confirm participant" %}
+                                </a>
+                                <a
+                                    href="{% url "fahrt_cancel" participant.id %}"
+                                    class="btn btn-secondary"
+                                >
+                                    {% trans "Cancel" %}
+                                </a>
+                            </div>
+                            {% endif %}
+                        </div>
                 </td>
             </tr>
             <tr>
                 <th>{% trans "Mailing list" %}</th>
                 <td>
                     {% include "true_false_none_span.html" with value=participant.mailinglist %}
-                    <a href="{% url "fahrt_toggle_mailinglist" participant.id %}"><span class="glyphicon glyphicon-transfer"></span></a>
+                    <a href="{% url "fahrt_toggle_mailinglist" participant.id %}">
+                        <span class="glyphicon glyphicon-transfer"></span>
+                    </a>
                 </td>
             </tr>
             <tr>
@@ -197,7 +204,7 @@
             <button
                 type="submit"
                 name="mailform"
-                class="btn btn-secondary"
+                class="btn btn-danger"
             >
                 {% trans "Send email" %}
             </button>
