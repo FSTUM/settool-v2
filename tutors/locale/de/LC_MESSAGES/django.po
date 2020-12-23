@@ -436,13 +436,13 @@ msgstr "Absenden"
 
 #: tutors/templates/tutors/event/add.html
 #: tutors/templates/tutors/event/edit.html
-#: tutors/templates/tutors/task/add.html tutors/templates/tutors/task/edit.html
+#: tutors/templates/tutors/task/edit.html
 msgid "Master"
 msgstr "Master"
 
 #: tutors/templates/tutors/event/add.html
 #: tutors/templates/tutors/event/edit.html
-#: tutors/templates/tutors/task/add.html tutors/templates/tutors/task/edit.html
+#: tutors/templates/tutors/task/edit.html
 msgid "Bachelor"
 msgstr "Bachelor"
 
@@ -547,6 +547,18 @@ msgstr "Allgemeine Einstellungen"
 #: tutors/templates/tutors/settings/tutors.html
 msgid "Tutor Settings"
 msgstr "Tutor Einstellungen"
+
+#: tutors/templates/tutors/task/add.html
+msgid "Please choose one of the following events..."
+msgstr ""
+
+#: tutors/templates/tutors/task/add.html
+msgid "You may choose some of the following allowed subjects..."
+msgstr ""
+
+#: tutors/templates/tutors/task/add.html
+msgid "You may choose some of the following requirements..."
+msgstr ""
 
 #: tutors/templates/tutors/task/delete.html
 msgid "Delete Task"

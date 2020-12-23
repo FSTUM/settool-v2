@@ -3,7 +3,6 @@
 {% load bootstrap4 %}
 
 {% block set_common_headercontent %}{% trans "Add Task" %}{% endblock %}
-
 {% block set_common_content %}
 <form
     method="post"
@@ -16,7 +15,6 @@
             {% bootstrap_form form %}
         </div>
     </div>
-
     <button
         type="submit"
         class="btn btn-primary"
@@ -24,10 +22,38 @@
         {% trans "Submit" %}
     </button>
 </form>
+{% endblock %}
+
+{% block glyphiconsoverride %}{% endblock %}
+
+{% block defered_script %}
 <script type="text/javascript">
-    /* global addLink, valueCallback */
-    const allowedSubjects = $('select[multiple][name="allowed_subjects"]');
-    addLink(allowedSubjects, '{% trans "Master" %}', valueCallback('select', 'master'));
-    addLink(allowedSubjects, '{% trans "Bachelor" %}', valueCallback('select', 'bachelor'));
+    $('#id_event')
+        .addClass('selectpicker')
+        .attr('data-live-search', 'true')
+        .attr('title', `{% trans 'Please choose one of the following events...'%}`);
+    $('#id_allowed_subjects')
+        .addClass('selectpicker')
+        .attr('data-live-search', 'true')
+        .attr('data-actions-box', 'true')
+        .attr('data-selected-text-format', 'count')
+        .attr('title', `{% trans 'You may choose some of the following allowed subjects...'%}`);
+    $('#id_requirements')
+        .addClass('selectpicker')
+        .attr('data-live-search', 'true')
+        .attr('data-actions-box', 'true')
+        .attr('data-selected-text-format', 'count')
+        .attr('title', `{% trans 'You may choose some of the following requirements...'%}`);
 </script>
+<script
+    crossorigin='anonymous'
+    integrity='sha512-yDlE7vpGDP7o2eftkCiPZ+yuUyEcaBwoJoIhdXv71KZWugFqEphIS3PU60lEkFaz8RxaVsMpSvQxMBaKVwA5xg=='
+    src='https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.18/js/bootstrap-select.min.js'
+></script>
+<link
+    crossorigin='anonymous'
+    href='https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.18/css/bootstrap-select.min.css'
+    integrity='sha512-ARJR74swou2y0Q2V9k0GbzQ/5vJ2RBSoCWokg4zkfM29Fb3vZEQyv0iWBMW/yvKgyHSR/7D64pFMmU8nYmbRkg=='
+    rel='stylesheet'
+/>
 {% endblock %}

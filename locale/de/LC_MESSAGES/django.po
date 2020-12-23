@@ -71,22 +71,6 @@ msgstr "Datenschutz"
 msgid "Imprint"
 msgstr "Impressum"
 
-#: templates/base.html
-msgid "Deselect All"
-msgstr "Auswahl aufheben"
-
-#: templates/base.html
-msgid "Select All"
-msgstr "Alle Auswählen"
-
-#: templates/base.html
-msgid "Selectable items"
-msgstr "Auswählbare Elemente"
-
-#: templates/base.html
-msgid "Selection items"
-msgstr "Auswahl-Elemente"
-
 #: templates/base_card_layout.html
 msgid "Navigation"
 msgstr "Navigation"
@@ -111,6 +95,18 @@ msgstr "Nein"
 #: templates/true_false_none_span.html
 msgid "Unknown"
 msgstr "Unbekannt"
+
+#~ msgid "Deselect All"
+#~ msgstr "Auswahl aufheben"
+
+#~ msgid "Select All"
+#~ msgstr "Alle Auswählen"
+
+#~ msgid "Selectable items"
+#~ msgstr "Auswählbare Elemente"
+
+#~ msgid "Selection items"
+#~ msgstr "Auswahl-Elemente"
 
 #~ msgid "SET "
 #~ msgstr "SET "
