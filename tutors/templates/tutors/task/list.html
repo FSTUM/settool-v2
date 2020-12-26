@@ -29,15 +29,15 @@
                 <th>{% trans "Meeting Point" %}</th>
                 <th>{% trans "# Missing Mails" %}</th>
                 <th>{% trans "# Tutors" %}</th>
-                <th></th>
+                <th>{% trans "Actions" %}</th>
             </tr>
         </thead>
         <tbody>
             {% for task in tasks %}
-            <tr class="{% if task.tutors.count < task.min_tutors %}danger{% elif task.min_tutors <= task.tutors.count and task.tutors.count <= task.max_tutors %}success{% elif  task.max_tutors < task.tutors.count %}warning{% endif %}">
+            <tr class="{% if task.tutors.count < task.min_tutors %}table-danger{% elif task.min_tutors <= task.tutors.count and task.tutors.count <= task.max_tutors %}table-success{% elif  task.max_tutors < task.tutors.count %}table-warning{% endif %}">
                 <td>{{ forloop.counter }}</td>
                 <td>
-                    {{ task.event.name }}
+                    <a href="{% url "event_view" task.event.id %}">{{ task.event.name }}</a>
                 </td>
                 <td>
                     <a href="{% url "task_view" task.id %}">{{ task.name }}</a>

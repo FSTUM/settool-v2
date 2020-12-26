@@ -3,8 +3,6 @@
 {% load i18n %}
 {% load bootstrap4 %}
 {% load semester %}
-{# provide a Useful name, even if the User has not specified his first name #}
-{% firstof user.first_name|capfirst user.username|capfirst "Username" as username %}
 <!DOCTYPE html>
 <html lang="de">
 

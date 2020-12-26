@@ -284,32 +284,24 @@ msgid "Events"
 msgstr "Events"
 
 #: tutors/templates/tutors/base_tutors.html
-#, fuzzy
-#| msgid "List of Events"
 msgid "List all events"
-msgstr "Liste der Events"
+msgstr "Liste aller Events"
 
 #: tutors/templates/tutors/base_tutors.html
-#, fuzzy
-#| msgid "Add Event"
 msgid "Add an event"
-msgstr "Event Hinzufügen"
+msgstr "Ein Event Hinzufügen"
 
 #: tutors/templates/tutors/base_tutors.html
 msgid "Tasks"
 msgstr "Tasks"
 
 #: tutors/templates/tutors/base_tutors.html
-#, fuzzy
-#| msgid "List of Tasks"
 msgid "List all tasks"
-msgstr "Liste der Tasks"
+msgstr "Liste aller Tasks"
 
 #: tutors/templates/tutors/base_tutors.html
-#, fuzzy
-#| msgid "Add Task"
 msgid "Add a task"
-msgstr "Task Hinzufügen"
+msgstr "Einen Task Hinzufügen"
 
 #: tutors/templates/tutors/base_tutors.html
 #: tutors/templates/tutors/task/delete.html
@@ -318,66 +310,46 @@ msgid "Tutors"
 msgstr "Tutoren"
 
 #: tutors/templates/tutors/base_tutors.html
-#, fuzzy
-#| msgid "List Tutors"
 msgid "All tutors"
-msgstr "Liste der Tutoren"
+msgstr "Liste aller Tutoren"
 
 #: tutors/templates/tutors/base_tutors.html
-#, fuzzy
-#| msgid "# Accepted Tutors"
 msgid "Accepted tutors"
-msgstr "# Angenommene Tutoren"
+msgstr "Angenommene Tutoren"
 
 #: tutors/templates/tutors/base_tutors.html
-#, fuzzy
-#| msgid "List Tutors"
 msgid "Open tutors"
-msgstr "Liste der Tutoren"
+msgstr "Offene Tutoren"
 
 #: tutors/templates/tutors/base_tutors.html
-#, fuzzy
-#| msgid "Batch decline tutors"
 msgid "Declined tutors"
 msgstr "Alle Tutoren ablehnen"
 
 #: tutors/templates/tutors/base_tutors.html
-#, fuzzy
-#| msgid "List Tutors"
 msgid "Inactive tutors"
-msgstr "Liste der Tutoren"
+msgstr "Inaktive Tutoren"
 
 #: tutors/templates/tutors/base_tutors.html
-#, fuzzy
-#| msgid "Employees"
 msgid "List employees"
-msgstr "Employees"
+msgstr "Mitarbeiter auflisten"
 
 #: tutors/templates/tutors/base_tutors.html
-#, fuzzy
-#| msgid "List of Requirements"
 msgid "List all requirements"
-msgstr "Liste der Voraussetzungen"
+msgstr "Liste aller Voraussetzungen"
 
 #: tutors/templates/tutors/base_tutors.html
-#, fuzzy
-#| msgid "Add Requirement"
 msgid "Add a requirement"
-msgstr "Voraussetzung hinzufügen"
+msgstr "Eine Voraussetzung hinzufügen"
 
 #: tutors/templates/tutors/base_tutors.html
 msgid "Settings"
 msgstr "Einstellungen"
 
 #: tutors/templates/tutors/base_tutors.html
-#, fuzzy
-#| msgid "General Settings"
 msgid "General settings"
 msgstr "Allgemeine Einstellungen"
 
 #: tutors/templates/tutors/base_tutors.html
-#, fuzzy
-#| msgid "Tutor Settings"
 msgid "Tutor settings"
 msgstr "Tutor Einstellungen"
 
@@ -463,17 +435,6 @@ msgstr ""
 "Dieses Event besitzt die folgenden Tasks welche ebenfalls gelöscht werden"
 
 #: tutors/templates/tutors/event/delete.html
-#: tutors/templates/tutors/event/view.html
-#: tutors/templates/tutors/requirement/delete.html
-#: tutors/templates/tutors/requirement/view.html
-#: tutors/templates/tutors/task/delete.html
-#: tutors/templates/tutors/task/view.html
-#: tutors/templates/tutors/tutor/delete.html
-#: tutors/templates/tutors/tutor/view.html
-msgid "Delete"
-msgstr "Löschen"
-
-#: tutors/templates/tutors/event/delete.html
 #: tutors/templates/tutors/event/edit.html
 #: tutors/templates/tutors/requirement/delete.html
 #: tutors/templates/tutors/requirement/edit.html
@@ -490,6 +451,17 @@ msgstr "Löschen"
 msgid "Cancel"
 msgstr "Abbruch"
 
+#: tutors/templates/tutors/event/delete.html
+#: tutors/templates/tutors/event/view.html
+#: tutors/templates/tutors/requirement/delete.html
+#: tutors/templates/tutors/requirement/view.html
+#: tutors/templates/tutors/task/delete.html
+#: tutors/templates/tutors/task/view.html
+#: tutors/templates/tutors/tutor/delete.html
+#: tutors/templates/tutors/tutor/view.html
+msgid "Delete"
+msgstr "Löschen"
+
 #: tutors/templates/tutors/event/edit.html
 msgid "Edit Event"
 msgstr "Event bearbeiten"
@@ -498,9 +470,23 @@ msgstr "Event bearbeiten"
 msgid "List of Events"
 msgstr "Liste der Events"
 
+#: tutors/templates/tutors/event/list.html
+#: tutors/templates/tutors/requirement/list.html
+#: tutors/templates/tutors/task/list.html
+#: tutors/templates/tutors/tutor/list.html
+msgid "Actions"
+msgstr "Aktionen"
+
 #: tutors/templates/tutors/event/view.html
 msgid "Event Details"
 msgstr "Event Details"
+
+#: tutors/templates/tutors/event/view.html
+#: tutors/templates/tutors/requirement/view.html
+#: tutors/templates/tutors/task/view.html
+#: tutors/templates/tutors/tutor/view.html
+msgid "Back"
+msgstr "Zurück"
 
 #: tutors/templates/tutors/event/view.html
 #: tutors/templates/tutors/requirement/view.html
@@ -519,8 +505,6 @@ msgid "Add Task"
 msgstr "Task Hinzufügen"
 
 #: tutors/templates/tutors/requirement/add.html
-#, fuzzy
-#| msgid "Add Requirement"
 msgid "Add a Requirement"
 msgstr "Voraussetzung hinzufügen"
 
@@ -550,15 +534,15 @@ msgstr "Tutor Einstellungen"
 
 #: tutors/templates/tutors/task/add.html
 msgid "Please choose one of the following events..."
-msgstr ""
+msgstr "Bitte wähle eine der folgenden Events..."
 
 #: tutors/templates/tutors/task/add.html
 msgid "You may choose some of the following allowed subjects..."
-msgstr ""
+msgstr "Du kannst aus den folgenden Studiengänge auswählen..."
 
 #: tutors/templates/tutors/task/add.html
 msgid "You may choose some of the following requirements..."
-msgstr ""
+msgstr "Du kannst aus den folgenden Vorraussetungen auswählen..."
 
 #: tutors/templates/tutors/task/delete.html
 msgid "Delete Task"
@@ -641,16 +625,16 @@ msgid "Task Details"
 msgstr "Task Details"
 
 #: tutors/templates/tutors/task/view.html
+msgid "Tutor List"
+msgstr "Liste der Tutoren"
+
+#: tutors/templates/tutors/task/view.html
 msgid "Send Mail"
 msgstr "Mail senden"
 
 #: tutors/templates/tutors/task/view.html
 msgid " missing mails"
 msgstr " fehlende Mails"
-
-#: tutors/templates/tutors/task/view.html
-msgid "Tutor List"
-msgstr "Liste der Tutoren"
 
 #: tutors/templates/tutors/task/view.html
 msgid "Assigned Tutors"
@@ -768,6 +752,10 @@ msgstr "Alle Akzeptieren"
 #: tutors/templates/tutors/tutor/list.html
 msgid "Batch Decline"
 msgstr "Alle Abgelehnen"
+
+#: tutors/templates/tutors/tutor/list.html
+msgid "|Subject| / |Subject-Wanted|"
+msgstr "|Studiengänge| / |gewollte Studiengänge|"
 
 #: tutors/templates/tutors/tutor/mail.html
 msgid "Send email to tutors"

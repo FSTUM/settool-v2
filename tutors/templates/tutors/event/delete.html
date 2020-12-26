@@ -79,25 +79,13 @@
 >
     {% csrf_token %}
 
-    <table class="table">
-        <tr>
-            <td>
-                <button
-                    type="submit"
-                    class="btn btn-danger"
-                >
-                    {% trans "Delete" %}
-                </button>
-            </td>
-            <td>
-                <a
-                    href="{% url "event_list" %}"
-                    class="btn btn-secondary"
-                >
-                    {% trans "Cancel" %}
-                </a>
-            </td>
-        </tr>
-    </table>
+    <a
+        href="{% url "event_list" %}"
+        class="btn btn-secondary"
+    >{% trans "Cancel" %}</a>
+    <button
+        type="submit"
+        class="btn btn-danger"
+    > {% trans "Delete" %}</button>
 </form>
 {% endblock %}

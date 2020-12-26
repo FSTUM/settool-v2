@@ -58,7 +58,7 @@
                 </thead>
                 <tbody>
                     {% for c,w in subject_counts.items %}
-                    <tr class="{% if w.0 < w.1 %}danger{% elif w.0 >= w.1 %}success{% endif %}">
+                    <tr class="{% if w.0 < w.1 %}table-danger{% elif w.0 >= w.1 %}table-success{% endif %}">
                         <td>{{ forloop.counter }}</td>
                         <td>{{ c }}</td>
                         <td>{{ w.0 }}</td>
