@@ -3,6 +3,7 @@ from datetime import timedelta
 from subprocess import run  # nosec: used for flushing the db
 from typing import List
 
+import django.utils.timezone
 import lorem
 from django.contrib.auth import get_user_model
 from django.utils.datetime_safe import datetime
@@ -73,25 +74,18 @@ def _generate_tutorassignment(tutors_list, tutors_tasks):  # nosec: this is only
 
 
 def _generate_tutor_setting():  # nosec: this is only used in a fixture
-    return tutors.models.Settings(
+    all_mail_by_set_tutor = settool_common.models.Mail.objects.filter(
+        sender=settool_common.models.Mail.SET_TUTOR,
+    ).all()
+    return tutors.models.Settings.objects.create(
         semester=settool_common.models.current_semester(),
-        open_registration=datetime.today() - timedelta(days=20),
-        close_registration=datetime.today() + timedelta(days=20),
-        mail_registration=settool_common.models.Mail.objects.filter(
-            sender=settool_common.models.Mail.SET_TUTOR,
-        ).all()[0],
-        mail_confirmed_place=settool_common.models.Mail.objects.filter(
-            sender=settool_common.models.Mail.SET_TUTOR,
-        ).all()[1],
-        mail_waiting_list=settool_common.models.Mail.objects.filter(
-            sender=settool_common.models.Mail.SET_TUTOR,
-        ).all()[2],
-        mail_declined_place=settool_common.models.Mail.objects.filter(
-            sender=settool_common.models.Mail.SET_TUTOR,
-        ).all()[3],
-        mail_task=settool_common.models.Mail.objects.filter(
-            sender=settool_common.models.Mail.SET_TUTOR,
-        ).all()[4],
+        open_registration=django.utils.timezone.make_aware(datetime.today() - timedelta(days=20)),
+        close_registration=django.utils.timezone.make_aware(datetime.today() + timedelta(days=20)),
+        mail_registration=all_mail_by_set_tutor[0],
+        mail_confirmed_place=all_mail_by_set_tutor[1],
+        mail_waiting_list=all_mail_by_set_tutor[2],
+        mail_declined_place=all_mail_by_set_tutor[3],
+        mail_task=all_mail_by_set_tutor[4],
     )
 
 
@@ -103,7 +97,9 @@ def generate_random_birthday():  # nosec: this is only used in a fixture
         356 * 10,
         365 * 40,
     )
-    return datetime.today() - timedelta(days=random_number_of_days)
+    return django.utils.timezone.make_aware(
+        datetime.today() - timedelta(days=random_number_of_days),
+    )
 
 
 def _generate_log_entries(  # nosec: this is only used in a fixture
@@ -116,29 +112,29 @@ def _generate_log_entries(  # nosec: this is only used in a fixture
             "Signed up",
         )
         if participant.status != "registered":
-            fahrt.models.LogEntry(
+            fahrt.models.LogEntry.objects.create(
                 participant=participant,
                 user=superuser_frank,
                 text=participant.status,
-            ).save()
+            )
         if participant.payment_deadline:
             participant.log(
                 superuser_frank,
                 f"Set payment deadline to {participant.payment_deadline}",
             )
         if participant.non_liability:
-            fahrt.models.LogEntry(
+            fahrt.models.LogEntry.objects.create(
                 participant=participant,
                 user=superuser_frank,
                 text="Set non-liability",
                 time=participant.non_liability,
-            ).save()
+            )
         if participant.mailinglist:
             participant.log(superuser_frank, "Toggle Mailinglist")
 
 
 def _generate_superuser_frank():  # nosec: this is only used in a fixture
-    user = get_user_model()(
+    return get_user_model().objects.create(
         username="frank",
         password="pbkdf2_sha256$216000$DHqZuXE7LQwJ$i8iIEB3qQN+NXMUTuRxKKFgYYC5XqlOYdSz/0om1FmE=",
         first_name="Frank",
@@ -147,21 +143,17 @@ def _generate_superuser_frank():  # nosec: this is only used in a fixture
         is_staff=True,
         is_active=True,
         email="elsinga@fs.tum.de",
-        date_joined=datetime.today(),
+        date_joined=django.utils.timezone.make_aware(datetime.today()),
     )
-    user.save()
-    return user
 
 
 def _generate_fahrt_data():  # nosec: this is only used in a fixture
-    fahrt_data = fahrt.models.Fahrt(
+    return fahrt.models.Fahrt.objects.create(
         semester=settool_common.models.current_semester(),
-        date=datetime.today() + timedelta(days=20),
-        open_registration=datetime.today() - timedelta(days=20),
-        close_registration=datetime.today() + timedelta(days=1),
+        date=django.utils.timezone.make_aware(datetime.today() + timedelta(days=20)),
+        open_registration=django.utils.timezone.make_aware(datetime.today() - timedelta(days=20)),
+        close_registration=django.utils.timezone.make_aware(datetime.today() + timedelta(days=1)),
     )
-    fahrt_data.save()
-    return fahrt_data
 
 
 def _generate_fahrt_participants(  # nosec: this is only used in a fixture
@@ -169,41 +161,54 @@ def _generate_fahrt_participants(  # nosec: this is only used in a fixture
     fahrt_data,
 ):
     fahrt_participants = []
-    for i in range(40):
+    for i in range(60):
         participant_has_car = random.choice((True, False, False))
-        participant = fahrt.models.Participant(
-            semester=fahrt_data.semester,
-            gender=random.choice(fahrt.models.Participant.GENDER_CHOICES)[0],
-            firstname=f"Firstname {i}",
-            surname=f"Lastname {i}",
-            birthday=generate_random_birthday(),
-            email=f"{i}@test.com",
-            phone=f"+49 89 {i:07d}",
-            mobile=f"+49 176 {i:07d}",
-            subject=random.choice(common_subjects),
-            nutrition=random.choice(("normal", "vegeterian", "vegan")),
-            allergies=random.choice(("gute Noten", "sport", "spargel"))
-            if random.choice((True, False, False, False, False))
-            else "",
-            car=participant_has_car,
-            car_places=random.randint(0, 6) if participant_has_car else None,
-            non_liability=datetime.today() - timedelta(random.randint(0, 4))
-            if random.choice((True, True, False))
-            else None,
-            paid=datetime.today() - timedelta(random.randint(0, 4))
-            if random.choice((True, True, False))
-            else None,
-            payment_deadline=datetime.today() + timedelta(random.randint(0, 10))
-            if random.choice((True, True, True, False))
-            else None,
-            status=random.choice(
-                ("registered", "confirmed", "registered", "confirmed", "waitinglist", "cancelled"),
+        fahrt_participants.append(
+            fahrt.models.Participant.objects.create(
+                semester=fahrt_data.semester,
+                gender=random.choice(fahrt.models.Participant.GENDER_CHOICES)[0],
+                firstname=f"Firstname {i}",
+                surname=f"Lastname {i}",
+                birthday=generate_random_birthday(),
+                email=f"{i}@test.com",
+                phone=f"+49 89 {i:07d}",
+                mobile=f"+49 176 {i:07d}",
+                subject=random.choice(common_subjects),
+                nutrition=random.choice(("normal", "vegeterian", "vegan")),
+                allergies=random.choice(("gute Noten", "sport", "spargel"))
+                if random.choice((True, False, False, False, False))
+                else "",
+                car=participant_has_car,
+                car_places=random.randint(0, 6) if participant_has_car else None,
+                non_liability=django.utils.timezone.make_aware(
+                    datetime.today() - timedelta(random.randint(0, 4)),
+                )
+                if random.choice((True, True, False))
+                else None,
+                paid=django.utils.timezone.make_aware(
+                    datetime.today() - timedelta(random.randint(0, 4)),
+                )
+                if random.choice((True, True, False))
+                else None,
+                payment_deadline=django.utils.timezone.make_aware(
+                    datetime.today() + timedelta(random.randint(0, 10)),
+                )
+                if random.choice((True, True, True, False))
+                else None,
+                status=random.choice(
+                    (
+                        "registered",
+                        "confirmed",
+                        "registered",
+                        "confirmed",
+                        "waitinglist",
+                        "cancelled",
+                    ),
+                ),
+                mailinglist=random.choice((False, False, False, True)),
+                comment=lorem.sentence() if random.choice((False, False, False, True)) else "",
             ),
-            mailinglist=random.choice((False, False, False, True)),
-            comment=lorem.sentence() if random.choice((False, False, False, True)) else "",
         )
-        fahrt_participants.append(participant)
-        participant.save()
     return fahrt_participants
 
 
@@ -214,59 +219,65 @@ def _generate_guildedtours_participants(  # nosec: this is only used in a fixtur
     guildedtours_participants = []
     for tour in guildedtours_tours:
         for i in range(random.randint(0, tour.capacity)):
-            participant = guidedtours.models.Participant(
-                tour=tour,
-                firstname=f"Firstname {i}",
-                surname=f"Lastname {i}",
-                email=f"{i}@test.com",
-                phone=f"+49 176 {i:07d}",
-                subject=random.choice(common_subjects),
+            guildedtours_participants.append(
+                guidedtours.models.Participant.objects.create(
+                    tour=tour,
+                    firstname=f"Firstname {i}",
+                    surname=f"Lastname {i}",
+                    email=f"{i}@test.com",
+                    phone=f"+49 176 {i:07d}",
+                    subject=random.choice(common_subjects),
+                ),
             )
-            guildedtours_participants.append(participant)
-            participant.save()
     return guildedtours_participants
 
 
 def _generate_guildedtours_tours(common_semesters):  # nosec: this is only used in a fixture
     guildedtours_tours = []
     for i in range(20):
-        tour = guidedtours.models.Tour(
-            semester=random.choice(common_semesters),
-            name=f"Tour {i}",
-            description=lorem.sentence(),
-            date=datetime.today() + timedelta(days=random.randint(2, 20)),
-            capacity=random.randint(5, 20),
-            open_registration=datetime.today() - timedelta(days=random.randint(1, 20)),
-            close_registration=datetime.today() + timedelta(days=random.randint(0, 1)),
+        guildedtours_tours.append(
+            guidedtours.models.Tour.objects.create(
+                semester=random.choice(common_semesters),
+                name=f"Tour {i}",
+                description=lorem.sentence(),
+                date=django.utils.timezone.make_aware(
+                    datetime.today() + timedelta(days=random.randint(2, 20)),
+                ),
+                capacity=random.randint(5, 20),
+                open_registration=django.utils.timezone.make_aware(
+                    datetime.today() - timedelta(days=random.randint(1, 20)),
+                ),
+                close_registration=django.utils.timezone.make_aware(
+                    datetime.today() + timedelta(days=random.randint(0, 1)),
+                ),
+            ),
         )
-        guildedtours_tours.append(tour)
-        tour.save()
     return guildedtours_tours
 
 
 def _generate_companies(common_semesters):  # nosec: this is only used in a fixture
     bags_companies = []
-    for i in range(400):
-        company = bags.models.Company(
-            semester=random.choice(common_semesters),
-            name=f"Company {i}",
-            contact_gender=random.choice(("Herr", "Frau", "")),
-            contact_firstname=f"Firstname {i}",
-            contact_lastname=f"Lastname {i}",
-            email=f"{i}@test.com",
-            email_sent=random.choice((True, False)),
-            email_sent_success=random.choice((True, False)),
-            promise=random.choice((True, False, None)),
-            giveaways=lorem.sentence()[:50] if random.randint(0, 5) == 0 else "",
-            giveaways_last_year=lorem.sentence()[:50] if random.randint(0, 5) == 0 else "",
-            arrival_time=lorem.sentence()[:10] if random.randint(0, 5) < 3 else "",
-            last_year=random.choice((True, False)),
-            arrived=random.choice((True, False)),
-            contact_again=random.choice((True, False)),
-            comment=lorem.sentence()[:50] if random.randint(0, 5) == 0 else "",
+    for i in range(300):
+        bags_companies.append(
+            bags.models.Company.objects.create(
+                semester=random.choice(common_semesters),
+                name=f"Company {i}",
+                contact_gender=random.choice(("Herr", "Frau", "")),
+                contact_firstname=f"Firstname {i}",
+                contact_lastname=f"Lastname {i}",
+                email=f"{i}@test.com",
+                email_sent=random.choice((True, False)),
+                email_sent_success=random.choice((True, False)),
+                promise=random.choice((True, False, None)),
+                giveaways=lorem.sentence()[:50] if random.randint(0, 5) == 0 else "",
+                giveaways_last_year=lorem.sentence()[:50] if random.randint(0, 5) == 0 else "",
+                arrival_time=lorem.sentence()[:10] if random.randint(0, 5) < 3 else "",
+                last_year=random.choice((True, False)),
+                arrived=random.choice((True, False)),
+                contact_again=random.choice((True, False)),
+                comment=lorem.sentence()[:50] if random.randint(0, 5) == 0 else "",
+            ),
         )
-        bags_companies.append(company)
-        company.save()
     return bags_companies
 
 
@@ -284,8 +295,12 @@ def _generate_tasks(events, tutors_list, questions):  # nosec: this is only used
                 semester=event.semester,
                 name=f"Task {i}",
                 description=lorem.paragraph(),
-                begin=datetime.today().replace(month=2).replace(day=1),
-                end=datetime.today().replace(month=11).replace(day=1),
+                begin=django.utils.timezone.make_aware(
+                    datetime.today().replace(month=2).replace(day=1),
+                ),
+                end=django.utils.timezone.make_aware(
+                    datetime.today().replace(month=11).replace(day=1),
+                ),
                 meeting_point=lorem.sentence()[: random.randint(0, 49)],
                 event=event,
                 min_tutors=min(number1, number2),
@@ -315,8 +330,10 @@ def _generate_events(semesters, subjects):  # nosec: this is only used in a fixt
             semester=random.choice(semesters),
             name=f"Event {i}",
             description=lorem.paragraph(),
-            begin=datetime.today().replace(month=1).replace(day=1),
-            end=datetime.today().replace(month=1).replace(day=1),
+            begin=django.utils.timezone.make_aware(
+                datetime.today().replace(month=1).replace(day=1),
+            ),
+            end=django.utils.timezone.make_aware(datetime.today().replace(month=1).replace(day=1)),
             meeting_point=lorem.sentence(),
         )
         filtered_subjects = random.sample(subjects, random.randint(0, len(subjects)))
@@ -332,30 +349,32 @@ def _generate_answers(questions, tutors_tutors):  # nosec: this is only used in 
     for tutor in tutors_tutors:
         for question in questions:
             if random.randint(0, 5) == 0:
-                answer = tutors.models.Answer(
-                    tutor=tutor,
-                    question=question,
+                answers.append(
+                    tutors.models.Answer.objects.create(
+                        tutor=tutor,
+                        question=question,
+                    ),
                 )
             else:
-                answer = tutors.models.Answer(
-                    tutor=tutor,
-                    question=question,
-                    answer=random.choice(tutors.models.Answer.ANSWERS)[0],
+                answers.append(
+                    tutors.models.Answer.objects.create(
+                        tutor=tutor,
+                        question=question,
+                        answer=random.choice(tutors.models.Answer.ANSWERS)[0],
+                    ),
                 )
-            answers.append(answer)
-            answer.save()
     return answers
 
 
 def _generate_questions(semesters):  # nosec: this is only used in a fixture
     questions = []
     for _ in range(5):
-        question = tutors.models.Question(
-            semester=random.choice(semesters),
-            question=lorem.sentence(),
+        questions.append(
+            tutors.models.Question.objects.create(
+                semester=random.choice(semesters),
+                question=lorem.sentence(),
+            ),
         )
-        questions.append(question)
-        question.save()
     return questions
 
 
@@ -412,12 +431,12 @@ def _generate_subjects():  # nosec: this is only used in a fixture
     subjects = []
     for subject_choice in settool_common.models.Subject.SUBJECT_CHOICES:
         for degree in settool_common.models.Subject.DEGREE_CHOICES:
-            subject = settool_common.models.Subject(
-                subject=subject_choice,
-                degree=degree,
+            subjects.append(
+                settool_common.models.Subject.objects.create(
+                    subject=subject_choice[0],
+                    degree=degree[0],
+                ),
             )
-            subjects.append(subject)
-            subject.save()
     return subjects
 
 
