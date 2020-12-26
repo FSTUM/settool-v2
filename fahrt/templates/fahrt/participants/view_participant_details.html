@@ -22,7 +22,7 @@
             </tr>
             <tr>
                 <th>{% trans "U18" %}</th>
-                <td>{% include "true_false_none_span.html" with value=participant.u18 inverted_colors=True %}</td>
+                <td>{% include "true_false_span.html" with value=participant.u18 inverted_colors=True %}</td>
             </tr>
             <tr>
                 <th>{% trans "Email" %}</th>
@@ -51,7 +51,7 @@
             <tr>
                 <th>{% trans "Car" %}</th>
                 <td>
-                    {% include "true_false_none_span.html" with value=participant.car %}
+                    {% include "true_false_span.html" with value=participant.car %}
                     {% if participant.car %}
                     {% blocktranslate trimmed with additional_seats=participant.car_places %}
                     {{ additional_seats }} additional seats
@@ -164,7 +164,7 @@
             <tr>
                 <th>{% trans "Mailing list" %}</th>
                 <td>
-                    {% include "true_false_none_span.html" with value=participant.mailinglist %}
+                    {% include "true_false_span.html" with value=participant.mailinglist %}
                     <a href="{% url "fahrt_toggle_mailinglist" participant.id %}">
                         <span class="glyphicon glyphicon-transfer"></span>
                     </a>

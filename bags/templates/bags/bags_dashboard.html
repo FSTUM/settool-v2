@@ -15,9 +15,9 @@
 <script>
     const displayTrueFalse = (value, _, response) => {
         if (value === 'True') {
-            $(response).html(`{% include "true_false_none_span.html" with value=True%}`);
+            $(response).html(`{% include "true_false_span.html" with value=True%}`);
         } else if (value === 'False') {
-            $(response).html(`{% include "true_false_none_span.html" with value=False%}`);
+            $(response).html(`{% include "true_false_span.html" with value=False%}`);
         } else {
             $(response).empty();
         }
@@ -215,7 +215,7 @@
                             data-url='{% url "updatecompany" company.id "email_sent" %}'
                             data-params="{csrfmiddlewaretoken:'{{ csrf_token }}'}"
                         >
-                            {% include "true_false_none_span.html" with value=company.email_sent %}
+                            {% include "true_false_span.html" with value=company.email_sent %}
                         </a>
                     </td>
                     <td>
@@ -228,7 +228,7 @@
                             data-url='{% url "updatecompany" company.id "email_sent_success" %}'
                             data-params="{csrfmiddlewaretoken:'{{ csrf_token }}'}"
                         >
-                            {% include "true_false_none_span.html" with value=company.email_sent_success %}
+                            {% include "true_false_span.html" with value=company.email_sent_success %}
                         </a>
                     </td>
                     <td>
@@ -280,7 +280,7 @@
                             data-url='{% url "updatecompany" company.id "arrived" %}'
                             data-params="{csrfmiddlewaretoken:'{{ csrf_token }}'}"
                         >
-                            {% include "true_false_none_span.html" with value=company.arrived %}
+                            {% include "true_false_span.html" with value=company.arrived %}
                         </a>
                     </td>
                     <td>
@@ -293,7 +293,7 @@
                             data-url='{% url "updatecompany" company.id "last_year" %}'
                             data-params="{csrfmiddlewaretoken:'{{ csrf_token }}'}"
                         >
-                            {% include "true_false_none_span.html" with value=company.last_year %}
+                            {% include "true_false_span.html" with value=company.last_year %}
                         </a>
                     </td>
                     <td>

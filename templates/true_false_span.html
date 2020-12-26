@@ -1,0 +1,14 @@
+{% load i18n %}
+{% if value %}
+<span
+    style="color:{% if inverted_colors %} red{% else %} green{% endif %}"
+    class="glyphicon glyphicon-ok"
+></span>
+<span style="display: none;">{% trans "Yes" %}</span>
+{% else %}
+<span
+    style="color:{% if inverted_colors %} green{% else %} red{% endif %}"
+    class="glyphicon glyphicon-remove"
+></span>
+<span style="display: none;">{% trans "No" %}</span>
+{% endif %}
