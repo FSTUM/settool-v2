@@ -1,10 +1,8 @@
 {% extends "settool_common/settings/base_settings.html" %}
 {% load i18n %}
 
-{% block title %}{% trans "SET" %} - {% trans "Delete email" %}{% endblock %}
-
 {% block set_common_headercontent %}
-{% trans "Delete email" %}: {{ mail.subject }}}
+{% trans "Delete email" %}: {{ mail.subject }}
 {% endblock %}
 
 {% block set_common_content %}
@@ -25,25 +23,13 @@
 >
     {% csrf_token %}
 
-    <table class="table">
-        <tr>
-            <td>
-                <button
-                    type="submit"
-                    class="btn btn-danger"
-                >
-                    {% trans "Delete" %}
-                </button>
-            </td>
-            <td>
-                <a
-                    href="{% url "mail_list" %}"
-                    class="btn btn-secondary"
-                >
-                    {% trans "Cancel" %}
-                </a>
-            </td>
-        </tr>
-    </table>
+    <a
+        href="{% url "mail_list" %}"
+        class="btn btn-secondary"
+    >{% trans "Cancel" %}</a>
+    <button
+        type="submit"
+        class="btn btn-danger"
+    >{% trans "Delete" %}</button>
 </form>
 {% endblock %}

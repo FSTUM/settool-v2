@@ -2,48 +2,33 @@
 {% load i18n %}
 {% load bootstrap4 %}
 
-{% block title %}{% trans "SET" %} - {% trans "Email details" %}{% endblock %}
-
-{% block head %}
-<script>
-    $(document).ready(() => {
-        $('#mailDetailsTable').DataTable();
-    });
-</script>
-{% endblock %}
-
 {% block set_common_headercontent %}
-{{ mail }}
+{% trans "Email details" %}: {{ mail }}
 {% endblock %}
 
 {% block set_common_content %}
-<div class="table-responsive">
-    <table
-        id="mailDetailsTable"
-        class="table dataTable"
-    >
-        <tr>
-            <th>{% trans "Email subject" %}</th>
-            <td>{{ mail.subject }}</td>
-        </tr>
-        <tr>
-            <th>{% trans "Text" %}</th>
-            <td>{{ mail.text|linebreaks }}</td>
-        </tr>
-        {% if perms.tutor.edit_tutors %}
-        <tr>
-            <th>{% trans "Edit" %}</th>
-            <td>
-                <a href="{% url "mail_edit" mail.id %}"><span class="glyphicon glyphicon-edit"></span></a>
-            </td>
-        </tr>
-        <tr>
-            <th>{% trans "Delete" %}</th>
-            <td>
-                <a href="{% url "mail_delete" mail.id %}"><span class="glyphicon glyphicon-trash"></span></a>
-            </td>
-        </tr>
-        {% endif %}
-    </table>
-</div>
+<table class="table dataTable">
+    <tr>
+        <th>{% trans "Email subject" %}</th>
+        <td>{{ mail.subject }}</td>
+    </tr>
+    <tr>
+        <th>{% trans "Text" %}</th>
+        <td>{{ mail.text|linebreaks }}</td>
+    </tr>
+</table>
+<a
+    href="{% url "mail_list" %}"
+    class="btn btn-secondary"
+>{% trans "Back" %}</a>
+{% if perms.tutor.edit_tutors %}
+<a
+    href="{% url "mail_edit" mail.id %}"
+    class="btn btn-primary"
+>{% trans "Edit" %} <span class="glyphicon glyphicon-edit"></span></a>
+<a
+    href="{% url "mail_delete" mail.id %}"
+    class="btn btn-danger"
+>{% trans "Delete" %} <span class="glyphicon glyphicon-trash"></span></a>
+{% endif %}
 {% endblock %}

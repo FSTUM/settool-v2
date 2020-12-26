@@ -110,10 +110,6 @@ msgstr "Studiengang"
 #: settool_common/models.py
 #: settool_common/templates/settool_common/mail/send_email_confirmation.html
 #: settool_common/templates/settool_common/mail/send_email_failure.html
-#: settool_common/templates/settool_common/settings/add_email.html
-#: settool_common/templates/settool_common/settings/delete_email.html
-#: settool_common/templates/settool_common/settings/edit_email.html
-#: settool_common/templates/settool_common/settings/email_details.html
 msgid "SET"
 msgstr "SET"
 
@@ -258,6 +254,10 @@ msgstr ""
 #: settool_common/templates/settool_common/settings/email_details.html
 msgid "Email details"
 msgstr "E-Mail Details"
+
+#: settool_common/templates/settool_common/settings/email_details.html
+msgid "Back"
+msgstr ""
 
 #: settool_common/templates/settool_common/settings/email_details.html
 msgid "Edit"
