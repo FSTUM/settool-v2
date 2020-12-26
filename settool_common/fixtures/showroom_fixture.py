@@ -293,15 +293,18 @@ def _generate_tasks(events, tutors_list, questions):  # nosec: this is only used
         for i in range(0, random.randint(0, 4)):
             task = tutors.models.Task.objects.create(
                 semester=event.semester,
-                name=f"Task {i}",
-                description=lorem.paragraph(),
+                name_en=f"Task {i}",
+                name_de=f"Task {i}",
+                description_en=lorem.paragraph(),
+                description_de=lorem.paragraph(),
                 begin=django.utils.timezone.make_aware(
                     datetime.today().replace(month=2).replace(day=1),
                 ),
                 end=django.utils.timezone.make_aware(
                     datetime.today().replace(month=11).replace(day=1),
                 ),
-                meeting_point=lorem.sentence()[: random.randint(0, 49)],
+                meeting_point_en=lorem.sentence()[: random.randint(0, 49)],
+                meeting_point_de=lorem.sentence()[: random.randint(0, 49)],
                 event=event,
                 min_tutors=min(number1, number2),
                 max_tutors=max(number1, number2),
@@ -329,12 +332,16 @@ def _generate_events(semesters, subjects):  # nosec: this is only used in a fixt
         event = tutors.models.Event.objects.create(
             semester=random.choice(semesters),
             name=f"Event {i}",
-            description=lorem.paragraph(),
+            name_en=f"Event {i}",
+            name_de=f"Event {i}",
+            description_en=lorem.paragraph(),
+            description_de=lorem.paragraph(),
             begin=django.utils.timezone.make_aware(
                 datetime.today().replace(month=1).replace(day=1),
             ),
             end=django.utils.timezone.make_aware(datetime.today().replace(month=1).replace(day=1)),
-            meeting_point=lorem.sentence(),
+            meeting_point_en=lorem.sentence(),
+            meeting_point_de=lorem.sentence(),
         )
         filtered_subjects = random.sample(subjects, random.randint(0, len(subjects)))
         event.subjects.set(filtered_subjects)
@@ -347,7 +354,10 @@ def _generate_events(semesters, subjects):  # nosec: this is only used in a fixt
 def _generate_answers(questions, tutors_tutors):  # nosec: this is only used in a fixture
     answers = []
     for tutor in tutors_tutors:
-        for question in questions:
+        questions_tutor_semester = [
+            question for question in questions if question.semester == tutor.semester
+        ]
+        for question in questions_tutor_semester:
             if random.randint(0, 5) == 0:
                 answers.append(
                     tutors.models.Answer.objects.create(
@@ -368,13 +378,15 @@ def _generate_answers(questions, tutors_tutors):  # nosec: this is only used in 
 
 def _generate_questions(semesters):  # nosec: this is only used in a fixture
     questions = []
-    for _ in range(5):
-        questions.append(
-            tutors.models.Question.objects.create(
-                semester=random.choice(semesters),
-                question=lorem.sentence(),
-            ),
-        )
+    for semester in semesters:
+        for _ in range(random.choice((2, 3))):
+            questions.append(
+                tutors.models.Question.objects.create(
+                    semester=semester,
+                    question_en=lorem.sentence(),
+                    question_de=lorem.sentence(),
+                ),
+            )
     return questions
 
 
@@ -451,9 +463,7 @@ def _generate_tutors(semesters, subjects):  # nosec: this is only used in a fixt
             subject=random.choice(subjects),
             tshirt_size=random.choice(tutors.models.Tutor.TSHIRT_SIZES)[0],
             tshirt_girls_cut=random.randint(0, 1) == 1,
-            status=random.choice(
-                (tutors.models.Tutor.STATUS_ACCEPTED, tutors.models.Tutor.STATUS_DECLINED),
-            ),
+            status=random.choice(tutors.models.Tutor.STATUS_OPTIONS)[0],
             matriculation_number=f"{i:07d}",
             birthday=generate_random_birthday(),
         )
