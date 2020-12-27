@@ -34,8 +34,8 @@
                     {{ mail.text|slice:":100" }}{% if mail.text|length > 100 %}...{% endif %}
                 </td>
                 <td>
-                    <a href="{% url "mail_edit" mail.id %}"><span class="glyphicon glyphicon-edit"></span></a>
-                    <a href="{% url "mail_delete" mail.id %}"><span class="glyphicon glyphicon-trash"></span></a>
+                    <a href="{% url "mail_edit" mail.id %}"><span class="bi bi-pencil-square"></span></a>
+                    <a href="{% url "mail_delete" mail.id %}"><span class="bi bi-trash-fill"></span></a>
                 </td>
             </tr>
             {% endfor %}

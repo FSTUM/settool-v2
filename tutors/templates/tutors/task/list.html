@@ -58,10 +58,10 @@
                     {{ task.tutors.count }}/{{ task.min_tutors|default_if_none:0 }}-{{ task.max_tutors|default_if_none:0 }}
                 </td>
                 <td>
-                    <a href="{% url "task_edit" task.id %}"><span class="glyphicon glyphicon-edit"></span></a>
-                    <a href="{% url "task_delete" task.id %}"><span class="glyphicon glyphicon-trash"></span></a>
-                    <a href="{% url "task_mail" task.id %}"><span class="glyphicon glyphicon-envelope"></span></a>
-                    <a href="{% url "task_export" "pdf" task.id %}"><span class="glyphicon glyphicon-list"></span></a>
+                    <a href="{% url "task_edit" task.id %}"><span class="bi bi-pencil-square"></span></a>
+                    <a href="{% url "task_delete" task.id %}"><span class="bi bi-trash-fill"></span></a>
+                    <a href="{% url "task_mail" task.id %}"><span class="bi bi-envelope-fill"></span></a>
+                    <a href="{% url "task_export" "pdf" task.id %}"><span class="bi bi-file-earmark-person-fill"></span></a>
                 </td>
             </tr>
             {% endfor %}

@@ -39,7 +39,7 @@
         <h2>
             {% trans "Questions" %}:
             {% if not perms.tutor.edit_tutors %}
-            <a href="{% url "tutor_edit" tutor.id %}"><span class="glyphicon glyphicon-edit">Edit</span></a>
+            <a href="{% url "tutor_edit" tutor.id %}"><span class="bi bi-pencil-square">Edit</span></a>
             {% endif %}
         </h2>
         <table class="table">
@@ -97,6 +97,6 @@
     <button
         class="btn btn-danger"
         type="submit"
-    >{% trans "Delete tutor" %} <span class="glyphicon glyphicon-trash"></span></button>
+    >{% trans "Delete tutor" %} <span class="bi bi-trash-fill"></span></button>
 </form>
 {% endblock %}

@@ -19,20 +19,20 @@
         <a
             class="btn btn-secondary btn-block"
             href="{% if status == "all" %}{% url "tutor_export" "pdf" %}{% else %}{% url "tutor_export_status" "pdf" status %}{% endif %}"
-        >{% trans "Export PDF" %} <span class="glyphicon glyphicon-file"></span></a>
+        >{% trans "Export PDF" %} <span class="bi bi-file-earmark-person-fill"></span></a>
     </div>
     <div class="col-sm p-1">
         <a
             class="btn btn-secondary btn-block"
             href="{% if status == "all" %}{% url "tutor_export" "csv" %}{% else %}{% url "tutor_export_status" "csv" status %}{% endif %}"
-        >{% trans "Export CSV" %} <span class="glyphicon glyphicon-list"></span></a>
+        >{% trans "Export CSV" %} <span class="bi bi-file-spreadsheet"></span></a>
     </div>
     {% if status == "accepted" or status == "employee" %}
     <div class="col-sm p-1">
         <a
             class="btn btn-secondary btn-block"
             href="{% url "tutor_export_status" "tshirt" status %}"
-        >{% trans "T-Shirt List" %} <span class="glyphicon glyphicon-user"></span></a>
+        >{% trans "T-Shirt List" %} <span class="bi bi-person-lines-fill"></span></a>
     </div>
     {% endif %}
     {% if status != "all" %}
@@ -40,7 +40,7 @@
         <a
             class="btn btn-primary btn-block"
             href="{% url "tutor_mail_status" status %}"
-        >{% trans "Send email" %} <span class="glyphicon glyphicon-envelope"></span></a>
+        >{% trans "Send email" %} <span class="bi bi-envelope-fill"></span></a>
     </div>
     {% endif %}
     {% if status == "active" %}
@@ -48,13 +48,13 @@
         <a
             class="btn btn-primary btn-block"
             href="{% url "tutor_batch_accept" %}"
-        >{% trans "Batch Accept" %} <span class="glyphicon glyphicon-check"></span></a>
+        >{% trans "Batch Accept" %} <span class="bi bi-check-circle-fill"></span></a>
     </div>
     <div class="col-sm p-1">
         <a
             class="btn btn-danger btn-block"
             href="{% url "tutor_batch_decline" %}"
-        >{% trans "Batch Decline" %} <span class="glyphicon glyphicon-remove-circle"></span></a>
+        >{% trans "Batch Decline" %} <span class="bi bi-x-circle-fill"></span></a>
     </div>
     {% endif %}
 </div>
@@ -147,9 +147,9 @@
                 {% endwith %}
                 {% endif %}
                 <td>
-                    <a href="{% url "tutor_edit" tutor.id %}"><span class="glyphicon glyphicon-edit"></span></a>
-                    <a href="{% url "tutor_delete" tutor.id %}"><span class="glyphicon glyphicon-trash"></span></a>
-                    <a href="{% url "tutor_mail_tutor" tutor.id %}"><span class="glyphicon glyphicon-envelope"></span></a>
+                    <a href="{% url "tutor_edit" tutor.id %}"><span class="bi bi-pencil-square"></span></a>
+                    <a href="{% url "tutor_delete" tutor.id %}"><span class="bi bi-trash-fill"></span></a>
+                    <a href="{% url "tutor_mail_tutor" tutor.id %}"><span class="bi bi-envelope-fill"></span></a>
                 </td>
             </tr>
             {% endfor %}

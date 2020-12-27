@@ -2,19 +2,19 @@
 {% if value %}
 <span
     style="color:{% if inverted_colors %} red{% else %} green{% endif %}"
-    class="glyphicon glyphicon-ok"
+    class="bi bi-check-circle-fill"
 ></span>
 <span style="display: none;">{% trans "Yes" %}</span>
 {% elif value == False %}
 <span
     style="color:{% if inverted_colors %} green{% else %} red{% endif %}"
-    class="glyphicon glyphicon-remove"
+    class="bi bi-x-circle-fill"
 ></span>
 <span style="display: none;">{% trans "No" %}</span>
 {% else %}
 <span
     style="color:orange"
-    class="glyphicon glyphicon-question-sign"
+    class="bi bi-question-circle-fill"
 ></span>
 <span style="display: none;">{% trans "Unknown" %}</span>
 {% endif %}

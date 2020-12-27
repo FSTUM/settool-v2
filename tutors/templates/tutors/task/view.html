@@ -94,19 +94,19 @@
         <a
             class="btn btn-primary"
             href="{% url "task_export" "pdf" task.id %}"
-        >{% trans "List tutors" %} <span class="glyphicon glyphicon-list"></span></a>
+        >{% trans "List tutors" %} <span class="bi bi-person-lines-fill"></span></a>
         <a
             class="btn btn-primary"
             href="{% url "task_edit" task.id %}"
-        >{% trans "Edit task" %} <span class="glyphicon glyphicon-edit"></span></a>
+        >{% trans "Edit task" %} <span class="bi bi-pencil-square"></span></a>
         <a
             class="btn btn-primary"
             href="{% url "task_mail" task.id %}"
-        >{% trans "Send mail" %} <span class="glyphicon glyphicon-envelope"></span> ({% mail_task_count task %}{% trans " missing mails" %})</a>
+        >{% trans "Send mail" %} <span class="bi bi-envelope-fill"></span> ({% mail_task_count task %}{% trans " missing mails" %})</a>
         <a
             class="btn btn-danger"
             href="{% url "task_delete" task.id %}"
-        >{% trans "Delete task" %} <span class="glyphicon glyphicon-trash"></span></a>
+        >{% trans "Delete task" %} <span class="bi bi-trash-fill"></span></a>
         {% endif %}
     </div>
     {% if perms.tutor.edit_tutors %}
@@ -251,7 +251,7 @@
             <button
                 type="submit"
                 class="btn btn-danger"
-            >{% trans "Save changes" %} <span class="glyphicon glyphicon-save"></span></button>
+            >{% trans "Save changes" %}</button>
         </form>
     </div>
     {% endif %}

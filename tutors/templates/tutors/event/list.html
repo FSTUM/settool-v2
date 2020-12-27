@@ -47,8 +47,8 @@
                     {{ event.meeting_point }}
                 </td>
                 <td>
-                    <a href="{% url "event_edit" event.id %}"><span class="glyphicon glyphicon-edit"></span></a>
-                    <a href="{% url "event_delete" event.id %}"><span class="glyphicon glyphicon-trash"></span></a>
+                    <a href="{% url "event_edit" event.id %}"><span class="bi bi-pencil-square"></span></a>
+                    <a href="{% url "event_delete" event.id %}"><span class="bi bi-trash-fill"></span></a>
                 </td>
             </tr>
             {% endfor %}

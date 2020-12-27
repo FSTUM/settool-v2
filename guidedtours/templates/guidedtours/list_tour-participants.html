@@ -56,9 +56,9 @@ List of participants for {{ name }} on {{ date }}
 <a
     class="btn btn-primary"
     href="{% url "tours_edit" tour.id %}"
->{% trans "Edit tour" %} <span class="glyphicon glyphicon-edit"></span></a>
+>{% trans "Edit tour" %} <span class="bi bi-pencil-square"></span></a>
 <a
     class="btn btn-danger"
     href="{% url "tours_del" tour.id %}"
->{% trans "Delete tour" %} <span class="glyphicon glyphicon-trash"></span></a>
+>{% trans "Delete tour" %} <span class="bi bi-trash-fill"></span></a>
 {% endblock %}

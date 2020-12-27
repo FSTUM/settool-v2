@@ -109,15 +109,15 @@
             <a
                 class="btn btn-primary"
                 href="{% url "tutor_edit" tutor.id %}"
-            >{% trans "Edit tutor" %} <span class="glyphicon glyphicon-edit"></span></a>
+            >{% trans "Edit tutor" %} <span class="bi bi-pencil-square"></span></a>
             <a
                 class="btn btn-warning"
                 href="{% url "tutor_mail_tutor" tutor.id %}"
-            >{% trans "Send email to tutor" %}<span class="glyphicon glyphicon-envelope"></span></a>
+            >{% trans "Send email to tutor" %}<span class="bi bi-envelope-fill"></span></a>
             <a
                 class="btn btn-danger"
                 href="{% url "tutor_delete" tutor.id %}"
-            >{% trans "Delete tutor" %} <span class="glyphicon glyphicon-trash"></span></a>
+            >{% trans "Delete tutor" %} <span class="bi bi-trash-fill"></span></a>
             {% endif %}
         </div>
         <h2 class="card-title mt-3">{% trans "Questions" %}</h2>

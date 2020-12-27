@@ -69,14 +69,14 @@
                 <th>{% trans "Non-liability submitted" %}</th>
                 <td>
                     {{ participant.non_liability }}
-                    <a href="{% url "fahrt_set_nonliability" participant.id %}"><span class="glyphicon glyphicon-log-in"></span></a>
+                    <a href="{% url "fahrt_set_nonliability" participant.id %}"><span class="bi bi-person-check-fill"></span></a>
                 </td>
             </tr>
             <tr>
                 <th>{% trans "Paid" %}</th>
                 <td>
                     {{ participant.paid }}
-                    <a href="{% url "fahrt_set_paid" participant.id %}"><span class="glyphicon glyphicon-log-in"></span></a>
+                    <a href="{% url "fahrt_set_paid" participant.id %}"><span class="bi bi-person-check-fill"></span></a>
                 </td>
             </tr>
             <tr>
@@ -150,7 +150,7 @@
                 <td>
                     {% include "true_false_span.html" with value=participant.mailinglist %}
                     <a href="{% url "fahrt_toggle_mailinglist" participant.id %}">
-                        <span class="glyphicon glyphicon-transfer"></span>
+                        <span class="bi bi-toggles"></span>
                     </a>
                 </td>
             </tr>
@@ -165,13 +165,13 @@
             <tr>
                 <th>{% trans "Edit" %}</th>
                 <td>
-                    <a href="{% url "fahrt_editparticipant" participant.id %}"><span class="glyphicon glyphicon-edit"></span></a>
+                    <a href="{% url "fahrt_editparticipant" participant.id %}"><span class="bi bi-pencil-square"></span></a>
                 </td>
             </tr>
             <tr>
                 <th>{% trans "Delete" %}</th>
                 <td>
-                    <a href="{% url "fahrt_delparticipant" participant.id %}"><span class="glyphicon glyphicon-trash"></span></a>
+                    <a href="{% url "fahrt_delparticipant" participant.id %}"><span class="bi bi-trash-fill"></span></a>
                 </td>
             </tr>
         </table>
@@ -189,7 +189,7 @@
                 class="btn btn-warning"
                 name="mailform"
                 type="submit"
-            >{% trans "Send email" %} <span class="glyphicon glyphicon-envelope"></span></button>
+            >{% trans "Send email" %} <span class="bi bi-envelope-fill"></span></button>
         </form>
     </div>
     <div class="col-sm-1">

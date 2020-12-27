@@ -21,7 +21,7 @@
     <button
         type="submit"
         class="btn btn-warning"
-    >{% trans "Send email" %} <span class="glyphicon glyphicon-envelope"></span></button>
+    >{% trans "Send email" %} <span class="bi bi-envelope-fill"></span></button>
 </form>
 <p>
     <strong>{% trans "From" %}</strong>: {{ from_email }}
@@ -73,8 +73,8 @@
                 <td>{% include "true_false_span.html" with value=company.arrived %}</td>
                 <td>{% include "true_false_none_span.html" with value=company.contact_again %}</td>
                 <td>
-                    <a href="{% url "editcompany" company.id %}"><span class="glyphicon glyphicon-edit"></span></a>
-                    <a href="{% url "delcompany" company.id %}"><span class="glyphicon glyphicon-trash"></span></a>
+                    <a href="{% url "editcompany" company.id %}"><span class="bi bi-pencil-square"></span></a>
+                    <a href="{% url "delcompany" company.id %}"><span class="bi bi-trash-fill"></span></a>
                 </td>
             </tr>
             {% endfor %}

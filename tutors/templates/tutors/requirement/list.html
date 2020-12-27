@@ -35,8 +35,8 @@
                     <a href="{% url "requirement_view" requirement.id %}">{{ requirement.question }}</a>
                 </td>
                 <td>
-                    <a href="{% url "requirement_edit" requirement.id %}"><span class="glyphicon glyphicon-edit"></span></a>
-                    <a href="{% url "requirement_delete" requirement.id %}"><span class="glyphicon glyphicon-trash"></span></a>
+                    <a href="{% url "requirement_edit" requirement.id %}"><span class="bi bi-pencil-square"></span></a>
+                    <a href="{% url "requirement_delete" requirement.id %}"><span class="bi bi-trash-fill"></span></a>
                 </td>
             </tr>
             {% endfor %}

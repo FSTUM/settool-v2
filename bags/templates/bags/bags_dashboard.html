@@ -48,10 +48,10 @@
             paging: false,
         });
         $.fn.editableform.buttons = `<button class="btn btn-primary btn-sm editable-submit" type="submit">
-                                        <span class="glyphicon glyphicon-ok"></span>
+                                        <span class="bi bi-check"></span>
                                     </button>
                                     <button class="btn btn-secondary btn-sm editable-cancel" type="button">
-                                        <span class="glyphicon glyphicon-remove"></span>
+                                        <span class="bi bi-x"></span>
                                     </button>`;
         $.fn.editableform.loading = `<div>
                                         <span aria-hidden="true" class="spinner-border spinner-border-sm" role="status"></span>
@@ -162,7 +162,7 @@
         >
             <thead>
                 <tr>
-                    <th><span class="glyphicon glyphicon-ok-circle"></span></th>
+                    <th><span class="bi bi-check-square"></span></th>
                     <th>{% trans "Company" %}</th>
                     <th>{% trans "Contact" %}</th>
                     <th>{% trans "Email" %}</th>
@@ -326,10 +326,10 @@
                     </td>
                     <td>
                         <a href="{% url "editcompany" company.id %}">
-                            <span class="glyphicon glyphicon-edit"></span>
+                            <span class="bi bi-pencil-square"></span>
                         </a>
                         <a href="{% url "delcompany" company.id %}">
-                            <span class="glyphicon glyphicon-trash"></span>
+                            <span class="bi bi-trash-fill"></span>
                         </a>
                     </td>
                     <td>
@@ -360,6 +360,6 @@
         class="btn btn-warning"
         name="mailform"
         type="submit"
-    >{% trans "Send emails" %} <span class="glyphicon glyphicon-envelope"></span></button>
+    >{% trans "Send emails" %} <span class="bi bi-envelope-fill"></span></button>
 </form>
 {% endblock %}

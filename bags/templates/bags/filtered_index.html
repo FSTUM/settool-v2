@@ -31,15 +31,15 @@
         class="btn btn-warning"
         name="mailform"
         type="submit"
-    >{% trans "Send emails" %} <span class="glyphicon glyphicon-envelope"></span></button>
+    >{% trans "Send emails" %} <span class="bi bi-envelope-fill"></span></button>
     <a
         class="btn btn-primary"
         href="{% url "listmails" %}"
-    >{% trans "Edit email templates" %} <span class="glyphicon glyphicon-edit"></span></a>
+    >{% trans "Edit email templates" %} <span class="bi bi-pencil-square"></span></a>
     <a
         class="btn btn-primary"
         href="{% url "addcompany" %}"
-    >{% trans "Add Company" %} <span class="glyphicon glyphicon-plus"></span></a>
+    >{% trans "Add Company" %} <span class="bi bi-plus"></span></a>
 
     <div class="table-responsive">
         <table
@@ -84,8 +84,8 @@
                     <td>{% include "true_false_none_span.html" with value=company.contact_again %}</td>
                     <td>{{ company.comment }}</td>
                     <td>
-                        <a href="{% url "editcompany" company.id %}"><span class="glyphicon glyphicon-edit"></span></a>
-                        <a href="{% url "delcompany" company.id %}"><span class="glyphicon glyphicon-trash"></span></a>
+                        <a href="{% url "editcompany" company.id %}"><span class="bi bi-pencil-square"></span></a>
+                        <a href="{% url "delcompany" company.id %}"><span class="bi bi-trash-fill"></span></a>
                     </td>
                 </tr>
                 {% endfor %}

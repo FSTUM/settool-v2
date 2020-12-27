@@ -38,7 +38,7 @@
                     {{ mail.comment }}
                 </td>
                 <td>
-                    <a href="{% url "delmail" mail.id %}"><span class="glyphicon glyphicon-trash"></span></a>
+                    <a href="{% url "delmail" mail.id %}"><span class="bi bi-trash-fill"></span></a>
                 </td>
             </tr>
             {% endfor %}
@@ -53,5 +53,5 @@
 <a
     class="btn btn-primary"
     href="{% url "addmail" %}"
->{% trans "Add email" %} <span class="glyphicon glyphicon-plus"></span></a>
+>{% trans "Add email" %} <span class="bi bi-plus"></span></a>
 {% endblock %}

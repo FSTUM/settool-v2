@@ -66,9 +66,9 @@
 <a
     class='btn btn-primary'
     href="{% url "editcompany" company.id %}"
->{% trans "Edit company" %} <span class="glyphicon glyphicon-edit"></span></a>
+>{% trans "Edit company" %} <span class="bi bi-pencil-square"></span></a>
 <a
     class='btn btn-danger'
     href="{% url "delcompany" company.id %}"
->{% trans "Delete company" %} <span class="glyphicon glyphicon-trash"></span></a>
+>{% trans "Delete company" %} <span class="bi bi-trash-fill"></span></a>
 {% endblock %}
