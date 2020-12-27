@@ -27,18 +27,15 @@
         action=""
     >
         {% csrf_token %}
-        <button
-            type="submit"
-            class="btn btn-secondary"
-        >
-            {% trans "Send" %}
-        </button>
+
         <a
+            class="btn btn-secondary"
             href="{% url "task_view" task.id %}"
+        >{% trans "Cancel" %}</a>
+        <button
             class="btn btn-danger"
-        >
-            {% trans "Cancel" %}
-        </a>
+            type="submit"
+        >{% trans "Send mail" %}</button>
 
         {% bootstrap_form form %}
     </form>

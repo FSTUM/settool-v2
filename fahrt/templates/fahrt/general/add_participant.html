@@ -13,14 +13,15 @@
     <div class="row">
         <div class="col-xs-12 col-lg-5">
             {% bootstrap_form form %}
+            <div class="well">
+                {% trans "fahrt_privacy_policy" %}
+            </div>
         </div>
     </div>
 
     <button
-        type="submit"
         class="btn btn-primary"
-    >
-        {% trans "Submit" %}
-    </button>
+        type="submit"
+    >{% trans "Submit" %}</button>
 </form>
 {% endblock %}

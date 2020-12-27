@@ -15,19 +15,14 @@
 >
     {% csrf_token %}
 
-
-    <button
-        type="submit"
-        class="btn btn-secondary"
-    >
-        {% trans "Send" %}
-    </button>
     <a
-        href="{% url "fahrt_filter" %}"
         class="btn btn-secondary"
-    >
-        {% trans "Cancel" %}
-    </a>
+        href="{% url "fahrt_filter" %}"
+    >{% trans "Cancel" %}</a>
+    <button
+        class="btn btn-secondary"
+        type="submit"
+    >{% trans "Send emails" %}</button>
 </form>
 <p>
     <strong>{% trans "From" %}</strong>: {{ from_email }}

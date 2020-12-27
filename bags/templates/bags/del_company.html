@@ -16,17 +16,13 @@
 >
     {% csrf_token %}
 
-    <button
-        type="submit"
-        class="btn btn-danger"
-    >
-        {% trans "Delete" %}
-    </button>
     <a
-        href="{% url "bags_dashboard" %}"
         class="btn btn-secondary"
-    >
-        {% trans "Cancel" %}
-    </a>
+        href="{% url "bags_dashboard" %}"
+    >{% trans "Cancel" %}</a>
+    <button
+        class="btn btn-danger"
+        type="submit"
+    >{% trans "Delete" %} <span class="glyphicon glyphicon-trash"></span></button>
 </form>
 {% endblock %}

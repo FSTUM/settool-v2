@@ -142,15 +142,6 @@ msgstr "E-Mail-Vorlage hinzufügen"
 
 #: guidedtours/templates/guidedtours/add_mail.html
 #: guidedtours/templates/guidedtours/add_tour.html
-#: guidedtours/templates/guidedtours/edit_mail.html
-#: guidedtours/templates/guidedtours/edit_tour.html
-#: guidedtours/templates/guidedtours/signup_internal.html
-#: guidedtours/templates/guidedtours/standalone/signup.html
-msgid "Submit"
-msgstr "Eintragen"
-
-#: guidedtours/templates/guidedtours/add_mail.html
-#: guidedtours/templates/guidedtours/add_tour.html
 #: guidedtours/templates/guidedtours/del_mail.html
 #: guidedtours/templates/guidedtours/del_tour.html
 #: guidedtours/templates/guidedtours/edit_mail.html
@@ -158,6 +149,15 @@ msgstr "Eintragen"
 #: guidedtours/templates/guidedtours/send_mail.html
 msgid "Cancel"
 msgstr "Abbrechen"
+
+#: guidedtours/templates/guidedtours/add_mail.html
+#: guidedtours/templates/guidedtours/add_tour.html
+#: guidedtours/templates/guidedtours/edit_mail.html
+#: guidedtours/templates/guidedtours/edit_tour.html
+#: guidedtours/templates/guidedtours/signup_internal.html
+#: guidedtours/templates/guidedtours/standalone/signup.html
+msgid "Submit"
+msgstr "Eintragen"
 
 #: guidedtours/templates/guidedtours/add_tour.html
 #: guidedtours/templates/guidedtours/base_guildedtours.html
@@ -253,6 +253,11 @@ msgid "Filtered participants"
 msgstr "Gefilterte Teilnehmerliste"
 
 #: guidedtours/templates/guidedtours/filtered_list.html
+#: guidedtours/templates/guidedtours/list_tour-participants.html
+msgid "Back"
+msgstr "Zurück"
+
+#: guidedtours/templates/guidedtours/filtered_list.html
 msgid "Send emails"
 msgstr "E-Mails senden"
 
@@ -299,10 +304,6 @@ msgid ""
 msgstr ""
 "Soll die folgende E-Mail wirklich an die untenstehenden Teilnehmer geschickt "
 "werden?"
-
-#: guidedtours/templates/guidedtours/send_mail.html
-msgid "Send"
-msgstr "Senden"
 
 #: guidedtours/templates/guidedtours/send_mail.html
 msgid "From"
@@ -365,6 +366,9 @@ msgstr "Du hast dich erfolgreich für eine Institutsführung angemeldet"
 #: guidedtours/templates/guidedtours/standalone/success.html
 msgid "You will get all further information by email."
 msgstr "Alle weiteren Information bekommst du per E-Mail."
+
+#~ msgid "Send"
+#~ msgstr "Senden"
 
 #~ msgid "Guided tour"
 #~ msgstr "Intitutsführung"

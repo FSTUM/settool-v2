@@ -51,16 +51,16 @@ List of participants for {{ name }} on {{ date }}
     {% endfor %}
 </table>
 
-<p>
-    <a href="{% url "tours_edit" tour.id %}">
-        <strong>{% trans "Edit" %}</strong>
-        <span class="glyphicon glyphicon-edit"></span>
-    </a>
-</p>
-<p>
-    <a href="{% url "tours_del" tour.id %}">
-        <strong>{% trans "Delete" %}</strong>
-        <span class="glyphicon glyphicon-trash"></span>
-    </a>
-</p>
+<a
+    class="btn btn-secondary"
+    href="{% url "tours_list_tours" tour.id %}"
+>{% trans "Back" %}</a>
+<a
+    class="btn btn-primary"
+    href="{% url "tours_edit" tour.id %}"
+>{% trans "Edit" %} <span class="glyphicon glyphicon-edit"></span></a>
+<a
+    class="btn btn-danger"
+    href="{% url "tours_del" tour.id %}"
+>{% trans "Delete" %} <span class="glyphicon glyphicon-trash"></span></a>
 {% endblock %}

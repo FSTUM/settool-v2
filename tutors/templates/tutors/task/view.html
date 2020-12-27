@@ -94,20 +94,19 @@
         <a
             class="btn btn-primary"
             href="{% url "task_export" "pdf" task.id %}"
-        >{% trans "Tutor List" %} <span class="glyphicon glyphicon-list"></span></a>
-        <a
-            class="btn btn-primary"
-            href="{% url "task_mail" task.id %}"
-        >{% trans "Send Mail" %} <span class="glyphicon glyphicon-envelope"></span>
-            ({% mail_task_count task %}{% trans " missing mails" %})</a>
+        >{% trans "List tutors" %} <span class="glyphicon glyphicon-list"></span></a>
         <a
             class="btn btn-primary"
             href="{% url "task_edit" task.id %}"
-        >{% trans "Edit" %} <span class="glyphicon glyphicon-edit"></span></a>
+        >{% trans "Edit task" %} <span class="glyphicon glyphicon-edit"></span></a>
+        <a
+            class="btn btn-primary"
+            href="{% url "task_mail" task.id %}"
+        >{% trans "Send mail" %} <span class="glyphicon glyphicon-envelope"></span> ({% mail_task_count task %}{% trans " missing mails" %})</a>
         <a
             class="btn btn-danger"
             href="{% url "task_delete" task.id %}"
-        >{% trans "Delete" %} <span class="glyphicon glyphicon-trash"></span></a>
+        >{% trans "Delete task" %} <span class="glyphicon glyphicon-trash"></span></a>
         {% endif %}
     </div>
     {% if perms.tutor.edit_tutors %}

@@ -80,12 +80,12 @@
     {% csrf_token %}
 
     <a
-        href="{% url "event_list" %}"
         class="btn btn-secondary"
+        href="{% url "event_list" %}"
     >{% trans "Cancel" %}</a>
     <button
-        type="submit"
         class="btn btn-danger"
-    > {% trans "Delete" %}</button>
+        type="submit"
+    >{% trans "Delete" %} <span class="glyphicon glyphicon-trash"></span></button>
 </form>
 {% endblock %}

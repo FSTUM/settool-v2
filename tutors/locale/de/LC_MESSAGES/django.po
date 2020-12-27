@@ -456,7 +456,6 @@ msgstr "Abbruch"
 #: tutors/templates/tutors/requirement/delete.html
 #: tutors/templates/tutors/requirement/view.html
 #: tutors/templates/tutors/task/delete.html
-#: tutors/templates/tutors/task/view.html
 #: tutors/templates/tutors/tutor/delete.html
 #: tutors/templates/tutors/tutor/view.html
 msgid "Delete"
@@ -490,7 +489,6 @@ msgstr "Zurück"
 
 #: tutors/templates/tutors/event/view.html
 #: tutors/templates/tutors/requirement/view.html
-#: tutors/templates/tutors/task/view.html
 #: tutors/templates/tutors/tutor/view.html
 msgid "Edit"
 msgstr "Bearbeiten"
@@ -616,25 +614,29 @@ msgid "Text"
 msgstr "Text"
 
 #: tutors/templates/tutors/task/mail.html
-#: tutors/templates/tutors/tutor/mail.html
-msgid "Send"
-msgstr "Senden"
+#: tutors/templates/tutors/task/view.html
+msgid "Send mail"
+msgstr "Email senden"
 
 #: tutors/templates/tutors/task/view.html
 msgid "Task Details"
 msgstr "Task Details"
 
 #: tutors/templates/tutors/task/view.html
-msgid "Tutor List"
-msgstr "Liste der Tutoren"
+msgid "List tutors"
+msgstr "Tutoren auflisten"
 
 #: tutors/templates/tutors/task/view.html
-msgid "Send Mail"
-msgstr "Mail senden"
+msgid "Edit task"
+msgstr "Task bearbeiten"
 
 #: tutors/templates/tutors/task/view.html
 msgid " missing mails"
 msgstr " fehlende Mails"
+
+#: tutors/templates/tutors/task/view.html
+msgid "Delete task"
+msgstr "Task löschen"
 
 #: tutors/templates/tutors/task/view.html
 msgid "Assigned Tutors"
@@ -673,8 +675,8 @@ msgid "Do you really want to accept the following tutors?"
 msgstr "Möchtest du wirklich die folgenden Tutoren akzeptieren?"
 
 #: tutors/templates/tutors/tutor/batch_accept.html
-msgid "Accept"
-msgstr "Angenommen"
+msgid "Accept all selected tutors"
+msgstr "Alle ausgewählten Tutoren akzeptieren"
 
 #: tutors/templates/tutors/tutor/batch_decline.html
 msgid "Batch decline tutors"
@@ -687,8 +689,8 @@ msgstr ""
 "senden?"
 
 #: tutors/templates/tutors/tutor/batch_decline.html
-msgid "Decline"
-msgstr "Ablehnen"
+msgid "Decline all selected tutors"
+msgstr "Alle ausgewählten Tutoren ablehnen"
 
 #: tutors/templates/tutors/tutor/delete.html
 msgid "Delete Tutor"
@@ -761,6 +763,10 @@ msgstr "|Studiengänge| / |gewollte Studiengänge|"
 msgid "Send email to tutors"
 msgstr "Sende Email an Tutoren"
 
+#: tutors/templates/tutors/tutor/mail.html
+msgid "Send"
+msgstr "Senden"
+
 #: tutors/templates/tutors/tutor/standalone/confirmation_required.html
 #: tutors/templates/tutors/tutor/standalone/registration_closed.html
 #: tutors/templates/tutors/tutor/standalone/signup.html
@@ -801,12 +807,9 @@ msgid "The SET Tutor registration is currently not open."
 msgstr "Die SET Tutor Anmeldung ist derzeit nicht offen."
 
 #: tutors/templates/tutors/tutor/standalone/registration_closed.html
-msgid "The registration is possible between"
-msgstr "Die Registrierung ist möglich zwischen"
-
-#: tutors/templates/tutors/tutor/standalone/registration_closed.html
-msgid "and"
-msgstr "und"
+#, python-format
+msgid "The registration is possible between %(start)s and %(end)s."
+msgstr "Die Registrierung ist zwischen %(start)s und %(end)s möglich."
 
 #: tutors/templates/tutors/tutor/standalone/signup.html
 msgid "Sign up for SET-Tutor"
@@ -855,15 +858,15 @@ msgid "ECTS"
 msgstr "ECTS"
 
 #: tutors/templates/tutors/tutor/view.html
-msgid "open"
+msgid "Open"
 msgstr "Offen"
 
 #: tutors/templates/tutors/tutor/view.html
-msgid "accept"
-msgstr "Akzeptieren"
+msgid "Accept"
+msgstr "Angenommen"
 
 #: tutors/templates/tutors/tutor/view.html
-msgid "decline"
+msgid "Decline"
 msgstr "Ablehnen"
 
 #: tutors/templates/tutors/tutor/view.html
@@ -873,6 +876,24 @@ msgstr "Zugewiesene Tasks"
 #: tutors/templates/tutors/tutor/view.html
 msgid "Email log"
 msgstr "E-Mail Log"
+
+#~ msgid "Tutor List"
+#~ msgstr "Liste der Tutoren"
+
+#~ msgid "Send Mail"
+#~ msgstr "Mail senden"
+
+#~ msgid "and"
+#~ msgstr "und"
+
+#~ msgid "open"
+#~ msgstr "Offen"
+
+#~ msgid "accept"
+#~ msgstr "Akzeptieren"
+
+#~ msgid "decline"
+#~ msgstr "Ablehnen"
 
 #, fuzzy
 #~| msgid "Batch accept tutors"
@@ -892,9 +913,6 @@ msgstr "E-Mail Log"
 
 #~ msgid "Accepted"
 #~ msgstr "Angenommen"
-
-#~ msgid "Open"
-#~ msgstr "Offen"
 
 #~ msgid "Declined"
 #~ msgstr "Abgelehnt"

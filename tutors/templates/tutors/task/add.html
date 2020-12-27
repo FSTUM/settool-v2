@@ -15,12 +15,15 @@
             {% bootstrap_form form %}
         </div>
     </div>
+
+    <a
+        class="btn btn-secondary"
+        href="{% url "task_list" %}"
+    >{% trans Cancel %}</a>
     <button
-        type="submit"
         class="btn btn-primary"
-    >
-        {% trans "Submit" %}
-    </button>
+        type="submit"
+    >{% trans "Submit" %}</button>
 </form>
 {% endblock %}
 

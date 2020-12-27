@@ -45,16 +45,13 @@
         </tbody>
     </table>
 </div>
+
 <a
-    href="{% url "addmail" %}"
-    class="btn btn-primary"
->
-    {% trans "Add email" %}
-</a>
-<a
-    href="{% url "bags_dashboard" %}"
     class="btn btn-secondary"
->
-    {% trans "Cancel" %}
-</a>
+    href="{% url "bags_dashboard" %}"
+>{% trans "Cancel" %}</a>
+<a
+    class="btn btn-primary"
+    href="{% url "addmail" %}"
+>{% trans "Add email" %}</a>
 {% endblock %}

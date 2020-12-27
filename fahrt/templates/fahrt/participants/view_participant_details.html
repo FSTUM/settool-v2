@@ -89,23 +89,17 @@
                         <div class='row mt-1'>
                             <div class='btn-group btn-block btn-group-sm'>
                                 <a
+                                    class="btn btn-secondary"
                                     href="{% url "fahrt_set_payment_deadline" participant.id 1 %}"
-                                    class="btn btn-secondary"
-                                >
-                                    {% trans "1 week" %}
-                                </a>
+                                >{% trans "1 week" %}</a>
                                 <a
+                                    class="btn btn-secondary"
                                     href="{% url "fahrt_set_payment_deadline" participant.id 2 %}"
-                                    class="btn btn-secondary"
-                                >
-                                    {% trans "2 weeks" %}
-                                </a>
+                                >{% trans "2 weeks" %}</a>
                                 <a
-                                    href="{% url "fahrt_set_payment_deadline" participant.id 3 %}"
                                     class="btn btn-secondary"
-                                >
-                                    {% trans "3 weeks" %}
-                                </a>
+                                    href="{% url "fahrt_set_payment_deadline" participant.id 3 %}"
+                                >{% trans "3 weeks" %}</a>
                             </div>
                         </div>
                     </div>
@@ -123,39 +117,29 @@
                             {% if participant.status == "registered" %}
                             <div class='btn-group btn-block btn-group-sm'>
                                 <a
+                                    class="btn btn-secondary"
                                     href="{% url "fahrt_confirm" participant.id %}"
-                                    class="btn btn-secondary"
-                                >
-                                    {% trans "Confirm participant" %}
-                                </a>
+                                >{% trans "Confirm participant" %}</a>
                                 <a
-                                    href="{% url "fahrt_waitinglist" participant.id %}"
                                     class="btn btn-secondary"
-                                >
-                                    {% trans "Add participant to waitinglist" %}
-                                </a>
+                                    href="{% url "fahrt_waitinglist" participant.id %}"
+                                >{% trans "Add participant to waitinglist" %}</a>
                             </div>
                             {% elif participant.status == "confirmed" %}
                             <a
-                                href="{% url "fahrt_cancel" participant.id %}"
                                 class="btn btn-secondary btn-block btn-sm"
-                            >
-                                {% trans "Cancel" %}
-                            </a>
+                                href="{% url "fahrt_cancel" participant.id %}"
+                            >{% trans "Cancel" %}</a>
                             {% elif participant.status == "waitinglist" %}
                             <div class='btn-group btn-block btn-group-sm'>
                                 <a
+                                    class="btn btn-secondary"
                                     href="{% url "fahrt_confirm" participant.id %}"
-                                    class="btn btn-secondary"
-                                >
-                                    {% trans "Confirm participant" %}
-                                </a>
+                                >{% trans "Confirm participant" %}</a>
                                 <a
-                                    href="{% url "fahrt_cancel" participant.id %}"
                                     class="btn btn-secondary"
-                                >
-                                    {% trans "Cancel" %}
-                                </a>
+                                    href="{% url "fahrt_cancel" participant.id %}"
+                                >{% trans "Cancel" %}</a>
                             </div>
                             {% endif %}
                         </div>

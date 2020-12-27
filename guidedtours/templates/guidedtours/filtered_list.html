@@ -23,20 +23,20 @@
     <div class="row">
         <div class="col-xs-12 col-lg-5">
             {% bootstrap_form form %}
-            <p>
-                <button
-                    type="submit"
-                    name="mailform"
-                    class="btn btn-secondary"
-                >
-                    {% trans "Send emails" %}
-                </button>
-            </p>
         </div>
     </div>
 
-    <p></p>
-    <div class="table-responsive">
+    <a
+        class="btn btn-secondary"
+        href="{% url "tours_filter" %}"
+    >{% trans "Back" %}</a>
+    <button
+        class="btn btn-primary"
+        name="mailform"
+        type="submit"
+    >{% trans "Send emails" %}</button>
+
+    <div class="table-responsive mt-3">
         <table
             id="fahrtTable"
             class="table dataTable"

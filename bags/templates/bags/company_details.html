@@ -58,20 +58,17 @@
         <td>{% include "true_false_none_span.html" with value=company.contact_again %}</td>
     </tr>
 </table>
-<p>
-    <a
-        href="{% url "bags_dashboard" %}"
-        class="btn btn-secondary"
-    >
-        {% trans "Back" %}
-    </a>
-    <a
-        class='btn btn-primary'
-        href="{% url "editcompany" company.id %}"
-    ><span class="glyphicon glyphicon-edit"></span> {% trans "Edit" %}</a>
-    <a
-        class='btn btn-danger'
-        href="{% url "delcompany" company.id %}"
-    ><span class="glyphicon glyphicon-trash"></span> {% trans "Delete" %}</a>
-</p>
+
+<a
+    class="btn btn-secondary"
+    href="{% url "bags_dashboard" %}"
+>{% trans "Back" %}</a>
+<a
+    class='btn btn-primary'
+    href="{% url "editcompany" company.id %}"
+>{% trans "Edit" %} <span class="glyphicon glyphicon-edit"></span></a>
+<a
+    class='btn btn-danger'
+    href="{% url "delcompany" company.id %}"
+>{% trans "Delete" %} <span class="glyphicon glyphicon-trash"></span></a>
 {% endblock %}

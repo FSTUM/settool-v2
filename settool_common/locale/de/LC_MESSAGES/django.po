@@ -163,10 +163,6 @@ msgstr ""
 "Teilnehmer senden?"
 
 #: settool_common/templates/settool_common/mail/send_email_confirmation.html
-msgid "Send"
-msgstr "Senden"
-
-#: settool_common/templates/settool_common/mail/send_email_confirmation.html
 #: settool_common/templates/settool_common/settings/add_email.html
 #: settool_common/templates/settool_common/settings/delete_email.html
 #: settool_common/templates/settool_common/settings/edit_email.html
@@ -284,6 +280,9 @@ msgstr "Aktionen"
 #| msgid "Email-Templates"
 msgid "Email-templates by sender"
 msgstr "E-Mail-Vorlagen"
+
+#~ msgid "Send"
+#~ msgstr "Senden"
 
 #~ msgid "Hello %(username)s!"
 #~ msgstr "Hallo %(username)s!"

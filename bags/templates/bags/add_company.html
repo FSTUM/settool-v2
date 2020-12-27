@@ -17,17 +17,13 @@
         </div>
     </div>
 
-    <button
-        type="submit"
-        class="btn btn-primary"
-    >
-        {% trans "Submit" %}
-    </button>
     <a
-        href="{% url "bags_dashboard" %}"
         class="btn btn-secondary"
-    >
-        {% trans "Cancel" %}
-    </a>
+        href="{% url "bags_dashboard" %}"
+    >{% trans "Cancel" %}</a>
+    <button
+        class="btn btn-primary"
+        type="submit"
+    >{% trans "Submit" %}</button>
 </form>
 {% endblock %}

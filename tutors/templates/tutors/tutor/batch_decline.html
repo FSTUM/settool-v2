@@ -17,26 +17,14 @@
         >
             {% csrf_token %}
 
-            <table class="table">
-                <tr>
-                    <td>
-                        <button
-                            type="submit"
-                            class="btn btn-danger"
-                        >
-                            {% trans "Decline" %}
-                        </button>
-                    </td>
-                    <td>
-                        <a
-                            href="{% url "tutor_list_status" "active" %}"
-                            class="btn btn-secondary"
-                        >
-                            {% trans "Cancel" %}
-                        </a>
-                    </td>
-                </tr>
-            </table>
+            <a
+                href="{% url "tutor_list_status_active" %}"
+                class="btn btn-secondary"
+            >{% trans "Cancel" %}</a>
+            <button
+                class="btn btn-danger"
+                type="submit"
+            >{% trans "Decline all selected tutors" %}</button>
 
             {% bootstrap_form form %}
         </form>

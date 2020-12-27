@@ -330,13 +330,36 @@ msgid "Add Participant to the SET-Fahrt"
 msgstr "Anmeldung zur SET-Fahrt"
 
 #: fahrt/templates/fahrt/general/add_participant.html
+#: fahrt/templates/fahrt/standalone/signup.html
+msgid "fahrt_privacy_policy"
+msgstr ""
+"<p>Ich bin damit einverstanden, dass meine Daten zu folgenden Zwecken "
+"erhoben, verarbeitet und genutzt werden:</p><ul><li>Erstellung von "
+"Teilnehmerlisten</li><li>Zusenden von Informationen vor und nach der SET-"
+"Fahrt per E-Mail</li></ul><p>Ich bin darauf hingewiesen worden, dass die im "
+"Rahmen der vorstehend genannten Zwecke erhobenen persönlichen Daten meiner "
+"Person unter Beachtung des Bayerischen Datenschutzgesetzes (BayDSG), "
+"erhoben, verarbeitet, genutzt und übermittelt werden. Die Daten werden "
+"spätestens sechs Monate nach Ende der Studieneinführungstage unwiderruflich "
+"gelöscht.</p><p>Ich bin zudem darauf hingewiesen worden, dass die Erhebung, "
+"Verarbeitung und Nutzung meiner Daten auf freiwilliger Basis erfolgt. "
+"Ferner, dass ich mein Einverständnis mit der Folge, dass ich an der SET-"
+"Fahrt nicht teilnehmen kann, verweigern bzw. jederzeit mit Wirkung für die "
+"Zukunft widerrufen kann.</p><p>Meine Widerrufserklärung werde ich richten an:"
+"</p><address>Fachschaft MPI<br>Technische Universität "
+"München<br>Boltzmannstraße 3<br>85748 Garching<br>E-Mail: <a href=\"mailto:"
+"set-owner@fs.tum.de\">set-owner@fs.tum.de</a></address><p>Im Fall des "
+"Widerrufs werden mit dem Zugang meiner Widerrufserklärung meine Daten "
+"gelöscht.</p>"
+
+#: fahrt/templates/fahrt/general/add_participant.html
 #: fahrt/templates/fahrt/general/change_date.html
 #: fahrt/templates/fahrt/mail/add_mail.html
 #: fahrt/templates/fahrt/participants/edit_participants.html
 #: fahrt/templates/fahrt/standalone/edit_mail.html
 #: fahrt/templates/fahrt/standalone/signup.html
 msgid "Submit"
-msgstr "Absendne"
+msgstr "Absenden"
 
 #: fahrt/templates/fahrt/mail/add_mail.html
 msgid "Add email"
@@ -382,6 +405,7 @@ msgid "Filtered participants"
 msgstr "Gefilterte Teilnehmer"
 
 #: fahrt/templates/fahrt/mail/list_filtered_participants_send_mail.html
+#: fahrt/templates/fahrt/mail/send_mail.html
 msgid "Send emails"
 msgstr "E-Mails senden"
 
@@ -395,10 +419,6 @@ msgstr "E-Mail senden"
 msgid ""
 "Do you really want to send the following email to the participants below?"
 msgstr "Willst du wirklich die folgende E-Mail an die Teilnehmer unten senden?"
-
-#: fahrt/templates/fahrt/mail/send_mail.html
-msgid "Send"
-msgstr "Senden"
 
 #: fahrt/templates/fahrt/mail/send_mail.html
 #: fahrt/templates/fahrt/mail/send_mail_failure.html
@@ -547,28 +567,6 @@ msgstr "Anmeldung zur SET-Fahrt"
 msgid "The SET-Fahrt is currently not open for registration."
 msgstr "Die Anmeldung zur SET-Fahrt ist aktuell nicht geöffnet."
 
-#: fahrt/templates/fahrt/standalone/signup.html
-msgid "fahrt_privacy_policy"
-msgstr ""
-"<p>Ich bin damit einverstanden, dass meine Daten zu folgenden Zwecken "
-"erhoben, verarbeitet und genutzt werden:</p><ul><li>Erstellung von "
-"Teilnehmerlisten</li><li>Zusenden von Informationen vor und nach der SET-"
-"Fahrt per E-Mail</li></ul><p>Ich bin darauf hingewiesen worden, dass die im "
-"Rahmen der vorstehend genannten Zwecke erhobenen persönlichen Daten meiner "
-"Person unter Beachtung des Bayerischen Datenschutzgesetzes (BayDSG), "
-"erhoben, verarbeitet, genutzt und übermittelt werden. Die Daten werden "
-"spätestens sechs Monate nach Ende der Studieneinführungstage unwiderruflich "
-"gelöscht.</p><p>Ich bin zudem darauf hingewiesen worden, dass die Erhebung, "
-"Verarbeitung und Nutzung meiner Daten auf freiwilliger Basis erfolgt. "
-"Ferner, dass ich mein Einverständnis mit der Folge, dass ich an der SET-"
-"Fahrt nicht teilnehmen kann, verweigern bzw. jederzeit mit Wirkung für die "
-"Zukunft widerrufen kann.</p><p>Meine Widerrufserklärung werde ich richten an:"
-"</p><address>Fachschaft MPI<br>Technische Universität "
-"München<br>Boltzmannstraße 3<br>85748 Garching<br>E-Mail: <a href=\"mailto:"
-"set-owner@fs.tum.de\">set-owner@fs.tum.de</a></address><p>Im Fall des "
-"Widerrufs werden mit dem Zugang meiner Widerrufserklärung meine Daten "
-"gelöscht.</p>"
-
 #: fahrt/templates/fahrt/standalone/success.html
 msgid "You successfully signed up for the SET-Fahrt"
 msgstr "Du hast dich erfolgreich zur SET-Fahrt angemeldet"
@@ -580,6 +578,9 @@ msgid ""
 msgstr ""
 "Du wirst alle weiteren Informationen per E-Mail erhalten. Dies kann etwas "
 "dauern, da wir deine Anmeldung manuell überprüfen."
+
+#~ msgid "Send"
+#~ msgstr "Senden"
 
 #~ msgid "confirm"
 #~ msgstr "bestätigen"

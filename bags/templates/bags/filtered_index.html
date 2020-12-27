@@ -1,3 +1,4 @@
+{# TODO Figure out if this file is still needed #}
 {% extends "bags/base_bags.html" %}
 {% load i18n %}
 {% load bootstrap4 %}
@@ -23,35 +24,23 @@
     <div class="row">
         <div class="col-xs-12 col-lg-5">
             {% bootstrap_form form %}
-            <p>
-                <button
-                    type="submit"
-                    name="mailform"
-                    class="btn btn-secondary"
-                >
-                    {% trans "Send emails" %}
-                </button>
-            </p>
-            <p>
-                <a
-                    href="{% url "listmails" %}"
-                    class="btn btn-secondary"
-                >
-                    {% trans "Edit email Templates" %}
-                </a>
-            </p>
-            <p>
-                <a
-                    href="{% url "addcompany" %}"
-                    class="btn btn-secondary"
-                >
-                    {% trans "Add Company" %}
-                </a>
-            </p>
         </div>
     </div>
 
-    <p></p>
+    <button
+        class="btn btn-warning"
+        name="mailform"
+        type="submit"
+    >{% trans "Send emails" %}</button>
+    <a
+        class="btn btn-primary"
+        href="{% url "listmails" %}"
+    >{% trans "Edit email Templates" %}</a>
+    <a
+        class="btn btn-primary"
+        href="{% url "addcompany" %}"
+    >{% trans "Add Company" %}</a>
+
     <div class="table-responsive">
         <table
             id="bagTable"
@@ -95,12 +84,8 @@
                     <td>{% include "true_false_none_span.html" with value=company.contact_again %}</td>
                     <td>{{ company.comment }}</td>
                     <td>
-                        <a href="{% url "editcompany" company.id %}">
-                            <span class="glyphicon glyphicon-edit"></span>
-                        </a>
-                        <a href="{% url "delcompany" company.id %}">
-                            <span class="glyphicon glyphicon-trash"></span>
-                        </a>
+                        <a href="{% url "editcompany" company.id %}"><span class="glyphicon glyphicon-edit"></span></a>
+                        <a href="{% url "delcompany" company.id %}"><span class="glyphicon glyphicon-trash"></span></a>
                     </td>
                 </tr>
                 {% endfor %}

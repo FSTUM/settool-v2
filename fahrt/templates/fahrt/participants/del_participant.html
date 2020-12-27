@@ -4,9 +4,9 @@
 {% block  set_common_headercontent %}{% trans "Delete Participant" %}{% endblock %}
 
 {% block set_common_content %}
-{% url "fahrt_viewparticipant" participant.id as viewparticipant %}
+{% url "fahrt_viewparticipant" participant.id as viewparticipant_url %}
 <p>
-    {% blocktranslate trimmed with name=participant url=viewparticipant %}
+    {% blocktranslate trimmed with name=participant url=viewparticipant_url %}
     Do you really want to delete the participant <a href="{{ url }}">{{ name }}</a>?
     {% endblocktranslate %}
 </p>
@@ -16,17 +16,13 @@
 >
     {% csrf_token %}
 
-    <button
-        type="submit"
-        class="btn btn-danger"
-    >
-        {% trans "Delete" %}
-    </button>
     <a
-        href="{{ viewparticipant }}"
         class="btn btn-secondary"
-    >
-        {% trans "Cancel" %}
-    </a>
+        href="{{ viewparticipant }}"
+    >{% trans "Cancel" %}</a>
+    <button
+        class="btn btn-danger"
+        type="submit"
+    >{% trans "Delete" %} <span class="glyphicon glyphicon-trash"></span></button>
 </form>
 {% endblock %}

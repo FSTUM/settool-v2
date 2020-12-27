@@ -176,18 +176,18 @@ msgid "Add a company"
 msgstr "Firma hinzufügen"
 
 #: bags/templates/bags/add_company.html bags/templates/bags/add_giveaway.html
-#: bags/templates/bags/add_mail.html bags/templates/bags/edit_company.html
-#: bags/templates/bags/edit_mail.html
-msgid "Submit"
-msgstr "Eintragen"
-
-#: bags/templates/bags/add_company.html bags/templates/bags/add_giveaway.html
 #: bags/templates/bags/add_mail.html bags/templates/bags/del_company.html
 #: bags/templates/bags/del_mail.html bags/templates/bags/edit_company.html
 #: bags/templates/bags/edit_mail.html bags/templates/bags/import_companies.html
 #: bags/templates/bags/index_mails.html bags/templates/bags/send_mail.html
 msgid "Cancel"
 msgstr "Abbrechen"
+
+#: bags/templates/bags/add_company.html bags/templates/bags/add_giveaway.html
+#: bags/templates/bags/add_mail.html bags/templates/bags/edit_company.html
+#: bags/templates/bags/edit_mail.html
+msgid "Submit"
+msgstr "Eintragen"
 
 #: bags/templates/bags/add_giveaway.html bags/templates/bags/base_bags.html
 #, fuzzy
@@ -352,10 +352,6 @@ msgstr "Firma hinzufügen"
 msgid "Import Companies"
 msgstr "Firmen importieren"
 
-#: bags/templates/bags/import_companies.html
-msgid "Import"
-msgstr "Importieren"
-
 #: bags/templates/bags/index_mails.html
 msgid "List email templates"
 msgstr "E-Mail-Vorlagen"
@@ -385,6 +381,9 @@ msgstr "An"
 #: bags/templates/bags/send_mail.html
 msgid "see table below"
 msgstr "siehe Tabelle unten"
+
+#~ msgid "Import"
+#~ msgstr "Importieren"
 
 #~ msgid "E-Mail"
 #~ msgstr "E-Mail"

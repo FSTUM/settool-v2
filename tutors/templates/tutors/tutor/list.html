@@ -14,48 +14,33 @@
 {% block set_common_headercontent %}{% trans "List Tutors" %}{% endblock %}
 
 {% block set_common_content %}
-
 <div class="row">
     <div class="col-sm p-1">
         <a
             class="btn btn-secondary btn-block"
-            href="
-                            {% if status is None %}{% url "tutor_export" "pdf" %}{% else %}{% url "tutor_export_status" "pdf" status %}{% endif %}"
-        >
-            <span class="glyphicon glyphicon-file"></span>
-            {% trans "Export PDF" %}
-        </a>
+            href="{% if status == "all" %}{% url "tutor_export" "pdf" %}{% else %}{% url "tutor_export_status" "pdf" status %}{% endif %}"
+        >{% trans "Export PDF" %} <span class="glyphicon glyphicon-file"></span></a>
     </div>
     <div class="col-sm p-1">
         <a
             class="btn btn-secondary btn-block"
-            href="
-                            {% if status is None %}{% url "tutor_export" "csv" %}{% else %}{% url "tutor_export_status" "csv" status %}{% endif %}"
-        >
-            <span class="glyphicon glyphicon-file"></span>
-            {% trans "Export CSV" %}
-        </a>
+            href="{% if status == "all" %}{% url "tutor_export" "csv" %}{% else %}{% url "tutor_export_status" "csv" status %}{% endif %}"
+        >{% trans "Export CSV" %} <span class="glyphicon glyphicon-list"></span></a>
     </div>
     {% if status == "accepted" or status == "employee" %}
     <div class="col-sm p-1">
         <a
             class="btn btn-secondary btn-block"
             href="{% url "tutor_export_status" "tshirt" status %}"
-        >
-            <span class="glyphicon glyphicon-file"></span>
-            {% trans "T-Shirt List" %}
-        </a>
+        >{% trans "T-Shirt List" %} <span class="glyphicon glyphicon-user"></span></a>
     </div>
     {% endif %}
-    {% if status is not None %}
+    {% if status != "all" %}
     <div class="col-sm p-1">
         <a
-            class="btn btn-secondary btn-block"
+            class="btn btn-primary btn-block"
             href="{% url "tutor_mail_status" status %}"
-        >
-            <span class="glyphicon glyphicon-envelope"></span>
-            {% trans "Send email" %}
-        </a>
+        >{% trans "Send email" %} <span class="glyphicon glyphicon-envelope"></span></a>
     </div>
     {% endif %}
     {% if status == "active" %}
@@ -63,17 +48,13 @@
         <a
             class="btn btn-primary btn-block"
             href="{% url "tutor_batch_accept" %}"
-        >
-            {% trans "Batch Accept" %}
-        </a>
+        >{% trans "Batch Accept" %} <span class="glyphicon glyphicon-check"></span></a>
     </div>
     <div class="col-sm p-1">
         <a
             class="btn btn-danger btn-block"
             href="{% url "tutor_batch_decline" %}"
-        >
-            {% trans "Batch Decline" %}
-        </a>
+        >{% trans "Batch Decline" %} <span class="glyphicon glyphicon-remove-circle"></span></a>
     </div>
     {% endif %}
 </div>
@@ -114,7 +95,7 @@
                 {% if status == "accepted" %}
                 <th>{% trans "Tasks Assigned" %}</th>
                 {% endif %}
-                {% if status is None %}
+                {% if status == "all" %}
                 <th>{% trans "Status" %}</th>
                 {% endif %}
                 <th>{% trans "Registration time" %}</th>
@@ -143,7 +124,7 @@
                     {{ tutor.task_set.count }}
                 </td>
                 {% endif %}
-                {% if status is None %}
+                {% if status == "all" %}
                 <td>
                     {% trans tutor.status %}
                 </td>

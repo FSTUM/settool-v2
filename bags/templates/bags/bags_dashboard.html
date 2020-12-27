@@ -47,14 +47,16 @@
             ],
             paging: false,
         });
-        $.fn.editableform.buttons =
-            '<button type="submit" class="btn btn-primary btn-sm editable-submit"><span class="glyphicon glyphicon-ok"></span></button>' +
-            '<button type="button" class="btn btn-secondary btn-sm editable-cancel"><span class="glyphicon glyphicon-remove"></span></button>';
-        $.fn.editableform.loading =
-            '<div>' +
-            '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>' +
-            '<span class="sr-only">Loading...</span>' +
-            '</div>';
+        $.fn.editableform.buttons = `<button class="btn btn-primary btn-sm editable-submit" type="submit">
+                                        <span class="glyphicon glyphicon-ok"></span>
+                                    </button>
+                                    <button class="btn btn-secondary btn-sm editable-cancel" type="button">
+                                        <span class="glyphicon glyphicon-remove"></span>
+                                    </button>`;
+        $.fn.editableform.loading = `<div>
+                                        <span aria-hidden="true" class="spinner-border spinner-border-sm" role="status"></span>
+                                        <span class="sr-only">Loading...</span>
+                                     </div>`;
         $.fn.editable.defaults.mode = 'inline';
         $.fn.editable.defaults.emptytext = '-';
 
@@ -351,16 +353,13 @@
     <div class="row">
         <div class="col-xs-12 col-lg-5">
             {% bootstrap_form mailform %}
-            <p>
-                <button
-                    type="submit"
-                    name="mailform"
-                    class="btn btn-primary"
-                >
-                    {% trans "Send emails" %}
-                </button>
-            </p>
         </div>
     </div>
+
+    <button
+        class="btn btn-primary"
+        name="mailform"
+        type="submit"
+    >{% trans "Send emails" %}</button>
 </form>
 {% endblock %}

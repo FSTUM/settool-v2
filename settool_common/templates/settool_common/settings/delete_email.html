@@ -24,12 +24,12 @@
     {% csrf_token %}
 
     <a
-        href="{% url "mail_list" %}"
         class="btn btn-secondary"
+        href="{% url "mail_list" %}"
     >{% trans "Cancel" %}</a>
     <button
-        type="submit"
         class="btn btn-danger"
-    >{% trans "Delete" %}</button>
+        type="submit"
+    >{% trans "Delete" %} <span class="glyphicon glyphicon-trash"></span></button>
 </form>
 {% endblock %}

@@ -17,18 +17,21 @@
         <td>{{ mail.text|linebreaks }}</td>
     </tr>
 </table>
-<a
-    href="{% url "mail_list" %}"
-    class="btn btn-secondary"
->{% trans "Back" %}</a>
-{% if perms.tutor.edit_tutors %}
-<a
-    href="{% url "mail_edit" mail.id %}"
-    class="btn btn-primary"
->{% trans "Edit" %} <span class="glyphicon glyphicon-edit"></span></a>
-<a
-    href="{% url "mail_delete" mail.id %}"
-    class="btn btn-danger"
->{% trans "Delete" %} <span class="glyphicon glyphicon-trash"></span></a>
-{% endif %}
+
+<div>
+    <a
+        class="btn btn-secondary"
+        href="{% url "mail_list" %}"
+    >{% trans "Back" %}</a>
+    {% if perms.tutor.edit_tutors %}
+    <a
+        class="btn btn-primary"
+        href="{% url "mail_edit" mail.id %}"
+    >{% trans "Edit" %} <span class="glyphicon glyphicon-edit"></span></a>
+    <a
+        class="btn btn-danger"
+        href="{% url "mail_delete" mail.id %}"
+    >{% trans "Delete" %} <span class="glyphicon glyphicon-trash"></span></a>
+    {% endif %}
+</div>
 {% endblock %}
