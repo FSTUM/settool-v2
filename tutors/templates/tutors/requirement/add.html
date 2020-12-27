@@ -2,7 +2,7 @@
 {% load i18n %}
 {% load bootstrap4 %}
 
-{% block set_common_headercontent %}{% trans "Add a Requirement" %}{% endblock %}
+{% block set_common_headercontent %}{% trans "Add a requirement" %}{% endblock %}
 
 {% block set_common_content %}
 <form
@@ -20,6 +20,6 @@
     <button
         class="btn btn-primary"
         type="submit"
-    >{% trans "Submit" %}</button>
+    >{% trans "Add requirement" %} <span class="glyphicon glyphicon-plus"></span></button>
 </form>
 {% endblock %}

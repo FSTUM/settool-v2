@@ -22,18 +22,14 @@
                 </div>
             </div>
 
-            <button
-                type="submit"
-                class="btn btn-primary"
-            >
-                {% trans "Submit" %}
-            </button>
             <a
                 href="{% url "fahrt_listmails" %}"
                 class="btn btn-secondary"
-            >
-                {% trans "Cancel" %}
-            </a>
+            >{% trans "Cancel" %}</a>
+            <button
+                type="submit"
+                class="btn btn-primary"
+            >{% trans "Edit email" %} <span class="glyphicon glyphicon-edit"></span></button>
         </form>
     </div>
 </div>

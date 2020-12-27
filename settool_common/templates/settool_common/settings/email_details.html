@@ -2,9 +2,7 @@
 {% load i18n %}
 {% load bootstrap4 %}
 
-{% block set_common_headercontent %}
-{% trans "Email details" %}: {{ mail }}
-{% endblock %}
+{% block set_common_headercontent %}{% trans "Email details" %}: {{ mail }}{% endblock %}
 
 {% block set_common_content %}
 <table class="table table-hover">
@@ -27,11 +25,11 @@
     <a
         class="btn btn-primary"
         href="{% url "mail_edit" mail.id %}"
-    >{% trans "Edit" %} <span class="glyphicon glyphicon-edit"></span></a>
+    >{% trans "Edit email" %} <span class="glyphicon glyphicon-edit"></span></a>
     <a
         class="btn btn-danger"
         href="{% url "mail_delete" mail.id %}"
-    >{% trans "Delete" %} <span class="glyphicon glyphicon-trash"></span></a>
+    >{% trans "Delete email template" %} <span class="glyphicon glyphicon-trash"></span></a>
     {% endif %}
 </div>
 {% endblock %}

@@ -889,7 +889,7 @@ def tutor_batch_accept(request):
             tutor.status = Tutor.STATUS_ACCEPTED
             tutor.save()
 
-        return redirect("tutor_list_status", status=Tutor.STATUS_ACTIVE)
+        return redirect("tutor_list_status_active")
 
     context = {
         "to_be_accepted": to_be_accepted,
@@ -934,7 +934,7 @@ def tutor_batch_decline(request):
             tutor.status = Tutor.STATUS_DECLINED
             tutor.save()
 
-        return redirect("tutor_list_status", status=Tutor.STATUS_ACTIVE)
+        return redirect("tutor_list_status_active")
 
     context = {
         "to_be_declined": to_be_declined,

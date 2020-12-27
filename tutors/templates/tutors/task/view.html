@@ -12,7 +12,7 @@
 {% endblock %}
 
 
-{% block set_common_headercontent %}{% trans "Task Details" %}{% endblock %}
+{% block set_common_headercontent %}{% trans "Task details" %}{% endblock %}
 
 {% block set_common_content %}
 <div class="table-responsive">
@@ -249,17 +249,13 @@
                 {% endfor %}
             </select>
             <button
-                type="submit"
-                class="btn btn-secondary"
-            >
-                Save Changes
-            </button>
-            <button
                 type="reset"
+                class="btn btn-secondary"
+            >{% trans "Reset changes" %}</button>
+            <button
+                type="submit"
                 class="btn btn-danger"
-            >
-                Reset Changes
-            </button>
+            >{% trans "Save changes" %} <span class="glyphicon glyphicon-save"></span></button>
         </form>
     </div>
     {% endif %}

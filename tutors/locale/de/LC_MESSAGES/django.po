@@ -300,6 +300,7 @@ msgid "List all tasks"
 msgstr "Liste aller Tasks"
 
 #: tutors/templates/tutors/base_tutors.html
+#: tutors/templates/tutors/task/add.html
 msgid "Add a task"
 msgstr "Einen Task Hinzufügen"
 
@@ -338,6 +339,7 @@ msgid "List all requirements"
 msgstr "Liste aller Voraussetzungen"
 
 #: tutors/templates/tutors/base_tutors.html
+#: tutors/templates/tutors/requirement/add.html
 msgid "Add a requirement"
 msgstr "Eine Voraussetzung hinzufügen"
 
@@ -346,10 +348,12 @@ msgid "Settings"
 msgstr "Einstellungen"
 
 #: tutors/templates/tutors/base_tutors.html
+#: tutors/templates/tutors/settings/general.html
 msgid "General settings"
 msgstr "Allgemeine Einstellungen"
 
 #: tutors/templates/tutors/base_tutors.html
+#: tutors/templates/tutors/settings/tutors.html
 msgid "Tutor settings"
 msgstr "Tutor Einstellungen"
 
@@ -391,20 +395,8 @@ msgid "Upcoming Tasks"
 msgstr "Anstehende Tasks"
 
 #: tutors/templates/tutors/event/add.html
-msgid "Add Event"
-msgstr "Event Hinzufügen"
-
-#: tutors/templates/tutors/event/add.html
-#: tutors/templates/tutors/event/edit.html
-#: tutors/templates/tutors/requirement/add.html
-#: tutors/templates/tutors/requirement/edit.html
-#: tutors/templates/tutors/settings/general.html
-#: tutors/templates/tutors/settings/tutors.html
-#: tutors/templates/tutors/task/add.html tutors/templates/tutors/task/edit.html
-#: tutors/templates/tutors/tutor/edit.html
-#: tutors/templates/tutors/tutor/standalone/signup.html
-msgid "Submit"
-msgstr "Absenden"
+msgid "Add event"
+msgstr "Event hinzufügen"
 
 #: tutors/templates/tutors/event/add.html
 #: tutors/templates/tutors/event/edit.html
@@ -419,7 +411,8 @@ msgid "Bachelor"
 msgstr "Bachelor"
 
 #: tutors/templates/tutors/event/delete.html
-msgid "Delete Event"
+#: tutors/templates/tutors/event/view.html
+msgid "Delete event"
 msgstr "Event löschen"
 
 #: tutors/templates/tutors/event/delete.html
@@ -440,6 +433,7 @@ msgstr ""
 #: tutors/templates/tutors/requirement/edit.html
 #: tutors/templates/tutors/settings/general.html
 #: tutors/templates/tutors/settings/tutors.html
+#: tutors/templates/tutors/task/add.html
 #: tutors/templates/tutors/task/delete.html
 #: tutors/templates/tutors/task/edit.html
 #: tutors/templates/tutors/task/mail.html
@@ -451,22 +445,13 @@ msgstr ""
 msgid "Cancel"
 msgstr "Abbruch"
 
-#: tutors/templates/tutors/event/delete.html
-#: tutors/templates/tutors/event/view.html
-#: tutors/templates/tutors/requirement/delete.html
-#: tutors/templates/tutors/requirement/view.html
-#: tutors/templates/tutors/task/delete.html
-#: tutors/templates/tutors/tutor/delete.html
-#: tutors/templates/tutors/tutor/view.html
-msgid "Delete"
-msgstr "Löschen"
-
 #: tutors/templates/tutors/event/edit.html
-msgid "Edit Event"
+#: tutors/templates/tutors/event/view.html
+msgid "Edit event"
 msgstr "Event bearbeiten"
 
 #: tutors/templates/tutors/event/list.html
-msgid "List of Events"
+msgid "List of events"
 msgstr "Liste der Events"
 
 #: tutors/templates/tutors/event/list.html
@@ -477,8 +462,8 @@ msgid "Actions"
 msgstr "Aktionen"
 
 #: tutors/templates/tutors/event/view.html
-msgid "Event Details"
-msgstr "Event Details"
+msgid "Event details"
+msgstr "Eventdetails"
 
 #: tutors/templates/tutors/event/view.html
 #: tutors/templates/tutors/requirement/view.html
@@ -488,26 +473,24 @@ msgid "Back"
 msgstr "Zurück"
 
 #: tutors/templates/tutors/event/view.html
-#: tutors/templates/tutors/requirement/view.html
-#: tutors/templates/tutors/tutor/view.html
-msgid "Edit"
-msgstr "Bearbeiten"
-
-#: tutors/templates/tutors/event/view.html
 msgid "This event has the following tasks"
 msgstr "Dieses Event hat die folgenden Tasks"
 
 #: tutors/templates/tutors/event/view.html
-#: tutors/templates/tutors/task/add.html
 msgid "Add Task"
 msgstr "Task Hinzufügen"
 
 #: tutors/templates/tutors/requirement/add.html
-msgid "Add a Requirement"
-msgstr "Voraussetzung hinzufügen"
+msgid "Add requirement"
+msgstr "Eine Voraussetzung hinzufügen"
 
 #: tutors/templates/tutors/requirement/delete.html
-msgid "Delete Requirement"
+msgid "Delete a requirement"
+msgstr "Eine Voraussetzung löschen"
+
+#: tutors/templates/tutors/requirement/delete.html
+#: tutors/templates/tutors/requirement/view.html
+msgid "Delete requirement"
 msgstr "Voraussetzung löschen"
 
 #: tutors/templates/tutors/requirement/edit.html
@@ -515,20 +498,28 @@ msgid "Edit Requirement"
 msgstr "Voraussetzung bearbeiten"
 
 #: tutors/templates/tutors/requirement/list.html
-msgid "List of Requirements"
+msgid "List of requirements"
 msgstr "Liste der Voraussetzungen"
 
 #: tutors/templates/tutors/requirement/view.html
 msgid "Details for requirement "
 msgstr "Details der Voraussetzung "
 
+#: tutors/templates/tutors/requirement/view.html
+msgid "Edit requirement"
+msgstr "Voraussetzung bearbeiten"
+
 #: tutors/templates/tutors/settings/general.html
-msgid "General Settings"
-msgstr "Allgemeine Einstellungen"
+msgid "Save settings"
+msgstr "Einstellungen speichern"
 
 #: tutors/templates/tutors/settings/tutors.html
-msgid "Tutor Settings"
-msgstr "Tutor Einstellungen"
+msgid "Save tutor settings"
+msgstr "Tutor-Einstellungen speichern"
+
+#: tutors/templates/tutors/task/add.html
+msgid "Add task"
+msgstr "Task Hinzufügen"
 
 #: tutors/templates/tutors/task/add.html
 msgid "Please choose one of the following events..."
@@ -543,7 +534,8 @@ msgid "You may choose some of the following requirements..."
 msgstr "Du kannst aus den folgenden Vorraussetungen auswählen..."
 
 #: tutors/templates/tutors/task/delete.html
-msgid "Delete Task"
+#: tutors/templates/tutors/task/view.html
+msgid "Delete task"
 msgstr "Task löschen"
 
 #: tutors/templates/tutors/task/delete.html
@@ -569,11 +561,12 @@ msgid "Tutor"
 msgstr "Tutor"
 
 #: tutors/templates/tutors/task/edit.html
-msgid "Edit Task"
+#: tutors/templates/tutors/task/view.html
+msgid "Edit task"
 msgstr "Task bearbeiten"
 
 #: tutors/templates/tutors/task/list.html
-msgid "List of Tasks"
+msgid "List of tasks"
 msgstr "Liste der Tasks"
 
 #: tutors/templates/tutors/task/list.html
@@ -582,7 +575,6 @@ msgstr "# Tutoren"
 
 #: tutors/templates/tutors/task/mail.html
 #: tutors/templates/tutors/tutor/list.html
-#: tutors/templates/tutors/tutor/view.html
 msgid "Send email"
 msgstr "Email senden"
 
@@ -619,24 +611,17 @@ msgid "Send mail"
 msgstr "Email senden"
 
 #: tutors/templates/tutors/task/view.html
-msgid "Task Details"
+msgid "Task details"
 msgstr "Task Details"
 
 #: tutors/templates/tutors/task/view.html
+#: tutors/templates/tutors/tutor/list.html
 msgid "List tutors"
 msgstr "Tutoren auflisten"
 
 #: tutors/templates/tutors/task/view.html
-msgid "Edit task"
-msgstr "Task bearbeiten"
-
-#: tutors/templates/tutors/task/view.html
 msgid " missing mails"
 msgstr " fehlende Mails"
-
-#: tutors/templates/tutors/task/view.html
-msgid "Delete task"
-msgstr "Task löschen"
 
 #: tutors/templates/tutors/task/view.html
 msgid "Assigned Tutors"
@@ -666,6 +651,14 @@ msgstr "Nicht eingeteilte Tutoren"
 msgid "Assign"
 msgstr "Zuweisen"
 
+#: tutors/templates/tutors/task/view.html
+msgid "Reset changes"
+msgstr "Änderungen zurücksetzen"
+
+#: tutors/templates/tutors/task/view.html
+msgid "Save changes"
+msgstr "Änderungen speichern"
+
 #: tutors/templates/tutors/tutor/batch_accept.html
 msgid "Batch accept tutors"
 msgstr "Alle Tutoren akzeptieren"
@@ -693,7 +686,8 @@ msgid "Decline all selected tutors"
 msgstr "Alle ausgewählten Tutoren ablehnen"
 
 #: tutors/templates/tutors/tutor/delete.html
-msgid "Delete Tutor"
+#: tutors/templates/tutors/tutor/view.html
+msgid "Delete tutor"
 msgstr "Tutor löschen"
 
 #: tutors/templates/tutors/tutor/delete.html
@@ -704,7 +698,7 @@ msgstr "Nachname"
 #: tutors/templates/tutors/tutor/delete.html
 #: tutors/templates/tutors/tutor/view.html
 msgid "Email"
-msgstr "Email"
+msgstr "E-Mail"
 
 #: tutors/templates/tutors/tutor/delete.html
 #: tutors/templates/tutors/tutor/view.html
@@ -728,12 +722,9 @@ msgid "The tutor is assigned to the following tasks"
 msgstr "Der Tutor ist für die folgenden Tasks eingeteilt"
 
 #: tutors/templates/tutors/tutor/edit.html
-msgid "Edit Tutor"
+#: tutors/templates/tutors/tutor/view.html
+msgid "Edit tutor"
 msgstr "Tutor bearbeiten"
-
-#: tutors/templates/tutors/tutor/list.html
-msgid "List Tutors"
-msgstr "Liste der Tutoren"
 
 #: tutors/templates/tutors/tutor/list.html
 msgid "Export PDF"
@@ -784,7 +775,7 @@ msgid ""
 "required to complete the application."
 msgstr ""
 "Du wirst eine Email bekommen die einen Bestätigungslink enthält. Eine "
-"Bestätigung ist notwendig um deineAnmeldung abzuschließen."
+"Bestätigung ist notwendig um deine Anmeldung abzuschließen."
 
 #: tutors/templates/tutors/tutor/standalone/invalid.html
 msgid "Sign up failed"
@@ -850,7 +841,7 @@ msgstr ""
 "beanspruchen, da wir jede Anmeldung manuell prüfen."
 
 #: tutors/templates/tutors/tutor/view.html
-msgid "Tutor Details"
+msgid "Tutor details"
 msgstr "Tutor Details"
 
 #: tutors/templates/tutors/tutor/view.html
@@ -870,12 +861,43 @@ msgid "Decline"
 msgstr "Ablehnen"
 
 #: tutors/templates/tutors/tutor/view.html
+msgid "Send email to tutor"
+msgstr "Sende Email an Tutoren"
+
+#: tutors/templates/tutors/tutor/view.html
 msgid "Assigned Tasks"
 msgstr "Zugewiesene Tasks"
 
 #: tutors/templates/tutors/tutor/view.html
 msgid "Email log"
 msgstr "E-Mail Log"
+
+#~ msgid "Submit"
+#~ msgstr "Absenden"
+
+#~ msgid "Delete"
+#~ msgstr "Löschen"
+
+#~ msgid "Edit"
+#~ msgstr "Bearbeiten"
+
+#~ msgid "Add a Requirement"
+#~ msgstr "Voraussetzung hinzufügen"
+
+#~ msgid "General Settings"
+#~ msgstr "Allgemeine Einstellungen"
+
+#~ msgid "Tutor Settings"
+#~ msgstr "Tutor Einstellungen"
+
+#~ msgid "Delete Task"
+#~ msgstr "Task löschen"
+
+#~ msgid "Edit Task"
+#~ msgstr "Task bearbeiten"
+
+#~ msgid "List Tutors"
+#~ msgstr "Liste der Tutoren"
 
 #~ msgid "Tutor List"
 #~ msgstr "Liste der Tutoren"
@@ -895,13 +917,9 @@ msgstr "E-Mail Log"
 #~ msgid "decline"
 #~ msgstr "Ablehnen"
 
-#, fuzzy
-#~| msgid "Batch accept tutors"
 #~ msgid "List accepted tutors"
 #~ msgstr "Alle Tutoren akzeptieren"
 
-#, fuzzy
-#~| msgid "List of Requirements"
 #~ msgid "List a requirement"
 #~ msgstr "Liste der Voraussetzungen"
 

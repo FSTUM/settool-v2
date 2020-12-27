@@ -31,11 +31,11 @@
         class="btn btn-warning"
         name="mailform"
         type="submit"
-    >{% trans "Send emails" %}</button>
+    >{% trans "Send emails" %} <span class="glyphicon glyphicon-envelope"></span></button>
     <a
         class="btn btn-primary"
         href="{% url "listmails" %}"
-    >{% trans "Edit email Templates" %}</a>
+    >{% trans "Edit email templates" %} <span class="glyphicon glyphicon-edit"></span></a>
     <a
         class="btn btn-primary"
         href="{% url "addcompany" %}"

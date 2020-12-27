@@ -14,26 +14,14 @@
 >
     {% csrf_token %}
 
-    <table class="table">
-        <tr>
-            <td>
-                <button
-                    type="submit"
-                    class="btn btn-secondary"
-                >
-                    {% trans "Send" %}
-                </button>
-            </td>
-            <td>
-                <a
-                    href="{% url "bags_dashboard" %}"
-                    class="btn btn-secondary"
-                >
-                    {% trans "Cancel" %}
-                </a>
-            </td>
-        </tr>
-    </table>
+    <a
+        href="{% url "bags_dashboard" %}"
+        class="btn btn-secondary"
+    >{% trans "Cancel" %}</a>
+    <button
+        type="submit"
+        class="btn btn-secondary"
+    >{% trans "Send email" %} <span class="glyphicon glyphicon-envelope"></span></button>
 </form>
 <p>
     <strong>{% trans "From" %}</strong>: {{ from_email }}
@@ -66,8 +54,7 @@
                 <th>{% trans "Participated last year" %}</th>
                 <th>{% trans "Arrived" %}</th>
                 <th>{% trans "Contact again" %}</th>
-                <th>{% trans "Edit" %}</th>
-                <th>{% trans "Delete" %}</th>
+                <th>{% trans "Actions" %}</th>
             </tr>
         </thead>
         <tbody>
@@ -85,8 +72,10 @@
                 <td>{% include "true_false_span.html" with value=company.last_year %}</td>
                 <td>{% include "true_false_span.html" with value=company.arrived %}</td>
                 <td>{% include "true_false_none_span.html" with value=company.contact_again %}</td>
-                <td><a href="{% url "editcompany" company.id %}"><span class="glyphicon glyphicon-edit"></span></a></td>
-                <td><a href="{% url "delcompany" company.id %}"><span class="glyphicon glyphicon-trash"></span></a></td>
+                <td>
+                    <a href="{% url "editcompany" company.id %}"><span class="glyphicon glyphicon-edit"></span></a>
+                    <a href="{% url "delcompany" company.id %}"><span class="glyphicon glyphicon-trash"></span></a>
+                </td>
             </tr>
             {% endfor %}
         </tbody>

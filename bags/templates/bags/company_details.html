@@ -1,7 +1,7 @@
 {% extends "bags/base_bags.html" %}
 {% load i18n %}
 
-{% block set_common_headercontent %}{% trans "Company Details" %}{% endblock %}
+{% block set_common_headercontent %}{% trans "Company details" %}{% endblock %}
 
 {% block set_common_content %}
 <table class="table">
@@ -66,9 +66,9 @@
 <a
     class='btn btn-primary'
     href="{% url "editcompany" company.id %}"
->{% trans "Edit" %} <span class="glyphicon glyphicon-edit"></span></a>
+>{% trans "Edit company" %} <span class="glyphicon glyphicon-edit"></span></a>
 <a
     class='btn btn-danger'
     href="{% url "delcompany" company.id %}"
->{% trans "Delete" %} <span class="glyphicon glyphicon-trash"></span></a>
+>{% trans "Delete company" %} <span class="glyphicon glyphicon-trash"></span></a>
 {% endblock %}

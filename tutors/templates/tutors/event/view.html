@@ -2,7 +2,7 @@
 {% load i18n %}
 {% load bootstrap4 %}
 
-{% block set_common_headercontent %}{% trans "Event Details" %}{% endblock %}
+{% block set_common_headercontent %}{% trans "Event details" %}{% endblock %}
 
 {% block set_common_content %}
 <div class="row">
@@ -57,11 +57,11 @@
             <a
                 class="btn btn-primary"
                 href="{% url "event_edit" event.id %}"
-            >{% trans "Edit" %} <span class="glyphicon glyphicon-edit"></span></a>
+            >{% trans "Edit event" %} <span class="glyphicon glyphicon-edit"></span></a>
             <a
                 class="btn btn-danger"
                 href="{% url "event_delete" event.id %}"
-            >{% trans "Delete" %} <span class="glyphicon glyphicon-trash"></span></a>
+            >{% trans "Delete event" %} <span class="glyphicon glyphicon-trash"></span></a>
             {% endif %}
         </div>
         {% if perms.tutor.edit_tutors %}

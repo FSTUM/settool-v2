@@ -279,28 +279,20 @@ msgid "Participants"
 msgstr "Teilnehmer"
 
 #: fahrt/templates/fahrt/base_fahrt.html
-#, fuzzy
-#| msgid "Filtered participants"
 msgid "Registered participants"
-msgstr "Gefilterte Teilnehmer"
+msgstr "Registrierte Teilnehmer"
 
 #: fahrt/templates/fahrt/base_fahrt.html
-#, fuzzy
-#| msgid "List confirmed participants"
 msgid "Confirmed participants"
-msgstr "Bestätigte Teilnehmer auflisten"
+msgstr "Bestätigte Teilnehmer"
 
 #: fahrt/templates/fahrt/base_fahrt.html
-#, fuzzy
-#| msgid "waitinglist"
 msgid "Waitinglist "
 msgstr "Warteliste"
 
 #: fahrt/templates/fahrt/base_fahrt.html
-#, fuzzy
-#| msgid "List cancelled participants"
 msgid "Cancelled participants"
-msgstr "Abgesagte Teilnehmer auflisten"
+msgstr "Abgesagte Teilnehmer"
 
 #: fahrt/templates/fahrt/base_fahrt.html
 msgid "Mails"
@@ -312,10 +304,8 @@ msgid "List email templates"
 msgstr "E-Mail-Vorlagen auflisten"
 
 #: fahrt/templates/fahrt/base_fahrt.html
-#, fuzzy
-#| msgid "Filter participants/Send emails"
 msgid "Filter participants/ Send emails"
-msgstr "Teilnehmer filtern/E-Mails senden"
+msgstr "Teilnehmer filtern/ E-Mails senden"
 
 #: fahrt/templates/fahrt/base_fahrt.html
 msgid "Add email template"
@@ -326,8 +316,8 @@ msgid "Patricipants by status"
 msgstr "Teilnehmer grupiert nach Status"
 
 #: fahrt/templates/fahrt/general/add_participant.html
-msgid "Add Participant to the SET-Fahrt"
-msgstr "Anmeldung zur SET-Fahrt"
+msgid "Add participant to the SET-Fahrt"
+msgstr "Teilnehmer zur SET-Fahrt hinzufügen"
 
 #: fahrt/templates/fahrt/general/add_participant.html
 #: fahrt/templates/fahrt/standalone/signup.html
@@ -353,13 +343,8 @@ msgstr ""
 "gelöscht.</p>"
 
 #: fahrt/templates/fahrt/general/add_participant.html
-#: fahrt/templates/fahrt/general/change_date.html
-#: fahrt/templates/fahrt/mail/add_mail.html
-#: fahrt/templates/fahrt/participants/edit_participants.html
-#: fahrt/templates/fahrt/standalone/edit_mail.html
-#: fahrt/templates/fahrt/standalone/signup.html
-msgid "Submit"
-msgstr "Absenden"
+msgid "Add participant"
+msgstr "Teilnehmer hinzufügen"
 
 #: fahrt/templates/fahrt/mail/add_mail.html
 msgid "Add email"
@@ -383,22 +368,14 @@ msgstr "E-Mail-Vorlage löschen"
 msgid "Do you really want to delete the following email template?"
 msgstr "Willst du wirklich die folgende E-Mail-Vorlage löschen?"
 
-#: fahrt/templates/fahrt/mail/del_mail.html
-#: fahrt/templates/fahrt/mail/index_mails.html
-#: fahrt/templates/fahrt/participants/del_participant.html
-#: fahrt/templates/fahrt/participants/view_participant_details.html
-msgid "Delete"
-msgstr "Löschen"
-
 #: fahrt/templates/fahrt/mail/filter_participants_send_mail.html
 msgid "Filter participants"
 msgstr "Teilnehmer filtern"
 
-#: fahrt/templates/fahrt/mail/filter_participants_send_mail.html
-#, fuzzy
-#| msgid "filter"
-msgid "Filter"
-msgstr "filtern"
+#: fahrt/templates/fahrt/mail/index_mails.html
+#: fahrt/templates/fahrt/participants/view_participant_details.html
+msgid "Delete"
+msgstr "Löschen"
 
 #: fahrt/templates/fahrt/mail/list_filtered_participants_send_mail.html
 msgid "Filtered participants"
@@ -445,7 +422,7 @@ msgstr ""
 "aufgelistet."
 
 #: fahrt/templates/fahrt/participants/del_participant.html
-msgid "Delete Participant"
+msgid "Delete participant"
 msgstr "Teilnehmer löschen"
 
 #: fahrt/templates/fahrt/participants/del_participant.html
@@ -513,8 +490,8 @@ msgid "List participants on waitinglist"
 msgstr "Warteliste"
 
 #: fahrt/templates/fahrt/participants/view_participant_details.html
-msgid "Participant Details"
-msgstr "Teilnehmer Details"
+msgid "Participant details"
+msgstr "Teilnehmerdetails"
 
 #: fahrt/templates/fahrt/participants/view_participant_details.html
 msgid "Email"
@@ -579,6 +556,15 @@ msgstr ""
 "Du wirst alle weiteren Informationen per E-Mail erhalten. Dies kann etwas "
 "dauern, da wir deine Anmeldung manuell überprüfen."
 
+#~ msgid "Submit"
+#~ msgstr "Absenden"
+
+#~ msgid "Filter"
+#~ msgstr "Filtern"
+
+#~ msgid "Delete Participant"
+#~ msgstr "Teilnehmer löschen"
+
 #~ msgid "Send"
 #~ msgstr "Senden"
 
@@ -593,9 +579,6 @@ msgstr ""
 
 #~ msgid "Change Date"
 #~ msgstr "Datum ändern"
-
-#~ msgid "Delete participant"
-#~ msgstr "Teilnehmer löschen"
 
 #~ msgid "Edit Participant"
 #~ msgstr "Teilnehmer bearbeiten"

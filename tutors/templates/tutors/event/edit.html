@@ -2,7 +2,7 @@
 {% load i18n %}
 {% load bootstrap4 %}
 
-{% block set_common_headercontent %}{% trans "Edit Event" %}: {{ event }}{% endblock %}
+{% block set_common_headercontent %}{% trans "Edit event" %}: {{ event }}{% endblock %}
 
 {% block set_common_content %}
 <form
@@ -24,7 +24,7 @@
     <button
         class="btn btn-primary"
         type="submit"
-    >{% trans "Submit" %}</button>
+    >{% trans "Edit event" %} <span class="glyphicon glyphicon-edit"></span></button>
 </form>
 
 <script type="text/javascript">

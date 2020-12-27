@@ -1,7 +1,7 @@
 {% extends "tutors/base_tutors.html" %}
 {% load i18n %}
 
-{% block set_common_headercontent %}{% trans "Delete Task" %}: {{ task }}{% endblock %}
+{% block set_common_headercontent %}{% trans "Delete task" %}: {{ task }}{% endblock %}
 
 {% block set_common_content %}
 <div class="row">
@@ -109,6 +109,6 @@
     <button
         class="btn btn-danger"
         type="submit"
-    >{% trans "Delete" %} <span class="glyphicon glyphicon-trash"></span></button>
+    >{% trans "Delete task" %} <span class="glyphicon glyphicon-trash"></span></button>
 </form>
 {% endblock %}

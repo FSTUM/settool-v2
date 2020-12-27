@@ -212,13 +212,7 @@ msgstr ""
 msgid "Add email"
 msgstr "E-Mail hinzufügen"
 
-#: settool_common/templates/settool_common/settings/add_email.html
-#: settool_common/templates/settool_common/settings/edit_email.html
-msgid "Submit"
-msgstr "Eintragen"
-
 #: settool_common/templates/settool_common/settings/base_settings.html
-#: settool_common/templates/settool_common/settings/settings_dashboard.html
 msgid "Dashboard"
 msgstr "Dashboard"
 
@@ -235,17 +229,14 @@ msgid "Add template"
 msgstr "E-Mail-Vorlage hinzufügen"
 
 #: settool_common/templates/settool_common/settings/delete_email.html
-msgid "Delete email"
-msgstr "E-Mail löschen"
-
-#: settool_common/templates/settool_common/settings/delete_email.html
 #: settool_common/templates/settool_common/settings/email_details.html
-msgid "Delete"
-msgstr "Löschen"
+msgid "Delete email template"
+msgstr "E-Mail-Vorlage löschen"
 
 #: settool_common/templates/settool_common/settings/edit_email.html
+#: settool_common/templates/settool_common/settings/email_details.html
 msgid "Edit email"
-msgstr ""
+msgstr "Email bearbeiten"
 
 #: settool_common/templates/settool_common/settings/email_details.html
 msgid "Email details"
@@ -253,11 +244,7 @@ msgstr "E-Mail Details"
 
 #: settool_common/templates/settool_common/settings/email_details.html
 msgid "Back"
-msgstr ""
-
-#: settool_common/templates/settool_common/settings/email_details.html
-msgid "Edit"
-msgstr "Bearbeiten"
+msgstr "Zurück"
 
 #: settool_common/templates/settool_common/settings/list_email_templates.html
 msgid "List email templates"
@@ -276,10 +263,24 @@ msgid "Actions"
 msgstr "Aktionen"
 
 #: settool_common/templates/settool_common/settings/settings_dashboard.html
-#, fuzzy
-#| msgid "Email-Templates"
+msgid "Settings dashboard"
+msgstr "Einstellungsdashboard"
+
+#: settool_common/templates/settool_common/settings/settings_dashboard.html
 msgid "Email-templates by sender"
-msgstr "E-Mail-Vorlagen"
+msgstr "E-Mail-Vorlagen nach Sender"
+
+#~ msgid "Submit"
+#~ msgstr "Eintragen"
+
+#~ msgid "Delete email"
+#~ msgstr "E-Mail löschen"
+
+#~ msgid "Delete"
+#~ msgstr "Löschen"
+
+#~ msgid "Edit"
+#~ msgstr "Bearbeiten"
 
 #~ msgid "Send"
 #~ msgstr "Senden"

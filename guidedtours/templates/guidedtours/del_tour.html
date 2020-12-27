@@ -1,7 +1,7 @@
 {% extends "guidedtours/base_guildedtours.html" %}
 {% load i18n %}
 
-{% block set_common_headercontent %}{% trans "Delete tour" %}: {{ participant }}{% endblock %}
+{% block set_common_headercontent %}{% trans "Delete tour" %}: {{ tour }}{% endblock %}
 
 {% block set_common_content %}
 {% url "tours_view" tour.id as tours_view_url %}
@@ -23,6 +23,6 @@
     <button
         class="btn btn-danger"
         type="submit"
-    >{% trans "Delete" %} <span class="glyphicon glyphicon-trash"></span></button>
+    >{% trans "Delete tour" %} <span class="glyphicon glyphicon-trash"></span></button>
 </form>
 {% endblock %}

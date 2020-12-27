@@ -2,7 +2,7 @@
 {% load i18n %}
 {% load bootstrap4 %}
 
-{% block set_common_headercontent %}{% trans "Tutor Details" %}{% endblock %}
+{% block set_common_headercontent %}{% trans "Tutor details" %}{% endblock %}
 
 {% block set_common_content %}
 <div class="row">
@@ -109,15 +109,15 @@
             <a
                 class="btn btn-primary"
                 href="{% url "tutor_edit" tutor.id %}"
-            >{% trans "Edit" %} <span class="glyphicon glyphicon-edit"></span></a>
+            >{% trans "Edit tutor" %} <span class="glyphicon glyphicon-edit"></span></a>
             <a
                 class="btn btn-warning"
                 href="{% url "tutor_mail_tutor" tutor.id %}"
-            >{% trans "Send email" %}<span class="glyphicon glyphicon-envelope"></span></a>
+            >{% trans "Send email to tutor" %}<span class="glyphicon glyphicon-envelope"></span></a>
             <a
                 class="btn btn-danger"
                 href="{% url "tutor_delete" tutor.id %}"
-            >{% trans "Delete" %} <span class="glyphicon glyphicon-trash"></span></a>
+            >{% trans "Delete tutor" %} <span class="glyphicon glyphicon-trash"></span></a>
             {% endif %}
         </div>
         <h2 class="card-title mt-3">{% trans "Questions" %}</h2>

@@ -2,7 +2,7 @@
 {% load i18n %}
 {% load bootstrap4 %}
 
-{% block set_common_headercontent %}{% trans "General Settings" %}{% endblock %}
+{% block set_common_headercontent %}{% trans "General settings" %}{% endblock %}
 
 {% block set_common_content %}
 <form
@@ -24,6 +24,6 @@
     <button
         class="btn btn-primary"
         type="submit"
-    >{% trans "Submit" %}</button>
+    >{% trans "Save settings" %} <span class="glyphicon glyphicon-save"></span></button>
 </form>
 {% endblock %}

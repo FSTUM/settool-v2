@@ -20,7 +20,7 @@ msgstr ""
 
 #: .\tutors\forms.py:25
 msgid "I accept the terms and conditions of the following privacy policy:"
-msgstr ""
+msgstr "Ich akzeptiere die Bedingungen der folgenden Datenschutzrichtlinie:"
 
 #: fahrt/templates/fahrt/signup.html:20
 msgid "fahrt_privacy_policy"
