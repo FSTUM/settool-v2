@@ -1,5 +1,11 @@
 {% load i18n %}
-{% if value %}
+{% if value == "Failure" %}
+<span
+    style="color:darkorange"
+    class="bi bi-lightning-fill"
+></span>
+<span style="display: none;">{% trans "No" %}</span>
+{% elif value %}
 <span
     style="color:{% if inverted_colors %} red{% else %} green{% endif %}"
     class="bi bi-check-circle-fill"
