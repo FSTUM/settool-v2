@@ -575,6 +575,7 @@ msgstr "# Tutoren"
 
 #: tutors/templates/tutors/task/mail.html
 #: tutors/templates/tutors/tutor/list.html
+#: tutors/templates/tutors/tutor/mail.html
 msgid "Send email"
 msgstr "Email senden"
 
@@ -754,10 +755,6 @@ msgstr "|Studiengänge| / |gewollte Studiengänge|"
 msgid "Send email to tutors"
 msgstr "Sende Email an Tutoren"
 
-#: tutors/templates/tutors/tutor/mail.html
-msgid "Send"
-msgstr "Senden"
-
 #: tutors/templates/tutors/tutor/standalone/confirmation_required.html
 #: tutors/templates/tutors/tutor/standalone/registration_closed.html
 #: tutors/templates/tutors/tutor/standalone/signup.html
@@ -871,6 +868,9 @@ msgstr "Zugewiesene Tasks"
 #: tutors/templates/tutors/tutor/view.html
 msgid "Email log"
 msgstr "E-Mail Log"
+
+#~ msgid "Send"
+#~ msgstr "Senden"
 
 #~ msgid "Submit"
 #~ msgstr "Absenden"

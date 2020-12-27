@@ -186,12 +186,10 @@
             {% csrf_token %}
             {% bootstrap_form form %}
             <button
-                type="submit"
+                class="btn btn-warning"
                 name="mailform"
-                class="btn btn-danger"
-            >
-                {% trans "Send email" %}
-            </button>
+                type="submit"
+            >{% trans "Send email" %} <span class="glyphicon glyphicon-envelope"></span></button>
         </form>
     </div>
     <div class="col-sm-1">

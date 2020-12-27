@@ -33,9 +33,9 @@
             href="{% url "task_view" task.id %}"
         >{% trans "Cancel" %}</a>
         <button
-            class="btn btn-danger"
+            class="btn btn-warning"
             type="submit"
-        >{% trans "Send mail" %}</button>
+        >{% trans "Send mail" %} <span class="glyphicon glyphicon-envelope"></span></button>
 
         {% bootstrap_form form %}
     </form>

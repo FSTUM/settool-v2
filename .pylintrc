@@ -8,10 +8,10 @@ disable=print-statement,
         missing-function-docstring, # too much work
         missing-module-docstring, # too much work
         missing-class-docstring, # too much work
-        too-many-locals, # with eisting codebase this in views this would require a lot of work and introduce some bugs
+        too-many-locals, # with existing codebase this in views this would require a lot of work and introduce some bugs
         too-many-ancestors, # django has a extensive inheritance structure, thus too much signal to noise
         line-too-long, # we have another hook for this
         wrong-import-position, # we have another hook for this
         no-member, # mypy does this job with less false positives
         modelform-uses-exclude, # usage of exclude is sometimes valid.
-        fixme # prevents users from commiting things with a TODO in comments. Having more frequent commits is desirable
+        fixme # prevents users from committing things with a TODO in comments. Having more frequent commits is desirable
