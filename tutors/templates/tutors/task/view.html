@@ -100,7 +100,7 @@
             href="{% url "task_edit" task.id %}"
         >{% trans "Edit task" %} <span class="bi bi-pencil-square"></span></a>
         <a
-            class="btn btn-primary"
+            class="btn btn-warning"
             href="{% url "task_mail" task.id %}"
         >{% trans "Send mail" %} <span class="bi bi-envelope-fill"></span> ({% mail_task_count task %}{% trans " missing mails" %})</a>
         <a
