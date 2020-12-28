@@ -263,9 +263,7 @@ msgid "General"
 msgstr "Allgemein"
 
 #: fahrt/templates/fahrt/base_fahrt.html
-#: fahrt/templates/fahrt/standalone/registration_closed.html
 #: fahrt/templates/fahrt/standalone/signup.html
-#: fahrt/templates/fahrt/standalone/success.html
 msgid "Sign up"
 msgstr "Anmelden"
 
@@ -522,18 +520,8 @@ msgid "Edit"
 msgstr "Bearbeiten"
 
 #: fahrt/templates/fahrt/standalone/edit_mail.html
-msgid "SET"
-msgstr "SET"
-
-#: fahrt/templates/fahrt/standalone/edit_mail.html
 msgid "Edit email"
 msgstr "E-Mail bearbeiten"
-
-#: fahrt/templates/fahrt/standalone/registration_closed.html
-#: fahrt/templates/fahrt/standalone/signup.html
-#: fahrt/templates/fahrt/standalone/success.html
-msgid "SET-Fahrt"
-msgstr "SET-Fahrt"
 
 #: fahrt/templates/fahrt/standalone/registration_closed.html
 #: fahrt/templates/fahrt/standalone/signup.html
@@ -555,6 +543,12 @@ msgid ""
 msgstr ""
 "Du wirst alle weiteren Informationen per E-Mail erhalten. Dies kann etwas "
 "dauern, da wir deine Anmeldung manuell überprüfen."
+
+#~ msgid "SET"
+#~ msgstr "SET"
+
+#~ msgid "SET-Fahrt"
+#~ msgstr "SET-Fahrt"
 
 #~ msgid "Submit"
 #~ msgstr "Absenden"

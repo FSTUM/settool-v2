@@ -166,8 +166,6 @@ msgstr "Allgemein"
 
 #: guidedtours/templates/guidedtours/base_guildedtours.html
 #: guidedtours/templates/guidedtours/standalone/signup.html
-#: guidedtours/templates/guidedtours/standalone/signup_notour.html
-#: guidedtours/templates/guidedtours/standalone/success.html
 msgid "Sign up"
 msgstr "Anmelden"
 
