@@ -206,8 +206,9 @@
                     </td>
                     {% with questions=tutor.answer_set.all|in_task:task.requirements.all q_c=task.requirements.all.count %}
                     {% with t_c=questions.count %}
-                    {% for q in questions %}
-                    <td>{% trans q.answer %}</td>
+                    {% for question in questions %}
+                    <td class="{% if question.answer == "YES" %}table-success{% elif question.answer == "NO" %}table-danger{% else %}table-warning{% endif %}">
+                        {% if question.answer %}{% trans question.answer %}{% endif %}</td>
                     {% endfor %}
                     {% for i in q_c|subtract:t_c|times %}
                     <td>-</td>

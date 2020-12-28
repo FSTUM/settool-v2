@@ -53,7 +53,7 @@
                 {% for question in tutor.answer_set.all %}
                 <tr>
                     <td>{{ question.question }}</td>
-                    <td>{% trans question.answer %}</td>
+                    <td>{% if question.answer %}{% trans question.answer %}{% else %}-{% endif %}</td>
                 </tr>
                 {% endfor %}
             </tbody>
