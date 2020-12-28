@@ -98,15 +98,15 @@
         <a
             class="btn btn-primary"
             href="{% url "task_edit" task.id %}"
-        >{% trans "Edit task" %} <span class="bi bi-pencil-square"></span></a>
+        >{% trans "Edit task" %}</a>
         <a
             class="btn btn-warning"
             href="{% url "task_mail" task.id %}"
-        >{% trans "Send mail" %} <span class="bi bi-envelope-fill"></span> ({% mail_task_count task %}{% trans " missing mails" %})</a>
+        >{% trans "Send mail" %} ({% mail_task_count task %}{% trans " missing mails" %})</a>
         <a
             class="btn btn-danger"
             href="{% url "task_delete" task.id %}"
-        >{% trans "Delete task" %} <span class="bi bi-trash-fill"></span></a>
+        >{% trans "Delete task" %}</a>
         {% endif %}
     </div>
     {% if perms.tutor.edit_tutors %}

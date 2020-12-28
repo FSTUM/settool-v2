@@ -20,11 +20,11 @@
     <a
         class="btn btn-primary"
         href="{% url "requirement_edit" requirement.id %}"
-    >{% trans "Edit requirement" %} <span class="bi bi-pencil-square"></span></a>
+    >{% trans "Edit requirement" %}</a>
     <a
         class="btn btn-danger"
         href="{% url "requirement_delete" requirement.id %}"
-    >{% trans "Delete requirement" %} <span class="bi bi-trash-fill"></span></a>
+    >{% trans "Delete requirement" %}</a>
     {% endif %}
 </div>
 {% endblock %}

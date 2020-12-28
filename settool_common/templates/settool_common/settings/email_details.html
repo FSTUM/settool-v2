@@ -25,11 +25,11 @@
     <a
         class="btn btn-primary"
         href="{% url "mail_edit" mail.id %}"
-    >{% trans "Edit email" %} <span class="bi bi-pencil-square"></span></a>
+    >{% trans "Edit email" %}</a>
     <a
         class="btn btn-danger"
         href="{% url "mail_delete" mail.id %}"
-    >{% trans "Delete email template" %} <span class="bi bi-trash-fill"></span></a>
+    >{% trans "Delete email template" %}</a>
     {% endif %}
 </div>
 {% endblock %}

@@ -57,11 +57,11 @@
             <a
                 class="btn btn-primary"
                 href="{% url "event_edit" event.id %}"
-            >{% trans "Edit event" %} <span class="bi bi-pencil-square"></span></a>
+            >{% trans "Edit event" %}</a>
             <a
                 class="btn btn-danger"
                 href="{% url "event_delete" event.id %}"
-            >{% trans "Delete event" %} <span class="bi bi-trash-fill"></span></a>
+            >{% trans "Delete event" %}</a>
             {% endif %}
         </div>
         {% if perms.tutor.edit_tutors %}

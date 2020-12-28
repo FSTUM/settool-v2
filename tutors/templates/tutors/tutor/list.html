@@ -40,7 +40,7 @@
         <a
             class="btn btn-warning btn-block"
             href="{% url "tutor_mail_status" status %}"
-        >{% trans "Send email" %} <span class="bi bi-envelope-fill"></span></a>
+        >{% trans "Send email" %}</a>
     </div>
     {% endif %}
     {% if status == "active" %}
@@ -48,13 +48,13 @@
         <a
             class="btn btn-danger btn-block"
             href="{% url "tutor_batch_accept" %}"
-        >{% trans "Batch Accept" %} <span class="bi bi-check-circle-fill"></span></a>
+        >{% trans "Batch Accept" %}</a>
     </div>
     <div class="col-sm p-1">
         <a
             class="btn btn-danger btn-block"
             href="{% url "tutor_batch_decline" %}"
-        >{% trans "Batch Decline" %} <span class="bi bi-x-circle-fill"></span></a>
+        >{% trans "Batch Decline" %}</a>
     </div>
     {% endif %}
 </div>
