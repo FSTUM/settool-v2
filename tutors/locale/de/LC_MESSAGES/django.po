@@ -85,7 +85,7 @@ msgstr "Semester"
 #: tutors/models.py tutors/templates/tutors/task/view.html
 #: tutors/templates/tutors/tutor/delete.html
 #: tutors/templates/tutors/tutor/list.html
-#: tutors/templates/tutors/tutor/view.html
+#: tutors/templates/tutors/tutor/standalone/view.html
 msgid "First name"
 msgstr "Vorname"
 
@@ -135,7 +135,7 @@ msgstr "T-Shirt als Girls cut"
 
 #: tutors/models.py tutors/templates/tutors/dashboard.html
 #: tutors/templates/tutors/tutor/list.html
-#: tutors/templates/tutors/tutor/view.html
+#: tutors/templates/tutors/tutor/standalone/view.html
 msgid "Status"
 msgstr "Status"
 
@@ -148,11 +148,11 @@ msgstr "Status"
 #: tutors/templates/tutors/tutor/delete.html
 #: tutors/templates/tutors/tutor/list.html
 #: tutors/templates/tutors/tutor/mail.html
-#: tutors/templates/tutors/tutor/view.html
+#: tutors/templates/tutors/tutor/standalone/view.html
 msgid "Subject"
 msgstr "Studienfach"
 
-#: tutors/models.py tutors/templates/tutors/tutor/view.html
+#: tutors/models.py tutors/templates/tutors/tutor/standalone/view.html
 msgid "Comment"
 msgstr "Kommentar"
 
@@ -168,7 +168,7 @@ msgstr "Antworten des Tutors"
 #: tutors/templates/tutors/task/list.html
 #: tutors/templates/tutors/task/view.html
 #: tutors/templates/tutors/tutor/delete.html
-#: tutors/templates/tutors/tutor/view.html
+#: tutors/templates/tutors/tutor/standalone/view.html
 msgid "Name"
 msgstr "Name"
 
@@ -186,7 +186,7 @@ msgstr "Beschreibung"
 #: tutors/templates/tutors/task/list.html
 #: tutors/templates/tutors/task/view.html
 #: tutors/templates/tutors/tutor/delete.html
-#: tutors/templates/tutors/tutor/view.html
+#: tutors/templates/tutors/tutor/standalone/view.html
 msgid "Begin"
 msgstr "Start"
 
@@ -198,7 +198,7 @@ msgstr "Start"
 #: tutors/templates/tutors/task/list.html
 #: tutors/templates/tutors/task/view.html
 #: tutors/templates/tutors/tutor/delete.html
-#: tutors/templates/tutors/tutor/view.html
+#: tutors/templates/tutors/tutor/standalone/view.html
 msgid "End"
 msgstr "Ende"
 
@@ -209,7 +209,7 @@ msgstr "Ende"
 #: tutors/templates/tutors/task/list.html
 #: tutors/templates/tutors/task/view.html
 #: tutors/templates/tutors/tutor/delete.html
-#: tutors/templates/tutors/tutor/view.html
+#: tutors/templates/tutors/tutor/standalone/view.html
 msgid "Meeting Point"
 msgstr "Treffpunkt"
 
@@ -265,12 +265,12 @@ msgstr "abwesend"
 #: tutors/templates/tutors/requirement/view.html
 #: tutors/templates/tutors/tutor/delete.html
 #: tutors/templates/tutors/tutor/list.html
-#: tutors/templates/tutors/tutor/view.html
+#: tutors/templates/tutors/tutor/standalone/view.html
 msgid "Question"
 msgstr "Frage"
 
 #: tutors/models.py tutors/templates/tutors/tutor/delete.html
-#: tutors/templates/tutors/tutor/view.html
+#: tutors/templates/tutors/tutor/standalone/view.html
 msgid "Answer"
 msgstr "Antwort"
 
@@ -468,7 +468,7 @@ msgstr "Eventdetails"
 #: tutors/templates/tutors/event/view.html
 #: tutors/templates/tutors/requirement/view.html
 #: tutors/templates/tutors/task/view.html
-#: tutors/templates/tutors/tutor/view.html
+#: tutors/templates/tutors/tutor/standalone/view.html
 msgid "Back"
 msgstr "Zurück"
 
@@ -636,7 +636,7 @@ msgstr "Zugewiesene Tasks"
 #: tutors/templates/tutors/task/view.html
 #: tutors/templates/tutors/tutor/delete.html
 #: tutors/templates/tutors/tutor/list.html
-#: tutors/templates/tutors/tutor/view.html
+#: tutors/templates/tutors/tutor/standalone/view.html
 msgid "Registration time"
 msgstr "Registrierungszeitpunkt"
 
@@ -687,34 +687,34 @@ msgid "Decline all selected tutors"
 msgstr "Alle ausgewählten Tutoren ablehnen"
 
 #: tutors/templates/tutors/tutor/delete.html
-#: tutors/templates/tutors/tutor/view.html
+#: tutors/templates/tutors/tutor/standalone/view.html
 msgid "Delete tutor"
 msgstr "Tutor löschen"
 
 #: tutors/templates/tutors/tutor/delete.html
-#: tutors/templates/tutors/tutor/view.html
+#: tutors/templates/tutors/tutor/standalone/view.html
 msgid "Surname"
 msgstr "Nachname"
 
 #: tutors/templates/tutors/tutor/delete.html
-#: tutors/templates/tutors/tutor/view.html
+#: tutors/templates/tutors/tutor/standalone/view.html
 msgid "Email"
 msgstr "E-Mail"
 
 #: tutors/templates/tutors/tutor/delete.html
-#: tutors/templates/tutors/tutor/view.html
+#: tutors/templates/tutors/tutor/standalone/view.html
 msgid "T-Shirt Size"
 msgstr "T-Shirt Größe"
 
 #: tutors/templates/tutors/tutor/delete.html
-#: tutors/templates/tutors/tutor/view.html
+#: tutors/templates/tutors/tutor/standalone/view.html
 msgid "Girls Cut?"
 msgstr "Girls Cut?"
 
 #: tutors/templates/tutors/tutor/delete.html
 #: tutors/templates/tutors/tutor/edit.html
 #: tutors/templates/tutors/tutor/standalone/signup.html
-#: tutors/templates/tutors/tutor/view.html
+#: tutors/templates/tutors/tutor/standalone/view.html
 msgid "Questions"
 msgstr "Fragen"
 
@@ -723,7 +723,7 @@ msgid "The tutor is assigned to the following tasks"
 msgstr "Der Tutor ist für die folgenden Tasks eingeteilt"
 
 #: tutors/templates/tutors/tutor/edit.html
-#: tutors/templates/tutors/tutor/view.html
+#: tutors/templates/tutors/tutor/standalone/view.html
 msgid "Edit tutor"
 msgstr "Tutor bearbeiten"
 
@@ -756,13 +756,6 @@ msgid "Send email to tutors"
 msgstr "Sende Email an Tutoren"
 
 #: tutors/templates/tutors/tutor/standalone/confirmation_required.html
-#: tutors/templates/tutors/tutor/standalone/registration_closed.html
-#: tutors/templates/tutors/tutor/standalone/signup.html
-#: tutors/templates/tutors/tutor/standalone/success.html
-msgid "Sign up"
-msgstr "Anmeldung"
-
-#: tutors/templates/tutors/tutor/standalone/confirmation_required.html
 msgid "Confirmation required"
 msgstr "Bestätigung notwendig"
 
@@ -773,10 +766,6 @@ msgid ""
 msgstr ""
 "Du wirst eine Email bekommen die einen Bestätigungslink enthält. Eine "
 "Bestätigung ist notwendig um deine Anmeldung abzuschließen."
-
-#: tutors/templates/tutors/tutor/standalone/invalid.html
-msgid "Sign up failed"
-msgstr "Anmeldung fehlgeschlagen"
 
 #: tutors/templates/tutors/tutor/standalone/invalid.html
 msgid "Confirmation failed"
@@ -825,6 +814,10 @@ msgstr ""
 "tum.de</a></address><p>Im Fall des Widerrufs werden mit dem Zugang meiner "
 "Widerrufserklärung meine Daten gelöscht.</p>"
 
+#: tutors/templates/tutors/tutor/standalone/signup.html
+msgid "Sign up"
+msgstr "Anmeldung"
+
 #: tutors/templates/tutors/tutor/standalone/success.html
 msgid "You successfully signed up as SET Tutor"
 msgstr "Du hast deine Anmeldung als SET Tutor erfolgreich bestätigt"
@@ -837,37 +830,40 @@ msgstr ""
 "Du wirst alle weiteren Information als Email erhalten. Dies kann einige Zeit "
 "beanspruchen, da wir jede Anmeldung manuell prüfen."
 
-#: tutors/templates/tutors/tutor/view.html
+#: tutors/templates/tutors/tutor/standalone/view.html
 msgid "Tutor details"
 msgstr "Tutor Details"
 
-#: tutors/templates/tutors/tutor/view.html
+#: tutors/templates/tutors/tutor/standalone/view.html
 msgid "ECTS"
 msgstr "ECTS"
 
-#: tutors/templates/tutors/tutor/view.html
+#: tutors/templates/tutors/tutor/standalone/view.html
 msgid "Open"
 msgstr "Offen"
 
-#: tutors/templates/tutors/tutor/view.html
+#: tutors/templates/tutors/tutor/standalone/view.html
 msgid "Accept"
 msgstr "Angenommen"
 
-#: tutors/templates/tutors/tutor/view.html
+#: tutors/templates/tutors/tutor/standalone/view.html
 msgid "Decline"
 msgstr "Ablehnen"
 
-#: tutors/templates/tutors/tutor/view.html
+#: tutors/templates/tutors/tutor/standalone/view.html
 msgid "Send email to tutor"
 msgstr "Sende Email an Tutoren"
 
-#: tutors/templates/tutors/tutor/view.html
+#: tutors/templates/tutors/tutor/standalone/view.html
 msgid "Assigned Tasks"
 msgstr "Zugewiesene Tasks"
 
-#: tutors/templates/tutors/tutor/view.html
+#: tutors/templates/tutors/tutor/standalone/view.html
 msgid "Email log"
 msgstr "E-Mail Log"
+
+#~ msgid "Sign up failed"
+#~ msgstr "Anmeldung fehlgeschlagen"
 
 #~ msgid "Send"
 #~ msgstr "Senden"

@@ -188,7 +188,7 @@ def tutor_list(request, status):
 
 def tutor_view(request, uid):
     tutor = get_object_or_404(Tutor, pk=uid)
-    return render(request, "tutors/tutor/view.html", {"tutor": tutor})
+    return render(request, "tutors/tutor/standalone/view.html", {"tutor": tutor})
 
 
 @permission_required("tutors.edit_tutors")
