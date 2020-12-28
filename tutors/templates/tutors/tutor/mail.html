@@ -32,7 +32,7 @@
 
             <a
                 class="btn btn-danger"
-                href="{% if status == "all" %}{% url "tutor_list_status_all" %}{% else %}{% url "tutor_list_status" status %}{% endif %}"
+                href="{% url "tutor_list_status_all" %}"
             >{% trans "Cancel" %}</a>
             <button
                 class="btn btn-secondary"

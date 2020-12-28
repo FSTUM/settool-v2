@@ -744,7 +744,7 @@ def tutors_settings_tutors(request):
 
 
 @permission_required("tutors.edit_tutors")
-def tutor_mail(request, status=None, template=None, uid=None):
+def tutor_mail(request, status="all", template=None, uid=None):
     semester = get_object_or_404(Semester, pk=get_semester(request))
     settings = get_object_or_404(Settings, semester=semester)
     template = default_tutor_mail_template(semester, settings, status, template)
@@ -753,18 +753,14 @@ def tutor_mail(request, status=None, template=None, uid=None):
         raise Http404
 
     if uid is None:
-        if status is None:
+        if status == "all":
             tutors = Tutor.objects.filter(semester=semester)
         else:
             tutors = Tutor.objects.filter(semester=semester, status=status)
-    else:
-        tutors = Tutor.objects.filter(pk=uid)
-
-    tutor_data = extract_tutor_data()
-
-    if uid is None:
+        tutor_data = extract_tutor_data()
         tutor = Tutor(**tutor_data)
     else:
+        tutors = Tutor.objects.filter(pk=uid)
         tutor = tutors.first()
 
     context = Context(
@@ -788,9 +784,7 @@ def tutor_mail(request, status=None, template=None, uid=None):
 
         send_email_to_all_tutors(mail_template, tutors, request)
 
-        if status is None:
-            return redirect("tutor_list_status_all")
-        return redirect("tutor_list_status", status=status)
+        return redirect(f"tutor_list_status_{status}")
 
     context = {
         "from": template.sender,
