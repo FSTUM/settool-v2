@@ -2,6 +2,17 @@
 {% load i18n %}
 {% load bootstrap4 %}
 
+{% block head %}
+<script>
+    $(document).ready(() => {
+        $('#bagTable').DataTable({
+            columnDefs: [{ targets: 12, orderable: false }],
+            paging: false,
+        });
+    });
+</script>
+{% endblock %}
+
 {% block set_common_headercontent %}{% trans "Send email" %}{% endblock %}
 
 {% block set_common_content %}

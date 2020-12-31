@@ -247,9 +247,10 @@ msgid "sent"
 msgstr "gesendet"
 
 #: bags/templates/bags/bags_dashboard.html
-#: bags/templates/bags/filtered_index.html bags/templates/bags/send_mail.html
+#: bags/templates/bags/filtered_index.html bags/templates/bags/index_mails.html
+#: bags/templates/bags/send_mail.html
 msgid "Actions"
-msgstr "Actionen"
+msgstr "Aktionen"
 
 #: bags/templates/bags/bags_dashboard.html
 msgid "Enter contact again"
@@ -343,10 +344,6 @@ msgstr "Firmen importieren"
 msgid "List email templates"
 msgstr "E-Mail-Vorlagen"
 
-#: bags/templates/bags/index_mails.html
-msgid "Delete"
-msgstr "Löschen"
-
 #: bags/templates/bags/send_mail.html
 msgid "Send email"
 msgstr "E-Mail senden"
@@ -368,6 +365,9 @@ msgstr "An"
 #: bags/templates/bags/send_mail.html
 msgid "see table below"
 msgstr "siehe Tabelle unten"
+
+#~ msgid "Delete"
+#~ msgstr "Löschen"
 
 #~ msgid "Send"
 #~ msgstr "Senden"

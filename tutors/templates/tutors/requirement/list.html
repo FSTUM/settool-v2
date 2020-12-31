@@ -5,7 +5,9 @@
 {% block head %}
 <script>
     $(document).ready(() => {
-        $('#requirementTable').DataTable();
+        $('#requirementTable').DataTable({
+            columnDefs: [{ targets: 2, orderable: false }],
+        });
     });
 </script>
 {% endblock %}

@@ -6,7 +6,9 @@
 {% block head %}
 <script>
     $(document).ready(() => {
-        $('#taskTable').DataTable();
+        $('#taskTable').DataTable({
+            columnDefs: [{ targets: 8, orderable: false }],
+        });
     });
 </script>
 {% endblock %}

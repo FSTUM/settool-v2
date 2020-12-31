@@ -371,9 +371,8 @@ msgid "Filter participants"
 msgstr "Teilnehmer filtern"
 
 #: fahrt/templates/fahrt/mail/index_mails.html
-#: fahrt/templates/fahrt/participants/view_participant_details.html
-msgid "Delete"
-msgstr "Löschen"
+msgid "Actons"
+msgstr "Aktonen"
 
 #: fahrt/templates/fahrt/mail/list_filtered_participants_send_mail.html
 msgid "Filtered participants"
@@ -518,6 +517,10 @@ msgstr "Teilnehmer der Warteliste hinzufügen"
 #: fahrt/templates/fahrt/participants/view_participant_details.html
 msgid "Edit"
 msgstr "Bearbeiten"
+
+#: fahrt/templates/fahrt/participants/view_participant_details.html
+msgid "Delete"
+msgstr "Löschen"
 
 #: fahrt/templates/fahrt/standalone/edit_mail.html
 msgid "Edit email"

@@ -4,7 +4,9 @@
 {% block head %}
 <script>
     $(document).ready(() => {
-        $('#mailTable').DataTable();
+        $('#mailTable').DataTable({
+            columnDefs: [{ targets: 3, orderable: false }],
+        });
     });
 </script>
 {% endblock %}
@@ -22,7 +24,7 @@
                 <th>{% trans "Subject" %}</th>
                 <th>{% trans "Text" %}</th>
                 <th>{% trans "Comment" %}</th>
-                <th>{% trans "Delete" %}</th>
+                <th>{% trans "Actons" %}</th>
             </tr>
         </thead>
         <tbody>
@@ -38,6 +40,7 @@
                     {{ mail.comment }}
                 </td>
                 <td>
+                    <a href="{% url "fahrt_editmail" mail.id %}"><span class="bi bi-pencil-square"></span></a>
                     <a href="{% url "fahrt_delmail" mail.id %}"><span class="bi bi-trash-fill"></span></a>
                 </td>
             </tr>

@@ -240,8 +240,8 @@ msgid "Send emails"
 msgstr "E-Mails senden"
 
 #: guidedtours/templates/guidedtours/index_mails.html
-msgid "Delete"
-msgstr "Löschen"
+msgid "Actions"
+msgstr "Aktionen"
 
 #: guidedtours/templates/guidedtours/list_tour-participants.html
 #, python-format
@@ -351,6 +351,9 @@ msgstr "Alle weiteren Information bekommst du per E-Mail."
 #: guidedtours/templates/guidedtours/tour_dashboard.html
 msgid "Guildedtours dashboard"
 msgstr "Intitutsführungsdashboard"
+
+#~ msgid "Delete"
+#~ msgstr "Löschen"
 
 #~ msgid "Submit"
 #~ msgstr "Eintragen"

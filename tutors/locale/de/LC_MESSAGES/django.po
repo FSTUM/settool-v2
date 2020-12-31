@@ -457,6 +457,7 @@ msgstr "Liste der Events"
 #: tutors/templates/tutors/event/list.html
 #: tutors/templates/tutors/requirement/list.html
 #: tutors/templates/tutors/task/list.html
+#: tutors/templates/tutors/task/view.html
 #: tutors/templates/tutors/tutor/list.html
 msgid "Actions"
 msgstr "Aktionen"

@@ -6,7 +6,9 @@
 {% block head %}
 <script>
     $(document).ready(() => {
-        $('#bagTable').DataTable();
+        $('#bagTable').DataTable({
+            columnDefs: [{ targets: 13, orderable: false }],
+        });
     });
 </script>
 {% endblock %}
@@ -48,7 +50,7 @@
         >
             <thead>
                 <tr>
-                    <th></th>
+                    <th><span class="bi bi-check-square"></span></th>
                     <th>{% trans "Company" %}</th>
                     <th>{% trans "Contact" %}</th>
                     <th>{% trans "Email" %}</th>

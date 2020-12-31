@@ -5,7 +5,9 @@
 {% block head %}
 <script>
     $(document).ready(() => {
-        $('#eventTable').DataTable();
+        $('#eventTable').DataTable({
+            columnDefs: [{ targets: 5, orderable: false }],
+        });
     });
 </script>
 {% endblock %}
