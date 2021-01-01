@@ -432,17 +432,16 @@ def task_view(request, uid):
         Q(task__end__gt=task.begin),
         Q(task__begin__lt=task.end),
     )
+    unassigned_tutors = (
+        Tutor.objects.filter(semester=semester, status=Tutor.STATUS_ACCEPTED)
+        .exclude(id__in=assigned_tutors.values("id"))
+        .exclude(id__in=parallel_task_tutors.values("id"))
+        .order_by("last_name")
+    )
     context = {
         "task": task,
         "assigned_tutors": assigned_tutors,
-        "unassigned_tutors": Tutor.objects.filter(semester=semester, status=Tutor.STATUS_ACCEPTED)
-        .exclude(
-            id__in=assigned_tutors.values("id"),
-        )
-        .exclude(id__in=parallel_task_tutors.values("id"))
-        .order_by(
-            "last_name",
-        ),
+        "unassigned_tutors": unassigned_tutors,
         "assignment_form": form,
     }
     return render(request, "tutors/task/view.html", context)
@@ -598,16 +597,14 @@ def task_mail(request, uid, template=None):
 
 
 @permission_required("tutors.edit_tutors")
-def tutor_export(request, file_type, status=None):
+def tutor_export(request, file_type, status="all"):
     semester = get_object_or_404(Semester, pk=get_semester(request))
 
-    if status is None:
-        tutors = Tutor.objects.filter(semester=semester).order_by("last_name", "first_name")
+    if status == "all":
+        tutors = Tutor.objects.filter(semester=semester)
     else:
-        tutors = Tutor.objects.filter(semester=semester, status=status).order_by(
-            "last_name",
-            "first_name",
-        )
+        tutors = Tutor.objects.filter(semester=semester, status=status)
+    tutors = tutors.order_by("last_name", "first_name")
 
     filename = f"tutors_{time.strftime('%Y%m%d-%H%M')}"
 
