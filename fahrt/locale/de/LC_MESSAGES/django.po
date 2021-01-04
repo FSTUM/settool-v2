@@ -263,9 +263,9 @@ msgid "General"
 msgstr "Allgemein"
 
 #: fahrt/templates/fahrt/base_fahrt.html
-#: fahrt/templates/fahrt/standalone/signup.html
-msgid "Sign up"
-msgstr "Anmelden"
+#: fahrt/templates/fahrt/general/add_participant.html
+msgid "Add participant"
+msgstr "Teilnehmer hinzufügen"
 
 #: fahrt/templates/fahrt/base_fahrt.html
 #: fahrt/templates/fahrt/general/change_date.html
@@ -339,10 +339,6 @@ msgstr ""
 "set-owner@fs.tum.de\">set-owner@fs.tum.de</a></address><p>Im Fall des "
 "Widerrufs werden mit dem Zugang meiner Widerrufserklärung meine Daten "
 "gelöscht.</p>"
-
-#: fahrt/templates/fahrt/general/add_participant.html
-msgid "Add participant"
-msgstr "Teilnehmer hinzufügen"
 
 #: fahrt/templates/fahrt/mail/add_mail.html
 msgid "Add email"
@@ -534,6 +530,10 @@ msgstr "Anmeldung zur SET-Fahrt"
 #: fahrt/templates/fahrt/standalone/registration_closed.html
 msgid "The SET-Fahrt is currently not open for registration."
 msgstr "Die Anmeldung zur SET-Fahrt ist aktuell nicht geöffnet."
+
+#: fahrt/templates/fahrt/standalone/signup.html
+msgid "Sign up"
+msgstr "Anmelden"
 
 #: fahrt/templates/fahrt/standalone/success.html
 msgid "You successfully signed up for the SET-Fahrt"

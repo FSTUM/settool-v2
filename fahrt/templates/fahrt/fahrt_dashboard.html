@@ -17,25 +17,25 @@
 {% block defered_script %}
 <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
 <script>
-        /* global Chart */
-        const ctx = document.getElementById('participants_by_group_chart').getContext('2d');
+    /* global Chart */
+    const ctx = document.getElementById('participants_by_group_chart').getContext('2d');
 
-        /* eslint no-new: off */
-        new Chart(ctx, {
-            type: 'doughnut',
-            data: {
-                labels: {{ participants_by_group_labels|safe }},
-                datasets: [
-                    {
-                        label: 'Email Templates by sender',
-                        data: {{ participants_by_group_data }},
-                        backgroundColor: ['rgb(255, 99, 132)', 'rgb(54, 162, 235)', 'rgb(255, 205, 86)'],
-                    },
-                ],
-            },
-            options: {
-                maintainAspectRatio: false,
-            },
-        });
-    </script>
+    /* eslint no-new: off */
+    new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+            labels: {{ participants_by_group_labels|safe }},
+            datasets: [
+                {
+                    label: 'Email Templates by sender',
+                    data: {{ participants_by_group_data }},
+                    backgroundColor: ['rgb(255, 99, 132)', 'rgb(54, 162, 235)', 'rgb(255, 205, 86)'],
+                },
+            ],
+        },
+        options: {
+            maintainAspectRatio: false,
+        },
+    });
+</script>
 {% endblock %}
