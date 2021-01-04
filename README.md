@@ -37,7 +37,7 @@ python3 manage.py migrate
 python3 manage.py createsuperuser
 ```
 
-    Note that this doesn't set the `fist_name`, thus the `username` is shown on the website. If you want your `fist_name` to be shown instead, you have to add your fist name in the admin interface.
+Note that this doesn't set the `fist_name`, thus the `username` is shown on the website. If you want your `fist_name` to be shown instead, you have to add your fist name in the admin interface.
 
 4. Start the local webserver
 
@@ -65,6 +65,24 @@ pre-commit run --all-files
 
 This will also be run by CI if you push to the repository.
 
+## Sample-Data/ "Fixtures"
+
+you can generate example-data (overrides every model with data that looks partially plausible, but is clearly not production-data)
+by opening the django shell using:
+
+```shell
+python3 manage.py shell
+```
+
+In the shell type
+
+```python
+import settool_common.fixtures.showroom_fixture
+settool_common.fixtures.showroom_fixture.showroom_fixture_state()
+```
+
+This operation might take a few seconds. Don't worry.
+
 # Translation
 
 1. Update the `.po`-files with
@@ -77,11 +95,11 @@ python manage.py makemessages -a
 
     In the Settings please change:
 
-    - Your name and email
-    - Line endings=Unix
-    - Wrap at=100
-    - check-spelling=True
+    - Your `name` and `email`
+    - `Line endings`=`Unix`
+    - `Wrap at`=`100`
+    - `check-spelling`=`True`
 
 3. Edit the `.po`-files, e.g. `guidedtours/locale/de/LC_MESSAGES/django.po`.
 
-Note that `pre-commit` will automatically compuile the translations for you.
+Note that `pre-commit` will automatically compile the translations for you.
