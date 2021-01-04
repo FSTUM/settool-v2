@@ -1,7 +1,7 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# Frank Elsinga <elsinga@fs.tum.de>, 2021.
 #
 msgid ""
 msgstr ""
@@ -41,7 +41,7 @@ msgstr "E-Mail wurde noch nicht (erfolgreich) versendet"
 #: bags/templates/bags/company_details.html
 #: bags/templates/bags/filtered_index.html bags/templates/bags/send_mail.html
 msgid "Participated last year"
-msgstr "Letztes Jahr was geschickt"
+msgstr "Letz<wbr>tes Jahr was ge<wbr>schickt"
 
 #: bags/forms.py
 msgid "Not participated last year"
@@ -120,37 +120,37 @@ msgstr "E-Mail erfolgreich gesendet"
 #: bags/templates/bags/company_details.html
 #: bags/templates/bags/filtered_index.html bags/templates/bags/send_mail.html
 msgid "Promise"
-msgstr "Zusage"
+msgstr "Zu<wbr>sage"
 
 #: bags/models.py bags/templates/bags/bags_dashboard.html
 #: bags/templates/bags/company_details.html
 msgid "Giveaways last year"
-msgstr "Giveaways von letztem Jahr"
+msgstr "Give<wbr>aways von letzt<wbr>em Jahr"
 
 #: bags/models.py bags/templates/bags/bags_dashboard.html
 #: bags/templates/bags/company_details.html
 #: bags/templates/bags/filtered_index.html bags/templates/bags/send_mail.html
 msgid "Arrival time"
-msgstr "Ankunftszeit"
+msgstr "An<wbr>kunfts<wbr>zeit"
 
 #: bags/models.py bags/templates/bags/bags_dashboard.html
 #: bags/templates/bags/company_details.html bags/templates/bags/del_mail.html
 #: bags/templates/bags/filtered_index.html bags/templates/bags/index_mails.html
 #: bags/templates/bags/send_mail.html
 msgid "Comment"
-msgstr "Kommentar"
+msgstr "Kom<wbr>men<wbr>tar"
 
 #: bags/models.py bags/templates/bags/bags_dashboard.html
 #: bags/templates/bags/company_details.html
 #: bags/templates/bags/filtered_index.html bags/templates/bags/send_mail.html
 msgid "Arrived"
-msgstr "Angekommen"
+msgstr "An<wbr>ge<wbr>kom<wbr>men"
 
 #: bags/models.py bags/templates/bags/bags_dashboard.html
 #: bags/templates/bags/company_details.html
 #: bags/templates/bags/filtered_index.html bags/templates/bags/send_mail.html
 msgid "Contact again"
-msgstr "Erneut kontaktieren"
+msgstr "Er<wbr>neut kon<wbr>takt<wbr>ier<wbr>en"
 
 #: bags/models.py
 msgid "Email subject"
@@ -250,7 +250,7 @@ msgstr "gesendet"
 #: bags/templates/bags/filtered_index.html bags/templates/bags/index_mails.html
 #: bags/templates/bags/send_mail.html
 msgid "Actions"
-msgstr "Aktionen"
+msgstr "Actionen"
 
 #: bags/templates/bags/bags_dashboard.html
 msgid "Enter contact again"
