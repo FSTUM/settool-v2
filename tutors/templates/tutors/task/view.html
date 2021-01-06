@@ -3,15 +3,6 @@
 {% load bootstrap4 %}
 {% load task_extras %}
 
-{% block head %}
-<script>
-        $(document).ready(() => {
-            $('.tutorTable').DataTable();
-        });
-    </script>
-{% endblock %}
-
-
 {% block set_common_headercontent %}{% trans "Task details" %}{% endblock %}
 
 {% block set_common_content %}
@@ -85,12 +76,13 @@
         </tr>
         {% endif %}
     </table>
+    {% if perms.tutor.edit_tutors %}
+
     <div>
         <a
             class="btn btn-secondary"
             href="{% url "task_list" %}"
         >{% trans "Back" %}</a>
-        {% if perms.tutor.edit_tutors %}
         <a
             class="btn btn-primary"
             href="{% url "task_export" "pdf" task.id %}"
@@ -107,12 +99,13 @@
             class="btn btn-danger"
             href="{% url "task_delete" task.id %}"
         >{% trans "Delete task" %}</a>
-        {% endif %}
     </div>
-    {% if perms.tutor.edit_tutors %}
     <div class="form-group">
         <h2 class="card-title mt-3">{% trans "Assigned Tutors" %}:</h2>
-        <table class="table tutorTable assigned_tutors">
+        <table
+            class="table tutorTable"
+            id='assigned_tutors'
+        >
             <thead>
                 <tr>
                     <th>#</th>
@@ -152,7 +145,7 @@
                     {% with t_c=questions.count %}
                     {% for q in questions %}
                     <td class="{% if q.answer == "YES" %}table-success{% elif q.answer == "NO" %}table-danger{% else %}table-warning{% endif %}">
-                        {% if q.answer %}{% trans q.answer %}{% endif %}</td>
+                        {% if q.answer %}{% trans q.answer %}{% else %}-{% endif %}</td>
                     {% endfor %}
                     {% for i in q_c|subtract:t_c|times %}
                     <td>-</td>
@@ -161,16 +154,21 @@
                     {% endwith %}
                     <td>
                         <button
-                            class="btn btn-secondary unassign_button"
+                            class="btn btn-secondary"
                             data-id="{{ tutor.id }}"
+                            id='tutor_{{ tutor.id }}'
+                            onclick='unassignTutor("{{ tutor.id }}")'
                         >{% trans "Unassign" %}</button>
                     </td>
                 </tr>
                 {% endfor %}
             </tbody>
         </table>
-        <h2>{% trans "Unassigned Tutors" %}:</h2>
-        <table class="table tutorTable unassigned_tutors">
+        <h2>{% trans "Unassigned Tutors:" %}</h2>
+        <table
+            class="table tutorTable"
+            id='unassigned_tutors'
+        >
             <thead>
                 <tr>
                     <th>#</th>
@@ -248,6 +246,7 @@
             <button
                 type="reset"
                 class="btn btn-secondary"
+                onclick='window.location.reload()'
             >{% trans "Reset changes" %}</button>
             <button
                 type="submit"
@@ -258,6 +257,8 @@
     {% endif %}
 </div>
 
+{% endblock %}
+{% block defered_script %}
 {% if perms.tutor.edit_tutors %}
 <script type="text/javascript">
     let initialValues = $('select[multiple][name="tutors"]').val();
@@ -265,48 +266,55 @@
         initialValues = '';
     }
 
-    const assignTutor = (id, src) => {
+    /* eslint-disable no-unused-vars */
+    const assignTutor = (id) => {
+        // form, to be submitted to django; selected will be kept.
         const el = $(`select[multiple][name="tutors"] option[value="${id}"]`);
         el.prop('selected', true);
         el.change();
 
-        const row = $(src).closest('tr');
+        // tutor-ssignent-button
+        const src = $(`#tutor_${id}`);
+
+        // change text and callback
+        src.text('{% trans "Unassign" %}');
+        src.attr('onclick', `unassignTutor("${id}")`);
+
+        // move to assigned tutors and change the table row to red
+        const row = src.closest('tr');
         if (!initialValues.includes(id)) {
+            // TODO: Figure out if the first code path is ever triggered.
             $(row).addClass('table-success');
         } else {
             $(row).removeClass('table-danger');
         }
-        $('.assigned_tutors').append(row);
-        $(src).addClass('unassign_button').removeClass('assign_button');
-        $(src).text('{% trans "Unassign" %}');
+        $('#assigned_tutors').append(row);
     };
 
-    const unassignTutor = (id, src) => {
+    /* eslint-disable no-unused-vars */
+    const unassignTutor = (id) => {
+        // form, to be submitted to django; selected will be kept.
         const el = $(`select[multiple][name="tutors"] option[value="${id}"]`);
         el.prop('selected', false);
         el.change();
 
-        const row = $(src).closest('tr');
-        $('.unassigned_tutors').append(row);
-        $(src).addClass('assign_button').removeClass('unassign_button');
-        $(src).text('{% trans "Assign" %}');
+        // tutor-unassignent-button
+        const src = $(`#tutor_${id}`);
+
+        // change text and callback
+        src.text('{% trans "Assign" %}');
+        src.attr('onclick', `assignTutor("${id}")`);
+
+        // move to assigned tutors and remove the tables red row-collor
+        const row = src.closest('tr');
         if (initialValues.includes(id)) {
+            // TODO: Figure out if the first code path is ever triggered.
             $(row).addClass('table-danger');
         } else {
-            $(row).removeClass('success');
+            $(row).removeClass('table-success');
         }
+        $('#unassigned_tutors').append(row);
     };
-
-    $(document).on('click', '.assign_button', () => {
-        assignTutor($(this).data('id'), $(this));
-    });
-    $(document).on('click', '.unassign_button', () => {
-        unassignTutor($(this).data('id'), $(this));
-    });
-
-    $('button[type="reset"]').click(() => {
-        window.location.reload();
-    });
 </script>
 {% endif %}
 {% endblock %}

@@ -646,8 +646,8 @@ msgid "Unassign"
 msgstr "Zuweisung aufheben"
 
 #: tutors/templates/tutors/task/view.html
-msgid "Unassigned Tutors"
-msgstr "Nicht eingeteilte Tutoren"
+msgid "Unassigned Tutors:"
+msgstr "Nicht eingeteilte Tutoren:"
 
 #: tutors/templates/tutors/task/view.html
 msgid "Assign"
