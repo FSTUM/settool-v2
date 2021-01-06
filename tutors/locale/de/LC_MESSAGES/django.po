@@ -143,11 +143,9 @@ msgstr "Status"
 #: tutors/templates/tutors/event/delete.html
 #: tutors/templates/tutors/event/view.html
 #: tutors/templates/tutors/task/delete.html
-#: tutors/templates/tutors/task/mail.html
 #: tutors/templates/tutors/task/view.html
 #: tutors/templates/tutors/tutor/delete.html
 #: tutors/templates/tutors/tutor/list.html
-#: tutors/templates/tutors/tutor/mail.html
 #: tutors/templates/tutors/tutor/standalone/view.html
 msgid "Subject"
 msgstr "Studienfach"
@@ -589,13 +587,13 @@ msgstr ""
 
 #: tutors/templates/tutors/task/mail.html
 #: tutors/templates/tutors/tutor/mail.html
-msgid "From"
-msgstr "Von"
+msgid "From: "
+msgstr "Von: "
 
 #: tutors/templates/tutors/task/mail.html
 #: tutors/templates/tutors/tutor/mail.html
-msgid "To"
-msgstr "An"
+msgid "To: "
+msgstr "An: "
 
 #: tutors/templates/tutors/task/mail.html
 #: tutors/templates/tutors/tutor/mail.html
@@ -604,8 +602,13 @@ msgstr "siehe Tabelle unten"
 
 #: tutors/templates/tutors/task/mail.html
 #: tutors/templates/tutors/tutor/mail.html
-msgid "Text"
-msgstr "Text"
+msgid "Subject: "
+msgstr "Betreff: "
+
+#: tutors/templates/tutors/task/mail.html
+#: tutors/templates/tutors/tutor/mail.html
+msgid "Text: "
+msgstr "Text: "
 
 #: tutors/templates/tutors/task/mail.html
 #: tutors/templates/tutors/task/view.html

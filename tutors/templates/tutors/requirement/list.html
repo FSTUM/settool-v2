@@ -30,9 +30,7 @@
         <tbody>
             {% for requirement in requirements %}
             <tr>
-                <td>
-                    {{ forloop.counter }}
-                </td>
+                <td>{{ forloop.counter }}</td>
                 <td>
                     <a href="{% url "requirement_view" requirement.id %}">{{ requirement.question }}</a>
                 </td>

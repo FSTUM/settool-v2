@@ -149,9 +149,7 @@
                 <th>{% trans "Mailing list" %}</th>
                 <td>
                     {% include "true_false_span.html" with value=participant.mailinglist %}
-                    <a href="{% url "fahrt_toggle_mailinglist" participant.id %}">
-                        <span class="bi bi-toggles"></span>
-                    </a>
+                    <a href="{% url "fahrt_toggle_mailinglist" participant.id %}"><span class="bi bi-toggles"></span></a>
                 </td>
             </tr>
             <tr>

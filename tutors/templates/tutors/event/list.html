@@ -33,21 +33,13 @@
         <tbody>
             {% for event in events %}
             <tr>
-                <td>
-                    {{ forloop.counter }}
-                </td>
+                <td>{{ forloop.counter }}</td>
                 <td>
                     <a href="{% url "event_view" event.id %}">{{ event.name }}</a>
                 </td>
-                <td data-text="{{ event.begin|date:"Y-m-d H:i" }}">
-                    {{ event.begin }}
-                </td>
-                <td data-text="{{ event.end|date:"Y-m-d H:i" }}">
-                    {{ event.end }}
-                </td>
-                <td>
-                    {{ event.meeting_point }}
-                </td>
+                <td data-text="{{ event.begin|date:"Y-m-d H:i" }}">{{ event.begin }}</td>
+                <td data-text="{{ event.end|date:"Y-m-d H:i" }}">{{ event.end }}</td>
+                <td>{{ event.meeting_point }}</td>
                 <td>
                     <a href="{% url "event_edit" event.id %}"><span class="bi bi-pencil-square"></span></a>
                     <a href="{% url "event_delete" event.id %}"><span class="bi bi-trash-fill"></span></a>

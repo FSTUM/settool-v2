@@ -192,9 +192,7 @@
                         <a
                             class="nav-link"
                             href="{% url "login" %}"
-                        >
-                            {% trans "Login" %}
-                        </a>
+                        >{% trans "Login" %}</a>
                     </li>
                     {% endif %}
                     {# end login #}
@@ -208,9 +206,7 @@
                             data-toggle="dropdown"
                             aria-haspopup="true"
                             aria-expanded="false"
-                        >
-                            <span class="bi bi-globe"></span>
-                        </a>
+                        ><span class="bi bi-globe"></span></a>
                         <form
                             action="{% url 'set_language' %}"
                             method="post"
@@ -258,9 +254,7 @@
                     <a
                         class="nav-link"
                         href="http://fs.tum.de/datenschutz/"
-                    >
-                        {% trans "Data protection" %}
-                    </a>
+                    >{% trans "Data protection" %}</a>
                 </li>
                 <li class="nav-item">
                     <a

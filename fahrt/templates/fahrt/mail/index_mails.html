@@ -33,12 +33,8 @@
                 <td>
                     <a href="{% url "fahrt_editmail" mail.id %}">{{ mail.subject }}</a>
                 </td>
-                <td>
-                    {{ mail.text|slice:":100" }}{% if mail.text|length > 100 %}...{% endif %}
-                </td>
-                <td>
-                    {{ mail.comment }}
-                </td>
+                <td>{{ mail.text|slice:":100" }}{% if mail.text|length > 100 %}...{% endif %}</td>
+                <td>{{ mail.comment }}</td>
                 <td>
                     <a href="{% url "fahrt_editmail" mail.id %}"><span class="bi bi-pencil-square"></span></a>
                     <a href="{% url "fahrt_delmail" mail.id %}"><span class="bi bi-trash-fill"></span></a>

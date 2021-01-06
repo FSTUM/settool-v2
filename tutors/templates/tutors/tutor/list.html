@@ -120,18 +120,12 @@
                     {% endwith %}
                 </td>
                 {% if status == "accepted" %}
-                <td>
-                    {{ tutor.task_set.count }}
-                </td>
+                <td>{{ tutor.task_set.count }}</td>
                 {% endif %}
                 {% if status == "all" %}
-                <td>
-                    {% trans tutor.status %}
-                </td>
+                <td>{% trans tutor.status %}</td>
                 {% endif %}
-                <td data-text="{{ tutor.registration_time|date:"Y-m-d H:i" }}">
-                    {{ tutor.registration_time }}
-                </td>
+                <td data-text="{{ tutor.registration_time|date:"Y-m-d H:i" }}">{{ tutor.registration_time }}</td>
                 {% if status == "active" %}
                 {% with q_c=questions|length answers=tutor.answer_set.all %}
                 {% with t_c=answers.count %}

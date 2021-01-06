@@ -123,24 +123,16 @@
             <tbody>
                 {% for tutor in assigned_tutors %}
                 <tr>
-                    <td>
-                        {{ forloop.counter }}
-                    </td>
+                    <td>{{ forloop.counter }}</td>
                     <td>
                         <a href="{% url "tutor_view" tutor.id %}">{{ tutor.first_name }}</a>
                     </td>
                     <td>
                         <a href="{% url "tutor_view" tutor.id %}">{{ tutor.last_name }}</a>
                     </td>
-                    <td>
-                        {{ tutor.subject }}
-                    </td>
-                    <td>
-                        {{ tutor.task_set.count }}
-                    </td>
-                    <td>
-                        {{ tutor.registration_time }}
-                    </td>
+                    <td>{{ tutor.subject }}</td>
+                    <td>{{ tutor.task_set.count }}</td>
+                    <td>{{ tutor.registration_time }}</td>
                     {% with questions=tutor.answer_set.all|in_task:task.requirements.all q_c=task.requirements.all.count %}
                     {% with t_c=questions.count %}
                     {% for q in questions %}
@@ -193,15 +185,9 @@
                     <td>
                         <a href="{% url "tutor_view" tutor.id %}">{{ tutor.last_name }}</a>
                     </td>
-                    <td>
-                        {{ tutor.subject }}
-                    </td>
-                    <td>
-                        {{ tutor.task_set.count }}
-                    </td>
-                    <td>
-                        {{ tutor.registration_time }}
-                    </td>
+                    <td>{{ tutor.subject }}</td>
+                    <td>{{ tutor.task_set.count }}</td>
+                    <td>{{ tutor.registration_time }}</td>
                     {% with questions=tutor.answer_set.all|in_task:task.requirements.all q_c=task.requirements.all.count %}
                     {% with t_c=questions.count %}
                     {% for question in questions %}
@@ -223,7 +209,10 @@
                 {% endfor %}
             </tbody>
         </table>
-        <form method="post">
+        <form
+            method='post'
+            action=''
+        >
             {% csrf_token %}
 
             <select
@@ -235,9 +224,7 @@
                 <option
                     value="{{ tutor.id }}"
                     selected
-                >
-                    {{ tutor }}
-                </option>
+                >{{ tutor }}</option>
                 {% endfor %}
                 {% for tutor in unassigned_tutors %}
                 <option value="{{ tutor.id }}">{{ tutor }}</option>

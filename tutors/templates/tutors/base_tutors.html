@@ -8,103 +8,73 @@
 <a
     class="nav-link {% active_link 'tutor_dashboard' %}"
     href="{% url 'tutor_dashboard' %}"
->
-    {% trans "Dashboard" %}
-</a>
+>{% trans "Dashboard" %}</a>
 
 <h4 class="navbar-text">{% trans "Events" %}</h4>
 <a
     class="nav-link {% active_link 'event_list' %}"
     href="{% url 'event_list' %}"
->
-    {% trans "List all events" %}
-</a>
+>{% trans "List all events" %}</a>
 <a
     class="nav-link {% active_link 'event_add' %}"
     href="{% url 'event_add' %}"
->
-    {% trans "Add an event" %}
-</a>
+>{% trans "Add an event" %}</a>
 
 <h4 class="navbar-text">{% trans "Tasks" %}</h4>
 <a
     class="nav-link {% active_link 'task_list' %}"
     href="{% url 'task_list' %}"
->
-    {% trans "List all tasks" %}
-</a>
+>{% trans "List all tasks" %}</a>
 <a
     class="nav-link {% active_link 'task_add' %}"
     href="{% url 'task_add' %}"
->
-    {% trans "Add a task" %}
-</a>
+>{% trans "Add a task" %}</a>
 
 <h4 class="navbar-text">{% trans "Tutors" %}</h4>
 <a
     class="nav-link {% active_link 'tutor_list_status_all' %}"
     href="{% url 'tutor_list_status_all' %}"
->
-    {% trans "All tutors" %}
-</a>
+>{% trans "All tutors" %}</a>
 <a
     class="nav-link {% active_link 'tutor_list_status_accepted' %}"
     href="{% url 'tutor_list_status_accepted' %}"
->
-    {% trans "Accepted tutors" %}
-</a>
+>{% trans "Accepted tutors" %}</a>
 <a
     class="nav-link {% active_link 'tutor_list_status_active' %}"
     href="{% url 'tutor_list_status_active' %}"
->
-    {% trans "Open tutors" %}
-</a>
+>{% trans "Open tutors" %}</a>
 <a
     class="nav-link {% active_link 'tutor_list_status_declined' %}"
     href="{% url 'tutor_list_status_declined' %}"
->
-    {% trans "Declined tutors" %}
-</a>
+>{% trans "Declined tutors" %}</a>
 <a
     class="nav-link {% active_link 'tutor_list_status_inactive' %}"
     href="{% url 'tutor_list_status_inactive' %}"
->
-    {% trans "Inactive tutors" %}
-</a>
+>{% trans "Inactive tutors" %}</a>
 <a
     class="nav-link {% active_link 'tutor_list_status_employee' %}"
     href="{% url 'tutor_list_status_employee' %}"
->
-    {% trans "List employees" %}
-</a>
+>{% trans "List employees" %}</a>
 
 <h4 class="navbar-text">{% trans "Requirements" %}</h4>
 <a
     class="nav-link {% active_link 'requirement_list' %}"
     href="{% url 'requirement_list' %}"
->
-    {% trans "List all requirements" %}
-</a>
+>{% trans "List all requirements" %}</a>
 <a
     class="nav-link {% active_link 'requirement_add' %}"
     href="{% url 'requirement_add' %}"
->
-    {% trans "Add a requirement" %}
-</a>
+>{% trans "Add a requirement" %}</a>
 
 <h4 class="navbar-text">{% trans "Settings" %}</h4>
 <a
     class="nav-link {% active_link 'tutors_settings_general' %}"
     href="{% url 'tutors_settings_general' %}"
->
-    {% trans "General settings" %}
-</a>
+>{% trans "General settings" %}</a>
 <a
     class="nav-link {% active_link 'tutors_settings_tutors' %}"
     href="{% url 'tutors_settings_tutors' %}"
->
-    {% trans "Tutor settings" %}
-</a>
+>{% trans "Tutor settings" %}</a>
 {% else %}
 <h4 class="navbar-text">{% trans "You dont have permission to view this page" %}</h4>
 {% endif %}

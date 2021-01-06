@@ -126,9 +126,7 @@
 {% block set_common_headercontent %}{% trans "List companies" %}{% endblock %}
 
 {% block set_common_content %}
-<h4>
-    {% trans "Availible Filters" %}
-</h4>
+<h4>{% trans "Availible Filters" %}</h4>
 <form
     id="filterform"
     method="post"
@@ -138,9 +136,7 @@
     {% bootstrap_form filterform %}
 </form>
 
-<h4>
-    {% trans "Select recipients and send mail" %}
-</h4>
+<h4>{% trans "Select recipients and send mail" %}</h4>
 <div
     class="justify-content-center mt-3"
     id="table_spinner"
@@ -195,14 +191,8 @@
                             {{ select.id.as_hidden }}
                             {{ select.selected }}
                         </td>
-                        <td>
-                            <a href="{% url "viewcompany" company.id %}">
-                                {{ company.name }}
-                            </a>
-                        </td>
-                        <td>
-                            {{ company.full_contact }}
-                        </td>
+                        <td><a href="{% url "viewcompany" company.id %}">{{ company.name }}</a></td>
+                        <td>{{ company.full_contact }}</td>
                         <td>
                             <a
                                 href="#"
@@ -212,9 +202,7 @@
                                 data-title='{% trans "Email" %}'
                                 data-url='{% url "updatecompany" company.id "email" %}'
                                 data-params="{csrfmiddlewaretoken:'{{ csrf_token }}'}"
-                            >
-                                {{ company.email }}
-                            </a>
+                            >{{ company.email }}</a>
                         </td>
                         <td>
                             <a
@@ -225,13 +213,11 @@
                                 data-title='{% trans "sent" %}'
                                 data-url='{% url "updatecompany" company.id "email_sent" %}'
                                 data-params="{csrfmiddlewaretoken:'{{ csrf_token }}'}"
-                            >
-                                {% if not company.email_sent_success and company.email_sent %}
+                            >{% if not company.email_sent_success and company.email_sent %}
                                 {% include "true_false_none_span.html" with value="Failure" %}
                                 {% else %}
                                 {% include "true_false_none_span.html" with value=company.email_sent %}
-                                {% endif %}
-                            </a>
+                                {% endif %}</a>
                         </td>
                         <td>
                             <a
@@ -242,9 +228,7 @@
                                 data-title='{% trans "Promise" %}'
                                 data-url='{% url "updatecompany" company.id "promise" %}'
                                 data-params="{csrfmiddlewaretoken:'{{ csrf_token }}'}"
-                            >
-                                {% include "true_false_none_span.html" with value=company.promise %}
-                            </a>
+                            >{% include "true_false_none_span.html" with value=company.promise %}</a>
                         </td>
                         <td>
                             <a
@@ -255,9 +239,7 @@
                                 data-title='{% trans "Giveaways" %}'
                                 data-url='{% url "updatecompany" company.id "giveaways" %}'
                                 data-params="{csrfmiddlewaretoken:'{{ csrf_token }}'}"
-                            >
-                                {{ company.giveaways }}
-                            </a>
+                            >{{ company.giveaways }}</a>
                         </td>
                         <td>
                             <a
@@ -268,9 +250,7 @@
                                 data-title='{% trans "Arrival time" %}'
                                 data-url='{% url "updatecompany" company.id "arrival_time" %}'
                                 data-params="{csrfmiddlewaretoken:'{{ csrf_token }}'}"
-                            >
-                                {{ company.arrival_time }}
-                            </a>
+                            >{{ company.arrival_time }}</a>
                         </td>
                         <td>
                             <a
@@ -281,9 +261,7 @@
                                 data-title='{% trans "Arrived" %}'
                                 data-url='{% url "updatecompany" company.id "arrived" %}'
                                 data-params="{csrfmiddlewaretoken:'{{ csrf_token }}'}"
-                            >
-                                {% include "true_false_span.html" with value=company.arrived %}
-                            </a>
+                            >{% include "true_false_span.html" with value=company.arrived %}</a>
                         </td>
                         <td>
                             <a
@@ -294,9 +272,7 @@
                                 data-title='{% trans "Participated last year" %}'
                                 data-url='{% url "updatecompany" company.id "last_year" %}'
                                 data-params="{csrfmiddlewaretoken:'{{ csrf_token }}'}"
-                            >
-                                {% include "true_false_span.html" with value=company.last_year %}
-                            </a>
+                            >{% include "true_false_span.html" with value=company.last_year %}</a>
                         </td>
                         <td>
                             <a
@@ -307,9 +283,7 @@
                                 data-title='{% trans "Giveaways last year" %}'
                                 data-url='{% url "updatecompany" company.id "giveaways_last_year" %}'
                                 data-params="{csrfmiddlewaretoken:'{{ csrf_token }}'}"
-                            >
-                                {{ company.giveaways_last_year }}
-                            </a>
+                            >{{ company.giveaways_last_year }}</a>
                         </td>
                         <td>
                             <a
@@ -320,17 +294,11 @@
                                 data-title='{% trans "Enter contact again" %}'
                                 data-url='{% url "updatecompany" company.id "contact_again" %}'
                                 data-params="{csrfmiddlewaretoken:'{{ csrf_token }}'}"
-                            >
-                                {% include "true_false_none_span.html" with value=company.contact_again %}
-                            </a>
+                            >{% include "true_false_none_span.html" with value=company.contact_again %}</a>
                         </td>
                         <td>
-                            <a href="{% url "editcompany" company.id %}">
-                                <span class="bi bi-pencil-square"></span>
-                            </a>
-                            <a href="{% url "delcompany" company.id %}">
-                                <span class="bi bi-trash-fill"></span>
-                            </a>
+                            <a href="{% url "editcompany" company.id %}"><span class="bi bi-pencil-square"></span></a>
+                            <a href="{% url "delcompany" company.id %}"><span class="bi bi-trash-fill"></span></a>
                         </td>
                         <td>
                             <a
@@ -341,9 +309,7 @@
                                 data-title='{% trans "Comment" %}'
                                 data-url='{% url "updatecompany" company.id "comment" %}'
                                 data-params="{csrfmiddlewaretoken:'{{ csrf_token }}'}"
-                            >
-                                {{ company.comment }}
-                            </a>
+                            >{{ company.comment }}</a>
                         </td>
                     </tr>
                     {% endfor %}
