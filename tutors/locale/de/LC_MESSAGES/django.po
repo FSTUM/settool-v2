@@ -360,6 +360,18 @@ msgid "You dont have permission to view this page"
 msgstr "Du hast keine Berechtigung, diese Seite zu sehen"
 
 #: tutors/templates/tutors/dashboard.html
+msgid "Upcoming Events"
+msgstr "Anstehende Veranstaltungen"
+
+#: tutors/templates/tutors/dashboard.html
+msgid "Start"
+msgstr "Start"
+
+#: tutors/templates/tutors/dashboard.html
+msgid "Upcoming Tasks"
+msgstr "Anstehende Tasks"
+
+#: tutors/templates/tutors/dashboard.html
 #: tutors/templates/tutors/task/list.html
 msgid "# Missing Mails"
 msgstr "# fehlende Mails"
@@ -379,18 +391,6 @@ msgstr "Ist"
 #: tutors/templates/tutors/dashboard.html
 msgid "Want"
 msgstr "Gewollt"
-
-#: tutors/templates/tutors/dashboard.html
-msgid "Upcoming Events"
-msgstr "Anstehende Veranstaltungen"
-
-#: tutors/templates/tutors/dashboard.html
-msgid "Start"
-msgstr "Start"
-
-#: tutors/templates/tutors/dashboard.html
-msgid "Upcoming Tasks"
-msgstr "Anstehende Tasks"
 
 #: tutors/templates/tutors/event/add.html
 msgid "Add event"
