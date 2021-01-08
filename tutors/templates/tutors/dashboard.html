@@ -66,12 +66,12 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {% for t in tasks %}
+                    {% for task in tasks %}
                     <tr>
                         <td>{{ forloop.counter }}</td>
-                        <td><a href="{% url "task_view" t.id %}">{{ t.name }}</a></td>
-                        <td>{{ t.begin }}</td>
-                        <td>{{ t.end }}</td>
+                        <td><a href="{% url "task_view" task.id %}">{{ task.name }}</a></td>
+                        <td>{{ task.begin }}</td>
+                        <td>{{ task.end }}</td>
                     </tr>
                     {% endfor %}
                 </tbody>
@@ -121,12 +121,12 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {% for c,w in subject_counts.items %}
+                    {% for tutor_count,wanted_subject in subject_counts.items %}
                     <tr class="{% if w.0 < w.1 %}table-danger{% elif w.0 >= w.1 %}table-success{% endif %}">
                         <td>{{ forloop.counter }}</td>
-                        <td>{{ c }}</td>
-                        <td>{{ w.0 }}</td>
-                        <td>{{ w.1 }}</td>
+                        <td>{{ tutor_count }}</td>
+                        <td>{{ wanted_subject.0 }}</td>
+                        <td>{{ wanted_subject.1 }}</td>
                     </tr>
                     {% endfor %}
                 </tbody>

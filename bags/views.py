@@ -316,7 +316,7 @@ def send_mail(request, mail_pk):
     return render(request, "bags/send_mail.html", context)
 
 
-@user_passes_test(lambda u: u.is_staff)
+@user_passes_test(lambda user: user.is_staff)
 def import_companies(request):
     sem = get_semester(request)
     new_semester = get_object_or_404(Semester, pk=sem)
