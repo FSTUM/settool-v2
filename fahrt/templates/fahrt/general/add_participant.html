@@ -2,7 +2,7 @@
 {% load i18n %}
 {% load bootstrap4 %}
 
-{% block set_common_headercontent %}{% trans "Add Participant to the SET-Fahrt" %}{% endblock %}
+{% block set_common_headercontent %}{% trans "Add participant to the SET-Fahrt" %}{% endblock %}
 {% block set_common_content %}
 <form
     method="post"
@@ -13,14 +13,15 @@
     <div class="row">
         <div class="col-xs-12 col-lg-5">
             {% bootstrap_form form %}
+            <div class="well">
+                {% trans "fahrt_privacy_policy" %}
+            </div>
         </div>
     </div>
 
     <button
-        type="submit"
         class="btn btn-primary"
-    >
-        {% trans "Submit" %}
-    </button>
+        type="submit"
+    >{% trans "Add participant" %}</button>
 </form>
 {% endblock %}

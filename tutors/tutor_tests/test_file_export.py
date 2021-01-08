@@ -51,7 +51,7 @@ class TutorExportTest(django.test.TestCase):
             )
 
     def test_csv_tutor_export_no_data(self):
-        res: HttpResponse = self.client.get(f"/tutors/tutor/export/csv/{Tutor.STATUS_INACTIVE}")
+        res: HttpResponse = self.client.get(f"/tutors/tutor/export/csv/{Tutor.STATUS_INACTIVE}/")
         self.assertEqual("text/csv", res.get("content-type"))
         self.assertEqual(self.csv_header, res.content)
 
@@ -63,7 +63,7 @@ class TutorExportTest(django.test.TestCase):
             "last_name",
             "first_name",
         )
-        res: HttpResponse = self.client.get(f"/tutors/tutor/export/csv/{Tutor.STATUS_DECLINED}")
+        res: HttpResponse = self.client.get(f"/tutors/tutor/export/csv/{Tutor.STATUS_DECLINED}/")
         self.assertEqual("text/csv", res.get("content-type"))
         content = res.content
         self.assertGreater(len(content), len(self.csv_header))
@@ -85,7 +85,7 @@ class TutorExportTest(django.test.TestCase):
         )
         expected_context = {"tutors": expected_tutors}
         expected_pdf = latex_to_pdf("tutors/tex/tshirts.tex", expected_context)
-        res: HttpResponse = self.client.get(f"/tutors/tutor/export/tshirt/{Tutor.STATUS_EMPLOYEE}")
+        res: HttpResponse = self.client.get(f"/tutors/tutor/export/tshirt/{Tutor.STATUS_EMPLOYEE}/")
         self.assertEqual("application/pdf", res.get("content-type"))
         assert_pdf_equal(self, expected_pdf, res.content)
 
@@ -112,7 +112,7 @@ class TutorExportTest(django.test.TestCase):
         )
         expected_context = {"tutors": expected_tutors}
         expected_pdf = latex_to_pdf("tutors/tex/tshirts.tex", expected_context)
-        res: HttpResponse = self.client.get(f"/tutors/tutor/export/tshirt/{Tutor.STATUS_DECLINED}")
+        res: HttpResponse = self.client.get(f"/tutors/tutor/export/tshirt/{Tutor.STATUS_DECLINED}/")
         self.assertEqual("application/pdf", res.get("content-type"))
         assert_pdf_equal(self, expected_pdf, res.content)
 
@@ -126,7 +126,7 @@ class TutorExportTest(django.test.TestCase):
         )
         expected_context = {"tutors": expected_tutors}
         expected_pdf = latex_to_pdf("tutors/tex/tutors.tex", expected_context)
-        res: HttpResponse = self.client.get(f"/tutors/tutor/export/pdf/{Tutor.STATUS_EMPLOYEE}")
+        res: HttpResponse = self.client.get(f"/tutors/tutor/export/pdf/{Tutor.STATUS_EMPLOYEE}/")
         self.assertEqual("application/pdf", res.get("content-type"))
         assert_pdf_equal(self, expected_pdf, res.content)
 
@@ -153,7 +153,7 @@ class TutorExportTest(django.test.TestCase):
         )
         expected_context = {"tutors": expected_tutors}
         expected_pdf = latex_to_pdf("tutors/tex/tutors.tex", expected_context)
-        res: HttpResponse = self.client.get(f"/tutors/tutor/export/pdf/{Tutor.STATUS_DECLINED}")
+        res: HttpResponse = self.client.get(f"/tutors/tutor/export/pdf/{Tutor.STATUS_DECLINED}/")
         self.assertEqual("application/pdf", res.get("content-type"))
         assert_pdf_equal(self, expected_pdf, res.content)
 

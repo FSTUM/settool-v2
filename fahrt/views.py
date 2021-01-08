@@ -1,9 +1,12 @@
 from datetime import date
 from datetime import timedelta
+from typing import Dict
+from typing import List
 
 from django import forms
 from django.contrib.auth.decorators import permission_required
 from django.core.exceptions import ObjectDoesNotExist
+from django.db.models import Count
 from django.db.models import Q
 from django.db.models import Sum
 from django.forms import formset_factory
@@ -30,7 +33,17 @@ from .models import Participant
 
 @permission_required("fahrt.view_participants")
 def index(request):
-    return render(request, "fahrt/fahrt_dashboard.html", {})
+    participants_by_status: List[Dict[str, int]] = (
+        Participant.objects.values("status")
+        .annotate(status_count=Count("status"))
+        .order_by("-status_count")
+    )
+
+    context = {
+        "participants_by_group_labels": [status["status"] for status in participants_by_status],
+        "participants_by_group_data": [status["status_count"] for status in participants_by_status],
+    }
+    return render(request, "fahrt/fahrt_dashboard.html", context)
 
 
 @permission_required("fahrt.view_participants")

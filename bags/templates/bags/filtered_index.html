@@ -1,3 +1,4 @@
+{# TODO Figure out if this file is still needed #}
 {% extends "bags/base_bags.html" %}
 {% load i18n %}
 {% load bootstrap4 %}
@@ -5,7 +6,9 @@
 {% block head %}
 <script>
     $(document).ready(() => {
-        $('#bagTable').DataTable();
+        $('#bagTable').DataTable({
+            columnDefs: [{ targets: 13, orderable: false }],
+        });
     });
 </script>
 {% endblock %}
@@ -23,35 +26,23 @@
     <div class="row">
         <div class="col-xs-12 col-lg-5">
             {% bootstrap_form form %}
-            <p>
-                <button
-                    type="submit"
-                    name="mailform"
-                    class="btn btn-secondary"
-                >
-                    {% trans "Send emails" %}
-                </button>
-            </p>
-            <p>
-                <a
-                    href="{% url "listmails" %}"
-                    class="btn btn-secondary"
-                >
-                    {% trans "Edit Email Templates" %}
-                </a>
-            </p>
-            <p>
-                <a
-                    href="{% url "addcompany" %}"
-                    class="btn btn-secondary"
-                >
-                    {% trans "Add Company" %}
-                </a>
-            </p>
         </div>
     </div>
 
-    <p></p>
+    <button
+        class="btn btn-warning"
+        name="mailform"
+        type="submit"
+    >{% trans "Send emails" %}</button>
+    <a
+        class="btn btn-primary"
+        href="{% url "listmails" %}"
+    >{% trans "Edit email templates" %}</a>
+    <a
+        class="btn btn-primary"
+        href="{% url "addcompany" %}"
+    >{% trans "Add Company" %}</a>
+
     <div class="table-responsive">
         <table
             id="bagTable"
@@ -59,21 +50,20 @@
         >
             <thead>
                 <tr>
-                    <th></th>
+                    <th><span class="bi bi-check-square"></span></th>
                     <th>{% trans "Company" %}</th>
                     <th>{% trans "Contact" %}</th>
-                    <th>{% trans "E-Mail" %}</th>
+                    <th>{% trans "Email" %}</th>
                     <th>{% trans "sent" %}</th>
                     <th>{% trans "successfully sent" %}</th>
                     <th>{% trans "Promise" %}</th>
                     <th>{% trans "Giveaways" %}</th>
                     <th>{% trans "Arrival time" %}</th>
-                    <th>{% trans "Comment" %}</th>
                     <th>{% trans "Participated last year" %}</th>
                     <th>{% trans "Arrived" %}</th>
                     <th>{% trans "Contact again" %}</th>
-                    <th>{% trans "Edit" %}</th>
-                    <th>{% trans "Delete" %}</th>
+                    <th>{% trans "Comment" %}</th>
+                    <th>{% trans "Actions" %}</th>
                 </tr>
             </thead>
             <tbody>
@@ -83,129 +73,21 @@
                         {{ select.id.as_hidden }}
                         {{ select.selected }}
                     </td>
-                    <td>
-                        <a href="{% url "viewcompany" company.id %}">{{ company.name }}</a>
-                    </td>
+                    <td><a href="{% url "viewcompany" company.id %}">{{ company.name }}</a></td>
                     <td>{{ company.full_contact }}</td>
                     <td>{{ company.email }}</td>
-                    {% if company.email_sent %}
-                    <td>
-                        <span
-                            style="color:green"
-                            class="glyphicon glyphicon-ok"
-                        ></span>
-                        <span style="visibility:hidden">ja</span>
-                    </td>
-                    {% else %}
-                    <td>
-                        <span
-                            style="color:red"
-                            class="glyphicon glyphicon-remove"
-                        ></span>
-                        <span style="visibility:hidden">nein</span>
-                    </td>
-                    {% endif %}
-                    {% if company.email_sent_success %}
-                    <td>
-                        <span
-                            style="color:green"
-                            class="glyphicon glyphicon-ok"
-                        ></span>
-                        <span style="visibility:hidden">ja</span>
-                    </td>
-                    {% else %}
-                    <td>
-                        <span
-                            style="color:red"
-                            class="glyphicon glyphicon-remove"
-                        ></span>
-                        <span style="visibility:hidden">nein</span>
-                    </td>
-                    {% endif %}
-                    {% if company.promise %}
-                    <td>
-                        <span
-                            style="color:green"
-                            class="glyphicon glyphicon-ok"
-                        ></span>
-                        <span style="visibility:hidden">ja</span>
-                    </td>
-                    {% elif company.promise == False %}
-                    <td>
-                        <span
-                            style="color:red"
-                            class="glyphicon glyphicon-remove"
-                        ></span>
-                        <span style="visibility:hidden">nein</span>
-                    </td>
-                    {% else %}
-                    <td></td>
-                    {% endif %}
+                    <td>{% include "true_false_span.html" with value=company.email_sent %}</td>
+                    <td>{% include "true_false_span.html" with value=company.email_sent_success %}</td>
+                    <td>{% include "true_false_none_span.html" with value=company.promise %}</td>
                     <td>{{ company.giveaways }}</td>
                     <td>{{ company.arrival_time }}</td>
+                    <td>{% include "true_false_span.html" with value=company.last_year %}</td>
+                    <td>{% include "true_false_span.html" with value=company.arrived %}</td>
+                    <td>{% include "true_false_none_span.html" with value=company.contact_again %}</td>
                     <td>{{ company.comment }}</td>
-                    {% if company.last_year %}
                     <td>
-                        <span
-                            style="color:green"
-                            class="glyphicon glyphicon-ok"
-                        ></span>
-                        <span style="visibility:hidden">ja</span>
-                    </td>
-                    {% else %}
-                    <td>
-                        <span
-                            style="color:red"
-                            class="glyphicon glyphicon-remove"
-                        ></span>
-                        <span style="visibility:hidden">nein</span>
-                    </td>
-                    {% endif %}
-                    {% if company.arrived %}
-                    <td>
-                        <span
-                            style="color:green"
-                            class="glyphicon glyphicon-ok"
-                        ></span>
-                        <span style="visibility:hidden">ja</span>
-                    </td>
-                    {% else %}
-                    <td>
-                        <span
-                            style="color:red"
-                            class="glyphicon glyphicon-remove"
-                        ></span>
-                        <span style="visibility:hidden">nein</span>
-                    </td>
-                    {% endif %}
-                    {% if company.contact_again %}
-                    <td>
-                        <span
-                            style="color:green"
-                            class="glyphicon glyphicon-ok"
-                        ></span>
-                        <span style="visibility:hidden">ja</span>
-                    </td>
-                    {% elif company.contact_again == False %}
-                    <td>
-                        <span
-                            style="color:red"
-                            class="glyphicon glyphicon-remove"
-                        ></span>
-                        <span style="visibility:hidden">nein</span>
-                    </td>
-                    {% else %}
-                    <td></td>
-                    {% endif %}
-                    <td>
-                        <a href="{% url "editcompany" company.id %}">
-                            <span class="glyphicon glyphicon-edit"></span>
-                        </a>
-                    </td>
-                    <td>
-                        <a href="{% url "delcompany" company.id %}">
-                            <span class="glyphicon glyphicon-trash"></span>
-                        </a>
+                        <a href="{% url "editcompany" company.id %}"><span class="bi bi-pencil-square"></span></a>
+                        <a href="{% url "delcompany" company.id %}"><span class="bi bi-trash-fill"></span></a>
                     </td>
                 </tr>
                 {% endfor %}

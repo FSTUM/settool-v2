@@ -108,12 +108,6 @@ msgid "Subject"
 msgstr "Studiengang"
 
 #: settool_common/models.py
-#: settool_common/templates/settool_common/mail/send_email_confirmation.html
-#: settool_common/templates/settool_common/mail/send_email_failure.html
-#: settool_common/templates/settool_common/settings/add_email.html
-#: settool_common/templates/settool_common/settings/delete_email.html
-#: settool_common/templates/settool_common/settings/edit_email.html
-#: settool_common/templates/settool_common/settings/email_details.html
 msgid "SET"
 msgstr "SET"
 
@@ -167,10 +161,6 @@ msgstr ""
 "Teilnehmer senden?"
 
 #: settool_common/templates/settool_common/mail/send_email_confirmation.html
-msgid "Send"
-msgstr "Senden"
-
-#: settool_common/templates/settool_common/mail/send_email_confirmation.html
 #: settool_common/templates/settool_common/settings/add_email.html
 #: settool_common/templates/settool_common/settings/delete_email.html
 #: settool_common/templates/settool_common/settings/edit_email.html
@@ -220,31 +210,39 @@ msgstr ""
 msgid "Add email"
 msgstr "E-Mail hinzufügen"
 
-#: settool_common/templates/settool_common/settings/add_email.html
-#: settool_common/templates/settool_common/settings/edit_email.html
-msgid "Submit"
-msgstr "Eintragen"
+#: settool_common/templates/settool_common/settings/base_settings.html
+msgid "Dashboard"
+msgstr "Dashboard"
 
-#: settool_common/templates/settool_common/settings/delete_email.html
-msgid "Delete email"
-msgstr "E-Mail löschen"
+#: settool_common/templates/settool_common/settings/base_settings.html
+msgid "Email-Templates"
+msgstr "E-Mail-Vorlagen"
+
+#: settool_common/templates/settool_common/settings/base_settings.html
+msgid "All templates"
+msgstr "Alle E-Mail-Vorlagen"
+
+#: settool_common/templates/settool_common/settings/base_settings.html
+msgid "Add template"
+msgstr "E-Mail-Vorlage hinzufügen"
 
 #: settool_common/templates/settool_common/settings/delete_email.html
 #: settool_common/templates/settool_common/settings/email_details.html
-msgid "Delete"
-msgstr "Löschen"
+msgid "Delete email template"
+msgstr "E-Mail-Vorlage löschen"
 
 #: settool_common/templates/settool_common/settings/edit_email.html
+#: settool_common/templates/settool_common/settings/email_details.html
 msgid "Edit email"
-msgstr ""
+msgstr "Email bearbeiten"
 
 #: settool_common/templates/settool_common/settings/email_details.html
 msgid "Email details"
 msgstr "E-Mail Details"
 
 #: settool_common/templates/settool_common/settings/email_details.html
-msgid "Edit"
-msgstr "Bearbeiten"
+msgid "Back"
+msgstr "Zurück"
 
 #: settool_common/templates/settool_common/settings/list_email_templates.html
 msgid "List email templates"
@@ -259,20 +257,31 @@ msgid "EMail Text"
 msgstr "E-Mail Betreff"
 
 #: settool_common/templates/settool_common/settings/list_email_templates.html
-msgid "actions"
+msgid "Actions"
 msgstr "Aktionen"
 
-#: settool_common/templates/settool_common/settings/settings.html
-msgid "Email-Templates"
-msgstr "E-Mail-Vorlagen"
+#: settool_common/templates/settool_common/settings/settings_dashboard.html
+msgid "Settings dashboard"
+msgstr "Einstellungsdashboard"
 
-#: settool_common/templates/settool_common/settings/settings.html
-msgid "All templates"
-msgstr "Alle E-Mail-Vorlagen"
+#: settool_common/templates/settool_common/settings/settings_dashboard.html
+msgid "Email-templates by sender"
+msgstr "E-Mail-Vorlagen nach Sender"
 
-#: settool_common/templates/settool_common/settings/settings.html
-msgid "Add template"
-msgstr "E-Mail-Vorlage hinzufügen"
+#~ msgid "Submit"
+#~ msgstr "Eintragen"
+
+#~ msgid "Delete email"
+#~ msgstr "E-Mail löschen"
+
+#~ msgid "Delete"
+#~ msgstr "Löschen"
+
+#~ msgid "Edit"
+#~ msgstr "Bearbeiten"
+
+#~ msgid "Send"
+#~ msgstr "Senden"
 
 #~ msgid "Hello %(username)s!"
 #~ msgstr "Hallo %(username)s!"

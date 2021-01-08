@@ -2,20 +2,19 @@
 {% load i18n %}
 {% load bootstrap4 %}
 
-{% block set_common_headercontent %}{% trans "Sign up" %}{% endblock %}
-
 {% block content %}
 <div class="card">
     <div class="card-header">
         {% trans "Sign up for SET Tutor" %}
     </div>
     <div class="card-body">
-        <hr>
-        <p>
+        <h1>
             {% trans "The SET Tutor registration is currently not open." %}
-        </p>
+        </h1>
         <p>
-            {% trans "The registration is possible between" %} {{ start }} {% trans "and" %} {{ end }}.
+            {% blocktranslate trimmed %}
+            The registration is possible between {{ start }} and {{ end }}.
+            {% endblocktranslate %}
         </p>
     </div>
 </div>

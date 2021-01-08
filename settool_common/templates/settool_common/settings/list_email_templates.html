@@ -1,19 +1,19 @@
-{% extends "settool_common/settings/settings.html" %}
+{% extends "settool_common/settings/base_settings.html" %}
 {% load i18n %}
 
 {% block head %}
 <script>
     $(document).ready(() => {
-        $('#emailTable').DataTable();
+        $('#emailTable').DataTable({
+            columnDefs: [{ targets: 2, orderable: false }],
+        });
     });
 </script>
 {% endblock %}
 
-{% block set_common_headercontent %}
-{% trans "List email templates" %}
-{% endblock %}
+{% block set_common_headercontent %}{% trans "List email templates" %}{% endblock %}
 
-{% block setings %}
+{% block set_common_content %}
 <div class="table-responsive">
     <table
         id="emailTable"
@@ -23,7 +23,7 @@
             <tr>
                 <th>{% trans "EMail Subject" %}</th>
                 <th>{% trans "EMail Text" %}</th>
-                <th>{% trans "actions" %}</th>
+                <th>{% trans "Actions" %}</th>
             </tr>
         </thead>
         <tbody>
@@ -36,8 +36,8 @@
                     {{ mail.text|slice:":100" }}{% if mail.text|length > 100 %}...{% endif %}
                 </td>
                 <td>
-                    <a href="{% url "mail_edit" mail.id %}"><span class="glyphicon glyphicon-edit"></span></a>
-                    <a href="{% url "mail_delete" mail.id %}"><span class="glyphicon glyphicon-trash"></span></a>
+                    <a href="{% url "mail_edit" mail.id %}"><span class="bi bi-pencil-square"></span></a>
+                    <a href="{% url "mail_delete" mail.id %}"><span class="bi bi-trash-fill"></span></a>
                 </td>
             </tr>
             {% endfor %}

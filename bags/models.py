@@ -126,7 +126,6 @@ class Company(models.Model):
         return f"{self.contact_firstname} {self.contact_lastname}"
 
 
-# @encoding.python_2_unicode_compatible
 class Mail(models.Model):
     FROM_MAIL = "Sponsoring Team des SET-Referats <set-tueten@fs.tum.de>"
     semester = models.ForeignKey(

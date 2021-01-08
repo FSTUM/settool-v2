@@ -5,12 +5,14 @@
 {% block head %}
 <script>
     $(document).ready(() => {
-        $('#eventTable').DataTable();
+        $('#eventTable').DataTable({
+            columnDefs: [{ targets: 5, orderable: false }],
+        });
     });
 </script>
 {% endblock %}
 
-{% block set_common_headercontent %}{% trans "List of Events" %}{% endblock %}
+{% block set_common_headercontent %}{% trans "List of events" %}{% endblock %}
 
 {% block set_common_content %}
 <div class="table-responsive">
@@ -25,30 +27,22 @@
                 <th>{% trans "Begin" %}</th>
                 <th>{% trans "End" %}</th>
                 <th>{% trans "Meeting Point" %}</th>
-                <th></th>
+                <th>{% trans "Actions" %}</th>
             </tr>
         </thead>
         <tbody>
             {% for event in events %}
             <tr>
-                <td>
-                    {{ forloop.counter }}
-                </td>
+                <td>{{ forloop.counter }}</td>
                 <td>
                     <a href="{% url "event_view" event.id %}">{{ event.name }}</a>
                 </td>
-                <td data-text="{{ event.begin|date:"Y-m-d H:i" }}">
-                    {{ event.begin }}
-                </td>
-                <td data-text="{{ event.end|date:"Y-m-d H:i" }}">
-                    {{ event.end }}
-                </td>
+                <td data-text="{{ event.begin|date:"Y-m-d H:i" }}">{{ event.begin }}</td>
+                <td data-text="{{ event.end|date:"Y-m-d H:i" }}">{{ event.end }}</td>
+                <td>{{ event.meeting_point }}</td>
                 <td>
-                    {{ event.meeting_point }}
-                </td>
-                <td>
-                    <a href="{% url "event_edit" event.id %}"><span class="glyphicon glyphicon-edit"></span></a>
-                    <a href="{% url "event_delete" event.id %}"><span class="glyphicon glyphicon-trash"></span></a>
+                    <a href="{% url "event_edit" event.id %}"><span class="bi bi-pencil-square"></span></a>
+                    <a href="{% url "event_delete" event.id %}"><span class="bi bi-trash-fill"></span></a>
                 </td>
             </tr>
             {% endfor %}

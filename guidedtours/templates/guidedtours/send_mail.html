@@ -14,26 +14,14 @@
 >
     {% csrf_token %}
 
-    <table class="table">
-        <tr>
-            <td>
-                <button
-                    type="submit"
-                    class="btn btn-secondary"
-                >
-                    {% trans "Send" %}
-                </button>
-            </td>
-            <td>
-                <a
-                    href="{% url "tours_filter" %}"
-                    class="btn btn-secondary"
-                >
-                    {% trans "Cancel" %}
-                </a>
-            </td>
-        </tr>
-    </table>
+    <a
+        class="btn btn-secondary"
+        href="{% url "tours_filter" %}"
+    >{% trans "Cancel" %}</a>
+    <button
+        class="btn btn-warning"
+        type="submit"
+    >{% trans "Send email" %}</button>
 </form>
 <p>
     <strong>{% trans "From" %}</strong>: {{ from_email }}

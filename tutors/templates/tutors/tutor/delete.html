@@ -1,7 +1,7 @@
 {% extends "tutors/base_tutors.html" %}
 {% load i18n %}
 
-{% block set_common_headercontent %}{% trans "Delete Tutor" %}{% endblock %}
+{% block set_common_headercontent %}{% trans "Delete tutor" %}{% endblock %}
 
 {% block set_common_content %}
 <div class="row">
@@ -39,7 +39,7 @@
         <h2>
             {% trans "Questions" %}:
             {% if not perms.tutor.edit_tutors %}
-            <a href="{% url "tutor_edit" tutor.id %}"><span class="glyphicon glyphicon-edit">Edit</span></a>
+            <a href="{% url "tutor_edit" tutor.id %}"><span class="bi bi-pencil-square">Edit</span></a>
             {% endif %}
         </h2>
         <table class="table">
@@ -53,7 +53,7 @@
                 {% for question in tutor.answer_set.all %}
                 <tr>
                     <td>{{ question.question }}</td>
-                    <td>{% trans question.answer %}</td>
+                    <td>{% if question.answer %}{% trans question.answer %}{% else %}-{% endif %}</td>
                 </tr>
                 {% endfor %}
             </tbody>
@@ -90,25 +90,13 @@
 >
     {% csrf_token %}
 
-    <table class="table">
-        <tr>
-            <td>
-                <button
-                    type="submit"
-                    class="btn btn-danger"
-                >
-                    {% trans "Delete" %}
-                </button>
-            </td>
-            <td>
-                <a
-                    href="{% url "tutor_list_status_all" %}"
-                    class="btn btn-secondary"
-                >
-                    {% trans "Cancel" %}
-                </a>
-            </td>
-        </tr>
-    </table>
+    <a
+        class="btn btn-secondary"
+        href="{% url "tutor_list_status_all" %}"
+    >{% trans "Cancel" %}</a>
+    <button
+        class="btn btn-danger"
+        type="submit"
+    >{% trans "Delete tutor" %}</button>
 </form>
 {% endblock %}

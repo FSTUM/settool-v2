@@ -7,9 +7,7 @@
 {% block set_common_content %}
 <div class="row">
     <div class="col-sm-12">
-        <p>
-            {% trans "Do you really want to accept the following tutors?" %}
-        </p>
+        <p>{% trans "Do you really want to accept the following tutors?" %}</p>
 
         <form
             method="post"
@@ -17,26 +15,14 @@
         >
             {% csrf_token %}
 
-            <table class="table">
-                <tr>
-                    <td>
-                        <button
-                            type="submit"
-                            class="btn btn-danger"
-                        >
-                            {% trans "Accept" %}
-                        </button>
-                    </td>
-                    <td>
-                        <a
-                            href="{% url "tutor_list_status" "active" %}"
-                            class="btn btn-secondary"
-                        >
-                            {% trans "Cancel" %}
-                        </a>
-                    </td>
-                </tr>
-            </table>
+            <a
+                class="btn btn-secondary"
+                href="{% url "tutor_list_status_active" %}"
+            >{% trans "Cancel" %}</a>
+            <button
+                class="btn btn-danger"
+                type="submit"
+            >{% trans "Accept all selected tutors" %}</button>
 
             {% bootstrap_form form %}
         </form>

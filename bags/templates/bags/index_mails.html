@@ -4,7 +4,9 @@
 {% block head %}
 <script>
     $(document).ready(() => {
-        $('#mailTable').DataTable();
+        $('#mailTable').DataTable({
+            columnDefs: [{ targets: 3, orderable: false }],
+        });
     });
 </script>
 {% endblock %}
@@ -22,7 +24,7 @@
                 <th>{% trans "Subject" %}</th>
                 <th>{% trans "Text" %}</th>
                 <th>{% trans "Comment" %}</th>
-                <th>{% trans "Delete" %}</th>
+                <th>{% trans "Actions" %}</th>
             </tr>
         </thead>
         <tbody>
@@ -38,23 +40,21 @@
                     {{ mail.comment }}
                 </td>
                 <td>
-                    <a href="{% url "delmail" mail.id %}"><span class="glyphicon glyphicon-trash"></span></a>
+                    <a href="{% url "editmail" mail.id %}"><span class="bi bi-pencil-square"></span></a>
+                    <a href="{% url "delmail" mail.id %}"><span class="bi bi-trash-fill"></span></a>
                 </td>
             </tr>
             {% endfor %}
         </tbody>
     </table>
 </div>
+
 <a
-    href="{% url "addmail" %}"
-    class="btn btn-primary"
->
-    {% trans "Add Email" %}
-</a>
-<a
-    href="{% url "bags_dashboard" %}"
     class="btn btn-secondary"
->
-    {% trans "Cancel" %}
-</a>
+    href="{% url "bags_dashboard" %}"
+>{% trans "Cancel" %}</a>
+<a
+    class="btn btn-primary"
+    href="{% url "addmail" %}"
+>{% trans "Add email" %}</a>
 {% endblock %}

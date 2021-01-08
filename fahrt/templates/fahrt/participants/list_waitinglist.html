@@ -31,57 +31,23 @@
         <tbody>
             {% for participant in participants %}
             <tr>
+                <td><a href="{% url "fahrt_viewparticipant" participant.id %}">{{ participant.firstname }}</a></td>
+                <td><a href="{% url "fahrt_viewparticipant" participant.id %}">{{ participant.surname }}</a></td>
+                <td>{{ participant.registration_time }}</td>
                 <td>
-                    <a href="{% url "fahrt_viewparticipant" participant.id %}">{{ participant.firstname }}</a>
+                    {% include "true_false_span.html" with value=participant.car %}
+                    {% if participant.car %}
+                    {% blocktranslate trimmed with additional_seats=participant.car_places %}
+                    {{ additional_seats }} additional seats
+                    {% endblocktranslate %}
+                    {% endif %}
                 </td>
                 <td>
-                    <a href="{% url "fahrt_viewparticipant" participant.id %}">{{ participant.surname }}</a>
+                    {% include "true_false_span.html" with value=participant.u18 inverted_colors=True %}
                 </td>
                 <td>
-                    {{ participant.registration_time }}
+                    {% include "true_false_span.html" with value=participant.allergies inverted_colors=True %}
                 </td>
-                {% if participant.car %}
-                <td>
-                    <span
-                        style="color:green"
-                        class="glyphicon glyphicon-ok"
-                    ></span>
-                    {{ participant.car_places }} {% trans "additional seats" %}
-                </td>
-                {% else %}
-                <td>
-                    <span
-                        style="color:red"
-                        class="glyphicon glyphicon-remove"
-                    ></span>
-                </td>
-                {% endif %}
-                {% if participant.u18 %}
-                <td>
-                    <span
-                        style="color:red"
-                        class="glyphicon glyphicon-ok"
-                    ></span>
-                    <span style="visibility:hidden">ja</span>
-                </td>
-                {% else %}
-                <td>
-                    <span style="visibility:hidden">nein</span>
-                </td>
-                {% endif %}
-                {% if participant.allergies %}
-                <td>
-                    <span
-                        style="color:red"
-                        class="glyphicon glyphicon-ok"
-                    ></span>
-                    <span style="visibility:hidden">ja</span>
-                </td>
-                {% else %}
-                <td>
-                    <span style="visibility:hidden">nein</span>
-                </td>
-                {% endif %}
             </tr>
             {% endfor %}
         </tbody>

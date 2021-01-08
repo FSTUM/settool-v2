@@ -25,25 +25,13 @@
 >
     {% csrf_token %}
 
-    <table class="table">
-        <tr>
-            <td>
-                <button
-                    type="submit"
-                    class="btn btn-danger"
-                >
-                    {% trans "Delete" %}
-                </button>
-            </td>
-            <td>
-                <a
-                    href="{% url "fahrt_listmails" %}"
-                    class="btn btn-secondary"
-                >
-                    {% trans "Cancel" %}
-                </a>
-            </td>
-        </tr>
-    </table>
+    <a
+        class="btn btn-secondary"
+        href="{% url "fahrt_listmails" %}"
+    >{% trans "Cancel" %}</a>
+    <button
+        class="btn btn-danger"
+        type="submit"
+    >{% trans "Delete email template" %}</button>
 </form>
 {% endblock %}

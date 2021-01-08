@@ -84,7 +84,6 @@ msgid "Surname"
 msgstr "Nachname"
 
 #: guidedtours/models.py
-#: guidedtours/templates/guidedtours/list_tour-participants.html
 msgid "E-Mail"
 msgstr "E-Mail"
 
@@ -143,20 +142,12 @@ msgstr "E-Mail-Vorlage hinzufügen"
 
 #: guidedtours/templates/guidedtours/add_mail.html
 #: guidedtours/templates/guidedtours/add_tour.html
-#: guidedtours/templates/guidedtours/edit_mail.html
-#: guidedtours/templates/guidedtours/edit_tour.html
-#: guidedtours/templates/guidedtours/signup_internal.html
-#: guidedtours/templates/guidedtours/standalone/signup.html
-msgid "Submit"
-msgstr "Eintragen"
-
-#: guidedtours/templates/guidedtours/add_mail.html
-#: guidedtours/templates/guidedtours/add_tour.html
 #: guidedtours/templates/guidedtours/del_mail.html
 #: guidedtours/templates/guidedtours/del_tour.html
 #: guidedtours/templates/guidedtours/edit_mail.html
 #: guidedtours/templates/guidedtours/edit_tour.html
 #: guidedtours/templates/guidedtours/send_mail.html
+#: guidedtours/templates/guidedtours/signup_internal.html
 msgid "Cancel"
 msgstr "Abbrechen"
 
@@ -166,7 +157,6 @@ msgid "Add tour"
 msgstr "Intitutsführung hinzufügen"
 
 #: guidedtours/templates/guidedtours/base_guildedtours.html
-#: guidedtours/templates/guidedtours/tour_dashboard.html
 msgid "Dashboard"
 msgstr "Dashboard"
 
@@ -176,8 +166,6 @@ msgstr "Allgemein"
 
 #: guidedtours/templates/guidedtours/base_guildedtours.html
 #: guidedtours/templates/guidedtours/standalone/signup.html
-#: guidedtours/templates/guidedtours/standalone/signup_notour.html
-#: guidedtours/templates/guidedtours/standalone/success.html
 msgid "Sign up"
 msgstr "Anmelden"
 
@@ -199,8 +187,8 @@ msgid "List email templates"
 msgstr "Liste der E-Mail-Vorlagen"
 
 #: guidedtours/templates/guidedtours/base_guildedtours.html
-msgid "Filter participants/Send emails"
-msgstr "Teilnehmer filtern/E-Mails senden"
+msgid "Filter participants/ Send emails"
+msgstr "Teilnehmer filtern/ E-Mails senden"
 
 #: guidedtours/templates/guidedtours/base_guildedtours.html
 msgid "Add email template"
@@ -214,14 +202,8 @@ msgstr "E-Mail-Vorlage löschen"
 msgid "Do you really want to delete the following email template?"
 msgstr "Soll die folgende E-Mail-Vorlage wirklich gelöscht werden?"
 
-#: guidedtours/templates/guidedtours/del_mail.html
 #: guidedtours/templates/guidedtours/del_tour.html
-#: guidedtours/templates/guidedtours/index_mails.html
 #: guidedtours/templates/guidedtours/list_tour-participants.html
-msgid "Delete"
-msgstr "Löschen"
-
-#: guidedtours/templates/guidedtours/del_tour.html
 msgid "Delete tour"
 msgstr "Intitutsführung löschen"
 
@@ -236,6 +218,7 @@ msgid "Edit email"
 msgstr "E-Mail-Vorlage bearbeiten"
 
 #: guidedtours/templates/guidedtours/edit_tour.html
+#: guidedtours/templates/guidedtours/list_tour-participants.html
 msgid "Edit tour"
 msgstr "Intitutsführung bearbeiten"
 
@@ -243,17 +226,22 @@ msgstr "Intitutsführung bearbeiten"
 msgid "Filter participants"
 msgstr "Teilnehmer filtern"
 
-#: guidedtours/templates/guidedtours/filter_participants.html
-msgid "filter"
-msgstr "filtern"
-
 #: guidedtours/templates/guidedtours/filtered_list.html
 msgid "Filtered participants"
 msgstr "Gefilterte Teilnehmerliste"
 
 #: guidedtours/templates/guidedtours/filtered_list.html
+#: guidedtours/templates/guidedtours/list_tour-participants.html
+msgid "Back"
+msgstr "Zurück"
+
+#: guidedtours/templates/guidedtours/filtered_list.html
 msgid "Send emails"
 msgstr "E-Mails senden"
+
+#: guidedtours/templates/guidedtours/index_mails.html
+msgid "Actions"
+msgstr "Aktionen"
 
 #: guidedtours/templates/guidedtours/list_tour-participants.html
 #, python-format
@@ -265,12 +253,16 @@ msgid "Last name"
 msgstr "Nachname"
 
 #: guidedtours/templates/guidedtours/list_tour-participants.html
+msgid "EMail"
+msgstr "E-Mail"
+
+#: guidedtours/templates/guidedtours/list_tour-participants.html
 msgid "Waiting list"
 msgstr "Warteliste"
 
 #: guidedtours/templates/guidedtours/list_tour-participants.html
-msgid "Edit"
-msgstr "Bearbeiten"
+msgid "Email"
+msgstr "E-Mail"
 
 #: guidedtours/templates/guidedtours/list_tours.html
 msgid "List of all tours"
@@ -288,10 +280,6 @@ msgstr ""
 "werden?"
 
 #: guidedtours/templates/guidedtours/send_mail.html
-msgid "Send"
-msgstr "Senden"
-
-#: guidedtours/templates/guidedtours/send_mail.html
 msgid "From"
 msgstr "Von"
 
@@ -304,10 +292,8 @@ msgid "see table below"
 msgstr "siehe Tabelle unten"
 
 #: guidedtours/templates/guidedtours/signup_internal.html
-#: guidedtours/templates/guidedtours/standalone/signup.html
-#: guidedtours/templates/guidedtours/standalone/signup_notour.html
-msgid "Sign up for a guided tour"
-msgstr "Institutsführungs-Anmeldung"
+msgid "Add participant to a guided tour"
+msgstr "Teilnehmer zur Institutsführung hinzugfügen"
 
 #: guidedtours/templates/guidedtours/signup_internal.html
 #: guidedtours/templates/guidedtours/standalone/signup.html
@@ -332,6 +318,15 @@ msgstr ""
 "Widerrufs werden mit dem Zugang meiner Widerrufserklärung meine Daten "
 "gelöscht.</p>"
 
+#: guidedtours/templates/guidedtours/signup_internal.html
+msgid "Add participant"
+msgstr "Teilnehmer hinzufügen"
+
+#: guidedtours/templates/guidedtours/standalone/signup.html
+#: guidedtours/templates/guidedtours/standalone/signup_notour.html
+msgid "Sign up for a guided tour"
+msgstr "Institutsführungs-Anmeldung"
+
 #: guidedtours/templates/guidedtours/standalone/signup.html
 msgid "Guided tours"
 msgstr "Intitutsführungen"
@@ -352,6 +347,25 @@ msgstr "Du hast dich erfolgreich für eine Institutsführung angemeldet"
 #: guidedtours/templates/guidedtours/standalone/success.html
 msgid "You will get all further information by email."
 msgstr "Alle weiteren Information bekommst du per E-Mail."
+
+#: guidedtours/templates/guidedtours/tour_dashboard.html
+msgid "Guildedtours dashboard"
+msgstr "Intitutsführungsdashboard"
+
+#~ msgid "Delete"
+#~ msgstr "Löschen"
+
+#~ msgid "Submit"
+#~ msgstr "Eintragen"
+
+#~ msgid "Filter"
+#~ msgstr "Filtern"
+
+#~ msgid "Edit"
+#~ msgstr "Bearbeiten"
+
+#~ msgid "Send"
+#~ msgstr "Senden"
 
 #~ msgid "Guided tour"
 #~ msgstr "Intitutsführung"

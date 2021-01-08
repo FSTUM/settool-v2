@@ -9,10 +9,7 @@ from tutors.models import Tutor
 
 
 def create_tutor_fixture_state():
-    semester1 = Semester(semester="WS", year=2019)  # legacy data that should not be shown
-    semester1.save()
-    semester2 = current_semester()
-    semester2.save()
+    semester1, semester2 = generate_semesters()
     subject1 = Subject(degree=Subject.BACHELOR, subject=Subject.INFORMATICS)
     subject1.save()
     subject2 = Subject(degree=Subject.MASTER, subject=Subject.MATHEMATICS)
@@ -32,3 +29,11 @@ def create_tutor_fixture_state():
             birthday=datetime.today(),
         )
         tutor.save()
+
+
+def generate_semesters():
+    semester1 = Semester(semester="WS", year=2019)  # legacy data that should not be shown
+    semester1.save()
+    semester2 = current_semester()
+    semester2.save()
+    return semester1, semester2

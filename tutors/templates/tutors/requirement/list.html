@@ -5,38 +5,38 @@
 {% block head %}
 <script>
     $(document).ready(() => {
-        $('#requirementTable').DataTable();
+        $('#requirementTable').DataTable({
+            columnDefs: [{ targets: 2, orderable: false }],
+        });
     });
 </script>
 {% endblock %}
 
-{% block set_common_headercontent %}{% trans "List of Requirements" %}{% endblock %}
+{% block set_common_headercontent %}{% trans "List of requirements" %}{% endblock %}
 
 {% block set_common_content %}
 <div class="table-responsive">
     <table
         id="requirementTable"
-        class="table dataTable table-striped table-hover"
+        class="table dataTable"
     >
         <thead>
             <tr>
                 <th>#</th>
                 <th>{% trans "Question" %}</th>
-                <th></th>
+                <th>{% trans "Actions" %}</th>
             </tr>
         </thead>
         <tbody>
             {% for requirement in requirements %}
             <tr>
-                <td>
-                    {{ forloop.counter }}
-                </td>
+                <td>{{ forloop.counter }}</td>
                 <td>
                     <a href="{% url "requirement_view" requirement.id %}">{{ requirement.question }}</a>
                 </td>
                 <td>
-                    <a href="{% url "requirement_edit" requirement.id %}"><span class="glyphicon glyphicon-edit"></span></a>
-                    <a href="{% url "requirement_delete" requirement.id %}"><span class="glyphicon glyphicon-trash"></span></a>
+                    <a href="{% url "requirement_edit" requirement.id %}"><span class="bi bi-pencil-square"></span></a>
+                    <a href="{% url "requirement_delete" requirement.id %}"><span class="bi bi-trash-fill"></span></a>
                 </td>
             </tr>
             {% endfor %}

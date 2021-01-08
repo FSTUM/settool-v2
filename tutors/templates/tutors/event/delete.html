@@ -1,7 +1,7 @@
 {% extends "tutors/base_tutors.html" %}
 {% load i18n %}
 
-{% block set_common_headercontent %}{% trans "Delete Event" %}: {{ event }}{% endblock %}
+{% block set_common_headercontent %}{% trans "Delete event" %}: {{ event }}{% endblock %}
 
 {% block set_common_content %}
 <div class="row">
@@ -79,25 +79,13 @@
 >
     {% csrf_token %}
 
-    <table class="table">
-        <tr>
-            <td>
-                <button
-                    type="submit"
-                    class="btn btn-danger"
-                >
-                    {% trans "Delete" %}
-                </button>
-            </td>
-            <td>
-                <a
-                    href="{% url "event_list" %}"
-                    class="btn btn-secondary"
-                >
-                    {% trans "Cancel" %}
-                </a>
-            </td>
-        </tr>
-    </table>
+    <a
+        class="btn btn-secondary"
+        href="{% url "event_list" %}"
+    >{% trans "Cancel" %}</a>
+    <button
+        class="btn btn-danger"
+        type="submit"
+    >{% trans "Delete event" %}</button>
 </form>
 {% endblock %}

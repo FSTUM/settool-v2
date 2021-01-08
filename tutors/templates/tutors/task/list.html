@@ -6,12 +6,14 @@
 {% block head %}
 <script>
     $(document).ready(() => {
-        $('#taskTable').DataTable();
+        $('#taskTable').DataTable({
+            columnDefs: [{ targets: 8, orderable: false }],
+        });
     });
 </script>
 {% endblock %}
 
-{% block set_common_headercontent %}{% trans "List of Tasks" %}{% endblock %}
+{% block set_common_headercontent %}{% trans "List of tasks" %}{% endblock %}
 
 {% block set_common_content %}
 <div class="table-responsive">
@@ -29,39 +31,29 @@
                 <th>{% trans "Meeting Point" %}</th>
                 <th>{% trans "# Missing Mails" %}</th>
                 <th>{% trans "# Tutors" %}</th>
-                <th></th>
+                <th>{% trans "Actions" %}</th>
             </tr>
         </thead>
         <tbody>
             {% for task in tasks %}
-            <tr class="{% if task.tutors.count < task.min_tutors %}danger{% elif task.min_tutors <= task.tutors.count and task.tutors.count <= task.max_tutors %}success{% elif  task.max_tutors < task.tutors.count %}warning{% endif %}">
+            <tr class="{% if task.tutors.count < task.min_tutors %}table-danger{% elif task.min_tutors <= task.tutors.count and task.tutors.count <= task.max_tutors %}table-success{% elif  task.max_tutors < task.tutors.count %}table-warning{% endif %}">
                 <td>{{ forloop.counter }}</td>
                 <td>
-                    {{ task.event.name }}
+                    <a href="{% url "event_view" task.event.id %}">{{ task.event.name }}</a>
                 </td>
                 <td>
                     <a href="{% url "task_view" task.id %}">{{ task.name }}</a>
                 </td>
-                <td data-text="{{ task.begin|date:"Y-m-d H:i" }}">
-                    {{ task.begin }}
-                </td>
-                <td data-text="{{ task.end|date:"Y-m-d H:i" }}">
-                    {{ task.end }}
-                </td>
+                <td data-text="{{ task.begin|date:"Y-m-d H:i" }}">{{ task.begin }}</td>
+                <td data-text="{{ task.end|date:"Y-m-d H:i" }}">{{ task.end }}</td>
+                <td>{{ task.meeting_point }}</td>
+                <td>{% mail_task_count task %}</td>
+                <td>{{ task.tutors.count }}/{{ task.min_tutors|default_if_none:0 }}-{{ task.max_tutors|default_if_none:0 }}</td>
                 <td>
-                    {{ task.meeting_point }}
-                </td>
-                <td>
-                    {% mail_task_count task %}
-                </td>
-                <td>
-                    {{ task.tutors.count }}/{{ task.min_tutors|default_if_none:0 }}-{{ task.max_tutors|default_if_none:0 }}
-                </td>
-                <td>
-                    <a href="{% url "task_edit" task.id %}"><span class="glyphicon glyphicon-edit"></span></a>
-                    <a href="{% url "task_delete" task.id %}"><span class="glyphicon glyphicon-trash"></span></a>
-                    <a href="{% url "task_mail" task.id %}"><span class="glyphicon glyphicon-envelope"></span></a>
-                    <a href="{% url "task_export" "pdf" task.id %}"><span class="glyphicon glyphicon-list"></span></a>
+                    <a href="{% url "task_edit" task.id %}"><span class="bi bi-pencil-square"></span></a>
+                    <a href="{% url "task_delete" task.id %}"><span class="bi bi-trash-fill"></span></a>
+                    <a href="{% url "task_mail" task.id %}"><span class="bi bi-envelope-fill"></span></a>
+                    <a href="{% url "task_export" "pdf" task.id %}"><span class="bi bi-file-earmark-person-fill"></span></a>
                 </td>
             </tr>
             {% endfor %}

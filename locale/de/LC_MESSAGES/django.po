@@ -51,6 +51,10 @@ msgid "Settings"
 msgstr "Einstellungen"
 
 #: templates/base.html
+msgid "Select your semester"
+msgstr "Wähle dein Semester aus"
+
+#: templates/base.html
 msgid "Switch"
 msgstr "Umschalten"
 
@@ -71,22 +75,6 @@ msgstr "Datenschutz"
 msgid "Imprint"
 msgstr "Impressum"
 
-#: templates/base.html
-msgid "Deselect All"
-msgstr "Auswahl aufheben"
-
-#: templates/base.html
-msgid "Select All"
-msgstr "Alle Auswählen"
-
-#: templates/base.html
-msgid "Selectable items"
-msgstr "Auswählbare Elemente"
-
-#: templates/base.html
-msgid "Selection items"
-msgstr "Auswahl-Elemente"
-
 #: templates/base_card_layout.html
 msgid "Navigation"
 msgstr "Navigation"
@@ -99,6 +87,27 @@ msgstr "Hallo %(username)s!"
 #: templates/main_index.html
 msgid "Please Log in, to view everything"
 msgstr "Bitte logge dich ein, um alles zu sehen"
+
+#: templates/true_false_none_span.html templates/true_false_span.html
+msgid "No"
+msgstr "Nein"
+
+#: templates/true_false_none_span.html templates/true_false_span.html
+msgid "Yes"
+msgstr "Ja"
+
+#: templates/true_false_none_span.html
+msgid "Unknown"
+msgstr "Unbekannt"
+
+#~ msgid "Deselect All"
+#~ msgstr "Auswahl aufheben"
+
+#~ msgid "Select All"
+#~ msgstr "Alle Auswählen"
+
+#~ msgid "Selectable items"
+#~ msgstr "Auswählbare Elemente"
 
 #~ msgid "SET "
 #~ msgstr "SET "

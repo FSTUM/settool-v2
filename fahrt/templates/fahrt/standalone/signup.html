@@ -2,8 +2,6 @@
 {% load i18n %}
 {% load bootstrap4 %}
 
-{% block title %}{% trans "SET-Fahrt" %} - {% trans "Sign up" %}{% endblock %}
-
 {% block content %}
 <div class="card">
     <div class="card-header">
@@ -26,11 +24,9 @@
             </div>
 
             <button
-                type="submit"
                 class="btn btn-primary"
-            >
-                {% trans "Submit" %}
-            </button>
+                type="submit"
+            >{% trans "Sign up" %}</button>
         </form>
     </div>
 </div>

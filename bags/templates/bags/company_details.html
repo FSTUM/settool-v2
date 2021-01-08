@@ -1,0 +1,74 @@
+{% extends "bags/base_bags.html" %}
+{% load i18n %}
+
+{% block set_common_headercontent %}{% trans "Company details" %}{% endblock %}
+
+{% block set_common_content %}
+<table class="table">
+    <tr>
+        <th>{% trans "Name" %}</th>
+        <td>{{ company.name }}</td>
+    </tr>
+    <tr>
+        <th>{% trans "Contact" %}</th>
+        <td>{{ company.full_contact }}</td>
+    </tr>
+    <tr>
+        <th>{% trans "Email" %}</th>
+        <td>{{ company.email }}</td>
+    </tr>
+    <tr>
+        <th>{% trans "sent" %}</th>
+        <td>{% include "true_false_span.html" with value=company.email_sent %}</td>
+    </tr>
+    <tr>
+        <th>{% trans "successfully sent" %}</th>
+        <td>{% include "true_false_span.html" with value=company.email_sent_success %}</td>
+    </tr>
+    <tr>
+        <th>{% trans "Promise" %}</th>
+        <td>{% include "true_false_none_span.html" with value=company.promise %}</td>
+    </tr>
+    <tr>
+        <th>{% trans "Giveaways" %}</th>
+        <td>{{ company.giveaways }}</td>
+    </tr>
+    <tr>
+        <th>{% trans "Arrival time" %}</th>
+        <td>{{ company.arrival_time }}</td>
+    </tr>
+    <tr>
+        <th>{% trans "Comment" %}</th>
+        <td>{{ company.comment }}</td>
+    </tr>
+    <tr>
+        <th>{% trans "Arrived" %}</th>
+        <td>{% include "true_false_span.html" with value=company.arrived %}</td>
+    </tr>
+    <tr>
+        <th>{% trans "Participated last year" %}</th>
+        <td>{% include "true_false_span.html" with value=company.last_year %}</td>
+    </tr>
+    <tr>
+        <th>{% trans "Giveaways last year" %}</th>
+        <td>{{ company.giveaways_last_year }}</td>
+    </tr>
+    <tr>
+        <th>{% trans "Contact again" %}</th>
+        <td>{% include "true_false_none_span.html" with value=company.contact_again %}</td>
+    </tr>
+</table>
+
+<a
+    class="btn btn-secondary"
+    href="{% url "bags_dashboard" %}"
+>{% trans "Back" %}</a>
+<a
+    class='btn btn-primary'
+    href="{% url "editcompany" company.id %}"
+>{% trans "Edit company" %}</a>
+<a
+    class='btn btn-danger'
+    href="{% url "delcompany" company.id %}"
+>{% trans "Delete company" %}</a>
+{% endblock %}

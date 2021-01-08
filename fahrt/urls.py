@@ -1,145 +1,160 @@
-from django.conf.urls import url
+from django.urls import include
+from django.urls import path
 from django.views.generic import RedirectView
 
 from . import views
 
 urlpatterns = [
-    url(
-        r"^$",
+    path(
+        "",
         RedirectView.as_view(pattern_name="fahrt_index"),
         name="fahrt_main_index",
     ),  # due to active_link
-    url(
-        r"^dashboard/$",
+    path(
+        "dashboard/",
         views.index,
         name="fahrt_index",
     ),
-    url(
-        r"^list/registered/$",
-        views.list_registered,
-        name="fahrt_list_registered",
+    path(
+        "list/",
+        include(
+            [
+                path(
+                    "registered/",
+                    views.list_registered,
+                    name="fahrt_list_registered",
+                ),
+                path(
+                    "confirmed/",
+                    views.list_confirmed,
+                    name="fahrt_list_confirmed",
+                ),
+                path(
+                    "waitinglist/",
+                    views.list_waitinglist,
+                    name="fahrt_list_waitinglist",
+                ),
+                path(
+                    "cancelled/",
+                    views.list_cancelled,
+                    name="fahrt_list_cancelled",
+                ),
+            ],
+        ),
     ),
-    url(
-        r"^list/confirmed/$",
-        views.list_confirmed,
-        name="fahrt_list_confirmed",
-    ),
-    url(
-        r"^list/waitinglist/$",
-        views.list_waitinglist,
-        name="fahrt_list_waitinglist",
-    ),
-    url(
-        r"^list/cancelled/$",
-        views.list_cancelled,
-        name="fahrt_list_cancelled",
-    ),
-    url(
-        r"^view/(?P<participant_pk>[0-9]+)/$",
+    path(
+        "view/<int:participant_pk>/",
         views.view,
         name="fahrt_viewparticipant",
     ),
-    url(
-        r"^edit/(?P<participant_pk>[0-9]+)/$",
+    path(
+        "edit/<int:participant_pk>/",
         views.edit,
         name="fahrt_editparticipant",
     ),
-    url(
-        r"^del/(?P<participant_pk>[0-9]+)/$",
+    path(
+        "del/<int:participant_pk>/",
         views.delete,
         name="fahrt_delparticipant",
     ),
-    url(
-        r"^togglemailinglist/(?P<participant_pk>[0-9]+)/$",
+    path(
+        "togglemailinglist/<int:participant_pk>/",
         views.toggle_mailinglist,
         name="fahrt_toggle_mailinglist",
     ),
-    url(
-        r"^setpaid/(?P<participant_pk>[0-9]+)/$",
+    path(
+        "setpaid/<int:participant_pk>/",
         views.set_paid,
         name="fahrt_set_paid",
     ),
-    url(
-        r"^setnonliability/(?P<participant_pk>[0-9]+)/$",
+    path(
+        "setnonliability/<int:participant_pk>/",
         views.set_nonliability,
         name="fahrt_set_nonliability",
     ),
-    url(
-        r"^set_payment_deadline/(?P<participant_pk>[0-9]+)/(?P<weeks>[0-9]+)/$",
+    path(
+        "set_payment_deadline/<int:participant_pk>/<int:weeks>/",
         views.set_payment_deadline,
         name="fahrt_set_payment_deadline",
     ),
-    url(
-        r"^confirm/(?P<participant_pk>[0-9]+)/$",
+    path(
+        "confirm/<int:participant_pk>/",
         views.confirm,
         name="fahrt_confirm",
     ),
-    url(
-        r"^waitinglist/(?P<participant_pk>[0-9]+)/$",
+    path(
+        "waitinglist/<int:participant_pk>/",
         views.waitinglist,
         name="fahrt_waitinglist",
     ),
-    url(
-        r"^cancel/(?P<participant_pk>[0-9]+)/$",
+    path(
+        "cancel/<int:participant_pk>/",
         views.cancel,
         name="fahrt_cancel",
     ),
-    url(
-        r"^signup/$",
+    path(
+        "signup/",
         views.signup,
         name="fahrt_signup",
     ),
-    url(
-        r"^success/$",
+    path(
+        "success/",
         views.signup_success,
         name="fahrt_signup_success",
     ),
-    url(
-        r"^add/$",
+    path(
+        "add/",
         views.signup_internal,
         name="fahrt_signup_internal",
     ),
-    url(
-        r"^filter/$",
+    path(
+        "filter/",
         views.filter_participants,
         name="fahrt_filter",
     ),
-    url(
-        r"^filtered/$",
+    path(
+        "filtered/",
         views.filtered_list,
         name="fahrt_filteredparticipants",
     ),
-    url(
-        r"^emails/$",
+    path(
+        "emails/",
         views.index_mails,
         name="fahrt_listmails",
     ),
-    url(
-        r"^email/$",
-        RedirectView.as_view(pattern_name="fahrt_listmails"),
-    ),  # due to active_link
-    url(
-        r"^email/add/$",
-        views.add_mail,
-        name="fahrt_addmail",
+    path(
+        "email/",  # due to active_link
+        include(
+            [
+                path(
+                    "",
+                    RedirectView.as_view(pattern_name="fahrt_listmails"),
+                ),
+                path(
+                    "add/",
+                    views.add_mail,
+                    name="fahrt_addmail",
+                ),
+                path(
+                    "edit/<int:mail_pk>/",
+                    views.edit_mail,
+                    name="fahrt_editmail",
+                ),
+                path(
+                    "del/<int:mail_pk>/",
+                    views.delete_mail,
+                    name="fahrt_delmail",
+                ),
+                path(
+                    "send/<int:mail_pk>/",
+                    views.send_mail,
+                    name="fahrt_sendmail",
+                ),
+            ],
+        ),
     ),
-    url(
-        r"^email/edit/(?P<mail_pk>[0-9]+)/$",
-        views.edit_mail,
-        name="fahrt_editmail",
-    ),
-    url(
-        r"^email/del/(?P<mail_pk>[0-9]+)/$",
-        views.delete_mail,
-        name="fahrt_delmail",
-    ),
-    url(
-        r"^email/send/(?P<mail_pk>[0-9]+)/$",
-        views.send_mail,
-        name="fahrt_sendmail",
-    ),
-    url(
-        r"^changedate/$",
+    path(
+        "changedate/",
         views.change_date,
         name="fahrt_date",
     ),

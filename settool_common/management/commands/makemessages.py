@@ -10,7 +10,8 @@ class Command(makemessages.Command):
 
         return potfiles
 
-    def _remove_pot_creation_date(self, path):
+    @staticmethod
+    def _remove_pot_creation_date(path):
         modified_lines = []
 
         with open(path, "rb") as file:

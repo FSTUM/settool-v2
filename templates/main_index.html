@@ -2,7 +2,6 @@
 {% load i18n %}
 {% load bootstrap4 %}
 
-
 {% block content %}
 {% if user.is_authenticated %}
 <div
@@ -19,9 +18,7 @@
 <div
     class="alert alert-warning"
     role="alert"
->
-    {% trans "Please Log in, to view everything" %}
-</div>
+>{% trans "Please Log in, to view everything" %}</div>
 {% endif %}
 {% endblock %}
 {% block after_content %}
@@ -87,7 +84,7 @@
         scaleOut: 3,
         durationIn: 1000,
         durationOut: 750,
-        delay: 1000,
+        delay: 150,
     };
 
     anime

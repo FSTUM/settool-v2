@@ -6,21 +6,11 @@
 
 {% block set_common_content %}
 <div class="row">
-    <p>
-        {% trans "Do you really want to send the following email to the tutors below?" %}
-    </p>
-    <p>
-        <strong>{% trans "From" %}</strong>: {{ from }}
-    </p>
-    <p>
-        <strong>{% trans "To" %}</strong>: {% trans "see table below" %}
-    </p>
-    <p>
-        <strong>{% trans "Subject" %}</strong>: {{ subject }}
-    </p>
-    <p>
-        <strong>{% trans "Text" %}</strong>:<br />{{ body|linebreaks|urlize }}
-    </p>
+    <p>{% trans "Do you really want to send the following email to the tutors below?" %}</p>
+    <p><strong>{% trans "From: " %}</strong>{{ from }}</p>
+    <p><strong>{% trans "To: " %}</strong>{% trans "see table below" %}</p>
+    <p><strong>{% trans "Subject: " %}</strong>{{ subject }}</p>
+    <p><strong>{% trans "Text: " %}</strong><br />{{ body|linebreaks|urlize }}</p>
 
     <form
         method="post"
@@ -28,34 +18,24 @@
     >
         {% csrf_token %}
 
-        <table class="table">
-            <tr>
-                <td>
-                    <button
-                        type="submit"
-                        class="btn btn-secondary"
-                    >
-                        {% trans "Send" %}
-                    </button>
-                </td>
-                <td>
-                    <a
-                        href="{% url "task_view" task.id %}"
-                        class="btn btn-danger"
-                    >
-                        {% trans "Cancel" %}
-                    </a>
-                </td>
-            </tr>
-        </table>
+        <a
+            class="btn btn-secondary"
+            href="{% url "task_view" task.id %}"
+        >{% trans "Cancel" %}</a>
+        <button
+            class="btn btn-warning"
+            type="submit"
+        >{% trans "Send mail" %}</button>
 
         {% bootstrap_form form %}
     </form>
 </div>
 
 <script type="text/javascript">
-    $('select[name="mail_template"]').on('change', document, () => {
-        window.location.href = `{% url "task_mail" task.id %}${$(this).val()}`;
+    $('#id_mail_template').on('change', document, () => {
+        window.location.href = `{% url "task_mail" task.id %}${$('#id_mail_template')
+            .find(':selected')
+            .val()}`;
     });
 </script>
 {% endblock %}

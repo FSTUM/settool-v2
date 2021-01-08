@@ -6,8 +6,7 @@
 
 {% block set_common_content %}
 
-<p>
-    {% trans "Do you really want to send the following email to the participants below?" %}
+<p>{% trans "Do you really want to send the following email to the participants below?" %}
 </p>
 <form
     method="post"
@@ -15,26 +14,14 @@
 >
     {% csrf_token %}
 
-    <table class="table">
-        <tr>
-            <td>
-                <button
-                    type="submit"
-                    class="btn btn-secondary"
-                >
-                    {% trans "Send" %}
-                </button>
-            </td>
-            <td>
-                <a
-                    href="{% url "fahrt_filter" %}"
-                    class="btn btn-secondary"
-                >
-                    {% trans "Cancel" %}
-                </a>
-            </td>
-        </tr>
-    </table>
+    <a
+        class="btn btn-secondary"
+        href="{% url "fahrt_filter" %}"
+    >{% trans "Cancel" %}</a>
+    <button
+        class="btn btn-warning"
+        type="submit"
+    >{% trans "Send emails" %}</button>
 </form>
 <p>
     <strong>{% trans "From" %}</strong>: {{ from_email }}

@@ -12,9 +12,10 @@ urlpatterns = [
             [
                 path(
                     "",
-                    RedirectView.as_view(pattern_name="mail_list"),
+                    RedirectView.as_view(pattern_name="settings_dashboard"),
                     name="settings_main_index",
                 ),
+                path("dashboard/", views.dashboard, name="settings_dashboard"),
                 path(
                     "mail/",
                     include(

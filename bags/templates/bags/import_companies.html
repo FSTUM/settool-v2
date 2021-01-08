@@ -15,18 +15,14 @@
         <div class="col-xs-12 col-lg-5">
             {% bootstrap_form form %}
 
-            <button
-                type="submit"
-                class="btn btn-danger"
-            >
-                {% trans "Import" %}
-            </button>
             <a
-                href="{% url "bags_dashboard" %}"
                 class="btn btn-secondary"
-            >
-                {% trans "Cancel" %}
-            </a>
+                href="{% url "bags_dashboard" %}"
+            >{% trans "Cancel" %}</a>
+            <button
+                class="btn btn-danger"
+                type="submit"
+            >{% trans "Import Companies" %} <span class="bi bi-cloud-upload"></span></button>
         </div>
     </div>
 </form>

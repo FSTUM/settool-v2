@@ -188,7 +188,7 @@ def tutor_list(request, status):
 
 def tutor_view(request, uid):
     tutor = get_object_or_404(Tutor, pk=uid)
-    return render(request, "tutors/tutor/view.html", {"tutor": tutor})
+    return render(request, "tutors/tutor/standalone/view.html", {"tutor": tutor})
 
 
 @permission_required("tutors.edit_tutors")
@@ -432,17 +432,16 @@ def task_view(request, uid):
         Q(task__end__gt=task.begin),
         Q(task__begin__lt=task.end),
     )
+    unassigned_tutors = (
+        Tutor.objects.filter(semester=semester, status=Tutor.STATUS_ACCEPTED)
+        .exclude(id__in=assigned_tutors.values("id"))
+        .exclude(id__in=parallel_task_tutors.values("id"))
+        .order_by("last_name")
+    )
     context = {
         "task": task,
         "assigned_tutors": assigned_tutors,
-        "unassigned_tutors": Tutor.objects.filter(semester=semester, status=Tutor.STATUS_ACCEPTED)
-        .exclude(
-            id__in=assigned_tutors.values("id"),
-        )
-        .exclude(id__in=parallel_task_tutors.values("id"))
-        .order_by(
-            "last_name",
-        ),
+        "unassigned_tutors": unassigned_tutors,
         "assignment_form": form,
     }
     return render(request, "tutors/task/view.html", context)
@@ -598,16 +597,14 @@ def task_mail(request, uid, template=None):
 
 
 @permission_required("tutors.edit_tutors")
-def tutor_export(request, file_type, status=None):
+def tutor_export(request, file_type, status="all"):
     semester = get_object_or_404(Semester, pk=get_semester(request))
 
-    if status is None:
-        tutors = Tutor.objects.filter(semester=semester).order_by("last_name", "first_name")
+    if status == "all":
+        tutors = Tutor.objects.filter(semester=semester)
     else:
-        tutors = Tutor.objects.filter(semester=semester, status=status).order_by(
-            "last_name",
-            "first_name",
-        )
+        tutors = Tutor.objects.filter(semester=semester, status=status)
+    tutors = tutors.order_by("last_name", "first_name")
 
     filename = f"tutors_{time.strftime('%Y%m%d-%H%M')}"
 
@@ -744,7 +741,7 @@ def tutors_settings_tutors(request):
 
 
 @permission_required("tutors.edit_tutors")
-def tutor_mail(request, status=None, template=None, uid=None):
+def tutor_mail(request, status="all", template=None, uid=None):
     semester = get_object_or_404(Semester, pk=get_semester(request))
     settings = get_object_or_404(Settings, semester=semester)
     template = default_tutor_mail_template(semester, settings, status, template)
@@ -753,18 +750,14 @@ def tutor_mail(request, status=None, template=None, uid=None):
         raise Http404
 
     if uid is None:
-        if status is None:
+        if status == "all":
             tutors = Tutor.objects.filter(semester=semester)
         else:
             tutors = Tutor.objects.filter(semester=semester, status=status)
-    else:
-        tutors = Tutor.objects.filter(pk=uid)
-
-    tutor_data = extract_tutor_data()
-
-    if uid is None:
+        tutor_data = extract_tutor_data()
         tutor = Tutor(**tutor_data)
     else:
+        tutors = Tutor.objects.filter(pk=uid)
         tutor = tutors.first()
 
     context = Context(
@@ -788,9 +781,7 @@ def tutor_mail(request, status=None, template=None, uid=None):
 
         send_email_to_all_tutors(mail_template, tutors, request)
 
-        if status is None:
-            return redirect("tutor_list_status_all")
-        return redirect("tutor_list_status", status=status)
+        return redirect(f"tutor_list_status_{status}")
 
     context = {
         "from": template.sender,
@@ -889,7 +880,7 @@ def tutor_batch_accept(request):
             tutor.status = Tutor.STATUS_ACCEPTED
             tutor.save()
 
-        return redirect("tutor_list_status", status=Tutor.STATUS_ACTIVE)
+        return redirect("tutor_list_status_active")
 
     context = {
         "to_be_accepted": to_be_accepted,
@@ -934,7 +925,7 @@ def tutor_batch_decline(request):
             tutor.status = Tutor.STATUS_DECLINED
             tutor.save()
 
-        return redirect("tutor_list_status", status=Tutor.STATUS_ACTIVE)
+        return redirect("tutor_list_status_active")
 
     context = {
         "to_be_declined": to_be_declined,

@@ -120,7 +120,7 @@ def insert_giveaways(request):
     context = {
         "form": form,
     }
-    return render(request, "bags/insert_giveaways.html", context)
+    return render(request, "bags/add_giveaway.html", context)
 
 
 @permission_required("bags.view_companies")
@@ -139,11 +139,11 @@ def add(request):
 
 
 @permission_required("bags.view_companies")
-def view(request, company_pk):
+def company_details(request, company_pk):
     company = get_object_or_404(Company, pk=company_pk)
 
     context = {"company": company}
-    return render(request, "bags/view.html", context)
+    return render(request, "bags/company_details.html", context)
 
 
 @permission_required("bags.view_companies")
@@ -176,6 +176,8 @@ def update_field(request, company_pk, field):
         private_key = form.cleaned_data["pk"]
         name = form.cleaned_data["name"]
         value = form.cleaned_data["value"]
+        if private_key != company.pk or name != f"company_{company.pk}_{field}":
+            return HttpResponseBadRequest("")
         str_to_bool_map = {
             "True": True,
             "False": False,
@@ -183,10 +185,18 @@ def update_field(request, company_pk, field):
         }
         if value in str_to_bool_map.keys():
             value = str_to_bool_map[value]
-        if private_key != company.pk or name != f"company_{company.pk}_{field}":
-            return HttpResponseBadRequest("")
-
         changes = {field: value}
+
+        # to display email_sent_success and email_sent_success in one column we use a Failure state
+        # email_sent_success is apparently only a failure marker if email_sent is True
+        # (email_sent_success is initialised as False)
+        if field == "email_sent":
+            if value == "Failure":
+                changes["email_sent"] = True
+                changes["email_sent_success"] = False
+            else:
+                changes["email_sent"] = changes["email_sent_success"] = value
+
         Company.objects.filter(pk=company.pk).update(**changes)
         return HttpResponse(f"#{name}")
 
@@ -306,7 +316,7 @@ def send_mail(request, mail_pk):
     return render(request, "bags/send_mail.html", context)
 
 
-@user_passes_test(lambda u: u.is_staff)
+@user_passes_test(lambda user: user.is_staff)
 def import_companies(request):
     sem = get_semester(request)
     new_semester = get_object_or_404(Semester, pk=sem)

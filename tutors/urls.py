@@ -93,7 +93,7 @@ urlpatterns = [
                     name="tutor_view",
                 ),
                 path(
-                    "status/<uuid:uid>/<str:status>",
+                    "status/<uuid:uid>/<str:status>/",
                     views.tutor_change_status,
                     name="tutor_change_status",
                 ),
@@ -113,7 +113,7 @@ urlpatterns = [
                     name="tutor_export",
                 ),
                 path(
-                    "export/<str:file_type>/<str:status>",
+                    "export/<str:file_type>/<str:status>/",
                     views.tutor_export,
                     name="tutor_export_status",
                 ),
@@ -123,7 +123,7 @@ urlpatterns = [
                     name="tutor_mail_status",
                 ),
                 path(
-                    "mail/<str:status>/<int:template>",
+                    "mail/<str:status>/<int:template>/",
                     views.tutor_mail,
                     name="tutor_mail_status_template",
                 ),
@@ -133,7 +133,7 @@ urlpatterns = [
                     name="tutor_mail_tutor",
                 ),
                 path(
-                    "mail/tutor/<uuid:uid>/<int:template>",
+                    "mail/tutor/<uuid:uid>/<int:template>/",
                     views.tutor_mail,
                     name="tutor_mail_tutor_template",
                 ),
@@ -168,12 +168,12 @@ urlpatterns = [
             [
                 path("list/", views.task_list, name="task_list"),
                 path("add/", views.task_add, name="task_add"),
-                path("add/<uuid:eid>", views.task_add, name="task_add_event"),
+                path("add/<uuid:eid>/", views.task_add, name="task_add_event"),
                 path("edit/<uuid:uid>/", views.task_edit, name="task_edit"),
                 path("delete/<uuid:uid>/", views.task_delete, name="task_delete"),
                 path("view/<uuid:uid>/", views.task_view, name="task_view"),
                 path("mail/<uuid:uid>/", views.task_mail, name="task_mail"),
-                path("mail/<uuid:uid>/<int:template>", views.task_mail, name="task_mail_template"),
+                path("mail/<uuid:uid>/<int:template>/", views.task_mail, name="task_mail_template"),
                 path("export/<str:file_type>/<uuid:uid>/", views.task_export, name="task_export"),
             ],
         ),

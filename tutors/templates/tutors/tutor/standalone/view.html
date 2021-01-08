@@ -1,0 +1,199 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load bootstrap4 %}
+
+{% block content %}
+<div class="card">
+    <div class="card-header">
+        {% trans "Tutor details" %}
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-sm-12">
+                <table class="table table-hover">
+                    <tr>
+                        <th>{% trans "First name" %}</th>
+                        <td>{{ tutor.first_name }}</td>
+                    </tr>
+                    <tr>
+                        <th>{% trans "Surname" %}</th>
+                        <td>{{ tutor.last_name }}</td>
+                    </tr>
+                    <tr>
+                        <th>{% trans "Email" %}</th>
+                        <td>{{ tutor.email }}</td>
+                    </tr>
+                    <tr>
+                        <th>{% trans "Subject" %}</th>
+                        <td>{{ tutor.subject }}</td>
+                    </tr>
+                    <tr>
+                        <th>{% trans "ECTS" %}</th>
+                        <td>{% include "true_false_span.html" with value=tutor.ects %}</td>
+                    </tr>
+                    <tr>
+                        <th>{% trans "T-Shirt Size" %}</th>
+                        <td>{{ tutor.tshirt_size }}</td>
+                    </tr>
+                    <tr>
+                        <th>{% trans "Girls Cut?" %}</th>
+                        <td>{% include "true_false_span.html" with value=tutor.tshirt_girls_cut %}</td>
+                    </tr>
+                    <tr>
+                        <th>{% trans "Comment" %}</th>
+                        <td>{{ tutor.comment|linebreaks }}</td>
+                    </tr>
+                    <tr>
+                        <th>{% trans "Registration time" %}</th>
+                        <td>{{ tutor.registration_time }}</td>
+                    </tr>
+                    {% if perms.tutor.edit_tutors %}
+                    <tr>
+                        <th>{% trans "Status" %}</th>
+                        <td>
+                            {{ tutor.status }}
+                            <form
+                                method="post"
+                                action=""
+                            >
+                                {% csrf_token %}
+
+                                {% if tutor.status == "inactive" %}
+                                <button
+                                    class="btn btn-secondary"
+                                    formaction="{% url "tutor_change_status" tutor.id "active" %}"
+                                    type="submit"
+                                >{% trans "Open" %}</button>
+                                {% elif tutor.status == "active" %}
+                                <button
+                                    class="btn btn-secondary"
+                                    formaction="{% url "tutor_change_status" tutor.id "accepted" %}"
+                                    type="submit"
+                                >{% trans "Accept" %}</button>
+                                <button
+                                    class="btn btn-secondary"
+                                    formaction="{% url "tutor_change_status" tutor.id "declined" %}"
+                                    type="submit"
+                                >{% trans "Decline" %}</button>
+                                {% elif tutor.status == "accepted" %}
+                                <button
+                                    class="btn btn-secondary"
+                                    formaction="{% url "tutor_change_status" tutor.id "active" %}"
+                                    type="submit"
+                                >{% trans "Open" %}</button>
+                                <button
+                                    class="btn btn-secondary"
+                                    formaction="{% url "tutor_change_status" tutor.id "declined" %}"
+                                    type="submit"
+                                >{% trans "Decline" %}</button>
+                                {% elif tutor.status == "declined" %}
+                                <button
+                                    class="btn btn-secondary"
+                                    formaction="{% url "tutor_change_status" tutor.id "active" %}"
+                                    type="submit"
+                                >{% trans "Open" %}</button>
+                                <button
+                                    class="btn btn-secondary"
+                                    formaction="{% url "tutor_change_status" tutor.id "accepted" %}"
+                                    type="submit"
+                                >{% trans "Accept" %}</button>
+                                {% endif %}
+                            </form>
+                        </td>
+                    </tr>
+                    {% endif %}
+                </table>
+
+                {% if perms.tutor.edit_tutors %}
+                <div>
+                    <a
+                        class="btn btn-secondary"
+                        href="{% url "tutor_list_status_all" %}"
+                    >{% trans "Back" %}</a>
+                    <a
+                        class="btn btn-primary"
+                        href="{% url "tutor_edit" tutor.id %}"
+                    >{% trans "Edit tutor" %}</a>
+                    <a
+                        class="btn btn-warning"
+                        href="{% url "tutor_mail_tutor" tutor.id %}"
+                    >{% trans "Send email to tutor" %}</a>
+                    <a
+                        class="btn btn-danger"
+                        href="{% url "tutor_delete" tutor.id %}"
+                    >{% trans "Delete tutor" %}</a>
+                </div>
+                {% endif %}
+                <h2 class="card-title mt-3">{% trans "Questions" %}</h2>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>{% trans "Question" %}</th>
+                            <th>{% trans "Answer" %}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for question in tutor.answer_set.all %}
+                        <tr>
+                            <td>{{ question.question }}</td>
+                            <td>
+                                {% if question.answer %}{% translate question.answer %}
+                                {% else %}-
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                <h2 class="card-title">{% trans "Assigned Tasks" %}:</h2>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>{% trans "Name" %}</th>
+                            <th>{% trans "Begin" %}</th>
+                            <th>{% trans "End" %}</th>
+                            <th>{% trans "Meeting Point" %}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for assignment in tutor.tutorassignment_set.all %}
+                        <tr>
+                            <td>{{ forloop.counter }}</td>
+                            <td><a href="{% url "task_view" assignment.task.id %}">{{ assignment.task.name }}</a>
+                            </td>
+                            <td>{{ assignment.task.begin }}</td>
+                            <td>{{ assignment.task.end }}</td>
+                            <td>{{ assignment.task.meeting_point }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                {% if perms.tutor.edit_tutors %}
+                <h2>{% trans "Email log" %}</h2>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Mail</th>
+                            <th>Task</th>
+                            <th>Time</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for m in tutor.mailtutortask_set.all %}
+                        <tr>
+                            <td>{{ forloop.counter }}</td>
+                            <td>{{ m.mail }}</td>
+                            <td>{{ m.task|default_if_none:"-" }}</td>
+                            <td>{{ m.created_at }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

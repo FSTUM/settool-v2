@@ -11,71 +11,16 @@
 </script>
 {% endblock %}
 
-{% block set_common_maincard_override %}
-<div class="card">
-    <div class="card-header">{% trans "Dashboard" %}</div>
-    <div class="card-body">
-        <h5 class="card-title">{% trans "Status" %}</h5>
-        <div class="table-responsive">
-            <table
-                id="statusTable"
-                class="table table-bordered"
-            >
-                <tr>
-                    <th>{% trans "# Missing Mails" %}</th>
-                    <td>{{ missing_mails }}</td>
-                </tr>
-                <tr>
-                    <th>{% trans "# Accepted Tutors" %}</th>
-                    <td>{{ accepted_tutors }}</td>
-                </tr>
-                <tr>
-                    <th>{% trans "# Waiting Tutors" %}</th>
-                    <td>{{ waiting_tutors }}</td>
-                </tr>
-            </table>
-        </div>
-    </div>
-    <div class="card-body">
+{% block set_common_headercontent %}
+{% trans "Dashboard" %}
+{% endblock %}
+{% block set_common_content %}
+<div class='row'>
+    <div class="col-xl mt-2">
         <h5
             class="card-title"
             style="margin-bottom: -2rem"
-        >
-            {% trans "Subjects" %}
-        </h5>
-        <div class="table-responsive">
-            <table
-                id="studySubjectsTable"
-                class="table dataTable"
-            >
-                <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>{% trans "Subject" %}</th>
-                        <th>{% trans "Is" %}</th>
-                        <th>{% trans "Want" %}</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for c,w in subject_counts.items %}
-                    <tr class="{% if w.0 < w.1 %}danger{% elif w.0 >= w.1 %}success{% endif %}">
-                        <td>{{ forloop.counter }}</td>
-                        <td>{{ c }}</td>
-                        <td>{{ w.0 }}</td>
-                        <td>{{ w.1 }}</td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
-    </div>
-    <div class="card-body">
-        <h5
-            class="card-title"
-            style="margin-bottom: -2rem"
-        >
-            {% trans "Upcoming Events" %}
-        </h5>
+        >{% trans "Upcoming Events" %}</h5>
         <div class="table-responsive">
             <table
                 id="upcomingEventsTable"
@@ -102,13 +47,11 @@
             </table>
         </div>
     </div>
-    <div class="card-body">
+    <div class="col-xl mt-2">
         <h5
             class="card-title"
             style="margin-bottom: -2rem"
-        >
-            {% trans "Upcoming Tasks" %}
-        </h5>
+        >{% trans "Upcoming Tasks" %}</h5>
         <div class="table-responsive">
             <table
                 id="upcomingTasksTable"
@@ -123,12 +66,67 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {% for t in tasks %}
+                    {% for task in tasks %}
                     <tr>
                         <td>{{ forloop.counter }}</td>
-                        <td><a href="{% url "task_view" t.id %}">{{ t.name }}</a></td>
-                        <td>{{ t.begin }}</td>
-                        <td>{{ t.end }}</td>
+                        <td><a href="{% url "task_view" task.id %}">{{ task.name }}</a></td>
+                        <td>{{ task.begin }}</td>
+                        <td>{{ task.end }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<div class='row'>
+    <div class="col-xl mt-2">
+        <h5 class="card-title">{% trans "Status" %}</h5>
+        <div class="table-responsive">
+            <table
+                id="statusTable"
+                class="table table-bordered"
+            >
+                <tr>
+                    <th>{% trans "# Missing Mails" %}</th>
+                    <td>{{ missing_mails }}</td>
+                </tr>
+                <tr>
+                    <th>{% trans "# Accepted Tutors" %}</th>
+                    <td>{{ accepted_tutors }}</td>
+                </tr>
+                <tr>
+                    <th>{% trans "# Waiting Tutors" %}</th>
+                    <td>{{ waiting_tutors }}</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <div class="col-xl mt-2">
+        <h5
+            class="card-title"
+            style="margin-bottom: -2rem"
+        >{% trans "Subjects" %}</h5>
+        <div class="table-responsive">
+            <table
+                id="studySubjectsTable"
+                class="table dataTable"
+            >
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>{% trans "Subject" %}</th>
+                        <th>{% trans "Is" %}</th>
+                        <th>{% trans "Want" %}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for tutor_count,wanted_subject in subject_counts.items %}
+                    <tr class="{% if w.0 < w.1 %}table-danger{% elif w.0 >= w.1 %}table-success{% endif %}">
+                        <td>{{ forloop.counter }}</td>
+                        <td>{{ tutor_count }}</td>
+                        <td>{{ wanted_subject.0 }}</td>
+                        <td>{{ wanted_subject.1 }}</td>
                     </tr>
                     {% endfor %}
                 </tbody>
