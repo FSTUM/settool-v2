@@ -114,8 +114,8 @@
                     <th>{% trans "Subject" %}</th>
                     <th>{% trans "Tasks Assigned" %}</th>
                     <th>{% trans "Registration time" %}</th>
-                    {% for q in task.requirements.all %}
-                    <th>{{ q }}</th>
+                    {% for question in task.requirements.all %}
+                    <th>{{ question }}</th>
                     {% endfor %}
                     <th>{% trans "Actions" %}</th>
                 </tr>
@@ -133,16 +133,15 @@
                     <td>{{ tutor.subject }}</td>
                     <td>{{ tutor.task_set.count }}</td>
                     <td>{{ tutor.registration_time }}</td>
-                    {% with questions=tutor.answer_set.all|in_task:task.requirements.all q_c=task.requirements.all.count %}
-                    {% with t_c=questions.count %}
-                    {% for q in questions %}
-                    <td class="{% if q.answer == "YES" %}table-success{% elif q.answer == "NO" %}table-danger{% else %}table-warning{% endif %}">
-                        {% if q.answer %}{% trans q.answer %}{% else %}-{% endif %}</td>
+                    {% with tutor_answers=tutor.answer_set.all|in_task:task.requirements.all q_c=task.requirements.all.count tutor_answers_c=tutor_answers.count%}
+                    {% for tutor_answer in tutor_answers %}
+                    <td class="{% if tutor_answer.answer == "YES" %}table-success{% elif tutor_answer.answer == "NO" %}table-danger{% else %}table-warning{% endif %}">
+                        {% if tutor_answer.answer %}{% trans tutor_answer.answer %}{% else %}-{% endif %}
+                    </td>
                     {% endfor %}
-                    {% for i in q_c|subtract:t_c|times %}
-                    <td>-</td>
+                    {% for i in q_c|subtract:tutor_answers_c|times %}
+                    <td class="table-warning">-</td>
                     {% endfor %}
-                    {% endwith %}
                     {% endwith %}
                     <td>
                         <button
@@ -188,16 +187,15 @@
                     <td>{{ tutor.subject }}</td>
                     <td>{{ tutor.task_set.count }}</td>
                     <td>{{ tutor.registration_time }}</td>
-                    {% with questions=tutor.answer_set.all|in_task:task.requirements.all q_c=task.requirements.all.count %}
-                    {% with t_c=questions.count %}
-                    {% for question in questions %}
-                    <td class="{% if question.answer == "YES" %}table-success{% elif question.answer == "NO" %}table-danger{% else %}table-warning{% endif %}">
-                        {% if question.answer %}{% trans question.answer %}{% endif %}</td>
+                    {% with tutor_answers=tutor.answer_set.all|in_task:task.requirements.all q_c=task.requirements.all.count tutor_answers_c=tutor_answers.count%}
+                    {% for tutor_answer in tutor_answers %}
+                    <td class="{% if tutor_answer.answer == "YES" %}table-success{% elif tutor_answer.answer == "NO" %}table-danger{% else %}table-warning{% endif %}">
+                        {% if tutor_answer.answer %}{% trans tutor_answer.answer %}{% else %}-{% endif %}
+                    </td>
                     {% endfor %}
-                    {% for i in q_c|subtract:t_c|times %}
-                    <td>-</td>
+                    {% for i in q_c|subtract:tutor_answers_c|times %}
+                    <td class="table-warning">-</td>
                     {% endfor %}
-                    {% endwith %}
                     {% endwith %}
                     <td>
                         <button

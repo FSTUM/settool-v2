@@ -69,10 +69,10 @@
             </tr>
         </thead>
         <tbody>
-            {% for q in questions %}
+            {% for question in questions %}
             <tr>
                 <td>Q{{ forloop.counter }}</td>
-                <td>{% trans q.question %}</td>
+                <td>{% trans question.question %}</td>
             </tr>
             {% endfor %}
         </tbody>
@@ -127,17 +127,15 @@
                 {% endif %}
                 <td data-text="{{ tutor.registration_time|date:"Y-m-d H:i" }}">{{ tutor.registration_time }}</td>
                 {% if status == "active" %}
-                {% with q_c=questions|length answers=tutor.answer_set.all %}
-                {% with t_c=answers.count %}
-                {% for q in answers %}
-                <td class="{% if q.answer == "YES" %}table-success{% elif q.answer == "NO" %}table-danger{% else %}table-warning{% endif %}">
-                    {% if q.answer %}{% trans q.answer %}{% else %}-{% endif %}
+                {% with q_c=questions|length tutor_answers=tutor.answer_set.all tutor_answers_c=tutor_answers.count%}
+                {% for tutor_answer in tutor_answers %}
+                <td class="{% if tutor_answer.answer == "YES" %}table-success{% elif tutor_answer.answer == "NO" %}table-danger{% else %}table-warning{% endif %}">
+                    {% if tutor_answer.answer %}{% trans tutor_answer.answer %}{% else %}-{% endif %}
                 </td>
                 {% endfor %}
-                {% for i in q_c|subtract:t_c|times %}
-                <td>-</td>
+                {% for i in q_c|subtract:tutor_answers_c|times %}
+                <td class="table-warning">-</td>
                 {% endfor %}
-                {% endwith %}
                 {% endwith %}
                 {% endif %}
                 <td>
