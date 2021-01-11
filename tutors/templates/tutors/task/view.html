@@ -133,7 +133,8 @@
                     <td>{{ tutor.subject }}</td>
                     <td>{{ tutor.task_set.count }}</td>
                     <td>{{ tutor.registration_time }}</td>
-                    {% with tutor_answers=tutor.answer_set.all|in_task:task.requirements.all q_c=task.requirements.all.count tutor_answers_c=tutor_answers.count%}
+                    {% with tutor_answers=tutor.answer_set.all|in_task:task.requirements.all q_c=task.requirements.all.count %}
+                    {% with tutor_answers_c=tutor_answers.count %}
                     {% for tutor_answer in tutor_answers %}
                     <td class="{% if tutor_answer.answer == "YES" %}table-success{% elif tutor_answer.answer == "NO" %}table-danger{% else %}table-warning{% endif %}">
                         {% if tutor_answer.answer %}{% trans tutor_answer.answer %}{% else %}-{% endif %}
@@ -142,6 +143,7 @@
                     {% for i in q_c|subtract:tutor_answers_c|times %}
                     <td class="table-warning">-</td>
                     {% endfor %}
+                    {% endwith %}
                     {% endwith %}
                     <td>
                         <button
@@ -187,7 +189,8 @@
                     <td>{{ tutor.subject }}</td>
                     <td>{{ tutor.task_set.count }}</td>
                     <td>{{ tutor.registration_time }}</td>
-                    {% with tutor_answers=tutor.answer_set.all|in_task:task.requirements.all q_c=task.requirements.all.count tutor_answers_c=tutor_answers.count%}
+                    {% with tutor_answers=tutor.answer_set.all|in_task:task.requirements.all q_c=task.requirements.all.count %}
+                    {% with tutor_answers_c=tutor_answers.count %}
                     {% for tutor_answer in tutor_answers %}
                     <td class="{% if tutor_answer.answer == "YES" %}table-success{% elif tutor_answer.answer == "NO" %}table-danger{% else %}table-warning{% endif %}">
                         {% if tutor_answer.answer %}{% trans tutor_answer.answer %}{% else %}-{% endif %}
@@ -196,6 +199,7 @@
                     {% for i in q_c|subtract:tutor_answers_c|times %}
                     <td class="table-warning">-</td>
                     {% endfor %}
+                    {% endwith %}
                     {% endwith %}
                     <td>
                         <button

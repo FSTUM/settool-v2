@@ -127,7 +127,8 @@
                 {% endif %}
                 <td data-text="{{ tutor.registration_time|date:"Y-m-d H:i" }}">{{ tutor.registration_time }}</td>
                 {% if status == "active" %}
-                {% with q_c=questions|length tutor_answers=tutor.answer_set.all tutor_answers_c=tutor_answers.count%}
+                {% with q_c=questions|length tutor_answers=tutor.answer_set.all %}
+                {% with tutor_answers_c=tutor_answers.count %}
                 {% for tutor_answer in tutor_answers %}
                 <td class="{% if tutor_answer.answer == "YES" %}table-success{% elif tutor_answer.answer == "NO" %}table-danger{% else %}table-warning{% endif %}">
                     {% if tutor_answer.answer %}{% trans tutor_answer.answer %}{% else %}-{% endif %}
@@ -136,6 +137,7 @@
                 {% for i in q_c|subtract:tutor_answers_c|times %}
                 <td class="table-warning">-</td>
                 {% endfor %}
+                {% endwith %}
                 {% endwith %}
                 {% endif %}
                 <td>
