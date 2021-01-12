@@ -53,24 +53,10 @@ def showroom_fixture_state():  # nosec: this is only used in a fixture
     tutors_questions = _generate_questions(common_semesters)
     _generate_answers(tutors_questions, tutors_list)
     tutors_events = _generate_events(common_semesters, common_subjects)
-    tutors_tasks = _generate_tasks(tutors_events, tutors_list, tutors_questions)
+    _generate_tasks_tutorasignemt(tutors_events, tutors_list, tutors_questions)
     _generate_tutor_setting()
-    _generate_tutorassignment(tutors_list, tutors_tasks)
     # TODO tutors_mailtutortask
     # TODO tutors_subjecttutorcountassignment
-
-
-def _generate_tutorassignment(tutors_list, tutors_tasks):  # nosec: this is only used in a fixture
-    tutors_tutorassignment = []
-    for tutor in tutors_list:
-        for task in random.sample(tutors_tasks, random.choice((1, 1, 2))):
-            tutors_tutorassignment.append(
-                tutors.models.TutorAssignment.objects.create(
-                    task=task,
-                    tutor=tutor,
-                ),
-            )
-    return tutors_tutorassignment
 
 
 def _generate_tutor_setting():  # nosec: this is only used in a fixture
@@ -281,11 +267,18 @@ def _generate_companies(common_semesters):  # nosec: this is only used in a fixt
     return bags_companies
 
 
-def _generate_tasks(events, tutors_list, questions):  # nosec: this is only used in a fixture
+def _generate_tasks_tutorasignemt(  # nosec: this is only used in a fixture
+    events,
+    tutors_list,
+    questions,
+):
     tasks = []
     for event in events:
-        number1 = random.randint(0, len(tutors_list))
-        number2 = random.randint(0, len(tutors_list))
+        tutors_current_semester = [
+            tutor for tutor in tutors_list if tutor.semester == event.semester
+        ]
+        number1 = random.randint(0, len(tutors_current_semester))
+        number2 = random.randint(0, len(tutors_current_semester))
         filtered_questions = [
             question for question in questions if question.semester == event.semester
         ]
@@ -315,12 +308,16 @@ def _generate_tasks(events, tutors_list, questions):  # nosec: this is only used
             task.allowed_subjects.set(
                 random.sample(event_subjects, random.randint(0, len(event_subjects))),
             )
-            task.tutors.set(
-                random.sample(
-                    tutors_list,
-                    random.randint(min(number1, number2), max(number1, number2)),
-                ),
+            tutors_for_task = random.sample(
+                tutors_current_semester,
+                random.randint(min(number1, number2), max(number1, number2)),
             )
+            for tutor in tutors_for_task:
+                tutors.models.TutorAssignment.objects.create(
+                    task=task,
+                    tutor=tutor,
+                )
+
             task.save()
             tasks.append(task)
     return tasks
@@ -351,9 +348,9 @@ def _generate_events(semesters, subjects):  # nosec: this is only used in a fixt
     return events
 
 
-def _generate_answers(questions, tutors_tutors):  # nosec: this is only used in a fixture
+def _generate_answers(questions, tutors_list):  # nosec: this is only used in a fixture
     answers = []
-    for tutor in tutors_tutors:
+    for tutor in tutors_list:
         questions_tutor_semester = [
             question for question in questions if question.semester == tutor.semester
         ]
