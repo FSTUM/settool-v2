@@ -96,8 +96,8 @@ class FilterCompaniesForm(forms.Form):
 
 class SelectCompanyForm(forms.Form):
     id = forms.IntegerField()
-
     selected = forms.BooleanField(
+        widget=forms.widgets.CheckboxInput(attrs={"class": "selectTarget"}),
         required=False,
     )
 

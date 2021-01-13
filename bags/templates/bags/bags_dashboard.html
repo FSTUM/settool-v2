@@ -13,6 +13,12 @@
     rel='stylesheet'
 />
 <script>
+    /* eslint-disable no-unused-vars */
+    function selectAllSelectable(newState) {
+        $('.selectTarget').prop('checked', newState);
+        $('#selectAllButton').attr('onclick', `selectAllSelectable(${!newState})`);
+    }
+
     const displayTrueFalse = (value, _, response) => {
         if (value === 'True') {
             $(response).html(`{% include "true_false_span.html" with value=True%}`);
@@ -168,7 +174,11 @@
             >
                 <thead>
                     <tr>
-                        <th><span class="bi bi-check-square"></span></th>
+                        <th><span
+                                id='selectAllButton'
+                                class="bi bi-check-square"
+                                onclick='selectAllSelectable(true)'
+                            ></span></th>
                         <th>{% trans "Company" %}</th>
                         <th>{% trans "Contact" %}</th>
                         <th>{% trans "Email" %}</th>
@@ -189,7 +199,7 @@
                     <tr>
                         <td>
                             {{ select.id.as_hidden }}
-                            {{ select.selected }}
+                            {{ select.selected }}{% comment %}this is an input with the class of selectTarget{% endcomment %}
                         </td>
                         <td><a href="{% url "viewcompany" company.id %}">{{ company.name }}</a></td>
                         <td>{{ company.full_contact }}</td>
