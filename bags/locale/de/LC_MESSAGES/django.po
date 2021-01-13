@@ -41,7 +41,7 @@ msgstr "E-Mail wurde noch nicht (erfolgreich) versendet"
 #: bags/templates/bags/company_details.html
 #: bags/templates/bags/filtered_index.html bags/templates/bags/send_mail.html
 msgid "Participated last year"
-msgstr "Letz<wbr>tes Jahr was ge<wbr>schickt"
+msgstr "Letztes Jahr teilgenommen"
 
 #: bags/forms.py
 msgid "Not participated last year"
@@ -120,37 +120,37 @@ msgstr "E-Mail erfolgreich gesendet"
 #: bags/templates/bags/company_details.html
 #: bags/templates/bags/filtered_index.html bags/templates/bags/send_mail.html
 msgid "Promise"
-msgstr "Zu<wbr>sage"
+msgstr "Zusage"
 
 #: bags/models.py bags/templates/bags/bags_dashboard.html
 #: bags/templates/bags/company_details.html
 msgid "Giveaways last year"
-msgstr "Give<wbr>aways von letzt<wbr>em Jahr"
+msgstr "Giveaways von letztem Jahr"
 
 #: bags/models.py bags/templates/bags/bags_dashboard.html
 #: bags/templates/bags/company_details.html
 #: bags/templates/bags/filtered_index.html bags/templates/bags/send_mail.html
 msgid "Arrival time"
-msgstr "An<wbr>kunfts<wbr>zeit"
+msgstr "Ankunftszeit"
 
 #: bags/models.py bags/templates/bags/bags_dashboard.html
 #: bags/templates/bags/company_details.html bags/templates/bags/del_mail.html
 #: bags/templates/bags/filtered_index.html bags/templates/bags/index_mails.html
 #: bags/templates/bags/send_mail.html
 msgid "Comment"
-msgstr "Kom<wbr>men<wbr>tar"
+msgstr "Kommentar"
 
 #: bags/models.py bags/templates/bags/bags_dashboard.html
 #: bags/templates/bags/company_details.html
 #: bags/templates/bags/filtered_index.html bags/templates/bags/send_mail.html
 msgid "Arrived"
-msgstr "An<wbr>ge<wbr>kom<wbr>men"
+msgstr "Angekommen"
 
 #: bags/models.py bags/templates/bags/bags_dashboard.html
 #: bags/templates/bags/company_details.html
 #: bags/templates/bags/filtered_index.html bags/templates/bags/send_mail.html
 msgid "Contact again"
-msgstr "Er<wbr>neut kon<wbr>takt<wbr>ier<wbr>en"
+msgstr "Erneut kontaktieren"
 
 #: bags/models.py
 msgid "Email subject"
