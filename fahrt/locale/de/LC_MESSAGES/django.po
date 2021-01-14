@@ -310,8 +310,8 @@ msgid "Add email template"
 msgstr "E-Mail-Vorlage hinzufügen"
 
 #: fahrt/templates/fahrt/fahrt_dashboard.html
-msgid "Patricipants by status"
-msgstr "Teilnehmer grupiert nach Status"
+msgid "Patricipants grouped by status"
+msgstr "Teilnehmer gruppiert nach Status"
 
 #: fahrt/templates/fahrt/general/add_participant.html
 msgid "Add participant to the SET-Fahrt"
