@@ -48,18 +48,6 @@ repos:
             entry: mypy
             language: system
             types: [python]
-    - repo: https://github.com/PyCQA/bandit
-      rev: 1.7.0
-      hooks:
-          - id: bandit
-    - repo: local
-      hooks:
-          - id: pylint
-            name: pylint
-            entry: pylint
-            language: system
-            types: [python]
-            exclude: migrations
     - repo: https://gitlab.com/PyCQA/flake8
       rev: 3.8.4
       hooks:
@@ -92,11 +80,6 @@ repos:
             entry: ./manage.py check --fail-level=INFO
             language: system
             pass_filenames: false
-          - id: django-test
-            name: django-test
-            entry: coverage run ./manage.py test --no-input
-            language: system
-            pass_filenames: false
           - id: django-makemessages
             name: django-makemessages
             entry: ./manage.py makemessages -a --add-location=file --ignore="venv/*"
@@ -107,16 +90,15 @@ repos:
             entry: ./manage.py compilemessages --ignore="venv/*"
             language: system
             pass_filenames: false
+    - repo: https://github.com/PyCQA/bandit
+      rev: 1.7.0
+      hooks:
+          - id: bandit
     - repo: local
       hooks:
-          - id: export coverage
-            name: export coverage
-            entry: coverage xml
+          - id: pylint
+            name: pylint
+            entry: pylint
             language: system
-            pass_filenames: false
-          - id: report coverage
-            name: report coverage
-            entry: coverage report
-            language: system
-            pass_filenames: false
-            verbose: true
+            types: [python]
+            exclude: migrations
