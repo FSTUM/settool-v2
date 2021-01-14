@@ -360,16 +360,16 @@ msgid "You dont have permission to view this page"
 msgstr "Du hast keine Berechtigung, diese Seite zu sehen"
 
 #: tutors/templates/tutors/dashboard.html
-msgid "Upcoming Events"
-msgstr "Anstehende Veranstaltungen"
+msgid "Next upcoming 5 events"
+msgstr "Nächste 5 anstehende Veranstaltungen"
 
 #: tutors/templates/tutors/dashboard.html
 msgid "Start"
 msgstr "Start"
 
 #: tutors/templates/tutors/dashboard.html
-msgid "Upcoming Tasks"
-msgstr "Anstehende Tasks"
+msgid "Next upcoming 5 tasks"
+msgstr "Nächste 5 anstehende Tasks"
 
 #: tutors/templates/tutors/dashboard.html
 #: tutors/templates/tutors/task/list.html
