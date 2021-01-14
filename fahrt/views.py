@@ -2,12 +2,14 @@ from datetime import date
 from datetime import timedelta
 from typing import Dict
 from typing import List
+from typing import Union
 
 from django import forms
 from django.contrib.auth.decorators import permission_required
 from django.core.exceptions import ObjectDoesNotExist
 from django.db.models import Count
 from django.db.models import Q
+from django.db.models import QuerySet
 from django.db.models import Sum
 from django.forms import formset_factory
 from django.http import Http404
@@ -15,6 +17,7 @@ from django.shortcuts import get_object_or_404
 from django.shortcuts import redirect
 from django.shortcuts import render
 from django.utils import timezone
+from django.utils.translation import ugettext_lazy as _
 
 from settool_common.models import get_semester
 from settool_common.models import Semester
@@ -31,17 +34,92 @@ from .models import Mail
 from .models import Participant
 
 
+def get_confirmed_u18_participants_counts(semester: int) -> List[int]:
+    participants: QuerySet[Participant] = Participant.objects.filter(
+        Q(semester=semester) & Q(status="confirmed"),
+    ).all()
+    part_u18 = [participant.u18 for participant in participants]
+    u18_count = len([participant for participant in part_u18 if participant])
+    non_u18_count = len(part_u18) - u18_count
+    return [u18_count, non_u18_count]
+
+
+def get_confirmed_paid_participants_counts(semester: int) -> List[int]:
+    paid_participants_count: int = (
+        Participant.objects.exclude(paid=None)
+        .filter(Q(semester=semester) & Q(status="confirmed"))
+        .count()
+    )
+    unpaid_participants_count: int = Participant.objects.filter(
+        Q(semester=semester) & Q(status="confirmed") & Q(paid=None),
+    ).count()
+    return [paid_participants_count, unpaid_participants_count]
+
+
+def get_confirmed_non_liability_counts(semester: int) -> List[int]:
+    submitted_non_liability_count: int = (
+        Participant.objects.exclude(non_liability=None)
+        .filter(Q(semester=semester) & Q(status="confirmed"))
+        .count()
+    )
+    not_submitted_non_liability_count: int = Participant.objects.filter(
+        Q(semester=semester) & Q(status="confirmed") & Q(non_liability=None),
+    ).count()
+    return [submitted_non_liability_count, not_submitted_non_liability_count]
+
+
 @permission_required("fahrt.view_participants")
-def index(request):
-    participants_by_status: List[Dict[str, int]] = (
-        Participant.objects.values("status")
+def fahrt_dashboard(request):
+    selected_semester: int = get_semester(request)
+    participants_by_status: List[Dict[str, Union[str, int]]] = (
+        Participant.objects.filter(semester=selected_semester)
+        .values("status")
         .annotate(status_count=Count("status"))
-        .order_by("-status_count")
+        .order_by("status")
+    )
+
+    confirmed_participants_by_gender: List[Dict[str, Union[str, int]]] = (
+        Participant.objects.filter(Q(semester=selected_semester) & Q(status="confirmed"))
+        .values("gender")
+        .annotate(gender_count=Count("gender"))
+        .order_by("-gender")
+    )
+
+    confirmed_participants_by_food: List[Dict[str, Union[str, int]]] = (
+        Participant.objects.filter(semester=selected_semester)
+        .values("nutrition")
+        .annotate(nutrition_count=Count("nutrition"))
+        .order_by("-nutrition")
+    )
+
+    confirmed_participants_allergy_list: List[Dict[str, Union[str, int]]] = (
+        Participant.objects.filter(semester=selected_semester)
+        .exclude(allergies=None)
+        .values("id", "allergies")
+        .order_by("allergies")
     )
 
     context = {
-        "participants_by_group_labels": [status["status"] for status in participants_by_status],
+        "participants_by_group_labels": [_(status["status"]) for status in participants_by_status],
         "participants_by_group_data": [status["status_count"] for status in participants_by_status],
+        "confirmed_participants_by_food_labels": [
+            _(nutrition["nutrition"]) for nutrition in confirmed_participants_by_food
+        ],
+        "confirmed_participants_by_food_data": [
+            nutrition["nutrition_count"] for nutrition in confirmed_participants_by_food
+        ],
+        "confirmed_participants_by_gender_labels": [
+            _(gender["gender"]) for gender in confirmed_participants_by_gender
+        ],
+        "confirmed_participants_by_gender_data": [
+            gender["gender_count"] for gender in confirmed_participants_by_gender
+        ],
+        "confirmed_participants_age": get_confirmed_u18_participants_counts(selected_semester),
+        "confirmed_participants_paid": get_confirmed_paid_participants_counts(selected_semester),
+        "confirmed_participants_non_liability": get_confirmed_non_liability_counts(
+            selected_semester,
+        ),
+        "confirmed_participants_allergy_list": confirmed_participants_allergy_list,
     }
     return render(request, "fahrt/fahrt_dashboard.html", context)
 

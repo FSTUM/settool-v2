@@ -3,6 +3,7 @@ import re
 
 from django.core.mail import send_mail
 from django.db import models
+from django.http import HttpRequest
 from django.template import Template
 from django.utils import timezone
 from django.utils.deconstruct import deconstructible
@@ -99,7 +100,7 @@ class Subject(models.Model):
         return f"{self.get_degree_display()} {self.get_subject_display()}"
 
 
-def current_semester():
+def current_semester() -> Semester:
     now = timezone.now()
     year = now.year
     if now < timezone.make_aware(datetime.datetime(year, 5, 1)):
@@ -112,7 +113,8 @@ def current_semester():
     return Semester.objects.get_or_create(semester=semester, year=year)[0]
 
 
-def get_semester(request):
+def get_semester(request: HttpRequest) -> int:
+    sem: int
     try:
         sem = request.session[SEMESTER_SESSION_KEY]
     except KeyError:

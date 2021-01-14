@@ -5,12 +5,61 @@
 {% block  set_common_headercontent %}{% trans "Dashboard" %}{% endblock %}
 
 {% block set_common_content %}
-<h5 class="card-title">{% trans "Patricipants grouped by status" %}</h5>
+<h4 class='card-title'>{% trans "All participants" %}</h4>
+<h5>{% trans "Grouped by status" %}</h5>
 <div
-    class="chart-container"
-    style="position: relative; height: 40vh; width: 80vw"
+    class='container-md chart-container'
+    style='max-width: 30rem;min-width: 10rem;min-height: 30rem;'
 >
     <canvas id='participants_by_group_chart'></canvas>
+</div>
+<h4 class='card-title'>{% trans "Confirmed participants" %}</h4>
+<div class='row'>
+    <div class='col col-md'>
+        <h5>{% trans "Grouped by nutrition" %}</h5>
+        <div
+            class='container-md'
+            style='max-width: 20rem;min-width: 10rem;min-height: 30rem;'
+        >
+            <canvas id='confirmed_participants_by_food_chart'></canvas>
+        </div>
+    </div>
+    <div class='col col-md'>
+        <h5>{% trans "Grouped by gender" %}</h5>
+        <div
+            class='container-md'
+            style='max-width: 20rem;min-width: 10rem;min-height: 30rem;'
+        >
+            <canvas id='confirmed_participants_by_gender_chart'></canvas>
+        </div>
+    </div>
+    <div class='col col-md'>
+        <h5>{% trans "U18-status" %}</h5>
+        <div
+            class='container-md'
+            style='max-width: 20rem;min-width: 10rem;min-height: 30rem;'
+        >
+            <canvas id='confirmed_participants_by_age_chart'></canvas>
+        </div>
+    </div>
+    <div class='col col-md'>
+        <h5>{% trans "Payment-status" %}</h5>
+        <div
+            class='container-md'
+            style='max-width: 20rem;min-width: 10rem;min-height: 30rem;'
+        >
+            <canvas id='confirmed_participants_by_paid_chart'></canvas>
+        </div>
+    </div>
+    <div class='col col-md'>
+        <h5>{% trans "Non-Liability-status" %}</h5>
+        <div
+            class='container-md'
+            style='max-width: 20rem;min-width: 10rem;min-height: 30rem;'
+        >
+            <canvas id='confirmed_participants_by_non_liability_chart'></canvas>
+        </div>
+    </div>
 </div>
 {% endblock %}
 
@@ -18,24 +67,101 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
 <script>
     /* global Chart */
-    const ctx = document.getElementById('participants_by_group_chart').getContext('2d');
-
+    const chartOptions = { maintainAspectRatio: false };
     /* eslint no-new: off */
-    new Chart(ctx, {
+    new Chart(document.getElementById('participants_by_group_chart').getContext('2d'), {
         type: 'doughnut',
         data: {
             labels: {{ participants_by_group_labels|safe }},
             datasets: [
                 {
-                    label: 'Email Templates by sender',
                     data: {{ participants_by_group_data }},
                     backgroundColor: ['rgb(255, 99, 132)', 'rgb(54, 162, 235)', 'rgb(255, 205, 86)'],
                 },
             ],
         },
-        options: {
-            maintainAspectRatio: false,
-        },
+        options: chartOptions,
     });
+
+    /* eslint no-new: off */
+    new Chart(document.getElementById('confirmed_participants_by_food_chart').getContext('2d'), {
+        type: 'pie',
+        data: {
+            labels: {{ confirmed_participants_by_food_labels|safe }},
+            datasets: [
+                {
+                    data: {{ confirmed_participants_by_food_data }},
+                    backgroundColor: ['rgb(255, 99, 132)', 'rgb(54, 162, 235)', 'rgb(255, 205, 86)'],
+                },
+            ],
+        },
+        options: chartOptions,
+    });
+
+    /* eslint no-new: off */
+    new Chart(document.getElementById('confirmed_participants_by_gender_chart').getContext('2d'), {
+        type: 'pie',
+        data: {
+            labels: {{ confirmed_participants_by_gender_labels|safe }},
+            datasets: [
+                {
+                    data: {{ confirmed_participants_by_gender_data }},
+                    backgroundColor: ['rgb(255, 99, 132)', 'rgb(54, 162, 235)', 'rgb(255, 205, 86)'],
+                },
+            ],
+        },
+        options: chartOptions,
+    });
+
+    /* eslint no-new: off */
+    new Chart(document.getElementById('confirmed_participants_by_age_chart').getContext('2d'), {
+        type: 'pie',
+        data: {
+            labels: ['{% trans "U18" %}', '{% trans "Ü18" %}'],
+            datasets: [
+                {
+                    data: {{ confirmed_participants_age }},
+                    backgroundColor: ['rgb(255,69,0)', 'rgb(60,179,113)'],
+                },
+            ],
+        },
+        options: chartOptions,
+    });
+
+    /* eslint no-new: off */
+    new Chart(document.getElementById('confirmed_participants_by_paid_chart').getContext('2d'), {
+        type: 'pie',
+        data: {
+            labels: ['{% trans "has paid" %}', '{% trans "has NOT paid" %}'],
+            datasets: [
+                {
+                    data: {{ confirmed_participants_age }},
+                    backgroundColor: ['rgb(60,179,113)', 'rgb(255,69,0)'],
+                },
+            ],
+        },
+        options: chartOptions,
+    });
+
+    /* eslint no-new: off */
+    new Chart(
+        document.getElementById('confirmed_participants_by_non_liability_chart').getContext('2d'),
+        {
+            type: 'pie',
+            data: {
+                labels: [
+                    '{% trans "has submitted non-liability" %}',
+                    '{% trans "has NOT submitted non-liability" %}',
+                ],
+                datasets: [
+                    {
+                        data: {{ confirmed_participants_age }},
+                        backgroundColor: ['rgb(60,179,113)', 'rgb(255,69,0)'],
+                    },
+                ],
+            },
+            options: chartOptions,
+        },
+    );
 </script>
 {% endblock %}
