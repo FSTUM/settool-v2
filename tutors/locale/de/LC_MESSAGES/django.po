@@ -755,6 +755,27 @@ msgstr "Alle Abgelehnen"
 msgid "|Subject| / |Subject-Wanted|"
 msgstr "|Studiengänge| / |gewollte Studiengänge|"
 
+#: tutors/templates/tutors/tutor/list.html
+msgid "Accepted"
+msgstr "Angenommen"
+
+#: tutors/templates/tutors/tutor/list.html
+msgid "Declined"
+msgstr "Abgelehnt"
+
+#: tutors/templates/tutors/tutor/list.html
+msgid "Email-verification missing"
+msgstr "Email-Verifikation ausstehend"
+
+#: tutors/templates/tutors/tutor/list.html
+#: tutors/templates/tutors/tutor/standalone/view.html
+msgid "Open"
+msgstr "Offen"
+
+#: tutors/templates/tutors/tutor/list.html
+msgid "Employee"
+msgstr "Mitarbeiter"
+
 #: tutors/templates/tutors/tutor/mail.html
 msgid "Send email to tutors"
 msgstr "Sende Email an Tutoren"
@@ -843,12 +864,8 @@ msgid "ECTS"
 msgstr "ECTS"
 
 #: tutors/templates/tutors/tutor/standalone/view.html
-msgid "Open"
-msgstr "Offen"
-
-#: tutors/templates/tutors/tutor/standalone/view.html
 msgid "Accept"
-msgstr "Angenommen"
+msgstr "Annehmen"
 
 #: tutors/templates/tutors/tutor/standalone/view.html
 msgid "Decline"
@@ -929,12 +946,6 @@ msgstr "E-Mail Log"
 #~ msgid "Add"
 #~ msgstr "Hinzufügen"
 
-#~ msgid "Accepted"
-#~ msgstr "Angenommen"
-
-#~ msgid "Declined"
-#~ msgstr "Abgelehnt"
-
 #~ msgid "Inactive"
 #~ msgstr "Email-Verifikation ausstehend"
 
@@ -958,9 +969,6 @@ msgstr "E-Mail Log"
 
 #~ msgid "declined"
 #~ msgstr "Abgelehnt"
-
-#~ msgid "inactive"
-#~ msgstr "Email-Verifikation ausstehend"
 
 #~ msgid "YES"
 #~ msgstr "Ja"
