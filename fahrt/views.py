@@ -172,6 +172,7 @@ def list_confirmed(request):
     places = places["places"] or 0
 
     context = {
+        "nutritions": get_nutritunal_information(participants, semester),
         "participants": participants,
         "number": number,
         "non_liability": participants.filter(
@@ -186,6 +187,30 @@ def list_confirmed(request):
         "proportion_of_women": proportion_of_women,
     }
     return render(request, "fahrt/participants/list_confirmed.html", context)
+
+
+def get_nutritunal_information(
+    participants: QuerySet[Participant],
+    semester: Semester,
+) -> List[Dict[str, object]]:
+    nutrition_choices = [
+        choice["nutrition"]
+        for choice in semester.fahrt_participant.filter(status="confirmed")
+        .values("nutrition")
+        .distinct()
+    ]
+    return [
+        (
+            {
+                "name": choice,
+                "count": str(participants.filter(nutrition=choice).count()),
+                "allergies": participants.filter(nutrition=choice)
+                .exclude(allergies="")
+                .values("allergies"),
+            }
+        )
+        for choice in nutrition_choices
+    ]
 
 
 @permission_required("fahrt.view_participants")

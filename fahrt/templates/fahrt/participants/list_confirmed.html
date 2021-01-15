@@ -7,13 +7,49 @@
     $(document).ready(() => {
         $('#fahrtTable').DataTable();
     });
+    $(document).ready(() => {
+        $('#foodTable').DataTable({
+            searching: false,
+            columnDefs: [{ targets: 2, orderable: false }],
+            paging: false,
+        });
+    });
 </script>
 {% endblock %}
 
 {% block set_common_headercontent %}{% trans "List confirmed participants" %}{% endblock %}
 
 {% block set_common_content %}
+<h4 class='card-title'>{% trans "Nutritional information about the participants" %}</h4>
 <div class="table-responsive">
+    <table
+        id="foodTable"
+        class="table dataTable"
+    >
+        <thead>
+            <tr>
+                <th>{% trans "Nutrition" %}</th>
+                <th>{% trans "Count" %}</th>
+                <th>{% trans "Allergies" %}</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for nutrition in nutritions %}
+            <tr>
+                <td>{{ nutrition.name }}</td>
+                <td>{{ nutrition.count }}</td>
+                <td>
+                    {% for allergy in nutrition.allergies %}
+                    {{ allergy.allergies }}<br>
+                    {% endfor %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+<h4 class='card-title'>{% trans "Participants" %}</h4>
+<div class="table-responsive mt-3">
     <table
         id="fahrtTable"
         class="table dataTable"

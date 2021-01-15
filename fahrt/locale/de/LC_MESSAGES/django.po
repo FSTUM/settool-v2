@@ -172,7 +172,7 @@ msgstr "Handy"
 msgid "Subject"
 msgstr "Betreff"
 
-#: fahrt/models.py
+#: fahrt/models.py fahrt/templates/fahrt/participants/list_confirmed.html
 #: fahrt/templates/fahrt/participants/view_participant_details.html
 msgid "Nutrition"
 msgstr "Essen"
@@ -273,6 +273,7 @@ msgid "Change date"
 msgstr "Datum ändern"
 
 #: fahrt/templates/fahrt/base_fahrt.html
+#: fahrt/templates/fahrt/participants/list_confirmed.html
 msgid "Participants"
 msgstr "Teilnehmer"
 
@@ -490,6 +491,14 @@ msgstr "Abgesagte Teilnehmer auflisten"
 #: fahrt/templates/fahrt/participants/list_confirmed.html
 msgid "List confirmed participants"
 msgstr "Bestätigte Teilnehmer auflisten"
+
+#: fahrt/templates/fahrt/participants/list_confirmed.html
+msgid "Nutritional information about the participants"
+msgstr "Ernährungsinformationen über die Teilnehmen"
+
+#: fahrt/templates/fahrt/participants/list_confirmed.html
+msgid "Count"
+msgstr "Anzahl"
 
 #: fahrt/templates/fahrt/participants/list_confirmed.html
 msgid "Paid/Payment deadline"
