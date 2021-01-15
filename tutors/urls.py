@@ -16,6 +16,23 @@ urlpatterns = [
         name="tutor_dashboard",
     ),
     path(
+        "collaborator/",
+        include(
+            [
+                path(
+                    "signup/",
+                    views.collaborator_signup,
+                    name="collaborator_signup",
+                ),
+                path(
+                    "signup/success/",
+                    views.collaborator_signup_success,
+                    name="collaborator_signup_success",
+                ),
+            ],
+        ),
+    ),
+    path(
         "tutor/",
         include(
             [
@@ -79,7 +96,7 @@ urlpatterns = [
                                 name="tutor_list_status_inactive",
                             ),
                             path(
-                                "employee/",
+                                "collaborator/",
                                 views.tutor_list,
                                 {"status": "employee"},
                                 name="tutor_list_status_employee",

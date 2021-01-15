@@ -59,52 +59,19 @@ def tutor_signup(request):
     if not settings.open_registration < timezone.now() < settings.close_registration:
         return render(
             request,
-            "tutors/tutor/standalone/registration_closed.html",
+            "tutors/standalone/tutor_signup/registration_closed.html",
             {
                 "start": settings.open_registration,
                 "end": settings.close_registration,
             },
         )
 
-    questions = Question.objects.filter(semester=semester)
-    question_count = questions.count()
-    answers_new = []
-    for question in questions:
-        answers_new.append(Answer(question=question))
-
-    # pylint: disable=invalid-name
-    AnswerFormSet = modelformset_factory(
-        Answer,
-        form=AnswerForm,
-        min_num=question_count,
-        validate_min=True,
-        max_num=question_count,
-        validate_max=True,
-        can_delete=False,
-        can_order=False,
-        extra=0,
-    )
-
-    initial_data = [{"question": a.question.id, "answer": a.answer} for a in answers_new]
-    if request.method == "POST":
-        answer_formset = AnswerFormSet(
-            request.POST,
-            request.FILES,
-            queryset=Answer.objects.none(),
-            initial=initial_data,
-        )
-    else:
-        answer_formset = AnswerFormSet(queryset=Answer.objects.none(), initial=initial_data)
-
+    answer_formset = generate_answer_formset(request, semester)
     form = TutorForm(request.POST or None, semester=semester)
     if form.is_valid() and answer_formset.is_valid():
         tutor = form.save()
-        answer: AnswerForm
-        for answer in answer_formset:
-            res = answer.save(commit=False)
-            res.tutor_id = tutor.id
-            res.save()
         tutor.log(None, "Signed up")
+        save_answer_formset(answer_formset, tutor.id)
 
         context = Context(
             {
@@ -114,7 +81,6 @@ def tutor_signup(request):
                         "tutor_signup_confirm",
                         kwargs={
                             "uidb64": urlsafe_base64_encode(force_bytes(tutor.pk)),
-                            # 'uidb64': urlsafe_base64_encode(force_bytes(tutor.pk)).decode(),
                             "token": account_activation_token.make_token(tutor),
                         },
                     ),
@@ -141,19 +107,92 @@ def tutor_signup(request):
         "answer_formset": answer_formset,
         "form": form,
     }
-    return render(request, "tutors/tutor/standalone/signup.html", context)
+    return render(request, "tutors/standalone/tutor_signup/signup.html", context)
+
+
+def save_answer_formset(answer_formset, tutor_id):
+    answer: AnswerForm
+    for answer in answer_formset:
+        res = answer.save(commit=False)
+        res.tutor_id = tutor_id
+        res.save()
+
+
+def collaborator_signup(request):
+    semester = get_object_or_404(Semester, pk=get_semester(request))
+    settings = get_object_or_404(Settings, semester=semester)
+
+    if not settings.open_registration < timezone.now() < settings.close_registration:
+        return render(
+            request,
+            "tutors/standalone/collaborator_signup/registration_closed.html",
+            {
+                "start": settings.open_registration,
+                "end": settings.close_registration,
+            },
+        )
+
+    answer_formset = generate_answer_formset(request, semester)
+    form = TutorForm(request.POST or None, semester=semester)
+    if form.is_valid() and answer_formset.is_valid():
+        collaborator: Tutor = form.save(commit=False)
+        collaborator.status = Tutor.STATUS_EMPLOYEE
+        collaborator.save()
+        collaborator.log(None, "Signed up")
+        save_answer_formset(answer_formset, collaborator.id)
+        return redirect("collaborator_signup_success")
+
+    context = {
+        "semester": semester,
+        "answer_formset": answer_formset,
+        "form": form,
+    }
+    return render(request, "tutors/standalone/collaborator_signup/signup.html", context)
+
+
+def generate_answer_formset(request, semester):
+    questions = Question.objects.filter(semester=semester)
+    question_count = questions.count()
+    answers_new = []
+    for question in questions:
+        answers_new.append(Answer(question=question))
+    # pylint: disable=invalid-name
+    AnswerFormSet = modelformset_factory(
+        Answer,
+        form=AnswerForm,
+        min_num=question_count,
+        validate_min=True,
+        max_num=question_count,
+        validate_max=True,
+        can_delete=False,
+        can_order=False,
+        extra=0,
+    )
+    initial_data = [{"question": a.question.id, "answer": a.answer} for a in answers_new]
+    if request.method == "POST":
+        return AnswerFormSet(
+            request.POST,
+            request.FILES,
+            queryset=Answer.objects.none(),
+            initial=initial_data,
+        )
+    return AnswerFormSet(queryset=Answer.objects.none(), initial=initial_data)
+
+
+def collaborator_signup_success(request):
+    return render(request, "tutors/standalone/collaborator_signup/success.html")
 
 
 def tutor_signup_success(request):
-    return render(request, "tutors/tutor/standalone/success.html")
+    return render(request, "tutors/standalone/tutor_signup/success.html")
 
 
 def tutor_signup_invalid(request):
-    return render(request, "tutors/tutor/standalone/invalid.html")
+    return render(request, "tutors/standalone/tutor_signup/invalid.html")
 
 
 def tutor_signup_confirmation_required(request):
-    return render(request, "tutors/tutor/standalone/confirmation_required.html")
+    return render(request, "tutors/standalone/tutor_signup/confirmation_required.html")
 
 
 def tutor_signup_confirm(request, uidb64, token):
@@ -188,7 +227,7 @@ def tutor_list(request, status):
 
 def tutor_view(request, uid):
     tutor = get_object_or_404(Tutor, pk=uid)
-    return render(request, "tutors/tutor/standalone/view.html", {"tutor": tutor})
+    return render(request, "tutors/tutor/view.html", {"tutor": tutor})
 
 
 @permission_required("tutors.edit_tutors")
@@ -531,15 +570,7 @@ def task_mail(request, uid, template=None):
     else:
         template = get_object_or_404(Mail, pk=template, sender=Mail.SET_TUTOR)
 
-    tutor_data = {}
-    for name, field in [
-        (x.name, x) for x in Tutor._meta.fields if x.name not in ["semester", "subject"]
-    ]:
-        if field.get_internal_type() == "CharField":
-            tutor_data[name] = f"<{name}>"
-        else:
-            tutor_data[name] = field.default
-
+    tutor_data = extract_tutor_data()
     tutor = Tutor(**tutor_data)
 
     context = Context(
@@ -797,13 +828,12 @@ def tutor_mail(request, status="all", template=None, uid=None):
 
 def extract_tutor_data() -> Dict[str, str]:
     tutor_data = {}
-    for name, field in [
-        (x.name, x) for x in Tutor._meta.fields if x.name not in ["semester", "subject"]
-    ]:
-        if field.get_internal_type() == "CharField":
-            tutor_data[name] = f"<{name}>"
-        else:
-            tutor_data[name] = field.default
+    for field in Tutor._meta.fields:
+        if field.name not in ["semester", "subject"]:
+            if field.get_internal_type() == "CharField":
+                tutor_data[field.name] = f"<{field.name}>"
+            else:
+                tutor_data[field.name] = field.default
     return tutor_data
 
 

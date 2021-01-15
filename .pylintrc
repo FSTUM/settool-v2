@@ -10,6 +10,7 @@ disable=print-statement,
         missing-class-docstring, # too much work
         too-many-locals, # with existing codebase this in views this would require a lot of work and introduce some bugs
         too-many-ancestors, # django has a extensive inheritance structure, thus too much signal to noise
+        too-many-lines, # views sometimes get really long.. splitting into multiple files is soemthing for the Future
         line-too-long, # we have another hook for this
         wrong-import-position, # we have another hook for this
         no-member, # mypy does this job with less false positives
