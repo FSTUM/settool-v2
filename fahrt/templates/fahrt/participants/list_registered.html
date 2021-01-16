@@ -35,15 +35,15 @@
                 <td><a href="{% url "fahrt_viewparticipant" participant.id %}">{{ participant.surname }}</a></td>
                 <td>{{ participant.registration_time }}</td>
                 <td>
-                    {% include "true_false_span.html" with value=participant.car %}
+                    {% include "snippets/true_false_span.html" with value=participant.car %}
                     {% if participant.car %}
                     {% blocktranslate trimmed with additional_seats=participant.car_places %}
                     {{ additional_seats }} additional seats
                     {% endblocktranslate %}
                     {% endif %}
                 </td>
-                <td>{% include "true_false_span.html" with value=participant.u18 inverted_colors=True %}</td>
-                <td>{% include "true_false_span.html" with value=participant.allergies inverted_colors=True %}</td>
+                <td>{% include "snippets/true_false_span.html" with value=participant.u18 inverted_colors=True %}</td>
+                <td>{% include "snippets/true_false_span.html" with value=participant.allergies inverted_colors=True %}</td>
             </tr>
             {% endfor %}
         </tbody>
