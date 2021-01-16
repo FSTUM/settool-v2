@@ -52,9 +52,7 @@ class TutorAdminForm(SemesterBasedModelForm):
 class TutorForm(TutorAdminForm):
     dsgvo = forms.BooleanField(
         required=True,
-        label=_(
-            "I accept the terms and conditions of the following privacy " "policy:",
-        ),
+        label=_("I accept the terms and conditions of the following privacy policy:"),
     )
 
     class Meta:
