@@ -2,6 +2,7 @@
 ignore=migrations
 jobs=0
 load-plugins=pylint_django
+django-settings-module=settool.settings
 
 [MESSAGES CONTROL]
 disable=print-statement,
