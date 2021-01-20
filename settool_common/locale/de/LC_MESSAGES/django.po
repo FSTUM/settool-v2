@@ -120,6 +120,10 @@ msgid "SET_TUTOR"
 msgstr "SET_TUTOR"
 
 #: settool_common/models.py
+msgid "SET_BAGS"
+msgstr "SET_BAGS"
+
+#: settool_common/models.py
 #: settool_common/templates/settool_common/mail/send_email_confirmation.html
 #: settool_common/templates/settool_common/mail/send_email_failure.html
 msgid "From"

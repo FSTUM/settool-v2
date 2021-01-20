@@ -133,10 +133,12 @@ class Mail(models.Model):
     SET = "SET-Team <set@fs.tum.de>"
     SET_FAHRT = "SET-Fahrt-Team <setfahrt@fs.tum.de>"
     SET_TUTOR = "SET-Tutor-Team <set-tutoren@fs.tum.de>"
+    SET_BAGS = "Sponsoring-Team des SET-Referats <set-tueten@fs.tum.de>"
     FROM_CHOICES = (
         (SET, _("SET")),
         (SET_FAHRT, _("SET_FAHRT")),
         (SET_TUTOR, _("SET_TUTOR")),
+        (SET_BAGS, _("SET_BAGS")),
     )
 
     sender = models.CharField(
