@@ -160,8 +160,6 @@ class Mail(models.Model):
     def __str__(self):
         return self.subject
 
-    FROM_MAIL = ""
-
     def get_mail(self, context):
         subject_template = Template(self.subject)
         subject = subject_template.render(context).rstrip()
@@ -169,7 +167,7 @@ class Mail(models.Model):
         text_template = Template(self.text)
         text = text_template.render(context)
 
-        return subject, text, Mail.FROM_MAIL
+        return subject, text, self.sender
 
     def send_mail(self, context, recipient):
         subject_template = Template(self.subject)
@@ -184,5 +182,5 @@ class Mail(models.Model):
 
         if subject_matches is not None or text_matches is not None:
             return False
-        send_mail(subject, text, Mail.FROM_MAIL, [recipient], fail_silently=False)
+        send_mail(subject, text, self.sender, [recipient], fail_silently=False)
         return True

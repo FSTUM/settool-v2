@@ -3,6 +3,7 @@ from django.db import models
 from django.template import engines
 from django.utils.translation import ugettext_lazy as _
 
+import settool_common.models as common_models
 from settool_common.models import Semester
 
 
@@ -127,7 +128,7 @@ class Company(models.Model):
 
 
 class Mail(models.Model):
-    FROM_MAIL = "Sponsoring Team des SET-Referats <set-tueten@fs.tum.de>"
+    sender = common_models.Mail.SET_BAGS
     semester = models.ForeignKey(
         Semester,
         on_delete=models.CASCADE,
@@ -172,7 +173,7 @@ class Mail(models.Model):
         text_template = django_engine.from_string(self.text)
         text = text_template.render(context)
 
-        return subject, text, Mail.FROM_MAIL
+        return subject, text, self.sender
 
     def send_mail(self, company):
         # text from templates
@@ -191,7 +192,7 @@ class Mail(models.Model):
         send_mail(
             subject,
             text,
-            Mail.FROM_MAIL,
+            self.sender,
             [company.email],
             fail_silently=False,
         )
