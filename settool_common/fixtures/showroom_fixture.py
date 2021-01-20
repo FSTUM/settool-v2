@@ -16,13 +16,15 @@ import tutors.models
 from settool_common.fixtures.test_fixture import generate_semesters
 
 
-def showroom_fixture_state():  # nosec: this is only used in a fixture
+def showroom_fixture_state():
     confirmation = input(
         "Do you really want to load the showroom fixture? (This will flush the database) [y/n]",
     )
     if confirmation.lower() != "y":
         return
 
+
+def showroom_fixture_state_no_confirmation():  # nosec: this is only used in a fixture
     run(["python3", "manage.py", "flush", "--noinput"], check=True)
 
     # user
@@ -31,7 +33,7 @@ def showroom_fixture_state():  # nosec: this is only used in a fixture
     # app settool-common
     common_semesters = generate_semesters()
     common_subjects = _generate_subjects()
-    _generate_common_mails(common_semesters)
+    generate_common_mails(common_semesters)
 
     # app bags
     _generate_companies(common_semesters)
@@ -387,7 +389,7 @@ def _generate_questions(semesters):  # nosec: this is only used in a fixture
     return questions
 
 
-def _generate_common_mails(  # nosec: this is only used in a fixture
+def generate_common_mails(  # nosec: this is only used in a fixture
     semesters: List[settool_common.models.Semester],
 ) -> None:
     for author in settool_common.models.Mail.FROM_CHOICES:
