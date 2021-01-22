@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block content %}
+<div class="card text-white bg-success">
+    <div class="card-header">
+        {% trans "You successfully signed up as SET-Collaborator" %}
+    </div>
+    <div class="card-body">
+        {% trans "You will get all further information by email. This may take some time, because we manually check your registration." %}
+    </div>
+</div>
+{% endblock %}

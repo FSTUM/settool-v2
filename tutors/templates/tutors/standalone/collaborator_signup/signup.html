@@ -5,7 +5,7 @@
 {% block content %}
 <div class="card">
     <div class="card-header">
-        {% trans "Sign up for SET-Tutor" %}
+        {% trans "Sign up for SET-Collaborator" %}
     </div>
     <div class="card-body">
         <hr>
@@ -18,9 +18,7 @@
             <div class="row">
                 <div class="col-lg-12">
                     {% bootstrap_form form %}
-                    <div class="well">
-                        {% trans "tutors_privacy_policy" %}
-                    </div>
+                    {% include "privacy_policies/colaborator_privacy_policy.html" %}
                 </div>
             </div>
 

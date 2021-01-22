@@ -3,6 +3,7 @@ import re
 
 from django.core.mail import send_mail
 from django.db import models
+from django.http import HttpRequest
 from django.template import Template
 from django.utils import timezone
 from django.utils.deconstruct import deconstructible
@@ -99,7 +100,7 @@ class Subject(models.Model):
         return f"{self.get_degree_display()} {self.get_subject_display()}"
 
 
-def current_semester():
+def current_semester() -> Semester:
     now = timezone.now()
     year = now.year
     if now < timezone.make_aware(datetime.datetime(year, 5, 1)):
@@ -112,7 +113,8 @@ def current_semester():
     return Semester.objects.get_or_create(semester=semester, year=year)[0]
 
 
-def get_semester(request):
+def get_semester(request: HttpRequest) -> int:
+    sem: int
     try:
         sem = request.session[SEMESTER_SESSION_KEY]
     except KeyError:
@@ -131,10 +133,12 @@ class Mail(models.Model):
     SET = "SET-Team <set@fs.tum.de>"
     SET_FAHRT = "SET-Fahrt-Team <setfahrt@fs.tum.de>"
     SET_TUTOR = "SET-Tutor-Team <set-tutoren@fs.tum.de>"
+    SET_BAGS = "Sponsoring-Team des SET-Referats <set-tueten@fs.tum.de>"
     FROM_CHOICES = (
         (SET, _("SET")),
         (SET_FAHRT, _("SET_FAHRT")),
         (SET_TUTOR, _("SET_TUTOR")),
+        (SET_BAGS, _("SET_BAGS")),
     )
 
     sender = models.CharField(
@@ -155,10 +159,17 @@ class Mail(models.Model):
         help_text=_("You may use placeholders for the text."),
     )
 
-    def __str__(self):
-        return self.subject
+    comment = models.CharField(
+        _("Comment"),
+        max_length=200,
+        default="",
+        blank=True,
+    )
 
-    FROM_MAIL = ""
+    def __str__(self):
+        if self.comment:
+            return f"{self.subject} ({self.comment})"
+        return str(self.subject)
 
     def get_mail(self, context):
         subject_template = Template(self.subject)
@@ -167,7 +178,7 @@ class Mail(models.Model):
         text_template = Template(self.text)
         text = text_template.render(context)
 
-        return subject, text, Mail.FROM_MAIL
+        return subject, text, self.sender
 
     def send_mail(self, context, recipient):
         subject_template = Template(self.subject)
@@ -182,5 +193,5 @@ class Mail(models.Model):
 
         if subject_matches is not None or text_matches is not None:
             return False
-        send_mail(subject, text, Mail.FROM_MAIL, [recipient], fail_silently=False)
+        send_mail(subject, text, self.sender, [recipient], fail_silently=False)
         return True

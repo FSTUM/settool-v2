@@ -12,7 +12,7 @@ urlpatterns = [
     ),  # due to active_link
     path(
         "dashboard/",
-        views.index,
+        views.fahrt_dashboard,
         name="fahrt_index",
     ),
     path(

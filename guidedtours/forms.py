@@ -11,9 +11,7 @@ from .models import Tour
 class ParticipantForm(forms.ModelForm):
     dsgvo = forms.BooleanField(
         required=True,
-        label=_(
-            "I accept the terms and conditions of the following privacy " "policy:",
-        ),
+        label=_("I accept the terms and conditions of the following privacy policy:"),
     )
 
     class Meta:

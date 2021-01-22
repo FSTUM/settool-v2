@@ -123,7 +123,13 @@
                 <td>{{ tutor.task_set.count }}</td>
                 {% endif %}
                 {% if status == "all" %}
-                <td>{% trans tutor.status %}</td>
+                {% if tutor.status == "accepted" %}<td class="table-success">{% trans "Accepted" %}</td>
+                {% elif tutor.status == "declined" %}<td class="table-danger">{% trans "Declined" %}</td>
+                {% elif  tutor.status == "inactive" %}<td class="table-warning">{% trans "Email-verification missing" %}</td>
+                {% elif  tutor.status == "active" %}<td class="table-secondary">{% trans "Open" %}</td>
+                {% elif  tutor.status == "employee" %}<td class="table-info">{% trans "Collaborator" %}</td>
+                {% else %}<td>?</td>
+                {% endif %}
                 {% endif %}
                 <td data-text="{{ tutor.registration_time|date:"Y-m-d H:i" }}">{{ tutor.registration_time }}</td>
                 {% if status == "active" %}

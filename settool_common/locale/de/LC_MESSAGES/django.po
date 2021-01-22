@@ -22,6 +22,14 @@ msgstr ""
 msgid "Email template:"
 msgstr "E-Mail Template:"
 
+#: settool_common/forms.py
+msgid ""
+"Upload a csv-file in exel-formatting. (Column-order: sender,subject,text,"
+"comment. First line is header.)"
+msgstr ""
+"Lade eine CSV-Datei im exel-Format hoch. (Spalten-ordnung: sender,subject,"
+"text,comment. Die erste Zeile ist der header.)"
+
 #: settool_common/models.py
 msgid "Winter semester"
 msgstr "Wintersemester"
@@ -120,6 +128,10 @@ msgid "SET_TUTOR"
 msgstr "SET_TUTOR"
 
 #: settool_common/models.py
+msgid "SET_BAGS"
+msgstr "SET_BAGS"
+
+#: settool_common/models.py
 #: settool_common/templates/settool_common/mail/send_email_confirmation.html
 #: settool_common/templates/settool_common/mail/send_email_failure.html
 msgid "From"
@@ -148,6 +160,13 @@ msgstr "Text"
 msgid "You may use placeholders for the text."
 msgstr "Du kannst Platzhalter für den Text verwenden."
 
+#: settool_common/models.py
+#: settool_common/templates/settool_common/mail/send_email_confirmation.html
+#: settool_common/templates/settool_common/mail/send_email_failure.html
+#: settool_common/templates/settool_common/settings/list_email_templates.html
+msgid "Comment"
+msgstr "Kommentar"
+
 #: settool_common/templates/settool_common/mail/send_email_confirmation.html
 #: settool_common/templates/settool_common/mail/send_email_failure.html
 msgid "Send email"
@@ -164,6 +183,7 @@ msgstr ""
 #: settool_common/templates/settool_common/settings/add_email.html
 #: settool_common/templates/settool_common/settings/delete_email.html
 #: settool_common/templates/settool_common/settings/edit_email.html
+#: settool_common/templates/settool_common/settings/import_email.html
 msgid "Cancel"
 msgstr "Abbrechen"
 
@@ -191,11 +211,6 @@ msgstr "Nachname"
 #: settool_common/templates/settool_common/mail/send_email_failure.html
 msgid "Status"
 msgstr "Status"
-
-#: settool_common/templates/settool_common/mail/send_email_confirmation.html
-#: settool_common/templates/settool_common/mail/send_email_failure.html
-msgid "Comment"
-msgstr "Kommentar"
 
 #: settool_common/templates/settool_common/mail/send_email_failure.html
 msgid ""
@@ -244,9 +259,37 @@ msgstr "E-Mail Details"
 msgid "Back"
 msgstr "Zurück"
 
+#: settool_common/templates/settool_common/settings/import_email.html
+msgid "Import emails"
+msgstr "Emails importieren"
+
+#: settool_common/templates/settool_common/settings/import_email.html
+msgid "Preview"
+msgstr "Vorschau"
+
+#: settool_common/templates/settool_common/settings/import_email.html
+msgid "Preview emails"
+msgstr "Vorschau der E-Mails"
+
+#: settool_common/templates/settool_common/settings/import_email.html
+msgid "Upload and replace all emails"
+msgstr "Emails hochladen und alle bestehenden ersetzen"
+
 #: settool_common/templates/settool_common/settings/list_email_templates.html
 msgid "List email templates"
 msgstr "E-Mail-Vorlagen auflisten"
+
+#: settool_common/templates/settool_common/settings/list_email_templates.html
+msgid "Export e-mails as CSV"
+msgstr "Exporte alle Emails als CSV-Datei"
+
+#: settool_common/templates/settool_common/settings/list_email_templates.html
+msgid "Override e-mails from CSV"
+msgstr "Überschreibe alle Emails von einer CSV-Datei"
+
+#: settool_common/templates/settool_common/settings/list_email_templates.html
+msgid "Sender"
+msgstr "Sender"
 
 #: settool_common/templates/settool_common/settings/list_email_templates.html
 msgid "EMail Subject"
@@ -268,20 +311,18 @@ msgstr "Einstellungsdashboard"
 msgid "Email-templates by sender"
 msgstr "E-Mail-Vorlagen nach Sender"
 
+#: settool_common/views.py
+msgid "The File was successfully uploaded"
+msgstr "Diese Datei wurde erfolgreich ge-uploaded"
+
 #~ msgid "Submit"
 #~ msgstr "Eintragen"
-
-#~ msgid "Delete email"
-#~ msgstr "E-Mail löschen"
 
 #~ msgid "Delete"
 #~ msgstr "Löschen"
 
 #~ msgid "Edit"
 #~ msgstr "Bearbeiten"
-
-#~ msgid "Send"
-#~ msgstr "Senden"
 
 #~ msgid "Hello %(username)s!"
 #~ msgstr "Hallo %(username)s!"

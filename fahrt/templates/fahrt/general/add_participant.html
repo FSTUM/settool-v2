@@ -13,9 +13,7 @@
     <div class="row">
         <div class="col-xs-12 col-lg-5">
             {% bootstrap_form form %}
-            <div class="well">
-                {% trans "fahrt_privacy_policy" %}
-            </div>
+            {% include "privacy_policies/fahrt_privacy_policy.html" %}
         </div>
     </div>
 

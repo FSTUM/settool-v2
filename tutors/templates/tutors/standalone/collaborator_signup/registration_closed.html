@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load bootstrap4 %}
+
+{% block content %}
+<div class="card">
+    <div class="card-header">
+        {% trans "Sign up for SET-Collaborator" %}
+    </div>
+    <div class="card-body">
+        <h1>
+            {% trans "The SET-Collaborator registration is currently not open." %}
+        </h1>
+        <p>
+            {% blocktranslate trimmed %}
+            The registration is possible between {{ start }} and {{ end }}.
+            {% endblocktranslate %}
+        </p>
+    </div>
+</div>
+{% endblock %}

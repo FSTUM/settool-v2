@@ -10,6 +10,16 @@
     href="{% url 'tutor_dashboard' %}"
 >{% trans "Dashboard" %}</a>
 
+<h4 class="navbar-text">{% trans "Sign up" %}</h4>
+<a
+    class="nav-link {% active_link 'collaborator_signup' %}"
+    href="{% url 'collaborator_signup' %}"
+>{% trans "Go to Collaborator-Sign-Up" %}</a>
+<a
+    class="nav-link {% active_link 'tutor_signup' %}"
+    href="{% url 'tutor_signup' %}"
+>{% trans "Go to Tutor-Sign-Up" %}</a>
+
 <h4 class="navbar-text">{% trans "Events" %}</h4>
 <a
     class="nav-link {% active_link 'event_list' %}"
@@ -54,7 +64,7 @@
 <a
     class="nav-link {% active_link 'tutor_list_status_employee' %}"
     href="{% url 'tutor_list_status_employee' %}"
->{% trans "List employees" %}</a>
+>{% trans "List Collaborators" %}</a>
 
 <h4 class="navbar-text">{% trans "Requirements" %}</h4>
 <a

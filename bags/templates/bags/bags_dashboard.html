@@ -21,9 +21,9 @@
 
     const displayTrueFalse = (value, _, response) => {
         if (value === 'True') {
-            $(response).html(`{% include "true_false_span.html" with value=True%}`);
+            $(response).html(`{% include "snippets/true_false_span.html" with value=True%}`);
         } else if (value === 'False') {
-            $(response).html(`{% include "true_false_span.html" with value=False%}`);
+            $(response).html(`{% include "snippets/true_false_span.html" with value=False%}`);
         } else {
             $(response).empty();
         }
@@ -31,7 +31,7 @@
 
     const displayTrueFalseNone = (value, _, response) => {
         if (value === 'None') {
-            $(response).html(`{% include "true_false_none_span.html" with value=None %}`);
+            $(response).html(`{% include "snippets/true_false_none_span.html" with value=None %}`);
         } else {
             displayTrueFalse(value, _, response);
         }
@@ -39,7 +39,7 @@
 
     const displayTrueFalseFailure = (value, _, response) => {
         if (value === 'Failure') {
-            $(response).html(`{% include "true_false_none_span.html" with value="Failure" %}`);
+            $(response).html(`{% include "snippets/true_false_none_span.html" with value="Failure" %}`);
         } else {
             displayTrueFalse(value, _, response);
         }
@@ -237,9 +237,9 @@
                                 data-url='{% url "updatecompany" company.id "email_sent" %}'
                                 data-params="{csrfmiddlewaretoken:'{{ csrf_token }}'}"
                             >{% if not company.email_sent_success and company.email_sent %}
-                                {% include "true_false_none_span.html" with value="Failure" %}
+                                {% include "snippets/true_false_none_span.html" with value="Failure" %}
                                 {% else %}
-                                {% include "true_false_none_span.html" with value=company.email_sent %}
+                                {% include "snippets/true_false_none_span.html" with value=company.email_sent %}
                                 {% endif %}</a>
                         </td>
                         <td>
@@ -251,7 +251,7 @@
                                 data-title='{% trans "Promise" %}'
                                 data-url='{% url "updatecompany" company.id "promise" %}'
                                 data-params="{csrfmiddlewaretoken:'{{ csrf_token }}'}"
-                            >{% include "true_false_none_span.html" with value=company.promise %}</a>
+                            >{% include "snippets/true_false_none_span.html" with value=company.promise %}</a>
                         </td>
                         <td>
                             <a
@@ -284,7 +284,7 @@
                                 data-title='{% trans "Arrived" %}'
                                 data-url='{% url "updatecompany" company.id "arrived" %}'
                                 data-params="{csrfmiddlewaretoken:'{{ csrf_token }}'}"
-                            >{% include "true_false_span.html" with value=company.arrived %}</a>
+                            >{% include "snippets/true_false_span.html" with value=company.arrived %}</a>
                         </td>
                         <td>
                             <a
@@ -295,7 +295,7 @@
                                 data-title='{% trans "Participated last year" %}'
                                 data-url='{% url "updatecompany" company.id "last_year" %}'
                                 data-params="{csrfmiddlewaretoken:'{{ csrf_token }}'}"
-                            >{% include "true_false_span.html" with value=company.last_year %}</a>
+                            >{% include "snippets/true_false_span.html" with value=company.last_year %}</a>
                         </td>
                         <td>
                             <a
@@ -317,7 +317,7 @@
                                 data-title='{% trans "Enter contact again" %}'
                                 data-url='{% url "updatecompany" company.id "contact_again" %}'
                                 data-params="{csrfmiddlewaretoken:'{{ csrf_token }}'}"
-                            >{% include "true_false_none_span.html" with value=company.contact_again %}</a>
+                            >{% include "snippets/true_false_none_span.html" with value=company.contact_again %}</a>
                         </td>
                         <td>
                             <a href="{% url "editcompany" company.id %}"><span class="bi bi-pencil-square"></span></a>

@@ -76,14 +76,14 @@
                     <td><a href="{% url "viewcompany" company.id %}">{{ company.name }}</a></td>
                     <td>{{ company.full_contact }}</td>
                     <td>{{ company.email }}</td>
-                    <td>{% include "true_false_span.html" with value=company.email_sent %}</td>
-                    <td>{% include "true_false_span.html" with value=company.email_sent_success %}</td>
-                    <td>{% include "true_false_none_span.html" with value=company.promise %}</td>
+                    <td>{% include "snippets/true_false_span.html" with value=company.email_sent %}</td>
+                    <td>{% include "snippets/true_false_span.html" with value=company.email_sent_success %}</td>
+                    <td>{% include "snippets/true_false_none_span.html" with value=company.promise %}</td>
                     <td>{{ company.giveaways }}</td>
                     <td>{{ company.arrival_time }}</td>
-                    <td>{% include "true_false_span.html" with value=company.last_year %}</td>
-                    <td>{% include "true_false_span.html" with value=company.arrived %}</td>
-                    <td>{% include "true_false_none_span.html" with value=company.contact_again %}</td>
+                    <td>{% include "snippets/true_false_span.html" with value=company.last_year %}</td>
+                    <td>{% include "snippets/true_false_span.html" with value=company.arrived %}</td>
+                    <td>{% include "snippets/true_false_none_span.html" with value=company.contact_again %}</td>
                     <td>{{ company.comment }}</td>
                     <td>
                         <a href="{% url "editcompany" company.id %}"><span class="bi bi-pencil-square"></span></a>

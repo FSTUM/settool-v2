@@ -172,7 +172,7 @@ msgstr "Handy"
 msgid "Subject"
 msgstr "Betreff"
 
-#: fahrt/models.py
+#: fahrt/models.py fahrt/templates/fahrt/participants/list_confirmed.html
 #: fahrt/templates/fahrt/participants/view_participant_details.html
 msgid "Nutrition"
 msgstr "Essen"
@@ -273,6 +273,7 @@ msgid "Change date"
 msgstr "Datum ändern"
 
 #: fahrt/templates/fahrt/base_fahrt.html
+#: fahrt/templates/fahrt/participants/list_confirmed.html
 msgid "Participants"
 msgstr "Teilnehmer"
 
@@ -281,6 +282,7 @@ msgid "Registered participants"
 msgstr "Registrierte Teilnehmer"
 
 #: fahrt/templates/fahrt/base_fahrt.html
+#: fahrt/templates/fahrt/fahrt_dashboard.html
 msgid "Confirmed participants"
 msgstr "Bestätigte Teilnehmer"
 
@@ -310,35 +312,64 @@ msgid "Add email template"
 msgstr "E-Mail-Vorlage hinzufügen"
 
 #: fahrt/templates/fahrt/fahrt_dashboard.html
-msgid "Patricipants by status"
-msgstr "Teilnehmer grupiert nach Status"
+msgid "All participants"
+msgstr "Alle Teilnehmer"
+
+#: fahrt/templates/fahrt/fahrt_dashboard.html
+msgid "Grouped by status"
+msgstr "Gruppiert nach Status"
+
+#: fahrt/templates/fahrt/fahrt_dashboard.html
+msgid "Grouped by nutrition"
+msgstr "Gruppiert nach Ernährung"
+
+#: fahrt/templates/fahrt/fahrt_dashboard.html
+msgid "Grouped by gender"
+msgstr "Gruppiert nach Geschlecht"
+
+#: fahrt/templates/fahrt/fahrt_dashboard.html
+msgid "U18-status"
+msgstr "U18-Status"
+
+#: fahrt/templates/fahrt/fahrt_dashboard.html
+msgid "Payment-status"
+msgstr "Zahlungsstatus"
+
+#: fahrt/templates/fahrt/fahrt_dashboard.html
+msgid "Non-Liability-status"
+msgstr "Haftungsausschluss-Status"
+
+#: fahrt/templates/fahrt/fahrt_dashboard.html
+#: fahrt/templates/fahrt/participants/list_confirmed.html
+#: fahrt/templates/fahrt/participants/list_registered.html
+#: fahrt/templates/fahrt/participants/list_waitinglist.html
+#: fahrt/templates/fahrt/participants/view_participant_details.html
+msgid "U18"
+msgstr "U18"
+
+#: fahrt/templates/fahrt/fahrt_dashboard.html
+msgid "Ü18"
+msgstr "Ü18"
+
+#: fahrt/templates/fahrt/fahrt_dashboard.html
+msgid "has paid"
+msgstr "hat bezahlt"
+
+#: fahrt/templates/fahrt/fahrt_dashboard.html
+msgid "has NOT paid"
+msgstr "hat NICHT bezahlt"
+
+#: fahrt/templates/fahrt/fahrt_dashboard.html
+msgid "has submitted non-liability"
+msgstr "hat Haftungsausschluss abgegeben"
+
+#: fahrt/templates/fahrt/fahrt_dashboard.html
+msgid "has NOT submitted non-liability"
+msgstr "hat Haftungsausschluss NICHT abgegeben"
 
 #: fahrt/templates/fahrt/general/add_participant.html
 msgid "Add participant to the SET-Fahrt"
 msgstr "Teilnehmer zur SET-Fahrt hinzufügen"
-
-#: fahrt/templates/fahrt/general/add_participant.html
-#: fahrt/templates/fahrt/standalone/signup.html
-msgid "fahrt_privacy_policy"
-msgstr ""
-"<p>Ich bin damit einverstanden, dass meine Daten zu folgenden Zwecken "
-"erhoben, verarbeitet und genutzt werden:</p><ul><li>Erstellung von "
-"Teilnehmerlisten</li><li>Zusenden von Informationen vor und nach der SET-"
-"Fahrt per E-Mail</li></ul><p>Ich bin darauf hingewiesen worden, dass die im "
-"Rahmen der vorstehend genannten Zwecke erhobenen persönlichen Daten meiner "
-"Person unter Beachtung des Bayerischen Datenschutzgesetzes (BayDSG), "
-"erhoben, verarbeitet, genutzt und übermittelt werden. Die Daten werden "
-"spätestens sechs Monate nach Ende der Studieneinführungstage unwiderruflich "
-"gelöscht.</p><p>Ich bin zudem darauf hingewiesen worden, dass die Erhebung, "
-"Verarbeitung und Nutzung meiner Daten auf freiwilliger Basis erfolgt. "
-"Ferner, dass ich mein Einverständnis mit der Folge, dass ich an der SET-"
-"Fahrt nicht teilnehmen kann, verweigern bzw. jederzeit mit Wirkung für die "
-"Zukunft widerrufen kann.</p><p>Meine Widerrufserklärung werde ich richten an:"
-"</p><address>Fachschaft MPI<br>Technische Universität "
-"München<br>Boltzmannstraße 3<br>85748 Garching<br>E-Mail: <a href=\"mailto:"
-"set-owner@fs.tum.de\">set-owner@fs.tum.de</a></address><p>Im Fall des "
-"Widerrufs werden mit dem Zugang meiner Widerrufserklärung meine Daten "
-"gelöscht.</p>"
 
 #: fahrt/templates/fahrt/mail/add_mail.html
 msgid "Add email"
@@ -439,6 +470,14 @@ msgid "List confirmed participants"
 msgstr "Bestätigte Teilnehmer auflisten"
 
 #: fahrt/templates/fahrt/participants/list_confirmed.html
+msgid "Nutritional information about the participants"
+msgstr "Ernährungsinformationen über die Teilnehmen"
+
+#: fahrt/templates/fahrt/participants/list_confirmed.html
+msgid "Count"
+msgstr "Anzahl"
+
+#: fahrt/templates/fahrt/participants/list_confirmed.html
 msgid "Paid/Payment deadline"
 msgstr "Bezahlt/Zahlungsfrist"
 
@@ -448,13 +487,6 @@ msgstr "Bezahlt/Zahlungsfrist"
 #: fahrt/templates/fahrt/participants/view_participant_details.html
 msgid "Car"
 msgstr "Auto"
-
-#: fahrt/templates/fahrt/participants/list_confirmed.html
-#: fahrt/templates/fahrt/participants/list_registered.html
-#: fahrt/templates/fahrt/participants/list_waitinglist.html
-#: fahrt/templates/fahrt/participants/view_participant_details.html
-msgid "U18"
-msgstr "U18"
 
 #: fahrt/templates/fahrt/participants/list_confirmed.html
 #: fahrt/templates/fahrt/participants/list_registered.html
@@ -546,6 +578,9 @@ msgid ""
 msgstr ""
 "Du wirst alle weiteren Informationen per E-Mail erhalten. Dies kann etwas "
 "dauern, da wir deine Anmeldung manuell überprüfen."
+
+#~ msgid "Registered Participants"
+#~ msgstr "Registrierte Teilnehmer"
 
 #~ msgid "SET"
 #~ msgstr "SET"

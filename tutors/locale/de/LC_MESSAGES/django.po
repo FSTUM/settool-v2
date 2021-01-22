@@ -85,7 +85,7 @@ msgstr "Semester"
 #: tutors/models.py tutors/templates/tutors/task/view.html
 #: tutors/templates/tutors/tutor/delete.html
 #: tutors/templates/tutors/tutor/list.html
-#: tutors/templates/tutors/tutor/standalone/view.html
+#: tutors/templates/tutors/tutor/view.html
 msgid "First name"
 msgstr "Vorname"
 
@@ -135,7 +135,7 @@ msgstr "T-Shirt als Girls cut"
 
 #: tutors/models.py tutors/templates/tutors/dashboard.html
 #: tutors/templates/tutors/tutor/list.html
-#: tutors/templates/tutors/tutor/standalone/view.html
+#: tutors/templates/tutors/tutor/view.html
 msgid "Status"
 msgstr "Status"
 
@@ -146,11 +146,11 @@ msgstr "Status"
 #: tutors/templates/tutors/task/view.html
 #: tutors/templates/tutors/tutor/delete.html
 #: tutors/templates/tutors/tutor/list.html
-#: tutors/templates/tutors/tutor/standalone/view.html
+#: tutors/templates/tutors/tutor/view.html
 msgid "Subject"
 msgstr "Studienfach"
 
-#: tutors/models.py tutors/templates/tutors/tutor/standalone/view.html
+#: tutors/models.py tutors/templates/tutors/tutor/view.html
 msgid "Comment"
 msgstr "Kommentar"
 
@@ -166,7 +166,7 @@ msgstr "Antworten des Tutors"
 #: tutors/templates/tutors/task/list.html
 #: tutors/templates/tutors/task/view.html
 #: tutors/templates/tutors/tutor/delete.html
-#: tutors/templates/tutors/tutor/standalone/view.html
+#: tutors/templates/tutors/tutor/view.html
 msgid "Name"
 msgstr "Name"
 
@@ -184,7 +184,7 @@ msgstr "Beschreibung"
 #: tutors/templates/tutors/task/list.html
 #: tutors/templates/tutors/task/view.html
 #: tutors/templates/tutors/tutor/delete.html
-#: tutors/templates/tutors/tutor/standalone/view.html
+#: tutors/templates/tutors/tutor/view.html
 msgid "Begin"
 msgstr "Start"
 
@@ -196,7 +196,7 @@ msgstr "Start"
 #: tutors/templates/tutors/task/list.html
 #: tutors/templates/tutors/task/view.html
 #: tutors/templates/tutors/tutor/delete.html
-#: tutors/templates/tutors/tutor/standalone/view.html
+#: tutors/templates/tutors/tutor/view.html
 msgid "End"
 msgstr "Ende"
 
@@ -207,7 +207,7 @@ msgstr "Ende"
 #: tutors/templates/tutors/task/list.html
 #: tutors/templates/tutors/task/view.html
 #: tutors/templates/tutors/tutor/delete.html
-#: tutors/templates/tutors/tutor/standalone/view.html
+#: tutors/templates/tutors/tutor/view.html
 msgid "Meeting Point"
 msgstr "Treffpunkt"
 
@@ -263,12 +263,12 @@ msgstr "abwesend"
 #: tutors/templates/tutors/requirement/view.html
 #: tutors/templates/tutors/tutor/delete.html
 #: tutors/templates/tutors/tutor/list.html
-#: tutors/templates/tutors/tutor/standalone/view.html
+#: tutors/templates/tutors/tutor/view.html
 msgid "Question"
 msgstr "Frage"
 
 #: tutors/models.py tutors/templates/tutors/tutor/delete.html
-#: tutors/templates/tutors/tutor/standalone/view.html
+#: tutors/templates/tutors/tutor/view.html
 msgid "Answer"
 msgstr "Antwort"
 
@@ -276,6 +276,20 @@ msgstr "Antwort"
 #: tutors/templates/tutors/dashboard.html
 msgid "Dashboard"
 msgstr "Dashboard"
+
+#: tutors/templates/tutors/base_tutors.html
+#: tutors/templates/tutors/standalone/collaborator_signup/signup.html
+#: tutors/templates/tutors/standalone/tutor_signup/signup.html
+msgid "Sign up"
+msgstr "Anmeldung"
+
+#: tutors/templates/tutors/base_tutors.html
+msgid "Go to Collaborator-Sign-Up"
+msgstr "Zur Mitarbeiter-Anmeldung gehen"
+
+#: tutors/templates/tutors/base_tutors.html
+msgid "Go to Tutor-Sign-Up"
+msgstr "Zur Tutor-Anmeldung gehen"
 
 #: tutors/templates/tutors/base_tutors.html
 msgid "Events"
@@ -329,7 +343,7 @@ msgid "Inactive tutors"
 msgstr "Inaktive Tutoren"
 
 #: tutors/templates/tutors/base_tutors.html
-msgid "List employees"
+msgid "List Collaborators"
 msgstr "Mitarbeiter auflisten"
 
 #: tutors/templates/tutors/base_tutors.html
@@ -360,16 +374,16 @@ msgid "You dont have permission to view this page"
 msgstr "Du hast keine Berechtigung, diese Seite zu sehen"
 
 #: tutors/templates/tutors/dashboard.html
-msgid "Upcoming Events"
-msgstr "Anstehende Veranstaltungen"
+msgid "Next upcoming 5 events"
+msgstr "Nächste 5 anstehende Veranstaltungen"
 
 #: tutors/templates/tutors/dashboard.html
 msgid "Start"
 msgstr "Start"
 
 #: tutors/templates/tutors/dashboard.html
-msgid "Upcoming Tasks"
-msgstr "Anstehende Tasks"
+msgid "Next upcoming 5 tasks"
+msgstr "Nächste 5 anstehende Tasks"
 
 #: tutors/templates/tutors/dashboard.html
 #: tutors/templates/tutors/task/list.html
@@ -467,7 +481,7 @@ msgstr "Eventdetails"
 #: tutors/templates/tutors/event/view.html
 #: tutors/templates/tutors/requirement/view.html
 #: tutors/templates/tutors/task/view.html
-#: tutors/templates/tutors/tutor/standalone/view.html
+#: tutors/templates/tutors/tutor/view.html
 msgid "Back"
 msgstr "Zurück"
 
@@ -515,6 +529,78 @@ msgstr "Einstellungen speichern"
 #: tutors/templates/tutors/settings/tutors.html
 msgid "Save tutor settings"
 msgstr "Tutor-Einstellungen speichern"
+
+#: tutors/templates/tutors/standalone/collaborator_signup/registration_closed.html
+#: tutors/templates/tutors/standalone/collaborator_signup/signup.html
+msgid "Sign up for SET-Collaborator"
+msgstr "Anmeldung als SET-Mitarbeiter"
+
+#: tutors/templates/tutors/standalone/collaborator_signup/registration_closed.html
+msgid "The SET-Collaborator registration is currently not open."
+msgstr "Die SET-Mitarbeiter Anmeldung ist derzeit nicht offen."
+
+#: tutors/templates/tutors/standalone/collaborator_signup/registration_closed.html
+#: tutors/templates/tutors/standalone/tutor_signup/registration_closed.html
+#, python-format
+msgid "The registration is possible between %(start)s and %(end)s."
+msgstr "Die Registrierung ist zwischen %(start)s und %(end)s möglich."
+
+#: tutors/templates/tutors/standalone/collaborator_signup/signup.html
+#: tutors/templates/tutors/standalone/tutor_signup/signup.html
+#: tutors/templates/tutors/tutor/delete.html
+#: tutors/templates/tutors/tutor/edit.html
+#: tutors/templates/tutors/tutor/view.html
+msgid "Questions"
+msgstr "Fragen"
+
+#: tutors/templates/tutors/standalone/collaborator_signup/success.html
+msgid "You successfully signed up as SET-Collaborator"
+msgstr "Du hast dich erfolgreich als SET-Mitarbeter angemeldet"
+
+#: tutors/templates/tutors/standalone/collaborator_signup/success.html
+#: tutors/templates/tutors/standalone/tutor_signup/success.html
+msgid ""
+"You will get all further information by email. This may take some time, "
+"because we manually check your registration."
+msgstr ""
+"Du wirst alle weiteren Information als Email erhalten. Dies kann einige Zeit "
+"beanspruchen, da wir jede Anmeldung manuell prüfen."
+
+#: tutors/templates/tutors/standalone/tutor_signup/confirmation_required.html
+msgid "Confirmation required"
+msgstr "Bestätigung notwendig"
+
+#: tutors/templates/tutors/standalone/tutor_signup/confirmation_required.html
+msgid ""
+"You will get an email containing a confirmation link. A confirmation is "
+"required to complete the application."
+msgstr ""
+"Du wirst eine Email bekommen die einen Bestätigungslink enthält. Eine "
+"Bestätigung ist notwendig um deine Anmeldung abzuschließen."
+
+#: tutors/templates/tutors/standalone/tutor_signup/invalid.html
+msgid "Confirmation failed"
+msgstr "Bestätigung fehlgeschlagen"
+
+#: tutors/templates/tutors/standalone/tutor_signup/invalid.html
+msgid "The confirmation link was invalid."
+msgstr "Der Bestätigungslink war ungültig."
+
+#: tutors/templates/tutors/standalone/tutor_signup/registration_closed.html
+msgid "Sign up for SET Tutor"
+msgstr "Anmeldung als SET Tutor"
+
+#: tutors/templates/tutors/standalone/tutor_signup/registration_closed.html
+msgid "The SET Tutor registration is currently not open."
+msgstr "Die SET Tutor Anmeldung ist derzeit nicht offen."
+
+#: tutors/templates/tutors/standalone/tutor_signup/signup.html
+msgid "Sign up for SET-Tutor"
+msgstr "Anmeldung als SET Tutor"
+
+#: tutors/templates/tutors/standalone/tutor_signup/success.html
+msgid "You successfully signed up as SET Tutor"
+msgstr "Du hast deine Anmeldung als SET Tutor erfolgreich bestätigt"
 
 #: tutors/templates/tutors/task/add.html
 msgid "Add task"
@@ -640,7 +726,7 @@ msgstr "Zugewiesene Tasks"
 #: tutors/templates/tutors/task/view.html
 #: tutors/templates/tutors/tutor/delete.html
 #: tutors/templates/tutors/tutor/list.html
-#: tutors/templates/tutors/tutor/standalone/view.html
+#: tutors/templates/tutors/tutor/view.html
 msgid "Registration time"
 msgstr "Registrierungszeitpunkt"
 
@@ -691,43 +777,36 @@ msgid "Decline all selected tutors"
 msgstr "Alle ausgewählten Tutoren ablehnen"
 
 #: tutors/templates/tutors/tutor/delete.html
-#: tutors/templates/tutors/tutor/standalone/view.html
+#: tutors/templates/tutors/tutor/view.html
 msgid "Delete tutor"
 msgstr "Tutor löschen"
 
 #: tutors/templates/tutors/tutor/delete.html
-#: tutors/templates/tutors/tutor/standalone/view.html
+#: tutors/templates/tutors/tutor/view.html
 msgid "Surname"
 msgstr "Nachname"
 
 #: tutors/templates/tutors/tutor/delete.html
-#: tutors/templates/tutors/tutor/standalone/view.html
+#: tutors/templates/tutors/tutor/view.html
 msgid "Email"
 msgstr "E-Mail"
 
 #: tutors/templates/tutors/tutor/delete.html
-#: tutors/templates/tutors/tutor/standalone/view.html
+#: tutors/templates/tutors/tutor/view.html
 msgid "T-Shirt Size"
 msgstr "T-Shirt Größe"
 
 #: tutors/templates/tutors/tutor/delete.html
-#: tutors/templates/tutors/tutor/standalone/view.html
+#: tutors/templates/tutors/tutor/view.html
 msgid "Girls Cut?"
 msgstr "Girls Cut?"
-
-#: tutors/templates/tutors/tutor/delete.html
-#: tutors/templates/tutors/tutor/edit.html
-#: tutors/templates/tutors/tutor/standalone/signup.html
-#: tutors/templates/tutors/tutor/standalone/view.html
-msgid "Questions"
-msgstr "Fragen"
 
 #: tutors/templates/tutors/tutor/delete.html
 msgid "The tutor is assigned to the following tasks"
 msgstr "Der Tutor ist für die folgenden Tasks eingeteilt"
 
 #: tutors/templates/tutors/tutor/edit.html
-#: tutors/templates/tutors/tutor/standalone/view.html
+#: tutors/templates/tutors/tutor/view.html
 msgid "Edit tutor"
 msgstr "Tutor bearbeiten"
 
@@ -755,114 +834,56 @@ msgstr "Alle Abgelehnen"
 msgid "|Subject| / |Subject-Wanted|"
 msgstr "|Studiengänge| / |gewollte Studiengänge|"
 
+#: tutors/templates/tutors/tutor/list.html
+msgid "Accepted"
+msgstr "Angenommen"
+
+#: tutors/templates/tutors/tutor/list.html
+msgid "Declined"
+msgstr "Abgelehnt"
+
+#: tutors/templates/tutors/tutor/list.html
+msgid "Email-verification missing"
+msgstr "Email-Verifikation ausstehend"
+
+#: tutors/templates/tutors/tutor/list.html
+#: tutors/templates/tutors/tutor/view.html
+msgid "Open"
+msgstr "Offen"
+
+#: tutors/templates/tutors/tutor/list.html
+msgid "Collaborator"
+msgstr "Mitarbeiter"
+
 #: tutors/templates/tutors/tutor/mail.html
 msgid "Send email to tutors"
 msgstr "Sende Email an Tutoren"
 
-#: tutors/templates/tutors/tutor/standalone/confirmation_required.html
-msgid "Confirmation required"
-msgstr "Bestätigung notwendig"
-
-#: tutors/templates/tutors/tutor/standalone/confirmation_required.html
-msgid ""
-"You will get an email containing a confirmation link. A confirmation is "
-"required to complete the application."
-msgstr ""
-"Du wirst eine Email bekommen die einen Bestätigungslink enthält. Eine "
-"Bestätigung ist notwendig um deine Anmeldung abzuschließen."
-
-#: tutors/templates/tutors/tutor/standalone/invalid.html
-msgid "Confirmation failed"
-msgstr "Bestätigung fehlgeschlagen"
-
-#: tutors/templates/tutors/tutor/standalone/invalid.html
-msgid "The confirmation link was invalid."
-msgstr "Der Bestätigungslink war ungültig."
-
-#: tutors/templates/tutors/tutor/standalone/registration_closed.html
-msgid "Sign up for SET Tutor"
-msgstr "Anmeldung als SET Tutor"
-
-#: tutors/templates/tutors/tutor/standalone/registration_closed.html
-msgid "The SET Tutor registration is currently not open."
-msgstr "Die SET Tutor Anmeldung ist derzeit nicht offen."
-
-#: tutors/templates/tutors/tutor/standalone/registration_closed.html
-#, python-format
-msgid "The registration is possible between %(start)s and %(end)s."
-msgstr "Die Registrierung ist zwischen %(start)s und %(end)s möglich."
-
-#: tutors/templates/tutors/tutor/standalone/signup.html
-msgid "Sign up for SET-Tutor"
-msgstr "Anmeldung als SET Tutor"
-
-#: tutors/templates/tutors/tutor/standalone/signup.html
-msgid "tutors_privacy_policy"
-msgstr ""
-"<p>Ich bin damit einverstanden, dass meine Daten zu folgenden Zwecken "
-"erhoben, verarbeitet und genutzt werden:</p><ul><li>Erstellung von "
-"Tutorlisten</li><li>Zusenden von Informationen vor und nach den "
-"Studieneinführungstagen per E-Mail</li></ul><p>Ich bin darauf hingewiesen "
-"worden, dass die im Rahmen der vorstehend genannten Zwecke erhobenen "
-"persönlichen Daten meiner Person unter Beachtung des Bayerischen "
-"Datenschutzgesetzes (BayDSG), erhoben, verarbeitet, genutzt und übermittelt "
-"werden. Die Daten werden spätestens sechs Monate nach Ende der "
-"Studieneinführungstage unwiderruflich gelöscht.</p><p>Ich bin zudem darauf "
-"hingewiesen worden, dass die Erhebung, Verarbeitung und Nutzung meiner Daten "
-"auf freiwilliger Basis erfolgt. Ferner, dass ich mein Einverständnis mit der "
-"Folge, dass ich bei den Studieneinführungstagen nicht als Tutor teilnehmen "
-"kann, verweigern bzw. jederzeit mit Wirkung für die Zukunft widerrufen kann."
-"</p><p>Meine Widerrufserklärung werde ich richten an:</p><address>Fachschaft "
-"MPI<br>Technische Universität München<br>Boltzmannstraße 3<br>85748 "
-"Garching<br>E-Mail: <a href=\"mailto:set-tutoren@fs.tum.de\">set-tutoren@fs."
-"tum.de</a></address><p>Im Fall des Widerrufs werden mit dem Zugang meiner "
-"Widerrufserklärung meine Daten gelöscht.</p>"
-
-#: tutors/templates/tutors/tutor/standalone/signup.html
-msgid "Sign up"
-msgstr "Anmeldung"
-
-#: tutors/templates/tutors/tutor/standalone/success.html
-msgid "You successfully signed up as SET Tutor"
-msgstr "Du hast deine Anmeldung als SET Tutor erfolgreich bestätigt"
-
-#: tutors/templates/tutors/tutor/standalone/success.html
-msgid ""
-"You will get all further information by email. This may take some time, "
-"because we manually check your registration."
-msgstr ""
-"Du wirst alle weiteren Information als Email erhalten. Dies kann einige Zeit "
-"beanspruchen, da wir jede Anmeldung manuell prüfen."
-
-#: tutors/templates/tutors/tutor/standalone/view.html
+#: tutors/templates/tutors/tutor/view.html
 msgid "Tutor details"
 msgstr "Tutor Details"
 
-#: tutors/templates/tutors/tutor/standalone/view.html
+#: tutors/templates/tutors/tutor/view.html
 msgid "ECTS"
 msgstr "ECTS"
 
-#: tutors/templates/tutors/tutor/standalone/view.html
-msgid "Open"
-msgstr "Offen"
-
-#: tutors/templates/tutors/tutor/standalone/view.html
+#: tutors/templates/tutors/tutor/view.html
 msgid "Accept"
-msgstr "Angenommen"
+msgstr "Annehmen"
 
-#: tutors/templates/tutors/tutor/standalone/view.html
+#: tutors/templates/tutors/tutor/view.html
 msgid "Decline"
 msgstr "Ablehnen"
 
-#: tutors/templates/tutors/tutor/standalone/view.html
+#: tutors/templates/tutors/tutor/view.html
 msgid "Send email to tutor"
 msgstr "Sende Email an Tutoren"
 
-#: tutors/templates/tutors/tutor/standalone/view.html
+#: tutors/templates/tutors/tutor/view.html
 msgid "Assigned Tasks"
 msgstr "Zugewiesene Tasks"
 
-#: tutors/templates/tutors/tutor/standalone/view.html
+#: tutors/templates/tutors/tutor/view.html
 msgid "Email log"
 msgstr "E-Mail Log"
 
@@ -929,12 +950,6 @@ msgstr "E-Mail Log"
 #~ msgid "Add"
 #~ msgstr "Hinzufügen"
 
-#~ msgid "Accepted"
-#~ msgstr "Angenommen"
-
-#~ msgid "Declined"
-#~ msgstr "Abgelehnt"
-
 #~ msgid "Inactive"
 #~ msgstr "Email-Verifikation ausstehend"
 
@@ -958,9 +973,6 @@ msgstr "E-Mail Log"
 
 #~ msgid "declined"
 #~ msgstr "Abgelehnt"
-
-#~ msgid "inactive"
-#~ msgstr "Email-Verifikation ausstehend"
 
 #~ msgid "YES"
 #~ msgstr "Ja"

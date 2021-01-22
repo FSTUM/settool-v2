@@ -4,6 +4,7 @@ from django.template import engines
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 
+import settool_common.models as common_models
 from settool_common.models import Semester
 from settool_common.models import Subject
 
@@ -111,7 +112,7 @@ class Participant(models.Model):
 
 
 class Mail(models.Model):
-    FROM_MAIL = "SET-Referat <set@fs.tum.de>"
+    sender = common_models.Mail.SET
     semester = models.ForeignKey(
         Semester,
         on_delete=models.CASCADE,
@@ -155,7 +156,7 @@ class Mail(models.Model):
         text_template = django_engine.from_string(self.text)
         text = text_template.render(context)
 
-        return subject, text, Mail.FROM_MAIL
+        return subject, text, self.sender
 
     def send_mail(self, participant):
         django_engine = engines["django"]
@@ -173,7 +174,7 @@ class Mail(models.Model):
         send_mail(
             subject,
             text,
-            Mail.FROM_MAIL,
+            self.sender,
             [participant.email],
             fail_silently=False,
         )

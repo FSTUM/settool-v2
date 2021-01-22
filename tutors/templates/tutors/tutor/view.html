@@ -29,7 +29,7 @@
                     </tr>
                     <tr>
                         <th>{% trans "ECTS" %}</th>
-                        <td>{% include "true_false_span.html" with value=tutor.ects %}</td>
+                        <td>{% include "snippets/true_false_span.html" with value=tutor.ects %}</td>
                     </tr>
                     <tr>
                         <th>{% trans "T-Shirt Size" %}</th>
@@ -37,7 +37,7 @@
                     </tr>
                     <tr>
                         <th>{% trans "Girls Cut?" %}</th>
-                        <td>{% include "true_false_span.html" with value=tutor.tshirt_girls_cut %}</td>
+                        <td>{% include "snippets/true_false_span.html" with value=tutor.tshirt_girls_cut %}</td>
                     </tr>
                     <tr>
                         <th>{% trans "Comment" %}</th>
@@ -136,11 +136,15 @@
                         {% for question in tutor.answer_set.all %}
                         <tr>
                             <td>{{ question.question }}</td>
-                            <td>
+                            {% comment %}these colors might reveal something that we dont want the normal tutor to know ;){% endcomment %}
+                            <td{% if perms.tutor.edit_tutors %}
+                                class="{% if question.answer == "YES" %}table-success{% elif question.answer == "NO" %}table-danger{% else %}table-warning{% endif %}"
+                                {% endif %}
+                            >
                                 {% if question.answer %}{% translate question.answer %}
                                 {% else %}-
                                 {% endif %}
-                            </td>
+                                </td>
                         </tr>
                         {% endfor %}
                     </tbody>

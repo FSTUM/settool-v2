@@ -16,13 +16,16 @@ import tutors.models
 from settool_common.fixtures.test_fixture import generate_semesters
 
 
-def showroom_fixture_state():  # nosec: this is only used in a fixture
+def showroom_fixture_state():
     confirmation = input(
         "Do you really want to load the showroom fixture? (This will flush the database) [y/n]",
     )
     if confirmation.lower() != "y":
         return
+    showroom_fixture_state_no_confirmation()
 
+
+def showroom_fixture_state_no_confirmation():  # nosec: this is only used in a fixture
     run(["python3", "manage.py", "flush", "--noinput"], check=True)
 
     # user
@@ -31,7 +34,7 @@ def showroom_fixture_state():  # nosec: this is only used in a fixture
     # app settool-common
     common_semesters = generate_semesters()
     common_subjects = _generate_subjects()
-    _generate_common_mails(common_semesters)
+    generate_common_mails(common_semesters)
 
     # app bags
     _generate_companies(common_semesters)
@@ -325,7 +328,7 @@ def _generate_tasks_tutorasignemt(  # nosec: this is only used in a fixture
 
 def _generate_events(semesters, subjects):  # nosec: this is only used in a fixture
     events = []
-    for i in range(10):
+    for i in range(random.randint(10, 20)):
         event = tutors.models.Event.objects.create(
             semester=random.choice(semesters),
             name=f"Event {i}",
@@ -387,15 +390,18 @@ def _generate_questions(semesters):  # nosec: this is only used in a fixture
     return questions
 
 
-def _generate_common_mails(  # nosec: this is only used in a fixture
+def generate_common_mails(  # nosec: this is only used in a fixture
     semesters: List[settool_common.models.Semester],
 ) -> None:
     for author in settool_common.models.Mail.FROM_CHOICES:
-        for _ in range(10):
+        for _ in range(random.randint(10, 20)):
             settool_common.models.Mail.objects.create(
                 semester=random.choice(semesters),
                 sender=author[0],
-                subject=f"Common {lorem.sentence()}"[:100],
+                subject=f"Common {lorem.sentence()}"[: random.randint(10, 200)],
+                comment=f"Common {lorem.sentence()}"[: random.randint(1, 250)]
+                if random.choice([True, False])
+                else "",
                 text=lorem.text(),
             )
 
@@ -403,7 +409,7 @@ def _generate_common_mails(  # nosec: this is only used in a fixture
 def _generate_bags_mails(  # nosec: this is only used in a fixture
     semesters: List[settool_common.models.Semester],
 ) -> None:
-    for _ in range(10):
+    for _ in range(random.randint(10, 20)):
         bags.models.Mail.objects.create(
             semester=random.choice(semesters),
             subject=f"bags {lorem.sentence()}"[:100],
@@ -415,7 +421,7 @@ def _generate_bags_mails(  # nosec: this is only used in a fixture
 def _generate_guildedtours_mails(  # nosec: this is only used in a fixture
     semesters: List[settool_common.models.Semester],
 ) -> None:
-    for _ in range(10):
+    for _ in range(random.randint(10, 20)):
         guidedtours.models.Mail.objects.create(
             semester=random.choice(semesters),
             subject=f"guidedtours {lorem.sentence()}"[:100],
@@ -427,7 +433,7 @@ def _generate_guildedtours_mails(  # nosec: this is only used in a fixture
 def _generate_fahrt_mails(  # nosec: this is only used in a fixture
     semesters: List[settool_common.models.Semester],
 ) -> None:
-    for _ in range(10):
+    for _ in range(random.randint(10, 20)):
         fahrt.models.Mail.objects.create(
             semester=random.choice(semesters),
             subject=f"fahrt {lorem.sentence()}"[:100],

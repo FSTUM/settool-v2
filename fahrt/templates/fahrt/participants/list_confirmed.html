@@ -7,13 +7,49 @@
     $(document).ready(() => {
         $('#fahrtTable').DataTable();
     });
+    $(document).ready(() => {
+        $('#foodTable').DataTable({
+            searching: false,
+            columnDefs: [{ targets: 2, orderable: false }],
+            paging: false,
+        });
+    });
 </script>
 {% endblock %}
 
 {% block set_common_headercontent %}{% trans "List confirmed participants" %}{% endblock %}
 
 {% block set_common_content %}
+<h4 class='card-title'>{% trans "Nutritional information about the participants" %}</h4>
 <div class="table-responsive">
+    <table
+        id="foodTable"
+        class="table dataTable"
+    >
+        <thead>
+            <tr>
+                <th>{% trans "Nutrition" %}</th>
+                <th>{% trans "Count" %}</th>
+                <th>{% trans "Allergies" %}</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for nutrition in nutritions %}
+            <tr>
+                <td>{{ nutrition.name }}</td>
+                <td>{{ nutrition.count }}</td>
+                <td>
+                    {% for allergy in nutrition.allergies %}
+                    {{ allergy.allergies }}<br>
+                    {% endfor %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+<h4 class='card-title'>{% trans "Participants" %}</h4>
+<div class="table-responsive mt-3">
     <table
         id="fahrtTable"
         class="table dataTable"
@@ -34,13 +70,13 @@
             <tr>
                 <td><a href="{% url "fahrt_viewparticipant" participant.id %}">{{ participant.firstname }}</a></td>
                 <td><a href="{% url "fahrt_viewparticipant" participant.id %}">{{ participant.surname }}</a></td>
-                <td>{% include "true_false_span.html" with value=participant.non_liability %}</td>
+                <td>{% include "snippets/true_false_span.html" with value=participant.non_liability %}</td>
                 <td>
                     {% if participant.paid %}
-                    {% include "true_false_span.html" with value=True %}
+                    {% include "snippets/true_false_span.html" with value=True %}
                     {% elif participant.payment_deadline %}
                     {% if participant.deadline_exceeded %}
-                    {% include "true_false_span.html" with value=False %}
+                    {% include "snippets/true_false_span.html" with value=False %}
                     {% elif participant.deadline_soon %}
                     <span
                         style="color: darkorange"
@@ -51,15 +87,15 @@
                     {% endif %}
                 </td>
                 <td>
-                    {% include "true_false_span.html" with value=participant.car %}
+                    {% include "snippets/true_false_span.html" with value=participant.car %}
                     {% if participant.car %}
                     {% blocktranslate trimmed with additional_seats=participant.car_places %}
                     {{ additional_seats }} additional seats
                     {% endblocktranslate %}
                     {% endif %}
                 </td>
-                <td>{% include "true_false_span.html" with value=participant.u18 inverted_colors=True %}</td>
-                <td>{% include "true_false_span.html" with value=participant.allergies inverted_colors=True %}</td>
+                <td>{% include "snippets/true_false_span.html" with value=participant.u18 inverted_colors=True %}</td>
+                <td>{% include "snippets/true_false_span.html" with value=participant.allergies inverted_colors=True %}</td>
             </tr>
             {% endfor %}
         </tbody>

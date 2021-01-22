@@ -14,6 +14,7 @@
             action=""
         >
             {% csrf_token %}
+            {% bootstrap_form form %}
 
             <a
                 href="{% url "tutor_list_status_active" %}"
@@ -23,8 +24,6 @@
                 class="btn btn-danger"
                 type="submit"
             >{% trans "Decline all selected tutors" %}</button>
-
-            {% bootstrap_form form %}
         </form>
     </div>
 </div>
