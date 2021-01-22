@@ -159,8 +159,17 @@ class Mail(models.Model):
         help_text=_("You may use placeholders for the text."),
     )
 
+    comment = models.CharField(
+        _("Comment"),
+        max_length=200,
+        default="",
+        blank=True,
+    )
+
     def __str__(self):
-        return self.subject
+        if self.comment:
+            return f"{self.subject} ({self.comment})"
+        return str(self.subject)
 
     def get_mail(self, context):
         subject_template = Template(self.subject)

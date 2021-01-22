@@ -38,3 +38,13 @@ class SelectMailForm(forms.Form):
         super().__init__(*args, **kwargs)
 
         self.fields["mail"].queryset = semester.fahrt_mail_set.all()
+
+
+class CSVFileUploadForm(forms.Form):
+    file = forms.FileField(
+        allow_empty_file=False,
+        label=_(
+            "Upload a csv-file in exel-formatting. "
+            "(Column-order: sender,subject,text,comment. First line is header.)",
+        ),
+    )

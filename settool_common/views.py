@@ -1,22 +1,34 @@
+import csv
+import os
+import time
 from typing import Dict
 from typing import List
 from typing import Union
 
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.decorators import permission_required
+from django.contrib.auth.decorators import user_passes_test
 from django.db.models import Count
 from django.forms import forms
+from django.http import HttpResponse
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404
 from django.shortcuts import redirect
 from django.shortcuts import render
 from django.utils.http import is_safe_url
+from django.utils.translation import ugettext_lazy as _
 
+import bags.models
+import fahrt.models
+import guidedtours.models
+import settool_common.models
+import tutors.models
 from settool_common.forms import MailForm
+from settool_common.models import get_semester
+from settool_common.models import Semester
 
-from .models import get_semester
-from .models import Mail
-from .models import Semester
+from .forms import CSVFileUploadForm
 from .settings import SEMESTER_SESSION_KEY
 
 
@@ -41,7 +53,7 @@ def set_semester(request):
 @permission_required("set.mail")
 def mail_list(request):
     semester = get_object_or_404(Semester, pk=get_semester(request))
-    mails = Mail.objects.filter(semester=semester)
+    mails = settool_common.models.Mail.objects.filter(semester=semester)
 
     context = {"mails": mails}
     return render(request, "settool_common/settings/list_email_templates.html", context)
@@ -49,7 +61,7 @@ def mail_list(request):
 
 @permission_required("set.mail")
 def mail_view(request, private_key):
-    mail = Mail.objects.get(pk=private_key)
+    mail = settool_common.models.Mail.objects.get(pk=private_key)
 
     context = {
         "mail": mail,
@@ -72,7 +84,7 @@ def mail_add(request):
 
 @permission_required("set.mail")
 def mail_edit(request, private_key):
-    mail = get_object_or_404(Mail, pk=private_key)
+    mail = get_object_or_404(settool_common.models.Mail, pk=private_key)
 
     form = MailForm(request.POST or None, semester=mail.semester, instance=mail)
     if form.is_valid():
@@ -88,7 +100,7 @@ def mail_edit(request, private_key):
 
 @permission_required("set.mail")
 def mail_delete(request, private_key):
-    mail = get_object_or_404(Mail, pk=private_key)
+    mail = get_object_or_404(settool_common.models.Mail, pk=private_key)
 
     form = forms.Form(request.POST or None)
     if form.is_valid():
@@ -104,7 +116,7 @@ def mail_delete(request, private_key):
 
 @permission_required("set.mail")
 def mail_send(request, private_key):
-    mail = get_object_or_404(Mail, pk=private_key)
+    mail = get_object_or_404(settool_common.models.Mail, pk=private_key)
     selected_participants = request.session["selected_participants"]
     sem = get_semester(request)
     semester = get_object_or_404(Semester, pk=sem)
@@ -143,7 +155,7 @@ def mail_send(request, private_key):
 @permission_required("set.mail")
 def dashboard(request):
     mail_templates_by_sender: List[Dict[str, Union[str, int]]] = (
-        Mail.objects.values("sender")
+        settool_common.models.Mail.objects.values("sender")
         .annotate(sender_count=Count("sender"))
         .order_by("-sender_count")
     )
@@ -153,3 +165,81 @@ def dashboard(request):
         "mail_template_count": [sender["sender_count"] for sender in mail_templates_by_sender],
     }
     return render(request, "settool_common/settings/settings_dashboard.html", context)
+
+
+def import_mail_csv_to_db(csv_file):
+    # load content into tempfile
+    tmp_filename = f"upload_{csv_file.name}"
+    with open(tmp_filename, "wb+") as tmp_csv_file:
+        for chunk in csv_file.chunks():
+            tmp_csv_file.write(chunk)
+    # delete all mail
+    bags.models.Mail.objects.all().delete()
+    fahrt.models.Mail.objects.all().delete()
+    guidedtours.models.Mail.objects.all().delete()
+    settool_common.models.Mail.objects.all().delete()
+    tutors.models.Mail.objects.all().delete()
+    # create new mail
+    with open(tmp_filename, "r") as tmp_csv_file:
+        rows = csv.DictReader(tmp_csv_file)
+        for row in rows:
+            settool_common.models.Mail.objects.create(
+                sender=row["sender"],
+                subject=row["subject"],
+                text=row["text"],
+                comment=row["comment"],
+            )
+    # delete tempfile
+    os.remove(tmp_filename)
+
+
+@user_passes_test(lambda u: u.is_superuser)
+@permission_required("set.mail")
+def mail_import(request):
+    file_upload_form = CSVFileUploadForm(request.POST or None, request.FILES)
+    if file_upload_form.is_valid():
+        import_mail_csv_to_db(request.FILES["file"])
+        messages.success(request, _("The File was successfully uploaded"))
+        return redirect("mail_list")
+    return render(request, "settool_common/settings/import_email.html", {"form": file_upload_form})
+
+
+@permission_required("set.mail")
+def mail_export(request):
+    mails_bags = bags.models.Mail.objects.all()
+    mails_fahrt = fahrt.models.Mail.objects.all()
+    mails_guidedtours = guidedtours.models.Mail.objects.all()
+    mails_settool_common = settool_common.models.Mail.objects.all()
+    mails_tutors = tutors.models.Mail.objects.all()
+
+    mails = []
+    mails += [_clean_mail(mail) for mail in mails_bags]
+    mails += [_clean_mail(mail) for mail in mails_fahrt]
+    mails += [_clean_mail(mail) for mail in mails_guidedtours]
+    mails += [_clean_mail(mail) for mail in mails_settool_common]
+    mails += [_clean_mail(mail) for mail in mails_tutors]
+    return download_csv(
+        ["sender", "subject", "text", "comment"],
+        mails,
+    )
+
+
+def _clean_mail(mail):
+    return {
+        "sender": mail.sender or "",
+        "subject": mail.subject or "",
+        "text": mail.text or "",
+        "comment": mail.comment if hasattr(mail, "comment") else "",
+    }
+
+
+def download_csv(fields, context):
+    response = HttpResponse(content_type="text/csv")
+    filename = f"emails{time.strftime('%Y%m%d-%H%M')}.csv"
+    response["Content-Disposition"] = f"inline; filename={filename}"
+    writer = csv.writer(response, dialect=csv.excel)
+    writer.writerow(fields)
+
+    for obj in context:
+        writer.writerow(obj[field] for field in fields)
+    return response

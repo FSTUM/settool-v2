@@ -26,6 +26,16 @@ urlpatterns = [
                                 name="mail_list",
                             ),
                             path(
+                                "import/",
+                                views.mail_import,
+                                name="mail_import",
+                            ),
+                            path(
+                                "export/",
+                                views.mail_export,
+                                name="mail_export",
+                            ),
+                            path(
                                 "add/",
                                 views.mail_add,
                                 name="mail_add",
