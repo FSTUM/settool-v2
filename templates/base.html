@@ -12,20 +12,14 @@
         content="width=device-width, initial-scale=1, shrink-to-fit=no"
         name="viewport"
     >
+    {% include "snippets/favoticons.html" %}
     <link
-        href="{% static "favoticons/people-fill.svg" %}"
-        rel="icon"
-        type="image/svg+xml"
-    >
-    {% comment %} TODO generate icon for mobile browsers that dont support svgs as icons{% endcomment %}
-
-    <link
-        href="{% static "bootstrap-icons/font/bootstrap-icons.css" %}"
-        rel="stylesheet"
+        href='{% static "bootstrap/dist/css/bootstrap.min.css" %}'
+        rel='stylesheet'
     >
     <link
-        href="{% static "bootstrap/dist/css/bootstrap.min.css" %}"
-        rel="stylesheet"
+        href='{% static "bootstrap-icons/font/bootstrap-icons.css" %}'
+        rel='stylesheet'
     >
 
     <script src="{% static "jquery/dist/jquery.min.js" %}"></script>
@@ -34,8 +28,8 @@
     <script src="{% static "datatables.net/js/jquery.dataTables.min.js" %}"></script>
     <script src="{% static "datatables.net-bs4/js/dataTables.bootstrap4.min.js" %}"></script>
     <link
-        href="{% static "css/style.css" %}"
-        rel="stylesheet"
+        href='{% static "css/style.css" %}'
+        rel='stylesheet'
     >
 
     <title>{% block title %}{% trans "May the SET be ever in yor favour" %}{% endblock %}</title>
