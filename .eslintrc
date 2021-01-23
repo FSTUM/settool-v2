@@ -7,6 +7,7 @@
         "jquery": true,
         "es6": true
     },
+    "ignorePatterns": ["node_nodules"],
     "rules": {
         "jsx-a11y/label-has-associated-control": "off",
         "import/no-cycle": "off"

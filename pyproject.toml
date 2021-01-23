@@ -16,5 +16,6 @@ show_missing = true
 skip_covered = true
 omit = [
     "venv/*",
+    "node_modules",
     "manage.py",
 ]

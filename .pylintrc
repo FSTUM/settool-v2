@@ -1,5 +1,5 @@
 [MASTER]
-ignore=migrations
+ignore=migrations,node_modules
 jobs=1
 load-plugins=pylint_django
 django-settings-module=settool.settings

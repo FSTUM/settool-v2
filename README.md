@@ -21,7 +21,7 @@ python3 -m pip install -r requirements.txt
 1. Install additional dependencies after you installed the dependencies listed in [Installation](#installation)
 
 ```bash
-sudo apt-get install -y gettext
+sudo apt-get install -y gettext npm
 python3 -m pip install -r requirements_dev.txt
 ```
 
@@ -82,6 +82,11 @@ settool_common.fixtures.showroom_fixture.showroom_fixture_state()
 ```
 
 This operation might take a few seconds. Don't worry.
+
+## Adding Depenencies
+
+If you want to add a dependency that is in `pip` add it to the appropriate `requirements`-file.  
+If you want to add a dependency that is in `npm` run `npm i DEPENDENCY`. **Make shure that you do only commit the nessesary files to git.**
 
 # Translation
 
