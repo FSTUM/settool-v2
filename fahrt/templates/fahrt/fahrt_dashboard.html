@@ -60,6 +60,24 @@
             <canvas id='confirmed_participants_by_non_liability_chart'></canvas>
         </div>
     </div>
+    <div class='col col-md'>
+        <h5>{% trans "Master vs. Bachlor" %}</h5>
+        <div
+            class='container-md'
+            style='max-width: 20rem;min-width: 10rem;min-height: 30rem;'
+        >
+            <canvas id='confirmed_participants_by_bachlor_master'></canvas>
+        </div>
+    </div>
+    <div class='col col-md'>
+        <h5>{% trans "Subjects" %}</h5>
+        <div
+            class='container-xl'
+            style='max-width: 70rem;min-width: 10rem;min-height: 40rem;'
+        >
+            <canvas id='confirmed_participants_by_studies'></canvas>
+        </div>
+    </div>
 </div>
 {% endblock %}
 
@@ -163,5 +181,60 @@
             options: chartOptions,
         },
     );
-</script>
+
+    /* eslint no-new: off */
+    new Chart(document.getElementById('confirmed_participants_by_bachlor_master').getContext('2d'), {
+        type: 'pie',
+        data: {
+            labels: ['{% trans "Bachlor" %}', '{% trans "Master" %}'],
+            datasets: [
+                {
+                    data: {{ confirmed_participants_bachlor_master }},
+                    backgroundColor: ['#DE3163', '#3CAEA3'],
+                },
+            ],
+        },
+        options: chartOptions,
+    });
+
+    /* eslint no-new: off */
+    new Chart(document.getElementById('confirmed_participants_by_studies').getContext('2d'), {
+        type: 'pie',
+        data: {
+            labels: {{ confirmed_participants_by_studies_labels|safe }},
+            datasets: [
+                {
+                    data: {{ confirmed_participants_by_studies_data }},
+                    backgroundColor: [
+                        'rgb(255, 99, 132)',
+                        'rgb(54, 162, 235)',
+                        'rgb(255, 205, 86)',
+                        'rgb(60,179,113)',
+                        'rgb(255,69,0)',
+                        '#F6D55C',
+                        '#3CAEA3',
+                        '#ED553B',
+                        '#173F5F',
+                        '#E52B50',
+                        '#FFBF00',
+                        '#FBCEB1',
+                        '#007FFF',
+                        '#89CFF0',
+                        '#F5F5DC',
+                        '#CB4154',
+                        '#0000FF',
+                        '#0095B6',
+                        '#8A2BE2',
+                        '#DE5D83',
+                        '#CD7F32',
+                        '#702963',
+                        '#960018',
+                        '#DE3163',
+                    ],
+                },
+            ],
+        },
+        options: chartOptions,
+    });
+    </script>
 {% endblock %}

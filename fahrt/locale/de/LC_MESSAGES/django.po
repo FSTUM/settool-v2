@@ -340,6 +340,14 @@ msgid "Non-Liability-status"
 msgstr "Haftungsausschluss-Status"
 
 #: fahrt/templates/fahrt/fahrt_dashboard.html
+msgid "Master vs. Bachlor"
+msgstr "Master vs. Bachlor"
+
+#: fahrt/templates/fahrt/fahrt_dashboard.html
+msgid "Subjects"
+msgstr "Studiengänge"
+
+#: fahrt/templates/fahrt/fahrt_dashboard.html
 #: fahrt/templates/fahrt/participants/list_confirmed.html
 #: fahrt/templates/fahrt/participants/list_registered.html
 #: fahrt/templates/fahrt/participants/list_waitinglist.html
@@ -366,6 +374,14 @@ msgstr "hat Haftungsausschluss abgegeben"
 #: fahrt/templates/fahrt/fahrt_dashboard.html
 msgid "has NOT submitted non-liability"
 msgstr "hat Haftungsausschluss NICHT abgegeben"
+
+#: fahrt/templates/fahrt/fahrt_dashboard.html
+msgid "Bachlor"
+msgstr ""
+
+#: fahrt/templates/fahrt/fahrt_dashboard.html
+msgid "Master"
+msgstr ""
 
 #: fahrt/templates/fahrt/general/add_participant.html
 msgid "Add participant to the SET-Fahrt"

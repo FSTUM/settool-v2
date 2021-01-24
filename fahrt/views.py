@@ -21,6 +21,7 @@ from django.utils.translation import ugettext_lazy as _
 
 from settool_common.models import get_semester
 from settool_common.models import Semester
+from settool_common.models import Subject
 
 from .forms import FahrtForm
 from .forms import FilterParticipantsForm
@@ -68,9 +69,22 @@ def get_confirmed_non_liability_counts(semester: int) -> List[int]:
     return [submitted_non_liability_count, not_submitted_non_liability_count]
 
 
+def get_confirmed_participants_bachlor_master_counts(selected_semester):
+    participants = Participant.objects.filter(Q(semester=selected_semester) & Q(status="confirmed"))
+    master_count = participants.filter(subject__degree=Subject.MASTER).count()
+    bachlor_count = participants.filter(subject__degree=Subject.BACHELOR).count()
+    return [bachlor_count, master_count]
+
+
 @permission_required("fahrt.view_participants")
 def fahrt_dashboard(request):
     selected_semester: int = get_semester(request)
+    confirmed_participants_by_studies: List[Dict[str, Union[str, int]]] = (
+        Participant.objects.filter(Q(semester=selected_semester) & Q(status="confirmed"))
+        .values("subject")
+        .annotate(subject_count=Count("subject"))
+        .order_by("subject_count")
+    )
     participants_by_status: List[Dict[str, Union[str, int]]] = (
         Participant.objects.filter(semester=selected_semester)
         .values("status")
@@ -86,14 +100,14 @@ def fahrt_dashboard(request):
     )
 
     confirmed_participants_by_food: List[Dict[str, Union[str, int]]] = (
-        Participant.objects.filter(semester=selected_semester)
+        Participant.objects.filter(Q(semester=selected_semester) & Q(status="confirmed"))
         .values("nutrition")
         .annotate(nutrition_count=Count("nutrition"))
         .order_by("-nutrition")
     )
 
     confirmed_participants_allergy_list: List[Dict[str, Union[str, int]]] = (
-        Participant.objects.filter(semester=selected_semester)
+        Participant.objects.filter(Q(semester=selected_semester) & Q(status="confirmed"))
         .exclude(allergies=None)
         .values("id", "allergies")
         .order_by("allergies")
@@ -102,6 +116,13 @@ def fahrt_dashboard(request):
     context = {
         "participants_by_group_labels": [_(status["status"]) for status in participants_by_status],
         "participants_by_group_data": [status["status_count"] for status in participants_by_status],
+        "confirmed_participants_by_studies_labels": [
+            str(Subject.objects.get(pk=subject["subject"]))
+            for subject in confirmed_participants_by_studies
+        ],
+        "confirmed_participants_by_studies_data": [
+            subject["subject_count"] for subject in confirmed_participants_by_studies
+        ],
         "confirmed_participants_by_food_labels": [
             _(nutrition["nutrition"]) for nutrition in confirmed_participants_by_food
         ],
@@ -114,6 +135,9 @@ def fahrt_dashboard(request):
         "confirmed_participants_by_gender_data": [
             gender["gender_count"] for gender in confirmed_participants_by_gender
         ],
+        "confirmed_participants_bachlor_master": get_confirmed_participants_bachlor_master_counts(
+            selected_semester,
+        ),
         "confirmed_participants_age": get_confirmed_u18_participants_counts(selected_semester),
         "confirmed_participants_paid": get_confirmed_paid_participants_counts(selected_semester),
         "confirmed_participants_non_liability": get_confirmed_non_liability_counts(
