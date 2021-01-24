@@ -27,10 +27,6 @@ msgid "English"
 msgstr "Englisch"
 
 #: templates/base.html
-msgid "May the SET be ever in yor favour"
-msgstr "May the SET be ever in yor favour"
-
-#: templates/base.html
 msgid "SET-Fahrt"
 msgstr "SET-Fahrt"
 
@@ -251,6 +247,9 @@ msgstr "Ja"
 #: templates/snippets/true_false_none_span.html
 msgid "Unknown"
 msgstr "Unbekannt"
+
+#~ msgid "May the SET be ever in yor favour"
+#~ msgstr "May the SET be ever in yor favour"
 
 #~ msgid "Deselect All"
 #~ msgstr "Auswahl aufheben"

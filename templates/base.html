@@ -1,3 +1,4 @@
+{% load titles %}
 {% load active_link_tags %}
 {% load static %}
 {% load i18n %}
@@ -35,7 +36,7 @@
     <script src="{% static "datatables.net/js/jquery.dataTables.min.js" %}"></script>
     <script src="{% static "datatables.net-bs4/js/dataTables.bootstrap4.min.js" %}"></script>
 
-    <title>{% block title %}{% trans "May the SET be ever in yor favour" %}{% endblock %}</title>
+    <title>{% random_title %}</title>
 
     {% block head %}{% endblock %}
     {% block extrahead %} {# Extra Resources Start #}
