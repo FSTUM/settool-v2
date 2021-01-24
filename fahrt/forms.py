@@ -1,4 +1,5 @@
 from datetime import date
+from typing import List
 
 from bootstrap_datepicker_plus import DatePickerInput
 from bootstrap_datepicker_plus import DateTimePickerInput
@@ -14,7 +15,7 @@ from .models import Participant
 class FahrtForm(forms.ModelForm):
     class Meta:
         model = Fahrt
-        exclude = ["semester"]
+        exclude: List[str] = []
         widgets = {
             "date": DatePickerInput(format="%Y-%m-%d"),
             "open_registration": DateTimePickerInput(format="%Y-%m-%d %H:%M"),
@@ -22,12 +23,10 @@ class FahrtForm(forms.ModelForm):
         }
 
     def __init__(self, *args, **kwargs):
-        self.semester = kwargs.pop("semester")
         super().__init__(*args, **kwargs)
 
     def save(self, commit=True):
         instance = super().save(False)
-        instance.semester = self.semester
         if commit:
             instance.save()
         return instance
@@ -92,15 +91,13 @@ class ParticipantForm(ParticipantAdminForm):
 class MailForm(forms.ModelForm):
     class Meta:
         model = Mail
-        exclude = ["semester"]
+        exclude: List[str] = []
 
     def __init__(self, *args, **kwargs):
-        self.semester = kwargs.pop("semester")
         super().__init__(*args, **kwargs)
 
     def save(self, commit=True):
         instance = super().save(False)
-        instance.semester = self.semester
         if commit:
             instance.save()
         return instance
@@ -113,10 +110,8 @@ class SelectMailForm(forms.Form):
     )
 
     def __init__(self, *args, **kwargs):
-        semester = kwargs.pop("semester")
         super().__init__(*args, **kwargs)
-
-        self.fields["mail"].queryset = semester.fahrt_mail_set.all()
+        self.fields["mail"].queryset = Mail.objects.all()
 
 
 class FilterParticipantsForm(forms.Form):

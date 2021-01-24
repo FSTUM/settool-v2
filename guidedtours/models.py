@@ -113,11 +113,6 @@ class Participant(models.Model):
 
 class Mail(models.Model):
     sender = common_models.Mail.SET
-    semester = models.ForeignKey(
-        Semester,
-        on_delete=models.CASCADE,
-        related_name="tours_mail_set",
-    )
 
     subject = models.CharField(
         _("Email subject"),

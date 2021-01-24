@@ -70,7 +70,7 @@ repos:
           - id: curlylint
     - repo: local
       hooks:
-          - id: django-migrations
+          - id: django-makemigrations
             name: django-migrations
             entry: ./manage.py makemigrations
             language: system
@@ -78,6 +78,11 @@ repos:
           - id: django-check
             name: django-check
             entry: ./manage.py check --fail-level=INFO
+            language: system
+            pass_filenames: false
+          - id: django-migratate
+            name: django-migrations
+            entry: ./manage.py migrate
             language: system
             pass_filenames: false
           - id: django-makemessages

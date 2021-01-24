@@ -53,14 +53,14 @@ def bags_dashboard(request):
     companies = get_possibly_filtered_companies(filterform, semester)
 
     if "mailform" in request.POST:
-        mailform = SelectMailForm(request.POST, semester=semester)
+        mailform = SelectMailForm(request.POST)
         select_company_form_set = formset_factory(SelectCompanyForm, extra=0)
         companyforms = select_company_form_set(
             request.POST,
             initial=[{"id": c.id, "selected": True} for c in companies],
         )
     else:
-        mailform = SelectMailForm(None, semester=semester)
+        mailform = SelectMailForm(None)
         select_company_form_set = formset_factory(SelectCompanyForm, extra=0)
         companyforms = select_company_form_set(
             None,
@@ -222,20 +222,13 @@ def delete(request, company_pk):
 
 @permission_required("bags.view_companies")
 def index_mails(request):
-    sem = get_semester(request)
-    semester = get_object_or_404(Semester, pk=sem)
-    mails = semester.mail_set.all()
-
-    context = {"mails": mails}
+    context = {"mails": Mail.objects.all()}
     return render(request, "bags/index_mails.html", context)
 
 
 @permission_required("bags.view_companies")
 def add_mail(request):
-    sem = get_semester(request)
-    semester = get_object_or_404(Semester, pk=sem)
-
-    form = MailForm(request.POST or None, semester=semester)
+    form = MailForm(request.POST or None)
     if form.is_valid():
         form.save()
 
@@ -249,14 +242,9 @@ def add_mail(request):
 def edit_mail(request, mail_pk):
     mail = get_object_or_404(Mail, pk=mail_pk)
 
-    form = MailForm(
-        request.POST or None,
-        semester=mail.semester,
-        instance=mail,
-    )
+    form = MailForm(request.POST or None, instance=mail)
     if form.is_valid():
         form.save()
-
         return redirect("listmails")
 
     context = {

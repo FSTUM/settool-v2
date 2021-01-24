@@ -52,10 +52,7 @@ def set_semester(request):
 
 @permission_required("set.mail")
 def mail_list(request):
-    semester = get_object_or_404(Semester, pk=get_semester(request))
-    mails = settool_common.models.Mail.objects.filter(semester=semester)
-
-    context = {"mails": mails}
+    context = {"mails": settool_common.models.Mail.objects.all()}
     return render(request, "settool_common/settings/list_email_templates.html", context)
 
 
@@ -71,9 +68,7 @@ def mail_view(request, private_key):
 
 @permission_required("set.mail")
 def mail_add(request):
-    semester = get_object_or_404(Semester, pk=get_semester(request))
-
-    form = MailForm(request.POST or None, semester=semester)
+    form = MailForm(request.POST or None)
     if form.is_valid():
         form.save()
         return redirect("mail_list")
@@ -86,7 +81,7 @@ def mail_add(request):
 def mail_edit(request, private_key):
     mail = get_object_or_404(settool_common.models.Mail, pk=private_key)
 
-    form = MailForm(request.POST or None, semester=mail.semester, instance=mail)
+    form = MailForm(request.POST or None, instance=mail)
     if form.is_valid():
         form.save()
         return redirect("mail_list")

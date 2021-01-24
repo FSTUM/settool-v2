@@ -1,3 +1,5 @@
+from typing import List
+
 from django import forms
 from django.utils.translation import ugettext_lazy as _
 
@@ -46,15 +48,13 @@ class GiveawayForm(forms.Form):
 class MailForm(forms.ModelForm):
     class Meta:
         model = Mail
-        exclude = ["semester"]
+        exclude: List[str] = []
 
     def __init__(self, *args, **kwargs):
-        self.semester = kwargs.pop("semester")
         super().__init__(*args, **kwargs)
 
     def save(self, commit=True):
         instance = super().save(False)
-        instance.semester = self.semester
         if commit:
             instance.save()
         return instance
@@ -67,10 +67,9 @@ class SelectMailForm(forms.Form):
     )
 
     def __init__(self, *args, **kwargs):
-        semester = kwargs.pop("semester")
         super().__init__(*args, **kwargs)
 
-        self.fields["mail"].queryset = semester.mail_set.all()
+        self.fields["mail"].queryset = Mail.objects.all()
 
 
 def produce_boolean_field_with_autosubmit(label):

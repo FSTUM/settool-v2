@@ -129,11 +129,6 @@ class Company(models.Model):
 
 class Mail(models.Model):
     sender = common_models.Mail.SET_BAGS
-    semester = models.ForeignKey(
-        Semester,
-        on_delete=models.CASCADE,
-    )
-
     subject = models.CharField(
         _("Email subject"),
         max_length=200,

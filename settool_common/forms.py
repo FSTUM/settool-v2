@@ -1,3 +1,5 @@
+from typing import List
+
 from django import forms
 from django.utils.translation import ugettext_lazy as _
 
@@ -21,10 +23,10 @@ class SemesterBasedModelForm(SemesterBasedForm, forms.ModelForm):
         return instance
 
 
-class MailForm(SemesterBasedModelForm):
+class MailForm(forms.ModelForm):
     class Meta:
         model = Mail
-        exclude = ["semester"]
+        exclude: List[str] = []
 
 
 class SelectMailForm(forms.Form):
@@ -34,10 +36,9 @@ class SelectMailForm(forms.Form):
     )
 
     def __init__(self, *args, **kwargs):
-        semester = kwargs.pop("semester")
         super().__init__(*args, **kwargs)
 
-        self.fields["mail"].queryset = semester.fahrt_mail_set.all()
+        self.fields["mail"].queryset = Mail.objects.all()
 
 
 class CSVFileUploadForm(forms.Form):

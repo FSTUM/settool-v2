@@ -165,13 +165,11 @@ def filter_participants(request):
 @permission_required("guidedtours.view_participants")
 def filtered_list(request):
     filtered_participants = request.session["filtered_participants"]
-    sem = get_semester(request)
-    semester = get_object_or_404(Semester, pk=sem)
     participants = Participant.objects.filter(
         id__in=filtered_participants,
     ).order_by("surname")
 
-    form = SelectMailForm(request.POST or None, semester=semester)
+    form = SelectMailForm(request.POST or None)
     select_participant_form_set = formset_factory(
         SelectParticipantForm,
         extra=0,
@@ -217,20 +215,13 @@ def filtered_list(request):
 
 @permission_required("guidedtours.view_participants")
 def index_mails(request):
-    sem = get_semester(request)
-    semester = get_object_or_404(Semester, pk=sem)
-    mails = semester.tours_mail_set.all()
-
-    context = {"mails": mails}
+    context = {"mails": Mail.objects.all()}
     return render(request, "guidedtours/index_mails.html", context)
 
 
 @permission_required("guidedtours.view_participants")
 def add_mail(request):
-    sem = get_semester(request)
-    semester = get_object_or_404(Semester, pk=sem)
-
-    form = MailForm(request.POST or None, semester=semester)
+    form = MailForm(request.POST or None)
     if form.is_valid():
         form.save()
 
@@ -244,11 +235,7 @@ def add_mail(request):
 def edit_mail(request, mail_pk):
     mail = get_object_or_404(Mail, pk=mail_pk)
 
-    form = MailForm(
-        request.POST or None,
-        semester=mail.semester,
-        instance=mail,
-    )
+    form = MailForm(request.POST or None, instance=mail)
     if form.is_valid():
         form.save()
 

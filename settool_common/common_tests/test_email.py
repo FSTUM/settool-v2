@@ -11,7 +11,6 @@ from django.test import TestCase
 
 import settool_common.fixtures.showroom_fixture
 import settool_common.models as common_models
-from settool_common.fixtures.test_fixture import generate_semesters
 
 
 def assert_outbox_equal_exept_ordering(self: Any, expected: List[Dict[str, str]]) -> None:
@@ -35,15 +34,12 @@ class SendEmailTemplated(TestCase):
 
     @classmethod
     def setUpTestData(cls) -> None:
-        semester1, semester2 = generate_semesters()
         common_models.Mail.objects.create(
-            semester=semester1,
             sender=common_models.Mail.SET,
             subject="hi",
             text="{{ template1 }} abcd",
         )
         common_models.Mail.objects.create(
-            semester=semester2,
             sender=common_models.Mail.SET,
             subject="{{ template1 }} ho",
             text="abcd",
@@ -86,7 +82,7 @@ class SendEmailTemplated(TestCase):
 class SendEmailNoTemplate(TestCase):
     @classmethod
     def setUpTestData(cls) -> None:
-        settool_common.fixtures.showroom_fixture.generate_common_mails(generate_semesters())
+        settool_common.fixtures.showroom_fixture.generate_common_mails()
 
     def setUp(self) -> None:
         mail.outbox.clear()

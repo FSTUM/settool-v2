@@ -253,10 +253,8 @@ def list_cancelled(request):
 def view(request, participant_pk):
     participant = get_object_or_404(Participant, pk=participant_pk)
     log_entries = participant.logentry_set.order_by("time")
-    sem = get_semester(request)
-    semester = get_object_or_404(Semester, pk=sem)
 
-    form = SelectMailForm(request.POST or None, semester=semester)
+    form = SelectMailForm(request.POST or None)
 
     if form.is_valid():
         mail = form.cleaned_data["mail"]
@@ -572,20 +570,14 @@ def filtered_list(request):
 
 @permission_required("fahrt.view_participants")
 def index_mails(request):
-    sem = get_semester(request)
-    semester = get_object_or_404(Semester, pk=sem)
-    mails = semester.fahrt_mail_set.all()
-
-    context = {"mails": mails}
+    context = {"mails": Mail.objects.all()}
     return render(request, "fahrt/mail/index_mails.html", context)
 
 
 @permission_required("fahrt.view_participants")
 def add_mail(request):
-    sem = get_semester(request)
-    semester = get_object_or_404(Semester, pk=sem)
 
-    form = MailForm(request.POST or None, semester=semester)
+    form = MailForm(request.POST or None)
     if form.is_valid():
         form.save()
 
@@ -599,11 +591,7 @@ def add_mail(request):
 def edit_mail(request, mail_pk):
     mail = get_object_or_404(Mail, pk=mail_pk)
 
-    form = MailForm(
-        request.POST or None,
-        semester=mail.semester,
-        instance=mail,
-    )
+    form = MailForm(request.POST or None, instance=mail)
     if form.is_valid():
         form.save()
 
@@ -686,10 +674,9 @@ def change_date(request):
             close_registration=timezone.now(),
         )
 
-    form = FahrtForm(request.POST or None, semester=semester, instance=fahrt)
+    form = FahrtForm(request.POST or None, instance=fahrt)
     if form.is_valid():
         form.save()
-
         return redirect("fahrt_date")
 
     context = {

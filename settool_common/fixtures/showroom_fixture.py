@@ -1,7 +1,6 @@
 import random
 from datetime import timedelta
 from subprocess import run  # nosec: used for flushing the db
-from typing import List
 
 import django.utils.timezone
 import lorem
@@ -34,22 +33,22 @@ def showroom_fixture_state_no_confirmation():  # nosec: this is only used in a f
     # app settool-common
     common_semesters = generate_semesters()
     common_subjects = _generate_subjects()
-    generate_common_mails(common_semesters)
+    generate_common_mails()
 
     # app bags
     _generate_companies(common_semesters)
-    _generate_bags_mails(common_semesters)
+    _generate_bags_mails()
 
     # app fahrt
     fahrt_data = _generate_fahrt_data()
     fahrt_participants = _generate_fahrt_participants(common_subjects, fahrt_data)
     _generate_log_entries(fahrt_participants, superuser_frank)
-    _generate_fahrt_mails(common_semesters)
+    _generate_fahrt_mails()
 
     # app guildedtours
     guildedtours_tours = _generate_guildedtours_tours(common_semesters)
     _generate_guildedtours_participants(common_subjects, guildedtours_tours)
-    _generate_guildedtours_mails(common_semesters)
+    _generate_guildedtours_mails()
 
     # app tutors
     tutors_list = _generate_tutors(common_semesters, common_subjects)
@@ -390,13 +389,10 @@ def _generate_questions(semesters):  # nosec: this is only used in a fixture
     return questions
 
 
-def generate_common_mails(  # nosec: this is only used in a fixture
-    semesters: List[settool_common.models.Semester],
-) -> None:
+def generate_common_mails() -> None:  # nosec: this is only used in a fixture
     for author in settool_common.models.Mail.FROM_CHOICES:
         for _ in range(random.randint(10, 20)):
             settool_common.models.Mail.objects.create(
-                semester=random.choice(semesters),
                 sender=author[0],
                 subject=f"Common {lorem.sentence()}"[: random.randint(10, 200)],
                 comment=f"Common {lorem.sentence()}"[: random.randint(1, 250)]
@@ -406,36 +402,27 @@ def generate_common_mails(  # nosec: this is only used in a fixture
             )
 
 
-def _generate_bags_mails(  # nosec: this is only used in a fixture
-    semesters: List[settool_common.models.Semester],
-) -> None:
+def _generate_bags_mails() -> None:  # nosec: this is only used in a fixture
     for _ in range(random.randint(10, 20)):
         bags.models.Mail.objects.create(
-            semester=random.choice(semesters),
             subject=f"bags {lorem.sentence()}"[:100],
             text=lorem.text(),
             comment=lorem.sentence(),
         )
 
 
-def _generate_guildedtours_mails(  # nosec: this is only used in a fixture
-    semesters: List[settool_common.models.Semester],
-) -> None:
+def _generate_guildedtours_mails() -> None:  # nosec: this is only used in a fixture
     for _ in range(random.randint(10, 20)):
         guidedtours.models.Mail.objects.create(
-            semester=random.choice(semesters),
             subject=f"guidedtours {lorem.sentence()}"[:100],
             text=lorem.text(),
             comment=lorem.sentence(),
         )
 
 
-def _generate_fahrt_mails(  # nosec: this is only used in a fixture
-    semesters: List[settool_common.models.Semester],
-) -> None:
+def _generate_fahrt_mails() -> None:  # nosec: this is only used in a fixture
     for _ in range(random.randint(10, 20)):
         fahrt.models.Mail.objects.create(
-            semester=random.choice(semesters),
             subject=f"fahrt {lorem.sentence()}"[:100],
             text=lorem.text(),
             comment=lorem.sentence(),

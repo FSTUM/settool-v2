@@ -298,10 +298,7 @@ class TutorMailAdminForm(SemesterBasedForm):
         self.fields["tutors"].initial = Tutor.objects.exclude(
             id__in=MailTutorTask.objects.filter(mail=template).values("tutor_id"),
         )
-        self.fields["mail_template"].queryset = Mail.objects.filter(
-            semester=self.semester,
-            sender=Mail.SET_TUTOR,
-        )
+        self.fields["mail_template"].queryset = Mail.objects.filter(sender=Mail.SET_TUTOR)
         self.fields["mail_template"].initial = template
 
 

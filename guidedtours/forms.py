@@ -1,3 +1,5 @@
+from typing import List
+
 from bootstrap_datepicker_plus import DatePickerInput
 from bootstrap_datepicker_plus import DateTimePickerInput
 from django import forms
@@ -49,15 +51,10 @@ class TourForm(forms.ModelForm):
 class MailForm(forms.ModelForm):
     class Meta:
         model = Mail
-        exclude = ["semester"]
-
-    def __init__(self, *args, **kwargs):
-        self.semester = kwargs.pop("semester")
-        super().__init__(*args, **kwargs)
+        exclude: List[str] = []
 
     def save(self, commit=True):
         instance = super().save(False)
-        instance.semester = self.semester
         if commit:
             instance.save()
         return instance
@@ -65,15 +62,9 @@ class MailForm(forms.ModelForm):
 
 class SelectMailForm(forms.Form):
     mail = forms.ModelChoiceField(
-        queryset=None,
+        queryset=Mail.objects.all(),
         label=_("Email template:"),
     )
-
-    def __init__(self, *args, **kwargs):
-        semester = kwargs.pop("semester")
-        super().__init__(*args, **kwargs)
-
-        self.fields["mail"].queryset = semester.tours_mail_set.all()
 
 
 class FilterParticipantsForm(forms.Form):
@@ -108,6 +99,4 @@ class FilterParticipantsForm(forms.Form):
 class SelectParticipantForm(forms.Form):
     id = forms.IntegerField()
 
-    selected = forms.BooleanField(
-        required=False,
-    )
+    selected = forms.BooleanField(required=False)
