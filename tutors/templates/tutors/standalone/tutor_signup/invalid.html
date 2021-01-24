@@ -1,13 +1,8 @@
-{% extends "base.html" %}
+{% extends "base_single_card_layout.html" %}
 {% load i18n %}
 
-{% block content %}
-<div class="card">
-    <div class="card-header">
-        {% trans "Confirmation failed" %}
-    </div>
-    <div class="card-body">
-        {% trans "The confirmation link was invalid." %}
-    </div>
-</div>
+{% block set_common_headercontent %}{% trans "Confirmation failed" %}{% endblock %}
+
+{% block set_common_content %}
+{% trans "The confirmation link was invalid." %}
 {% endblock %}

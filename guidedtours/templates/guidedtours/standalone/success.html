@@ -1,14 +1,8 @@
-{% extends "base.html" %}
+{% extends "base_single_card_layout.html" %}
 {% load i18n %}
 
-{% block content %}
-<div class="card">
-    <div class="card-header">
-        {% trans "You successfully signed up for a guided tour" %}
-    </div>
-    <div class="card-body">
+{% block set_common_headercontent %}{% trans "You successfully signed up for a guided tour" %}{% endblock %}
 
-        {% trans "You will get all further information by email." %}
-    </div>
-</div>
+{% block set_common_content %}
+{% trans "You will get all further information by email." %}
 {% endblock %}

@@ -1,34 +1,29 @@
-{% extends "base.html" %}
-{% load i18n %}
+{% extends "base_single_card_layout.html" %}
 {% load bootstrap4 %}
+{% load i18n %}
 
-{% block content %}
-<div class="card">
-    <div class="card-header">
-        {% trans "Edit email" %}: {{ mail.subject }}
+{% block set_common_headercontent %}{% trans "Edit email" %}: {{ mail.subject }}{% endblock %}
+
+{% block set_common_content %}
+<form
+    method="post"
+    action=""
+>
+    {% csrf_token %}
+
+    <div class="row">
+        <div class="col-xs-12 col-lg-5">
+            {% bootstrap_form form %}
+        </div>
     </div>
-    <div class="card-body">
-        <form
-            method="post"
-            action=""
-        >
-            {% csrf_token %}
 
-            <div class="row">
-                <div class="col-xs-12 col-lg-5">
-                    {% bootstrap_form form %}
-                </div>
-            </div>
-
-            <a
-                href="{% url "fahrt_listmails" %}"
-                class="btn btn-secondary"
-            >{% trans "Cancel" %}</a>
-            <button
-                type="submit"
-                class="btn btn-primary"
-            >{% trans "Edit email" %}</button>
-        </form>
-    </div>
-</div>
+    <a
+        href="{% url "fahrt_listmails" %}"
+        class="btn btn-secondary"
+    >{% trans "Cancel" %}</a>
+    <button
+        type="submit"
+        class="btn btn-primary"
+    >{% trans "Edit email" %}</button>
+</form>
 {% endblock %}

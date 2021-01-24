@@ -1,73 +1,67 @@
-{% extends "base.html" %}
+{% extends "base_single_card_layout.html" %}
 {% load i18n %}
 {% load bootstrap4 %}
 
-{% block content %}
-<div class="card">
-    <div class="card-header">
-        {% trans "Send email" %}
-    </div>
-    <div class="card-body">
+{% block set_common_headercontent %}{% trans "Send email" %}{% endblock %}
 
-        <p>
-            {% trans "Do you really want to send the following email to the participants below?" %}
-        </p>
-        <form
-            method="post"
-            action=""
-        >
-            {% csrf_token %}
+{% block set_common_content %}
+<h4>
+    {% trans "Do you really want to send the following email to the participants below?" %}
+</h4>
+<form
+    method="post"
+    action=""
+>
+    {% csrf_token %}
 
-            <a
-                class="btn btn-secondary"
-                href="{% url "mail_list" %}"
-            >{% trans "Cancel" %}</a>
-            <button
-                class="btn btn-warning"
-                type="submit"
-            >{% trans "Send email" %}</button>
-        </form>
-        <p>
-            <strong>{% trans "From" %}</strong>: {{ from_email }}
-        </p>
-        <p>
-            <strong>{% trans "To" %}</strong>: {% trans "see table below" %}
-        </p>
-        <p>
-            <strong>{% trans "Email subject" %}</strong>: {{ subject }}
-        </p>
-        <p>
-            <strong>{% trans "Text" %}</strong>:<br />{{ text|linebreaks|urlize }}
-        </p>
+    <a
+        class="btn btn-secondary"
+        href="{% url "mail_list" %}"
+    >{% trans "Cancel" %}</a>
+    <button
+        class="btn btn-warning"
+        type="submit"
+    >{% trans "Send email" %}</button>
+</form>
+<p>
+    <strong>{% trans "From" %}</strong>: {{ from_email }}
+</p>
+<p>
+    <strong>{% trans "To" %}</strong>: {% trans "see table below" %}
+</p>
+<p>
+    <strong>{% trans "Email subject" %}</strong>: {{ subject }}
+</p>
+<p>
+    <strong>{% trans "Text" %}</strong>:<br />{{ text|linebreaks|urlize }}
+</p>
 
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>{% trans "First name" %}</th>
-                    <th>{% trans "Surname" %}</th>
-                    <th>{% trans "Status" %}</th>
-                    <th>{% trans "Comment" %}</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for participant in participants %}
-                <tr>
-                    <td>
-                        <a href="{% url "fahrt_viewparticipant" participant.id %}">{{ participant.firstname }}</a>
-                    </td>
-                    <td>
-                        <a href="{% url "fahrt_viewparticipant" participant.id %}">{{ participant.surname }}</a>
-                    </td>
-                    <td>
-                        {{ participant.status }}
-                    </td>
-                    <td>
-                        {{ participant.comment }}
-                    </td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    </div>
-</div>
+<table class="table">
+    <thead>
+        <tr>
+            <th>{% trans "First name" %}</th>
+            <th>{% trans "Surname" %}</th>
+            <th>{% trans "Status" %}</th>
+            <th>{% trans "Comment" %}</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for participant in participants %}
+        <tr>
+            <td>
+                <a href="{% url "fahrt_viewparticipant" participant.id %}">{{ participant.firstname }}</a>
+            </td>
+            <td>
+                <a href="{% url "fahrt_viewparticipant" participant.id %}">{{ participant.surname }}</a>
+            </td>
+            <td>
+                {{ participant.status }}
+            </td>
+            <td>
+                {{ participant.comment }}
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
 {% endblock %}

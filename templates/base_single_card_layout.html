@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="card">
+    <div class="card-header">
+        {% block set_common_headercontent %}{% endblock %}
+    </div>
+    <div class="card-body">
+        {% block set_common_content %}{% endblock %}
+    </div>
+</div>
+{% endblock %}
