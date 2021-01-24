@@ -28,6 +28,11 @@ urlpatterns = [
         name="tours_view",
     ),
     path(
+        "export/<str:file_format>/<int:tour_pk>/",
+        views.export,
+        name="tours_export",
+    ),
+    path(
         "signup/",
         views.signup,
         name="tours_signup",

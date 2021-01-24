@@ -240,6 +240,7 @@ msgid "Send emails"
 msgstr "E-Mails senden"
 
 #: guidedtours/templates/guidedtours/index_mails.html
+#: guidedtours/templates/guidedtours/list_tours.html
 msgid "Actions"
 msgstr "Aktionen"
 
@@ -267,6 +268,14 @@ msgstr "E-Mail"
 #: guidedtours/templates/guidedtours/list_tours.html
 msgid "List of all tours"
 msgstr "Liste der Institutsführungen"
+
+#: guidedtours/templates/guidedtours/list_tours.html
+msgid "Export confired participants as CSV"
+msgstr "Bestätigte Teilnehmer als CSV ausgeben"
+
+#: guidedtours/templates/guidedtours/list_tours.html
+msgid "Export confired participants as PDF"
+msgstr "Bestätigte Teilnehmer als PDF ausgeben"
 
 #: guidedtours/templates/guidedtours/send_mail.html
 msgid "Send email"

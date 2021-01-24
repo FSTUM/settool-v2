@@ -4,7 +4,9 @@
 {% block head %}
 <script>
     $(document).ready(() => {
-        $('#tourTable').DataTable();
+        $('#tourTable').DataTable({
+            columnDefs: [{ targets: 2, orderable: false, className: 'text-right' }],
+        });
     });
 </script>
 {% endblock %}
@@ -21,6 +23,7 @@
             <tr>
                 <th>{% trans "Tour" %}</th>
                 <th>{% trans "Date" %}</th>
+                <th>{% trans "Actions" %}</th>
             </tr>
         </thead>
         <tbody>
@@ -28,6 +31,16 @@
             <tr>
                 <td><a href="{% url "tours_view" tour.id %}">{{ tour.name }}</a></td>
                 <td><a href="{% url "tours_view" tour.id %}">{{ tour.date }}</a></td>
+                <td>
+                    <a
+                        class='btn btn-secondary'
+                        href="{% url "tours_export" "csv" tour.id %}"
+                    >{% trans "Export confired participants as CSV" %}> <span class="bi bi-file-spreadsheet"></span></a>
+                    <a
+                        class='btn btn-primary'
+                        href="{% url "tours_export" "pdf" tour.id %}"
+                    >{% trans "Export confired participants as PDF" %}> <span class="bi bi-file-earmark-person-fill"></span></a>
+                </td>
             </tr>
             {% endfor %}
         </tbody>

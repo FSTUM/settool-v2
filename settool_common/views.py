@@ -11,7 +11,6 @@ from django.contrib.auth.decorators import permission_required
 from django.contrib.auth.decorators import user_passes_test
 from django.db.models import Count
 from django.forms import forms
-from django.http import HttpResponse
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404
 from django.shortcuts import redirect
@@ -24,6 +23,7 @@ import fahrt.models
 import guidedtours.models
 import settool_common.models
 import tutors.models
+from settool_common import utils
 from settool_common.forms import MailForm
 from settool_common.models import get_semester
 from settool_common.models import Semester
@@ -212,16 +212,14 @@ def mail_export(request):
     mails_settool_common = settool_common.models.Mail.objects.all()
     mails_tutors = tutors.models.Mail.objects.all()
 
-    mails = []
-    mails += [_clean_mail(mail) for mail in mails_bags]
+    mails = [_clean_mail(mail) for mail in mails_bags]
     mails += [_clean_mail(mail) for mail in mails_fahrt]
     mails += [_clean_mail(mail) for mail in mails_guidedtours]
     mails += [_clean_mail(mail) for mail in mails_settool_common]
     mails += [_clean_mail(mail) for mail in mails_tutors]
-    return download_csv(
-        ["sender", "subject", "text", "comment"],
-        mails,
-    )
+
+    filename = f"emails{time.strftime('%Y%m%d-%H%M')}.csv"
+    return utils.download_csv(["sender", "subject", "text", "comment"], filename, mails)
 
 
 def _clean_mail(mail):
@@ -231,15 +229,3 @@ def _clean_mail(mail):
         "text": mail.text or "",
         "comment": mail.comment if hasattr(mail, "comment") else "",
     }
-
-
-def download_csv(fields, context):
-    response = HttpResponse(content_type="text/csv")
-    filename = f"emails{time.strftime('%Y%m%d-%H%M')}.csv"
-    response["Content-Disposition"] = f"inline; filename={filename}"
-    writer = csv.writer(response, dialect=csv.excel)
-    writer.writerow(fields)
-
-    for obj in context:
-        writer.writerow(obj[field] for field in fields)
-    return response

@@ -1,12 +1,17 @@
+import time
+
 from django import forms
 from django.contrib.auth.decorators import permission_required
+from django.core.handlers.wsgi import WSGIRequest
 from django.db.models import Q
 from django.forms import formset_factory
+from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
 from django.shortcuts import redirect
 from django.shortcuts import render
 from django.utils import timezone
 
+from settool_common import utils
 from settool_common.models import get_semester
 from settool_common.models import Semester
 
@@ -349,3 +354,19 @@ def signup_internal(request):
         "form": form,
     }
     return render(request, "guidedtours/signup_internal.html", context)
+
+
+@permission_required("guidedtours.view_participants")
+def export(request: WSGIRequest, file_format: str, tour_pk: int) -> HttpResponse:
+    tour = get_object_or_404(Tour, pk=tour_pk)
+    participants = tour.participant_set.order_by("time")
+    confirmed_participants = participants[: tour.capacity]
+    filename = f"participants_{tour.name}_{tour.date}_{time.strftime('%Y%m%d-%H%M')}.pdf"
+    context = {"participants": confirmed_participants, "tour": tour}
+    if file_format == "csv":
+        return utils.download_csv(
+            ["surname", "firstname", "time", "email", "phone", "subject"],
+            filename,
+            context,
+        )
+    return utils.download_pdf("guidedtours/tex/tour.tex", filename, context)

@@ -1,5 +1,3 @@
-import csv
-import os
 import time
 from typing import Dict
 
@@ -12,7 +10,6 @@ from django.db.models import Q
 from django.forms import forms
 from django.forms import modelformset_factory
 from django.http import Http404
-from django.http import HttpResponse
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404
 from django.shortcuts import redirect
@@ -640,15 +637,15 @@ def tutor_export(request, file_type, status="all"):
     filename = f"tutors_{time.strftime('%Y%m%d-%H%M')}"
 
     if file_type == "pdf":
-        return download_pdf("tutors/tex/tutors.tex", f"{filename}.pdf", {"tutors": tutors})
+        return utils.download_pdf("tutors/tex/tutors.tex", f"{filename}.pdf", {"tutors": tutors})
     if file_type == "csv":
-        return download_csv(
+        return utils.download_csv(
             ["last_name", "first_name", "subject", "matriculation_number", "birthday"],
             f"{filename}.csv",
             tutors,
         )
     if file_type == "tshirt":
-        return download_pdf("tutors/tex/tshirts.tex", f"{filename}.pdf", {"tutors": tutors})
+        return utils.download_pdf("tutors/tex/tshirts.tex", f"{filename}.pdf", {"tutors": tutors})
 
     raise Http404
 
@@ -660,32 +657,13 @@ def task_export(request, file_type, uid=None):
 
     filename = f"task_{task.id}_{time.strftime('%Y%m%d-%H%M')}"
     if file_type == "pdf":
-        return download_pdf(
+        return utils.download_pdf(
             "tutors/tex/task.tex",
             f"{filename}.pdf",
             {"task": task, "tutors": tutors},
         )
 
     raise Http404
-
-
-def download_pdf(file, dest, context):
-    pdf = utils.latex_to_pdf(file, context)
-    response = HttpResponse(pdf, content_type="application/pdf")
-    response["Content-Disposition"] = f"inline; filename={os.path.basename(dest)}"
-    return response
-
-
-def download_csv(fields, dest, context):
-    response = HttpResponse(content_type="text/csv")
-    response["Content-Disposition"] = f"inline; filename={os.path.basename(dest)}"
-    writer = csv.writer(response, dialect=csv.excel)
-    writer.writerow(fields)
-
-    for obj in context:
-        writer.writerow(getattr(obj, field) for field in fields)
-
-    return response
 
 
 @permission_required("tutors.edit_tutors")
