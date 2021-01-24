@@ -497,6 +497,18 @@ msgid "%(additional_seats)s additional seats"
 msgstr "%(additional_seats)s zusätzliche Plätze"
 
 #: fahrt/templates/fahrt/participants/list_confirmed.html
+msgid "Vegan"
+msgstr "Vegan"
+
+#: fahrt/templates/fahrt/participants/list_confirmed.html
+msgid "Vegeterian"
+msgstr "Vegetarisch"
+
+#: fahrt/templates/fahrt/participants/list_confirmed.html
+msgid "Normal"
+msgstr "Normal"
+
+#: fahrt/templates/fahrt/participants/list_confirmed.html
 #, python-format
 msgid "%(number)s, thereof women: %(women)s"
 msgstr "%(number)s, davon Frauen: %(women)s"

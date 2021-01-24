@@ -62,6 +62,7 @@
                 <th>{% trans "Paid/Payment deadline" %}</th>
                 <th>{% trans "Car" %}</th>
                 <th>{% trans "U18" %}</th>
+                <th>{% trans "Nutrition" %}</th>
                 <th>{% trans "Allergies" %}</th>
             </tr>
         </thead>
@@ -95,6 +96,7 @@
                     {% endif %}
                 </td>
                 <td>{% include "snippets/true_false_span.html" with value=participant.u18 inverted_colors=True %}</td>
+                <td>{% if participant.nutrition == "vegan" %}{% trans "Vegan" %}{% elif participant.nutrition == "vegeterian" %}{% trans "Vegeterian" %}{% else %}{% trans "Normal" %}{% endif %}</td>
                 <td>{% include "snippets/true_false_span.html" with value=participant.allergies inverted_colors=True %}</td>
             </tr>
             {% endfor %}
@@ -125,6 +127,7 @@
                     {% endblocktranslate %}
                 </th>
                 <th>{{ u18s }}</th>
+                <th></th>
                 <th>{{ allergies }}</th>
             </tr>
         </tfoot>
