@@ -124,9 +124,9 @@
                 {% endif %}
                 {% if status == "all" %}
                 {% if tutor.status == "accepted" %}<td class="table-success">{% trans "Accepted" %}</td>
-                {% elif tutor.status == "declined" %}<td class="table-danger">{% trans "Declined" %}</td>
-                {% elif  tutor.status == "inactive" %}<td class="table-warning">{% trans "Email-verification missing" %}</td>
-                {% elif  tutor.status == "active" %}<td class="table-secondary">{% trans "Open" %}</td>
+                {% elif tutor.status == "declined" %}<td class="table-secondary">{% trans "Declined" %}</td>
+                {% elif  tutor.status == "inactive" %}<td class="table-danger">{% trans "Email-verification missing" %}</td>
+                {% elif  tutor.status == "active" %}<td class="table-warning">{% trans "Open" %}</td>
                 {% elif  tutor.status == "employee" %}<td class="table-info">{% trans "Collaborator" %}</td>
                 {% else %}<td>?</td>
                 {% endif %}
