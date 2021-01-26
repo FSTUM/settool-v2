@@ -1,6 +1,7 @@
 from django import forms
 from django.contrib.auth.decorators import permission_required
 from django.contrib.auth.decorators import user_passes_test
+from django.core.handlers.wsgi import WSGIRequest
 from django.forms import formset_factory
 from django.http import HttpResponse
 from django.http import HttpResponseBadRequest
@@ -46,7 +47,7 @@ def get_possibly_filtered_companies(filterform, semester):
 
 
 @permission_required("bags.view_companies")
-def bags_dashboard(request):
+def bags_dashboard(request: WSGIRequest) -> HttpResponse:
     sem = get_semester(request)
     semester = get_object_or_404(Semester, pk=sem)
     filterform = FilterCompaniesForm(request.POST or None)
@@ -103,7 +104,7 @@ def bags_dashboard(request):
 
 
 @permission_required("bags.view_companies")
-def insert_giveaways(request):
+def insert_giveaways(request: WSGIRequest) -> HttpResponse:
     sem = get_semester(request)
     semester = get_object_or_404(Semester, pk=sem)
 
@@ -124,7 +125,7 @@ def insert_giveaways(request):
 
 
 @permission_required("bags.view_companies")
-def add(request):
+def add(request: WSGIRequest) -> HttpResponse:
     sem = get_semester(request)
     semester = get_object_or_404(Semester, pk=sem)
 
@@ -139,7 +140,7 @@ def add(request):
 
 
 @permission_required("bags.view_companies")
-def company_details(request, company_pk):
+def company_details(request: WSGIRequest, company_pk: int) -> HttpResponse:
     company = get_object_or_404(Company, pk=company_pk)
 
     context = {"company": company}
@@ -147,7 +148,7 @@ def company_details(request, company_pk):
 
 
 @permission_required("bags.view_companies")
-def edit(request, company_pk):
+def edit(request: WSGIRequest, company_pk: int) -> HttpResponse:
     company = get_object_or_404(Company, pk=company_pk)
 
     form = CompanyForm(
@@ -168,7 +169,7 @@ def edit(request, company_pk):
 
 
 @permission_required("bags.view_companies")
-def update_field(request, company_pk, field):
+def update_field(request: WSGIRequest, company_pk: int, field: str) -> HttpResponse:
     company = get_object_or_404(Company, pk=company_pk)
 
     form = UpdateFieldForm(request.POST or None)
@@ -204,7 +205,7 @@ def update_field(request, company_pk, field):
 
 
 @permission_required("bags.view_companies")
-def delete(request, company_pk):
+def delete(request: WSGIRequest, company_pk: int) -> HttpResponse:
     company = get_object_or_404(Company, pk=company_pk)
 
     form = forms.Form(request.POST or None)
@@ -221,13 +222,13 @@ def delete(request, company_pk):
 
 
 @permission_required("bags.view_companies")
-def index_mails(request):
+def index_mails(request: WSGIRequest) -> HttpResponse:
     context = {"mails": Mail.objects.all()}
     return render(request, "bags/index_mails.html", context)
 
 
 @permission_required("bags.view_companies")
-def add_mail(request):
+def add_mail(request: WSGIRequest) -> HttpResponse:
     form = MailForm(request.POST or None)
     if form.is_valid():
         form.save()
@@ -239,7 +240,7 @@ def add_mail(request):
 
 
 @permission_required("bags.view_companies")
-def edit_mail(request, mail_pk):
+def edit_mail(request: WSGIRequest, mail_pk: int) -> HttpResponse:
     mail = get_object_or_404(Mail, pk=mail_pk)
 
     form = MailForm(request.POST or None, instance=mail)
@@ -255,7 +256,7 @@ def edit_mail(request, mail_pk):
 
 
 @permission_required("bags.view_companies")
-def delete_mail(request, mail_pk):
+def delete_mail(request: WSGIRequest, mail_pk: int) -> HttpResponse:
     mail = get_object_or_404(Mail, pk=mail_pk)
 
     form = forms.Form(request.POST or None)
@@ -272,7 +273,7 @@ def delete_mail(request, mail_pk):
 
 
 @permission_required("bags.view_companies")
-def send_mail(request, mail_pk):
+def send_mail(request: WSGIRequest, mail_pk: int) -> HttpResponse:
     mail = get_object_or_404(Mail, pk=mail_pk)
     selected_companies = request.session["selected_companies"]
     sem = get_semester(request)
@@ -305,7 +306,7 @@ def send_mail(request, mail_pk):
 
 
 @user_passes_test(lambda user: user.is_staff)
-def import_companies(request):
+def import_companies(request: WSGIRequest) -> HttpResponse:
     sem = get_semester(request)
     new_semester = get_object_or_404(Semester, pk=sem)
 

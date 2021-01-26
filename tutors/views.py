@@ -1,15 +1,23 @@
 import time
+from typing import Any
 from typing import Dict
+from typing import List
+from typing import Optional
+from uuid import UUID
 
 from django import http
 from django.contrib import messages
 from django.contrib.auth.decorators import permission_required
+from django.core.handlers.wsgi import WSGIRequest
 from django.core.mail import EmailMessage
 from django.db.models import Count
+from django.db.models import Manager
 from django.db.models import Q
+from django.db.models import QuerySet
 from django.forms import forms
 from django.forms import modelformset_factory
 from django.http import Http404
+from django.http import HttpResponse
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404
 from django.shortcuts import redirect
@@ -49,7 +57,7 @@ from tutors.models import Tutor
 from tutors.tokens import account_activation_token
 
 
-def tutor_signup(request):
+def tutor_signup(request: WSGIRequest) -> HttpResponse:
     semester = get_object_or_404(Semester, pk=get_semester(request))
     settings = get_object_or_404(Settings, semester=semester)
 
@@ -70,7 +78,7 @@ def tutor_signup(request):
         tutor.log(None, "Signed up")
         save_answer_formset(answer_formset, tutor.id)
 
-        context = Context(
+        mail_context = Context(
             {
                 "tutor": tutor,
                 "activation_url": request.build_absolute_uri(
@@ -84,8 +92,8 @@ def tutor_signup(request):
                 ),
             },
         )
-        message = Template(settings.mail_registration.text).render(context)
-        subject = Template(settings.mail_registration.subject).render(context)
+        message = Template(settings.mail_registration.text).render(mail_context)
+        subject = Template(settings.mail_registration.subject).render(mail_context)
         to_email = form.cleaned_data.get("email")
         email = EmailMessage(
             from_email=settings.mail_registration.sender,
@@ -115,7 +123,7 @@ def save_answer_formset(answer_formset, tutor_id):
         res.save()
 
 
-def collaborator_signup(request):
+def collaborator_signup(request: WSGIRequest) -> HttpResponse:
     semester = get_object_or_404(Semester, pk=get_semester(request))
     settings = get_object_or_404(Settings, semester=semester)
 
@@ -147,7 +155,7 @@ def collaborator_signup(request):
     return render(request, "tutors/standalone/collaborator_signup/signup.html", context)
 
 
-def generate_answer_formset(request, semester):
+def generate_answer_formset(request: WSGIRequest, semester: Semester) -> Any:
     questions = Question.objects.filter(semester=semester)
     question_count = questions.count()
     answers_new = []
@@ -176,27 +184,28 @@ def generate_answer_formset(request, semester):
     return AnswerFormSet(queryset=Answer.objects.none(), initial=initial_data)
 
 
-def collaborator_signup_success(request):
+def collaborator_signup_success(request: WSGIRequest) -> HttpResponse:
     return render(request, "tutors/standalone/collaborator_signup/success.html")
 
 
-def tutor_signup_success(request):
+def tutor_signup_success(request: WSGIRequest) -> HttpResponse:
     return render(request, "tutors/standalone/tutor_signup/success.html")
 
 
-def tutor_signup_invalid(request):
+def tutor_signup_invalid(request: WSGIRequest) -> HttpResponse:
     return render(request, "tutors/standalone/tutor_signup/invalid.html")
 
 
-def tutor_signup_confirmation_required(request):
+def tutor_signup_confirmation_required(request: WSGIRequest) -> HttpResponse:
     return render(request, "tutors/standalone/tutor_signup/confirmation_required.html")
 
 
-def tutor_signup_confirm(request, uidb64, token):
+def tutor_signup_confirm(request: WSGIRequest, uidb64: Any, token: Any) -> HttpResponse:
     uid = urlsafe_base64_decode(uidb64).decode()
     tutor = get_object_or_404(Tutor, pk=uid)
 
-    if account_activation_token.check_token(tutor, token):
+    if account_activation_token.check_token(tutor, token):  # type: ignore
+        # TODO Check if tutor can be made subclass of User.. current Version works, but is inelegant
         tutor.status = Tutor.STATUS_ACTIVE
         tutor.save()
         return redirect("tutor_signup_success")
@@ -204,7 +213,7 @@ def tutor_signup_confirm(request, uidb64, token):
 
 
 @permission_required("tutors.edit_tutors")
-def tutor_list(request, status):
+def tutor_list(request: WSGIRequest, status: str) -> HttpResponse:
     semester = get_object_or_404(Semester, pk=get_semester(request))
 
     if status == "all":
@@ -222,13 +231,13 @@ def tutor_list(request, status):
     )
 
 
-def tutor_view(request, uid):
+def tutor_view(request: WSGIRequest, uid: UUID) -> HttpResponse:
     tutor = get_object_or_404(Tutor, pk=uid)
     return render(request, "tutors/tutor/view.html", {"tutor": tutor})
 
 
 @permission_required("tutors.edit_tutors")
-def tutor_change_status(request, uid, status):
+def tutor_change_status(request: WSGIRequest, uid: UUID, status: str) -> HttpResponse:
     tutor = get_object_or_404(Tutor, pk=uid)
     form = forms.Form(request.POST or None)
 
@@ -240,7 +249,7 @@ def tutor_change_status(request, uid, status):
 
 
 @permission_required("tutors.edit_tutors")
-def tutor_delete(request, uid):
+def tutor_delete(request: WSGIRequest, uid: UUID) -> HttpResponse:
     tutor = get_object_or_404(Tutor, pk=uid)
 
     form = forms.Form(request.POST or None)
@@ -257,7 +266,7 @@ def tutor_delete(request, uid):
 
 
 @permission_required("tutors.edit_tutors")
-def tutor_edit(request, uid):
+def tutor_edit(request: WSGIRequest, uid: UUID) -> HttpResponse:
     semester = get_object_or_404(Semester, pk=get_semester(request))
     tutor = get_object_or_404(Tutor, pk=uid)
 
@@ -315,7 +324,7 @@ def tutor_edit(request, uid):
 
 
 @permission_required("tutors.edit_tutors")
-def event_edit(request, uid):
+def event_edit(request: WSGIRequest, uid: UUID) -> HttpResponse:
     event = get_object_or_404(Event, pk=uid)
 
     form = EventAdminForm(request.POST or None, semester=event.semester, instance=event)
@@ -337,14 +346,14 @@ def event_edit(request, uid):
 
 
 @permission_required("tutors.edit_tutors")
-def event_list(request):
+def event_list(request: WSGIRequest) -> HttpResponse:
     semester = get_object_or_404(Semester, pk=get_semester(request))
     events = Event.objects.filter(semester=semester).order_by("begin")
     return render(request, "tutors/event/list.html", {"events": events})
 
 
 @permission_required("tutors.edit_tutors")
-def event_delete(request, uid):
+def event_delete(request: WSGIRequest, uid: UUID) -> HttpResponse:
     event = get_object_or_404(Event, pk=uid)
 
     form = forms.Form(request.POST or None)
@@ -361,7 +370,7 @@ def event_delete(request, uid):
 
 
 @permission_required("tutors.edit_tutors")
-def event_add(request):
+def event_add(request: WSGIRequest) -> HttpResponse:
     semester = get_object_or_404(Semester, pk=get_semester(request))
 
     form = EventAdminForm(request.POST or None, semester=semester)
@@ -379,13 +388,13 @@ def event_add(request):
     return render(request, "tutors/event/add.html", context)
 
 
-def event_view(request, uid):
+def event_view(request: WSGIRequest, uid: UUID) -> HttpResponse:
     event = get_object_or_404(Event, pk=uid)
     return render(request, "tutors/event/view.html", {"event": event})
 
 
 @permission_required("tutors.edit_tutors")
-def task_edit(request, uid):
+def task_edit(request: WSGIRequest, uid: UUID) -> HttpResponse:
     task = get_object_or_404(Task, pk=uid)
 
     form = TaskAdminForm(request.POST or None, semester=task.semester, instance=task)
@@ -407,14 +416,13 @@ def task_edit(request, uid):
 
 
 @permission_required("tutors.edit_tutors")
-def task_list(request):
-    semester = get_object_or_404(Semester, pk=get_semester(request))
-    tasks = Task.objects.filter(semester=semester).order_by("begin")
+def task_list(request: WSGIRequest) -> HttpResponse:
+    tasks = Task.objects.filter(semester=get_semester(request)).order_by("begin")
     return render(request, "tutors/task/list.html", {"tasks": tasks})
 
 
 @permission_required("tutors.edit_tutors")
-def task_delete(request, uid):
+def task_delete(request: WSGIRequest, uid: UUID) -> HttpResponse:
     task = get_object_or_404(Task, pk=uid)
 
     form = forms.Form(request.POST or None)
@@ -431,7 +439,7 @@ def task_delete(request, uid):
 
 
 @permission_required("tutors.edit_tutors")
-def task_add(request, eid=None):
+def task_add(request: WSGIRequest, eid: Optional[UUID] = None) -> HttpResponse:
     semester = get_object_or_404(Semester, pk=get_semester(request))
 
     form = TaskAdminForm(request.POST or None, semester=semester, initial={"event": eid})
@@ -449,7 +457,7 @@ def task_add(request, eid=None):
     return render(request, "tutors/task/add.html", context)
 
 
-def task_view(request, uid):
+def task_view(request: WSGIRequest, uid: UUID) -> HttpResponse:
     semester = get_object_or_404(Semester, pk=get_semester(request))
     task = get_object_or_404(Task, pk=uid)
 
@@ -484,20 +492,20 @@ def task_view(request, uid):
 
 
 @permission_required("tutors.edit_tutors")
-def requirement_list(request):
+def requirement_list(request: WSGIRequest) -> HttpResponse:
     semester = get_object_or_404(Semester, pk=get_semester(request))
     questions = Question.objects.filter(semester=semester)
     return render(request, "tutors/requirement/list.html", {"requirements": questions})
 
 
 @permission_required("tutors.edit_tutors")
-def requirement_view(request, uid):
+def requirement_view(request: WSGIRequest, uid: UUID) -> HttpResponse:
     question = get_object_or_404(Question, pk=uid)
     return render(request, "tutors/requirement/view.html", {"requirement": question})
 
 
 @permission_required("tutors.edit_tutors")
-def requirement_add(request):
+def requirement_add(request: WSGIRequest) -> HttpResponse:
     semester = get_object_or_404(Semester, pk=get_semester(request))
 
     form = RequirementAdminForm(request.POST or None, semester=semester)
@@ -516,7 +524,7 @@ def requirement_add(request):
 
 
 @permission_required("tutors.edit_tutors")
-def requirement_edit(request, uid):
+def requirement_edit(request: WSGIRequest, uid: UUID) -> HttpResponse:
     question = get_object_or_404(Question, pk=uid)
 
     form = RequirementAdminForm(request.POST or None, semester=question.semester, instance=question)
@@ -538,7 +546,7 @@ def requirement_edit(request, uid):
 
 
 @permission_required("tutors.edit_tutors")
-def requirement_delete(request, uid):
+def requirement_delete(request: WSGIRequest, uid: UUID) -> HttpResponse:
     question = get_object_or_404(Question, pk=uid)
 
     form = forms.Form(request.POST or None)
@@ -555,30 +563,30 @@ def requirement_delete(request, uid):
 
 
 @permission_required("tutors.edit_tutors")
-def task_mail(request, uid, template=None):
+def task_mail(request: WSGIRequest, uid: UUID, mail_pk: Optional[int] = None) -> HttpResponse:
     semester = get_object_or_404(Semester, pk=get_semester(request))
     settings = get_object_or_404(Settings, semester=semester)
     task = get_object_or_404(Task, pk=uid)
 
-    if template is None:
+    if mail_pk is None:
         template = settings.mail_task
         if template is None:
             raise Http404
     else:
-        template = get_object_or_404(Mail, pk=template, sender=Mail.SET_TUTOR)
+        template = get_object_or_404(Mail, pk=mail_pk, sender=Mail.SET_TUTOR)
 
     tutor_data = extract_tutor_data()
     tutor = Tutor(**tutor_data)
 
-    context = Context(
+    mail_context = Context(
         {
             "task": task,
             "tutor": tutor,
         },
     )
 
-    subject = Template(template.subject).render(context)
-    body = Template(template.text).render(context)
+    subject = Template(template.subject).render(mail_context)
+    body = Template(template.text).render(mail_context)
 
     form = TutorMailAdminForm(
         request.POST or None,
@@ -591,14 +599,14 @@ def task_mail(request, uid, template=None):
         mail_template = form.cleaned_data["mail_template"]
 
         for tutor in tutors:
-            context = Context(
+            mail_context = Context(
                 {
                     "tutor": tutor,
                     "task": task,
                 },
             )
-            message = Template(mail_template.text).render(context)
-            subject = Template(mail_template.subject).render(context)
+            message = Template(mail_template.text).render(mail_context)
+            subject = Template(mail_template.subject).render(mail_context)
             email = EmailMessage(
                 from_email=mail_template.sender,
                 to=[tutor.email],
@@ -625,7 +633,7 @@ def task_mail(request, uid, template=None):
 
 
 @permission_required("tutors.edit_tutors")
-def tutor_export(request, file_type, status="all"):
+def tutor_export(request: WSGIRequest, file_type: str, status: str = "all") -> HttpResponse:
     semester = get_object_or_404(Semester, pk=get_semester(request))
 
     if status == "all":
@@ -642,7 +650,7 @@ def tutor_export(request, file_type, status="all"):
         return utils.download_csv(
             ["last_name", "first_name", "subject", "matriculation_number", "birthday"],
             f"{filename}.csv",
-            tutors,
+            list(tutors),
         )
     if file_type == "tshirt":
         return utils.download_pdf("tutors/tex/tshirts.tex", f"{filename}.pdf", {"tutors": tutors})
@@ -651,8 +659,8 @@ def tutor_export(request, file_type, status="all"):
 
 
 @permission_required("tutors.edit_tutors")
-def task_export(request, file_type, uid=None):
-    task = Task.objects.get(pk=uid)
+def task_export(request: WSGIRequest, file_type: str, uid: UUID) -> HttpResponse:
+    task = get_object_or_404(Task, pk=uid)
     tutors = task.tutors.order_by("last_name", "first_name")
 
     filename = f"task_{task.id}_{time.strftime('%Y%m%d-%H%M')}"
@@ -667,7 +675,7 @@ def task_export(request, file_type, uid=None):
 
 
 @permission_required("tutors.edit_tutors")
-def tutors_settings_general(request):
+def tutors_settings_general(request: WSGIRequest) -> HttpResponse:
     semester = get_object_or_404(Semester, pk=get_semester(request))
     all_tutor_settings = Settings.objects.filter(semester=semester)
     if all_tutor_settings.count() == 0:
@@ -678,8 +686,11 @@ def tutors_settings_general(request):
     form = SettingsAdminForm(request.POST or None, semester=semester, instance=settings)
     if form.is_valid():
         settings = form.save()
-        settings.log(request.user, "Settings edited")
-        messages.success(request, "Saved Settings.")
+        if settings:
+            settings.log(request.user, "Settings edited")
+            messages.success(request, "Saved Settings.")
+        else:
+            messages.error(request, "The Settings do not exist.")
 
         return redirect("tutors_settings_general")
 
@@ -693,7 +704,7 @@ def tutors_settings_general(request):
 
 
 @permission_required("tutors.edit_tutors")
-def tutors_settings_tutors(request):
+def tutors_settings_tutors(request: WSGIRequest) -> HttpResponse:
     semester = get_object_or_404(Semester, pk=get_semester(request))
 
     subject_count = Subject.objects.all().count()
@@ -750,33 +761,38 @@ def tutors_settings_tutors(request):
 
 
 @permission_required("tutors.edit_tutors")
-def tutor_mail(request, status="all", template=None, uid=None):
+def tutor_mail(
+    request: WSGIRequest,
+    status: str = "all",
+    mail_pk: Optional[int] = None,
+    uid: Optional[UUID] = None,
+) -> HttpResponse:
     semester = get_object_or_404(Semester, pk=get_semester(request))
     settings = get_object_or_404(Settings, semester=semester)
-    template = default_tutor_mail_template(semester, settings, status, template)
+    template = default_tutor_mail(settings, status, mail_pk)
 
     if template is None:
         raise Http404
 
     if uid is None:
         if status == "all":
-            tutors = Tutor.objects.filter(semester=semester)
+            tutors: Manager[Tutor] = Tutor.objects.filter(semester=semester)
         else:
             tutors = Tutor.objects.filter(semester=semester, status=status)
         tutor_data = extract_tutor_data()
-        tutor = Tutor(**tutor_data)
+        tutor: Tutor = Tutor(**tutor_data)
     else:
         tutors = Tutor.objects.filter(pk=uid)
-        tutor = tutors.first()
+        tutor = get_object_or_404(Tutor, pk=uid)
 
-    context = Context(
+    mail_context = Context(
         {
             "tutor": tutor,
         },
     )
 
-    subject = Template(template.subject).render(context)
-    body = Template(template.text).render(context)
+    subject = Template(template.subject).render(mail_context)
+    body = Template(template.text).render(mail_context)
 
     form = TutorMailAdminForm(
         request.POST or None,
@@ -788,11 +804,11 @@ def tutor_mail(request, status="all", template=None, uid=None):
         tutors = form.cleaned_data["tutors"]
         mail_template = form.cleaned_data["mail_template"]
 
-        send_email_to_all_tutors(mail_template, tutors, request)
+        send_email_to_all_tutors(mail_template, list(tutors), request)
 
         return redirect(f"tutor_list_status_{status}")
 
-    context = {
+    context: Dict[str, Any] = {
         "from": template.sender,
         "subject": subject,
         "body": body,
@@ -815,7 +831,11 @@ def extract_tutor_data() -> Dict[str, str]:
     return tutor_data
 
 
-def send_email_to_all_tutors(mail_template, tutors, request):
+def send_email_to_all_tutors(
+    mail_template: Mail,
+    tutors: List[Tutor],
+    request: WSGIRequest,
+) -> None:
     for tutor in tutors:
         context = Context(
             {
@@ -838,8 +858,12 @@ def send_email_to_all_tutors(mail_template, tutors, request):
     messages.success(request, "Sent email to tutors.")
 
 
-def default_tutor_mail_template(semester, settings, status, template):
-    if template is None:
+def default_tutor_mail(
+    settings: Settings,
+    status: str,
+    mail_pk: Optional[int],
+) -> Optional[Mail]:
+    if mail_pk is None:
         status_to_template = {
             "active": settings.mail_waiting_list,
             "accepted": settings.mail_confirmed_place,
@@ -849,27 +873,36 @@ def default_tutor_mail_template(semester, settings, status, template):
         if status in status_to_template:
             return status_to_template[status]
 
-        return Mail.objects.filter(semester=semester, sender=Mail.SET_TUTOR).last()
+        return Mail.objects.filter(sender=Mail.SET_TUTOR).last()
 
-    return get_object_or_404(Mail, pk=template, sender=Mail.SET_TUTOR)
+    return get_object_or_404(Mail, pk=mail_pk, sender=Mail.SET_TUTOR)
 
 
 @permission_required("tutors.edit_tutors")
-def tutor_batch_accept(request):
+def tutor_batch_accept(request: WSGIRequest) -> HttpResponse:
     semester = get_object_or_404(Semester, pk=get_semester(request))
     tutors_active = Tutor.objects.filter(semester=semester, status=Tutor.STATUS_ACTIVE)
     tutors_accepted = Tutor.objects.filter(semester=semester, status=Tutor.STATUS_ACCEPTED)
     assignments_wish_counter = SubjectTutorCountAssignment.objects.filter(semester=semester)
 
-    tutor_ids = []
-    to_be_accepted = {}
+    tutor_ids: List[UUID] = []
+    to_be_accepted: Dict[Subject, List[Tutor]] = {}
 
     for assignment_wish_counter in assignments_wish_counter:
+        if not (
+            assignment_wish_counter.subject
+            and assignment_wish_counter.wanted
+            and assignment_wish_counter.waitlist
+        ):
+            return redirect("tutors_settings_general")
         active_tutors = tutors_active.filter(subject=assignment_wish_counter.subject)
-        accepted_count = tutors_accepted.filter(subject=assignment_wish_counter.subject).count()
+        accepted_count: int = tutors_accepted.filter(
+            subject=assignment_wish_counter.subject,
+        ).count()
 
         if assignment_wish_counter.wanted > accepted_count:
-            need = assignment_wish_counter.wanted - accepted_count
+            need: int = assignment_wish_counter.wanted - accepted_count
+            tutor: Tutor
             for tutor in active_tutors.order_by("registration_time")[:need]:
                 tutor_ids.append(tutor.id)
 
@@ -883,10 +916,11 @@ def tutor_batch_accept(request):
         semester=semester,
     )
     if form.is_valid():
-        tutors = form.cleaned_data["tutors"]
-        for tutor in tutors:
-            tutor.status = Tutor.STATUS_ACCEPTED
-            tutor.save()
+        tutors: List[Tutor] = form.cleaned_data["tutors"]
+        accepted_tutor: Tutor
+        for accepted_tutor in tutors:
+            accepted_tutor.status = Tutor.STATUS_ACCEPTED
+            accepted_tutor.save()
 
         return redirect("tutor_list_status_active")
 
@@ -898,20 +932,30 @@ def tutor_batch_accept(request):
 
 
 @permission_required("tutors.edit_tutors")
-def tutor_batch_decline(request):
+def tutor_batch_decline(request: WSGIRequest) -> HttpResponse:
     semester = get_object_or_404(Semester, pk=get_semester(request))
     tutors_active = Tutor.objects.filter(semester=semester, status=Tutor.STATUS_ACTIVE)
     tutors_accepted = Tutor.objects.filter(semester=semester, status=Tutor.STATUS_ACCEPTED)
     assignments_wish_counter = SubjectTutorCountAssignment.objects.filter(semester=semester)
 
-    tutor_ids = []
-    to_be_declined = {}
+    tutor_ids: List[UUID] = []
+    to_be_declined: Dict[Subject, List[Tutor]] = {}
 
     for assignment_wish_counter in assignments_wish_counter:
+        if not (
+            assignment_wish_counter.subject
+            and assignment_wish_counter.wanted
+            and assignment_wish_counter.waitlist
+        ):
+            return redirect("tutors_settings_general")
         active_tutors = tutors_active.filter(subject=assignment_wish_counter.subject)
-        accepted_count = tutors_accepted.filter(subject=assignment_wish_counter.subject).count()
+        accepted_count: int = tutors_accepted.filter(
+            subject=assignment_wish_counter.subject,
+        ).count()
 
-        keep = assignment_wish_counter.wanted - accepted_count + assignment_wish_counter.waitlist
+        keep: int = (
+            assignment_wish_counter.wanted - accepted_count + assignment_wish_counter.waitlist
+        )
         if keep < 0:
             keep = 0
 
@@ -943,24 +987,22 @@ def tutor_batch_decline(request):
 
 
 @permission_required("tutors.edit_tutors")
-def dashboard(request):
+def dashboard(request: WSGIRequest) -> HttpResponse:
     semester = get_object_or_404(Semester, pk=get_semester(request))
 
+    assignments_wish_counter: QuerySet[SubjectTutorCountAssignment]
     assignments_wish_counter = SubjectTutorCountAssignment.objects.filter(semester=semester)
     count_results = {}
     for assignment_wish_counter in assignments_wish_counter:
-        counts_tutors = Tutor.objects.filter(
+        counts_tutors: Dict[str, int] = Tutor.objects.filter(
             semester=semester,
             subject=assignment_wish_counter.subject,
             status=Tutor.STATUS_ACCEPTED,
         ).aggregate(total=Count("subject"))
-        if counts_tutors is None:
-            count_results[assignment_wish_counter.subject] = (0, assignment_wish_counter.wanted)
-        else:
-            count_results[assignment_wish_counter.subject] = (
-                counts_tutors["total"],
-                assignment_wish_counter.wanted,
-            )
+        count_results[assignment_wish_counter.subject] = (
+            counts_tutors["total"] or 0,
+            assignment_wish_counter.wanted,
+        )
 
     events = (
         Event.objects.filter(semester=semester)

@@ -1,16 +1,15 @@
 import csv
 import os
 import time
-from typing import Dict
-from typing import List
-from typing import Union
 
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.decorators import permission_required
 from django.contrib.auth.decorators import user_passes_test
+from django.core.handlers.wsgi import WSGIRequest
 from django.db.models import Count
 from django.forms import forms
+from django.http import HttpResponse
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404
 from django.shortcuts import redirect
@@ -33,14 +32,14 @@ from .settings import SEMESTER_SESSION_KEY
 
 
 @login_required
-def set_semester(request):
-    redirect_url = request.POST.get("next", request.GET.get("next"))
+def set_semester(request: WSGIRequest) -> HttpResponse:
+    redirect_url: str = request.POST.get("next", request.GET.get("next") or "/")
     if not is_safe_url(url=redirect_url, allowed_hosts=request.get_host()):
-        redirect_url = request.META.get("HTTP_REFERER")
+        redirect_url = request.META.get("HTTP_REFERER") or "/"
         if not is_safe_url(url=redirect_url, allowed_hosts=request.get_host()):
             redirect_url = "/"
     if request.method == "POST":
-        semester_pk = int(request.POST.get("semester"))
+        semester_pk = int(request.POST.get("semester") or get_semester(request))
         try:
             Semester.objects.get(pk=semester_pk)
         except Semester.DoesNotExist:
@@ -51,14 +50,14 @@ def set_semester(request):
 
 
 @permission_required("set.mail")
-def mail_list(request):
+def mail_list(request: WSGIRequest) -> HttpResponse:
     context = {"mails": settool_common.models.Mail.objects.all()}
     return render(request, "settool_common/settings/list_email_templates.html", context)
 
 
 @permission_required("set.mail")
-def mail_view(request, private_key):
-    mail = settool_common.models.Mail.objects.get(pk=private_key)
+def mail_view(request: WSGIRequest, mail_pk: int) -> HttpResponse:
+    mail = settool_common.models.Mail.objects.get(pk=mail_pk)
 
     context = {
         "mail": mail,
@@ -67,7 +66,7 @@ def mail_view(request, private_key):
 
 
 @permission_required("set.mail")
-def mail_add(request):
+def mail_add(request: WSGIRequest) -> HttpResponse:
     form = MailForm(request.POST or None)
     if form.is_valid():
         form.save()
@@ -78,8 +77,8 @@ def mail_add(request):
 
 
 @permission_required("set.mail")
-def mail_edit(request, private_key):
-    mail = get_object_or_404(settool_common.models.Mail, pk=private_key)
+def mail_edit(request: WSGIRequest, mail_pk: int) -> HttpResponse:
+    mail = get_object_or_404(settool_common.models.Mail, pk=mail_pk)
 
     form = MailForm(request.POST or None, instance=mail)
     if form.is_valid():
@@ -94,8 +93,8 @@ def mail_edit(request, private_key):
 
 
 @permission_required("set.mail")
-def mail_delete(request, private_key):
-    mail = get_object_or_404(settool_common.models.Mail, pk=private_key)
+def mail_delete(request: WSGIRequest, mail_pk: int) -> HttpResponse:
+    mail = get_object_or_404(settool_common.models.Mail, pk=mail_pk)
 
     form = forms.Form(request.POST or None)
     if form.is_valid():
@@ -110,8 +109,8 @@ def mail_delete(request, private_key):
 
 
 @permission_required("set.mail")
-def mail_send(request, private_key):
-    mail = get_object_or_404(settool_common.models.Mail, pk=private_key)
+def mail_send(request: WSGIRequest, mail_pk: int) -> HttpResponse:
+    mail = get_object_or_404(settool_common.models.Mail, pk=mail_pk)
     selected_participants = request.session["selected_participants"]
     sem = get_semester(request)
     semester = get_object_or_404(Semester, pk=sem)
@@ -148,8 +147,8 @@ def mail_send(request, private_key):
 
 
 @permission_required("set.mail")
-def dashboard(request):
-    mail_templates_by_sender: List[Dict[str, Union[str, int]]] = (
+def dashboard(request: WSGIRequest) -> HttpResponse:
+    mail_templates_by_sender = (
         settool_common.models.Mail.objects.values("sender")
         .annotate(sender_count=Count("sender"))
         .order_by("-sender_count")
@@ -190,7 +189,7 @@ def import_mail_csv_to_db(csv_file):
 
 @user_passes_test(lambda u: u.is_superuser)
 @permission_required("set.mail")
-def mail_import(request):
+def mail_import(request: WSGIRequest) -> HttpResponse:
     file_upload_form = CSVFileUploadForm(request.POST or None, request.FILES)
     if file_upload_form.is_valid():
         import_mail_csv_to_db(request.FILES["file"])
@@ -200,18 +199,16 @@ def mail_import(request):
 
 
 @permission_required("set.mail")
-def mail_export(request):
+def mail_export(request: WSGIRequest) -> HttpResponse:
     mails_bags = bags.models.Mail.objects.all()
     mails_fahrt = fahrt.models.Mail.objects.all()
     mails_guidedtours = guidedtours.models.Mail.objects.all()
     mails_settool_common = settool_common.models.Mail.objects.all()
-    mails_tutors = tutors.models.Mail.objects.all()
 
     mails = [_clean_mail(mail) for mail in mails_bags]
     mails += [_clean_mail(mail) for mail in mails_fahrt]
     mails += [_clean_mail(mail) for mail in mails_guidedtours]
     mails += [_clean_mail(mail) for mail in mails_settool_common]
-    mails += [_clean_mail(mail) for mail in mails_tutors]
 
     filename = f"emails{time.strftime('%Y%m%d-%H%M')}.csv"
     return utils.download_csv(["sender", "subject", "text", "comment"], filename, mails)

@@ -41,22 +41,22 @@ urlpatterns = [
                                 name="mail_add",
                             ),
                             path(
-                                "edit/<int:private_key>/",
+                                "edit/<int:mail_pk>/",
                                 views.mail_edit,
                                 name="mail_edit",
                             ),
                             path(
-                                "delete/<int:private_key>/",
+                                "delete/<int:mail_pk>/",
                                 views.mail_delete,
                                 name="mail_delete",
                             ),
                             path(
-                                "view/<int:private_key>/",
+                                "view/<int:mail_pk>/",
                                 views.mail_view,
                                 name="mail_view",
                             ),
                             path(
-                                "send/<int:private_key>/",
+                                "send/<int:mail_pk>/",
                                 views.mail_send,
                                 name="mail_send",
                             ),

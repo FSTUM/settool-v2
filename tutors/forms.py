@@ -280,7 +280,11 @@ class SettingsAdminForm(SemesterBasedModelForm):
 
 
 class TutorMailAdminForm(SemesterBasedForm):
-    mail_template = forms.ModelChoiceField(label="Mail Template", queryset=None, required=True)
+    mail_template = forms.ModelChoiceField(
+        label="Mail Template",
+        queryset=Mail.objects.filter(sender=Mail.SET_TUTOR),
+        required=True,
+    )
 
     tutors = forms.ModelMultipleChoiceField(
         label=_("Tutors (selected have not yet received this email)"),
@@ -298,7 +302,6 @@ class TutorMailAdminForm(SemesterBasedForm):
         self.fields["tutors"].initial = Tutor.objects.exclude(
             id__in=MailTutorTask.objects.filter(mail=template).values("tutor_id"),
         )
-        self.fields["mail_template"].queryset = Mail.objects.filter(sender=Mail.SET_TUTOR)
         self.fields["mail_template"].initial = template
 
 

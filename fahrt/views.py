@@ -2,17 +2,18 @@ from datetime import date
 from datetime import timedelta
 from typing import Dict
 from typing import List
-from typing import Union
 
 from django import forms
 from django.contrib.auth.decorators import permission_required
 from django.core.exceptions import ObjectDoesNotExist
+from django.core.handlers.wsgi import WSGIRequest
 from django.db.models import Count
 from django.db.models import Q
 from django.db.models import QuerySet
 from django.db.models import Sum
 from django.forms import formset_factory
 from django.http import Http404
+from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
 from django.shortcuts import redirect
 from django.shortcuts import render
@@ -69,44 +70,46 @@ def get_confirmed_non_liability_counts(semester: int) -> List[int]:
     return [submitted_non_liability_count, not_submitted_non_liability_count]
 
 
-def get_confirmed_participants_bachlor_master_counts(selected_semester):
-    participants = Participant.objects.filter(Q(semester=selected_semester) & Q(status="confirmed"))
-    master_count = participants.filter(subject__degree=Subject.MASTER).count()
-    bachlor_count = participants.filter(subject__degree=Subject.BACHELOR).count()
+def get_confirmed_participants_bachlor_master_counts(selected_semester: int) -> List[int]:
+    participants: QuerySet[Participant] = Participant.objects.filter(
+        Q(semester=selected_semester) & Q(status="confirmed"),
+    )
+    master_count: int = participants.filter(subject__degree=Subject.MASTER).count()
+    bachlor_count: int = participants.filter(subject__degree=Subject.BACHELOR).count()
     return [bachlor_count, master_count]
 
 
 @permission_required("fahrt.view_participants")
-def fahrt_dashboard(request):
+def fahrt_dashboard(request: WSGIRequest) -> HttpResponse:
     selected_semester: int = get_semester(request)
-    confirmed_participants_by_studies: List[Dict[str, Union[str, int]]] = (
+    confirmed_participants_by_studies = (
         Participant.objects.filter(Q(semester=selected_semester) & Q(status="confirmed"))
         .values("subject")
         .annotate(subject_count=Count("subject"))
         .order_by("subject_count")
     )
-    participants_by_status: List[Dict[str, Union[str, int]]] = (
+    participants_by_status = (
         Participant.objects.filter(semester=selected_semester)
         .values("status")
         .annotate(status_count=Count("status"))
         .order_by("status")
     )
 
-    confirmed_participants_by_gender: List[Dict[str, Union[str, int]]] = (
+    confirmed_participants_by_gender = (
         Participant.objects.filter(Q(semester=selected_semester) & Q(status="confirmed"))
         .values("gender")
         .annotate(gender_count=Count("gender"))
         .order_by("-gender")
     )
 
-    confirmed_participants_by_food: List[Dict[str, Union[str, int]]] = (
+    confirmed_participants_by_food = (
         Participant.objects.filter(Q(semester=selected_semester) & Q(status="confirmed"))
         .values("nutrition")
         .annotate(nutrition_count=Count("nutrition"))
         .order_by("-nutrition")
     )
 
-    confirmed_participants_allergy_list: List[Dict[str, Union[str, int]]] = (
+    confirmed_participants_allergy_list = (
         Participant.objects.filter(Q(semester=selected_semester) & Q(status="confirmed"))
         .exclude(allergies=None)
         .values("id", "allergies")
@@ -149,7 +152,7 @@ def fahrt_dashboard(request):
 
 
 @permission_required("fahrt.view_participants")
-def list_registered(request):
+def list_registered(request: WSGIRequest) -> HttpResponse:
     sem = get_semester(request)
     semester = get_object_or_404(Semester, pk=sem)
     participants = semester.fahrt_participant.filter(status="registered").order_by("surname")
@@ -161,7 +164,7 @@ def list_registered(request):
 
 
 @permission_required("fahrt.view_participants")
-def list_waitinglist(request):
+def list_waitinglist(request: WSGIRequest) -> HttpResponse:
     sem = get_semester(request)
     semester = get_object_or_404(Semester, pk=sem)
     participants = semester.fahrt_participant.filter(status="waitinglist").order_by("surname")
@@ -173,7 +176,7 @@ def list_waitinglist(request):
 
 
 @permission_required("fahrt.view_participants")
-def list_confirmed(request):
+def list_confirmed(request: WSGIRequest) -> HttpResponse:
     sem = get_semester(request)
     semester = get_object_or_404(Semester, pk=sem)
     participants = semester.fahrt_participant.filter(status="confirmed").order_by(
@@ -192,8 +195,7 @@ def list_confirmed(request):
     else:
         proportion_of_women = int(num_women * 1.0 / number * 100)
 
-    places = participants.filter(car=True).aggregate(places=Sum("car_places"))
-    places = places["places"] or 0
+    places = participants.filter(car=True).aggregate(places=Sum("car_places"))["places"] or 0
 
     context = {
         "nutritions": get_nutritunal_information(participants, semester),
@@ -238,7 +240,7 @@ def get_nutritunal_information(
 
 
 @permission_required("fahrt.view_participants")
-def list_cancelled(request):
+def list_cancelled(request: WSGIRequest) -> HttpResponse:
     sem = get_semester(request)
     semester = get_object_or_404(Semester, pk=sem)
     participants = semester.fahrt_participant.filter(status="cancelled").order_by("surname")
@@ -250,7 +252,7 @@ def list_cancelled(request):
 
 
 @permission_required("fahrt.view_participants")
-def view(request, participant_pk):
+def view(request: WSGIRequest, participant_pk: int) -> HttpResponse:
     participant = get_object_or_404(Participant, pk=participant_pk)
     log_entries = participant.logentry_set.order_by("time")
 
@@ -271,7 +273,7 @@ def view(request, participant_pk):
 
 
 @permission_required("fahrt.view_participants")
-def edit(request, participant_pk):
+def edit(request: WSGIRequest, participant_pk: int) -> HttpResponse:
     participant = get_object_or_404(Participant, pk=participant_pk)
 
     form = ParticipantAdminForm(
@@ -293,7 +295,7 @@ def edit(request, participant_pk):
 
 
 @permission_required("fahrt.view_participants")
-def delete(request, participant_pk):
+def delete(request: WSGIRequest, participant_pk: int) -> HttpResponse:
     participant = get_object_or_404(Participant, pk=participant_pk)
 
     form = forms.Form(request.POST or None)
@@ -310,7 +312,7 @@ def delete(request, participant_pk):
 
 
 @permission_required("fahrt.view_participants")
-def toggle_mailinglist(request, participant_pk):
+def toggle_mailinglist(request: WSGIRequest, participant_pk: int) -> HttpResponse:
     participant = get_object_or_404(Participant, pk=participant_pk)
     Participant.objects.filter(pk=participant_pk).update(
         mailinglist=(not participant.mailinglist),
@@ -323,7 +325,7 @@ def toggle_mailinglist(request, participant_pk):
 
 
 @permission_required("fahrt.view_participants")
-def set_paid(request, participant_pk):
+def set_paid(request: WSGIRequest, participant_pk: int) -> HttpResponse:
     participant = get_object_or_404(Participant, pk=participant_pk)
     Participant.objects.filter(pk=participant_pk).update(
         paid=timezone.now().date(),
@@ -334,7 +336,7 @@ def set_paid(request, participant_pk):
 
 
 @permission_required("fahrt.view_participants")
-def set_nonliability(request, participant_pk):
+def set_nonliability(request: WSGIRequest, participant_pk: int) -> HttpResponse:
     participant = get_object_or_404(Participant, pk=participant_pk)
     Participant.objects.filter(pk=participant_pk).update(
         non_liability=timezone.now().date(),
@@ -345,7 +347,7 @@ def set_nonliability(request, participant_pk):
 
 
 @permission_required("fahrt.view_participants")
-def confirm(request, participant_pk):
+def confirm(request: WSGIRequest, participant_pk: int) -> HttpResponse:
     participant = get_object_or_404(Participant, pk=participant_pk)
     Participant.objects.filter(pk=participant_pk).update(
         status="confirmed",
@@ -356,7 +358,7 @@ def confirm(request, participant_pk):
 
 
 @permission_required("fahrt.view_participants")
-def waitinglist(request, participant_pk):
+def waitinglist(request: WSGIRequest, participant_pk: int) -> HttpResponse:
     participant = get_object_or_404(Participant, pk=participant_pk)
     Participant.objects.filter(pk=participant_pk).update(
         status="waitinglist",
@@ -367,7 +369,7 @@ def waitinglist(request, participant_pk):
 
 
 @permission_required("fahrt.view_participants")
-def set_payment_deadline(request, participant_pk, weeks):
+def set_payment_deadline(request: WSGIRequest, participant_pk: int, weeks: int) -> HttpResponse:
     weeks = int(weeks)  # save due to regex in urls.py
     if weeks not in [1, 2, 3]:
         raise Http404("Invalid number of weeks")
@@ -382,7 +384,7 @@ def set_payment_deadline(request, participant_pk, weeks):
 
 
 @permission_required("fahrt.view_participants")
-def cancel(request, participant_pk):
+def cancel(request: WSGIRequest, participant_pk: int) -> HttpResponse:
     participant = get_object_or_404(Participant, pk=participant_pk)
     Participant.objects.filter(pk=participant_pk).update(
         status="cancelled",
@@ -392,7 +394,7 @@ def cancel(request, participant_pk):
     return redirect("fahrt_viewparticipant", participant_pk)
 
 
-def signup(request):
+def signup(request: WSGIRequest) -> HttpResponse:
     sem = get_semester(request)
     semester = get_object_or_404(Semester, pk=sem)
 
@@ -404,7 +406,7 @@ def signup(request):
         registration_open = fahrt.registration_open
 
     if not registration_open:
-        return render(request, "fahrt/standalone/registration_closed.html", {})
+        return render(request, "fahrt/standalone/registration_closed.html")
 
     form = ParticipantForm(request.POST or None, semester=semester)
     if form.is_valid():
@@ -421,7 +423,7 @@ def signup(request):
 
 
 @permission_required("fahrt.view_participants")
-def signup_internal(request):
+def signup_internal(request: WSGIRequest) -> HttpResponse:
     sem = get_semester(request)
     semester = get_object_or_404(Semester, pk=sem)
 
@@ -439,12 +441,12 @@ def signup_internal(request):
     return render(request, "fahrt/general/add_participant.html", context)
 
 
-def signup_success(request):
-    return render(request, "fahrt/standalone/success.html", {})
+def signup_success(request: WSGIRequest) -> HttpResponse:
+    return render(request, "fahrt/standalone/success.html")
 
 
 @permission_required("fahrt.view_participants")
-def filter_participants(request):
+def filter_participants(request: WSGIRequest) -> HttpResponse:
     sem = get_semester(request)
     semester = get_object_or_404(Semester, pk=sem)
 
@@ -516,7 +518,7 @@ def set_request_session_filtered_participants(filterform, participants, request)
 
 
 @permission_required("fahrt.view_participants")
-def filtered_list(request):
+def filtered_list(request: WSGIRequest) -> HttpResponse:
     filtered_participants = request.session["filtered_participants"]
     sem = get_semester(request)
     semester = get_object_or_404(Semester, pk=sem)
@@ -569,14 +571,13 @@ def filtered_list(request):
 
 
 @permission_required("fahrt.view_participants")
-def index_mails(request):
+def index_mails(request: WSGIRequest) -> HttpResponse:
     context = {"mails": Mail.objects.all()}
     return render(request, "fahrt/mail/index_mails.html", context)
 
 
 @permission_required("fahrt.view_participants")
-def add_mail(request):
-
+def add_mail(request: WSGIRequest) -> HttpResponse:
     form = MailForm(request.POST or None)
     if form.is_valid():
         form.save()
@@ -588,7 +589,7 @@ def add_mail(request):
 
 
 @permission_required("fahrt.view_participants")
-def edit_mail(request, mail_pk):
+def edit_mail(request: WSGIRequest, mail_pk: int) -> HttpResponse:
     mail = get_object_or_404(Mail, pk=mail_pk)
 
     form = MailForm(request.POST or None, instance=mail)
@@ -605,7 +606,7 @@ def edit_mail(request, mail_pk):
 
 
 @permission_required("fahrt.view_participants")
-def delete_mail(request, mail_pk):
+def delete_mail(request: WSGIRequest, mail_pk: int) -> HttpResponse:
     mail = get_object_or_404(Mail, pk=mail_pk)
 
     form = forms.Form(request.POST or None)
@@ -622,8 +623,8 @@ def delete_mail(request, mail_pk):
 
 
 @permission_required("fahrt.view_participants")
-def send_mail(request, mail_pk):
-    mail = get_object_or_404(Mail, pk=mail_pk)
+def send_mail(request: WSGIRequest, mail_pk: int) -> HttpResponse:
+    mail: Mail = get_object_or_404(Mail, pk=mail_pk)
     selected_participants = request.session["selected_participants"]
     sem = get_semester(request)
     semester = get_object_or_404(Semester, pk=sem)
@@ -660,7 +661,7 @@ def send_mail(request, mail_pk):
 
 
 @permission_required("fahrt.view_participants")
-def change_date(request):
+def change_date(request: WSGIRequest) -> HttpResponse:
     sem = get_semester(request)
     semester = get_object_or_404(Semester, pk=sem)
 

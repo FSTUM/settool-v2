@@ -1,9 +1,12 @@
 import time
+from typing import Any
+from typing import Dict
 
 from django import forms
 from django.contrib.auth.decorators import permission_required
 from django.core.handlers.wsgi import WSGIRequest
 from django.db.models import Q
+from django.db.models import QuerySet
 from django.forms import formset_factory
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
@@ -27,7 +30,7 @@ from .models import Tour
 
 
 @permission_required("guidedtours.view_participants")
-def list_tours(request):
+def list_tours(request: WSGIRequest) -> HttpResponse:
     sem = get_semester(request)
     semester = get_object_or_404(Semester, pk=sem)
     tours = semester.tour_set.all()
@@ -37,12 +40,12 @@ def list_tours(request):
 
 
 @permission_required("guidedtours.view_participants")
-def dashboard(request):
+def dashboard(request: WSGIRequest) -> HttpResponse:
     return render(request, "guidedtours/tour_dashboard.html")
 
 
 @permission_required("guidedtours.view_participants")
-def view(request, tour_pk):
+def view(request: WSGIRequest, tour_pk: int) -> HttpResponse:
     tour = get_object_or_404(Tour, pk=tour_pk)
     participants = tour.participant_set.order_by("time")
     waitinglist = participants[tour.capacity :]
@@ -57,7 +60,7 @@ def view(request, tour_pk):
 
 
 @permission_required("guidedtours.view_participants")
-def add(request):
+def add(request: WSGIRequest) -> HttpResponse:
     sem = get_semester(request)
     semester = get_object_or_404(Semester, pk=sem)
 
@@ -78,7 +81,7 @@ def add(request):
 
 
 @permission_required("guidedtours.view_participants")
-def edit(request, tour_pk):
+def edit(request: WSGIRequest, tour_pk: int) -> HttpResponse:
     tour = get_object_or_404(Tour, pk=tour_pk)
 
     form = TourForm(
@@ -99,7 +102,7 @@ def edit(request, tour_pk):
 
 
 @permission_required("guidedtours.view_participants")
-def delete(request, tour_pk):
+def delete(request: WSGIRequest, tour_pk: int) -> HttpResponse:
     tour = get_object_or_404(Tour, pk=tour_pk)
 
     form = forms.Form(request.POST or None)
@@ -116,10 +119,10 @@ def delete(request, tour_pk):
 
 
 @permission_required("guidedtours.view_participants")
-def filter_participants(request):
+def filter_participants(request: WSGIRequest) -> HttpResponse:
     sem = get_semester(request)
     semester = get_object_or_404(Semester, pk=sem)
-    participants = Participant.objects.filter(
+    participants: QuerySet[Participant] = Participant.objects.filter(
         tour__semester=semester.id,
     ).order_by("surname")
 
@@ -145,13 +148,12 @@ def filter_participants(request):
 
         if tour is not None:
             participants = participants.filter(tour=tour)
-
-        if on_the_tour:
-            participants = [p for p in participants if p.on_the_tour]
-        elif on_the_tour is False:
-            participants = [p for p in participants if not p.on_the_tour]
-
         filtered_participants = [p.id for p in participants]
+        if on_the_tour:
+            filtered_participants = [p.id for p in participants if p.on_the_tour]
+        elif on_the_tour is False:
+            filtered_participants = [p.id for p in participants if not p.on_the_tour]
+
         request.session["filtered_participants"] = filtered_participants
         return redirect("tours_filteredparticipants")
 
@@ -163,7 +165,7 @@ def filter_participants(request):
 
 
 @permission_required("guidedtours.view_participants")
-def filtered_list(request):
+def filtered_list(request: WSGIRequest) -> HttpResponse:
     filtered_participants = request.session["filtered_participants"]
     participants = Participant.objects.filter(
         id__in=filtered_participants,
@@ -214,13 +216,13 @@ def filtered_list(request):
 
 
 @permission_required("guidedtours.view_participants")
-def index_mails(request):
+def index_mails(request: WSGIRequest) -> HttpResponse:
     context = {"mails": Mail.objects.all()}
     return render(request, "guidedtours/index_mails.html", context)
 
 
 @permission_required("guidedtours.view_participants")
-def add_mail(request):
+def add_mail(request: WSGIRequest) -> HttpResponse:
     form = MailForm(request.POST or None)
     if form.is_valid():
         form.save()
@@ -232,7 +234,7 @@ def add_mail(request):
 
 
 @permission_required("guidedtours.view_participants")
-def edit_mail(request, mail_pk):
+def edit_mail(request: WSGIRequest, mail_pk: int) -> HttpResponse:
     mail = get_object_or_404(Mail, pk=mail_pk)
 
     form = MailForm(request.POST or None, instance=mail)
@@ -249,7 +251,7 @@ def edit_mail(request, mail_pk):
 
 
 @permission_required("guidedtours.view_participants")
-def delete_mail(request, mail_pk):
+def delete_mail(request: WSGIRequest, mail_pk: int) -> HttpResponse:
     mail = get_object_or_404(Mail, pk=mail_pk)
 
     form = forms.Form(request.POST or None)
@@ -266,7 +268,7 @@ def delete_mail(request, mail_pk):
 
 
 @permission_required("guidedtours.view_participants")
-def send_mail(request, mail_pk):
+def send_mail(request: WSGIRequest, mail_pk: int) -> HttpResponse:
     mail = get_object_or_404(Mail, pk=mail_pk)
     selected_participants = request.session["selected_participants"]
     participants = Participant.objects.filter(
@@ -292,7 +294,7 @@ def send_mail(request, mail_pk):
     return render(request, "guidedtours/send_mail.html", context)
 
 
-def signup(request):
+def signup(request: WSGIRequest) -> HttpResponse:
     sem = get_semester(request)
     semester = get_object_or_404(Semester, pk=sem)
     tours = semester.tour_set.filter(
@@ -301,7 +303,7 @@ def signup(request):
     ).order_by("date")
 
     if not tours:
-        context = {"semester": semester}
+        context: Dict[str, Any] = {"semester": semester}
         return render(request, "guidedtours/standalone/signup_notour.html", context)
 
     form = ParticipantForm(request.POST or None, tours=tours)
@@ -317,12 +319,12 @@ def signup(request):
     return render(request, "guidedtours/standalone/signup.html", context)
 
 
-def signup_success(request):
-    return render(request, "guidedtours/standalone/success.html", {})
+def signup_success(request: WSGIRequest) -> HttpResponse:
+    return render(request, "guidedtours/standalone/success.html")
 
 
 @permission_required("guidedtours.view_participants")
-def signup_internal(request):
+def signup_internal(request: WSGIRequest) -> HttpResponse:
     sem = get_semester(request)
     semester = get_object_or_404(Semester, pk=sem)
     tours = semester.tour_set.order_by("date")

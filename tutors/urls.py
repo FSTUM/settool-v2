@@ -140,7 +140,7 @@ urlpatterns = [
                     name="tutor_mail_status",
                 ),
                 path(
-                    "mail/<str:status>/<int:template>/",
+                    "mail/<str:status>/<int:mail_pk>/",
                     views.tutor_mail,
                     name="tutor_mail_status_template",
                 ),
@@ -150,7 +150,7 @@ urlpatterns = [
                     name="tutor_mail_tutor",
                 ),
                 path(
-                    "mail/tutor/<uuid:uid>/<int:template>/",
+                    "mail/tutor/<uuid:uid>/<int:mail_pk>/",
                     views.tutor_mail,
                     name="tutor_mail_tutor_template",
                 ),
@@ -190,7 +190,7 @@ urlpatterns = [
                 path("delete/<uuid:uid>/", views.task_delete, name="task_delete"),
                 path("view/<uuid:uid>/", views.task_view, name="task_view"),
                 path("mail/<uuid:uid>/", views.task_mail, name="task_mail"),
-                path("mail/<uuid:uid>/<int:template>/", views.task_mail, name="task_mail_template"),
+                path("mail/<uuid:uid>/<int:mail_pk>/", views.task_mail, name="task_mail_template"),
                 path("export/<str:file_type>/<uuid:uid>/", views.task_export, name="task_export"),
             ],
         ),
