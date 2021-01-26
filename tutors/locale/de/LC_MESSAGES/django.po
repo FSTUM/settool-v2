@@ -410,18 +410,6 @@ msgstr "Gewollt"
 msgid "Add event"
 msgstr "Event hinzufügen"
 
-#: tutors/templates/tutors/event/add.html
-#: tutors/templates/tutors/event/edit.html
-#: tutors/templates/tutors/task/edit.html
-msgid "Master"
-msgstr "Master"
-
-#: tutors/templates/tutors/event/add.html
-#: tutors/templates/tutors/event/edit.html
-#: tutors/templates/tutors/task/edit.html
-msgid "Bachelor"
-msgstr "Bachelor"
-
 #: tutors/templates/tutors/event/delete.html
 #: tutors/templates/tutors/event/view.html
 msgid "Delete event"
@@ -605,18 +593,6 @@ msgstr "Du hast deine Anmeldung als SET Tutor erfolgreich bestätigt"
 #: tutors/templates/tutors/task/add.html
 msgid "Add task"
 msgstr "Task Hinzufügen"
-
-#: tutors/templates/tutors/task/add.html
-msgid "Please choose one of the following events..."
-msgstr "Bitte wähle eine der folgenden Events..."
-
-#: tutors/templates/tutors/task/add.html
-msgid "You may choose some of the following allowed subjects..."
-msgstr "Du kannst aus den folgenden Studiengänge auswählen..."
-
-#: tutors/templates/tutors/task/add.html
-msgid "You may choose some of the following requirements..."
-msgstr "Du kannst aus den folgenden Vorraussetungen auswählen..."
 
 #: tutors/templates/tutors/task/delete.html
 #: tutors/templates/tutors/task/view.html
@@ -886,6 +862,21 @@ msgstr "Zugewiesene Tasks"
 #: tutors/templates/tutors/tutor/view.html
 msgid "Email log"
 msgstr "E-Mail Log"
+
+#~ msgid "Master"
+#~ msgstr "Master"
+
+#~ msgid "Bachelor"
+#~ msgstr "Bachelor"
+
+#~ msgid "Please choose one of the following events..."
+#~ msgstr "Bitte wähle eine der folgenden Events..."
+
+#~ msgid "You may choose some of the following allowed subjects..."
+#~ msgstr "Du kannst aus den folgenden Studiengänge auswählen..."
+
+#~ msgid "You may choose some of the following requirements..."
+#~ msgstr "Du kannst aus den folgenden Vorraussetungen auswählen..."
 
 #~ msgid "Sign up failed"
 #~ msgstr "Anmeldung fehlgeschlagen"
