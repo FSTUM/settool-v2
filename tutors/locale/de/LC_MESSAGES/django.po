@@ -336,7 +336,7 @@ msgstr "Offene Tutoren"
 
 #: tutors/templates/tutors/base_tutors.html
 msgid "Declined tutors"
-msgstr "Alle Tutoren ablehnen"
+msgstr "Abgelehnte Tutoren"
 
 #: tutors/templates/tutors/base_tutors.html
 msgid "Inactive tutors"
