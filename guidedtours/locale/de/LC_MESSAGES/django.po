@@ -46,7 +46,7 @@ msgstr "auf der Warteliste"
 #: guidedtours/forms.py guidedtours/models.py
 #: guidedtours/templates/guidedtours/tours/list_tours.html
 msgid "Tour"
-msgstr "Intitutsführung"
+msgstr "Institutsführung"
 
 #: guidedtours/models.py
 msgid "Name"
@@ -61,7 +61,7 @@ msgstr "Beschreibung"
 msgid "Date"
 msgstr "Datum"
 
-#: guidedtours/models.py
+#: guidedtours/models.py guidedtours/templates/guidedtours/tour_dashboard.html
 msgid "Capacity"
 msgstr "Kapazität"
 
@@ -129,7 +129,7 @@ msgid ""
 "name of the tour, {{zeit}} for the time of the tour."
 msgstr ""
 "Du kannst {{vorname}} für den Vornamen des Teilnehmers, {{tour}} für den "
-"Titel der Intitutsführung und {{zeit}} für die Zeit der Institutsführung "
+"Titel der Institutsführung und {{zeit}} für die Zeit der Institutsführung "
 "verwenden."
 
 #: guidedtours/models.py guidedtours/templates/guidedtours/mail/del_mail.html
@@ -138,6 +138,7 @@ msgid "Comment"
 msgstr "Kommentar"
 
 #: guidedtours/templates/guidedtours/base_guildedtours.html
+#: guidedtours/templates/guidedtours/tour_dashboard.html
 msgid "Dashboard"
 msgstr "Dashboard"
 
@@ -152,7 +153,7 @@ msgstr "Anmelden"
 
 #: guidedtours/templates/guidedtours/base_guildedtours.html
 msgid "Tours"
-msgstr "Intitutsführungen"
+msgstr "Institutsführungen"
 
 #: guidedtours/templates/guidedtours/base_guildedtours.html
 msgid "List tours"
@@ -161,7 +162,7 @@ msgstr "Liste der Institutsführungen"
 #: guidedtours/templates/guidedtours/base_guildedtours.html
 #: guidedtours/templates/guidedtours/tours/add_tour.html
 msgid "Add tour"
-msgstr "Intitutsführung hinzufügen"
+msgstr "Institutsführung hinzufügen"
 
 #: guidedtours/templates/guidedtours/base_guildedtours.html
 msgid "Mails"
@@ -276,12 +277,12 @@ msgstr "E-Mail"
 #: guidedtours/templates/guidedtours/participants/list_tour-participants.html
 #: guidedtours/templates/guidedtours/tours/edit_tour.html
 msgid "Edit tour"
-msgstr "Intitutsführung bearbeiten"
+msgstr "Institutsführung bearbeiten"
 
 #: guidedtours/templates/guidedtours/participants/list_tour-participants.html
 #: guidedtours/templates/guidedtours/tours/del_tour.html
 msgid "Delete tour"
-msgstr "Intitutsführung löschen"
+msgstr "Institutsführung löschen"
 
 #: guidedtours/templates/guidedtours/signup/signup.html
 #: guidedtours/templates/guidedtours/signup/signup_notour.html
@@ -290,7 +291,7 @@ msgstr "Institutsführungs-Anmeldung"
 
 #: guidedtours/templates/guidedtours/signup/signup.html
 msgid "Guided tours"
-msgstr "Intitutsführungen"
+msgstr "Institutsführungen"
 
 #: guidedtours/templates/guidedtours/signup/signup.html
 #, python-format
@@ -318,8 +319,12 @@ msgid "You will get all further information by email."
 msgstr "Alle weiteren Information bekommst du per E-Mail."
 
 #: guidedtours/templates/guidedtours/tour_dashboard.html
-msgid "Guildedtours dashboard"
-msgstr "Intitutsführungsdashboard"
+msgid "Tour-status"
+msgstr "Institutsführungs-Status"
+
+#: guidedtours/templates/guidedtours/tour_dashboard.html
+msgid "Registrations"
+msgstr "Registrierungen"
 
 #: guidedtours/templates/guidedtours/tours/del_tour.html
 #, python-format
@@ -339,6 +344,9 @@ msgstr "Bestätigte Teilnehmer als CSV ausgeben"
 msgid "Export confired participants as PDF"
 msgstr "Bestätigte Teilnehmer als PDF ausgeben"
 
+#~ msgid "Guildedtours dashboard"
+#~ msgstr "Institutsführungsdashboard"
+
 #~ msgid "Delete"
 #~ msgstr "Löschen"
 
@@ -355,10 +363,10 @@ msgstr "Bestätigte Teilnehmer als PDF ausgeben"
 #~ msgstr "Senden"
 
 #~ msgid "Guided tour"
-#~ msgstr "Intitutsführung"
+#~ msgstr "Institutsführung"
 
 #~ msgid "Guided Tour"
-#~ msgstr "Intitutsführung"
+#~ msgstr "Institutsführung"
 
 #~ msgid "Guided tours of an institute"
 #~ msgstr "Institutsführungen"

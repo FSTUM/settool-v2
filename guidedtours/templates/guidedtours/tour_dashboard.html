@@ -1,8 +1,67 @@
 {% extends "guidedtours/base_guildedtours.html" %}
 {% load i18n %}
 
-{% block set_common_headercontent %}{% trans "Guildedtours dashboard" %}{% endblock %}
+{% block set_common_headercontent %}{% trans "Dashboard" %}{% endblock %}
 
 {% block set_common_content %}
-<h1>TODO</h1>
+<h5>{% trans "Tour-status" %}</h5>
+<canvas id='participants_by_group_chart'></canvas>
+<canvas
+    id="chartjs-3"
+    class="chartjs"
+    width="1160"
+    height="580"
+    style="display: block; height: 290px; width: 580px;"
+></canvas>
+{% endblock %}
+
+{% block defered_script %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4"></script>
+<script>
+        /* global Chart */
+        /* eslint no-new: off */
+        new Chart(document.getElementById('participants_by_group_chart'), {
+            type: 'radar',
+            data: {
+                labels: {{ tour_labels|safe }},
+                datasets: [
+                    {
+                        label: '{% trans "Capacity" %}',
+                        data: {{ tour_capacity }},
+                        fill: true,
+                        backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                        borderColor: 'rgb(255, 99, 132)',
+                        pointBackgroundColor: 'rgb(255, 99, 132)',
+                        pointBorderColor: '#fff',
+                        pointHoverBackgroundColor: '#fff',
+                        pointHoverBorderColor: 'rgb(255, 99, 132)',
+                    },
+                    {
+                        label: '{% trans "Registrations" %}',
+                        data: {{ tour_registrations }},
+                        fill: true,
+                        backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                        borderColor: 'rgb(54, 162, 235)',
+                        pointBackgroundColor: 'rgb(54, 162, 235)',
+                        pointBorderColor: '#fff',
+                        pointHoverBackgroundColor: '#fff',
+                        pointHoverBorderColor: 'rgb(54, 162, 235)',
+                    },
+                ],
+            },
+            options: {
+                elements: {
+                    line: {
+                        tension: 0,
+                        borderWidth: 4,
+                    },
+                },
+                scale: {
+                    ticks: {
+                        min: 0,
+                    },
+                },
+            },
+        });
+    </script>
 {% endblock %}

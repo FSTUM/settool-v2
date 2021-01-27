@@ -7,12 +7,14 @@ from django.contrib.auth.decorators import permission_required
 from django.core.handlers.wsgi import WSGIRequest
 from django.db.models import Q
 from django.db.models import QuerySet
+from django.db.models.aggregates import Count
 from django.forms import formset_factory
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
 from django.shortcuts import redirect
 from django.shortcuts import render
 from django.utils import timezone
+from django.utils.datetime_safe import date
 
 from settool_common import utils
 from settool_common.models import get_semester
@@ -41,7 +43,19 @@ def list_tours(request: WSGIRequest) -> HttpResponse:
 
 @permission_required("guidedtours.view_participants")
 def dashboard(request: WSGIRequest) -> HttpResponse:
-    return render(request, "guidedtours/tour_dashboard.html")
+    tours = (
+        Tour.objects.filter(Q(semester=get_semester(request)) & Q(date__gte=date.today()))
+        .values("capacity", "name", "date")
+        .annotate(registered=Count("participant"))
+        .order_by("date")
+    )
+
+    context = {
+        "tour_labels": [f"{tour['name']} {tour['date'].strftime('%d.%m %H')}Uhr" for tour in tours],
+        "tour_registrations": [tour["capacity"] for tour in tours],
+        "tour_capacity": [tour["registered"] for tour in tours],
+    }
+    return render(request, "guidedtours/tour_dashboard.html", context)
 
 
 @permission_required("guidedtours.view_participants")
