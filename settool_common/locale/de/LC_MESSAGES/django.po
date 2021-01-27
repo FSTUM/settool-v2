@@ -111,7 +111,7 @@ msgid "Degree"
 msgstr "Abschluss"
 
 #: settool_common/models.py
-#: settool_common/templates/settool_common/mail/send_email_failure.html
+#: settool_common/templates/settool_common/settings/mail/send_email_failure.html
 msgid "Subject"
 msgstr "Studiengang"
 
@@ -132,15 +132,15 @@ msgid "SET_BAGS"
 msgstr "SET_BAGS"
 
 #: settool_common/models.py
-#: settool_common/templates/settool_common/mail/send_email_confirmation.html
-#: settool_common/templates/settool_common/mail/send_email_failure.html
+#: settool_common/templates/settool_common/settings/mail/send_email_confirmation.html
+#: settool_common/templates/settool_common/settings/mail/send_email_failure.html
 msgid "From"
 msgstr "Von"
 
 #: settool_common/models.py
-#: settool_common/templates/settool_common/mail/send_email_confirmation.html
-#: settool_common/templates/settool_common/settings/delete_email.html
-#: settool_common/templates/settool_common/settings/email_details.html
+#: settool_common/templates/settool_common/settings/mail/delete_email.html
+#: settool_common/templates/settool_common/settings/mail/email_details.html
+#: settool_common/templates/settool_common/settings/mail/send_email_confirmation.html
 msgid "Email subject"
 msgstr "E-Mail Betreff"
 
@@ -149,10 +149,10 @@ msgid "You may use placeholders for the subject."
 msgstr "Du kannst Platzhalter für den Betreff verwenden."
 
 #: settool_common/models.py
-#: settool_common/templates/settool_common/mail/send_email_confirmation.html
-#: settool_common/templates/settool_common/mail/send_email_failure.html
-#: settool_common/templates/settool_common/settings/delete_email.html
-#: settool_common/templates/settool_common/settings/email_details.html
+#: settool_common/templates/settool_common/settings/mail/delete_email.html
+#: settool_common/templates/settool_common/settings/mail/email_details.html
+#: settool_common/templates/settool_common/settings/mail/send_email_confirmation.html
+#: settool_common/templates/settool_common/settings/mail/send_email_failure.html
 msgid "Text"
 msgstr "Text"
 
@@ -161,69 +161,11 @@ msgid "You may use placeholders for the text."
 msgstr "Du kannst Platzhalter für den Text verwenden."
 
 #: settool_common/models.py
-#: settool_common/templates/settool_common/mail/send_email_confirmation.html
-#: settool_common/templates/settool_common/mail/send_email_failure.html
-#: settool_common/templates/settool_common/settings/list_email_templates.html
+#: settool_common/templates/settool_common/settings/mail/list_email_templates.html
+#: settool_common/templates/settool_common/settings/mail/send_email_confirmation.html
+#: settool_common/templates/settool_common/settings/mail/send_email_failure.html
 msgid "Comment"
 msgstr "Kommentar"
-
-#: settool_common/templates/settool_common/mail/send_email_confirmation.html
-#: settool_common/templates/settool_common/mail/send_email_failure.html
-msgid "Send email"
-msgstr "E-Mail senden"
-
-#: settool_common/templates/settool_common/mail/send_email_confirmation.html
-msgid ""
-"Do you really want to send the following email to the participants below?"
-msgstr ""
-"Möchtest du wirklich die folgende E-Mail an die unten aufgeführten "
-"Teilnehmer senden?"
-
-#: settool_common/templates/settool_common/mail/send_email_confirmation.html
-#: settool_common/templates/settool_common/settings/add_email.html
-#: settool_common/templates/settool_common/settings/delete_email.html
-#: settool_common/templates/settool_common/settings/edit_email.html
-#: settool_common/templates/settool_common/settings/import_email.html
-msgid "Cancel"
-msgstr "Abbrechen"
-
-#: settool_common/templates/settool_common/mail/send_email_confirmation.html
-#: settool_common/templates/settool_common/mail/send_email_failure.html
-msgid "To"
-msgstr "An"
-
-#: settool_common/templates/settool_common/mail/send_email_confirmation.html
-#: settool_common/templates/settool_common/mail/send_email_failure.html
-msgid "see table below"
-msgstr "siehe Tabelle unten"
-
-#: settool_common/templates/settool_common/mail/send_email_confirmation.html
-#: settool_common/templates/settool_common/mail/send_email_failure.html
-msgid "First name"
-msgstr "Vorname"
-
-#: settool_common/templates/settool_common/mail/send_email_confirmation.html
-#: settool_common/templates/settool_common/mail/send_email_failure.html
-msgid "Surname"
-msgstr "Nachname"
-
-#: settool_common/templates/settool_common/mail/send_email_confirmation.html
-#: settool_common/templates/settool_common/mail/send_email_failure.html
-msgid "Status"
-msgstr "Status"
-
-#: settool_common/templates/settool_common/mail/send_email_failure.html
-msgid ""
-"The emails were sent, but some emails failed, because a field was empty. "
-"Below you can find a list of all failed participants."
-msgstr ""
-"Die E-Mails wurden versendet, aber einige E-Mails schlugen fehl, weil ein "
-"Feld leer war. Nachfolgend finden Sie eine Liste aller fehlgeschlagenen "
-"Teilnehmer."
-
-#: settool_common/templates/settool_common/settings/add_email.html
-msgid "Add email"
-msgstr "E-Mail hinzufügen"
 
 #: settool_common/templates/settool_common/settings/base_settings.html
 msgid "Dashboard"
@@ -241,67 +183,125 @@ msgstr "Alle E-Mail-Vorlagen"
 msgid "Add template"
 msgstr "E-Mail-Vorlage hinzufügen"
 
-#: settool_common/templates/settool_common/settings/delete_email.html
-#: settool_common/templates/settool_common/settings/email_details.html
+#: settool_common/templates/settool_common/settings/mail/add_email.html
+msgid "Add email"
+msgstr "E-Mail hinzufügen"
+
+#: settool_common/templates/settool_common/settings/mail/add_email.html
+#: settool_common/templates/settool_common/settings/mail/delete_email.html
+#: settool_common/templates/settool_common/settings/mail/edit_email.html
+#: settool_common/templates/settool_common/settings/mail/import_email.html
+#: settool_common/templates/settool_common/settings/mail/send_email_confirmation.html
+msgid "Cancel"
+msgstr "Abbrechen"
+
+#: settool_common/templates/settool_common/settings/mail/delete_email.html
+#: settool_common/templates/settool_common/settings/mail/email_details.html
 msgid "Delete email template"
 msgstr "E-Mail-Vorlage löschen"
 
-#: settool_common/templates/settool_common/settings/edit_email.html
-#: settool_common/templates/settool_common/settings/email_details.html
+#: settool_common/templates/settool_common/settings/mail/edit_email.html
+#: settool_common/templates/settool_common/settings/mail/email_details.html
 msgid "Edit email"
 msgstr "Email bearbeiten"
 
-#: settool_common/templates/settool_common/settings/email_details.html
+#: settool_common/templates/settool_common/settings/mail/email_details.html
 msgid "Email details"
 msgstr "E-Mail Details"
 
-#: settool_common/templates/settool_common/settings/email_details.html
+#: settool_common/templates/settool_common/settings/mail/email_details.html
 msgid "Back"
 msgstr "Zurück"
 
-#: settool_common/templates/settool_common/settings/import_email.html
+#: settool_common/templates/settool_common/settings/mail/import_email.html
 msgid "Import emails"
 msgstr "Emails importieren"
 
-#: settool_common/templates/settool_common/settings/import_email.html
+#: settool_common/templates/settool_common/settings/mail/import_email.html
 msgid "Preview"
 msgstr "Vorschau"
 
-#: settool_common/templates/settool_common/settings/import_email.html
+#: settool_common/templates/settool_common/settings/mail/import_email.html
 msgid "Preview emails"
 msgstr "Vorschau der E-Mails"
 
-#: settool_common/templates/settool_common/settings/import_email.html
+#: settool_common/templates/settool_common/settings/mail/import_email.html
 msgid "Upload and replace all emails"
 msgstr "Emails hochladen und alle bestehenden ersetzen"
 
-#: settool_common/templates/settool_common/settings/list_email_templates.html
+#: settool_common/templates/settool_common/settings/mail/list_email_templates.html
 msgid "List email templates"
 msgstr "E-Mail-Vorlagen auflisten"
 
-#: settool_common/templates/settool_common/settings/list_email_templates.html
+#: settool_common/templates/settool_common/settings/mail/list_email_templates.html
 msgid "Export e-mails as CSV"
 msgstr "Exporte alle Emails als CSV-Datei"
 
-#: settool_common/templates/settool_common/settings/list_email_templates.html
+#: settool_common/templates/settool_common/settings/mail/list_email_templates.html
 msgid "Override e-mails from CSV"
 msgstr "Überschreibe alle Emails von einer CSV-Datei"
 
-#: settool_common/templates/settool_common/settings/list_email_templates.html
+#: settool_common/templates/settool_common/settings/mail/list_email_templates.html
 msgid "Sender"
 msgstr "Sender"
 
-#: settool_common/templates/settool_common/settings/list_email_templates.html
+#: settool_common/templates/settool_common/settings/mail/list_email_templates.html
 msgid "EMail Subject"
 msgstr "E-Mail Betreff"
 
-#: settool_common/templates/settool_common/settings/list_email_templates.html
+#: settool_common/templates/settool_common/settings/mail/list_email_templates.html
 msgid "EMail Text"
 msgstr "E-Mail Betreff"
 
-#: settool_common/templates/settool_common/settings/list_email_templates.html
+#: settool_common/templates/settool_common/settings/mail/list_email_templates.html
 msgid "Actions"
 msgstr "Aktionen"
+
+#: settool_common/templates/settool_common/settings/mail/send_email_confirmation.html
+#: settool_common/templates/settool_common/settings/mail/send_email_failure.html
+msgid "Send email"
+msgstr "E-Mail senden"
+
+#: settool_common/templates/settool_common/settings/mail/send_email_confirmation.html
+msgid ""
+"Do you really want to send the following email to the participants below?"
+msgstr ""
+"Möchtest du wirklich die folgende E-Mail an die unten aufgeführten "
+"Teilnehmer senden?"
+
+#: settool_common/templates/settool_common/settings/mail/send_email_confirmation.html
+#: settool_common/templates/settool_common/settings/mail/send_email_failure.html
+msgid "To"
+msgstr "An"
+
+#: settool_common/templates/settool_common/settings/mail/send_email_confirmation.html
+#: settool_common/templates/settool_common/settings/mail/send_email_failure.html
+msgid "see table below"
+msgstr "siehe Tabelle unten"
+
+#: settool_common/templates/settool_common/settings/mail/send_email_confirmation.html
+#: settool_common/templates/settool_common/settings/mail/send_email_failure.html
+msgid "First name"
+msgstr "Vorname"
+
+#: settool_common/templates/settool_common/settings/mail/send_email_confirmation.html
+#: settool_common/templates/settool_common/settings/mail/send_email_failure.html
+msgid "Surname"
+msgstr "Nachname"
+
+#: settool_common/templates/settool_common/settings/mail/send_email_confirmation.html
+#: settool_common/templates/settool_common/settings/mail/send_email_failure.html
+msgid "Status"
+msgstr "Status"
+
+#: settool_common/templates/settool_common/settings/mail/send_email_failure.html
+msgid ""
+"The emails were sent, but some emails failed, because a field was empty. "
+"Below you can find a list of all failed participants."
+msgstr ""
+"Die E-Mails wurden versendet, aber einige E-Mails schlugen fehl, weil ein "
+"Feld leer war. Nachfolgend finden Sie eine Liste aller fehlgeschlagenen "
+"Teilnehmer."
 
 #: settool_common/templates/settool_common/settings/settings_dashboard.html
 msgid "Settings dashboard"

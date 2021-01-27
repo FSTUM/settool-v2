@@ -30,8 +30,8 @@ msgstr "E-Mail Vorlage:"
 msgid "Search pattern"
 msgstr "Suchwort"
 
-#: guidedtours/forms.py guidedtours/templates/guidedtours/filtered_list.html
-#: guidedtours/templates/guidedtours/send_mail.html
+#: guidedtours/forms.py guidedtours/templates/guidedtours/mail/send_mail.html
+#: guidedtours/templates/guidedtours/participants/filtered_participants.html
 msgid "Status"
 msgstr "Status"
 
@@ -44,7 +44,7 @@ msgid "on the waitinglist"
 msgstr "auf der Warteliste"
 
 #: guidedtours/forms.py guidedtours/models.py
-#: guidedtours/templates/guidedtours/list_tours.html
+#: guidedtours/templates/guidedtours/tours/list_tours.html
 msgid "Tour"
 msgstr "Intitutsführung"
 
@@ -56,7 +56,8 @@ msgstr "Name"
 msgid "Description"
 msgstr "Beschreibung"
 
-#: guidedtours/models.py guidedtours/templates/guidedtours/list_tours.html
+#: guidedtours/models.py
+#: guidedtours/templates/guidedtours/tours/list_tours.html
 msgid "Date"
 msgstr "Datum"
 
@@ -72,14 +73,14 @@ msgstr "Anmeldungsstart"
 msgid "Close registration"
 msgstr "Anmeldungsschluss"
 
-#: guidedtours/models.py guidedtours/templates/guidedtours/filtered_list.html
-#: guidedtours/templates/guidedtours/list_tour-participants.html
-#: guidedtours/templates/guidedtours/send_mail.html
+#: guidedtours/models.py guidedtours/templates/guidedtours/mail/send_mail.html
+#: guidedtours/templates/guidedtours/participants/filtered_participants.html
+#: guidedtours/templates/guidedtours/participants/list_tour-participants.html
 msgid "First name"
 msgstr "Vorname"
 
-#: guidedtours/models.py guidedtours/templates/guidedtours/filtered_list.html
-#: guidedtours/templates/guidedtours/send_mail.html
+#: guidedtours/models.py guidedtours/templates/guidedtours/mail/send_mail.html
+#: guidedtours/templates/guidedtours/participants/filtered_participants.html
 msgid "Surname"
 msgstr "Nachname"
 
@@ -88,15 +89,15 @@ msgid "E-Mail"
 msgstr "E-Mail"
 
 #: guidedtours/models.py
-#: guidedtours/templates/guidedtours/list_tour-participants.html
+#: guidedtours/templates/guidedtours/participants/list_tour-participants.html
 msgid "Mobile phone"
 msgstr "Handynummer"
 
-#: guidedtours/models.py guidedtours/templates/guidedtours/del_mail.html
-#: guidedtours/templates/guidedtours/filtered_list.html
-#: guidedtours/templates/guidedtours/index_mails.html
-#: guidedtours/templates/guidedtours/list_tour-participants.html
-#: guidedtours/templates/guidedtours/send_mail.html
+#: guidedtours/models.py guidedtours/templates/guidedtours/mail/del_mail.html
+#: guidedtours/templates/guidedtours/mail/index_mails.html
+#: guidedtours/templates/guidedtours/mail/send_mail.html
+#: guidedtours/templates/guidedtours/participants/filtered_participants.html
+#: guidedtours/templates/guidedtours/participants/list_tour-participants.html
 msgid "Subject"
 msgstr "Studiengang"
 
@@ -116,9 +117,9 @@ msgstr "Auf der Warteliste"
 msgid "Email subject"
 msgstr "Betreff der E-Mail"
 
-#: guidedtours/models.py guidedtours/templates/guidedtours/del_mail.html
-#: guidedtours/templates/guidedtours/index_mails.html
-#: guidedtours/templates/guidedtours/send_mail.html
+#: guidedtours/models.py guidedtours/templates/guidedtours/mail/del_mail.html
+#: guidedtours/templates/guidedtours/mail/index_mails.html
+#: guidedtours/templates/guidedtours/mail/send_mail.html
 msgid "Text"
 msgstr "Text"
 
@@ -131,30 +132,10 @@ msgstr ""
 "Titel der Intitutsführung und {{zeit}} für die Zeit der Institutsführung "
 "verwenden."
 
-#: guidedtours/models.py guidedtours/templates/guidedtours/del_mail.html
-#: guidedtours/templates/guidedtours/index_mails.html
+#: guidedtours/models.py guidedtours/templates/guidedtours/mail/del_mail.html
+#: guidedtours/templates/guidedtours/mail/index_mails.html
 msgid "Comment"
 msgstr "Kommentar"
-
-#: guidedtours/templates/guidedtours/add_mail.html
-msgid "Add email"
-msgstr "E-Mail-Vorlage hinzufügen"
-
-#: guidedtours/templates/guidedtours/add_mail.html
-#: guidedtours/templates/guidedtours/add_tour.html
-#: guidedtours/templates/guidedtours/del_mail.html
-#: guidedtours/templates/guidedtours/del_tour.html
-#: guidedtours/templates/guidedtours/edit_mail.html
-#: guidedtours/templates/guidedtours/edit_tour.html
-#: guidedtours/templates/guidedtours/send_mail.html
-#: guidedtours/templates/guidedtours/signup_internal.html
-msgid "Cancel"
-msgstr "Abbrechen"
-
-#: guidedtours/templates/guidedtours/add_tour.html
-#: guidedtours/templates/guidedtours/base_guildedtours.html
-msgid "Add tour"
-msgstr "Intitutsführung hinzufügen"
 
 #: guidedtours/templates/guidedtours/base_guildedtours.html
 msgid "Dashboard"
@@ -165,7 +146,7 @@ msgid "General"
 msgstr "Allgemein"
 
 #: guidedtours/templates/guidedtours/base_guildedtours.html
-#: guidedtours/templates/guidedtours/standalone/signup.html
+#: guidedtours/templates/guidedtours/signup/signup.html
 msgid "Sign up"
 msgstr "Anmelden"
 
@@ -178,11 +159,16 @@ msgid "List tours"
 msgstr "Liste der Institutsführungen"
 
 #: guidedtours/templates/guidedtours/base_guildedtours.html
+#: guidedtours/templates/guidedtours/tours/add_tour.html
+msgid "Add tour"
+msgstr "Intitutsführung hinzufügen"
+
+#: guidedtours/templates/guidedtours/base_guildedtours.html
 msgid "Mails"
 msgstr "E-Mails"
 
 #: guidedtours/templates/guidedtours/base_guildedtours.html
-#: guidedtours/templates/guidedtours/index_mails.html
+#: guidedtours/templates/guidedtours/mail/index_mails.html
 msgid "List email templates"
 msgstr "Liste der E-Mail-Vorlagen"
 
@@ -194,149 +180,164 @@ msgstr "Teilnehmer filtern/ E-Mails senden"
 msgid "Add email template"
 msgstr "E-Mail-Vorlage hinzufügen"
 
-#: guidedtours/templates/guidedtours/del_mail.html
+#: guidedtours/templates/guidedtours/mail/add_mail.html
+msgid "Add email"
+msgstr "E-Mail-Vorlage hinzufügen"
+
+#: guidedtours/templates/guidedtours/mail/add_mail.html
+#: guidedtours/templates/guidedtours/mail/del_mail.html
+#: guidedtours/templates/guidedtours/mail/edit_mail.html
+#: guidedtours/templates/guidedtours/mail/send_mail.html
+#: guidedtours/templates/guidedtours/signup/signup_internal.html
+#: guidedtours/templates/guidedtours/tours/add_tour.html
+#: guidedtours/templates/guidedtours/tours/del_tour.html
+#: guidedtours/templates/guidedtours/tours/edit_tour.html
+msgid "Cancel"
+msgstr "Abbrechen"
+
+#: guidedtours/templates/guidedtours/mail/del_mail.html
 msgid "Delete email template"
 msgstr "E-Mail-Vorlage löschen"
 
-#: guidedtours/templates/guidedtours/del_mail.html
+#: guidedtours/templates/guidedtours/mail/del_mail.html
 msgid "Do you really want to delete the following email template?"
 msgstr "Soll die folgende E-Mail-Vorlage wirklich gelöscht werden?"
 
-#: guidedtours/templates/guidedtours/del_tour.html
-#: guidedtours/templates/guidedtours/list_tour-participants.html
-msgid "Delete tour"
-msgstr "Intitutsführung löschen"
-
-#: guidedtours/templates/guidedtours/del_tour.html
-#, python-format
-msgid "Do you really want to delete the tour <a href=\"%(url)s\">%(name)s</a>?"
-msgstr ""
-"Soll die Tour <a href=\"%(url)s\">%(name)s</a> wirklich gelöscht werden?"
-
-#: guidedtours/templates/guidedtours/edit_mail.html
+#: guidedtours/templates/guidedtours/mail/edit_mail.html
 msgid "Edit email"
 msgstr "E-Mail-Vorlage bearbeiten"
 
-#: guidedtours/templates/guidedtours/edit_tour.html
-#: guidedtours/templates/guidedtours/list_tour-participants.html
-msgid "Edit tour"
-msgstr "Intitutsführung bearbeiten"
-
-#: guidedtours/templates/guidedtours/filter_participants.html
-msgid "Filter participants"
-msgstr "Teilnehmer filtern"
-
-#: guidedtours/templates/guidedtours/filtered_list.html
-msgid "Filtered participants"
-msgstr "Gefilterte Teilnehmerliste"
-
-#: guidedtours/templates/guidedtours/filtered_list.html
-#: guidedtours/templates/guidedtours/list_tour-participants.html
-msgid "Back"
-msgstr "Zurück"
-
-#: guidedtours/templates/guidedtours/filtered_list.html
-msgid "Send emails"
-msgstr "E-Mails senden"
-
-#: guidedtours/templates/guidedtours/index_mails.html
-#: guidedtours/templates/guidedtours/list_tours.html
+#: guidedtours/templates/guidedtours/mail/index_mails.html
+#: guidedtours/templates/guidedtours/tours/list_tours.html
 msgid "Actions"
 msgstr "Aktionen"
 
-#: guidedtours/templates/guidedtours/list_tour-participants.html
-#, python-format
-msgid "List of participants for %(name)s on %(date)s"
-msgstr "Teilnehmerliste für %(name)s am %(date)s"
-
-#: guidedtours/templates/guidedtours/list_tour-participants.html
-msgid "Last name"
-msgstr "Nachname"
-
-#: guidedtours/templates/guidedtours/list_tour-participants.html
-msgid "EMail"
-msgstr "E-Mail"
-
-#: guidedtours/templates/guidedtours/list_tour-participants.html
-msgid "Waiting list"
-msgstr "Warteliste"
-
-#: guidedtours/templates/guidedtours/list_tour-participants.html
-msgid "Email"
-msgstr "E-Mail"
-
-#: guidedtours/templates/guidedtours/list_tours.html
-msgid "List of all tours"
-msgstr "Liste der Institutsführungen"
-
-#: guidedtours/templates/guidedtours/list_tours.html
-msgid "Export confired participants as CSV"
-msgstr "Bestätigte Teilnehmer als CSV ausgeben"
-
-#: guidedtours/templates/guidedtours/list_tours.html
-msgid "Export confired participants as PDF"
-msgstr "Bestätigte Teilnehmer als PDF ausgeben"
-
-#: guidedtours/templates/guidedtours/send_mail.html
+#: guidedtours/templates/guidedtours/mail/send_mail.html
 msgid "Send email"
 msgstr "E-Mail senden"
 
-#: guidedtours/templates/guidedtours/send_mail.html
+#: guidedtours/templates/guidedtours/mail/send_mail.html
 msgid ""
 "Do you really want to send the following email to the participants below?"
 msgstr ""
 "Soll die folgende E-Mail wirklich an die untenstehenden Teilnehmer geschickt "
 "werden?"
 
-#: guidedtours/templates/guidedtours/send_mail.html
+#: guidedtours/templates/guidedtours/mail/send_mail.html
 msgid "From"
 msgstr "Von"
 
-#: guidedtours/templates/guidedtours/send_mail.html
+#: guidedtours/templates/guidedtours/mail/send_mail.html
 msgid "To"
 msgstr "An"
 
-#: guidedtours/templates/guidedtours/send_mail.html
+#: guidedtours/templates/guidedtours/mail/send_mail.html
 msgid "see table below"
 msgstr "siehe Tabelle unten"
 
-#: guidedtours/templates/guidedtours/signup_internal.html
-msgid "Add participant to a guided tour"
-msgstr "Teilnehmer zur Institutsführung hinzugfügen"
+#: guidedtours/templates/guidedtours/participants/filter_participants.html
+msgid "Filter participants"
+msgstr "Teilnehmer filtern"
 
-#: guidedtours/templates/guidedtours/signup_internal.html
-msgid "Add participant"
-msgstr "Teilnehmer hinzufügen"
+#: guidedtours/templates/guidedtours/participants/filtered_participants.html
+msgid "Filtered participants"
+msgstr "Gefilterte Teilnehmerliste"
 
-#: guidedtours/templates/guidedtours/standalone/signup.html
-#: guidedtours/templates/guidedtours/standalone/signup_notour.html
+#: guidedtours/templates/guidedtours/participants/filtered_participants.html
+#: guidedtours/templates/guidedtours/participants/list_tour-participants.html
+msgid "Back"
+msgstr "Zurück"
+
+#: guidedtours/templates/guidedtours/participants/filtered_participants.html
+msgid "Send emails"
+msgstr "E-Mails senden"
+
+#: guidedtours/templates/guidedtours/participants/list_tour-participants.html
+#, python-format
+msgid "List of participants for %(name)s on %(date)s"
+msgstr "Teilnehmerliste für %(name)s am %(date)s"
+
+#: guidedtours/templates/guidedtours/participants/list_tour-participants.html
+msgid "Last name"
+msgstr "Nachname"
+
+#: guidedtours/templates/guidedtours/participants/list_tour-participants.html
+msgid "EMail"
+msgstr "E-Mail"
+
+#: guidedtours/templates/guidedtours/participants/list_tour-participants.html
+msgid "Waiting list"
+msgstr "Warteliste"
+
+#: guidedtours/templates/guidedtours/participants/list_tour-participants.html
+msgid "Email"
+msgstr "E-Mail"
+
+#: guidedtours/templates/guidedtours/participants/list_tour-participants.html
+#: guidedtours/templates/guidedtours/tours/edit_tour.html
+msgid "Edit tour"
+msgstr "Intitutsführung bearbeiten"
+
+#: guidedtours/templates/guidedtours/participants/list_tour-participants.html
+#: guidedtours/templates/guidedtours/tours/del_tour.html
+msgid "Delete tour"
+msgstr "Intitutsführung löschen"
+
+#: guidedtours/templates/guidedtours/signup/signup.html
+#: guidedtours/templates/guidedtours/signup/signup_notour.html
 msgid "Sign up for a guided tour"
 msgstr "Institutsführungs-Anmeldung"
 
-#: guidedtours/templates/guidedtours/standalone/signup.html
+#: guidedtours/templates/guidedtours/signup/signup.html
 msgid "Guided tours"
 msgstr "Intitutsführungen"
 
-#: guidedtours/templates/guidedtours/standalone/signup.html
+#: guidedtours/templates/guidedtours/signup/signup.html
 #, python-format
 msgid "%(name)s on %(date)s:"
 msgstr "%(name)s am %(date)s:"
 
-#: guidedtours/templates/guidedtours/standalone/signup_notour.html
+#: guidedtours/templates/guidedtours/signup/signup_internal.html
+msgid "Add participant to a guided tour"
+msgstr "Teilnehmer zur Institutsführung hinzugfügen"
+
+#: guidedtours/templates/guidedtours/signup/signup_internal.html
+msgid "Add participant"
+msgstr "Teilnehmer hinzufügen"
+
+#: guidedtours/templates/guidedtours/signup/signup_notour.html
 msgid "There are no tours open for registration."
 msgstr "Derzeit kannst du dich für keine Institutsführung anmelden."
 
-#: guidedtours/templates/guidedtours/standalone/success.html
+#: guidedtours/templates/guidedtours/signup/success.html
 msgid "You successfully signed up for a guided tour"
 msgstr "Du hast dich erfolgreich für eine Institutsführung angemeldet"
 
-#: guidedtours/templates/guidedtours/standalone/success.html
+#: guidedtours/templates/guidedtours/signup/success.html
 msgid "You will get all further information by email."
 msgstr "Alle weiteren Information bekommst du per E-Mail."
 
 #: guidedtours/templates/guidedtours/tour_dashboard.html
 msgid "Guildedtours dashboard"
 msgstr "Intitutsführungsdashboard"
+
+#: guidedtours/templates/guidedtours/tours/del_tour.html
+#, python-format
+msgid "Do you really want to delete the tour <a href=\"%(url)s\">%(name)s</a>?"
+msgstr ""
+"Soll die Tour <a href=\"%(url)s\">%(name)s</a> wirklich gelöscht werden?"
+
+#: guidedtours/templates/guidedtours/tours/list_tours.html
+msgid "List of all tours"
+msgstr "Liste der Institutsführungen"
+
+#: guidedtours/templates/guidedtours/tours/list_tours.html
+msgid "Export confired participants as CSV"
+msgstr "Bestätigte Teilnehmer als CSV ausgeben"
+
+#: guidedtours/templates/guidedtours/tours/list_tours.html
+msgid "Export confired participants as PDF"
+msgstr "Bestätigte Teilnehmer als PDF ausgeben"
 
 #~ msgid "Delete"
 #~ msgstr "Löschen"

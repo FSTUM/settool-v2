@@ -36,7 +36,7 @@ def list_tours(request: WSGIRequest) -> HttpResponse:
     tours = semester.tour_set.all()
 
     context = {"tours": tours}
-    return render(request, "guidedtours/list_tours.html", context)
+    return render(request, "guidedtours/tour/list_tours.html", context)
 
 
 @permission_required("guidedtours.view_participants")
@@ -56,7 +56,7 @@ def view(request: WSGIRequest, tour_pk: int) -> HttpResponse:
         "participants": participants,
         "waitinglist": waitinglist,
     }
-    return render(request, "guidedtours/list_tour-participants.html", context)
+    return render(request, "guidedtours/participants/list_tour-participants.html", context)
 
 
 @permission_required("guidedtours.view_participants")
@@ -77,7 +77,7 @@ def add(request: WSGIRequest) -> HttpResponse:
     context = {
         "form": form,
     }
-    return render(request, "guidedtours/add_tour.html", context)
+    return render(request, "guidedtours/tour/add_tour.html", context)
 
 
 @permission_required("guidedtours.view_participants")
@@ -98,7 +98,7 @@ def edit(request: WSGIRequest, tour_pk: int) -> HttpResponse:
         "form": form,
         "tour": tour,
     }
-    return render(request, "guidedtours/edit_tour.html", context)
+    return render(request, "guidedtours/tour/edit_tour.html", context)
 
 
 @permission_required("guidedtours.view_participants")
@@ -115,7 +115,7 @@ def delete(request: WSGIRequest, tour_pk: int) -> HttpResponse:
         "form": form,
         "tour": tour,
     }
-    return render(request, "guidedtours/del_tour.html", context)
+    return render(request, "guidedtours/tour/del_tour.html", context)
 
 
 @permission_required("guidedtours.view_participants")
@@ -161,7 +161,7 @@ def filter_participants(request: WSGIRequest) -> HttpResponse:
         "participants": participants,
         "filterform": filterform,
     }
-    return render(request, "guidedtours/filter_participants.html", context)
+    return render(request, "guidedtours/participants/filter_participants.html", context)
 
 
 @permission_required("guidedtours.view_participants")
@@ -212,13 +212,13 @@ def filtered_list(request: WSGIRequest) -> HttpResponse:
         "form": form,
         "participantforms": participantforms,
     }
-    return render(request, "guidedtours/filtered_list.html", context)
+    return render(request, "guidedtours/participants/filtered_participants.html", context)
 
 
 @permission_required("guidedtours.view_participants")
 def index_mails(request: WSGIRequest) -> HttpResponse:
     context = {"mails": Mail.objects.all()}
-    return render(request, "guidedtours/index_mails.html", context)
+    return render(request, "guidedtours/mail/index_mails.html", context)
 
 
 @permission_required("guidedtours.view_participants")
@@ -230,7 +230,7 @@ def add_mail(request: WSGIRequest) -> HttpResponse:
         return redirect("tours_listmails")
 
     context = {"form": form}
-    return render(request, "guidedtours/add_mail.html", context)
+    return render(request, "guidedtours/mail/add_mail.html", context)
 
 
 @permission_required("guidedtours.view_participants")
@@ -247,7 +247,7 @@ def edit_mail(request: WSGIRequest, mail_pk: int) -> HttpResponse:
         "form": form,
         "mail": mail,
     }
-    return render(request, "guidedtours/edit_mail.html", context)
+    return render(request, "guidedtours/mail/edit_mail.html", context)
 
 
 @permission_required("guidedtours.view_participants")
@@ -264,7 +264,7 @@ def delete_mail(request: WSGIRequest, mail_pk: int) -> HttpResponse:
         "mail": mail,
         "form": form,
     }
-    return render(request, "guidedtours/del_mail.html", context)
+    return render(request, "guidedtours/mail/del_mail.html", context)
 
 
 @permission_required("guidedtours.view_participants")
@@ -291,7 +291,7 @@ def send_mail(request: WSGIRequest, mail_pk: int) -> HttpResponse:
         "form": form,
     }
 
-    return render(request, "guidedtours/send_mail.html", context)
+    return render(request, "guidedtours/mail/send_mail.html", context)
 
 
 def signup(request: WSGIRequest) -> HttpResponse:
@@ -304,7 +304,7 @@ def signup(request: WSGIRequest) -> HttpResponse:
 
     if not tours:
         context: Dict[str, Any] = {"semester": semester}
-        return render(request, "guidedtours/standalone/signup_notour.html", context)
+        return render(request, "guidedtours/signup/signup_notour.html", context)
 
     form = ParticipantForm(request.POST or None, tours=tours)
     if form.is_valid():
@@ -316,11 +316,11 @@ def signup(request: WSGIRequest) -> HttpResponse:
         "form": form,
         "tours": tours,
     }
-    return render(request, "guidedtours/standalone/signup.html", context)
+    return render(request, "guidedtours/signup/signup.html", context)
 
 
 def signup_success(request: WSGIRequest) -> HttpResponse:
-    return render(request, "guidedtours/standalone/success.html")
+    return render(request, "guidedtours/signup/success.html")
 
 
 @permission_required("guidedtours.view_participants")
@@ -342,7 +342,7 @@ def signup_internal(request: WSGIRequest) -> HttpResponse:
         "semester": semester,
         "form": form,
     }
-    return render(request, "guidedtours/signup_internal.html", context)
+    return render(request, "guidedtours/signup/signup_internal.html", context)
 
 
 @permission_required("guidedtours.view_participants")

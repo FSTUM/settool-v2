@@ -136,7 +136,7 @@ def add(request: WSGIRequest) -> HttpResponse:
         return redirect("viewcompany", company.id)
 
     context = {"form": form}
-    return render(request, "bags/add_company.html", context)
+    return render(request, "bags/company/add_company.html", context)
 
 
 @permission_required("bags.view_companies")
@@ -144,7 +144,7 @@ def company_details(request: WSGIRequest, company_pk: int) -> HttpResponse:
     company = get_object_or_404(Company, pk=company_pk)
 
     context = {"company": company}
-    return render(request, "bags/company_details.html", context)
+    return render(request, "bags/company/company_details.html", context)
 
 
 @permission_required("bags.view_companies")
@@ -165,7 +165,7 @@ def edit(request: WSGIRequest, company_pk: int) -> HttpResponse:
         "form": form,
         "company": company,
     }
-    return render(request, "bags/edit_company.html", context)
+    return render(request, "bags/company/edit_company.html", context)
 
 
 @permission_required("bags.view_companies")
@@ -218,13 +218,13 @@ def delete(request: WSGIRequest, company_pk: int) -> HttpResponse:
         "company": company,
         "form": form,
     }
-    return render(request, "bags/del_company.html", context)
+    return render(request, "bags/company/del_company.html", context)
 
 
 @permission_required("bags.view_companies")
 def index_mails(request: WSGIRequest) -> HttpResponse:
     context = {"mails": Mail.objects.all()}
-    return render(request, "bags/index_mails.html", context)
+    return render(request, "bags/mail/index_mails.html", context)
 
 
 @permission_required("bags.view_companies")
@@ -236,7 +236,7 @@ def add_mail(request: WSGIRequest) -> HttpResponse:
         return redirect("listmails")
 
     context = {"form": form}
-    return render(request, "bags/add_mail.html", context)
+    return render(request, "bags/mail/add_mail.html", context)
 
 
 @permission_required("bags.view_companies")
@@ -252,7 +252,7 @@ def edit_mail(request: WSGIRequest, mail_pk: int) -> HttpResponse:
         "form": form,
         "mail": mail,
     }
-    return render(request, "bags/edit_mail.html", context)
+    return render(request, "bags/mail/edit_mail.html", context)
 
 
 @permission_required("bags.view_companies")
@@ -269,7 +269,7 @@ def delete_mail(request: WSGIRequest, mail_pk: int) -> HttpResponse:
         "mail": mail,
         "form": form,
     }
-    return render(request, "bags/del_mail.html", context)
+    return render(request, "bags/mail/del_mail.html", context)
 
 
 @permission_required("bags.view_companies")
@@ -302,7 +302,7 @@ def send_mail(request: WSGIRequest, mail_pk: int) -> HttpResponse:
         "form": form,
     }
 
-    return render(request, "bags/send_mail.html", context)
+    return render(request, "bags/mail/send_mail.html", context)
 
 
 @user_passes_test(lambda user: user.is_staff)

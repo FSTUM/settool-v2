@@ -52,7 +52,7 @@ def set_semester(request: WSGIRequest) -> HttpResponse:
 @permission_required("set.mail")
 def mail_list(request: WSGIRequest) -> HttpResponse:
     context = {"mails": settool_common.models.Mail.objects.all()}
-    return render(request, "settool_common/settings/list_email_templates.html", context)
+    return render(request, "settool_common/settings/mail/list_email_templates.html", context)
 
 
 @permission_required("set.mail")
@@ -62,7 +62,7 @@ def mail_view(request: WSGIRequest, mail_pk: int) -> HttpResponse:
     context = {
         "mail": mail,
     }
-    return render(request, "settool_common/settings/email_details.html", context)
+    return render(request, "settool_common/settings/mail/email_details.html", context)
 
 
 @permission_required("set.mail")
@@ -73,7 +73,7 @@ def mail_add(request: WSGIRequest) -> HttpResponse:
         return redirect("mail_list")
 
     context = {"form": form}
-    return render(request, "settool_common/settings/add_email.html", context)
+    return render(request, "settool_common/settings/mail/add_email.html", context)
 
 
 @permission_required("set.mail")
@@ -89,7 +89,7 @@ def mail_edit(request: WSGIRequest, mail_pk: int) -> HttpResponse:
         "form": form,
         "mail": mail,
     }
-    return render(request, "settool_common/settings/edit_email.html", context)
+    return render(request, "settool_common/settings/mail/edit_email.html", context)
 
 
 @permission_required("set.mail")
@@ -105,7 +105,7 @@ def mail_delete(request: WSGIRequest, mail_pk: int) -> HttpResponse:
         "mail": mail,
         "form": form,
     }
-    return render(request, "settool_common/settings/delete_email.html", context)
+    return render(request, "settool_common/settings/mail/delete_email.html", context)
 
 
 @permission_required("set.mail")
@@ -142,8 +142,8 @@ def mail_send(request: WSGIRequest, mail_pk: int) -> HttpResponse:
     }
 
     if failed_participants:
-        return render(request, "settool_common/mail/send_email_failure.html", context)
-    return render(request, "settool_common/mail/send_email_confirmation.html", context)
+        return render(request, "settool_common/settings/mail/send_email_failure.html", context)
+    return render(request, "settool_common/settings/mail/send_email_confirmation.html", context)
 
 
 @permission_required("set.mail")
@@ -195,7 +195,11 @@ def mail_import(request: WSGIRequest) -> HttpResponse:
         import_mail_csv_to_db(request.FILES["file"])
         messages.success(request, _("The File was successfully uploaded"))
         return redirect("mail_list")
-    return render(request, "settool_common/settings/import_email.html", {"form": file_upload_form})
+    return render(
+        request,
+        "settool_common/settings/mail/import_email.html",
+        {"form": file_upload_form},
+    )
 
 
 @permission_required("set.mail")
