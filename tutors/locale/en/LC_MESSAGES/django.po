@@ -1,15 +1,10 @@
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-#
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-07-03 23:47+0200\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"PO-Revision-Date: 2021-01-28 00:04+1\n"
+"Last-Translator: Frank Elsinga <elsinga@fs.tum.de>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: en\n"
 "MIME-Version: 1.0\n"
@@ -17,17 +12,9 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: .\tutors\forms.py:23
-msgid "I want to receive ECTS for my work as a SET tutor."
-msgstr "Ich möchte ECTS für meine Arbeit als SET-Tutor erhalten."
-
 #: .\tutors\forms.py:24
 msgid "tutors_ects_agreement"
 msgstr "With your permission your name, date of birth, matriculation number and study subject are passed on to your faculty to register your ECTS."
-
-#: .\tutors\forms.py:25
-msgid "I accept the terms and conditions of the following privacy policy:"
-msgstr "Ich akzeptiere die Bedingungen der folgenden Datenschutzrichtlinie:"
 
 msgid "accepted"
 msgstr "Accepted"
