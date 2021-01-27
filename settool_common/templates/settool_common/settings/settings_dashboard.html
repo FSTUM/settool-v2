@@ -4,12 +4,55 @@
 {% block set_common_headercontent %}{% trans "Settings dashboard" %}{% endblock %}
 
 {% block set_common_content %}
-<h5 class="card-title">{% trans "Email-templates by sender" %}</h5>
-<div
-    class="chart-container"
-    style="position: relative; height: 40vh; width: 80vw"
->
-    <canvas id='email_pie_chart'></canvas>
+<div class='row'>
+    <div class='col-md'>
+        <h5 class='card-title'>{% trans "Email-templates by sender" %}</h5>
+        <div style='max-width: 30rem;min-width: 10rem;min-height: 40rem;'>
+            <canvas id='email_pie_chart'></canvas>
+        </div>
+    </div>
+</div>
+<div class='row'>
+    <div class='col-md'>
+        <h5 class='card-title'>{% trans "Fahrt-Signup" %}</h5>
+        <a href='{% url "fahrt_signup" %}'>
+            <img
+                class='m-2 img-fluid'
+                src='https://chart.googleapis.com/chart?cht=qr&chld=H|0&chs=400x400&chl={% url "fahrt_signup" %}'
+                alt='QR-Code linking to {% url "fahrt_signup" %}'
+            >
+        </a>
+    </div>
+    <div class='col-md'>
+        <h5 class='card-title'>{% trans "Tutor-Signup" %}</h5>
+        <a href='{% url "tutor_signup" %}'>
+            <img
+                class='m-2 img-fluid'
+                src='https://chart.googleapis.com/chart?cht=qr&chld=H|0&chs=400x400&chl={% url "tutor_signup" %}'
+                alt='QR-Code linking to {% url "tutor_signup" %}'
+            >
+        </a>
+    </div>
+    <div class='col-md'>
+        <h5 class='card-title'>{% trans "Colaborator-Signup" %}</h5>
+        <a href='{% url "collaborator_signup" %}'>
+            <img
+                class='m-2 img-fluid'
+                src='https://chart.googleapis.com/chart?cht=qr&chld=H|0&chs=400x400&chl={% url "collaborator_signup" %}'
+                alt='QR-Code linking to {% url "collaborator_signup" %}'
+            >
+        </a>
+    </div>
+    <div class='col-md'>
+        <h5 class='card-title'>{% trans "Guildedtour-Signup" %}</h5>
+        <a href='{% url "tours_signup" %}'>
+            <img
+                class='m-2 img-fluid'
+                src='https://chart.googleapis.com/chart?cht=qr&chld=H|0&chs=400x400&chl={% url "tours_signup" %}'
+                alt='QR-Code linking to {% url "tours_signup" %}'
+            >
+        </a>
+    </div>
 </div>
 {% endblock %}
 

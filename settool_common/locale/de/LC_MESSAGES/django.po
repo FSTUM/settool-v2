@@ -311,6 +311,22 @@ msgstr "Einstellungsdashboard"
 msgid "Email-templates by sender"
 msgstr "E-Mail-Vorlagen nach Sender"
 
+#: settool_common/templates/settool_common/settings/settings_dashboard.html
+msgid "Fahrt-Signup"
+msgstr ""
+
+#: settool_common/templates/settool_common/settings/settings_dashboard.html
+msgid "Tutor-Signup"
+msgstr ""
+
+#: settool_common/templates/settool_common/settings/settings_dashboard.html
+msgid "Colaborator-Signup"
+msgstr ""
+
+#: settool_common/templates/settool_common/settings/settings_dashboard.html
+msgid "Guildedtour-Signup"
+msgstr ""
+
 #: settool_common/views.py
 msgid "The File was successfully uploaded"
 msgstr "Diese Datei wurde erfolgreich ge-uploaded"
