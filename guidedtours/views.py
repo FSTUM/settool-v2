@@ -36,7 +36,7 @@ def list_tours(request: WSGIRequest) -> HttpResponse:
     tours = semester.tour_set.all()
 
     context = {"tours": tours}
-    return render(request, "guidedtours/tour/list_tours.html", context)
+    return render(request, "guidedtours/tours/list_tours.html", context)
 
 
 @permission_required("guidedtours.view_participants")
@@ -77,7 +77,7 @@ def add(request: WSGIRequest) -> HttpResponse:
     context = {
         "form": form,
     }
-    return render(request, "guidedtours/tour/add_tour.html", context)
+    return render(request, "guidedtours/tours/add_tour.html", context)
 
 
 @permission_required("guidedtours.view_participants")
@@ -98,7 +98,7 @@ def edit(request: WSGIRequest, tour_pk: int) -> HttpResponse:
         "form": form,
         "tour": tour,
     }
-    return render(request, "guidedtours/tour/edit_tour.html", context)
+    return render(request, "guidedtours/tours/edit_tour.html", context)
 
 
 @permission_required("guidedtours.view_participants")
@@ -115,7 +115,7 @@ def delete(request: WSGIRequest, tour_pk: int) -> HttpResponse:
         "form": form,
         "tour": tour,
     }
-    return render(request, "guidedtours/tour/del_tour.html", context)
+    return render(request, "guidedtours/tours/del_tour.html", context)
 
 
 @permission_required("guidedtours.view_participants")
