@@ -9,7 +9,6 @@ from django import http
 from django.contrib import messages
 from django.contrib.auth.decorators import permission_required
 from django.core.handlers.wsgi import WSGIRequest
-from django.core.mail import EmailMessage
 from django.db.models import Count
 from django.db.models import Manager
 from django.db.models import Q
@@ -29,10 +28,10 @@ from django.utils import timezone
 from django.utils.encoding import force_bytes
 from django.utils.http import urlsafe_base64_decode
 from django.utils.http import urlsafe_base64_encode
+from django.utils.translation import ugettext_lazy as _
 
 from settool_common import utils
 from settool_common.models import get_semester
-from settool_common.models import Mail
 from settool_common.models import Semester
 from settool_common.models import Subject
 from tutors.forms import AnswerForm
@@ -54,6 +53,7 @@ from tutors.models import Settings
 from tutors.models import SubjectTutorCountAssignment
 from tutors.models import Task
 from tutors.models import Tutor
+from tutors.models import TutorMail
 from tutors.tokens import account_activation_token
 
 
@@ -78,33 +78,22 @@ def tutor_signup(request: WSGIRequest) -> HttpResponse:
         tutor.log(None, "Signed up")
         save_answer_formset(answer_formset, tutor.id)
 
-        mail_context = Context(
-            {
-                "tutor": tutor,
-                "activation_url": request.build_absolute_uri(
-                    reverse(
-                        "tutor_signup_confirm",
-                        kwargs={
-                            "uidb64": urlsafe_base64_encode(force_bytes(tutor.pk)),
-                            "token": account_activation_token.make_token(tutor),
-                        },
-                    ),
-                ),
-            },
+        activation_url = request.build_absolute_uri(
+            reverse(
+                "tutor_signup_confirm",
+                kwargs={
+                    "uidb64": urlsafe_base64_encode(force_bytes(tutor.pk)),
+                    "token": account_activation_token.make_token(tutor),
+                },
+            ),
         )
-        message = Template(settings.mail_registration.text).render(mail_context)
-        subject = Template(settings.mail_registration.subject).render(mail_context)
-        to_email = form.cleaned_data.get("email")
-        email = EmailMessage(
-            from_email=settings.mail_registration.sender,
-            to=[to_email],
-            subject=subject,
-            body=message,
-        )
-        email.send()
-
+        if not settings.mail_registration.send_mail_registration(tutor, activation_url):
+            messages.error(
+                request,
+                _(f"Could not send email. If this error persists send a mail to {TutorMail.SET}"),
+            )
+            return redirect("tutor_signup")
         MailTutorTask.objects.create(tutor=tutor, mail=settings.mail_registration, task=None)
-
         return redirect("tutor_signup_confirmation_required")
 
     context = {
@@ -569,64 +558,44 @@ def task_mail(request: WSGIRequest, uid: UUID, mail_pk: Optional[int] = None) ->
     task = get_object_or_404(Task, pk=uid)
 
     if mail_pk is None:
-        template = settings.mail_task
-        if template is None:
+        mail = settings.mail_task
+        if mail is None:
             raise Http404
     else:
-        template = get_object_or_404(Mail, pk=mail_pk, sender=Mail.SET_TUTOR)
+        mail = get_object_or_404(TutorMail, pk=mail_pk)
 
     tutor_data = extract_tutor_data()
     tutor = Tutor(**tutor_data)
-
-    mail_context = Context(
-        {
-            "task": task,
-            "tutor": tutor,
-        },
-    )
-
-    subject = Template(template.subject).render(mail_context)
-    body = Template(template.text).render(mail_context)
-
     form = TutorMailAdminForm(
         request.POST or None,
         tutors=task.tutors.all(),
-        template=template,
+        template=mail,
         semester=semester,
     )
     if form.is_valid():
         tutors = form.cleaned_data["tutors"]
-        mail_template = form.cleaned_data["mail_template"]
+        mail_template: TutorMail = form.cleaned_data["mail_template"]
 
         for tutor in tutors:
-            mail_context = Context(
-                {
-                    "tutor": tutor,
-                    "task": task,
-                },
-            )
-            message = Template(mail_template.text).render(mail_context)
-            subject = Template(mail_template.subject).render(mail_context)
-            email = EmailMessage(
-                from_email=mail_template.sender,
-                to=[tutor.email],
-                subject=subject,
-                body=message,
-            )
-            email.send()
-
-            MailTutorTask.objects.create(tutor=tutor, mail=mail_template, task=task)
-
-            task.log(request.user, f"Send mail to {tutor}.")
+            if mail_template.send_mail_task(tutor, task):
+                MailTutorTask.objects.create(tutor=tutor, mail=mail_template, task=task)
+                task.log(request.user, f"Send mail to {tutor}.")
+            else:
+                # fmt: off
+                messages.error(
+                    request,
+                    _(f"Could not send email to {tutor.first_name} {tutor.last_name} ({tutor.email})."),  # noqa: E501
+                )
+                # fmt: on
 
         messages.success(request, f"Send email for {task.name}.")
         return redirect("task_list")
-
+    subject, text, sender = mail.get_mail_task(tutor, task)
     context = {
         "task": task,
-        "from": template.sender,
+        "from": sender,
         "subject": subject,
-        "body": body,
+        "body": text,
         "form": form,
     }
     return render(request, "tutors/task/mail.html", context)
@@ -832,29 +801,20 @@ def extract_tutor_data() -> Dict[str, str]:
 
 
 def send_email_to_all_tutors(
-    mail_template: Mail,
+    mail_template: TutorMail,
     tutors: List[Tutor],
     request: WSGIRequest,
 ) -> None:
     for tutor in tutors:
-        context = Context(
-            {
-                "tutor": tutor,
-            },
-        )
-        message = Template(mail_template.text).render(context)
-        subject = Template(mail_template.subject).render(context)
-        email = EmailMessage(
-            from_email=mail_template.sender,
-            to=[tutor.email],
-            subject=subject,
-            body=message,
-        )
-        email.send()
-
-        MailTutorTask.objects.create(tutor=tutor, mail=mail_template, task=None)
-
-        tutor.log(request.user, f"Send mail to {tutor}.")
+        if mail_template.send_mail_tutor(tutor):
+            MailTutorTask.objects.create(tutor=tutor, mail=mail_template, task=None)
+            tutor.log(request.user, f"Send mail to {tutor}.")
+        else:
+            tutor.log(request.user, f"Failed to send mail to {tutor}.")
+            messages.error(
+                request,
+                _(f"Could not send email to {tutor.first_name} {tutor.last_name} ({tutor.email})."),
+            )
     messages.success(request, "Sent email to tutors.")
 
 
@@ -862,7 +822,7 @@ def default_tutor_mail(
     settings: Settings,
     status: str,
     mail_pk: Optional[int],
-) -> Optional[Mail]:
+) -> Optional[TutorMail]:
     if mail_pk is None:
         status_to_template = {
             "active": settings.mail_waiting_list,
@@ -873,9 +833,9 @@ def default_tutor_mail(
         if status in status_to_template:
             return status_to_template[status]
 
-        return Mail.objects.filter(sender=Mail.SET_TUTOR).last()
+        return TutorMail.objects.filter(sender=TutorMail.SET_TUTOR).last()
 
-    return get_object_or_404(Mail, pk=mail_pk, sender=Mail.SET_TUTOR)
+    return get_object_or_404(TutorMail, pk=mail_pk, sender=TutorMail.SET_TUTOR)
 
 
 @permission_required("tutors.edit_tutors")

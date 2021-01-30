@@ -1,10 +1,37 @@
-from django.core.mail import send_mail
 from django.db import models
-from django.template import engines
 from django.utils.translation import ugettext_lazy as _
 
 import settool_common.models as common_models
 from settool_common.models import Semester
+
+
+class BagMail(common_models.Mail):
+    possible_placeholders = _(
+        "You may use {{firma}} for the company name, {{anrede}} for the greeting 'Hallo "
+        "Herr/Frau XYZ' and {{formale_anrede}} for the formal greeting 'Sehr geehrte/r "
+        "Herr/Frau XYZ'. ",
+    )
+
+    # pylint: disable=signature-differs
+    def save(self, *args, **kwargs):
+        self.sender = common_models.Mail.SET_BAGS
+        super().save(*args, **kwargs)
+
+    def send_mail_company(self, company):
+        context = {
+            "firma": company.name,
+            "anrede": company.anrede,
+            "formale_anrede": company.formale_anrede,
+        }
+        return self.send_mail(context, company.email)
+
+    def get_mail_company(self):
+        context = {
+            "firma": "<Firma>",
+            "anrede": "<Hallo Herr/Frau XYZ>",
+            "formale_anrede": "<Sehr geehrte/r Herr/Frau XYZ>",
+        }
+        return self.get_mail(context)
 
 
 class Company(models.Model):
@@ -125,69 +152,3 @@ class Company(models.Model):
     @property
     def contact_name(self):
         return f"{self.contact_firstname} {self.contact_lastname}"
-
-
-class Mail(models.Model):
-    sender = common_models.Mail.SET_BAGS
-    subject = models.CharField(
-        _("Email subject"),
-        max_length=200,
-    )
-
-    text = models.TextField(
-        _("Text"),
-        help_text=_(
-            'You may use {{firma}} for the company name, {{anrede}} for the greeting "Hallo '
-            'Herr/Frau XYZ" and {{formale_anrede}} for the formal greeting "Sehr geehrte/r '
-            'Herr/Frau XYZ".',
-        ),
-    )
-
-    comment = models.CharField(
-        _("Comment"),
-        max_length=200,
-        blank=True,
-    )
-
-    def __str__(self):
-        if self.comment:
-            return f"{self.subject} ({self.comment})"
-        return str(self.subject)
-
-    def get_mail(self):
-        # text from templates
-        django_engine = engines["django"]
-        subject_template = django_engine.from_string(self.subject)
-        context = {
-            "firma": "<Firma>",
-            "anrede": "<Hallo Herr/Frau XYZ>",
-            "formale_anrede": "<Sehr geehrte/r Herr/Frau XYZ>",
-        }
-        subject = subject_template.render(context).rstrip()
-
-        text_template = django_engine.from_string(self.text)
-        text = text_template.render(context)
-
-        return subject, text, self.sender
-
-    def send_mail(self, company):
-        # text from templates
-        django_engine = engines["django"]
-        subject_template = django_engine.from_string(self.subject)
-        context = {
-            "firma": company.name,
-            "anrede": company.anrede,
-            "formale_anrede": company.formale_anrede,
-        }
-        subject = subject_template.render(context).rstrip()
-
-        text_template = django_engine.from_string(self.text)
-        text = text_template.render(context)
-
-        send_mail(
-            subject,
-            text,
-            self.sender,
-            [company.email],
-            fail_silently=False,
-        )

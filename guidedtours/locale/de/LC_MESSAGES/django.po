@@ -44,6 +44,15 @@ msgid "Tour"
 msgstr "Institutsführung"
 
 #: guidedtours/models.py
+msgid ""
+"You may use {{vorname}} for the participant's first name, {{tour}} for the "
+"name of the tour, {{zeit}} for the time of the tour."
+msgstr ""
+"Du kannst {{vorname}} für den Vornamen des Teilnehmers, {{tour}} für den "
+"Titel der Institutsführung und {{zeit}} für die Zeit der Institutsführung "
+"verwenden."
+
+#: guidedtours/models.py
 msgid "Name"
 msgstr "Name"
 
@@ -107,30 +116,6 @@ msgstr "Bei der Tour"
 #: guidedtours/models.py
 msgid "On waitinglist"
 msgstr "Auf der Warteliste"
-
-#: guidedtours/models.py
-msgid "Email subject"
-msgstr "Betreff der E-Mail"
-
-#: guidedtours/models.py guidedtours/templates/guidedtours/mail/del_mail.html
-#: guidedtours/templates/guidedtours/mail/index_mails.html
-#: guidedtours/templates/guidedtours/mail/send_mail.html
-msgid "Text"
-msgstr "Text"
-
-#: guidedtours/models.py
-msgid ""
-"You may use {{vorname}} for the participant's first name, {{tour}} for the "
-"name of the tour, {{zeit}} for the time of the tour."
-msgstr ""
-"Du kannst {{vorname}} für den Vornamen des Teilnehmers, {{tour}} für den "
-"Titel der Institutsführung und {{zeit}} für die Zeit der Institutsführung "
-"verwenden."
-
-#: guidedtours/models.py guidedtours/templates/guidedtours/mail/del_mail.html
-#: guidedtours/templates/guidedtours/mail/index_mails.html
-msgid "Comment"
-msgstr "Kommentar"
 
 #: guidedtours/templates/guidedtours/base_guildedtours.html
 #: guidedtours/templates/guidedtours/tour_dashboard.html
@@ -198,6 +183,17 @@ msgstr "E-Mail-Vorlage löschen"
 #: guidedtours/templates/guidedtours/mail/del_mail.html
 msgid "Do you really want to delete the following email template?"
 msgstr "Soll die folgende E-Mail-Vorlage wirklich gelöscht werden?"
+
+#: guidedtours/templates/guidedtours/mail/del_mail.html
+#: guidedtours/templates/guidedtours/mail/index_mails.html
+#: guidedtours/templates/guidedtours/mail/send_mail.html
+msgid "Text"
+msgstr "Text"
+
+#: guidedtours/templates/guidedtours/mail/del_mail.html
+#: guidedtours/templates/guidedtours/mail/index_mails.html
+msgid "Comment"
+msgstr "Kommentar"
 
 #: guidedtours/templates/guidedtours/mail/edit_mail.html
 msgid "Edit email"
@@ -338,6 +334,9 @@ msgstr "Bestätigte Teilnehmer als CSV ausgeben"
 #: guidedtours/templates/guidedtours/tours/list_tours.html
 msgid "Export confired participants as PDF"
 msgstr "Bestätigte Teilnehmer als PDF ausgeben"
+
+#~ msgid "Email subject"
+#~ msgstr "Betreff der E-Mail"
 
 #~ msgid "Guildedtours dashboard"
 #~ msgstr "Institutsführungsdashboard"

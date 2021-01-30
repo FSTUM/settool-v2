@@ -108,6 +108,7 @@ def mail_delete(request: WSGIRequest, mail_pk: int) -> HttpResponse:
     return render(request, "settool_common/settings/mail/delete_email.html", context)
 
 
+# TODO Evaluate if this could be better used.
 @permission_required("set.mail")
 def mail_send(request: WSGIRequest, mail_pk: int) -> HttpResponse:
     mail = get_object_or_404(settool_common.models.Mail, pk=mail_pk)
@@ -118,13 +119,14 @@ def mail_send(request: WSGIRequest, mail_pk: int) -> HttpResponse:
         id__in=selected_participants,
     ).order_by("surname")
 
-    subject, text, from_email = mail.get_mail(request)
+    subject, text, from_email = mail.get_mail({})
 
     form = forms.Form(request.POST or None)
     failed_participants = []
     if form.is_valid():
+        participant: fahrt.models.Participant
         for participant in participants:
-            success = mail.send_mail(request, participant)
+            success = mail.send_mail({}, participant.email)
             if success:
                 participant.log(request.user, f"Mail '{mail}' sent")
             else:
@@ -168,11 +170,11 @@ def import_mail_csv_to_db(csv_file):
         for chunk in csv_file.chunks():
             tmp_csv_file.write(chunk)
     # delete all mail
-    bags.models.Mail.objects.all().delete()
-    fahrt.models.Mail.objects.all().delete()
-    guidedtours.models.Mail.objects.all().delete()
+    bags.models.BagMail.objects.all().delete()
+    fahrt.models.FahrtMail.objects.all().delete()
+    guidedtours.models.TourMail.objects.all().delete()
     settool_common.models.Mail.objects.all().delete()
-    tutors.models.Mail.objects.all().delete()
+    tutors.models.TutorMail.objects.all().delete()
     # create new mail
     with open(tmp_filename, "r") as tmp_csv_file:
         rows = csv.DictReader(tmp_csv_file)
@@ -204,9 +206,9 @@ def mail_import(request: WSGIRequest) -> HttpResponse:
 
 @permission_required("set.mail")
 def mail_export(request: WSGIRequest) -> HttpResponse:
-    mails_bags = bags.models.Mail.objects.all()
-    mails_fahrt = fahrt.models.Mail.objects.all()
-    mails_guidedtours = guidedtours.models.Mail.objects.all()
+    mails_bags = bags.models.BagMail.objects.all()
+    mails_fahrt = fahrt.models.FahrtMail.objects.all()
+    mails_guidedtours = guidedtours.models.TourMail.objects.all()
     mails_settool_common = settool_common.models.Mail.objects.all()
 
     mails = [_clean_mail(mail) for mail in mails_bags]

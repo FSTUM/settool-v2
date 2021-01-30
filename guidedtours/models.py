@@ -1,12 +1,41 @@
-from django.core.mail import send_mail
 from django.db import models
-from django.template import engines
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 
 import settool_common.models as common_models
 from settool_common.models import Semester
 from settool_common.models import Subject
+
+
+class TourMail(common_models.Mail):
+    # fmt: off
+    possible_placeholders = _(
+        "You may use {{vorname}} for the participant's first name, "
+        "{{tour}} for the name of the tour, "
+        "{{zeit}} for the time of the tour.",
+    )
+    # fmt: on
+
+    # pylint: disable=signature-differs
+    def save(self, *args, **kwargs):
+        self.sender = common_models.Mail.SET
+        super().save(*args, **kwargs)
+
+    def get_mail_participant(self):
+        context = {
+            "vorname": "<Vorname>",
+            "tour": "<Tour>",
+            "zeit": "<Zeit>",
+        }
+        return self.get_mail(context)
+
+    def send_mail_participant(self, participant):
+        context = {
+            "vorname": participant.firstname,
+            "tour": participant.tour.name,
+            "zeit": participant.tour.date,
+        }
+        return self.send_mail(context, participant.email)
 
 
 class Tour(models.Model):
@@ -109,67 +138,3 @@ class Participant(models.Model):
         if self.on_the_tour:
             return _("On the tour")
         return _("On waitinglist")
-
-
-class Mail(models.Model):
-    sender = common_models.Mail.SET
-
-    subject = models.CharField(
-        _("Email subject"),
-        max_length=200,
-    )
-
-    text = models.TextField(
-        _("Text"),
-        help_text=_(
-            "You may use {{vorname}} for the participant's first name, {{tour}} for the name of "
-            "the tour, {{zeit}} for the time of the tour.",
-        ),
-    )
-
-    comment = models.CharField(
-        _("Comment"),
-        max_length=200,
-        blank=True,
-    )
-
-    def __str__(self):
-        if self.comment:
-            return f"{self.subject} ({self.comment})"
-        return self.subject
-
-    def get_mail(self):
-        django_engine = engines["django"]
-        subject_template = django_engine.from_string(self.subject)
-        context = {
-            "vorname": "<Vorname>",
-            "tour": "<Tour>",
-            "zeit": "<Zeit>",
-        }
-        subject = subject_template.render(context).rstrip()
-
-        text_template = django_engine.from_string(self.text)
-        text = text_template.render(context)
-
-        return subject, text, self.sender
-
-    def send_mail(self, participant):
-        django_engine = engines["django"]
-        subject_template = django_engine.from_string(self.subject)
-        context = {
-            "vorname": participant.firstname,
-            "tour": participant.tour.name,
-            "zeit": participant.tour.date,
-        }
-        subject = subject_template.render(context).rstrip()
-
-        text_template = django_engine.from_string(self.text)
-        text = text_template.render(context)
-
-        send_mail(
-            subject,
-            text,
-            self.sender,
-            [participant.email],
-            fail_silently=False,
-        )

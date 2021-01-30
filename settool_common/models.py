@@ -1,15 +1,96 @@
 import datetime
 import re
+from typing import Any
+from typing import Dict
+from typing import List
+from typing import Tuple
+from typing import Union
 
 from django.core.mail import send_mail
 from django.db import models
 from django.http import HttpRequest
+from django.template import Context
 from django.template import Template
 from django.utils import timezone
 from django.utils.deconstruct import deconstructible
 from django.utils.translation import ugettext_lazy as _
 
 from .settings import SEMESTER_SESSION_KEY
+
+
+class Mail(models.Model):
+    SET = "SET-Team <set@fs.tum.de>"
+    SET_FAHRT = "SET-Fahrt-Team <setfahrt@fs.tum.de>"
+    SET_TUTOR = "SET-Tutor-Team <set-tutoren@fs.tum.de>"
+    SET_BAGS = "Sponsoring-Team des SET-Referats <set-tueten@fs.tum.de>"
+    FROM_CHOICES = (
+        (SET, _("SET")),
+        (SET_FAHRT, _("SET_FAHRT")),
+        (SET_TUTOR, _("SET_TUTOR")),
+        (SET_BAGS, _("SET_BAGS")),
+    )
+    possible_placeholders = ""
+
+    sender = models.CharField(
+        max_length=100,
+        choices=FROM_CHOICES,
+        default=SET,
+        verbose_name=_("From"),
+    )
+
+    subject = models.CharField(
+        _("Email subject"),
+        max_length=200,
+        help_text=_("You may use placeholders for the subject."),
+    )
+
+    text = models.TextField(
+        _("Text"),
+        help_text=_("You may use placeholders for the text."),
+    )
+
+    comment = models.CharField(
+        _("Comment"),
+        max_length=200,
+        default="",
+        blank=True,
+    )
+
+    def __str__(self):
+        if self.comment:
+            return f"{self.subject} ({self.comment})"
+        return str(self.subject)
+
+    def get_mail(self, context: Union[Context, Dict[str, Any], None]) -> Tuple[str, str, str]:
+        subject_template = Template(self.subject)
+        subject: str = subject_template.render(context).rstrip()
+
+        text_template = Template(self.text)
+        text: str = text_template.render(context)
+
+        return subject, text, self.sender
+
+    def send_mail(
+        self,
+        context: Union[Context, Dict[str, Any], None],
+        recipients: Union[List[str], str],
+    ) -> bool:
+        if isinstance(recipients, str):
+            recipients = [recipients]
+        subject_template = Template(self.subject)
+        subject = subject_template.render(context).rstrip()
+
+        text_template = Template(self.text)
+        text = text_template.render(context)
+
+        regex = r"({{.*?}})"
+        subject_matches = re.match(regex, subject, re.MULTILINE)
+        text_matches = re.match(regex, text, re.MULTILINE)
+
+        if subject_matches is not None or text_matches is not None:
+            return False
+        send_mail(subject, text, self.sender, recipients, fail_silently=False)
+        return True
 
 
 @deconstructible
@@ -121,71 +202,3 @@ def get_semester(request: HttpRequest) -> int:
         sem = current_semester().pk
         request.session[SEMESTER_SESSION_KEY] = sem
     return sem  # noqa: R504
-
-
-class Mail(models.Model):
-    SET = "SET-Team <set@fs.tum.de>"
-    SET_FAHRT = "SET-Fahrt-Team <setfahrt@fs.tum.de>"
-    SET_TUTOR = "SET-Tutor-Team <set-tutoren@fs.tum.de>"
-    SET_BAGS = "Sponsoring-Team des SET-Referats <set-tueten@fs.tum.de>"
-    FROM_CHOICES = (
-        (SET, _("SET")),
-        (SET_FAHRT, _("SET_FAHRT")),
-        (SET_TUTOR, _("SET_TUTOR")),
-        (SET_BAGS, _("SET_BAGS")),
-    )
-
-    sender = models.CharField(
-        max_length=100,
-        choices=FROM_CHOICES,
-        default=SET,
-        verbose_name=_("From"),
-    )
-
-    subject = models.CharField(
-        _("Email subject"),
-        max_length=200,
-        help_text=_("You may use placeholders for the subject."),
-    )
-
-    text = models.TextField(
-        _("Text"),
-        help_text=_("You may use placeholders for the text."),
-    )
-
-    comment = models.CharField(
-        _("Comment"),
-        max_length=200,
-        default="",
-        blank=True,
-    )
-
-    def __str__(self):
-        if self.comment:
-            return f"{self.subject} ({self.comment})"
-        return str(self.subject)
-
-    def get_mail(self, context):
-        subject_template = Template(self.subject)
-        subject = subject_template.render(context).rstrip()
-
-        text_template = Template(self.text)
-        text = text_template.render(context)
-
-        return subject, text, self.sender
-
-    def send_mail(self, context, recipient):
-        subject_template = Template(self.subject)
-        subject = subject_template.render(context).rstrip()
-
-        text_template = Template(self.text)
-        text = text_template.render(context)
-
-        regex = r"({{.*?}})"
-        subject_matches = re.match(regex, subject, re.MULTILINE)
-        text_matches = re.match(regex, text, re.MULTILINE)
-
-        if subject_matches is not None or text_matches is not None:
-            return False
-        send_mail(subject, text, self.sender, [recipient], fail_silently=False)
-        return True

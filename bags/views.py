@@ -20,8 +20,8 @@ from .forms import MailForm
 from .forms import SelectCompanyForm
 from .forms import SelectMailForm
 from .forms import UpdateFieldForm
+from .models import BagMail
 from .models import Company
-from .models import Mail
 
 
 def get_possibly_filtered_companies(filterform, semester):
@@ -223,7 +223,7 @@ def delete(request: WSGIRequest, company_pk: int) -> HttpResponse:
 
 @permission_required("bags.view_companies")
 def index_mails(request: WSGIRequest) -> HttpResponse:
-    context = {"mails": Mail.objects.all()}
+    context = {"mails": BagMail.objects.all()}
     return render(request, "bags/mail/index_mails.html", context)
 
 
@@ -241,7 +241,7 @@ def add_mail(request: WSGIRequest) -> HttpResponse:
 
 @permission_required("bags.view_companies")
 def edit_mail(request: WSGIRequest, mail_pk: int) -> HttpResponse:
-    mail = get_object_or_404(Mail, pk=mail_pk)
+    mail = get_object_or_404(BagMail, pk=mail_pk)
 
     form = MailForm(request.POST or None, instance=mail)
     if form.is_valid():
@@ -257,7 +257,7 @@ def edit_mail(request: WSGIRequest, mail_pk: int) -> HttpResponse:
 
 @permission_required("bags.view_companies")
 def delete_mail(request: WSGIRequest, mail_pk: int) -> HttpResponse:
-    mail = get_object_or_404(Mail, pk=mail_pk)
+    mail = get_object_or_404(BagMail, pk=mail_pk)
 
     form = forms.Form(request.POST or None)
     if form.is_valid():
@@ -274,7 +274,7 @@ def delete_mail(request: WSGIRequest, mail_pk: int) -> HttpResponse:
 
 @permission_required("bags.view_companies")
 def send_mail(request: WSGIRequest, mail_pk: int) -> HttpResponse:
-    mail = get_object_or_404(Mail, pk=mail_pk)
+    mail = get_object_or_404(BagMail, pk=mail_pk)
     selected_companies = request.session["selected_companies"]
     sem = get_semester(request)
     semester = get_object_or_404(Semester, pk=sem)
@@ -282,16 +282,15 @@ def send_mail(request: WSGIRequest, mail_pk: int) -> HttpResponse:
         id__in=selected_companies,
     ).order_by("name")
 
-    subject, text, from_email = mail.get_mail()
+    subject, text, from_email = mail.get_mail_company()
 
     form = forms.Form(request.POST or None)
     if form.is_valid():
+        company: Company
         for company in companies:
-            mail.send_mail(company)
-            semester.company_set.filter(id=company.id).update(
-                email_sent=True,
-                email_sent_success=True,
-            )
+            company.email_sent_success = mail.send_mail_company(company)
+            company.email_sent = True
+            company.save()
         return redirect("bags_dashboard")
 
     context = {

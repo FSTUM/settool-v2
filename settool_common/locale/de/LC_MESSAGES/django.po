@@ -31,6 +31,58 @@ msgstr ""
 "text,comment. Die erste Zeile ist der header.)"
 
 #: settool_common/models.py
+msgid "SET"
+msgstr "SET"
+
+#: settool_common/models.py
+msgid "SET_FAHRT"
+msgstr "SET_FAHRT"
+
+#: settool_common/models.py
+msgid "SET_TUTOR"
+msgstr "SET_TUTOR"
+
+#: settool_common/models.py
+msgid "SET_BAGS"
+msgstr "SET_BAGS"
+
+#: settool_common/models.py
+#: settool_common/templates/settool_common/settings/mail/send_email_confirmation.html
+#: settool_common/templates/settool_common/settings/mail/send_email_failure.html
+msgid "From"
+msgstr "Von"
+
+#: settool_common/models.py
+#: settool_common/templates/settool_common/settings/mail/delete_email.html
+#: settool_common/templates/settool_common/settings/mail/email_details.html
+#: settool_common/templates/settool_common/settings/mail/send_email_confirmation.html
+msgid "Email subject"
+msgstr "E-Mail Betreff"
+
+#: settool_common/models.py
+msgid "You may use placeholders for the subject."
+msgstr "Du kannst Platzhalter für den Betreff verwenden."
+
+#: settool_common/models.py
+#: settool_common/templates/settool_common/settings/mail/delete_email.html
+#: settool_common/templates/settool_common/settings/mail/email_details.html
+#: settool_common/templates/settool_common/settings/mail/send_email_confirmation.html
+#: settool_common/templates/settool_common/settings/mail/send_email_failure.html
+msgid "Text"
+msgstr "Text"
+
+#: settool_common/models.py
+msgid "You may use placeholders for the text."
+msgstr "Du kannst Platzhalter für den Text verwenden."
+
+#: settool_common/models.py
+#: settool_common/templates/settool_common/settings/mail/list_email_templates.html
+#: settool_common/templates/settool_common/settings/mail/send_email_confirmation.html
+#: settool_common/templates/settool_common/settings/mail/send_email_failure.html
+msgid "Comment"
+msgstr "Kommentar"
+
+#: settool_common/models.py
 msgid "Winter semester"
 msgstr "Wintersemester"
 
@@ -114,58 +166,6 @@ msgstr "Abschluss"
 #: settool_common/templates/settool_common/settings/mail/send_email_failure.html
 msgid "Subject"
 msgstr "Studiengang"
-
-#: settool_common/models.py
-msgid "SET"
-msgstr "SET"
-
-#: settool_common/models.py
-msgid "SET_FAHRT"
-msgstr "SET_FAHRT"
-
-#: settool_common/models.py
-msgid "SET_TUTOR"
-msgstr "SET_TUTOR"
-
-#: settool_common/models.py
-msgid "SET_BAGS"
-msgstr "SET_BAGS"
-
-#: settool_common/models.py
-#: settool_common/templates/settool_common/settings/mail/send_email_confirmation.html
-#: settool_common/templates/settool_common/settings/mail/send_email_failure.html
-msgid "From"
-msgstr "Von"
-
-#: settool_common/models.py
-#: settool_common/templates/settool_common/settings/mail/delete_email.html
-#: settool_common/templates/settool_common/settings/mail/email_details.html
-#: settool_common/templates/settool_common/settings/mail/send_email_confirmation.html
-msgid "Email subject"
-msgstr "E-Mail Betreff"
-
-#: settool_common/models.py
-msgid "You may use placeholders for the subject."
-msgstr "Du kannst Platzhalter für den Betreff verwenden."
-
-#: settool_common/models.py
-#: settool_common/templates/settool_common/settings/mail/delete_email.html
-#: settool_common/templates/settool_common/settings/mail/email_details.html
-#: settool_common/templates/settool_common/settings/mail/send_email_confirmation.html
-#: settool_common/templates/settool_common/settings/mail/send_email_failure.html
-msgid "Text"
-msgstr "Text"
-
-#: settool_common/models.py
-msgid "You may use placeholders for the text."
-msgstr "Du kannst Platzhalter für den Text verwenden."
-
-#: settool_common/models.py
-#: settool_common/templates/settool_common/settings/mail/list_email_templates.html
-#: settool_common/templates/settool_common/settings/mail/send_email_confirmation.html
-#: settool_common/templates/settool_common/settings/mail/send_email_failure.html
-msgid "Comment"
-msgstr "Kommentar"
 
 #: settool_common/templates/settool_common/settings/base_settings.html
 msgid "Dashboard"

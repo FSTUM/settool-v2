@@ -33,24 +33,24 @@ def showroom_fixture_state_no_confirmation():  # nosec: this is only used in a f
     # app settool-common
     common_semesters = generate_semesters()
     common_subjects = _generate_subjects()
-    generate_common_mails()
 
     # app bags
-    _generate_companies(common_semesters)
     _generate_bags_mails()
+    _generate_companies(common_semesters)
 
     # app fahrt
+    _generate_fahrt_mails()
     fahrt_data = _generate_fahrt_data()
     fahrt_participants = _generate_fahrt_participants(common_subjects, fahrt_data)
     _generate_log_entries(fahrt_participants, superuser_frank)
-    _generate_fahrt_mails()
 
     # app guildedtours
+    _generate_guildedtours_mails()
     guildedtours_tours = _generate_guildedtours_tours(common_semesters)
     _generate_guildedtours_participants(common_subjects, guildedtours_tours)
-    _generate_guildedtours_mails()
 
     # app tutors
+    _generate_tutor_mails()
     tutors_list = _generate_tutors(common_semesters, common_subjects)
     tutors_questions = _generate_questions(common_semesters)
     _generate_answers(tutors_questions, tutors_list)
@@ -62,9 +62,7 @@ def showroom_fixture_state_no_confirmation():  # nosec: this is only used in a f
 
 
 def _generate_tutor_setting():  # nosec: this is only used in a fixture
-    all_mail_by_set_tutor = settool_common.models.Mail.objects.filter(
-        sender=settool_common.models.Mail.SET_TUTOR,
-    ).all()
+    all_mail_by_set_tutor = tutors.models.TutorMail.objects.all()
     return tutors.models.Settings.objects.create(
         semester=settool_common.models.current_semester(),
         open_registration=django.utils.timezone.make_aware(datetime.today() - timedelta(days=20)),
@@ -293,10 +291,10 @@ def _generate_tasks_tutorasignemt(  # nosec: this is only used in a fixture
                 description_en=lorem.paragraph(),
                 description_de=lorem.paragraph(),
                 begin=django.utils.timezone.make_aware(
-                    datetime.today().replace(month=2).replace(day=1),
+                    datetime.today().replace(day=1, month=1),
                 ),
                 end=django.utils.timezone.make_aware(
-                    datetime.today().replace(month=11).replace(day=1),
+                    datetime.today().replace(day=1, month=12),
                 ),
                 meeting_point_en=lorem.sentence()[: random.randint(0, 49)],
                 meeting_point_de=lorem.sentence()[: random.randint(0, 49)],
@@ -336,9 +334,9 @@ def _generate_events(semesters, subjects):  # nosec: this is only used in a fixt
             description_en=lorem.paragraph(),
             description_de=lorem.paragraph(),
             begin=django.utils.timezone.make_aware(
-                datetime.today().replace(month=1).replace(day=1),
+                datetime.today().replace(day=1, month=1),
             ),
-            end=django.utils.timezone.make_aware(datetime.today().replace(month=1).replace(day=1)),
+            end=django.utils.timezone.make_aware(datetime.today().replace(day=1, month=1)),
             meeting_point_en=lorem.sentence(),
             meeting_point_de=lorem.sentence(),
         )
@@ -389,22 +387,9 @@ def _generate_questions(semesters):  # nosec: this is only used in a fixture
     return questions
 
 
-def generate_common_mails() -> None:  # nosec: this is only used in a fixture
-    for author in settool_common.models.Mail.FROM_CHOICES:
-        for _ in range(random.randint(10, 20)):
-            settool_common.models.Mail.objects.create(
-                sender=author[0],
-                subject=f"Common {lorem.sentence()}"[: random.randint(10, 200)],
-                comment=f"Common {lorem.sentence()}"[: random.randint(1, 250)]
-                if random.choice([True, False])
-                else "",
-                text=lorem.text(),
-            )
-
-
 def _generate_bags_mails() -> None:  # nosec: this is only used in a fixture
     for _ in range(random.randint(10, 20)):
-        bags.models.Mail.objects.create(
+        bags.models.BagMail.objects.create(
             subject=f"bags {lorem.sentence()}"[:100],
             text=lorem.text(),
             comment=lorem.sentence(),
@@ -413,7 +398,7 @@ def _generate_bags_mails() -> None:  # nosec: this is only used in a fixture
 
 def _generate_guildedtours_mails() -> None:  # nosec: this is only used in a fixture
     for _ in range(random.randint(10, 20)):
-        guidedtours.models.Mail.objects.create(
+        guidedtours.models.TourMail.objects.create(
             subject=f"guidedtours {lorem.sentence()}"[:100],
             text=lorem.text(),
             comment=lorem.sentence(),
@@ -422,8 +407,17 @@ def _generate_guildedtours_mails() -> None:  # nosec: this is only used in a fix
 
 def _generate_fahrt_mails() -> None:  # nosec: this is only used in a fixture
     for _ in range(random.randint(10, 20)):
-        fahrt.models.Mail.objects.create(
+        fahrt.models.FahrtMail.objects.create(
             subject=f"fahrt {lorem.sentence()}"[:100],
+            text=lorem.text(),
+            comment=lorem.sentence(),
+        )
+
+
+def _generate_tutor_mails() -> None:  # nosec: this is only used in a fixture
+    for _ in range(random.randint(10, 20)):
+        tutors.models.TutorMail.objects.create(
+            subject=f"tutor {lorem.sentence()}"[:100],
             text=lorem.text(),
             comment=lorem.sentence(),
         )
@@ -460,3 +454,10 @@ def _generate_tutors(semesters, subjects):  # nosec: this is only used in a fixt
         tutors_ret.append(tutor)
         tutor.save()
     return tutors_ret
+
+
+def generate_common_mails():
+    _generate_bags_mails()
+    _generate_fahrt_mails()
+    _generate_tutor_mails()
+    _generate_guildedtours_mails()

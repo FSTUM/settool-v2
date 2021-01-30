@@ -5,8 +5,8 @@ from django.utils.translation import ugettext_lazy as _
 
 from settool_common.models import Semester
 
+from .models import BagMail
 from .models import Company
-from .models import Mail
 
 
 class CompanyForm(forms.ModelForm):
@@ -47,7 +47,7 @@ class GiveawayForm(forms.Form):
 
 class MailForm(forms.ModelForm):
     class Meta:
-        model = Mail
+        model = BagMail
         exclude: List[str] = []
 
     def __init__(self, *args, **kwargs):
@@ -69,7 +69,7 @@ class SelectMailForm(forms.Form):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
-        self.fields["mail"].queryset = Mail.objects.all()
+        self.fields["mail"].queryset = BagMail.objects.all()
 
 
 def produce_boolean_field_with_autosubmit(label):
