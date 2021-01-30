@@ -1,3 +1,4 @@
+import time
 from datetime import date
 from datetime import timedelta
 from typing import Dict
@@ -20,6 +21,7 @@ from django.shortcuts import render
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 
+from settool_common import utils
 from settool_common.models import get_semester
 from settool_common.models import Semester
 from settool_common.models import Subject
@@ -684,3 +686,29 @@ def change_date(request: WSGIRequest) -> HttpResponse:
         "form": form,
     }
     return render(request, "fahrt/general/change_date.html", context)
+
+
+@permission_required("fahrt.view_participants")
+def export(request: WSGIRequest, file_format: str = "csv") -> HttpResponse:
+    semester: Semester = get_object_or_404(Semester, pk=get_semester(request))
+    participants = semester.fahrt_participant.order_by("surname", "firstname")
+    fahrt: Fahrt = semester.fahrt
+    filename = f"fahrt_participants_{fahrt.semester}_{fahrt.date}_{time.strftime('%Y%m%d-%H%M')}"
+    context = {"participants": participants, "fahrt": fahrt}
+    if file_format == "csv":
+        return utils.download_csv(
+            [
+                "surname",
+                "firstname",
+                "birthday",
+                "email",
+                "phone",
+                "mobile",
+                "subject",
+                "nutrition",
+                "allergies",
+            ],
+            filename + ".csv",
+            participants,
+        )
+    return utils.download_pdf("fahrt/tex/participants.tex", filename + ".pdf", context)

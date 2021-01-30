@@ -489,6 +489,18 @@ msgid "Count"
 msgstr "Anzahl"
 
 #: fahrt/templates/fahrt/participants/list_confirmed.html
+#, fuzzy
+#| msgid "List confirmed participants"
+msgid "Export confired participants as CSV"
+msgstr "Bestätigte Teilnehmer auflisten"
+
+#: fahrt/templates/fahrt/participants/list_confirmed.html
+#, fuzzy
+#| msgid "List confirmed participants"
+msgid "Export confired participants as PDF"
+msgstr "Bestätigte Teilnehmer auflisten"
+
+#: fahrt/templates/fahrt/participants/list_confirmed.html
 msgid "Paid/Payment deadline"
 msgstr "Bezahlt/Zahlungsfrist"
 

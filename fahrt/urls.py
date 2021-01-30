@@ -15,6 +15,7 @@ urlpatterns = [
         views.fahrt_dashboard,
         name="fahrt_index",
     ),
+    path("export/<str:file_format>", views.export, name="fahrt_export"),
     path(
         "list/",
         include(

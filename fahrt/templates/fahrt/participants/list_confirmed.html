@@ -48,6 +48,20 @@
         </tbody>
     </table>
 </div>
+<div class='row'>
+    <div class='col-sm p-1'>
+        <a
+            class='btn btn-secondary btn-block'
+            href="{% url "fahrt_export" "csv" %}"
+        >{% trans "Export confired participants as CSV" %} <span class="bi bi-file-spreadsheet"></span></a>
+    </div>
+    <div class='col-sm p-1'>
+        <a
+            class='btn btn-secondary btn-block'
+            href="{% url "fahrt_export" "pdf" %}"
+        >{% trans "Export confired participants as PDF" %} <span class="bi bi-file-earmark-person-fill"></span></a>
+    </div>
+</div>
 <h4 class='card-title'>{% trans "Participants" %}</h4>
 <div class="table-responsive mt-3">
     <table
@@ -96,7 +110,9 @@
                     {% endif %}
                 </td>
                 <td>{% include "snippets/true_false_span.html" with value=participant.u18 inverted_colors=True %}</td>
-                <td>{% if participant.nutrition == "vegan" %}{% trans "Vegan" %}{% elif participant.nutrition == "vegeterian" %}{% trans "Vegeterian" %}{% else %}{% trans "Normal" %}{% endif %}</td>
+                <td>{% if participant.nutrition == "vegan" %}
+                    {% trans "Vegan" %}{% elif participant.nutrition == "vegeterian" %}
+                    {% trans "Vegeterian" %}{% else %}{% trans "Normal" %}{% endif %}</td>
                 <td>{% include "snippets/true_false_span.html" with value=participant.allergies inverted_colors=True %}</td>
             </tr>
             {% endfor %}

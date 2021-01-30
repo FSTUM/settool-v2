@@ -364,12 +364,12 @@ def export(request: WSGIRequest, file_format: str, tour_pk: int) -> HttpResponse
     tour = get_object_or_404(Tour, pk=tour_pk)
     participants = tour.participant_set.order_by("time")
     confirmed_participants = participants[: tour.capacity]
-    filename = f"participants_{tour.name}_{tour.date}_{time.strftime('%Y%m%d-%H%M')}.pdf"
+    filename = f"participants_{tour.name}_{tour.date}_{time.strftime('%Y%m%d-%H%M')}"
     context = {"participants": confirmed_participants, "tour": tour}
     if file_format == "csv":
         return utils.download_csv(
             ["surname", "firstname", "time", "email", "phone", "subject"],
-            filename,
-            context,
+            filename + ".csv",
+            confirmed_participants,
         )
-    return utils.download_pdf("guidedtours/tex/tour.tex", filename, context)
+    return utils.download_pdf("guidedtours/tex/tour.tex", filename + ".pdf", context)

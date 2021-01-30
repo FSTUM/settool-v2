@@ -10,6 +10,7 @@ from typing import List
 from typing import Union
 
 from django.contrib.auth import get_user_model
+from django.db.models import QuerySet
 from django.http import HttpResponse
 from django.template.loader import render_to_string
 from django.test.client import Client
@@ -27,7 +28,7 @@ def download_pdf(template_filepath: str, dest: str, context: Dict[str, Any]) -> 
 def download_csv(
     fields: List[str],
     dest: str,
-    context: Union[Dict[Any, Any], List[Any]],
+    context: Union[QuerySet[Any], Dict[Any, Any], List[Any]],
 ) -> HttpResponse:
     response = HttpResponse(content_type="text/csv")
     response["Content-Disposition"] = f"inline; filename={os.path.basename(dest)}"
