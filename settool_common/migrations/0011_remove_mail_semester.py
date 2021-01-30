@@ -3,13 +3,21 @@
 from django.db import migrations
 
 
-class Migration(migrations.Migration):
+def subject_includes_semester(apps, _):
+    Mail = apps.get_model("settool_common", "mail")
+    for mail in Mail.objects.all():
+        semester = mail.semester
+        mail.subject = f"[{ semester.semester}{semester.year}] {mail.subject}"[:200]
+        mail.save()
 
+
+class Migration(migrations.Migration):
     dependencies = [
         ("settool_common", "0010_mail_comment"),
     ]
 
     operations = [
+        migrations.RunPython(subject_includes_semester),
         migrations.RemoveField(
             model_name="mail",
             name="semester",
