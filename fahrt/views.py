@@ -709,7 +709,7 @@ def export(request: WSGIRequest, file_format: str = "csv") -> HttpResponse:
                 "nutrition",
                 "allergies",
             ],
-            filename + ".csv",
+            f"{filename}.csv",
             participants,
         )
-    return utils.download_pdf("fahrt/tex/participants.tex", filename + ".pdf", context)
+    return utils.download_pdf("fahrt/tex/participants.tex", f"{filename}.pdf", context)

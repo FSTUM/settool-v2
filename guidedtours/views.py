@@ -369,7 +369,7 @@ def export(request: WSGIRequest, file_format: str, tour_pk: int) -> HttpResponse
     if file_format == "csv":
         return utils.download_csv(
             ["surname", "firstname", "time", "email", "phone", "subject"],
-            filename + ".csv",
+            f"{filename}.csv",
             confirmed_participants,
         )
-    return utils.download_pdf("guidedtours/tex/tour.tex", filename + ".pdf", context)
+    return utils.download_pdf("guidedtours/tex/tour.tex", f"{filename}.pdf", context)
