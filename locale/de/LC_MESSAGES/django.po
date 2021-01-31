@@ -230,14 +230,18 @@ msgstr ""
 "Widerrufserklärung meine Daten gelöscht.</p>"
 
 #: templates/snippets/true_false_none_span.html
-#: templates/snippets/true_false_span.html
-msgid "No"
-msgstr "Nein"
+msgid "Failure"
+msgstr "Fehler"
 
 #: templates/snippets/true_false_none_span.html
 #: templates/snippets/true_false_span.html
 msgid "Yes"
 msgstr "Ja"
+
+#: templates/snippets/true_false_none_span.html
+#: templates/snippets/true_false_span.html
+msgid "No"
+msgstr "Nein"
 
 #: templates/snippets/true_false_none_span.html
 msgid "Unknown"

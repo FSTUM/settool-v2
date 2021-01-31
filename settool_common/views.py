@@ -1,6 +1,7 @@
 import csv
 import os
 import time
+from typing import Optional
 
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
@@ -33,20 +34,20 @@ from .settings import SEMESTER_SESSION_KEY
 
 @login_required
 def set_semester(request: WSGIRequest) -> HttpResponse:
-    redirect_url: str = request.POST.get("next", request.GET.get("next") or "/")
+    redirect_url: Optional[str] = request.POST.get("next") or request.GET.get("next")
     if not is_safe_url(url=redirect_url, allowed_hosts=request.get_host()):
-        redirect_url = request.META.get("HTTP_REFERER") or "/"
+        redirect_url = request.META.get("HTTP_REFERER")
         if not is_safe_url(url=redirect_url, allowed_hosts=request.get_host()):
-            redirect_url = "/"
+            redirect_url = "/"  # should not happen :)
     if request.method == "POST":
-        semester_pk = int(request.POST.get("semester") or get_semester(request))
+        semester_pk = int(request.POST.get("semester") or -1)  # semester is always present
         try:
             Semester.objects.get(pk=semester_pk)
         except Semester.DoesNotExist:
             pass
         else:
             request.session[SEMESTER_SESSION_KEY] = semester_pk
-    return HttpResponseRedirect(redirect_url)
+    return HttpResponseRedirect(redirect_url or "/")
 
 
 @permission_required("set.mail")

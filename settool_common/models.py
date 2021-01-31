@@ -116,7 +116,7 @@ def current_semester() -> Semester:
 def get_semester(request: HttpRequest) -> int:
     sem: int
     try:
-        sem = request.session[SEMESTER_SESSION_KEY]
+        sem = int(request.session[SEMESTER_SESSION_KEY])
     except KeyError:
         sem = current_semester().pk
         request.session[SEMESTER_SESSION_KEY] = sem

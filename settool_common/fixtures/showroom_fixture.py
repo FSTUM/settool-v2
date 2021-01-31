@@ -293,10 +293,10 @@ def _generate_tasks_tutorasignemt(  # nosec: this is only used in a fixture
                 description_en=lorem.paragraph(),
                 description_de=lorem.paragraph(),
                 begin=django.utils.timezone.make_aware(
-                    datetime.today().replace(month=2).replace(day=1),
+                    datetime.today().replace(month=2, day=1),
                 ),
                 end=django.utils.timezone.make_aware(
-                    datetime.today().replace(month=11).replace(day=1),
+                    datetime.today().replace(month=11, day=1),
                 ),
                 meeting_point_en=lorem.sentence()[: random.randint(0, 49)],
                 meeting_point_de=lorem.sentence()[: random.randint(0, 49)],
@@ -336,7 +336,7 @@ def _generate_events(semesters, subjects):  # nosec: this is only used in a fixt
             description_en=lorem.paragraph(),
             description_de=lorem.paragraph(),
             begin=django.utils.timezone.make_aware(
-                datetime.today().replace(month=1).replace(day=1),
+                datetime.today().replace(month=1, day=1),
             ),
             end=django.utils.timezone.make_aware(datetime.today().replace(month=1).replace(day=1)),
             meeting_point_en=lorem.sentence(),

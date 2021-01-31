@@ -125,7 +125,8 @@
                                 {% for semester in semesters %}
                                 <option
                                     value="{{ semester.pk }}"
-                                    selected="{% if semester.pk == SEMESTER_PK %}selected{% endif %}"
+                                    {% if semester.pk == SEMESTER_PK %}selected="selected"
+                                    {% endif %}
                                 >
                                     {{ semester }}
                                 </option>

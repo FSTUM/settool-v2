@@ -52,8 +52,8 @@ def dashboard(request: WSGIRequest) -> HttpResponse:
 
     context = {
         "tour_labels": [f"{tour['name']} {tour['date'].strftime('%d.%m %H')}Uhr" for tour in tours],
-        "tour_registrations": [tour["capacity"] for tour in tours],
-        "tour_capacity": [tour["registered"] for tour in tours],
+        "tour_registrations": [tour["registered"] for tour in tours],
+        "tour_capacity": [tour["capacity"] for tour in tours],
     }
     return render(request, "guidedtours/tour_dashboard.html", context)
 
