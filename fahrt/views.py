@@ -155,9 +155,10 @@ def fahrt_dashboard(request: WSGIRequest) -> HttpResponse:
 
 @permission_required("fahrt.view_participants")
 def list_registered(request: WSGIRequest) -> HttpResponse:
-    sem = get_semester(request)
-    semester = get_object_or_404(Semester, pk=sem)
-    participants = semester.fahrt_participant.filter(status="registered").order_by("surname")
+    semester = get_object_or_404(Semester, pk=get_semester(request))
+    participants = semester.fahrt_participant.filter(status="registered").order_by(
+        "-registration_time",
+    )
 
     context = {
         "participants": participants,
@@ -167,9 +168,10 @@ def list_registered(request: WSGIRequest) -> HttpResponse:
 
 @permission_required("fahrt.view_participants")
 def list_waitinglist(request: WSGIRequest) -> HttpResponse:
-    sem = get_semester(request)
-    semester = get_object_or_404(Semester, pk=sem)
-    participants = semester.fahrt_participant.filter(status="waitinglist").order_by("surname")
+    semester = get_object_or_404(Semester, pk=get_semester(request))
+    participants = semester.fahrt_participant.filter(status="waitinglist").order_by(
+        "-registration_time",
+    )
 
     context = {
         "participants": participants,
@@ -179,8 +181,7 @@ def list_waitinglist(request: WSGIRequest) -> HttpResponse:
 
 @permission_required("fahrt.view_participants")
 def list_confirmed(request: WSGIRequest) -> HttpResponse:
-    sem = get_semester(request)
-    semester = get_object_or_404(Semester, pk=sem)
+    semester = get_object_or_404(Semester, pk=get_semester(request))
     participants = semester.fahrt_participant.filter(status="confirmed").order_by(
         "payment_deadline",
         "surname",
