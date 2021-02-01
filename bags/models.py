@@ -12,6 +12,8 @@ class BagMail(common_models.Mail):
         "Herr/Frau XYZ'. ",
     )
 
+    objects = common_models.Mail.objects.filter(sender=common_models.Mail.SET_BAGS)
+
     # pylint: disable=signature-differs
     def save(self, *args, **kwargs):
         self.sender = common_models.Mail.SET_BAGS
