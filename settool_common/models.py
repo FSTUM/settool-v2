@@ -36,6 +36,9 @@ class Semester(models.Model):
         verbose_name=_("Year"),
     )
 
+    def short_form(self) -> str:
+        return f"{self.semester}{str(self.year)[2:]}"
+
     def __str__(self):
         return f"{self.get_semester_display()} {self.year:4}"
 

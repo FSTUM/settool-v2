@@ -1,33 +1,13 @@
+{% extends "tex/base.tex" %}
 {% load latex %}
-\documentclass[a4paper]{article}
-\usepackage[utf8]{inputenc}
 
-\usepackage[ngerman]{babel}
-\usepackage{longtable}
-\usepackage{array}
-\usepackage{geometry}
-\usepackage{etoolbox}
-\usepackage{makecell}
-\geometry{left=20mm,right=20mm, top=30mm, bottom=30mm}
-
-\preto\tabular{\setcounter{magicrownumbers}{0}}
-\newcounter{magicrownumbers}
-\newcommand\rownumber{\stepcounter{magicrownumbers}\arabic{magicrownumbers}}
-
-\begin{document}
-{\fontfamily{cmss}\selectfont
-
-    \section*{ {\fontfamily{cmss}\selectfont Teilnehmer-Liste SET-Fahrt {{ fahrt.semester }} am {{ fahrt.date }} (Stand: \today)  } }
-
-    \begin{center}
-        \large
-        \begin{longtable}{|c|m{.30\textwidth}|m{.15\textwidth}|m{.15\textwidth}|m{.25\textwidth}|}
-            \hline \bfseries Nr & \bfseries Nachname, Vorname & \bfseries Geburtstag & \bfseries Email & \bfseries Telefon, Mobil \bfseries \\ \hline
-            \endhead
-            {% for participant in participants %}
-                    {{ forloop.counter }} & {{ participant.surname }}, {{ participant.firstname }} & {{ participant.birthday|date:'d.m.Y' }} & {{ participant.email }} & \makecell{ Tel:{{ participant.phone }} \\ Mobil:{{ participant.mobile }} } \newline \\ \hline
-            {% endfor %}
-        \end{longtable}
-    \end{center}
-}
-\end{document}
+{% block header %} Teilnehmer-Liste SET-Fahrt {{ fahrt.semester.short_form }} am {{ fahrt.date }} {% endblock %}
+{% block content %}
+    \begin{longtable}{|c|p{5cm}|c|c c|p{4cm}|}
+        \hline \textbf{Nr} & \makecell{ \textbf{Nachname,}\\ \textbf{Vorname} } & \textbf{Geburtstag} & \multicolumn{2}{|c|}{ \textbf{Telefon, Mobil} } & \textbf{Email} \\ \hline
+        \endhead
+        {% for participant in participants %}
+                \makecell{ \\ {{ forloop.counter }} \\ \\ } & \makecell{ {{ participant.surname|latex_escape }},\\ {{ participant.firstname|latex_escape }} } & {{ participant.birthday|date:'d.m.Y'|latex_escape }} & \makecell[r]{ Telefon: \\ Mobil:} & \makecell[l]{ {{ participant.phone|latex_escape }} \\ {{ participant.mobile|latex_escape }} } & \url{ {{ participant.email }} } \\ \hline
+        {% endfor %}
+    \end{longtable}
+{% endblock %}

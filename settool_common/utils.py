@@ -56,6 +56,7 @@ def latex_to_pdf(tex_path, context):
     os.close(file)
     # Compile the TeX file with PDFLaTeX
     call(["pdflatex", "-output-directory", tmp_folder, filename])
+    call(["pdflatex", "-output-directory", tmp_folder, filename])
 
     # Move resulting PDF to a more permanent location
     with open(f"{filename}.pdf", "rb") as rendered_pdf:

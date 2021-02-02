@@ -1,0 +1,40 @@
+{% load static %}
+{% load latex %}
+\documentclass[a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{ngerman}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{scrextend}
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{etoolbox}
+\usepackage{makecell}
+\usepackage{multirow}
+\usepackage[breaklinks=true]{hyperref}
+\usepackage[absolute,overlay]{textpos}
+\usepackage[left=2.00cm, right=2.00cm, top=2.00cm, bottom=2.00cm]{geometry}
+
+\renewcommand{\familydefault}{\sfdefault}
+
+
+\begin{document}
+    \begin{tabular}[t]{ r p{3cm} r r }
+    \makecell[l]{ Stand: \today \\ \\ \\ \\ \\ } & &
+    \makecell[r]{
+        Fachschaft Mathematik/Physik/Informatik\\
+        Studentische Vertretung\\
+        Technische Universität München\\
+        Boltzmannstraße 3\\
+        85748 Garching bei München
+    } &
+    \makecell{ \includegraphics[width=2.3cm]{% fslogo_path %} }
+    \end{tabular}
+
+
+    \section*{ { \fontfamily{cmss}\selectfont {% block header %}{% endblock %} } }
+    {% block content %}{% endblock %}
+
+\end{document}

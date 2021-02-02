@@ -1,4 +1,8 @@
+import os
+
 from django import template
+
+from settool.settings import BASE_DIR
 
 register = template.Library()
 
@@ -24,3 +28,8 @@ def latex_escape(string):
     string = string.replace("^", "\\textasciicircum ")
 
     return f"{{{string}}}"
+
+
+@register.simple_tag
+def fslogo_path():
+    return f'{{{os.path.join(BASE_DIR, "static", "eule.png")}}}'
