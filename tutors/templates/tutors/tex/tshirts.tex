@@ -1,35 +1,20 @@
+{% extends "tex/base.tex" %}
 {% load latex %}
-\documentclass[a4paper]{article}
-\usepackage[utf8]{inputenc}
 
-\usepackage[ngerman]{babel}
-\usepackage{longtable}
-\usepackage{array}
-\usepackage{geometry}
-\usepackage{etoolbox}
+{% block header %} T-Shirt-Liste  {% endblock %}
 
-\geometry{left=20mm,right=20mm, top=30mm, bottom=30mm}
-
-\preto\tabular{\setcounter{magicrownumbers}{0}}
-\newcounter{magicrownumbers}
-\newcommand\rownumber{\stepcounter{magicrownumbers}\arabic{magicrownumbers}}
-
-\begin{document}
-
-    \section*{T-Shirt-Liste (Stand: \today)}
-
-    \begin{center}
-        \large
+{% block content %}
         \begin{longtable}{|c|m{.15\textwidth}|m{.15\textwidth}|m{.15\textwidth}|m{.35\textwidth}|}
-            \hline \bfseries Nr & \bfseries Vorname & \bfseries Nachname &
-            \bfseries T-Shirt-Größe & \bfseries
-            Unterschrift \\ \hline
+            \hline
+            \bfseries Nr &
+            \bfseries Vorname &
+            \bfseries Nachname &
+            \bfseries T-Shirt-Größe &
+            \bfseries Unterschrift \\ \hline
             \endhead
             {% for tutor in tutors %}
-                \rownumber & {{ tutor.first_name|latex_escape }} & {{ tutor.last_name|latex_escape }} &
-                {% if tutor.tshirt_girls_cut %}Girly {%endif %}{{ tutor.tshirt_size|latex_escape }} & \newline
-\\\hline
+                \makecell{ \\ {{ forloop.counter }} \\ \\ } & {{ tutor.first_name|latex_escape }} & {{ tutor.last_name|latex_escape }} &
+                {% if tutor.tshirt_girls_cut %}Girly {%endif %}{{ tutor.tshirt_size|latex_escape }} & \\ \hline
             {% endfor %}
         \end{longtable}
-    \end{center}
-\end{document}
+{% endblock %}

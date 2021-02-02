@@ -1,48 +1,24 @@
+{% extends "tex/base.tex" %}
 {% load latex %}
-\documentclass[a4paper]{article}
-\usepackage[utf8]{inputenc}
 
-\usepackage[ngerman]{babel}
-\usepackage{longtable}
-\usepackage{array}
-\usepackage{geometry}
-\usepackage{etoolbox}
+{% block superheader %}
+    \begin{table}[h]
+        \begin{tabular}{r|l}
+           {\fontfamily{cmss}\selectfont  \textbf{Tour-Name} }         &  {\fontfamily{cmss}\selectfont \textbf{ {{ tour.name }}  } } \\ \hline
+           {\fontfamily{cmss}\selectfont  \textbf{Tour-Beschreibung} } &         {\fontfamily{cmss}\selectfont {{ tour.description }} }  \\
+           {\fontfamily{cmss}\selectfont  \textbf{Tour-Datum} }        &         {\fontfamily{cmss}\selectfont {{ tour.date }} }  \\
+           {\fontfamily{cmss}\selectfont  \textbf{Tour-Kapazität} }     &        {\fontfamily{cmss}\selectfont {{ tour.capacity }} }
+        \end{tabular}\label{tab:table}
+    \end{table}
+{% endblock %}
+{% block header %} Teilnehmer-Liste {% endblock %}
 
-% For the checkbox symbole
-\usepackage{amssymb}
-
-\newcommand{\checkbox}{\(\Box\)}
-
-\geometry{left=20mm,right=20mm, top=30mm, bottom=30mm}
-
-\preto\tabular{\setcounter{magicrownumbers}{0}}
-\newcounter{magicrownumbers}
-\newcommand\rownumber{\stepcounter{magicrownumbers}\arabic{magicrownumbers}}
-\newcommand*{\SquareCheckBox}[1]{\CheckBox[width=1.5em,height=1em]{#1}}
-
-\begin{document}
-{\fontfamily{cmss}\selectfont
-
-    \section*{ {\fontfamily{cmss}\selectfont Teilnehmer-Liste(Stand: \today)  } }
-
-    \begin{center}
-        \begin{table}[]
-            \begin{tabular}{r|l}
-               {\fontfamily{cmss}\selectfont  \textbf{Tour-Name} }         &  {\fontfamily{cmss}\selectfont \textbf{ {{ tour.name }}  } } \\ \hline
-               {\fontfamily{cmss}\selectfont  \textbf{Tour-Beschreibung} } &         {\fontfamily{cmss}\selectfont {{ tour.description }} }  \\
-               {\fontfamily{cmss}\selectfont  \textbf{Tour-Datum} }        &         {\fontfamily{cmss}\selectfont {{ tour.date }} }  \\
-               {\fontfamily{cmss}\selectfont  \textbf{Tour-Kapazität} }     &        {\fontfamily{cmss}\selectfont {{ tour.capacity }} }
-            \end{tabular}\label{tab:table}
-        \end{table}
-
-        \large
-        \begin{longtable}{|c|m{.15\textwidth}|m{.35\textwidth}|m{.35\textwidth}|m{.5\textwidth}|}
-            \hline \bfseries Nr & \bfseries Nachname & \bfseries Vorname & \bfseries Checkbox \bfseries \\ \hline
-            \endhead
-            {% for participant in participants %}
-                \rownumber & {{ participant.surname }} & {{ participant.firstname }} & \checkbox \newline \\ \hline
-            {% endfor %}
-        \end{longtable}
-    \end{center}
-}
-\end{document}
+{% block content %}
+    \begin{longtable}{|c|m{.15\textwidth}|m{.15\textwidth}|c|m{.25\textwidth}|c|}
+        \hline \bfseries Nr & \bfseries Nachname & \bfseries Vorname & \bfseries Telefon & \bfseries Studienfach & \bfseries Checkbox \bfseries \\ \hline
+        \endhead
+        {% for participant in participants %}
+            \makecell{ \\ {{ forloop.counter }} \\ \\ } & {{ participant.surname }} & {{ participant.firstname }}& {{ participant.phone }} & {{ participant.subject }} & \\ \hline
+        {% endfor %}
+    \end{longtable}
+{% endblock %}

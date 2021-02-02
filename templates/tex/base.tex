@@ -16,9 +16,9 @@
 \usepackage[breaklinks=true]{hyperref}
 \usepackage[absolute,overlay]{textpos}
 \usepackage[left=2.00cm, right=2.00cm, top=2.00cm, bottom=2.00cm]{geometry}
+\usepackage{wasysym}
 
 \renewcommand{\familydefault}{\sfdefault}
-
 
 \begin{document}
     \begin{tabular}[t]{ r p{3cm} r r }
@@ -33,7 +33,7 @@
     \makecell{ \includegraphics[width=2.3cm]{% fslogo_path %} }
     \end{tabular}
 
-
+    {% block superheader %}{% endblock %}
     \section*{ { \fontfamily{cmss}\selectfont {% block header %}{% endblock %} } }
     {% block content %}{% endblock %}
 

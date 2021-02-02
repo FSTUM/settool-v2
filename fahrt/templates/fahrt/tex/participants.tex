@@ -2,6 +2,7 @@
 {% load latex %}
 
 {% block header %} Teilnehmer-Liste SET-Fahrt {{ fahrt.semester.short_form }} am {{ fahrt.date }} {% endblock %}
+
 {% block content %}
     \begin{longtable}{|c|p{5cm}|c|c c|p{4cm}|}
         \hline \textbf{Nr} & \makecell{ \textbf{Nachname,}\\ \textbf{Vorname} } & \textbf{Geburtstag} & \multicolumn{2}{|c|}{ \textbf{Telefon, Mobil} } & \textbf{Email} \\ \hline
