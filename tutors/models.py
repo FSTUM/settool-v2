@@ -17,8 +17,6 @@ class TutorMail(common_models.Mail):
         "{{task}} is also possible if this is the task mail.",
     )
 
-    objects = common_models.Mail.objects.filter(sender=common_models.Mail.SET_TUTOR)
-
     # pylint: disable=signature-differs
     def save(self, *args, **kwargs):
         self.sender = common_models.Mail.SET_TUTOR

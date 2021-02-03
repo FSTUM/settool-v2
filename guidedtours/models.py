@@ -16,8 +16,6 @@ class TourMail(common_models.Mail):
     )
     # fmt: on
 
-    objects = common_models.Mail.objects.filter(sender=common_models.Mail.SET)
-
     # pylint: disable=signature-differs
     def save(self, *args, **kwargs):
         self.sender = common_models.Mail.SET

@@ -17,8 +17,6 @@ class FahrtMail(common_models.Mail):
         "individual payment deadline.",
     )
 
-    objects = common_models.Mail.objects.filter(sender=common_models.Mail.SET_FAHRT)
-
     # pylint: disable=signature-differs
     def save(self, *args, **kwargs):
         self.sender = common_models.Mail.SET_FAHRT
