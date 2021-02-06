@@ -206,7 +206,7 @@ def _generate_guildedtours_participants(  # nosec: this is only used in a fixtur
 ):
     guildedtours_participants = []
     for tour in guildedtours_tours:
-        for i in range(random.randint(0, tour.capacity)):
+        for i in range(random.randint(int(tour.capacity * 0.7), int(tour.capacity * 1.5))):
             guildedtours_participants.append(
                 guidedtours.models.Participant.objects.create(
                     tour=tour,
@@ -222,7 +222,7 @@ def _generate_guildedtours_participants(  # nosec: this is only used in a fixtur
 
 def _generate_guildedtours_tours(common_semesters):  # nosec: this is only used in a fixture
     guildedtours_tours = []
-    for i in range(20):
+    for i in range(50):
         guildedtours_tours.append(
             guidedtours.models.Tour.objects.create(
                 semester=random.choice(common_semesters),
@@ -231,7 +231,7 @@ def _generate_guildedtours_tours(common_semesters):  # nosec: this is only used 
                 date=django.utils.timezone.make_aware(
                     datetime.today() + timedelta(days=random.randint(2, 20)),
                 ),
-                capacity=random.randint(5, 20),
+                capacity=random.randint(15, 30),
                 open_registration=django.utils.timezone.make_aware(
                     datetime.today() - timedelta(days=random.randint(1, 20)),
                 ),
