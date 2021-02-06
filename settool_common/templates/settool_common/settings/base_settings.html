@@ -8,22 +8,20 @@
 <a
     class="nav-link {% active_link 'settings_dashboard' %}"
     href="{% url 'settings_dashboard' %}"
->
-    {% trans "Dashboard" %}
-</a>
+>{% trans "Dashboard" %}</a>
 <h4 class="navbar-text">{% trans "Email-Templates" %}</h4>
 <a
     class="nav-link {% active_link 'mail_list' %}"
     href="{% url 'mail_list' %}"
->
-    {% trans "All templates" %}
-</a>
+>{% trans "All templates" %}</a>
+<a
+    class="nav-link {% active_link 'filtered_mail_list_tutors' %}"
+    href="{% url 'filtered_mail_list_tutors' %}"
+>{% trans "Tutor mail templates" %}</a>
 <a
     class="nav-link {% active_link 'mail_add' %}"
     href="{% url 'mail_add' %}"
->
-    {% trans "Add template" %}
-</a>
+>{% trans "Add template" %}</a>
 {% else %}
 Sorry, but you have no Settings
 {% endif %}

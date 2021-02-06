@@ -22,8 +22,39 @@ urlpatterns = [
                         [
                             path(
                                 "list/",
-                                views.mail_list,
-                                name="mail_list",
+                                include(
+                                    [
+                                        # path(
+                                        #     "bags/",
+                                        #     views.filtered_mail_list,
+                                        #     {"mail_filter": "bags"},
+                                        #     name="filtered_mail_list_bags",
+                                        # ),
+                                        # path(
+                                        #     "fahrt/",
+                                        #     views.filtered_mail_list,
+                                        #     {"mail_filter": "fahrt"},
+                                        #     name="filtered_mail_list_fahrt",
+                                        # ),
+                                        # path(
+                                        #     "guidedtours/",
+                                        #     views.filtered_mail_list,
+                                        #     {"mail_filter": "guidedtours"},
+                                        #     name="filtered_mail_list_guidedtours",
+                                        # ),
+                                        path(
+                                            "tutors/",
+                                            views.filtered_mail_list,
+                                            {"mail_filter": "tutors"},
+                                            name="filtered_mail_list_tutors",
+                                        ),
+                                        path(
+                                            "all/",
+                                            views.mail_list,
+                                            name="mail_list",
+                                        ),
+                                    ],
+                                ),
                             ),
                             path(
                                 "import/",

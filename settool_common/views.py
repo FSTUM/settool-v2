@@ -1,6 +1,9 @@
 import csv
 import os
 import time
+from typing import Any
+from typing import Dict
+from typing import Tuple
 
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
@@ -8,7 +11,9 @@ from django.contrib.auth.decorators import permission_required
 from django.contrib.auth.decorators import user_passes_test
 from django.core.handlers.wsgi import WSGIRequest
 from django.db.models import Count
+from django.db.models import QuerySet
 from django.forms import forms
+from django.http import Http404
 from django.http import HttpResponse
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404
@@ -17,15 +22,16 @@ from django.shortcuts import render
 from django.utils.http import is_safe_url
 from django.utils.translation import ugettext_lazy as _
 
-import bags.models
 import fahrt.models
-import guidedtours.models
-import settool_common.models
-import tutors.models
+from bags.models import BagMail
+from fahrt.models import FahrtMail
+from guidedtours.models import TourMail
 from settool_common import utils
 from settool_common.forms import MailForm
 from settool_common.models import get_semester
+from settool_common.models import Mail
 from settool_common.models import Semester
+from tutors.models import TutorMail
 
 from .forms import CSVFileUploadForm
 from .settings import SEMESTER_SESSION_KEY
@@ -51,13 +57,30 @@ def set_semester(request: WSGIRequest) -> HttpResponse:
 
 @permission_required("set.mail")
 def mail_list(request: WSGIRequest) -> HttpResponse:
-    context = {"mails": settool_common.models.Mail.objects.all()}
+    context = {"mails": Mail.objects.all()}
+    return render(request, "settool_common/settings/mail/list_email_templates.html", context)
+
+
+@permission_required("set.mail")
+def filtered_mail_list(request: WSGIRequest, mail_filter: str) -> HttpResponse:
+    mail_lut: Dict[str, Tuple[QuerySet[Any], str]] = {
+        # "bags": (BagMail.objects.all(), "bags.view_companies"),
+        # "fahrt": (FahrtMail.objects.all(), "fahrt.view_participants"),
+        # "guidedtours": (TourMail.objects.all(), "guidedtours.view_participants"),
+        "tutors": (TutorMail.objects.all(), "set.mail"),
+    }
+    if mail_filter not in mail_lut.keys():
+        raise Http404
+    mail_qs, _ = mail_lut[mail_filter]
+    # if not request.user.has_perm(mail_object["required_perm"]):
+    #    return redirect("main-view")
+    context = {"mails": mail_qs, "mail_filter": mail_filter}
     return render(request, "settool_common/settings/mail/list_email_templates.html", context)
 
 
 @permission_required("set.mail")
 def mail_view(request: WSGIRequest, mail_pk: int) -> HttpResponse:
-    mail = settool_common.models.Mail.objects.get(pk=mail_pk)
+    mail = Mail.objects.get(pk=mail_pk)
 
     context = {
         "mail": mail,
@@ -78,7 +101,7 @@ def mail_add(request: WSGIRequest) -> HttpResponse:
 
 @permission_required("set.mail")
 def mail_edit(request: WSGIRequest, mail_pk: int) -> HttpResponse:
-    mail = get_object_or_404(settool_common.models.Mail, pk=mail_pk)
+    mail = get_object_or_404(Mail, pk=mail_pk)
 
     form = MailForm(request.POST or None, instance=mail)
     if form.is_valid():
@@ -94,7 +117,7 @@ def mail_edit(request: WSGIRequest, mail_pk: int) -> HttpResponse:
 
 @permission_required("set.mail")
 def mail_delete(request: WSGIRequest, mail_pk: int) -> HttpResponse:
-    mail = get_object_or_404(settool_common.models.Mail, pk=mail_pk)
+    mail = get_object_or_404(Mail, pk=mail_pk)
 
     form = forms.Form(request.POST or None)
     if form.is_valid():
@@ -111,7 +134,7 @@ def mail_delete(request: WSGIRequest, mail_pk: int) -> HttpResponse:
 # TODO Evaluate if this could be better used.
 @permission_required("set.mail")
 def mail_send(request: WSGIRequest, mail_pk: int) -> HttpResponse:
-    mail = get_object_or_404(settool_common.models.Mail, pk=mail_pk)
+    mail = get_object_or_404(Mail, pk=mail_pk)
     selected_participants = request.session["selected_participants"]
     sem = get_semester(request)
     semester = get_object_or_404(Semester, pk=sem)
@@ -151,7 +174,7 @@ def mail_send(request: WSGIRequest, mail_pk: int) -> HttpResponse:
 @permission_required("set.mail")
 def dashboard(request: WSGIRequest) -> HttpResponse:
     mail_templates_by_sender = (
-        settool_common.models.Mail.objects.values("sender")
+        Mail.objects.values("sender")
         .annotate(sender_count=Count("sender"))
         .order_by("-sender_count")
     )
@@ -170,16 +193,16 @@ def import_mail_csv_to_db(csv_file):
         for chunk in csv_file.chunks():
             tmp_csv_file.write(chunk)
     # delete all mail
-    bags.models.BagMail.objects.all().delete()
-    fahrt.models.FahrtMail.objects.all().delete()
-    guidedtours.models.TourMail.objects.all().delete()
-    settool_common.models.Mail.objects.all().delete()
-    tutors.models.TutorMail.objects.all().delete()
+    BagMail.objects.all().delete()
+    FahrtMail.objects.all().delete()
+    TourMail.objects.all().delete()
+    Mail.objects.all().delete()
+    TutorMail.objects.all().delete()
     # create new mail
     with open(tmp_filename, "r") as tmp_csv_file:
         rows = csv.DictReader(tmp_csv_file)
         for row in rows:
-            settool_common.models.Mail.objects.create(
+            Mail.objects.create(
                 sender=row["sender"],
                 subject=row["subject"],
                 text=row["text"],
@@ -206,10 +229,10 @@ def mail_import(request: WSGIRequest) -> HttpResponse:
 
 @permission_required("set.mail")
 def mail_export(request: WSGIRequest) -> HttpResponse:
-    mails_bags = bags.models.BagMail.objects.all()
-    mails_fahrt = fahrt.models.FahrtMail.objects.all()
-    mails_guidedtours = guidedtours.models.TourMail.objects.all()
-    mails_settool_common = settool_common.models.Mail.objects.all()
+    mails_bags = BagMail.objects.all()
+    mails_fahrt = FahrtMail.objects.all()
+    mails_guidedtours = TourMail.objects.all()
+    mails_settool_common = Mail.objects.all()
 
     mails = [_clean_mail(mail) for mail in mails_bags]
     mails += [_clean_mail(mail) for mail in mails_fahrt]
