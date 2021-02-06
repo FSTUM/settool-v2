@@ -18,8 +18,8 @@
         <a href='{% url "fahrt_signup" %}'>
             <img
                 class='m-2 img-fluid'
-                src='https://chart.googleapis.com/chart?cht=qr&chld=H|0&chs=400x400&chl={% url "fahrt_signup" %}'
-                alt='QR-Code linking to {% url "fahrt_signup" %}'
+                src='https://chart.googleapis.com/chart?cht=qr&chld=H|0&chs=400x400&chl={{ request.scheme }}://set.mpi.fs.tum.de{% url "fahrt_signup" %}'
+                alt='QR-Code linking to {{ request.scheme }}://set.mpi.fs.tum.de{% url "fahrt_signup" %}'
             >
         </a>
     </div>
@@ -28,8 +28,8 @@
         <a href='{% url "tutor_signup" %}'>
             <img
                 class='m-2 img-fluid'
-                src='https://chart.googleapis.com/chart?cht=qr&chld=H|0&chs=400x400&chl={% url "tutor_signup" %}'
-                alt='QR-Code linking to {% url "tutor_signup" %}'
+                src='https://chart.googleapis.com/chart?cht=qr&chld=H|0&chs=400x400&chl={{ request.scheme }}://set.mpi.fs.tum.de{% url "tutor_signup" %}'
+                alt='QR-Code linking to {{ request.scheme }}://set.mpi.fs.tum.de{% url "tutor_signup" %}'
             >
         </a>
     </div>
@@ -38,8 +38,8 @@
         <a href='{% url "collaborator_signup" %}'>
             <img
                 class='m-2 img-fluid'
-                src='https://chart.googleapis.com/chart?cht=qr&chld=H|0&chs=400x400&chl={% url "collaborator_signup" %}'
-                alt='QR-Code linking to {% url "collaborator_signup" %}'
+                src='https://chart.googleapis.com/chart?cht=qr&chld=H|0&chs=400x400&chl={{ request.scheme }}://set.mpi.fs.tum.de{% url "collaborator_signup" %}'
+                alt='QR-Code linking to {{ request.scheme }}://set.mpi.fs.tum.de{% url "collaborator_signup" %}'
             >
         </a>
     </div>
@@ -48,8 +48,8 @@
         <a href='{% url "tours_signup" %}'>
             <img
                 class='m-2 img-fluid'
-                src='https://chart.googleapis.com/chart?cht=qr&chld=H|0&chs=400x400&chl={% url "tours_signup" %}'
-                alt='QR-Code linking to {% url "tours_signup" %}'
+                src='https://chart.googleapis.com/chart?cht=qr&chld=H|0&chs=400x400&chl={{ request.scheme }}://set.mpi.fs.tum.de{% url "tours_signup" %}'
+                alt='QR-Code linking to {{ request.scheme }}://set.mpi.fs.tum.de{% url "tours_signup" %}'
             >
         </a>
     </div>
