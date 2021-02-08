@@ -713,3 +713,17 @@ def export(request: WSGIRequest, file_format: str = "csv") -> HttpResponse:
             participants,
         )
     return utils.download_pdf("fahrt/tex/participants.tex", f"{filename}.pdf", context)
+
+
+@permission_required("fahrt.view_participants")
+def non_liability_form(request: WSGIRequest, participant_pk: int) -> HttpResponse:
+    participant: Participant = get_object_or_404(Participant, pk=participant_pk)
+    fahrt: Fahrt = get_object_or_404(Fahrt, semester=participant.semester)
+    context = {
+        "participant": participant,
+        "fahrt": fahrt,
+    }
+    filename = f"non_liability_{participant.surname}_{participant.firstname}.pdf"
+    if participant.u18:
+        return utils.download_pdf("fahrt/tex/u18_non_liability.tex", filename, context)
+    return utils.download_pdf("fahrt/tex/ü18_non_liability.tex", filename, context)

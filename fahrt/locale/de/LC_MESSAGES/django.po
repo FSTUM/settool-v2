@@ -558,6 +558,10 @@ msgid "Email"
 msgstr "E-Mail"
 
 #: fahrt/templates/fahrt/participants/view_participant_details.html
+msgid "Personalised Form"
+msgstr "Persolalisiertes Formular"
+
+#: fahrt/templates/fahrt/participants/view_participant_details.html
 msgid "1 week"
 msgstr "1 Woche"
 

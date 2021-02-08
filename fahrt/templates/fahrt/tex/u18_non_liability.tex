@@ -1,0 +1,94 @@
+{% extends "tex/base.tex" %}
+{% load latex %}
+{% load semester %}
+
+{% block header %} Vollmacht und Erklärung zur Übernahme der Aufsichtspflichten für die Veranstaltung
+SET Fahrt {{ fahrt.semester }} ins Jugendheim Grimmerthal {% endblock %}
+
+{% block content %}
+    \subsection*{Vollmacht}
+    Sehr geehrte Eltern,\\
+    \\
+    Ihr Kind hat sich bei uns zur Veranstaltung SET Fahrt {{ fahrt.semester }} {{ fahrt.date }} bis zum {{ fahrt.date|next_sunday_after }} angemeldet. Damit die Teilnahme ermöglicht werden kann, benötigen wir von Ihnen eine
+    Vollmacht und eine Erklärung, dass es mit Ihrer Zustimmung geschieht, wenn Ihr Kind an unserer
+    Veranstaltung teilnimmt. Bitte beachten Sie, dass Sie mit Ihrer Unterschrift die von uns benötigte
+    Vollmacht ausstellen. Ferner müssen alle Felder vollständig und richtig ausgefüllt werden.\\
+    \\
+    \TextField[charsize={12pt},multiline=true,height={1cm},width={\linewidth},name={name},bordercolor={0.2 0.2 0.7},default={ {{ participant.surname|latex_escape }}, {{ participant.firstname|latex_escape }}}]{}\newline
+    Name, Vornahme des Kindes\\
+    \\
+    \TextField[charsize={12pt},multiline=true,height={1cm},width={\linewidth},name={adress},bordercolor={0.2 0.2 0.7}]{}\newline
+    Anschrift des Kindes\\
+    \\
+    \TextField[charsize={12pt},multiline=true,height={1cm},width={\linewidth},name={birthday},bordercolor={0.2 0.2 0.7},default={ {{ participant.birthday }}}]{}\newline
+    Geburtsdatum des Kindes\\
+    \\
+    \TextField[charsize={12pt},multiline=true,height={1cm},width={\linewidth},name={guardian},bordercolor={0.2 0.2 0.7}]{}\newline
+    Name des/der Erziehungsberechtigten\\
+    \\
+    Die Aufsichtspflicht geht für die Dauer der Veranstaltung auf folgende Person(en) über:\\
+    \\
+    \TextField[charsize={12pt},multiline=true,height={2.5cm},width={\linewidth},name={contact},bordercolor={0.2 0.2 0.7}]{}\newline
+    Name, Adresse, Geburtsdatum\\
+    \\
+    Bitte tragen Sie dazu hier ein, wo und wie wir Sie während der Veranstaltung erreichen können und
+    nennen Sie bitte auch eine Telefonnummer:\\
+    \\
+    \TextField[charsize={12pt},multiline=true,height={2.5cm},width={\linewidth},name={guardian_contact},bordercolor={0.2 0.2 0.7}]{}\newline
+
+    \begin{longtable}{p{.9\linewidth}|@{}C{5ex}@{}|@{}C{5ex}@{}}
+        \hline \textbf{Frage} & \textbf{Ja} & \textbf{Nein}\\ \hline
+        \endhead
+    \parbox{\linewidth}{Mein/Unser Kind hat das 16. Lebensjahr vollendet und ist im Besitz eines gültigen Personalausweises. Dieser wird zusammen mit dieser Vollmacht bei der Ankunft kontrolliert. Wenn ein
+    Personalausweis als Altersnachweis nicht vorhanden ist, kann der Veranstalter aus rechtlichen
+    Gründen keinen Zugang gewähren.} & \parbox{\linewidth}{\CheckBox[borderwidth=0.1mm,name=cb1,width=5ex,height=10ex]{}} & \parbox{\linewidth}{\CheckBox[borderwidth=0.1mm,name=cb1,width=5ex,height=10ex]{}}  \\ \hline
+
+    \parbox{\linewidth}{Wir/Ich gestatte/n meinem/unserem Kind den Konsum von leichten alkoholischen Getränken (Biere
+    etc., jedoch keine Branntweine oder weinbrandhaltigen Getränke) während der Veranstaltung} & \parbox{\linewidth}{\CheckBox[borderwidth=0.1mm,name=cb1,width=5ex,height=4.5ex]{}} & \parbox{\linewidth}{\CheckBox[borderwidth=0.1mm,name=cb1,width=5ex,height=4.5ex]{}}  \\ \hline
+
+    \parbox{\linewidth}{Ich/Wir versichern, dass ich/wir für die Dauer der Veranstaltung im Falle eines medizinischen
+    Notfalls erreichbar bin/sind. Dies gilt auch für den etwaigen Ausschluss meines/unseres Kindes
+    von der Veranstaltung wegen Verstoßes gegen die Hausordnung. In diesem Fall werde/n ich/wir
+    mein Kind von der Veranstaltung abholen. Sollte/n ich/wir nicht in der Lage sein, es abzuholen,
+    oder sollte ich/wir nicht erreichbar sein, wird das Kind mit dem Taxi nach Hause geschickt.
+    Ich/wir trage/n dafür die Kosten.} & \parbox{\linewidth}{\CheckBox[borderwidth=0.1mm,name=cb1,width=5ex,height=13.5ex]{}} & \parbox{\linewidth}{\CheckBox[borderwidth=0.1mm,name=cb1,width=5ex,height=13.5ex]{}}  \\ \hline
+
+    Wir gestatten unserem/meinem Kind, sich nachts im Wald aufzuhalten. & \CheckBox[borderwidth=0.1mm,name=cb1,width=5ex,height=1.5ex]{} & \CheckBox[borderwidth=0.1mm,name=cb1,width=5ex,height=1.5ex]{} \\ \hline
+    \end{longtable}
+    {% include "tex/signature.tex" with from="eines Erziehungsberechtigen" %}
+
+    \subsection*{Haftungsausschuss}
+    Ich,\\
+    \\
+    \TextField[charsize={12pt},multiline=true,height={1cm},width={\linewidth},name={guardian},bordercolor={0.2 0.2 0.7}]{}\newline
+    Name des/der Erziehungsberechtigten\\
+    \\
+    \TextField[charsize={12pt},multiline=true,height={1cm},width={\linewidth},name={guardian_adress},bordercolor={0.2 0.2 0.7}]{}\newline
+    Anschrift des/der Erziehungsberechtigten\\
+    \\
+    \TextField[charsize={12pt},multiline=true,height={2.5cm},width={\linewidth},name={guardian_contact},bordercolor={0.2 0.2 0.7}]{}\newline
+    Telefon und Handy des/der Erziehungsberechtigten\\
+    \\
+    bin als Erziehungsberechtigte/r damit einverstanden, dass mein Kind\\
+    \\
+    \TextField[charsize={12pt},multiline=true,height={1cm},width={\linewidth},name={name},bordercolor={0.2 0.2 0.7},default={ {{ participant.surname|latex_escape }}, {{ participant.firstname|latex_escape }}}]{}\newline
+    Name, Vornahme des Kindes\\
+    \\
+    an der SET-Fahrt {{ fahrt.semester }} vom {{ fahrt.date }} bis zum {{ fahrt.date|next_sunday_after }} ins Jugendheim Grimmerthal, Grimmerthal 1, 92546 Schmidgaden-Rottendorf, teilnimmt. Für mein Kind erkläre ich, dass
+    dieses hiermit auf die Geltendmachung eventuellen Schadensersatzansprüche gegen den Organisator
+    der SET-Fahrt {{ fahrt.semester }} ins Jugendheim Grimmerthal, Grimmerthal 1, 92546 Schmidgaden-Rottendorf,
+    den Verein zur Studienförderung der FS MPI e.V. für alle Schäden, die nicht Personenschäden sind,
+    insoweit diese den dreifachen Reisepreis überschreiten, verzichtet. Dies gilt nicht, falls der Schaden
+    vorsätzlich oder grob fahrlässig herbei geführt wurde.\\
+    \\
+    {% include "tex/signature.tex" with from="eines Erziehungsberechtigen" %}
+
+    \subsection*{Erklärung zur Übernahme der Aufsichtspflichten}
+    Ich erkläre mich hiermit bereit, für die oben genannte minderjährige Person die Aufsichtspflicht zu
+    übernehmen. Ich habe die Volljährigkeit erreicht, und bin während der kompletten Veranstaltung anwesend und unter folgender Handynummer zu erreichen:\\
+    \\
+    \TextField[charsize={12pt},multiline=true,height={1cm},width={\linewidth},name={temp_guardian_contact},bordercolor={0.2 0.2 0.7}]{}\newline
+    Handynummer Aufsichtsperson\\
+    \\
+    {% include "tex/signature.tex" with from="der Aufsichtsperson" %}
+{% endblock %}

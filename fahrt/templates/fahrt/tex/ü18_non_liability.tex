@@ -1,0 +1,26 @@
+{% extends "tex/base.tex" %}
+{% load latex %}
+{% load semester %}
+
+{% block header %} Haftungsausschuss {{ participant.surname }}, {{ participant.firstname }} {% endblock %}
+
+{% block content %}
+\begin{Form}
+    Ich,\\
+    \\
+    \TextField[charsize={12pt},multiline=true,height={10mm},width={\linewidth},name={name},bordercolor={0.2 0.2 0.7},default={ {{ participant.surname|latex_escape }}, {{ participant.firstname|latex_escape }}}]{}\newline
+    Name, Vornahme\\
+    \\
+    \TextField[charsize={12pt},multiline=true,height={10mm},width={\linewidth},name={birthday},bordercolor={0.2 0.2 0.7},default={ {{ participant.birthday }}}]{\mbox{}}\newline
+    Geburtsdatum\\
+    \\
+    versichere zum Zeitpunkt der SET-Fahrt {{ fahrt.semester }} mindestens 18 Jahre alt zu sein.\\
+    \\
+    Ich verzichte hiermit für die SET-Fahrt {{ fahrt.semester }} {{ fahrt.date }} bis zum {{ fahrt.date|next_sunday_after }} ins Jugendlandheim Grimmerthal auf die Geltendmachung
+    eventueller Schadensersatzansprüche gegen den Organisator, den Verein zur Studienförderung der
+    FS MPI e.V., für alle Schäden, die nicht Personenschäden sind, insoweit diese den dreifachen Reisepreis
+    überschreiten. Dies gilt nicht, falls der Schaden vorsätzlich oder grob fahrlässig herbei geführt wurde.\\
+    \\
+    {% include "tex/signature.tex" with from="Teilnehmer" %}
+\end{Form}
+{% endblock %}

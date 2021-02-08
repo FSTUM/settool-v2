@@ -49,6 +49,11 @@ urlpatterns = [
         name="fahrt_viewparticipant",
     ),
     path(
+        "non_liability/<int:participant_pk>",
+        views.non_liability_form,
+        name="fahrt_non_liability_form",
+    ),
+    path(
         "edit/<int:participant_pk>/",
         views.edit,
         name="fahrt_editparticipant",

@@ -68,8 +68,16 @@
             <tr>
                 <th>{% trans "Non-liability submitted" %}</th>
                 <td>
-                    {{ participant.non_liability }}
-                    <a href="{% url "fahrt_set_nonliability" participant.id %}"><span class="bi bi-person-check-fill"></span></a>
+                    <div class='row'>
+                        {{ participant.non_liability }}
+                        <a href="{% url "fahrt_set_nonliability" participant.id %}"><span class="bi bi-person-check-fill"></span></a>
+                    </div>
+                    <div class='row'>
+                        <a
+                            class='btn btn-secondary'
+                            href="{% url "fahrt_non_liability_form" participant.id %}"
+                        >{% trans "Personalised Form" %} <span class="bi-file-earmark-person-fill"></span></a>
+                    </div>
                 </td>
             </tr>
             <tr>
