@@ -1,6 +1,5 @@
 from typing import List
 
-from bootstrap_datepicker_plus import DatePickerInput
 from bootstrap_datepicker_plus import DateTimePickerInput
 from django import forms
 from django.utils.translation import ugettext_lazy as _
@@ -31,7 +30,7 @@ class TourForm(forms.ModelForm):
         model = Tour
         exclude = ["semester"]
         widgets = {
-            "date": DatePickerInput(format="%Y-%m-%d"),
+            "date": DateTimePickerInput(format="%Y-%m-%d"),
             "open_registration": DateTimePickerInput(format="%Y-%m-%d %H:%M"),
             "close_registration": DateTimePickerInput(format="%Y-%m-%d %H:%M"),
         }
