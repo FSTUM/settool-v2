@@ -3,7 +3,7 @@ import os
 import shutil
 from subprocess import call  # nosec: calls are only local and input is templated
 from tempfile import mkdtemp, mkstemp
-from typing import Any, Dict, List, Union
+from typing import Any, Dict, List, Tuple, Union
 
 from django.contrib.auth import get_user_model
 from django.db.models import QuerySet
@@ -12,6 +12,14 @@ from django.template.loader import render_to_string
 from django.test.client import Client
 
 from settool_common.settings import SEMESTER_SESSION_KEY
+
+
+def pos_http_response_to_attachable(response: Union[HttpResponse, Tuple[str, Any, str]]) -> Tuple[str, Any, str]:
+    if not isinstance(response, HttpResponse):
+        return response
+    content_type = response.get("Content-Type", "text/text")
+    filename = response.get("Content-Disposition", "filename.txt").replace("inline; filename=", "")
+    return filename, response.content, content_type
 
 
 def download_pdf(template_filepath: str, dest: str, context: Dict[str, Any]) -> HttpResponse:

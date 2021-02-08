@@ -12,8 +12,11 @@ from settool_common.models import Semester, Subject
 
 class FahrtMail(common_models.Mail):
     possible_placeholders = _(
-        "You may use {{vorname}} for the participant's first name and {{frist}} for the "
-        "individual payment deadline.",
+        "You may use {{vorname}} for the participant's first name and {{frist}} for the individual payment deadline. "
+        "You may use {{frist}} for the individual payment deadline. "
+        "You may use {{participant}} for the participant. "
+        "If the Email is configured as the fahrt's registration mail, "
+        "the participants' non-liability form is automatically attached.",
     )
 
     # pylint: disable=signature-differs
@@ -25,13 +28,23 @@ class FahrtMail(common_models.Mail):
         context = {
             "vorname": participant.firstname,
             "frist": participant.payment_deadline,
+            "participant": participant,
         }
         return self.send_mail(context, participant.email)
+
+    def send_mail_registration(self, participant, non_liability):
+        context = {
+            "vorname": participant.firstname,
+            "frist": participant.payment_deadline,
+            "participant": participant,
+        }
+        return self.send_mail(context, participant.email, attachments=[non_liability])
 
     def get_mail_participant(self):
         context = {
             "vorname": "<Vorname>",
             "frist": "<Zahlungsfrist>",
+            "participant": "<participant>",
         }
         return self.get_mail(context)
 
@@ -52,6 +65,15 @@ class Fahrt(models.Model):
 
     close_registration = models.DateTimeField(
         _("Close registration"),
+    )
+
+    mail_registration = models.ForeignKey(
+        FahrtMail,
+        verbose_name=_("Mail Registration"),
+        related_name="fahrt_mail_registration",
+        on_delete=models.CASCADE,
+        blank=True,
+        null=True,
     )
 
     def __str__(self):

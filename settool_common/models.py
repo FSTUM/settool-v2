@@ -4,13 +4,14 @@ from typing import Any, Dict, List, Optional, Tuple, Union
 
 from django.core.mail import EmailMessage, send_mail
 from django.db import models
-from django.http import HttpRequest
+from django.http import HttpRequest, HttpResponse
 from django.template import Context, Template
 from django.utils import timezone
 from django.utils.deconstruct import deconstructible
 from django.utils.translation import ugettext_lazy as _
 
 from .settings import SEMESTER_SESSION_KEY
+from .utils import pos_http_response_to_attachable
 
 
 class Mail(models.Model):
@@ -69,9 +70,12 @@ class Mail(models.Model):
         self,
         context: Union[Context, Dict[str, Any], None],
         recipients: Union[List[str], str],
+        attachments: Optional[Union[HttpResponse, List[Tuple[str, Any, str]]]] = None,
     ) -> bool:
         if isinstance(recipients, str):
             recipients = [recipients]
+        if not isinstance(context, Context):
+            context = Context(context or {})
         subject_template = Template(self.subject)
         subject = subject_template.render(context).rstrip()
 
@@ -84,7 +88,13 @@ class Mail(models.Model):
 
         if subject_matches is not None or text_matches is not None:
             return False
-        send_mail(subject, text, self.sender, recipients, fail_silently=False)
+        if attachments is None:
+            send_mail(subject, text, self.sender, recipients, fail_silently=False)
+        else:
+            mail = EmailMessage(subject, text, self.sender, recipients)
+            for (filename, content, mimetype) in [pos_http_response_to_attachable(attach) for attach in attachments]:
+                mail.attach(filename, content, mimetype)
+            mail.send(fail_silently=False)
         return True
 
 

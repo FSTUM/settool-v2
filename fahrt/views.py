@@ -3,6 +3,7 @@ from datetime import date, timedelta
 from typing import Dict, List
 
 from django import forms
+from django.contrib import messages
 from django.contrib.auth.decorators import permission_required
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.handlers.wsgi import WSGIRequest
@@ -392,8 +393,20 @@ def signup(request: WSGIRequest) -> HttpResponse:
 
     form = ParticipantForm(request.POST or None, semester=semester)
     if form.is_valid():
-        participant = form.save()
+        participant: Participant = form.save()
         participant.log(None, "Signed up")
+        mail = participant.semester.fahrt.mail_registration
+        if mail:
+            non_liability = get_non_liability(participant.pk)
+            if not mail.send_mail_registration(participant, non_liability):
+                messages.error(
+                    request,
+                    _(
+                        f"Could not send you the registration email. "
+                        f"You are registered, but you did not receve all nessesary documents. "
+                        f"Please contact {FahrtMail.SET_FAHRT} to get your non-liability form.",
+                    ),
+                )
 
         return redirect("fahrt_signup_success")
 
@@ -413,6 +426,14 @@ def signup_internal(request: WSGIRequest) -> HttpResponse:
     if form.is_valid():
         participant = form.save()
         participant.log(request.user, "Signed up")
+        mail = participant.semester.fahrt.mail_registration
+        if mail:
+            non_liability = get_non_liability(participant.pk)
+            if not mail.send_mail_registration(participant, non_liability):
+                messages.warning(
+                    request,
+                    _("Could not send the registration email. Make shure you configured the Registration-Mail."),
+                )
 
         return redirect("fahrt_list_registered")
 
@@ -450,9 +471,7 @@ def set_request_session_filtered_participants(filterform, participants, request)
     search = filterform.cleaned_data["search"]
     if search:
         participants = participants.filter(
-            Q(firstname__icontains=search)
-            | Q(surname__icontains=search)
-            | Q(comment__icontains=search),
+            Q(firstname__icontains=search) | Q(surname__icontains=search) | Q(comment__icontains=search),
         )
 
     non_liability = filterform.cleaned_data["non_liability"]
@@ -696,6 +715,10 @@ def export(request: WSGIRequest, file_format: str = "csv") -> HttpResponse:
 
 @permission_required("fahrt.view_participants")
 def non_liability_form(request: WSGIRequest, participant_pk: int) -> HttpResponse:
+    return get_non_liability(participant_pk)
+
+
+def get_non_liability(participant_pk: int) -> HttpResponse:
     participant: Participant = get_object_or_404(Participant, pk=participant_pk)
     fahrt: Fahrt = get_object_or_404(Fahrt, semester=participant.semester)
     context = {

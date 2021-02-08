@@ -91,10 +91,17 @@ msgstr "abgesagt"
 #: fahrt/models.py
 msgid ""
 "You may use {{vorname}} for the participant's first name and {{frist}} for "
-"the individual payment deadline."
+"the individual payment deadline. You may use {{frist}} for the individual "
+"payment deadline. You may use {{participant}} for the participant. If the "
+"Email is configured as the fahrt's registration mail, the participants' non-"
+"liability form is automatically attached."
 msgstr ""
 "Du kannst {{vorname}} für den Vornamen des Teilnehmers und {{frist}} für die "
-"individuelle Zahlungsfrist verwenden."
+"individuelle Zahlungsfrist verwenden. Du kannst {{frist}} für die "
+"individuelle Zahlungsfrist verwenden. Du kannst {{participant}} für den "
+"Teilnehmers verwenden. Falls eine Anmeldungs Email konfiguriert ist wird der "
+"haftungsauschuss automatisch an die Teilnehmer*in gesendet, sobald sie sich "
+"registrieren"
 
 #: fahrt/models.py
 msgid "Date"
@@ -107,6 +114,10 @@ msgstr "Anmeldung öffnen"
 #: fahrt/models.py
 msgid "Close registration"
 msgstr "Anmeldung schließen"
+
+#: fahrt/models.py
+msgid "Mail Registration"
+msgstr "Anmeldungs Email"
 
 #: fahrt/models.py
 msgid "male"
@@ -613,6 +624,18 @@ msgid ""
 msgstr ""
 "Du wirst alle weiteren Informationen per E-Mail erhalten. Dies kann etwas "
 "dauern, da wir deine Anmeldung manuell überprüfen."
+
+#: fahrt/views.py
+msgid "Could not send you the registration email. "
+msgstr "Konnte die Registrierungs-Email nicht senden."
+
+#: fahrt/views.py
+msgid ""
+"Could not send the registration email. Make shure you configured the "
+"Registration-Mail."
+msgstr ""
+"Konnte die Registrierungs-Email nicht senden. Bitte vergewissere dich, das "
+"diese richtig konfiguirert ist"
 
 #~ msgid "Email subject"
 #~ msgstr "E-Mail Betreff"
