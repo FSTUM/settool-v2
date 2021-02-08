@@ -4,9 +4,7 @@ from bootstrap_datepicker_plus import DateTimePickerInput
 from django import forms
 from django.utils.translation import ugettext_lazy as _
 
-from .models import Participant
-from .models import Tour
-from .models import TourMail
+from .models import Participant, Tour, TourMail
 
 
 class ParticipantForm(forms.ModelForm):

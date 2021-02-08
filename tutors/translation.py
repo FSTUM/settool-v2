@@ -1,9 +1,6 @@
-from modeltranslation.translator import TranslationOptions
-from modeltranslation.translator import translator
+from modeltranslation.translator import TranslationOptions, translator
 
-from tutors.models import Event
-from tutors.models import Question
-from tutors.models import Task
+from tutors.models import Event, Question, Task
 
 
 class EventTranslationOptions(TranslationOptions):

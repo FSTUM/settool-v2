@@ -1,21 +1,20 @@
-from bootstrap_datepicker_plus import DatePickerInput
-from bootstrap_datepicker_plus import DateTimePickerInput
+from bootstrap_datepicker_plus import DatePickerInput, DateTimePickerInput
 from django import forms
 from django.utils.translation import ugettext_lazy as _
 
-from settool_common.forms import SemesterBasedForm
-from settool_common.forms import SemesterBasedModelForm
-from settool_common.models import Mail
-from settool_common.models import Subject
-from tutors.models import Answer
-from tutors.models import Event
-from tutors.models import MailTutorTask
-from tutors.models import Question
-from tutors.models import Settings
-from tutors.models import SubjectTutorCountAssignment
-from tutors.models import Task
-from tutors.models import Tutor
-from tutors.models import TutorAssignment
+from settool_common.forms import SemesterBasedForm, SemesterBasedModelForm
+from settool_common.models import Mail, Subject
+from tutors.models import (
+    Answer,
+    Event,
+    MailTutorTask,
+    Question,
+    Settings,
+    SubjectTutorCountAssignment,
+    Task,
+    Tutor,
+    TutorAssignment,
+)
 
 
 class TutorAdminForm(SemesterBasedModelForm):
@@ -171,9 +170,7 @@ class TaskAdminForm(SemesterBasedModelForm):
 
         if "allowed_subjects" in self.changed_data:
             final_subjects = self.cleaned_data["allowed_subjects"].all()
-            initial_subjects = (
-                self.initial["allowed_subjects"] if "allowed_subjects" in self.initial else []
-            )
+            initial_subjects = self.initial["allowed_subjects"] if "allowed_subjects" in self.initial else []
 
             # create and save new members
             for subject in final_subjects:
@@ -187,9 +184,7 @@ class TaskAdminForm(SemesterBasedModelForm):
 
         if "requirements" in self.changed_data:
             final_requirements = self.cleaned_data["requirements"].all()
-            initial_requirements = (
-                self.initial["requirements"] if "requirements" in self.initial else []
-            )
+            initial_requirements = self.initial["requirements"] if "requirements" in self.initial else []
 
             # create and save new members
             for subject in final_requirements:

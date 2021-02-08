@@ -1,25 +1,15 @@
 import csv
 import os
 import time
-from typing import Any
-from typing import Dict
-from typing import Optional
-from typing import Tuple
+from typing import Any, Dict, Optional, Tuple
 
 from django.contrib import messages
-from django.contrib.auth.decorators import login_required
-from django.contrib.auth.decorators import permission_required
-from django.contrib.auth.decorators import user_passes_test
+from django.contrib.auth.decorators import login_required, permission_required, user_passes_test
 from django.core.handlers.wsgi import WSGIRequest
-from django.db.models import Count
-from django.db.models import QuerySet
+from django.db.models import Count, QuerySet
 from django.forms import forms
-from django.http import Http404
-from django.http import HttpResponse
-from django.http import HttpResponseRedirect
-from django.shortcuts import get_object_or_404
-from django.shortcuts import redirect
-from django.shortcuts import render
+from django.http import Http404, HttpResponse, HttpResponseRedirect
+from django.shortcuts import get_object_or_404, redirect, render
 from django.utils.http import is_safe_url
 from django.utils.translation import ugettext_lazy as _
 
@@ -29,9 +19,7 @@ from fahrt.models import FahrtMail
 from guidedtours.models import TourMail
 from settool_common import utils
 from settool_common.forms import MailForm
-from settool_common.models import get_semester
-from settool_common.models import Mail
-from settool_common.models import Semester
+from settool_common.models import get_semester, Mail, Semester
 from tutors.models import TutorMail
 
 from .forms import CSVFileUploadForm
@@ -175,9 +163,7 @@ def mail_send(request: WSGIRequest, mail_pk: int) -> HttpResponse:
 @permission_required("set.mail")
 def dashboard(request: WSGIRequest) -> HttpResponse:
     mail_templates_by_sender = (
-        Mail.objects.values("sender")
-        .annotate(sender_count=Count("sender"))
-        .order_by("-sender_count")
+        Mail.objects.values("sender").annotate(sender_count=Count("sender")).order_by("-sender_count")
     )
 
     context = {

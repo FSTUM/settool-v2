@@ -3,8 +3,7 @@ from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 
 import settool_common.models as common_models
-from settool_common.models import Semester
-from settool_common.models import Subject
+from settool_common.models import Semester, Subject
 
 
 class TourMail(common_models.Mail):

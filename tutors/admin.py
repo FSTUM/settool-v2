@@ -1,14 +1,16 @@
 from django.contrib import admin
 
-from .models import Answer
-from .models import Event
-from .models import MailTutorTask
-from .models import Question
-from .models import Settings
-from .models import SubjectTutorCountAssignment
-from .models import Task
-from .models import Tutor
-from .models import TutorAssignment
+from .models import (
+    Answer,
+    Event,
+    MailTutorTask,
+    Question,
+    Settings,
+    SubjectTutorCountAssignment,
+    Task,
+    Tutor,
+    TutorAssignment,
+)
 
 
 @admin.register(Tutor)

@@ -1,5 +1,5 @@
 {
-    "wrap_line:length": 100,
+    "wrap_line:length": 120,
     "wrap_attributes": "force-expand-multiline",
     "end_with_newline": true,
     "content_unformatted": ["pre", "style", "script"]

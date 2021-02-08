@@ -1,41 +1,31 @@
 import time
-from datetime import date
-from datetime import timedelta
-from typing import Dict
-from typing import List
+from datetime import date, timedelta
+from typing import Dict, List
 
 from django import forms
 from django.contrib.auth.decorators import permission_required
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.handlers.wsgi import WSGIRequest
-from django.db.models import Count
-from django.db.models import Q
-from django.db.models import QuerySet
-from django.db.models import Sum
+from django.db.models import Count, Q, QuerySet, Sum
 from django.forms import formset_factory
-from django.http import Http404
-from django.http import HttpResponse
-from django.shortcuts import get_object_or_404
-from django.shortcuts import redirect
-from django.shortcuts import render
+from django.http import Http404, HttpResponse
+from django.shortcuts import get_object_or_404, redirect, render
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 
 from settool_common import utils
-from settool_common.models import get_semester
-from settool_common.models import Semester
-from settool_common.models import Subject
+from settool_common.models import get_semester, Semester, Subject
 
-from .forms import FahrtForm
-from .forms import FilterParticipantsForm
-from .forms import MailForm
-from .forms import ParticipantAdminForm
-from .forms import ParticipantForm
-from .forms import SelectMailForm
-from .forms import SelectParticipantForm
-from .models import Fahrt
-from .models import FahrtMail
-from .models import Participant
+from .forms import (
+    FahrtForm,
+    FilterParticipantsForm,
+    MailForm,
+    ParticipantAdminForm,
+    ParticipantForm,
+    SelectMailForm,
+    SelectParticipantForm,
+)
+from .models import Fahrt, FahrtMail, Participant
 
 
 def get_confirmed_u18_participants_counts(semester: int) -> List[int]:
@@ -50,9 +40,7 @@ def get_confirmed_u18_participants_counts(semester: int) -> List[int]:
 
 def get_confirmed_paid_participants_counts(semester: int) -> List[int]:
     paid_participants_count: int = (
-        Participant.objects.exclude(paid=None)
-        .filter(Q(semester=semester) & Q(status="confirmed"))
-        .count()
+        Participant.objects.exclude(paid=None).filter(Q(semester=semester) & Q(status="confirmed")).count()
     )
     unpaid_participants_count: int = Participant.objects.filter(
         Q(semester=semester) & Q(status="confirmed") & Q(paid=None),
@@ -62,9 +50,7 @@ def get_confirmed_paid_participants_counts(semester: int) -> List[int]:
 
 def get_confirmed_non_liability_counts(semester: int) -> List[int]:
     submitted_non_liability_count: int = (
-        Participant.objects.exclude(non_liability=None)
-        .filter(Q(semester=semester) & Q(status="confirmed"))
-        .count()
+        Participant.objects.exclude(non_liability=None).filter(Q(semester=semester) & Q(status="confirmed")).count()
     )
     not_submitted_non_liability_count: int = Participant.objects.filter(
         Q(semester=semester) & Q(status="confirmed") & Q(non_liability=None),
@@ -122,8 +108,7 @@ def fahrt_dashboard(request: WSGIRequest) -> HttpResponse:
         "participants_by_group_labels": [_(status["status"]) for status in participants_by_status],
         "participants_by_group_data": [status["status_count"] for status in participants_by_status],
         "confirmed_participants_by_studies_labels": [
-            str(Subject.objects.get(pk=subject["subject"]))
-            for subject in confirmed_participants_by_studies
+            str(Subject.objects.get(pk=subject["subject"])) for subject in confirmed_participants_by_studies
         ],
         "confirmed_participants_by_studies_data": [
             subject["subject_count"] for subject in confirmed_participants_by_studies
@@ -134,9 +119,7 @@ def fahrt_dashboard(request: WSGIRequest) -> HttpResponse:
         "confirmed_participants_by_food_data": [
             nutrition["nutrition_count"] for nutrition in confirmed_participants_by_food
         ],
-        "confirmed_participants_by_gender_labels": [
-            _(gender["gender"]) for gender in confirmed_participants_by_gender
-        ],
+        "confirmed_participants_by_gender_labels": [_(gender["gender"]) for gender in confirmed_participants_by_gender],
         "confirmed_participants_by_gender_data": [
             gender["gender_count"] for gender in confirmed_participants_by_gender
         ],
@@ -224,18 +207,14 @@ def get_nutritunal_information(
 ) -> List[Dict[str, object]]:
     nutrition_choices = [
         choice["nutrition"]
-        for choice in semester.fahrt_participant.filter(status="confirmed")
-        .values("nutrition")
-        .distinct()
+        for choice in semester.fahrt_participant.filter(status="confirmed").values("nutrition").distinct()
     ]
     return [
         (
             {
                 "name": choice,
                 "count": str(participants.filter(nutrition=choice).count()),
-                "allergies": participants.filter(nutrition=choice)
-                .exclude(allergies="")
-                .values("allergies"),
+                "allergies": participants.filter(nutrition=choice).exclude(allergies="").values("allergies"),
             }
         )
         for choice in nutrition_choices

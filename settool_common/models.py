@@ -1,16 +1,11 @@
 import datetime
 import re
-from typing import Any
-from typing import Dict
-from typing import List
-from typing import Tuple
-from typing import Union
+from typing import Any, Dict, List, Optional, Tuple, Union
 
-from django.core.mail import send_mail
+from django.core.mail import EmailMessage, send_mail
 from django.db import models
 from django.http import HttpRequest
-from django.template import Context
-from django.template import Template
+from django.template import Context, Template
 from django.utils import timezone
 from django.utils.deconstruct import deconstructible
 from django.utils.translation import ugettext_lazy as _

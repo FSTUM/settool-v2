@@ -2,12 +2,8 @@ import csv
 import os
 import shutil
 from subprocess import call  # nosec: calls are only local and input is templated
-from tempfile import mkdtemp
-from tempfile import mkstemp
-from typing import Any
-from typing import Dict
-from typing import List
-from typing import Union
+from tempfile import mkdtemp, mkstemp
+from typing import Any, Dict, List, Union
 
 from django.contrib.auth import get_user_model
 from django.db.models import QuerySet

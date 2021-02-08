@@ -1,15 +1,12 @@
 from datetime import date
 from typing import List
 
-from bootstrap_datepicker_plus import DatePickerInput
-from bootstrap_datepicker_plus import DateTimePickerInput
+from bootstrap_datepicker_plus import DatePickerInput, DateTimePickerInput
 from django import forms
 from django.core.exceptions import ValidationError
 from django.utils.translation import ugettext_lazy as _
 
-from .models import Fahrt
-from .models import FahrtMail
-from .models import Participant
+from .models import Fahrt, FahrtMail, Participant
 
 
 class FahrtForm(forms.ModelForm):

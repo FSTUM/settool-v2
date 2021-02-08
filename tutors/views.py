@@ -1,59 +1,48 @@
 import time
-from typing import Any
-from typing import Dict
-from typing import List
-from typing import Optional
+from typing import Any, Dict, List, Optional
 from uuid import UUID
 
 from django import http
 from django.contrib import messages
 from django.contrib.auth.decorators import permission_required
 from django.core.handlers.wsgi import WSGIRequest
-from django.db.models import Count
-from django.db.models import Manager
-from django.db.models import Q
-from django.db.models import QuerySet
-from django.forms import forms
-from django.forms import modelformset_factory
-from django.http import Http404
-from django.http import HttpResponse
-from django.http import HttpResponseRedirect
-from django.shortcuts import get_object_or_404
-from django.shortcuts import redirect
-from django.shortcuts import render
-from django.template import Context
-from django.template import Template
+from django.db.models import Count, Manager, Q, QuerySet
+from django.forms import forms, modelformset_factory
+from django.http import Http404, HttpResponse, HttpResponseRedirect
+from django.shortcuts import get_object_or_404, redirect, render
+from django.template import Context, Template
 from django.urls import reverse
 from django.utils import timezone
 from django.utils.encoding import force_bytes
-from django.utils.http import urlsafe_base64_decode
-from django.utils.http import urlsafe_base64_encode
+from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
 from django.utils.translation import ugettext_lazy as _
 
 from settool_common import utils
-from settool_common.models import get_semester
-from settool_common.models import Semester
-from settool_common.models import Subject
-from tutors.forms import AnswerForm
-from tutors.forms import EventAdminForm
-from tutors.forms import RequirementAdminForm
-from tutors.forms import SettingsAdminForm
-from tutors.forms import SubjectTutorCountAssignmentAdminForm
-from tutors.forms import TaskAdminForm
-from tutors.forms import TaskAssignmentForm
-from tutors.forms import TutorAcceptAdminForm
-from tutors.forms import TutorAdminForm
-from tutors.forms import TutorForm
-from tutors.forms import TutorMailAdminForm
-from tutors.models import Answer
-from tutors.models import Event
-from tutors.models import MailTutorTask
-from tutors.models import Question
-from tutors.models import Settings
-from tutors.models import SubjectTutorCountAssignment
-from tutors.models import Task
-from tutors.models import Tutor
-from tutors.models import TutorMail
+from settool_common.models import get_semester, Semester, Subject
+from tutors.forms import (
+    AnswerForm,
+    EventAdminForm,
+    RequirementAdminForm,
+    SettingsAdminForm,
+    SubjectTutorCountAssignmentAdminForm,
+    TaskAdminForm,
+    TaskAssignmentForm,
+    TutorAcceptAdminForm,
+    TutorAdminForm,
+    TutorForm,
+    TutorMailAdminForm,
+)
+from tutors.models import (
+    Answer,
+    Event,
+    MailTutorTask,
+    Question,
+    Settings,
+    SubjectTutorCountAssignment,
+    Task,
+    Tutor,
+    TutorMail,
+)
 from tutors.tokens import account_activation_token
 
 
@@ -850,9 +839,7 @@ def tutor_batch_accept(request: WSGIRequest) -> HttpResponse:
 
     for assignment_wish_counter in assignments_wish_counter:
         if not (
-            assignment_wish_counter.subject
-            and assignment_wish_counter.wanted
-            and assignment_wish_counter.waitlist
+            assignment_wish_counter.subject and assignment_wish_counter.wanted and assignment_wish_counter.waitlist
         ):
             return redirect("tutors_settings_general")
         active_tutors = tutors_active.filter(subject=assignment_wish_counter.subject)
@@ -903,9 +890,7 @@ def tutor_batch_decline(request: WSGIRequest) -> HttpResponse:
 
     for assignment_wish_counter in assignments_wish_counter:
         if not (
-            assignment_wish_counter.subject
-            and assignment_wish_counter.wanted
-            and assignment_wish_counter.waitlist
+            assignment_wish_counter.subject and assignment_wish_counter.wanted and assignment_wish_counter.waitlist
         ):
             return redirect("tutors_settings_general")
         active_tutors = tutors_active.filter(subject=assignment_wish_counter.subject)
@@ -913,9 +898,7 @@ def tutor_batch_decline(request: WSGIRequest) -> HttpResponse:
             subject=assignment_wish_counter.subject,
         ).count()
 
-        keep: int = (
-            assignment_wish_counter.wanted - accepted_count + assignment_wish_counter.waitlist
-        )
+        keep: int = assignment_wish_counter.wanted - accepted_count + assignment_wish_counter.waitlist
         if keep < 0:
             keep = 0
 

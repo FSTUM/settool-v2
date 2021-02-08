@@ -36,17 +36,13 @@
 {% if status != "all" %}
 <script type="text/javascript">
     $('#id_mail_template').on('change', document, () => {
-        window.location.href = `{% url "tutor_mail_status" status %}${$('#id_mail_template')
-            .find(':selected')
-            .val()}`;
+        window.location.href = `{% url "tutor_mail_status" status %}${$('#id_mail_template').find(':selected').val()}`;
     });
 </script>
 {% else %}
 <script type="text/javascript">
     $('#id_mail_template').on('change', document, () => {
-        window.location.href = `{% url "tutor_mail_tutor" tutor.id %}${$('#id_mail_template')
-            .find(':selected')
-            .val()}`;
+        window.location.href = `{% url "tutor_mail_tutor" tutor.id %}${$('#id_mail_template').find(':selected').val()}`;
     });
 </script>
 {% endif %}

@@ -1,12 +1,8 @@
-from typing import Any
-from typing import Dict
-from typing import List
-from typing import Optional
+from typing import Any, Dict, List, Optional
 
 from django.core import mail
 from django.core.mail import EmailMessage
-from django.template import Context
-from django.template import Template
+from django.template import Context, Template
 from django.test import TestCase
 
 import settool_common.fixtures.showroom_fixture

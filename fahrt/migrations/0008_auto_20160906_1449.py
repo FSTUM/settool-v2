@@ -13,9 +13,7 @@ class Migration(migrations.Migration):
         migrations.AlterModelOptions(
             name="participant",
             options={
-                "permissions": (
-                    ("view_participants", "Can view and edit the list of participants"),
-                ),
+                "permissions": (("view_participants", "Can view and edit the list of participants"),),
             },
         ),
     ]

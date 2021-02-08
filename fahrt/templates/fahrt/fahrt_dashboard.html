@@ -162,25 +162,19 @@
     });
 
     /* eslint no-new: off */
-    new Chart(
-        document.getElementById('confirmed_participants_by_non_liability_chart').getContext('2d'),
-        {
-            type: 'pie',
-            data: {
-                labels: [
-                    '{% trans "has submitted non-liability" %}',
-                    '{% trans "has NOT submitted non-liability" %}',
-                ],
-                datasets: [
-                    {
-                        data: {{ confirmed_participants_age }},
-                        backgroundColor: ['rgb(60,179,113)', 'rgb(255,69,0)'],
-                    },
-                ],
-            },
-            options: chartOptions,
+    new Chart(document.getElementById('confirmed_participants_by_non_liability_chart').getContext('2d'), {
+        type: 'pie',
+        data: {
+            labels: ['{% trans "has submitted non-liability" %}', '{% trans "has NOT submitted non-liability" %}'],
+            datasets: [
+                {
+                    data: {{ confirmed_participants_age }},
+                    backgroundColor: ['rgb(60,179,113)', 'rgb(255,69,0)'],
+                },
+            ],
         },
-    );
+        options: chartOptions,
+    });
 
     /* eslint no-new: off */
     new Chart(document.getElementById('confirmed_participants_by_bachlor_master').getContext('2d'), {

@@ -4,10 +4,8 @@ import django.test
 from django.http import HttpResponse
 
 from settool_common.models import Semester
-from settool_common.utils import get_mocked_logged_in_client
-from settool_common.utils import latex_to_pdf
-from tutors.models import Task
-from tutors.models import Tutor
+from settool_common.utils import get_mocked_logged_in_client, latex_to_pdf
+from tutors.models import Task, Tutor
 
 
 def remove_unique_fields_from_pdf(initial_pdf):
@@ -32,9 +30,7 @@ class TutorExportTest(django.test.TestCase):
         self.csv_header = b"last_name,first_name,subject,matriculation_number,birthday\r\n"
 
     def test_csv_tutor_export(self):
-        expected_tutors = Tutor.objects.filter(
-            semester=Semester.objects.get(pk=2),  # pk=2 ^= SS 21
-        ).order_by(
+        expected_tutors = Tutor.objects.filter(semester=Semester.objects.get(pk=2)).order_by(  # pk=2 ^= SS 21
             "last_name",
             "first_name",
         )
@@ -90,9 +86,7 @@ class TutorExportTest(django.test.TestCase):
         assert_pdf_equal(self, expected_pdf, res.content)
 
     def test_tshirt_tutor_export(self):
-        expected_tutors = Tutor.objects.filter(
-            semester=Semester.objects.get(pk=2),  # pk=2 ^= SS 21
-        ).order_by(
+        expected_tutors = Tutor.objects.filter(semester=Semester.objects.get(pk=2)).order_by(  # pk=2 ^= SS 21
             "last_name",
             "first_name",
         )
@@ -131,9 +125,7 @@ class TutorExportTest(django.test.TestCase):
         assert_pdf_equal(self, expected_pdf, res.content)
 
     def test_pdf_tutor_export(self):
-        expected_tutors = Tutor.objects.filter(
-            semester=Semester.objects.get(pk=2),  # pk=2 ^= SS 21
-        ).order_by(
+        expected_tutors = Tutor.objects.filter(semester=Semester.objects.get(pk=2)).order_by(  # pk=2 ^= SS 21
             "last_name",
             "first_name",
         )

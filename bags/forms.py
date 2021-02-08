@@ -5,8 +5,7 @@ from django.utils.translation import ugettext_lazy as _
 
 from settool_common.models import Semester
 
-from .models import BagMail
-from .models import Company
+from .models import BagMail, Company
 
 
 class CompanyForm(forms.ModelForm):

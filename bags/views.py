@@ -1,27 +1,23 @@
 from django import forms
-from django.contrib.auth.decorators import permission_required
-from django.contrib.auth.decorators import user_passes_test
+from django.contrib.auth.decorators import permission_required, user_passes_test
 from django.core.handlers.wsgi import WSGIRequest
 from django.forms import formset_factory
-from django.http import HttpResponse
-from django.http import HttpResponseBadRequest
-from django.shortcuts import get_object_or_404
-from django.shortcuts import redirect
-from django.shortcuts import render
+from django.http import HttpResponse, HttpResponseBadRequest
+from django.shortcuts import get_object_or_404, redirect, render
 
-from settool_common.models import get_semester
-from settool_common.models import Semester
+from settool_common.models import get_semester, Semester
 
-from .forms import CompanyForm
-from .forms import FilterCompaniesForm
-from .forms import GiveawayForm
-from .forms import ImportForm
-from .forms import MailForm
-from .forms import SelectCompanyForm
-from .forms import SelectMailForm
-from .forms import UpdateFieldForm
-from .models import BagMail
-from .models import Company
+from .forms import (
+    CompanyForm,
+    FilterCompaniesForm,
+    GiveawayForm,
+    ImportForm,
+    MailForm,
+    SelectCompanyForm,
+    SelectMailForm,
+    UpdateFieldForm,
+)
+from .models import BagMail, Company
 
 
 def get_possibly_filtered_companies(filterform, semester):

@@ -33,9 +33,7 @@
 
 <script type="text/javascript">
     $('#id_mail_template').on('change', document, () => {
-        window.location.href = `{% url "task_mail" task.id %}${$('#id_mail_template')
-            .find(':selected')
-            .val()}`;
+        window.location.href = `{% url "task_mail" task.id %}${$('#id_mail_template').find(':selected').val()}`;
     });
 </script>
 {% endblock %}

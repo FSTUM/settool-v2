@@ -1,34 +1,22 @@
 import time
-from typing import Any
-from typing import Dict
+from typing import Any, Dict
 
 from django import forms
 from django.contrib.auth.decorators import permission_required
 from django.core.handlers.wsgi import WSGIRequest
-from django.db.models import Q
-from django.db.models import QuerySet
+from django.db.models import Q, QuerySet
 from django.db.models.aggregates import Count
 from django.forms import formset_factory
 from django.http import HttpResponse
-from django.shortcuts import get_object_or_404
-from django.shortcuts import redirect
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404, redirect, render
 from django.utils import timezone
 from django.utils.datetime_safe import date
 
 from settool_common import utils
-from settool_common.models import get_semester
-from settool_common.models import Semester
+from settool_common.models import get_semester, Semester
 
-from .forms import FilterParticipantsForm
-from .forms import MailForm
-from .forms import ParticipantForm
-from .forms import SelectMailForm
-from .forms import SelectParticipantForm
-from .forms import TourForm
-from .models import Participant
-from .models import Tour
-from .models import TourMail
+from .forms import FilterParticipantsForm, MailForm, ParticipantForm, SelectMailForm, SelectParticipantForm, TourForm
+from .models import Participant, Tour, TourMail
 
 
 @permission_required("guidedtours.view_participants")

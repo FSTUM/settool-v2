@@ -1,8 +1,6 @@
 from django.contrib import admin
 
-from .models import Fahrt
-from .models import LogEntry
-from .models import Participant
+from .models import Fahrt, LogEntry, Participant
 
 admin.site.register(Participant)
 admin.site.register(Fahrt)

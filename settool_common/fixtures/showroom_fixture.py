@@ -274,14 +274,10 @@ def _generate_tasks_tutorasignemt(  # nosec: this is only used in a fixture
 ):
     tasks = []
     for event in events:
-        tutors_current_semester = [
-            tutor for tutor in tutors_list if tutor.semester == event.semester
-        ]
+        tutors_current_semester = [tutor for tutor in tutors_list if tutor.semester == event.semester]
         number1 = random.randint(0, len(tutors_current_semester))
         number2 = random.randint(0, len(tutors_current_semester))
-        filtered_questions = [
-            question for question in questions if question.semester == event.semester
-        ]
+        filtered_questions = [question for question in questions if question.semester == event.semester]
         event_subjects = list(event.subjects.all())
         for i in range(0, random.randint(0, 4)):
             task = tutors.models.Task.objects.create(
@@ -351,9 +347,7 @@ def _generate_events(semesters, subjects):  # nosec: this is only used in a fixt
 def _generate_answers(questions, tutors_list):  # nosec: this is only used in a fixture
     answers = []
     for tutor in tutors_list:
-        questions_tutor_semester = [
-            question for question in questions if question.semester == tutor.semester
-        ]
+        questions_tutor_semester = [question for question in questions if question.semester == tutor.semester]
         for question in questions_tutor_semester:
             if random.randint(0, 5) == 0:
                 answers.append(

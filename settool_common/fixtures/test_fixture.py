@@ -2,9 +2,7 @@ import random
 
 from django.utils.datetime_safe import datetime
 
-from settool_common.models import current_semester
-from settool_common.models import Semester
-from settool_common.models import Subject
+from settool_common.models import current_semester, Semester, Subject
 from tutors.models import Tutor
 
 

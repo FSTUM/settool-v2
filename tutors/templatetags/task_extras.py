@@ -1,7 +1,6 @@
 from django import template
 
-from tutors.models import MailTutorTask
-from tutors.models import Tutor
+from tutors.models import MailTutorTask, Tutor
 
 register = template.Library()
 
