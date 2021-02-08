@@ -89,6 +89,14 @@ msgid "cancelled"
 msgstr "abgesagt"
 
 #: fahrt/models.py
+msgid ""
+"You may use {{vorname}} for the participant's first name and {{frist}} for "
+"the individual payment deadline."
+msgstr ""
+"Du kannst {{vorname}} für den Vornamen des Teilnehmers und {{frist}} für die "
+"individuelle Zahlungsfrist verwenden."
+
+#: fahrt/models.py
 msgid "Date"
 msgstr "Datum"
 
@@ -225,24 +233,12 @@ msgstr "Kommentar"
 msgid "Registration time"
 msgstr "Anmeldezeitpunkt"
 
-#: fahrt/models.py
-msgid "Email subject"
-msgstr "E-Mail Betreff"
-
 #: fahrt/models.py fahrt/templates/fahrt/mail/del_mail.html
 #: fahrt/templates/fahrt/mail/index_mails.html
 #: fahrt/templates/fahrt/mail/send_mail.html
 #: fahrt/templates/fahrt/mail/send_mail_failure.html
 msgid "Text"
 msgstr "Text"
-
-#: fahrt/models.py
-msgid ""
-"You may use {{vorname}} for the participant's first name and {{frist}} for "
-"the individual payment deadline."
-msgstr ""
-"Du kannst {{vorname}} für den Vornamen des Teilnehmers und {{frist}} für die "
-"individuelle Zahlungsfrist verwenden."
 
 #: fahrt/models.py
 msgid "Time"
@@ -617,6 +613,9 @@ msgid ""
 msgstr ""
 "Du wirst alle weiteren Informationen per E-Mail erhalten. Dies kann etwas "
 "dauern, da wir deine Anmeldung manuell überprüfen."
+
+#~ msgid "Email subject"
+#~ msgstr "E-Mail Betreff"
 
 #~ msgid "Registered Participants"
 #~ msgstr "Registrierte Teilnehmer"

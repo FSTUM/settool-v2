@@ -75,6 +75,16 @@ msgstr ""
 "alle Unternehmen außer denen, die angeblich nicht mehr Kontakt aufnehmen) "
 "verwendet)"
 
+#: bags/models.py
+msgid ""
+"You may use {{firma}} for the company name, {{anrede}} for the greeting "
+"'Hallo Herr/Frau XYZ' and {{formale_anrede}} for the formal greeting 'Sehr "
+"geehrte/r Herr/Frau XYZ'. "
+msgstr ""
+"Du kannst {{firma}} für den Firmennamen, {{anrede}} für die Anrede 'Hallo "
+"Herr/Frau XYZ' und {{formale_anrede}} für die formale Anrede 'Sehr geehrte/r "
+"Herr/Frau XYZ' verwenden."
+
 #: bags/models.py bags/templates/bags/company/company_details.html
 msgid "Name"
 msgstr "Name"
@@ -147,26 +157,6 @@ msgstr "Angekommen"
 #: bags/templates/bags/mail/send_mail.html
 msgid "Contact again"
 msgstr "Erneut kontaktieren"
-
-#: bags/models.py
-msgid "Email subject"
-msgstr "Betreff der E-Mail"
-
-#: bags/models.py bags/templates/bags/mail/del_mail.html
-#: bags/templates/bags/mail/index_mails.html
-#: bags/templates/bags/mail/send_mail.html
-msgid "Text"
-msgstr "Text"
-
-#: bags/models.py
-msgid ""
-"You may use {{firma}} for the company name, {{anrede}} for the greeting "
-"\"Hallo Herr/Frau XYZ\" and {{formale_anrede}} for the formal greeting "
-"\"Sehr geehrte/r Herr/Frau XYZ\"."
-msgstr ""
-"Du kannst {{firma}} für den Firmennamen, {{anrede}} für die Anrede \"Hallo "
-"Herr/Frau XYZ\" und {{formale_anrede}} für die formale Anrede \"Sehr geehrte/"
-"r Herr/Frau XYZ\" verwenden."
 
 #: bags/templates/bags/add_giveaway.html bags/templates/bags/base_bags.html
 msgid "Add a giveaway"
@@ -331,6 +321,12 @@ msgstr "Soll die folgende E-Mail-Vorlage wirklich gelöscht werden?"
 msgid "Subject"
 msgstr "Betreff"
 
+#: bags/templates/bags/mail/del_mail.html
+#: bags/templates/bags/mail/index_mails.html
+#: bags/templates/bags/mail/send_mail.html
+msgid "Text"
+msgstr "Text"
+
 #: bags/templates/bags/mail/edit_mail.html
 msgid "Edit email"
 msgstr "E-Mail-Vorlage bearbeiten"
@@ -360,6 +356,9 @@ msgstr "An"
 #: bags/templates/bags/mail/send_mail.html
 msgid "see table below"
 msgstr "siehe Tabelle unten"
+
+#~ msgid "Email subject"
+#~ msgstr "Betreff der E-Mail"
 
 #~ msgid "Edit email templates"
 #~ msgstr "E-Mail-Vorlagen bearbeiten"

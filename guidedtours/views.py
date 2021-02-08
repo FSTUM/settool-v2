@@ -26,9 +26,9 @@ from .forms import ParticipantForm
 from .forms import SelectMailForm
 from .forms import SelectParticipantForm
 from .forms import TourForm
-from .models import Mail
 from .models import Participant
 from .models import Tour
+from .models import TourMail
 
 
 @permission_required("guidedtours.view_participants")
@@ -231,7 +231,7 @@ def filtered_list(request: WSGIRequest) -> HttpResponse:
 
 @permission_required("guidedtours.view_participants")
 def index_mails(request: WSGIRequest) -> HttpResponse:
-    context = {"mails": Mail.objects.all()}
+    context = {"mails": TourMail.objects.all()}
     return render(request, "guidedtours/mail/index_mails.html", context)
 
 
@@ -249,7 +249,7 @@ def add_mail(request: WSGIRequest) -> HttpResponse:
 
 @permission_required("guidedtours.view_participants")
 def edit_mail(request: WSGIRequest, mail_pk: int) -> HttpResponse:
-    mail = get_object_or_404(Mail, pk=mail_pk)
+    mail = get_object_or_404(TourMail, pk=mail_pk)
 
     form = MailForm(request.POST or None, instance=mail)
     if form.is_valid():
@@ -266,7 +266,7 @@ def edit_mail(request: WSGIRequest, mail_pk: int) -> HttpResponse:
 
 @permission_required("guidedtours.view_participants")
 def delete_mail(request: WSGIRequest, mail_pk: int) -> HttpResponse:
-    mail = get_object_or_404(Mail, pk=mail_pk)
+    mail = get_object_or_404(TourMail, pk=mail_pk)
 
     form = forms.Form(request.POST or None)
     if form.is_valid():
@@ -283,18 +283,18 @@ def delete_mail(request: WSGIRequest, mail_pk: int) -> HttpResponse:
 
 @permission_required("guidedtours.view_participants")
 def send_mail(request: WSGIRequest, mail_pk: int) -> HttpResponse:
-    mail = get_object_or_404(Mail, pk=mail_pk)
+    mail = get_object_or_404(TourMail, pk=mail_pk)
     selected_participants = request.session["selected_participants"]
     participants = Participant.objects.filter(
         id__in=selected_participants,
     ).order_by("surname")
 
-    subject, text, from_email = mail.get_mail()
+    subject, text, from_email = mail.get_mail_participant()
 
     form = forms.Form(request.POST or None)
     if form.is_valid():
         for participant in participants:
-            mail.send_mail(participant)
+            mail.send_mail_participant(participant)
         return redirect("tours_filter")
 
     context = {

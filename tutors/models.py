@@ -5,9 +5,49 @@ from django.db import models
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 
-from settool_common.models import Mail
+import settool_common.models as common_models
 from settool_common.models import Semester
 from settool_common.models import Subject
+
+
+class TutorMail(common_models.Mail):
+    possible_placeholders = _(
+        "You may use {{tutor}} for the Tutor.\n"
+        "{{activation_url}} is also possible if this is the registration mail.\n"
+        "{{task}} is also possible if this is the task mail.",
+    )
+
+    # pylint: disable=signature-differs
+    def save(self, *args, **kwargs):
+        self.sender = common_models.Mail.SET_TUTOR
+        super().save(*args, **kwargs)
+
+    def send_mail_tutor(self, tutor):
+        context = {
+            "tutor": tutor,
+        }
+        return self.send_mail(context, tutor.email)
+
+    def send_mail_registration(self, tutor, activation_url):
+        context = {
+            "tutor": tutor,
+            "activation_url": activation_url,
+        }
+        return self.send_mail(context, tutor.email)
+
+    def send_mail_task(self, tutor, task):
+        context = {
+            "tutor": tutor,
+            "task": task,
+        }
+        return self.send_mail(context, tutor.email)
+
+    def get_mail_task(self, tutor, task):
+        context = {
+            "tutor": tutor,
+            "task": task,
+        }
+        return self.get_mail(context)
 
 
 class BaseModel(models.Model):
@@ -33,14 +73,14 @@ class Settings(BaseModel):
     )
 
     mail_registration = models.ForeignKey(
-        Mail,
+        TutorMail,
         verbose_name=_("Mail Registration"),
         related_name="tutors_mail_registration",
         on_delete=models.CASCADE,
     )
 
     mail_confirmed_place = models.ForeignKey(
-        Mail,
+        TutorMail,
         verbose_name=_("Mail Confirmed Place"),
         related_name="tutors_mail_confirmed_place",
         on_delete=models.CASCADE,
@@ -49,7 +89,7 @@ class Settings(BaseModel):
     )
 
     mail_waiting_list = models.ForeignKey(
-        Mail,
+        TutorMail,
         verbose_name=_("Mail Waiting List"),
         related_name="tutors_mail_waiting_list",
         on_delete=models.CASCADE,
@@ -58,7 +98,7 @@ class Settings(BaseModel):
     )
 
     mail_declined_place = models.ForeignKey(
-        Mail,
+        TutorMail,
         verbose_name=_("Mail Declined Place"),
         related_name="tutors_mail_declined_place",
         on_delete=models.CASCADE,
@@ -67,7 +107,7 @@ class Settings(BaseModel):
     )
 
     mail_task = models.ForeignKey(
-        Mail,
+        TutorMail,
         verbose_name=_("Mail Task"),
         related_name="tutors_mail_task",
         on_delete=models.CASCADE,
@@ -441,7 +481,7 @@ class Answer(BaseModel):
 
 class MailTutorTask(BaseModel):
     mail = models.ForeignKey(
-        Mail,
+        TutorMail,
         on_delete=models.CASCADE,
     )
 

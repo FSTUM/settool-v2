@@ -34,7 +34,7 @@ from .forms import ParticipantForm
 from .forms import SelectMailForm
 from .forms import SelectParticipantForm
 from .models import Fahrt
-from .models import Mail
+from .models import FahrtMail
 from .models import Participant
 
 
@@ -575,7 +575,7 @@ def filtered_list(request: WSGIRequest) -> HttpResponse:
 
 @permission_required("fahrt.view_participants")
 def index_mails(request: WSGIRequest) -> HttpResponse:
-    context = {"mails": Mail.objects.all()}
+    context = {"mails": FahrtMail.objects.all()}
     return render(request, "fahrt/mail/index_mails.html", context)
 
 
@@ -593,7 +593,7 @@ def add_mail(request: WSGIRequest) -> HttpResponse:
 
 @permission_required("fahrt.view_participants")
 def edit_mail(request: WSGIRequest, mail_pk: int) -> HttpResponse:
-    mail = get_object_or_404(Mail, pk=mail_pk)
+    mail = get_object_or_404(FahrtMail, pk=mail_pk)
 
     form = MailForm(request.POST or None, instance=mail)
     if form.is_valid():
@@ -610,7 +610,7 @@ def edit_mail(request: WSGIRequest, mail_pk: int) -> HttpResponse:
 
 @permission_required("fahrt.view_participants")
 def delete_mail(request: WSGIRequest, mail_pk: int) -> HttpResponse:
-    mail = get_object_or_404(Mail, pk=mail_pk)
+    mail = get_object_or_404(FahrtMail, pk=mail_pk)
 
     form = forms.Form(request.POST or None)
     if form.is_valid():
@@ -627,7 +627,7 @@ def delete_mail(request: WSGIRequest, mail_pk: int) -> HttpResponse:
 
 @permission_required("fahrt.view_participants")
 def send_mail(request: WSGIRequest, mail_pk: int) -> HttpResponse:
-    mail: Mail = get_object_or_404(Mail, pk=mail_pk)
+    mail: FahrtMail = get_object_or_404(FahrtMail, pk=mail_pk)
     selected_participants = request.session["selected_participants"]
     sem = get_semester(request)
     semester = get_object_or_404(Semester, pk=sem)
@@ -635,13 +635,13 @@ def send_mail(request: WSGIRequest, mail_pk: int) -> HttpResponse:
         id__in=selected_participants,
     ).order_by("surname")
 
-    subject, text, from_email = mail.get_mail()
+    subject, text, from_email = mail.get_mail_participant()
 
     form = forms.Form(request.POST or None)
     failed_participants = []
     if form.is_valid():
         for participant in participants:
-            success = mail.send_mail(participant)
+            success = mail.send_mail_participant(participant)
             if success:
                 participant.log(request.user, f"Mail '{mail}' sent")
             else:

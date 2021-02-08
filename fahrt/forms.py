@@ -8,7 +8,7 @@ from django.core.exceptions import ValidationError
 from django.utils.translation import ugettext_lazy as _
 
 from .models import Fahrt
-from .models import Mail
+from .models import FahrtMail
 from .models import Participant
 
 
@@ -90,7 +90,7 @@ class ParticipantForm(ParticipantAdminForm):
 
 class MailForm(forms.ModelForm):
     class Meta:
-        model = Mail
+        model = FahrtMail
         exclude: List[str] = []
 
     def __init__(self, *args, **kwargs):
@@ -111,7 +111,7 @@ class SelectMailForm(forms.Form):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields["mail"].queryset = Mail.objects.all()
+        self.fields["mail"].queryset = FahrtMail.objects.all()
 
 
 class FilterParticipantsForm(forms.Form):

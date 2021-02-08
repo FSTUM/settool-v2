@@ -46,6 +46,16 @@ msgid "Tutors (selected will be declined)"
 msgstr "Tutoren (ausgewählte werden abgelehnt)"
 
 #: tutors/models.py
+msgid ""
+"You may use {{tutor}} for the Tutor.\n"
+"{{activation_url}} is also possible if this is the registration mail.\n"
+"{{task}} is also possible if this is the task mail."
+msgstr ""
+"Du kannst {{tutor}} für dem Tutor verwenden. {{activation_url}} ist auch "
+"möglich, falls es sich um die Registirerungs-email handelt. {{task}} ist "
+"auch möglich, falls es sich um die Task-mail handelt."
+
+#: tutors/models.py
 msgid "Open registration"
 msgstr "Start der Registrierung"
 
@@ -857,6 +867,22 @@ msgstr "Zugewiesene Tasks"
 #: tutors/templates/tutors/tutor/view.html
 msgid "Email log"
 msgstr "E-Mail Log"
+
+#: tutors/views.py
+#, python-brace-format
+msgid ""
+"Could not send email. If this error persists send a mail to {TutorMail.SET}"
+msgstr ""
+"Konnte Email nicht senden. Falls dieser Fehler weiterhin besteht sende bitte "
+"eine Email an {TutorMail.SET}"
+
+#: tutors/views.py
+#, python-brace-format
+msgid ""
+"Could not send email to {tutor.first_name} {tutor.last_name} ({tutor.email})."
+msgstr ""
+"Konnte keine email an {tutor.first_name} {tutor.last_name} ({tutor.email}) "
+"senden."
 
 #~ msgid "Master"
 #~ msgstr "Master"

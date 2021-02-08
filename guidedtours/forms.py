@@ -4,9 +4,9 @@ from bootstrap_datepicker_plus import DateTimePickerInput
 from django import forms
 from django.utils.translation import ugettext_lazy as _
 
-from .models import Mail
 from .models import Participant
 from .models import Tour
+from .models import TourMail
 
 
 class ParticipantForm(forms.ModelForm):
@@ -49,7 +49,7 @@ class TourForm(forms.ModelForm):
 
 class MailForm(forms.ModelForm):
     class Meta:
-        model = Mail
+        model = TourMail
         exclude: List[str] = []
 
     def save(self, commit=True):
@@ -61,7 +61,7 @@ class MailForm(forms.ModelForm):
 
 class SelectMailForm(forms.Form):
     mail = forms.ModelChoiceField(
-        queryset=Mail.objects.all(),
+        queryset=TourMail.objects.all(),
         label=_("Email template:"),
     )
 

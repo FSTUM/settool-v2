@@ -2,15 +2,39 @@ import datetime
 
 from dateutil.relativedelta import relativedelta
 from django.contrib.auth import get_user_model
-from django.core.mail import send_mail
 from django.db import models
-from django.template import engines
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 
 import settool_common.models as common_models
 from settool_common.models import Semester
 from settool_common.models import Subject
+
+
+class FahrtMail(common_models.Mail):
+    possible_placeholders = _(
+        "You may use {{vorname}} for the participant's first name and {{frist}} for the "
+        "individual payment deadline.",
+    )
+
+    # pylint: disable=signature-differs
+    def save(self, *args, **kwargs):
+        self.sender = common_models.Mail.SET_FAHRT
+        super().save(*args, **kwargs)
+
+    def send_mail_participant(self, participant):
+        context = {
+            "vorname": participant.firstname,
+            "frist": participant.payment_deadline,
+        }
+        return self.send_mail(context, participant.email)
+
+    def get_mail_participant(self):
+        context = {
+            "vorname": "<Vorname>",
+            "frist": "<Zahlungsfrist>",
+        }
+        return self.get_mail(context)
 
 
 class Fahrt(models.Model):
@@ -209,65 +233,6 @@ class Participant(models.Model):
     #    delta = timedelta(days=weeks*7)
     #    deadline = today + delta
     #    self.payment_deadline = deadline.strftime("%d.%m.%Y")
-
-
-class Mail(models.Model):
-    sender = common_models.Mail.SET_FAHRT
-    subject = models.CharField(
-        _("Email subject"),
-        max_length=200,
-    )
-
-    text = models.TextField(
-        _("Text"),
-        help_text=_(
-            "You may use {{vorname}} for the participant's first name and {{frist}} for the "
-            "individual payment deadline.",
-        ),
-    )
-
-    comment = models.CharField(
-        _("Comment"),
-        max_length=200,
-        blank=True,
-    )
-
-    def __str__(self):
-        if self.comment:
-            return f"{self.subject} ({self.comment})"
-        return str(self.subject)
-
-    def get_mail(self):
-        django_engine = engines["django"]
-        subject_template = django_engine.from_string(self.subject)
-        context = {
-            "vorname": "<Vorname>",
-            "frist": "<Zahlungsfrist>",
-        }
-        subject = subject_template.render(context).rstrip()
-
-        text_template = django_engine.from_string(self.text)
-        text = text_template.render(context)
-
-        return subject, text, self.sender
-
-    def send_mail(self, participant):
-        django_engine = engines["django"]
-        context = {
-            "vorname": participant.firstname,
-            "frist": participant.payment_deadline,
-        }
-
-        subject_template = django_engine.from_string(self.subject)
-        subject = subject_template.render(context).rstrip()
-
-        text_template = django_engine.from_string(self.text)
-        text = text_template.render(context)
-
-        if context["frist"] is None and ("{{frist}}" in self.text or "{{frist}}" in self.subject):
-            return False
-        send_mail(subject, text, self.sender, [participant.email], fail_silently=False)
-        return True
 
 
 class LogEntry(models.Model):
