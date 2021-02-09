@@ -11,6 +11,8 @@ class TourMail(common_models.Mail):
     possible_placeholders = _(
         "You may use {{vorname}} for the participant's first name, "
         "{{tour}} for the name of the tour, "
+        "{{participant}} for the participant, "
+        "{{tour_status}} displays 'Tour' or 'Waitinglist' (Depending on on_the_tour status), "
         "{{zeit}} for the time of the tour.",
     )
     # fmt: on
@@ -25,6 +27,8 @@ class TourMail(common_models.Mail):
             "vorname": "<Vorname>",
             "tour": "<Tour>",
             "zeit": "<Zeit>",
+            "participant": "<Participant>",
+            "tour_status": "<tour_status>",
         }
         return self.get_mail(context)
 
@@ -33,6 +37,8 @@ class TourMail(common_models.Mail):
             "vorname": participant.firstname,
             "tour": participant.tour.name,
             "zeit": participant.tour.date,
+            "participant": participant,
+            "tour_status": "Tour" if participant.on_the_tour else "Waitinglist",
         }
         return self.send_mail(context, participant.email)
 

@@ -46,11 +46,14 @@ msgstr "Institutsführung"
 #: guidedtours/models.py
 msgid ""
 "You may use {{vorname}} for the participant's first name, {{tour}} for the "
-"name of the tour, {{zeit}} for the time of the tour."
+"name of the tour, {{participant}} for the participant, {{tour_status}} "
+"displays 'Tour' or 'Waitinglist' (Depending on on_the_tour status), {{zeit}} "
+"for the time of the tour."
 msgstr ""
 "Du kannst {{vorname}} für den Vornamen des Teilnehmers, {{tour}} für den "
-"Titel der Institutsführung und {{zeit}} für die Zeit der Institutsführung "
-"verwenden."
+"Titel der Institutsführung, {{participant}} für den Teilnehmer, "
+"{{tour_status}} für 'Tour' or 'Waitinglist' (je nach on_the_tour Status), "
+"und {{zeit}} für die Zeit der Institutsführung verwenden."
 
 #: guidedtours/models.py
 msgid "Name"
