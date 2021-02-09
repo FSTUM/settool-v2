@@ -58,6 +58,9 @@ class Mail(models.Model):
         return str(self.subject)
 
     def get_mail(self, context: Union[Context, Dict[str, Any], None]) -> Tuple[str, str, str]:
+        if not isinstance(context, Context):
+            context = Context(context or {})
+
         subject_template = Template(self.subject)
         subject: str = subject_template.render(context).rstrip()
 
