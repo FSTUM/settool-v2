@@ -65,7 +65,7 @@ msgstr "Ende der Registrierung"
 
 #: tutors/models.py
 msgid "Mail Registration"
-msgstr "Mail Registrierung"
+msgstr "Anmeldungs Email"
 
 #: tutors/models.py
 msgid "Mail Confirmed Place"

@@ -15,6 +15,7 @@ class TourMail(common_models.Mail):
         "{{tour_status}} displays 'Tour' or 'Waitinglist' (Depending on on_the_tour status), "
         "{{zeit}} for the time of the tour.",
     )
+
     # fmt: on
 
     # pylint: disable=signature-differs
@@ -143,3 +144,22 @@ class Participant(models.Model):
         if self.on_the_tour:
             return _("On the tour")
         return _("On waitinglist")
+
+
+class Setting(models.Model):
+    semester = models.OneToOneField(
+        Semester,
+        on_delete=models.CASCADE,
+    )
+
+    mail_registration = models.ForeignKey(
+        TourMail,
+        verbose_name=_("Mail Registration"),
+        related_name="tours_mail_registration",
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+    )
+
+    def __str__(self):
+        return f"Tour-Settings for {self.semester}"

@@ -2,6 +2,7 @@ import time
 from typing import Any, Dict
 
 from django import forms
+from django.contrib import messages
 from django.contrib.auth.decorators import permission_required
 from django.core.handlers.wsgi import WSGIRequest
 from django.db.models import Q, QuerySet
@@ -11,12 +12,21 @@ from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.utils import timezone
 from django.utils.datetime_safe import date
+from django.utils.translation import ugettext_lazy as _
 
 from settool_common import utils
 from settool_common.models import get_semester, Semester
 
-from .forms import FilterParticipantsForm, MailForm, ParticipantForm, SelectMailForm, SelectParticipantForm, TourForm
-from .models import Participant, Tour, TourMail
+from .forms import (
+    FilterParticipantsForm,
+    MailForm,
+    ParticipantForm,
+    SelectMailForm,
+    SelectParticipantForm,
+    SettingsAdminForm,
+    TourForm,
+)
+from .models import Participant, Setting, Tour, TourMail
 
 
 @permission_required("guidedtours.view_participants")
@@ -297,8 +307,8 @@ def send_mail(request: WSGIRequest, mail_pk: int) -> HttpResponse:
 
 
 def signup(request: WSGIRequest) -> HttpResponse:
-    sem = get_semester(request)
-    semester = get_object_or_404(Semester, pk=sem)
+    semester = get_object_or_404(Semester, pk=get_semester(request))
+    settings: Setting = Setting.objects.get_or_create(semester=semester)[0]
     tours = semester.tour_set.filter(
         open_registration__lt=timezone.now(),
         close_registration__gt=timezone.now(),
@@ -310,7 +320,20 @@ def signup(request: WSGIRequest) -> HttpResponse:
 
     form = ParticipantForm(request.POST or None, tours=tours)
     if form.is_valid():
-        form.save()
+        participant: Participant = form.save()
+        if settings.mail_registration:
+            mail: TourMail = settings.mail_registration
+            if not mail.send_mail_participant(participant):
+                messages.error(
+                    request,
+                    _(
+                        f"Could not send you the registration email. "
+                        f"You are registered, but you did not receve the confirmation-email. "
+                        f"Your email may be invalid. "
+                        f"Please contact {TourMail.SET}.",
+                    ),
+                )
+
         return redirect("tours_signup_success")
 
     context = {
@@ -327,8 +350,8 @@ def signup_success(request: WSGIRequest) -> HttpResponse:
 
 @permission_required("guidedtours.view_participants")
 def signup_internal(request: WSGIRequest) -> HttpResponse:
-    sem = get_semester(request)
-    semester = get_object_or_404(Semester, pk=sem)
+    semester = get_object_or_404(Semester, pk=get_semester(request))
+    settings: Setting = Setting.objects.get_or_create(semester=semester)[0]
     tours = semester.tour_set.order_by("date")
 
     if not tours:
@@ -336,7 +359,18 @@ def signup_internal(request: WSGIRequest) -> HttpResponse:
 
     form = ParticipantForm(request.POST or None, tours=tours)
     if form.is_valid():
-        participant = form.save()
+        participant: Participant = form.save()
+        if settings.mail_registration:
+            mail: TourMail = settings.mail_registration
+            if not mail.send_mail_participant(participant):
+                messages.error(
+                    request,
+                    _(
+                        "Could not send the participant the registration email. "
+                        "The Participant is registered, but did not receave the confirmation-email. "
+                        "The email may be invalid or no Registration-mail may have been set.",
+                    ),
+                )
 
         return redirect("tours_view", participant.tour.id)
 
@@ -361,3 +395,27 @@ def export(request: WSGIRequest, file_format: str, tour_pk: int) -> HttpResponse
             confirmed_participants,
         )
     return utils.download_pdf("guidedtours/tex/tour.tex", f"{filename}.pdf", context)
+
+
+@permission_required("guidedtours.view_participants")
+def tours_settings(request: WSGIRequest) -> HttpResponse:
+    semester = get_object_or_404(Semester, pk=get_semester(request))
+    settings: Setting = Setting.objects.get_or_create(semester=semester)[0]
+
+    form = SettingsAdminForm(request.POST or None, semester=semester, instance=settings)
+    if form.is_valid():
+        settings = form.save()
+        if settings:
+            messages.success(request, "Saved Settings.")
+        else:
+            messages.error(request, "The Settings do not exist.")
+
+        return redirect("tours_dashboard")
+
+    return render(
+        request,
+        "guidedtours/settings/general.html",
+        {
+            "form": form,
+        },
+    )

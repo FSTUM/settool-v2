@@ -120,6 +120,10 @@ msgstr "Bei der Tour"
 msgid "On waitinglist"
 msgstr "Auf der Warteliste"
 
+#: guidedtours/models.py
+msgid "Mail Registration"
+msgstr "Anmeldungs Email"
+
 #: guidedtours/templates/guidedtours/base_guildedtours.html
 #: guidedtours/templates/guidedtours/tour_dashboard.html
 msgid "Dashboard"
@@ -164,6 +168,15 @@ msgstr "Teilnehmer filtern/ E-Mails senden"
 msgid "Add email template"
 msgstr "E-Mail-Vorlage hinzufügen"
 
+#: guidedtours/templates/guidedtours/base_guildedtours.html
+msgid "Settings"
+msgstr "Einstellungen"
+
+#: guidedtours/templates/guidedtours/base_guildedtours.html
+#: guidedtours/templates/guidedtours/settings/general.html
+msgid "General settings"
+msgstr "Allgemeine Einstellungen"
+
 #: guidedtours/templates/guidedtours/mail/add_mail.html
 msgid "Add email"
 msgstr "E-Mail-Vorlage hinzufügen"
@@ -172,6 +185,7 @@ msgstr "E-Mail-Vorlage hinzufügen"
 #: guidedtours/templates/guidedtours/mail/del_mail.html
 #: guidedtours/templates/guidedtours/mail/edit_mail.html
 #: guidedtours/templates/guidedtours/mail/send_mail.html
+#: guidedtours/templates/guidedtours/settings/general.html
 #: guidedtours/templates/guidedtours/signup/signup_internal.html
 #: guidedtours/templates/guidedtours/tours/add_tour.html
 #: guidedtours/templates/guidedtours/tours/del_tour.html
@@ -278,6 +292,10 @@ msgstr "Institutsführung bearbeiten"
 msgid "Delete tour"
 msgstr "Institutsführung löschen"
 
+#: guidedtours/templates/guidedtours/settings/general.html
+msgid "Save settings"
+msgstr "Einstellungen speichern"
+
 #: guidedtours/templates/guidedtours/signup/signup.html
 #: guidedtours/templates/guidedtours/signup/signup_notour.html
 msgid "Sign up for a guided tour"
@@ -337,6 +355,19 @@ msgstr "Bestätigte Teilnehmer als CSV ausgeben"
 #: guidedtours/templates/guidedtours/tours/list_tours.html
 msgid "Export confired participants as PDF"
 msgstr "Bestätigte Teilnehmer als PDF ausgeben"
+
+#: guidedtours/views.py
+msgid "Could not send you the registration email. "
+msgstr "Konnte die Registrierungs-Email nicht senden."
+
+#: guidedtours/views.py
+msgid ""
+"Could not send the participant the registration email. The Participant is "
+"registered, but did not receave the confirmation-email. The email may be "
+"invalid or no Registration-mail may have been set."
+msgstr ""
+"Konnte die Registrierungs-Email nicht senden. Bitte vergewissere dich, das "
+"diese richtig konfiguirert ist."
 
 #~ msgid "Email subject"
 #~ msgstr "Betreff der E-Mail"

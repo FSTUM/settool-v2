@@ -4,7 +4,9 @@ from bootstrap_datepicker_plus import DateTimePickerInput
 from django import forms
 from django.utils.translation import ugettext_lazy as _
 
-from .models import Participant, Tour, TourMail
+from settool_common.forms import SemesterBasedModelForm
+
+from .models import Participant, Setting, Tour, TourMail
 
 
 class ParticipantForm(forms.ModelForm):
@@ -97,3 +99,9 @@ class SelectParticipantForm(forms.Form):
     id = forms.IntegerField()
 
     selected = forms.BooleanField(required=False)
+
+
+class SettingsAdminForm(SemesterBasedModelForm):
+    class Meta:
+        model = Setting
+        exclude = ["semester"]
