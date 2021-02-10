@@ -14,10 +14,6 @@ msgstr ""
 "X-Generator: Poedit 2.4.2\n"
 
 #: guidedtours/forms.py
-msgid "I accept the terms and conditions of the following privacy policy:"
-msgstr "Ich stimme der folgenden Datenschutzerklärung zu:"
-
-#: guidedtours/forms.py
 msgid "Email template:"
 msgstr "E-Mail Vorlage:"
 
@@ -368,6 +364,9 @@ msgid ""
 msgstr ""
 "Konnte die Registrierungs-Email nicht senden. Bitte vergewissere dich, das "
 "diese richtig konfiguirert ist."
+
+#~ msgid "I accept the terms and conditions of the following privacy policy:"
+#~ msgstr "Ich stimme der folgenden Datenschutzerklärung zu:"
 
 #~ msgid "Email subject"
 #~ msgstr "Betreff der E-Mail"

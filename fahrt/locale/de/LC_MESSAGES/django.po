@@ -14,10 +14,6 @@ msgstr ""
 "X-Generator: Poedit 2.4.2\n"
 
 #: fahrt/forms.py
-msgid "I accept the terms and conditions of the following privacy policy:"
-msgstr "Ich stimme der folgenden Datenschutzerklärung zu:"
-
-#: fahrt/forms.py
 msgid "This field is required if you have a car"
 msgstr "Dieses Feld muss ausgefüllt werden wenn du ein Auto hast"
 
@@ -640,6 +636,9 @@ msgid ""
 msgstr ""
 "Konnte die Registrierungs-Email nicht senden. Bitte vergewissere dich, das "
 "diese richtig konfiguirert ist"
+
+#~ msgid "I accept the terms and conditions of the following privacy policy:"
+#~ msgstr "Ich stimme der folgenden Datenschutzerklärung zu:"
 
 #~ msgid "Email subject"
 #~ msgstr "E-Mail Betreff"

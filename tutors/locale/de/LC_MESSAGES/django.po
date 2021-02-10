@@ -22,10 +22,6 @@ msgid "The matriculation number is already in use."
 msgstr "Die Matrikelnummer ist bereits in Verwendung."
 
 #: tutors/forms.py
-msgid "I accept the terms and conditions of the following privacy policy:"
-msgstr "Ich stimme der folgenden Datenschutzerklärung zu:"
-
-#: tutors/forms.py
 msgid "Begin time must be before end time."
 msgstr "Der Startzeitpunkt muss vor dem Endzeitpunkt liegen."
 
@@ -883,6 +879,9 @@ msgid ""
 msgstr ""
 "Konnte keine email an {tutor.first_name} {tutor.last_name} ({tutor.email}) "
 "senden."
+
+#~ msgid "I accept the terms and conditions of the following privacy policy:"
+#~ msgstr "Ich stimme der folgenden Datenschutzerklärung zu:"
 
 #~ msgid "Master"
 #~ msgstr "Master"

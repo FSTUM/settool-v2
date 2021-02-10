@@ -2,7 +2,7 @@ from bootstrap_datepicker_plus import DatePickerInput, DateTimePickerInput
 from django import forms
 from django.utils.translation import ugettext_lazy as _
 
-from settool_common.forms import SemesterBasedForm, SemesterBasedModelForm
+from settool_common.forms import CommonParticipantForm, SemesterBasedForm, SemesterBasedModelForm
 from settool_common.models import Mail, Subject
 from tutors.models import (
     Answer,
@@ -48,12 +48,7 @@ class TutorAdminForm(SemesterBasedModelForm):
                 )
 
 
-class TutorForm(TutorAdminForm):
-    dsgvo = forms.BooleanField(
-        required=True,
-        label=_("I accept the terms and conditions of the following privacy policy:"),
-    )
-
+class TutorForm(TutorAdminForm, CommonParticipantForm):
     class Meta:
         model = Tutor
         exclude = ["semester", "status", "registration_time", "answers"]
@@ -63,35 +58,13 @@ class TutorForm(TutorAdminForm):
 
     field_order = ["first_name", "last_name", "email", "ects", "birthday", "matriculation_number"]
 
-    def save(self, commit=True):
-        instance = super().save(False)
-        instance.save()
-
-        if "answers" in self.changed_data:
-            final_answers = self.cleaned_data["answers"].all()
-            initial_answers = self.initial["answers"] if "answers" in self.initial else []
-
-            # create and save new members
-            for answer in final_answers:
-                if answer not in initial_answers:
-                    instance.answers.add(answer)
-
-            # delete old members that were removed from the form
-            for answer in initial_answers:
-                if answer not in final_answers:
-                    instance.answers.remove(answer)
-        return instance
-
     def clean(self):
         super().clean()
         ects = self.cleaned_data.get("ects")
 
         if ects:
             self.validate_required_field(cleaned_data=self.cleaned_data, field_name="birthday")
-            self.validate_required_field(
-                cleaned_data=self.cleaned_data,
-                field_name="matriculation_number",
-            )
+            self.validate_required_field(cleaned_data=self.cleaned_data, field_name="matriculation_number")
         else:
             self.cleaned_data["birthday"] = None
             self.cleaned_data["matriculation_number"] = None

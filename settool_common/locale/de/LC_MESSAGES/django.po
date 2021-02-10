@@ -30,6 +30,10 @@ msgstr ""
 "Lade eine CSV-Datei im exel-Format hoch. (Spalten-ordnung: sender,subject,"
 "text,comment. Die erste Zeile ist der header.)"
 
+#: settool_common/forms.py
+msgid "I accept the terms and conditions of the following privacy policy:"
+msgstr "Ich stimme der folgenden Datenschutzerklärung zu:"
+
 #: settool_common/models.py
 msgid "SET"
 msgstr "SET"

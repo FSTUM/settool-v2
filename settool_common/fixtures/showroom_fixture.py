@@ -442,7 +442,7 @@ def _generate_tutors(semesters, subjects):  # nosec: this is only used in a fixt
             tshirt_size=random.choice(tutors.models.Tutor.TSHIRT_SIZES)[0],
             tshirt_girls_cut=random.randint(0, 1) == 1,
             status=random.choice(tutors.models.Tutor.STATUS_OPTIONS)[0],
-            matriculation_number=f"{i:07d}",
+            matriculation_number=f"{i:08d}",
             birthday=generate_random_birthday(),
         )
         tutors_ret.append(tutor)

@@ -4,17 +4,12 @@ from bootstrap_datepicker_plus import DateTimePickerInput
 from django import forms
 from django.utils.translation import ugettext_lazy as _
 
-from settool_common.forms import SemesterBasedModelForm
+from settool_common.forms import CommonParticipantForm, SemesterBasedForm, SemesterBasedModelForm
 
 from .models import Participant, Setting, Tour, TourMail
 
 
-class ParticipantForm(forms.ModelForm):
-    dsgvo = forms.BooleanField(
-        required=True,
-        label=_("I accept the terms and conditions of the following privacy policy:"),
-    )
-
+class ParticipantForm(CommonParticipantForm):
     class Meta:
         model = Participant
         exclude = ["time"]
@@ -25,7 +20,7 @@ class ParticipantForm(forms.ModelForm):
         self.fields["tour"].queryset = tours
 
 
-class TourForm(forms.ModelForm):
+class TourForm(SemesterBasedModelForm):
     class Meta:
         model = Tour
         exclude = ["semester"]
@@ -35,28 +30,11 @@ class TourForm(forms.ModelForm):
             "close_registration": DateTimePickerInput(format="%Y-%m-%d %H:%M"),
         }
 
-    def __init__(self, *args, **kwargs):
-        self.semester = kwargs.pop("semester")
-        super().__init__(*args, **kwargs)
-
-    def save(self, commit=True):
-        instance = super().save(False)
-        instance.semester = self.semester
-        if commit:
-            instance.save()
-        return instance
-
 
 class MailForm(forms.ModelForm):
     class Meta:
         model = TourMail
         exclude: List[str] = []
-
-    def save(self, commit=True):
-        instance = super().save(False)
-        if commit:
-            instance.save()
-        return instance
 
 
 class SelectMailForm(forms.Form):
@@ -66,7 +44,7 @@ class SelectMailForm(forms.Form):
     )
 
 
-class FilterParticipantsForm(forms.Form):
+class FilterParticipantsForm(SemesterBasedForm):
     search = forms.CharField(
         label=_("Search pattern"),
         required=False,
@@ -89,15 +67,12 @@ class FilterParticipantsForm(forms.Form):
     )
 
     def __init__(self, *args, **kwargs):
-        semester = kwargs.pop("semester")
         super().__init__(*args, **kwargs)
-
-        self.fields["tour"].queryset = semester.tour_set
+        self.fields["tour"].queryset = self.semester.tour_set
 
 
 class SelectParticipantForm(forms.Form):
     id = forms.IntegerField()
-
     selected = forms.BooleanField(required=False)
 
 

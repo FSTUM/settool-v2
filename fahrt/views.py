@@ -554,7 +554,7 @@ def filtered_list(request: WSGIRequest) -> HttpResponse:
         id__in=filtered_participants,
     ).order_by("surname")
 
-    form = SelectMailForm(request.POST or None, semester=semester)
+    form = SelectMailForm(request.POST or None)
     select_participant_form_set = formset_factory(
         SelectParticipantForm,
         extra=0,

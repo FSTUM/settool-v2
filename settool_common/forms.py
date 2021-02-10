@@ -31,14 +31,9 @@ class MailForm(forms.ModelForm):
 
 class SelectMailForm(forms.Form):
     mail = forms.ModelChoiceField(
-        queryset=None,
+        queryset=Mail.objects.all(),
         label=_("Email template:"),
     )
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-
-        self.fields["mail"].queryset = Mail.objects.all()
 
 
 class CSVFileUploadForm(forms.Form):
@@ -48,4 +43,11 @@ class CSVFileUploadForm(forms.Form):
             "Upload a csv-file in exel-formatting. "
             "(Column-order: sender,subject,text,comment. First line is header.)",
         ),
+    )
+
+
+class CommonParticipantForm(SemesterBasedModelForm):
+    dsgvo = forms.BooleanField(
+        label=_("I accept the terms and conditions of the following privacy policy:"),
+        required=True,
     )

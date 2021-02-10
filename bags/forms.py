@@ -3,46 +3,30 @@ from typing import List
 from django import forms
 from django.utils.translation import ugettext_lazy as _
 
+from settool_common.forms import SemesterBasedForm, SemesterBasedModelForm
 from settool_common.models import Semester
 from settool_common.utils import produce_field_with_autosubmit
 
 from .models import BagMail, Company
 
 
-class CompanyForm(forms.ModelForm):
+class CompanyForm(SemesterBasedModelForm):
     class Meta:
         model = Company
         exclude = ["semester"]
 
-    def __init__(self, *args, **kwargs):
-        self.semester = kwargs.pop("semester")
-        super().__init__(*args, **kwargs)
 
-    def save(self, commit=True):
-        instance = super().save(False)
-        instance.semester = self.semester
-        if commit:
-            instance.save()
-        return instance
-
-
-class GiveawayForm(forms.Form):
+class GiveawayForm(SemesterBasedForm):
     company = forms.ModelChoiceField(
         queryset=None,
         label=_("Company"),
     )
 
-    giveaways = forms.CharField(
-        label=_("Giveaways"),
-    )
+    giveaways = forms.CharField(label=_("Giveaways"))
 
     def __init__(self, *args, **kwargs):
-        semester = kwargs.pop("semester")
         super().__init__(*args, **kwargs)
-
-        self.fields["company"].queryset = semester.company_set.filter(
-            giveaways="",
-        ).order_by("name")
+        self.fields["company"].queryset = self.semester.company_set.filter(giveaways="").order_by("name")
 
 
 class MailForm(forms.ModelForm):
@@ -50,26 +34,12 @@ class MailForm(forms.ModelForm):
         model = BagMail
         exclude: List[str] = []
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-
-    def save(self, commit=True):
-        instance = super().save(False)
-        if commit:
-            instance.save()
-        return instance
-
 
 class SelectMailForm(forms.Form):
     mail = forms.ModelChoiceField(
-        queryset=None,
+        queryset=BagMail.objects.all(),
         label=_("Email template:"),
     )
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-
-        self.fields["mail"].queryset = BagMail.objects.all()
 
 
 def produce_boolean_field_with_autosubmit(label):
@@ -95,8 +65,8 @@ class SelectCompanyForm(forms.Form):
     )
 
 
-class ImportForm(forms.Form):
-    semester = forms.ModelChoiceField(
+class ImportForm(SemesterBasedForm):
+    old_semester = forms.ModelChoiceField(
         queryset=None,
         label=_("Import from semester"),
     )
@@ -110,15 +80,11 @@ class ImportForm(forms.Form):
     )
 
     def __init__(self, *args, **kwargs):
-        semester = kwargs.pop("semester")
         super().__init__(*args, **kwargs)
-
-        self.fields["semester"].queryset = Semester.objects.exclude(pk=semester.pk)
+        self.fields["old_semester"].queryset = Semester.objects.exclude(pk=self.semester.pk)
 
 
 class UpdateFieldForm(forms.Form):
     pk = forms.IntegerField()
-
     name = forms.CharField()
-
     value = forms.CharField()
