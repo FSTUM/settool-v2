@@ -20,6 +20,7 @@ from settool_common.models import get_semester, Semester, Subject
 from .forms import (
     FahrtForm,
     FilterParticipantsForm,
+    FilterRegisteredParticipantsForm,
     MailForm,
     ParticipantAdminForm,
     ParticipantForm,
@@ -163,14 +164,52 @@ def list_waitinglist(request: WSGIRequest) -> HttpResponse:
     return render(request, "fahrt/participants/list_waitinglist.html", context)
 
 
-@permission_required("fahrt.view_participants")
-def list_confirmed(request: WSGIRequest) -> HttpResponse:
-    semester = get_object_or_404(Semester, pk=get_semester(request))
+def get_possibly_filtered_participants(filterform, semester):
     participants = semester.fahrt_participant.filter(status="confirmed").order_by(
         "payment_deadline",
         "surname",
         "firstname",
     )
+    if filterform.is_valid():
+        non_liability = filterform.cleaned_data["non_liability"]
+        if non_liability is not None:
+            participants = participants.filter(non_liability__isnull=not non_liability)
+
+        car = filterform.cleaned_data["car"]
+        if car is not None:
+            participants = participants.filter(car=car)
+
+        paid = filterform.cleaned_data["paid"]
+        if paid is not None:
+            participants = participants.filter(paid__isnull=not paid)
+
+        payment_deadline = filterform.cleaned_data["payment_deadline"]
+        if payment_deadline:
+            participants = participants.filter(
+                payment_deadline__lt=timezone.now().date(),
+            )
+        elif payment_deadline is False:
+            participants = participants.filter(
+                payment_deadline__ge=timezone.now().date(),
+            )
+
+        mailinglist = filterform.cleaned_data["mailinglist"]
+        if mailinglist is not None:
+            participants = participants.filter(mailinglist=mailinglist)
+
+        u18 = filterform.cleaned_data["u18"]
+        if u18 is None:
+            return participants
+        participants_id = [p.id for p in participants if p.u18 == u18]
+        participants.filter(id__in=participants_id)
+    return participants
+
+
+@permission_required("fahrt.view_participants")
+def list_confirmed(request: WSGIRequest) -> HttpResponse:
+    semester = get_object_or_404(Semester, pk=get_semester(request))
+    filterform = FilterRegisteredParticipantsForm(request.POST or None)
+    participants = get_possibly_filtered_participants(filterform, semester)
 
     u18s: int = sum(p.u18 for p in participants)
     allergies = participants.exclude(allergies="").count()
@@ -182,6 +221,7 @@ def list_confirmed(request: WSGIRequest) -> HttpResponse:
     places = participants.filter(car=True).aggregate(places=Sum("car_places"))["places"] or 0
 
     context = {
+        "filterform": filterform,
         "nutritions": get_nutritunal_information(participants, semester),
         "participants": participants,
         "number": number,

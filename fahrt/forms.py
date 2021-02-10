@@ -6,6 +6,8 @@ from django import forms
 from django.core.exceptions import ValidationError
 from django.utils.translation import ugettext_lazy as _
 
+from settool_common.forms import SemesterBasedModelForm
+from settool_common.utils import produce_field_with_autosubmit
 from .models import Fahrt, FahrtMail, Participant
 
 
@@ -106,9 +108,18 @@ class SelectMailForm(forms.Form):
         label=_("Email template:"),
     )
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.fields["mail"].queryset = FahrtMail.objects.all()
+
+def produce_nullboolean_field_with_autosubmit(label):
+    return produce_field_with_autosubmit(forms.NullBooleanField, label)
+
+
+class FilterRegisteredParticipantsForm(forms.Form):
+    non_liability = produce_nullboolean_field_with_autosubmit(_("Non-liability submitted"))
+    u18 = produce_nullboolean_field_with_autosubmit(_("Under 18"))
+    car = produce_nullboolean_field_with_autosubmit(_("With car"))
+    paid = produce_nullboolean_field_with_autosubmit(_("Paid"))
+    payment_deadline = produce_nullboolean_field_with_autosubmit(_("Payment deadline over"))
+    mailinglist = produce_nullboolean_field_with_autosubmit(_("On mailinglist"))
 
 
 class FilterParticipantsForm(forms.Form):

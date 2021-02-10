@@ -82,3 +82,13 @@ def get_mocked_logged_in_client():
     client.session[SEMESTER_SESSION_KEY] = 2  # pk=2 ^= SS 21
     client.session.save()
     return client
+
+
+def produce_field_with_autosubmit(field_class, label):
+    tmp = field_class(
+        label=label,
+        required=False,
+    )
+
+    tmp.widget.attrs["onchange"] = "document.getElementById('filterform').submit()"
+    return tmp

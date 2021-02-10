@@ -4,6 +4,7 @@ from django import forms
 from django.utils.translation import ugettext_lazy as _
 
 from settool_common.models import Semester
+from settool_common.utils import produce_field_with_autosubmit
 
 from .models import BagMail, Company
 
@@ -72,13 +73,7 @@ class SelectMailForm(forms.Form):
 
 
 def produce_boolean_field_with_autosubmit(label):
-    tmp = forms.BooleanField(
-        label_suffix=label,
-        required=False,
-    )
-
-    tmp.widget.attrs["onchange"] = "document.getElementById('filterform').submit()"
-    return tmp
+    return produce_field_with_autosubmit(forms.BooleanField, label)
 
 
 class FilterCompaniesForm(forms.Form):

@@ -33,10 +33,6 @@ msgstr "Du kannst nicht in der Zukunft geboren worden sein."
 msgid "Email template:"
 msgstr "E-Mail-Vorlage:"
 
-#: fahrt/forms.py
-msgid "Search pattern:"
-msgstr "Schlagwort:"
-
 #: fahrt/forms.py fahrt/models.py
 #: fahrt/templates/fahrt/participants/list_confirmed.html
 #: fahrt/templates/fahrt/participants/view_participant_details.html
@@ -63,6 +59,10 @@ msgstr "Zahlungsfrist vorbei"
 #: fahrt/forms.py
 msgid "On mailinglist"
 msgstr "Auf Mailingliste"
+
+#: fahrt/forms.py
+msgid "Search pattern:"
+msgstr "Schlagwort:"
 
 #: fahrt/forms.py fahrt/models.py
 #: fahrt/templates/fahrt/mail/list_filtered_participants_send_mail.html
@@ -494,6 +494,10 @@ msgstr "Ernährungsinformationen über die Teilnehmen"
 #: fahrt/templates/fahrt/participants/list_confirmed.html
 msgid "Count"
 msgstr "Anzahl"
+
+#: fahrt/templates/fahrt/participants/list_confirmed.html
+msgid "Availible Filters"
+msgstr "Zur verfügung stehenden Filter"
 
 #: fahrt/templates/fahrt/participants/list_confirmed.html
 #, fuzzy

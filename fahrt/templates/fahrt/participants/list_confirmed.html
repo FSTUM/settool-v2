@@ -50,6 +50,17 @@
 </div>
 <div class='row'>
     <div class='col-sm p-1'>
+        <button
+            class="btn btn-secondary btn-block"
+            type="button"
+            data-toggle="collapse"
+            data-target="#collapseFilters"
+            aria-expanded="false"
+            aria-controls="collapseFilters"
+        >{% trans "Availible Filters" %}
+        </button>
+    </div>
+    <div class='col-sm p-1'>
         <a
             class='btn btn-secondary btn-block'
             href="{% url "fahrt_export" "csv" %}"
@@ -62,6 +73,22 @@
         >{% trans "Export confired participants as PDF" %} <span class="bi bi-file-earmark-person-fill"></span></a>
     </div>
 </div>
+
+
+<div
+    class="collapse"
+    id="collapseFilters"
+>
+    <form
+        id="filterform"
+        method="post"
+        action=""
+    >
+        {% csrf_token %}
+        {% bootstrap_form filterform %}
+    </form>
+</div>
+
 <h4 class='card-title'>{% trans "Participants" %}</h4>
 <div class="table-responsive mt-3">
     <table
