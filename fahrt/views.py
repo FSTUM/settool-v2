@@ -288,11 +288,7 @@ def delete(request: WSGIRequest, participant_pk: int) -> HttpResponse:
 @permission_required("fahrt.view_participants")
 def toggle_mailinglist(request: WSGIRequest, participant_pk: int) -> HttpResponse:
     participant = get_object_or_404(Participant, pk=participant_pk)
-    Participant.objects.filter(pk=participant_pk).update(
-        mailinglist=(not participant.mailinglist),
-    )
-    participant = get_object_or_404(Participant, pk=participant_pk)
-    participant.toggle_mailinglist()  # TODO does nothing
+    participant.toggle_mailinglist()
     participant.log(request.user, "Toggle mailinglist")
 
     return redirect("fahrt_viewparticipant", participant.id)

@@ -246,8 +246,9 @@ class Participant(models.Model):
             return False
         return self.payment_deadline < datetime.date.today() + datetime.timedelta(days=7)
 
-    def toggle_mailinglist(self):
-        pass  # not implemented
+    def toggle_mailinglist(self) -> None:
+        self.mailinglist = not self.mailinglist
+        self.save()
 
     # def set_payment_deadline(self, weeks):
     #    today = date.today()
