@@ -258,9 +258,7 @@
     /* eslint-disable no-unused-vars */
     const assignTutor = (id) => {
         // form, to be submitted to django; selected will be kept.
-        const el = $(`select[multiple][name="tutors"] option[value="${id}"]`);
-        el.prop('selected', true);
-        el.change();
+        $(`select[multiple][name="tutors"] option[value="${id}"]`).attr('selected', true);
 
         // tutor-ssignent-button
         const src = $(`#tutor_${id}`);
@@ -272,7 +270,6 @@
         // move to assigned tutors and change the table row to red
         const row = src.closest('tr');
         if (!initialValues.includes(id)) {
-            // TODO: Figure out if the first code path is ever triggered.
             $(row).addClass('table-success');
         } else {
             $(row).removeClass('table-danger');
@@ -283,9 +280,7 @@
     /* eslint-disable no-unused-vars */
     const unassignTutor = (id) => {
         // form, to be submitted to django; selected will be kept.
-        const el = $(`select[multiple][name="tutors"] option[value="${id}"]`);
-        el.prop('selected', false);
-        el.change();
+        $(`select[multiple][name="tutors"] option[value="${id}"]`).removeAttr('selected');
 
         // tutor-unassignent-button
         const src = $(`#tutor_${id}`);
@@ -297,7 +292,6 @@
         // move to assigned tutors and remove the tables red row-collor
         const row = src.closest('tr');
         if (initialValues.includes(id)) {
-            // TODO: Figure out if the first code path is ever triggered.
             $(row).addClass('table-danger');
         } else {
             $(row).removeClass('table-success');

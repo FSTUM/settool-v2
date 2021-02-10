@@ -216,7 +216,7 @@ class TaskAssignmentForm(SemesterBasedModelForm):
         fields = ["tutors"]
 
     def save(self, commit=True):
-        instance = super().save(False)
+        instance: Task = super().save(commit=False)
         if "tutors" in self.changed_data:
             final_tutors = self.cleaned_data["tutors"].all()
             initial_tutors = self.initial["tutors"] if "tutors" in self.initial else []
@@ -229,7 +229,7 @@ class TaskAssignmentForm(SemesterBasedModelForm):
             # delete old members that were removed from the form
             for tutor in initial_tutors:
                 if tutor not in final_tutors:
-                    TutorAssignment.objects.filter(tutor=tutor, task=instance).delete()
+                    TutorAssignment.objects.get(tutor=tutor, task=instance).delete()
 
 
 class RequirementAdminForm(SemesterBasedModelForm):

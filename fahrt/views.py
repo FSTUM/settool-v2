@@ -172,15 +172,12 @@ def list_confirmed(request: WSGIRequest) -> HttpResponse:
         "firstname",
     )
 
-    u18s = [p for p in participants if p.u18]
+    u18s: int = sum(p.u18 for p in participants)
     allergies = participants.exclude(allergies="").count()
 
     number = participants.count()
     num_women = participants.filter(gender="female").count()
-    if number == 0:
-        proportion_of_women = 0
-    else:
-        proportion_of_women = int(num_women * 1.0 / number * 100)
+    proportion_of_women = int(num_women * 1.0 / number * 100) if number != 0 else 0
 
     places = participants.filter(car=True).aggregate(places=Sum("car_places"))["places"] or 0
 
@@ -188,13 +185,11 @@ def list_confirmed(request: WSGIRequest) -> HttpResponse:
         "nutritions": get_nutritunal_information(participants, semester),
         "participants": participants,
         "number": number,
-        "non_liability": participants.filter(
-            non_liability__isnull=False,
-        ).count(),
+        "non_liability": participants.filter(non_liability__isnull=False).count(),
         "paid": participants.filter(paid__isnull=False).count(),
         "places": places,
         "cars": participants.filter(car=True).count(),
-        "u18s": len(u18s),
+        "u18s": u18s,
         "allergies": allergies,
         "num_women": num_women,
         "proportion_of_women": proportion_of_women,
@@ -206,18 +201,14 @@ def get_nutritunal_information(
     participants: QuerySet[Participant],
     semester: Semester,
 ) -> List[Dict[str, object]]:
-    nutrition_choices = [
-        choice["nutrition"]
-        for choice in semester.fahrt_participant.filter(status="confirmed").values("nutrition").distinct()
-    ]
+    nutritions = semester.fahrt_participant.filter(status="confirmed").values("nutrition").distinct()
+    nutrition_choices = [choice["nutrition"] for choice in nutritions]
     return [
-        (
-            {
-                "name": choice,
-                "count": str(participants.filter(nutrition=choice).count()),
-                "allergies": participants.filter(nutrition=choice).exclude(allergies="").values("allergies"),
-            }
-        )
+        {
+            "name": choice,
+            "count": str(participants.filter(nutrition=choice).count()),
+            "allergies": participants.filter(nutrition=choice).exclude(allergies="").values("allergies"),
+        }
         for choice in nutrition_choices
     ]
 

@@ -18,4 +18,3 @@ disable=print-statement,
         modelform-uses-exclude, # usage of exclude is sometimes valid.
         bad-continuation, #gives weird unreproducible bugs in ci but not locally
         fixme, # prevents users from committing things with a TODO in comments. Having more frequent commits is desirable
-        duplicate-code # Triggers mostly in Models, TODO for another time
