@@ -1,5 +1,5 @@
 import time
-from typing import Any, Dict
+from typing import Any, Dict, Optional
 
 from django import forms
 from django.contrib import messages
@@ -144,9 +144,9 @@ def filter_participants(request: WSGIRequest) -> HttpResponse:
     )
 
     if filterform.is_valid():
-        search = filterform.cleaned_data["search"]
-        on_the_tour = filterform.cleaned_data["on_the_tour"]
-        tour = filterform.cleaned_data["tour"]
+        search: str = filterform.cleaned_data["search"]
+        on_the_tour: str = filterform.cleaned_data["on_the_tour"]
+        tour: Optional[Tour] = filterform.cleaned_data["tour"]
 
         if search:
             participants = participants.filter(
@@ -160,11 +160,12 @@ def filter_participants(request: WSGIRequest) -> HttpResponse:
 
         if tour is not None:
             participants = participants.filter(tour=tour)
-        filtered_participants = [p.id for p in participants]
-        if on_the_tour:
+        if on_the_tour == "True":
             filtered_participants = [p.id for p in participants if p.on_the_tour]
-        elif on_the_tour is False:
+        elif on_the_tour == "False":
             filtered_participants = [p.id for p in participants if not p.on_the_tour]
+        else:  # on_the_tour == "":
+            filtered_participants = [p.id for p in participants]
 
         request.session["filtered_participants"] = filtered_participants
         return redirect("tours_filteredparticipants")
