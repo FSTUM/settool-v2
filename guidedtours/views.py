@@ -319,7 +319,7 @@ def signup(request: WSGIRequest) -> HttpResponse:
         context: Dict[str, Any] = {"semester": semester}
         return render(request, "guidedtours/signup/signup_notour.html", context)
 
-    form = ParticipantForm(request.POST or None, tours=tours)
+    form = ParticipantForm(request.POST or None, tours=tours, semester=semester)
     if form.is_valid():
         participant: Participant = form.save()
         if settings.mail_registration:
@@ -358,7 +358,7 @@ def signup_internal(request: WSGIRequest) -> HttpResponse:
     if not tours:
         return redirect("tours_add")
 
-    form = ParticipantForm(request.POST or None, tours=tours)
+    form = ParticipantForm(request.POST or None, tours=tours, semester=semester)
     if form.is_valid():
         participant: Participant = form.save()
         if settings.mail_registration:

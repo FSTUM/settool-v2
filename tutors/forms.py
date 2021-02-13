@@ -48,13 +48,18 @@ class TutorAdminForm(SemesterBasedModelForm):
                 )
 
 
-class TutorForm(TutorAdminForm, CommonParticipantForm):
+class TutorForm(CommonParticipantForm):
     class Meta:
         model = Tutor
         exclude = ["semester", "status", "registration_time", "answers"]
         widgets = {
             "birthday": DatePickerInput(format="%Y-%m-%d"),
         }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields["birthday"].required = False
+        self.fields["matriculation_number"].required = False
 
     field_order = ["first_name", "last_name", "email", "ects", "birthday", "matriculation_number"]
 

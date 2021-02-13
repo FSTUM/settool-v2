@@ -29,7 +29,7 @@ class ParticipantAdminForm(SemesterBasedModelForm):
         exclude = ["semester", "registration_time"]
 
 
-class ParticipantForm(ParticipantAdminForm, CommonParticipantForm):
+class ParticipantForm(CommonParticipantForm):
     class Meta:
         model = Participant
         exclude = [
