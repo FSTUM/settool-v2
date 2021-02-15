@@ -50,7 +50,7 @@ def tutor_signup(request: WSGIRequest) -> HttpResponse:
     semester = get_object_or_404(Semester, pk=get_semester(request))
     settings = get_object_or_404(Settings, semester=semester)
 
-    if not settings.open_registration < timezone.now() < settings.close_registration:
+    if not settings.registration_open():
         return render(
             request,
             "tutors/standalone/tutor_signup/registration_closed.html",
@@ -115,7 +115,7 @@ def collaborator_signup(request: WSGIRequest) -> HttpResponse:
     semester = get_object_or_404(Semester, pk=get_semester(request))
     settings = get_object_or_404(Settings, semester=semester)
 
-    if not settings.open_registration < timezone.now() < settings.close_registration:
+    if not settings.registration_open():
         return render(
             request,
             "tutors/standalone/collaborator_signup/registration_closed.html",
