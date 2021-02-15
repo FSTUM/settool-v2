@@ -75,14 +75,15 @@ class Settings(BaseModel):
         TutorMail,
         verbose_name=_("Mail Registration"),
         related_name="tutors_mail_registration",
-        on_delete=models.CASCADE,
+        on_delete=models.SET_NULL,  # can be deleted, but can not be ignored in the Settings :)
+        null=True,
     )
 
     mail_confirmed_place = models.ForeignKey(
         TutorMail,
         verbose_name=_("Mail Confirmed Place"),
         related_name="tutors_mail_confirmed_place",
-        on_delete=models.CASCADE,
+        on_delete=models.SET_NULL,
         null=True,
         blank=True,
     )
@@ -91,7 +92,7 @@ class Settings(BaseModel):
         TutorMail,
         verbose_name=_("Mail Waiting List"),
         related_name="tutors_mail_waiting_list",
-        on_delete=models.CASCADE,
+        on_delete=models.SET_NULL,
         null=True,
         blank=True,
     )
@@ -100,7 +101,7 @@ class Settings(BaseModel):
         TutorMail,
         verbose_name=_("Mail Declined Place"),
         related_name="tutors_mail_declined_place",
-        on_delete=models.CASCADE,
+        on_delete=models.SET_NULL,
         null=True,
         blank=True,
     )
@@ -109,7 +110,7 @@ class Settings(BaseModel):
         TutorMail,
         verbose_name=_("Mail Task"),
         related_name="tutors_mail_task",
-        on_delete=models.CASCADE,
+        on_delete=models.SET_NULL,
         null=True,
         blank=True,
     )

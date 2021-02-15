@@ -860,6 +860,20 @@ msgstr "E-Mail Log"
 
 #: tutors/views.py
 #, python-brace-format
+msgid ""
+"We did not configure a mail to send to you in case you registered. Please "
+"Contact {mail} and tell us about this error. We are verry sorry about this "
+"inconvinience. To make up for it cute cat-images: https://imgur.com/"
+"gallery/3OMii"
+msgstr ""
+"Es tut uns leid, aber wir haben keine Mail konfiguriert, die wir dir senden "
+"wollen/müssen falls du dich registiert hast. Bitte kontaktiere {mail} und "
+"erzähle uns von diesem Error. Wir entschuldigen uns für diese "
+"Unannehmlichkeiten. Als Ausgleich sind hier ein paar süße Katzenbilder: "
+"https://imgur.com/gallery/3OMii"
+
+#: tutors/views.py
+#, python-brace-format
 msgid "Could not send email. If this error persists send a mail to {mail}"
 msgstr ""
 "Konnte Email nicht senden. Falls dieser Fehler weiterhin besteht sende bitte "

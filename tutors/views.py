@@ -63,6 +63,16 @@ def tutor_signup(request: WSGIRequest) -> HttpResponse:
     answer_formset = generate_answer_formset(request, semester)
     form = TutorForm(request.POST or None, semester=semester)
     if form.is_valid() and answer_formset.is_valid():
+        if settings.mail_registration is None:
+            messages.error(
+                request,
+                _(
+                    "We did not configure a mail to send to you in case you registered. Please Contact {mail} and "
+                    "tell us about this error. We are verry sorry about this inconvinience. To make up for it cute "
+                    "cat-images: https://imgur.com/gallery/3OMii",
+                ).format(mail=TutorMail.SET_TUTOR),
+            )
+            return redirect("tutor_signup")
         tutor = form.save()
         tutor.log(None, "Signed up")
         save_answer_formset(answer_formset, tutor.id)
