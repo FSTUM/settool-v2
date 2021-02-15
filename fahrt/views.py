@@ -1,6 +1,6 @@
 import time
 from datetime import date, timedelta
-from typing import Dict, List
+from typing import Dict, List, Optional
 
 from django import forms
 from django.contrib import messages
@@ -258,8 +258,7 @@ def get_nutritunal_information(
 
 @permission_required("fahrt.view_participants")
 def list_cancelled(request: WSGIRequest) -> HttpResponse:
-    sem = get_semester(request)
-    semester = get_object_or_404(Semester, pk=sem)
+    semester = get_object_or_404(Semester, pk=get_semester(request))
     participants = semester.fahrt_participant.filter(status="cancelled").order_by("surname")
 
     context = {
@@ -408,27 +407,29 @@ def cancel(request: WSGIRequest, participant_pk: int) -> HttpResponse:
 
 
 def signup(request: WSGIRequest) -> HttpResponse:
-    sem = get_semester(request)
-    semester = get_object_or_404(Semester, pk=sem)
-
+    semester = get_object_or_404(Semester, pk=get_semester(request))
     try:
         fahrt = semester.fahrt
     except ObjectDoesNotExist:
-        registration_open = False
-    else:
-        registration_open = fahrt.registration_open
-
-    if not registration_open:
         return render(request, "fahrt/standalone/registration_closed.html")
+    else:
+        if not fahrt.registration_open:
+            return render(request, "fahrt/standalone/registration_closed.html")
 
     form = ParticipantForm(request.POST or None, semester=semester)
     if form.is_valid():
         participant: Participant = form.save()
         participant.log(None, "Signed up")
-        mail = participant.semester.fahrt.mail_registration
+        mail = fahrt.mail_registration
         if mail:
-            non_liability = get_non_liability(participant.pk)
-            if not mail.send_mail_registration(participant, non_liability):
+            non_liability: Optional[HttpResponse] = None
+            try:
+                non_liability = get_non_liability(participant.pk)
+            except Http404:
+                error: bool = True
+            else:
+                error = False
+            if error or non_liability is None or not mail.send_mail_registration(participant, non_liability):
                 messages.error(
                     request,
                     _(
@@ -449,6 +450,12 @@ def signup(request: WSGIRequest) -> HttpResponse:
 @permission_required("fahrt.view_participants")
 def signup_internal(request: WSGIRequest) -> HttpResponse:
     semester = get_object_or_404(Semester, pk=get_semester(request))
+
+    try:
+        semester.fahrt
+    except ObjectDoesNotExist:
+        messages.error(request, _("Please setup the SETtings for the Fahrt"))
+        return redirect("fahrt_date")
 
     form = ParticipantForm(request.POST or None, semester=semester)
     if form.is_valid():
@@ -701,7 +708,7 @@ def change_date(request: WSGIRequest) -> HttpResponse:
     form = FahrtForm(request.POST or None, instance=fahrt)
     if form.is_valid():
         form.save()
-        return redirect("fahrt_date")
+        return redirect("fahrt_index")
 
     context = {
         "form": form,
@@ -712,8 +719,12 @@ def change_date(request: WSGIRequest) -> HttpResponse:
 @permission_required("fahrt.view_participants")
 def export(request: WSGIRequest, file_format: str = "csv") -> HttpResponse:
     semester: Semester = get_object_or_404(Semester, pk=get_semester(request))
+    try:
+        fahrt = semester.fahrt
+    except ObjectDoesNotExist:
+        messages.error(request, _("Please setup the SETtings for the Fahrt"))
+        return redirect("fahrt_date")
     participants = semester.fahrt_participant.order_by("surname", "firstname")
-    fahrt: Fahrt = semester.fahrt
     filename = f"fahrt_participants_{fahrt.semester}_{fahrt.date}_{time.strftime('%Y%m%d-%H%M')}"
     context = {"participants": participants, "fahrt": fahrt}
     if file_format == "csv":

@@ -633,6 +633,10 @@ msgstr ""
 "deinen Haftungsausschluss zu bekommen. "
 
 #: fahrt/views.py
+msgid "Please setup the SETtings for the Fahrt"
+msgstr "Bitte konfiguriere die Einstellungen für die Fahrt"
+
+#: fahrt/views.py
 msgid ""
 "Could not send the registration email. Make shure you configured the "
 "Registration-Mail."
