@@ -84,10 +84,11 @@ def get_mocked_logged_in_client():
     return client
 
 
-def produce_field_with_autosubmit(field_class, label):
+def produce_field_with_autosubmit(field_class, label, **kwargs):
     tmp = field_class(
         label=label,
         required=False,
+        **kwargs,
     )
 
     tmp.widget.attrs["onchange"] = "document.getElementById('filterform').submit()"

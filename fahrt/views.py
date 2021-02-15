@@ -174,6 +174,9 @@ def get_possibly_filtered_participants(filterform, semester):
         non_liability = filterform.cleaned_data["non_liability"]
         if non_liability is not None:
             participants = participants.filter(non_liability__isnull=not non_liability)
+        subject = filterform.cleaned_data["subject"]
+        if subject is not None:
+            participants = participants.filter(subject=subject)
 
         car = filterform.cleaned_data["car"]
         if car is not None:
@@ -208,7 +211,7 @@ def get_possibly_filtered_participants(filterform, semester):
 @permission_required("fahrt.view_participants")
 def list_confirmed(request: WSGIRequest) -> HttpResponse:
     semester = get_object_or_404(Semester, pk=get_semester(request))
-    filterform = FilterRegisteredParticipantsForm(request.POST or None)
+    filterform = FilterRegisteredParticipantsForm(request.POST or None, semester=semester)
     participants = get_possibly_filtered_participants(filterform, semester)
 
     u18s: int = sum(p.u18 for p in participants)

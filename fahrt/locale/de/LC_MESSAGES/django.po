@@ -50,6 +50,14 @@ msgstr "Zahlungsfrist vorbei"
 msgid "On mailinglist"
 msgstr "Auf Mailingliste"
 
+#: fahrt/forms.py fahrt/models.py fahrt/templates/fahrt/mail/del_mail.html
+#: fahrt/templates/fahrt/mail/index_mails.html
+#: fahrt/templates/fahrt/mail/send_mail.html
+#: fahrt/templates/fahrt/mail/send_mail_failure.html
+#: fahrt/templates/fahrt/participants/view_participant_details.html
+msgid "Subject"
+msgstr "Betreff"
+
 #: fahrt/forms.py
 msgid "Search pattern:"
 msgstr "Schlagwort:"
@@ -173,14 +181,6 @@ msgstr "Telefon"
 #: fahrt/templates/fahrt/participants/view_participant_details.html
 msgid "Mobile phone"
 msgstr "Handy"
-
-#: fahrt/models.py fahrt/templates/fahrt/mail/del_mail.html
-#: fahrt/templates/fahrt/mail/index_mails.html
-#: fahrt/templates/fahrt/mail/send_mail.html
-#: fahrt/templates/fahrt/mail/send_mail_failure.html
-#: fahrt/templates/fahrt/participants/view_participant_details.html
-msgid "Subject"
-msgstr "Betreff"
 
 #: fahrt/models.py fahrt/templates/fahrt/participants/list_confirmed.html
 #: fahrt/templates/fahrt/participants/view_participant_details.html

@@ -4,9 +4,11 @@ from typing import List
 from bootstrap_datepicker_plus import DatePickerInput, DateTimePickerInput
 from django import forms
 from django.core.exceptions import ValidationError
+from django.db.models import QuerySet
 from django.utils.translation import ugettext_lazy as _
 
-from settool_common.forms import CommonParticipantForm, SemesterBasedModelForm
+from settool_common.forms import CommonParticipantForm, SemesterBasedForm, SemesterBasedModelForm
+from settool_common.models import Subject
 from settool_common.utils import produce_field_with_autosubmit
 
 from .models import Fahrt, FahrtMail, Participant
@@ -77,13 +79,27 @@ def produce_nullboolean_field_with_autosubmit(label):
     return produce_field_with_autosubmit(forms.NullBooleanField, label)
 
 
-class FilterRegisteredParticipantsForm(forms.Form):
+class FilterRegisteredParticipantsForm(SemesterBasedForm):
     non_liability = produce_nullboolean_field_with_autosubmit(_("Non-liability submitted"))
     u18 = produce_nullboolean_field_with_autosubmit(_("Under 18"))
     car = produce_nullboolean_field_with_autosubmit(_("With car"))
     paid = produce_nullboolean_field_with_autosubmit(_("Paid"))
     payment_deadline = produce_nullboolean_field_with_autosubmit(_("Payment deadline over"))
     mailinglist = produce_nullboolean_field_with_autosubmit(_("On mailinglist"))
+    subject = produce_field_with_autosubmit(forms.ModelChoiceField, _("Subject"), queryset=None)
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields["subject"].queryset = self.get_choosable_subjects()
+
+    def get_choosable_subjects(self) -> QuerySet[Subject]:
+        choosable_subjects_ids = (
+            self.semester.fahrt_participant.filter(status="confirmed")
+            .values("subject")
+            .distinct()
+            .values_list("subject", flat=True)
+        )
+        return Subject.objects.filter(pk__in=choosable_subjects_ids).order_by("subject")
 
 
 class FilterParticipantsForm(forms.Form):
