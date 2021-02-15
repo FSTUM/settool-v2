@@ -20,6 +20,7 @@ from settool_common import utils
 from settool_common.forms import MailForm
 from settool_common.models import Mail, Semester
 from tutors.models import TutorMail
+
 from .forms import CSVFileUploadForm
 from .settings import SEMESTER_SESSION_KEY
 
@@ -77,12 +78,15 @@ def mail_view(request: WSGIRequest, mail_pk: int) -> HttpResponse:
 
 @permission_required("set.mail")
 def mail_add(request: WSGIRequest) -> HttpResponse:
-    form = MailForm(request.POST or None)
+    form = MailForm(request.POST or None, user=request.user)
     if form.is_valid():
         form.save()
         return redirect("mail_list")
 
-    context = {"form": form}
+    context = {
+        "form": form,
+        "mails": form.get_mails().items(),
+    }
     return render(request, "settool_common/settings/mail/add_email.html", context)
 
 
@@ -90,7 +94,7 @@ def mail_add(request: WSGIRequest) -> HttpResponse:
 def mail_edit(request: WSGIRequest, mail_pk: int) -> HttpResponse:
     mail = get_object_or_404(Mail, pk=mail_pk)
 
-    form = MailForm(request.POST or None, instance=mail)
+    form = MailForm(request.POST or None, instance=mail, user=request.user)
     if form.is_valid():
         form.save()
         return redirect("mail_list")
@@ -98,6 +102,7 @@ def mail_edit(request: WSGIRequest, mail_pk: int) -> HttpResponse:
     context = {
         "form": form,
         "mail": mail,
+        "mails": form.get_mails().items(),
     }
     return render(request, "settool_common/settings/mail/edit_email.html", context)
 

@@ -17,6 +17,8 @@
         </div>
     </div>
 
+    {% include "snippets/mail_template_table.html" with mail=mail %}
+
     <a
         class="btn btn-secondary"
         href="{% url "tours_listmails" %}"

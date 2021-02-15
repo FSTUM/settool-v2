@@ -1,4 +1,4 @@
-{% extends "base_single_card_layout.html" %}
+{% extends "fahrt/base_fahrt.html" %}
 {% load bootstrap4 %}
 {% load i18n %}
 
@@ -16,6 +16,8 @@
             {% bootstrap_form form %}
         </div>
     </div>
+
+    {% include "snippets/mail_template_table.html" with mail=mail %}
 
     <a
         href="{% url "fahrt_listmails" %}"

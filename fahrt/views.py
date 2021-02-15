@@ -611,7 +611,7 @@ def add_mail(request: WSGIRequest) -> HttpResponse:
 
         return redirect("fahrt_listmails")
 
-    context = {"form": form}
+    context = {"form": form, "mail": FahrtMail}
     return render(request, "fahrt/mail/add_mail.html", context)
 
 
@@ -629,7 +629,7 @@ def edit_mail(request: WSGIRequest, mail_pk: int) -> HttpResponse:
         "form": form,
         "mail": mail,
     }
-    return render(request, "fahrt/standalone/edit_mail.html", context)
+    return render(request, "fahrt/mail/edit_mail.html", context)
 
 
 @permission_required("fahrt.view_participants")

@@ -79,18 +79,24 @@ msgid "cancelled"
 msgstr "abgesagt"
 
 #: fahrt/models.py
+msgid "The participant's first name"
+msgstr "Vorname des Teilnehmers"
+
+#: fahrt/models.py
+msgid "The individual payment deadline"
+msgstr "Individuelle Zahlungsfrist"
+
+#: fahrt/models.py
+msgid "The participant"
+msgstr "Der Teilnehmer"
+
+#: fahrt/models.py
 msgid ""
-"You may use {{vorname}} for the participant's first name and {{frist}} for "
-"the individual payment deadline. You may use {{frist}} for the individual "
-"payment deadline. You may use {{participant}} for the participant. If the "
-"Email is configured as the fahrt's registration mail, the participants' non-"
-"liability form is automatically attached."
+"If the Email is configured as the fahrt's registration mail, the "
+"participants' personalised non-liability form is automatically attached"
 msgstr ""
-"Du kannst {{vorname}} für den Vornamen des Teilnehmers und {{frist}} für die "
-"individuelle Zahlungsfrist verwenden. Du kannst {{frist}} für die "
-"individuelle Zahlungsfrist verwenden. Du kannst {{participant}} für den "
-"Teilnehmers verwenden. Falls eine Anmeldungs Email konfiguriert ist wird der "
-"haftungsauschuss automatisch an die Teilnehmer*in gesendet, sobald sie sich "
+"Falls eine Anmeldungs Email konfiguriert ist wird der personalisierte "
+"Haftungsauschuss automatisch an die Teilnehmer*in gesendet, sobald sie sich "
 "registrieren"
 
 #: fahrt/models.py
@@ -385,11 +391,11 @@ msgstr "E-Mail hinzufügen"
 
 #: fahrt/templates/fahrt/mail/add_mail.html
 #: fahrt/templates/fahrt/mail/del_mail.html
+#: fahrt/templates/fahrt/mail/edit_mail.html
 #: fahrt/templates/fahrt/mail/send_mail.html
 #: fahrt/templates/fahrt/participants/del_participant.html
 #: fahrt/templates/fahrt/participants/edit_participants.html
 #: fahrt/templates/fahrt/participants/view_participant_details.html
-#: fahrt/templates/fahrt/standalone/edit_mail.html
 msgid "Cancel"
 msgstr "Abbrechen"
 
@@ -400,6 +406,10 @@ msgstr "E-Mail-Vorlage löschen"
 #: fahrt/templates/fahrt/mail/del_mail.html
 msgid "Do you really want to delete the following email template?"
 msgstr "Willst du wirklich die folgende E-Mail-Vorlage löschen?"
+
+#: fahrt/templates/fahrt/mail/edit_mail.html
+msgid "Edit email"
+msgstr "E-Mail bearbeiten"
 
 #: fahrt/templates/fahrt/mail/filter_participants_send_mail.html
 msgid "Filter participants"
@@ -585,10 +595,6 @@ msgstr "Bearbeiten"
 #: fahrt/templates/fahrt/participants/view_participant_details.html
 msgid "Delete"
 msgstr "Löschen"
-
-#: fahrt/templates/fahrt/standalone/edit_mail.html
-msgid "Edit email"
-msgstr "E-Mail bearbeiten"
 
 #: fahrt/templates/fahrt/standalone/registration_closed.html
 #: fahrt/templates/fahrt/standalone/signup.html

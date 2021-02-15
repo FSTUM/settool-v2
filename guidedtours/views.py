@@ -242,7 +242,7 @@ def add_mail(request: WSGIRequest) -> HttpResponse:
 
         return redirect("tours_listmails")
 
-    context = {"form": form}
+    context = {"form": form, "mail": TourMail}
     return render(request, "guidedtours/mail/add_mail.html", context)
 
 

@@ -36,14 +36,20 @@ msgid "Tutors (selected will be declined)"
 msgstr "Tutoren (ausgewählte werden abgelehnt)"
 
 #: tutors/models.py
-msgid ""
-"You may use {{tutor}} for the Tutor.\n"
-"{{activation_url}} is also possible if this is the registration mail.\n"
-"{{task}} is also possible if this is the task mail."
-msgstr ""
-"Du kannst {{tutor}} für dem Tutor verwenden. {{activation_url}} ist auch "
-"möglich, falls es sich um die Registirerungs-email handelt. {{task}} ist "
-"auch möglich, falls es sich um die Task-mail handelt."
+msgid "The Activation-Link"
+msgstr "Der Aktivierungs-Link"
+
+#: tutors/models.py
+msgid "Configured as the registration mail"
+msgstr "Als Registirerungs-email Konfiguriert"
+
+#: tutors/models.py
+msgid "The Task"
+msgstr "Der Task"
+
+#: tutors/models.py
+msgid "Configured as the task mail"
+msgstr "Als Task-email Konfiguriert"
 
 #: tutors/models.py
 msgid "Open registration"

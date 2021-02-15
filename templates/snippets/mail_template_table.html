@@ -1,0 +1,57 @@
+{% load i18n %}
+{% if mail.general_placeholders %}
+<label for='generalTemplateTagTable'>{% trans "Usable General Template-tags" %}</label>
+<div class="table-responsive">
+    <table
+        id="generalTemplateTagTable"
+        class="table table-hover dataTable"
+    >
+        <thead>
+            <tr>
+                <th>{% trans "Tag" %}</th>
+                <th>{% trans "Description" %}</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for tag, description in mail.general_placeholders %}
+
+            <tr>
+                <td>{{ tag }}</td>
+                <td>{{ description }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endif %}
+{% if mail.conditional_placeholders %}
+<label for='contitionalTemplateTagTable'>{% trans "Usable Conditional Template-tags" %}</label>
+<div class="table-responsive">
+    <table
+        id="contitionalTemplateTagTable"
+        class="table table-hover dataTable"
+    >
+        <thead>
+            <tr>
+                <th>{% trans "Tag" %}</th>
+                <th>{% trans "Description" %}</th>
+                <th>{% trans "Contition" %}</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for tag, description, contition in mail.conditional_placeholders %}
+
+            <tr>
+                <td>{{ tag }}</td>
+                <td>{{ description }}</td>
+                <td>{{ contition }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endif %}
+{% if mail.notes %}
+<label for='templateNotes'>{% trans "Notes" %}</label>
+<p id='templateNotes'>{{ mail.notes }}</p>
+{% endif %}

@@ -223,6 +223,30 @@ msgstr ""
 "tum.de</a></address><p>Im Fall des Widerrufs werden mit dem Zugang meiner "
 "Widerrufserklärung meine Daten gelöscht.</p>"
 
+#: templates/snippets/mail_template_table.html
+msgid "Usable General Template-tags"
+msgstr "Nutzbare generelle Template-tags"
+
+#: templates/snippets/mail_template_table.html
+msgid "Tag"
+msgstr "Tag"
+
+#: templates/snippets/mail_template_table.html
+msgid "Description"
+msgstr "Beschreibung"
+
+#: templates/snippets/mail_template_table.html
+msgid "Usable Conditional Template-tags"
+msgstr "Nutzbare abhängige Template-tags"
+
+#: templates/snippets/mail_template_table.html
+msgid "Contition"
+msgstr "Ahhängend von"
+
+#: templates/snippets/mail_template_table.html
+msgid "Notes"
+msgstr "Notizen"
+
 #: templates/snippets/true_false_none_span.html
 msgid "Failure"
 msgstr "Fehler"

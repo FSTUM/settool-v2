@@ -1,4 +1,5 @@
 import uuid
+from typing import List, Tuple
 
 from django.core.validators import RegexValidator
 from django.db import models
@@ -10,11 +11,17 @@ from settool_common.models import Semester, Subject
 
 
 class TutorMail(common_models.Mail):
-    possible_placeholders = _(
-        "You may use {{tutor}} for the Tutor.\n"
-        "{{activation_url}} is also possible if this is the registration mail.\n"
-        "{{task}} is also possible if this is the task mail.",
-    )
+    # ["{{template}}", "description"]
+    general_placeholders = [
+        ("{{tutor}}", "The Tutor"),
+    ]
+    # ["{{template}}", "description", "contition"]
+    conditional_placeholders: List[Tuple[str, str, str]] = [
+        ("{{activation_url}}", _("The Activation-Link"), _("Configured as the registration mail")),
+        ("{{task}}", _("The Task"), _("Configured as the task mail")),
+    ]
+    notes = ""
+    required_perm = common_models.Mail.required_perm + ["tutors.edit_tutors"]
 
     # pylint: disable=signature-differs
     def save(self, *args, **kwargs):

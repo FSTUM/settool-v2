@@ -1,0 +1,50 @@
+{% extends "settool_common/settings/base_settings.html" %}
+{% load i18n %}
+{% load bootstrap4 %}
+
+{% block set_common_content %}
+<form
+    method="post"
+    action=""
+>
+    {% csrf_token %}
+
+    <div class="row">
+        <div class="col-lg-12">
+            {% bootstrap_form form %}
+        </div>
+    </div>
+    <div id='explaination-text'></div>{% comment %}filled out in defered_script{% endcomment %}
+
+    <a
+        class="btn btn-secondary"
+        href="{% if perms.set %}{% url "mail_list" %}{% else %}{% url "main-view" %}{% endif %}"
+    >{% trans "Cancel" %}</a>
+    <button
+        class="btn btn-primary"
+        type="submit"
+    >{% block submit_button_text %}{% endblock %}</button>
+</form>
+{% endblock %}
+
+{% block defered_script %}
+<script>
+const mails = {
+    {% for sender, mail in mails %}
+    '{{ sender|first|safe }}': `{% include "snippets/mail_template_table.html" with mail=mail %}`,
+    {% endfor %}
+};
+const selExpl = $('#explaination-text');
+
+$(document).ready(() => {
+    selExpl.html(mails[$('#id_sender option[selected]').val()]);
+});
+
+$(document).on('change', '#id_sender', function (e) {
+    const selectedValue = this.options[e.target.selectedIndex].value;
+    selExpl.html(mails[selectedValue]);
+    $('#id_sender option[selected]').removeAttr('selected');
+    $(`#id_sender option[value='${selectedValue}']`).attr('selected', true);
+});
+</script>
+{% endblock %}

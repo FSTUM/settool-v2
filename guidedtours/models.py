@@ -1,3 +1,5 @@
+from typing import List, Tuple
+
 from django.db import models
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
@@ -7,16 +9,19 @@ from settool_common.models import Semester, Subject
 
 
 class TourMail(common_models.Mail):
-    # fmt: off
-    possible_placeholders = _(
-        "You may use {{vorname}} for the participant's first name, "
-        "{{tour}} for the name of the tour, "
-        "{{participant}} for the participant, "
-        "{{tour_status}} displays 'Tour' or 'Waitinglist' (Depending on on_the_tour status), "
-        "{{zeit}} for the time of the tour.",
-    )
+    # ["{{template}}", "description"]
+    general_placeholders = [
+        ("{{vorname}}", _("The participant's first name")),
+        ("{{tour}}", _("The name of the tour")),
+        ("{{participant}}", _("The participant")),
+        ("{{zeit}}", _("The time of the tour")),
+        ("{{tour_status}}", _("'Tour' or 'Waitinglist' depending on on_the_tour status")),
+    ]
+    # ["{{template}}", "description", "contition"]
+    conditional_placeholders: List[Tuple[str, str, str]] = []
+    notes = ""
 
-    # fmt: on
+    required_perm = common_models.Mail.required_perm + ["guidedtours.view_participants"]
 
     # pylint: disable=signature-differs
     def save(self, *args, **kwargs):

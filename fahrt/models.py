@@ -1,4 +1,5 @@
 import datetime
+from typing import List, Tuple
 
 from dateutil.relativedelta import relativedelta
 from django.contrib.auth import get_user_model
@@ -11,13 +12,20 @@ from settool_common.models import Semester, Subject
 
 
 class FahrtMail(common_models.Mail):
-    possible_placeholders = _(
-        "You may use {{vorname}} for the participant's first name and {{frist}} for the individual payment deadline. "
-        "You may use {{frist}} for the individual payment deadline. "
-        "You may use {{participant}} for the participant. "
-        "If the Email is configured as the fahrt's registration mail, "
-        "the participants' non-liability form is automatically attached.",
+    # ["{{template}}", "description"]
+    general_placeholders = [
+        ("{{vorname}}", _("The participant's first name")),
+        ("{{frist}}", _("The individual payment deadline")),
+        ("{{participant}}", _("The participant")),
+    ]
+    # ["{{template}}", "description", "contition"]
+    conditional_placeholders: List[Tuple[str, str, str]] = []
+    notes = _(
+        "If the Email is configured as the fahrt's registration mail, the participants' personalised non-liability "
+        "form is automatically attached",
     )
+
+    required_perm = common_models.Mail.required_perm + ["fahrt.view_participants"]
 
     # pylint: disable=signature-differs
     def save(self, *args, **kwargs):

@@ -1,29 +1,7 @@
-{% extends "settool_common/settings/base_settings.html" %}
+{% extends "settool_common/settings/mail/change_mail_base.html" %}
 {% load i18n %}
 {% load bootstrap4 %}
 
 {% block set_common_headercontent %}{% trans "Add email" %}{% endblock %}
 
-{% block set_common_content %}
-<form
-    method="post"
-    action=""
->
-    {% csrf_token %}
-
-    <div class="row">
-        <div class="col-lg-12">
-            {% bootstrap_form form %}
-        </div>
-    </div>
-
-    <a
-        class="btn btn-secondary"
-        href="{% url "mail_list" %}"
-    >{% trans "Cancel" %}</a>
-    <button
-        class="btn btn-primary"
-        type="submit"
-    >{% trans "Add email" %}</button>
-</form>
-{% endblock %}
+{% block submit_button_text %}{% trans "Add email" %}{% endblock %}

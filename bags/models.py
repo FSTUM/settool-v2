@@ -1,3 +1,5 @@
+from typing import List, Tuple
+
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
@@ -6,11 +8,17 @@ from settool_common.models import Semester
 
 
 class BagMail(common_models.Mail):
-    possible_placeholders = _(
-        "You may use {{firma}} for the company name, {{anrede}} for the greeting 'Hallo "
-        "Herr/Frau XYZ' and {{formale_anrede}} for the formal greeting 'Sehr geehrte/r "
-        "Herr/Frau XYZ'. ",
-    )
+    # ["{{template}}", "description"]
+    general_placeholders = [
+        ("{{firma}}", _("The company name")),
+        ("{{anrede}}", _("The greeting 'Hallo Herr/Frau XYZ'")),
+        ("{{formale_anrede}}", _("The formal greeting 'Sehr geehrte/r " "Herr/Frau XYZ'")),
+    ]
+    # ["{{template}}", "description", "contition"]
+    conditional_placeholders: List[Tuple[str, str, str]] = []
+    notes = ""
+
+    required_perm = common_models.Mail.required_perm + ["bags.view_companies"]
 
     # pylint: disable=signature-differs
     def save(self, *args, **kwargs):

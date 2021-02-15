@@ -70,14 +70,16 @@ msgstr ""
 "verwendet)"
 
 #: bags/models.py
-msgid ""
-"You may use {{firma}} for the company name, {{anrede}} for the greeting "
-"'Hallo Herr/Frau XYZ' and {{formale_anrede}} for the formal greeting 'Sehr "
-"geehrte/r Herr/Frau XYZ'. "
-msgstr ""
-"Du kannst {{firma}} für den Firmennamen, {{anrede}} für die Anrede 'Hallo "
-"Herr/Frau XYZ' und {{formale_anrede}} für die formale Anrede 'Sehr geehrte/r "
-"Herr/Frau XYZ' verwenden."
+msgid "The company name"
+msgstr "Der Name der Firma"
+
+#: bags/models.py
+msgid "The greeting 'Hallo Herr/Frau XYZ'"
+msgstr "Die Anrede 'Hallo Herr/Frau XYZ'"
+
+#: bags/models.py
+msgid "The formal greeting 'Sehr geehrte/r Herr/Frau XYZ'"
+msgstr "Die formale Anrede 'Sehr geehrte/r Herr/Frau XYZ'"
 
 #: bags/models.py bags/templates/bags/company/company_details.html
 msgid "Name"

@@ -231,7 +231,7 @@ def add_mail(request: WSGIRequest) -> HttpResponse:
 
         return redirect("listmails")
 
-    context = {"form": form}
+    context = {"form": form, "mail": BagMail}
     return render(request, "bags/mail/add_mail.html", context)
 
 

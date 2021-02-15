@@ -25,7 +25,18 @@ class Mail(models.Model):
         (SET_TUTOR, _("SET_TUTOR")),
         (SET_BAGS, _("SET_BAGS")),
     )
-    possible_placeholders = ""
+    # ["{{template}}", "description"]
+    general_placeholders: List[Tuple[str, str]] = []
+    # ["{{template}}", "description", "contition"]
+    conditional_placeholders: List[Tuple[str, str, str]] = []
+    notes: str = ""
+
+    # perms are or-connected-permissions (you need one of them instead of all of them)
+    required_perm = ["set.mail"]
+
+    @classmethod
+    def check_perm(cls, user):
+        return any(user.has_perm(perm) for perm in cls.required_perm)
 
     sender = models.CharField(
         max_length=100,

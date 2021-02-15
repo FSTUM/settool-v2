@@ -195,9 +195,8 @@ msgstr "E-Mail-Vorlage hinzufügen"
 msgid "Add email"
 msgstr "E-Mail hinzufügen"
 
-#: settool_common/templates/settool_common/settings/mail/add_email.html
+#: settool_common/templates/settool_common/settings/mail/change_mail_base.html
 #: settool_common/templates/settool_common/settings/mail/delete_email.html
-#: settool_common/templates/settool_common/settings/mail/edit_email.html
 #: settool_common/templates/settool_common/settings/mail/import_email.html
 #: settool_common/templates/settool_common/settings/mail/send_email_confirmation.html
 msgid "Cancel"
