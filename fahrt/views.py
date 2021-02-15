@@ -429,10 +429,9 @@ def signup(request: WSGIRequest) -> HttpResponse:
                 messages.error(
                     request,
                     _(
-                        f"Could not send you the registration email. "
-                        f"You are registered, but you did not receve all nessesary documents. "
-                        f"Please contact {FahrtMail.SET_FAHRT} to get your non-liability form.",
-                    ),
+                        "Could not send you the registration email. You are registered, but you did not receve all "
+                        "nessesary documents. Please contact {mail} to get your non-liability form. ",
+                    ).format(mail=FahrtMail.SET_FAHRT),
                 )
 
         return redirect("fahrt_signup_success")

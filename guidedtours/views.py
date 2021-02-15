@@ -328,11 +328,9 @@ def signup(request: WSGIRequest) -> HttpResponse:
                 messages.error(
                     request,
                     _(
-                        f"Could not send you the registration email. "
-                        f"You are registered, but you did not receve the confirmation-email. "
-                        f"Your email may be invalid. "
-                        f"Please contact {TourMail.SET}.",
-                    ),
+                        "Could not send you the registration email. You are registered, but you did not receve the "
+                        "confirmation-email. Your email may be invalid. Please contact {mail}. ",
+                    ).format(mail=TourMail.SET),
                 )
 
         return redirect("tours_signup_success")

@@ -626,8 +626,15 @@ msgstr ""
 "dauern, da wir deine Anmeldung manuell überprüfen."
 
 #: fahrt/views.py
-msgid "Could not send you the registration email. "
-msgstr "Konnte die Registrierungs-Email nicht senden."
+#, python-brace-format
+msgid ""
+"Could not send you the registration email. You are registered, but you did "
+"not receve all nessesary documents. Please contact {mail} to get your non-"
+"liability form. "
+msgstr ""
+"Konnte keine Registrierungs-Email senden. Du wurdest registriert, aber du "
+"hast nicht alle notwendigen Dokumente bekommen. Bitte kontaktiere {mail} um "
+"deinen Haftungsausschluss zu bekommen. "
 
 #: fahrt/views.py
 msgid ""

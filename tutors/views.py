@@ -79,7 +79,7 @@ def tutor_signup(request: WSGIRequest) -> HttpResponse:
         if not settings.mail_registration.send_mail_registration(tutor, activation_url):
             messages.error(
                 request,
-                _(f"Could not send email. If this error persists send a mail to {TutorMail.SET}"),
+                _("Could not send email. If this error persists send a mail to {mail}").format(mail=TutorMail.SET),
             )
             return redirect("tutor_signup")
         MailTutorTask.objects.create(tutor=tutor, mail=settings.mail_registration, task=None)
@@ -570,12 +570,14 @@ def task_mail(request: WSGIRequest, uid: UUID, mail_pk: Optional[int] = None) ->
                 MailTutorTask.objects.create(tutor=tutor, mail=mail_template, task=task)
                 task.log(request.user, f"Send mail to {tutor}.")
             else:
-                # fmt: off
                 messages.error(
                     request,
-                    _(f"Could not send email to {tutor.first_name} {tutor.last_name} ({tutor.email})."),  # noqa: E501
+                    _("Could not send email to {first_name} {last_name} ({email}).").format(
+                        first_name=tutor.first_name,
+                        last_name=tutor.last_name,
+                        email=tutor.email,
+                    ),
                 )
-                # fmt: on
 
         messages.success(request, f"Send email for {task.name}.")
         return redirect("task_list")
@@ -802,7 +804,11 @@ def send_email_to_all_tutors(
             tutor.log(request.user, f"Failed to send mail to {tutor}.")
             messages.error(
                 request,
-                _(f"Could not send email to {tutor.first_name} {tutor.last_name} ({tutor.email})."),
+                _("Could not send email to {first_name} {last_name} ({email}).").format(
+                    first_name=tutor.first_name,
+                    last_name=tutor.last_name,
+                    email=tutor.email,
+                ),
             )
     messages.success(request, "Sent email to tutors.")
 

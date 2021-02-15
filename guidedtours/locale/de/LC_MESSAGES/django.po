@@ -353,8 +353,15 @@ msgid "Export confired participants as PDF"
 msgstr "Bestätigte Teilnehmer als PDF ausgeben"
 
 #: guidedtours/views.py
-msgid "Could not send you the registration email. "
-msgstr "Konnte die Registrierungs-Email nicht senden."
+#, python-brace-format
+msgid ""
+"Could not send you the registration email. You are registered, but you did "
+"not receve the confirmation-email. Your email may be invalid. Please contact "
+"{mail}. "
+msgstr ""
+"Konnte die Registrierungs-Email nicht senden. Du wurdest registrierst, hast "
+"aber keine Bestätigungs-Email bekommen. Deine Email könnte invalide sein. "
+"Bitte kontaktiere {mail}. "
 
 #: guidedtours/views.py
 msgid ""
