@@ -34,7 +34,7 @@ class TourForm(SemesterBasedModelForm):
 class MailForm(forms.ModelForm):
     class Meta:
         model = TourMail
-        exclude: List[str] = []
+        exclude: List[str] = ["sender"]
 
 
 class SelectMailForm(forms.Form):

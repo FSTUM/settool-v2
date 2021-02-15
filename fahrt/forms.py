@@ -63,7 +63,7 @@ class ParticipantForm(CommonParticipantForm):
 class MailForm(forms.ModelForm):
     class Meta:
         model = FahrtMail
-        exclude: List[str] = []
+        exclude: List[str] = ["sender"]
 
 
 class SelectMailForm(forms.Form):

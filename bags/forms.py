@@ -32,7 +32,7 @@ class GiveawayForm(SemesterBasedForm):
 class MailForm(forms.ModelForm):
     class Meta:
         model = BagMail
-        exclude: List[str] = []
+        exclude: List[str] = ["sender"]
 
 
 class SelectMailForm(forms.Form):
