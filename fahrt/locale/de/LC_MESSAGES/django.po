@@ -1,17 +1,11 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-12-09 15:45+0100\n"
-"PO-Revision-Date: 2020-12-16 00:00+0100\n"
-"Last-Translator: Frank Elsinga <elsinga@fs.tum.de>\n"
-"Language-Team: \n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 2.4.2\n"
 
 #: fahrt/forms.py
 msgid "This field is required if you have a car"
@@ -375,11 +369,11 @@ msgstr "hat Haftungsausschluss NICHT abgegeben"
 
 #: fahrt/templates/fahrt/fahrt_dashboard.html
 msgid "Bachlor"
-msgstr ""
+msgstr "Bachlor"
 
 #: fahrt/templates/fahrt/fahrt_dashboard.html
 msgid "Master"
-msgstr ""
+msgstr "Master"
 
 #: fahrt/templates/fahrt/general/add_participant.html
 msgid "Add participant to the SET-Fahrt"
@@ -496,16 +490,12 @@ msgid "Availible Filters"
 msgstr "Zur verfügung stehenden Filter"
 
 #: fahrt/templates/fahrt/participants/list_confirmed.html
-#, fuzzy
-#| msgid "List confirmed participants"
 msgid "Export confired participants as CSV"
-msgstr "Bestätigte Teilnehmer auflisten"
+msgstr "Bestätigte Teilnehmer als CSV exportieren"
 
 #: fahrt/templates/fahrt/participants/list_confirmed.html
-#, fuzzy
-#| msgid "List confirmed participants"
 msgid "Export confired participants as PDF"
-msgstr "Bestätigte Teilnehmer auflisten"
+msgstr "Bestätigte Teilnehmer als PDF exportieren"
 
 #: fahrt/templates/fahrt/participants/list_confirmed.html
 msgid "Paid/Payment deadline"
