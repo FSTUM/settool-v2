@@ -44,8 +44,7 @@ def get_possibly_filtered_companies(filterform, semester):
 
 @permission_required("bags.view_companies")
 def bags_dashboard(request: WSGIRequest) -> HttpResponse:
-    sem = get_semester(request)
-    semester = get_object_or_404(Semester, pk=sem)
+    semester = get_object_or_404(Semester, pk=get_semester(request))
     filterform = FilterCompaniesForm(request.POST or None)
     companies = get_possibly_filtered_companies(filterform, semester)
 
@@ -101,8 +100,7 @@ def bags_dashboard(request: WSGIRequest) -> HttpResponse:
 
 @permission_required("bags.view_companies")
 def insert_giveaways(request: WSGIRequest) -> HttpResponse:
-    sem = get_semester(request)
-    semester = get_object_or_404(Semester, pk=sem)
+    semester = get_object_or_404(Semester, pk=get_semester(request))
 
     form = GiveawayForm(request.POST or None, semester=semester)
     if form.is_valid():
@@ -122,8 +120,7 @@ def insert_giveaways(request: WSGIRequest) -> HttpResponse:
 
 @permission_required("bags.view_companies")
 def add(request: WSGIRequest) -> HttpResponse:
-    sem = get_semester(request)
-    semester = get_object_or_404(Semester, pk=sem)
+    semester = get_object_or_404(Semester, pk=get_semester(request))
 
     form = CompanyForm(request.POST or None, semester=semester)
     if form.is_valid():
@@ -272,8 +269,7 @@ def delete_mail(request: WSGIRequest, mail_pk: int) -> HttpResponse:
 def send_mail(request: WSGIRequest, mail_pk: int) -> HttpResponse:
     mail = get_object_or_404(BagMail, pk=mail_pk)
     selected_companies = request.session["selected_companies"]
-    sem = get_semester(request)
-    semester = get_object_or_404(Semester, pk=sem)
+    semester = get_object_or_404(Semester, pk=get_semester(request))
     companies = semester.company_set.filter(
         id__in=selected_companies,
     ).order_by("name")
@@ -302,8 +298,7 @@ def send_mail(request: WSGIRequest, mail_pk: int) -> HttpResponse:
 
 @user_passes_test(lambda user: user.is_staff)
 def import_companies(request: WSGIRequest) -> HttpResponse:
-    sem = get_semester(request)
-    new_semester = get_object_or_404(Semester, pk=sem)
+    new_semester = get_object_or_404(Semester, pk=get_semester(request))
 
     form = ImportForm(request.POST or None, semester=new_semester)
     if form.is_valid():

@@ -31,8 +31,7 @@ from .models import Participant, Setting, Tour, TourMail
 
 @permission_required("guidedtours.view_participants")
 def list_tours(request: WSGIRequest) -> HttpResponse:
-    sem = get_semester(request)
-    semester = get_object_or_404(Semester, pk=sem)
+    semester = get_object_or_404(Semester, pk=get_semester(request))
     tours = semester.tour_set.all()
 
     context = {"tours": tours}
@@ -73,8 +72,7 @@ def view(request: WSGIRequest, tour_pk: int) -> HttpResponse:
 
 @permission_required("guidedtours.view_participants")
 def add(request: WSGIRequest) -> HttpResponse:
-    sem = get_semester(request)
-    semester = get_object_or_404(Semester, pk=sem)
+    semester = get_object_or_404(Semester, pk=get_semester(request))
 
     form = TourForm(
         request.POST or None,
@@ -132,8 +130,7 @@ def delete(request: WSGIRequest, tour_pk: int) -> HttpResponse:
 
 @permission_required("guidedtours.view_participants")
 def filter_participants(request: WSGIRequest) -> HttpResponse:
-    sem = get_semester(request)
-    semester = get_object_or_404(Semester, pk=sem)
+    semester = get_object_or_404(Semester, pk=get_semester(request))
     participants: QuerySet[Participant] = Participant.objects.filter(
         tour__semester=semester.id,
     ).order_by("surname")

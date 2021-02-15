@@ -448,8 +448,7 @@ def signup(request: WSGIRequest) -> HttpResponse:
 
 @permission_required("fahrt.view_participants")
 def signup_internal(request: WSGIRequest) -> HttpResponse:
-    sem = get_semester(request)
-    semester = get_object_or_404(Semester, pk=sem)
+    semester = get_object_or_404(Semester, pk=get_semester(request))
 
     form = ParticipantForm(request.POST or None, semester=semester)
     if form.is_valid():
@@ -479,8 +478,7 @@ def signup_success(request: WSGIRequest) -> HttpResponse:
 
 @permission_required("fahrt.view_participants")
 def filter_participants(request: WSGIRequest) -> HttpResponse:
-    sem = get_semester(request)
-    semester = get_object_or_404(Semester, pk=sem)
+    semester = get_object_or_404(Semester, pk=get_semester(request))
 
     participants = semester.fahrt_participant.order_by("surname")
 
@@ -550,8 +548,7 @@ def set_request_session_filtered_participants(filterform, participants, request)
 @permission_required("fahrt.view_participants")
 def filtered_list(request: WSGIRequest) -> HttpResponse:
     filtered_participants = request.session["filtered_participants"]
-    sem = get_semester(request)
-    semester = get_object_or_404(Semester, pk=sem)
+    semester = get_object_or_404(Semester, pk=get_semester(request))
     participants = semester.fahrt_participant.filter(
         id__in=filtered_participants,
     ).order_by("surname")
@@ -656,11 +653,8 @@ def delete_mail(request: WSGIRequest, mail_pk: int) -> HttpResponse:
 def send_mail(request: WSGIRequest, mail_pk: int) -> HttpResponse:
     mail: FahrtMail = get_object_or_404(FahrtMail, pk=mail_pk)
     selected_participants = request.session["selected_participants"]
-    sem = get_semester(request)
-    semester = get_object_or_404(Semester, pk=sem)
-    participants = semester.fahrt_participant.filter(
-        id__in=selected_participants,
-    ).order_by("surname")
+    semester = get_object_or_404(Semester, pk=get_semester(request))
+    participants = semester.fahrt_participant.filter(id__in=selected_participants).order_by("surname")
 
     subject, text, from_email = mail.get_mail_participant()
 
@@ -692,8 +686,7 @@ def send_mail(request: WSGIRequest, mail_pk: int) -> HttpResponse:
 
 @permission_required("fahrt.view_participants")
 def change_date(request: WSGIRequest) -> HttpResponse:
-    sem = get_semester(request)
-    semester = get_object_or_404(Semester, pk=sem)
+    semester = get_object_or_404(Semester, pk=get_semester(request))
 
     try:
         fahrt = semester.fahrt
