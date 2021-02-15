@@ -11,6 +11,33 @@
             <canvas id='email_pie_chart'></canvas>
         </div>
     </div>
+    <div class='col-md'>
+        <h5 class='card-title'>{% trans "Status" %}</h5>
+        <div class='table-responsive'>
+            <table class='table dataTable hover'>
+                <thead>
+                    <tr>
+                        <th>{% trans "Name" %}</th>
+                        <th>{% trans "Exists for this Semester" %}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><a href='{% url "fahrt_date" %}'>{% trans "Fahrt-Settings" %}</a></td>
+                        <td>{% include "snippets/true_false_span.html" with value=fahrt_exists %}</td>
+                    </tr>
+                    <tr>
+                        <td><a href='{% url "tutors_settings_general" %}'>{% trans "Tutor-Settings" %}</a></td>
+                        <td>{% include "snippets/true_false_span.html" with value=tutor_general_exists %}</td>
+                    </tr>
+                    <tr>
+                        <td><a href='{% url "tours_settings" %}'>{% trans "Guidedtour-Settings" %}</a></td>
+                        <td>{% include "snippets/true_false_span.html" with value=guidedtours_exists %}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>
 <div class='row'>
     <div class='col-md'>
@@ -59,25 +86,25 @@
 {% block defered_script %}
 <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4"></script>
 <script>
-        /* global Chart */
-        const ctx = document.getElementById('email_pie_chart').getContext('2d');
+    /* global Chart */
+    const ctx = document.getElementById('email_pie_chart').getContext('2d');
 
-        /* eslint no-new: off */
-        new Chart(ctx, {
-            type: 'doughnut',
-            data: {
-                labels: {{ mail_template_sender|safe }},
-                datasets: [
-                    {
-                        label: 'Email Templates by sender',
-                        data: {{ mail_template_count }},
-                        backgroundColor: ['rgb(255, 99, 132)', 'rgb(54, 162, 235)', 'rgb(255, 205, 86)'],
-                    },
-                ],
-            },
-            options: {
-                maintainAspectRatio: false,
-            },
-        });
-    </script>
+    /* eslint no-new: off */
+    new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+            labels: {{ mail_template_sender|safe }},
+            datasets: [
+                {
+                    label: 'Email Templates by sender',
+                    data: {{ mail_template_count }},
+                    backgroundColor: ['rgb(255, 99, 132)', 'rgb(54, 162, 235)', 'rgb(255, 205, 86)'],
+                },
+            ],
+        },
+        options: {
+            maintainAspectRatio: false,
+        },
+    });
+</script>
 {% endblock %}

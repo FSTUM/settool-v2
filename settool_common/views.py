@@ -5,6 +5,7 @@ from typing import Any, Dict, Optional, Tuple
 
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required, permission_required, user_passes_test
+from django.core.exceptions import ObjectDoesNotExist
 from django.core.handlers.wsgi import WSGIRequest
 from django.db.models import Count, QuerySet
 from django.forms import forms
@@ -13,12 +14,15 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.utils.http import is_safe_url
 from django.utils.translation import ugettext_lazy as _
 
+import fahrt
+import guidedtours
+import tutors
 from bags.models import BagMail
 from fahrt.models import FahrtMail
 from guidedtours.models import TourMail
 from settool_common import utils
 from settool_common.forms import MailForm
-from settool_common.models import Mail, Semester
+from settool_common.models import get_semester, Mail, Semester
 from tutors.models import TutorMail
 
 from .forms import CSVFileUploadForm
@@ -123,15 +127,26 @@ def mail_delete(request: WSGIRequest, mail_pk: int) -> HttpResponse:
     return render(request, "settool_common/settings/mail/delete_email.html", context)
 
 
+def object_does_exists(klass: Any, semester: Semester) -> bool:
+    try:
+        klass.objects.get(semester=semester)
+    except ObjectDoesNotExist:
+        return False
+    return True
+
+
 @permission_required("set.mail")
 def dashboard(request: WSGIRequest) -> HttpResponse:
+    semester = get_object_or_404(Semester, pk=get_semester(request))
     mail_templates_by_sender = (
         Mail.objects.values("sender").annotate(sender_count=Count("sender")).order_by("-sender_count")
     )
-
     context = {
         "mail_template_sender": [sender["sender"] for sender in mail_templates_by_sender],
         "mail_template_count": [sender["sender_count"] for sender in mail_templates_by_sender],
+        "fahrt_exists": object_does_exists(fahrt.models.Fahrt, semester),
+        "tutor_general_exists": object_does_exists(tutors.models.Settings, semester),
+        "guidedtours_exists": object_does_exists(guidedtours.models.Setting, semester),
     }
     return render(request, "settool_common/settings/settings_dashboard.html", context)
 

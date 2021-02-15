@@ -303,6 +303,7 @@ msgstr "Nachname"
 
 #: settool_common/templates/settool_common/settings/mail/send_email_confirmation.html
 #: settool_common/templates/settool_common/settings/mail/send_email_failure.html
+#: settool_common/templates/settool_common/settings/settings_dashboard.html
 msgid "Status"
 msgstr "Status"
 
@@ -322,6 +323,26 @@ msgstr "Einstellungsdashboard"
 #: settool_common/templates/settool_common/settings/settings_dashboard.html
 msgid "Email-templates by sender"
 msgstr "E-Mail-Vorlagen nach Sender"
+
+#: settool_common/templates/settool_common/settings/settings_dashboard.html
+msgid "Name"
+msgstr "Name"
+
+#: settool_common/templates/settool_common/settings/settings_dashboard.html
+msgid "Exists for this Semester"
+msgstr "Existiert für dieses Semester"
+
+#: settool_common/templates/settool_common/settings/settings_dashboard.html
+msgid "Fahrt-Settings"
+msgstr "Fahrt-Einstellungen"
+
+#: settool_common/templates/settool_common/settings/settings_dashboard.html
+msgid "Tutor-Settings"
+msgstr "Tutor-Einstellungen"
+
+#: settool_common/templates/settool_common/settings/settings_dashboard.html
+msgid "Guidedtour-Settings"
+msgstr "Institutsführungs-Einstellungen"
 
 #: settool_common/templates/settool_common/settings/settings_dashboard.html
 msgid "Fahrt-Signup"
