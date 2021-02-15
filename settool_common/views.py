@@ -13,15 +13,13 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.utils.http import is_safe_url
 from django.utils.translation import ugettext_lazy as _
 
-import fahrt.models
 from bags.models import BagMail
 from fahrt.models import FahrtMail
 from guidedtours.models import TourMail
 from settool_common import utils
 from settool_common.forms import MailForm
-from settool_common.models import get_semester, Mail, Semester
+from settool_common.models import Mail, Semester
 from tutors.models import TutorMail
-
 from .forms import CSVFileUploadForm
 from .settings import SEMESTER_SESSION_KEY
 
@@ -118,46 +116,6 @@ def mail_delete(request: WSGIRequest, mail_pk: int) -> HttpResponse:
         "form": form,
     }
     return render(request, "settool_common/settings/mail/delete_email.html", context)
-
-
-# TODO Evaluate if this could be better used.
-@permission_required("set.mail")
-def mail_send(request: WSGIRequest, mail_pk: int) -> HttpResponse:
-    mail = get_object_or_404(Mail, pk=mail_pk)
-    selected_participants = request.session["selected_participants"]
-    sem = get_semester(request)
-    semester = get_object_or_404(Semester, pk=sem)
-    participants = semester.fahrt_participant.filter(
-        id__in=selected_participants,
-    ).order_by("surname")
-
-    subject, text, from_email = mail.get_mail({})
-
-    form = forms.Form(request.POST or None)
-    failed_participants = []
-    if form.is_valid():
-        participant: fahrt.models.Participant
-        for participant in participants:
-            success = mail.send_mail({}, participant.email)
-            if success:
-                participant.log(request.user, f"Mail '{mail}' sent")
-            else:
-                failed_participants.append(participant)
-        if not failed_participants:
-            return redirect("mail_list")
-
-    context = {
-        "participants": participants,
-        "failed_participants": failed_participants,
-        "subject": subject,
-        "text": text,
-        "from_email": from_email,
-        "form": form,
-    }
-
-    if failed_participants:
-        return render(request, "settool_common/settings/mail/send_email_failure.html", context)
-    return render(request, "settool_common/settings/mail/send_email_confirmation.html", context)
 
 
 @permission_required("set.mail")

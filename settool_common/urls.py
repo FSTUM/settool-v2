@@ -85,11 +85,6 @@ urlpatterns = [
                                 views.mail_view,
                                 name="mail_view",
                             ),
-                            path(
-                                "send/<int:mail_pk>/",
-                                views.mail_send,
-                                name="mail_send",
-                            ),
                         ],
                     ),
                 ),
