@@ -6,6 +6,7 @@ from tempfile import mkdtemp, mkstemp
 from typing import Any, Dict, List, Tuple, Union
 
 from django.contrib.auth import get_user_model
+from django.core.exceptions import ObjectDoesNotExist
 from django.db.models import QuerySet
 from django.http import HttpResponse
 from django.template.loader import render_to_string
@@ -93,3 +94,18 @@ def produce_field_with_autosubmit(field_class, label, **kwargs):
 
     tmp.widget.attrs["onchange"] = "document.getElementById('filterform').submit()"
     return tmp
+
+
+def object_does_exists(klass, semester):
+    try:
+        klass.objects.get(semester=semester)
+    except ObjectDoesNotExist:
+        return False
+    return True
+
+
+def get_or_none(klass, *args, **kwargs):
+    try:
+        return klass.objects.get(*args, **kwargs)
+    except klass.DoesNotExist:
+        return None

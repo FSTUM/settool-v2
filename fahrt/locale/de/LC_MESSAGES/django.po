@@ -124,6 +124,30 @@ msgid "Mail Registration"
 msgstr "Anmeldungs Email"
 
 #: fahrt/models.py
+msgid "Mail Reminder"
+msgstr "Erinnerungs Email"
+
+#: fahrt/models.py
+msgid ""
+"Send the Reminder-mail automatically this amount of days before the Fahrt "
+"(0=same day)"
+msgstr ""
+"Sende die Erinnerungs Email automatisch diese menge an Tagen vor der Fahrt "
+"(0=gleicher Tag)"
+
+#: fahrt/models.py
+msgid "Mail Payment-Deadline Reminder"
+msgstr "Zahlungs-Deadline Erinnerungs Email"
+
+#: fahrt/models.py
+msgid ""
+"Send the Payment-Deadline Reminder-mail automatically this amount of days "
+"before the Deadline (0=same day)"
+msgstr ""
+"Sende die Zahlungs-Deadline Erinnerungs Email automatisch diese menge an "
+"Tagen vor der Zahlungs-Deadline (0=gleicher Tag)"
+
+#: fahrt/models.py
 msgid "male"
 msgstr "Männlich"
 

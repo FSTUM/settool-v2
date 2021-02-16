@@ -48,8 +48,8 @@ msgid "The Task"
 msgstr "Der Task"
 
 #: tutors/models.py
-msgid "Configured as the task mail"
-msgstr "Als Task-email Konfiguriert"
+msgid "Configured as the task mail or the reminder"
+msgstr "Als Task-email oder als Erinnerungs Email Konfiguriert"
 
 #: tutors/models.py
 msgid "Open registration"
@@ -78,6 +78,20 @@ msgstr "Mail kein Fixplatz"
 #: tutors/models.py
 msgid "Mail Task"
 msgstr "Mail Task"
+
+#: tutors/models.py
+msgid "Mail Reminder"
+msgstr "Erinnerungs Email"
+
+#: tutors/models.py
+#, fuzzy
+#| msgid "Send the Reminder this amount of days before the Task (0=same day)"
+msgid ""
+"Send the reminder-mail automatically this amount of days before the beginn "
+"of the Task (0=same day)"
+msgstr ""
+"Sende die Erinnerungs Email automatisch diese menge an Tagen vor dem Task "
+"(0=gleicher Tag)"
 
 #: tutors/models.py
 msgid "Semester"

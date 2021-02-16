@@ -5,7 +5,6 @@ from typing import Any, Dict, Optional, Tuple
 
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required, permission_required, user_passes_test
-from django.core.exceptions import ObjectDoesNotExist
 from django.core.handlers.wsgi import WSGIRequest
 from django.db.models import Count, QuerySet
 from django.forms import forms
@@ -27,6 +26,7 @@ from tutors.models import TutorMail
 
 from .forms import CSVFileUploadForm
 from .settings import SEMESTER_SESSION_KEY
+from .utils import object_does_exists
 
 
 @login_required
@@ -125,14 +125,6 @@ def mail_delete(request: WSGIRequest, mail_pk: int) -> HttpResponse:
         "form": form,
     }
     return render(request, "settool_common/settings/mail/delete_email.html", context)
-
-
-def object_does_exists(klass: Any, semester: Semester) -> bool:
-    try:
-        klass.objects.get(semester=semester)
-    except ObjectDoesNotExist:
-        return False
-    return True
 
 
 @permission_required("set.mail")

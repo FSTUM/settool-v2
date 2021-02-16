@@ -166,5 +166,18 @@ class Setting(models.Model):
         blank=True,
     )
 
+    mail_reminder = models.ForeignKey(
+        TourMail,
+        verbose_name=_("Mail Reminder"),
+        related_name="tours_mail_reminder",
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+    )
+    reminder_tour_days_count = models.IntegerField(
+        verbose_name=_("Send the reminder-mail automatically this amount of days before the Tour (0=same day)"),
+        default=0,
+    )
+
     def __str__(self):
         return f"Tour-Settings for {self.semester}"
