@@ -66,6 +66,14 @@ msgstr "Beschreibung"
 msgid "Date"
 msgstr "Datum"
 
+#: guidedtours/models.py
+msgid ""
+"How long (minutes) a Participant should be blocked after a Tour (additonal "
+"to 30min leadup-blacklist-Time)"
+msgstr ""
+"Wie lang (Minuten) ein Teilnehmer nach dem beginn einer Tour (zusätzlich zu "
+"der 30Minuten Leadup-Blacklist-Zeit) blockert wird"
+
 #: guidedtours/models.py guidedtours/templates/guidedtours/tour_dashboard.html
 msgid "Capacity"
 msgstr "Kapazität"
@@ -309,6 +317,20 @@ msgstr "Institutsführung löschen"
 msgid "Save settings"
 msgstr "Einstellungen speichern"
 
+#: guidedtours/templates/guidedtours/signup/blocked.html
+msgid "Sign up failed"
+msgstr "Anmeldung Fehlgeschlagen"
+
+#: guidedtours/templates/guidedtours/signup/blocked.html
+#, python-format
+msgid ""
+"We are sorry, you can't participate in two guildedtours at the same time. If "
+"you think there is an error, contact %(mail)s."
+msgstr ""
+"Wir sind Sorry, aber du kannst nicht an zwei Institutsführungen gleichzeitig "
+"teilnehmen. Falls du denkst, das dies ein Fehler ist, kontaktiere bitte "
+"%(mail)s."
+
 #: guidedtours/templates/guidedtours/signup/signup.html
 #: guidedtours/templates/guidedtours/signup/signup_notour.html
 msgid "Sign up for a guided tour"
@@ -320,8 +342,8 @@ msgstr "Institutsführungen"
 
 #: guidedtours/templates/guidedtours/signup/signup.html
 #, python-format
-msgid "%(name)s on %(date)s:"
-msgstr "%(name)s am %(date)s:"
+msgid "%(name)s on %(date)s (length: %(lenth)s minutes):"
+msgstr "%(name)s am %(date)s (länge: %(lenth)s minuten):"
 
 #: guidedtours/templates/guidedtours/signup/signup_internal.html
 msgid "Add participant to a guided tour"

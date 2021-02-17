@@ -26,8 +26,8 @@
                 {% for tour in tours %}
                 <li>
                     <strong>
-                        {% blocktranslate trimmed with name=tour.name date=tour.date %}
-                        {{ name }} on {{ date }}:
+                        {% blocktranslate trimmed with name=tour.name date=tour.date lenth=tour.length %}
+                        {{ name }} on {{ date }} (length: {{ lenth }} minutes):
                         {% endblocktranslate %}
                     </strong>
                     <p>{{ tour.description }}</p>

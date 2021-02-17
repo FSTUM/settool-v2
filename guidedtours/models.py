@@ -78,6 +78,14 @@ class Tour(models.Model):
         verbose_name=_("Date"),
     )
 
+    length = models.IntegerField(
+        verbose_name=_(
+            "How long (minutes) a Participant should be blocked after a Tour (additonal to 30min "
+            "leadup-blacklist-Time)",
+        ),
+        default=0,
+    )
+
     capacity = models.PositiveIntegerField(
         verbose_name=_("Capacity"),
     )

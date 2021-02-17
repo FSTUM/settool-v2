@@ -1,4 +1,5 @@
 import time
+from datetime import timedelta
 from typing import Any, Dict, Optional
 
 from django import forms
@@ -318,7 +319,16 @@ def signup(request: WSGIRequest) -> HttpResponse:
 
     form = ParticipantForm(request.POST or None, tours=tours, semester=semester)
     if form.is_valid():
-        participant: Participant = form.save()
+        participant: Participant = form.save(commit=False)
+        # if there is a tour with a participant using the same mail in the blocked time-window
+        # (15min for transitioning and 15min for meeting)
+        conflicting_tours = semester.tour_set.filter(
+            date__gt=participant.tour.date - timedelta(minutes=30),
+            date__lt=participant.tour.date + timedelta(minutes=participant.tour.length) + timedelta(minutes=30),
+        )
+        if Participant.objects.filter(Q(email=participant.email) & Q(tours__in=conflicting_tours)).exists():
+            return render(request, "guidedtours/signup/blocked.html", {"mail": TourMail.SET})
+        participant.save()
         if settings.mail_registration:
             mail: TourMail = settings.mail_registration
             if not mail.send_mail_participant(participant):
