@@ -99,6 +99,9 @@ class Tour(models.Model):
 
 
 class Participant(models.Model):
+    class Meta:
+        unique_together = ("tour", "email")
+
     tour = models.ForeignKey(
         Tour,
         on_delete=models.CASCADE,
