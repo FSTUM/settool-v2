@@ -79,9 +79,39 @@ class Fahrt(models.Model):
         FahrtMail,
         verbose_name=_("Mail Registration"),
         related_name="fahrt_mail_registration",
-        on_delete=models.CASCADE,
+        on_delete=models.SET_NULL,
         blank=True,
         null=True,
+    )
+
+    mail_reminder = models.ForeignKey(
+        FahrtMail,
+        verbose_name=_("Mail Reminder"),
+        related_name="fahrt_mail_reminder",
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+    )
+    reminder_tour_days_count = models.IntegerField(
+        verbose_name=_("Send the Reminder-mail automatically this amount of days before the Fahrt (0=same day)"),
+        default=0,
+    )
+
+    mail_payment_deadline = models.ForeignKey(
+        FahrtMail,
+        verbose_name=_("Mail Payment-Deadline Reminder"),
+        related_name="fahrt_mail_payment_deadline",
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+    )
+
+    reminder_payment_deadline_days_count = models.IntegerField(
+        verbose_name=_(
+            "Send the Payment-Deadline Reminder-mail automatically this amount of days before the Deadline "
+            "(0=same day)",
+        ),
+        default=0,
     )
 
     def __str__(self):

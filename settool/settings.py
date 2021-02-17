@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     "bootstrap4",
     "bootstrap_datepicker_plus",
     "active_link",
+    "django_crontab",
     "settool_common",
     "guidedtours",
     "bags",
@@ -141,4 +142,9 @@ STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "node_modules"),
     os.path.join(BASE_DIR, "static"),
+]
+
+# cronjobs
+CRONJOBS = [
+    ("0 6 * * *", "settool_common.cron.master_cronjob"),
 ]

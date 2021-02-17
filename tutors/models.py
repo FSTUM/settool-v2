@@ -18,7 +18,7 @@ class TutorMail(common_models.Mail):
     # ["{{template}}", "description", "contition"]
     conditional_placeholders: List[Tuple[str, str, str]] = [
         ("{{activation_url}}", _("The Activation-Link"), _("Configured as the registration mail")),
-        ("{{task}}", _("The Task"), _("Configured as the task mail")),
+        ("{{task}}", _("The Task"), _("Configured as the task mail or the reminder")),
     ]
     notes = ""
     required_perm = common_models.Mail.required_perm + ["tutors.edit_tutors"]
@@ -120,6 +120,21 @@ class Settings(BaseModel):
         on_delete=models.SET_NULL,
         null=True,
         blank=True,
+    )
+
+    mail_reminder = models.ForeignKey(
+        TutorMail,
+        verbose_name=_("Mail Reminder"),
+        related_name="tutors_mail_reminder",
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+    )
+    reminder_tour_days_count = models.IntegerField(
+        verbose_name=_(
+            "Send the reminder-mail automatically this amount of days before the beginn of the Task (0=same day)",
+        ),
+        default=0,
     )
 
     def registration_open(self):
