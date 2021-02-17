@@ -146,5 +146,5 @@ STATICFILES_DIRS = [
 
 # cronjobs
 CRONJOBS = [
-    ("0 6 * * *", "settool.cron.master_cronjob"),
+    ("0 6 * * *", "settool_common.cron.master_cronjob"),
 ]
