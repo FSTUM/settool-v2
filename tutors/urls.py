@@ -4,30 +4,14 @@ from django.views.generic import RedirectView
 from . import views
 
 urlpatterns = [
-    path(
-        "",
-        RedirectView.as_view(pattern_name="tutor_dashboard"),
-        name="tutor_main_index",
-    ),
-    path(
-        "dashboard/",
-        views.dashboard,
-        name="tutor_dashboard",
-    ),
+    path("", RedirectView.as_view(pattern_name="tutor_dashboard"), name="tutor_main_index"),
+    path("dashboard/", views.dashboard, name="tutor_dashboard"),
     path(
         "collaborator/",
         include(
             [
-                path(
-                    "signup/",
-                    views.collaborator_signup,
-                    name="collaborator_signup",
-                ),
-                path(
-                    "signup/success/",
-                    views.collaborator_signup_success,
-                    name="collaborator_signup_success",
-                ),
+                path("signup/", views.collaborator_signup, name="collaborator_signup"),
+                path("signup/success/", views.collaborator_signup_success, name="collaborator_signup_success"),
             ],
         ),
     ),
@@ -35,53 +19,27 @@ urlpatterns = [
         "tutor/",
         include(
             [
-                path(
-                    "signup/",
-                    views.tutor_signup,
-                    name="tutor_signup",
-                ),
-                path(
-                    "signup/success/",
-                    views.tutor_signup_success,
-                    name="tutor_signup_success",
-                ),
+                path("signup/", views.tutor_signup, name="tutor_signup"),
+                path("signup/success/", views.tutor_signup_success, name="tutor_signup_success"),
                 path(
                     "signup/confirm/",
                     views.tutor_signup_confirmation_required,
                     name="tutor_signup_confirmation_required",
                 ),
-                path(
-                    "signup/confirm/<uidb64>/<token>/",
-                    views.tutor_signup_confirm,
-                    name="tutor_signup_confirm",
-                ),
-                path(
-                    "signup/invalid/",
-                    views.tutor_signup_invalid,
-                    name="tutor_signup_invalid",
-                ),
+                path("signup/confirm/<uidb64>/<token>/", views.tutor_signup_confirm, name="tutor_signup_confirm"),
+                path("signup/invalid/", views.tutor_signup_invalid, name="tutor_signup_invalid"),
                 path(
                     "list/",
                     include(
                         [
-                            path(
-                                "all/",
-                                views.tutor_list,
-                                {"status": "all"},
-                                name="tutor_list_status_all",
-                            ),
+                            path("all/", views.tutor_list, {"status": "all"}, name="tutor_list_status_all"),
                             path(
                                 "accepted/",
                                 views.tutor_list,
                                 {"status": "accepted"},
                                 name="tutor_list_status_accepted",
                             ),
-                            path(
-                                "active/",
-                                views.tutor_list,
-                                {"status": "active"},
-                                name="tutor_list_status_active",
-                            ),
+                            path("active/", views.tutor_list, {"status": "active"}, name="tutor_list_status_active"),
                             path(
                                 "declined/",
                                 views.tutor_list,
@@ -103,66 +61,18 @@ urlpatterns = [
                         ],
                     ),
                 ),
-                path(
-                    "view/<uuid:uid>/",
-                    views.tutor_view,
-                    name="tutor_view",
-                ),
-                path(
-                    "status/<uuid:uid>/<str:status>/",
-                    views.tutor_change_status,
-                    name="tutor_change_status",
-                ),
-                path(
-                    "delete/<uuid:uid>/",
-                    views.tutor_delete,
-                    name="tutor_delete",
-                ),
-                path(
-                    "edit/<uuid:uid>/",
-                    views.tutor_edit,
-                    name="tutor_edit",
-                ),
-                path(
-                    "export/<str:file_type>/",
-                    views.tutor_export,
-                    name="tutor_export",
-                ),
-                path(
-                    "export/<str:file_type>/<str:status>/",
-                    views.tutor_export,
-                    name="tutor_export_status",
-                ),
-                path(
-                    "mail/<str:status>/",
-                    views.tutor_mail,
-                    name="tutor_mail_status",
-                ),
-                path(
-                    "mail/<str:status>/<int:mail_pk>/",
-                    views.tutor_mail,
-                    name="tutor_mail_status_template",
-                ),
-                path(
-                    "mail/tutor/<uuid:uid>/",
-                    views.tutor_mail,
-                    name="tutor_mail_tutor",
-                ),
-                path(
-                    "mail/tutor/<uuid:uid>/<int:mail_pk>/",
-                    views.tutor_mail,
-                    name="tutor_mail_tutor_template",
-                ),
-                path(
-                    "batch/accept/",
-                    views.tutor_batch_accept,
-                    name="tutor_batch_accept",
-                ),
-                path(
-                    "batch/decline/",
-                    views.tutor_batch_decline,
-                    name="tutor_batch_decline",
-                ),
+                path("view/<uuid:uid>/", views.tutor_view, name="tutor_view"),
+                path("status/<uuid:uid>/<str:status>/", views.tutor_change_status, name="tutor_change_status"),
+                path("delete/<uuid:uid>/", views.tutor_delete, name="tutor_delete"),
+                path("edit/<uuid:uid>/", views.tutor_edit, name="tutor_edit"),
+                path("export/<str:file_type>/", views.tutor_export, name="tutor_export"),
+                path("export/<str:file_type>/<str:status>/", views.tutor_export, name="tutor_export_status"),
+                path("mail/<str:status>/", views.tutor_mail, name="tutor_mail_status"),
+                path("mail/<str:status>/<int:mail_pk>/", views.tutor_mail, name="tutor_mail_status_template"),
+                path("mail/tutor/<uuid:uid>/", views.tutor_mail, name="tutor_mail_tutor"),
+                path("mail/tutor/<uuid:uid>/<int:mail_pk>/", views.tutor_mail, name="tutor_mail_tutor_template"),
+                path("batch/accept/", views.tutor_batch_accept, name="tutor_batch_accept"),
+                path("batch/decline/", views.tutor_batch_decline, name="tutor_batch_decline"),
             ],
         ),
     ),
