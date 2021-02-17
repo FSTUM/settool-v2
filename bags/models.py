@@ -44,6 +44,7 @@ class BagMail(common_models.Mail):
 
 class Company(models.Model):
     class Meta:
+        unique_together = ("semester", "name")
         permissions = (
             (
                 "view_companies",

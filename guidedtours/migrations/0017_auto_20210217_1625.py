@@ -6,12 +6,9 @@ from django.db import migrations
 def rename_duplicates(apps, _):
     Participant = apps.get_model("guidedtours", "participant")
     participant: Participant
-    index = 0
     for participant in Participant.objects.all():
-        if Participant.objects.filter(tour=participant.tour, email=participant.email):
-            participant.email = participant.email + index
-            participant.save()
-            index += 1
+        if Participant.objects.filter(tour=participant.tour, email=participant.email).count() > 1:
+            participant.delete()
 
 
 class Migration(migrations.Migration):
