@@ -3,7 +3,7 @@ from typing import List
 from django import forms
 from django.utils.translation import ugettext_lazy as _
 
-from settool_common.forms import SemesterBasedForm, SemesterBasedModelForm
+from settool_common.forms import produce_csv_file_upload_field, SemesterBasedForm, SemesterBasedModelForm
 from settool_common.models import Semester
 from settool_common.utils import produce_field_with_autosubmit
 
@@ -88,3 +88,11 @@ class UpdateFieldForm(forms.Form):
     pk = forms.IntegerField()
     name = forms.CharField()
     value = forms.CharField()
+
+
+class CSVFileUploadForm(forms.Form):
+    file = produce_csv_file_upload_field(
+        "name, contact_gender, contact_firstname, contact_lastname, email, "
+        "email_sent, email_sent_success, promise, giveaways, giveaways_last_year, "
+        "arrival_time, comment, last_year, arrived, contact_again",
+    )

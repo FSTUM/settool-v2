@@ -1,14 +1,22 @@
+import csv
+import os
+import time
+
 from django import forms
+from django.contrib import messages
 from django.contrib.auth.decorators import permission_required, user_passes_test
 from django.core.handlers.wsgi import WSGIRequest
 from django.forms import formset_factory
 from django.http import HttpResponse, HttpResponseBadRequest
 from django.shortcuts import get_object_or_404, redirect, render
+from django.utils.translation import ugettext_lazy as _
 
+from settool_common import utils
 from settool_common.models import get_semester, Semester
 
 from .forms import (
     CompanyForm,
+    CSVFileUploadForm,
     FilterCompaniesForm,
     GiveawayForm,
     ImportForm,
@@ -296,8 +304,59 @@ def send_mail(request: WSGIRequest, mail_pk: int) -> HttpResponse:
     return render(request, "bags/mail/send_mail.html", context)
 
 
+def import_mail_csv_to_db(csv_file, semester):
+    # load content into tempfile
+    tmp_filename = f"upload_{csv_file.name}"
+    with open(tmp_filename, "wb+") as tmp_csv_file:
+        for chunk in csv_file.chunks():
+            tmp_csv_file.write(chunk)
+    # create new mail
+    with open(tmp_filename, "r") as tmp_csv_file:
+        rows = csv.DictReader(tmp_csv_file)
+        for row in rows:
+            Company.objects.update_or_create(
+                semester=semester,
+                name=row["name"],
+                defaults={
+                    "contact_firstname": row["contact_firstname"],
+                    "contact_lastname": row["contact_lastname"],
+                    "email": row["email"],
+                    "contact_gender": row["contact_gender"],
+                    "email_sent": row["email_sent"],
+                    "email_sent_success": row["email_sent_success"],
+                    "promise": row["promise"],
+                    "giveaways": row["giveaways"],
+                    "giveaways_last_year": row["giveaways_last_year"],
+                    "arrival_time": row["arrival_time"],
+                    "comment": row["comment"],
+                    "last_year": row["last_year"],
+                    "arrived": row["arrived"],
+                    "contact_again": row["contact_again"],
+                },
+            )
+    # delete tempfile
+    os.remove(tmp_filename)
+
+
 @user_passes_test(lambda user: user.is_staff)
-def import_companies(request: WSGIRequest) -> HttpResponse:
+@permission_required("bags.view_companies")
+def import_csv(request: WSGIRequest) -> HttpResponse:
+    semester = get_object_or_404(Semester, pk=get_semester(request))
+    file_upload_form = CSVFileUploadForm(request.POST or None, request.FILES)
+    if file_upload_form.is_valid():
+        import_mail_csv_to_db(request.FILES["file"], semester)
+        messages.success(request, _("The File was successfully uploaded"))
+        return redirect("bags_main_index")
+    return render(
+        request,
+        "bags/import-export/import_csv.html",
+        {"form": file_upload_form},
+    )
+
+
+@permission_required("bags.view_companies")
+@user_passes_test(lambda user: user.is_staff)
+def import_previous_semester(request: WSGIRequest) -> HttpResponse:
     new_semester = get_object_or_404(Semester, pk=get_semester(request))
 
     form = ImportForm(request.POST or None, semester=new_semester)
@@ -338,4 +397,31 @@ def import_companies(request: WSGIRequest) -> HttpResponse:
         "form": form,
     }
 
-    return render(request, "bags/import_companies.html", context)
+    return render(request, "bags/import-export/import_companies.html", context)
+
+
+@permission_required("guidedtours.view_participants")
+def export_csv(request: WSGIRequest) -> HttpResponse:
+    semester = get_object_or_404(Semester, pk=get_semester(request))
+    companies = semester.company_set.order_by("name")
+    return utils.download_csv(
+        [
+            "name",
+            "contact_gender",
+            "contact_firstname",
+            "contact_lastname",
+            "email",
+            "email_sent",
+            "email_sent_success",
+            "promise",
+            "giveaways",
+            "giveaways_last_year",
+            "arrival_time",
+            "comment",
+            "last_year",
+            "arrived",
+            "contact_again",
+        ],
+        f"companies_{time.strftime('%Y%m%d-%H%M')}.csv",
+        companies,
+    )

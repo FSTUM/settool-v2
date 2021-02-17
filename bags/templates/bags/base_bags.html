@@ -22,10 +22,18 @@
     href="{% url "listmails" %}"
 >{% trans "Edit email-templates" %}</a>
 {% if user.is_staff %}
-<h4 class="navbar-text">{% trans "Importing" %}</h4>
+<h4 class="navbar-text">{% trans "Import/ Export" %}</h4>
 <a
-    class="nav-link {% active_link 'import_companies' %}"
-    href="{% url "import_companies" %}"
+    class="nav-link {% active_link 'import_previous_semester' %}"
+    href="{% url "import_previous_semester" %}"
 >{% trans "Import companies" %}</a>
+<a
+    class="nav-link {% active_link 'import_csv' %}"
+    href="{% url "import_csv" %}"
+>{% trans "Import CSV" %}</a>
+<a
+    class="nav-link {% active_link 'export_csv' %}"
+    href="{% url "export_csv" %}"
+>{% trans "Export CSV" %}</a>
 {% endif %}
 {% endblock %}

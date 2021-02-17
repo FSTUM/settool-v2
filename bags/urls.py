@@ -11,7 +11,9 @@ urlpatterns = [
     path("del/<int:company_pk>/", views.delete, name="delcompany"),
     path("dashboard/", views.bags_dashboard, name="bags_dashboard"),
     path("giveaways/", views.insert_giveaways, name="insert_giveaways"),
-    path("import/", views.import_companies, name="import_companies"),
+    path("import/semester/", views.import_previous_semester, name="import_previous_semester"),
+    path("import/csv/", views.import_csv, name="import_csv"),
+    path("export/", views.export_csv, name="export_csv"),
     path(
         "emails/",
         include(

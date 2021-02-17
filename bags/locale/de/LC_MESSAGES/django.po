@@ -162,7 +162,8 @@ msgstr "Giveaway hinzufügen"
 #: bags/templates/bags/company/add_company.html
 #: bags/templates/bags/company/del_company.html
 #: bags/templates/bags/company/edit_company.html
-#: bags/templates/bags/import_companies.html
+#: bags/templates/bags/import-export/import_companies.html
+#: bags/templates/bags/import-export/import_csv.html
 #: bags/templates/bags/mail/add_mail.html
 #: bags/templates/bags/mail/del_mail.html
 #: bags/templates/bags/mail/edit_mail.html
@@ -253,12 +254,20 @@ msgid "Edit email-templates"
 msgstr "E-Mail-Vorlagen bearbeiten"
 
 #: bags/templates/bags/base_bags.html
-msgid "Importing"
-msgstr "Importieren"
+msgid "Import/ Export"
+msgstr "Import/ Export"
 
 #: bags/templates/bags/base_bags.html
 msgid "Import companies"
 msgstr "Firmen importieren"
+
+#: bags/templates/bags/base_bags.html
+msgid "Import CSV"
+msgstr "CSV Importieren"
+
+#: bags/templates/bags/base_bags.html
+msgid "Export CSV"
+msgstr "CSV Exportieren"
 
 #: bags/templates/bags/company/add_company.html
 msgid "Add company"
@@ -294,9 +303,30 @@ msgid ""
 msgstr ""
 "Soll die Firma <a href=\"%(url)s\">%(name)s</a> wirklich gelöscht werden?"
 
-#: bags/templates/bags/import_companies.html
+#: bags/templates/bags/import-export/import_companies.html
+#: bags/templates/bags/import-export/import_csv.html
 msgid "Import Companies"
 msgstr "Firmen importieren"
+
+#: bags/templates/bags/import-export/import_companies.html
+msgid ""
+"This skips companies whose name to those already in the Tool for the current "
+"semester."
+msgstr ""
+"Dies überspringt die Firmen, deren Name schon im Tool ist für das "
+"ausgewählte momentane Semester."
+
+#: bags/templates/bags/import-export/import_csv.html
+msgid "Preview"
+msgstr "Preview"
+
+#: bags/templates/bags/import-export/import_csv.html
+msgid "Preview Companies"
+msgstr "Preview Firmen"
+
+#: bags/templates/bags/import-export/import_csv.html
+msgid "Upload and update_or_create all Companies"
+msgstr "Upload und update_or_create alle Firmen"
 
 #: bags/templates/bags/mail/add_mail.html
 #: bags/templates/bags/mail/index_mails.html
@@ -352,6 +382,10 @@ msgstr "An"
 #: bags/templates/bags/mail/send_mail.html
 msgid "see table below"
 msgstr "siehe Tabelle unten"
+
+#: bags/views.py
+msgid "The File was successfully uploaded"
+msgstr "Die Datei wurde noch erfolgreich hochgeladen"
 
 #~ msgid "Email subject"
 #~ msgstr "Betreff der E-Mail"

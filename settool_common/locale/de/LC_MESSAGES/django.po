@@ -23,12 +23,13 @@ msgid "Email template:"
 msgstr "E-Mail Template:"
 
 #: settool_common/forms.py
+#, python-brace-format
 msgid ""
-"Upload a csv-file in exel-formatting. (Column-order: sender,subject,text,"
-"comment. First line is header.)"
+"Upload a csv-file in exel-formatting. (Column-order: {fields}. First line is "
+"header.)"
 msgstr ""
-"Lade eine CSV-Datei im exel-Format hoch. (Spalten-ordnung: sender,subject,"
-"text,comment. Die erste Zeile ist der header.)"
+"Lade eine CSV-Datei im exel-Format hoch. (Spalten-ordnung: {fields}. Die "
+"erste Zeile ist der header.)"
 
 #: settool_common/forms.py
 msgid "I accept the terms and conditions of the following privacy policy:"

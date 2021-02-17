@@ -87,14 +87,17 @@ class SelectMailForm(forms.Form):
     )
 
 
-class CSVFileUploadForm(forms.Form):
-    file = forms.FileField(
+def produce_csv_file_upload_field(fields):
+    return forms.FileField(
         allow_empty_file=False,
         label=_(
-            "Upload a csv-file in exel-formatting. "
-            "(Column-order: sender,subject,text,comment. First line is header.)",
-        ),
+            "Upload a csv-file in exel-formatting. " "(Column-order: {fields}. First line is header.)",
+        ).format(fields=fields),
     )
+
+
+class CSVFileUploadForm(forms.Form):
+    file = produce_csv_file_upload_field("sender, subject, text, comment")
 
 
 class CommonParticipantForm(SemesterBasedModelForm):
