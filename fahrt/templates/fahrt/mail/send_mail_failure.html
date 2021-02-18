@@ -5,7 +5,8 @@
 {% block  set_common_headercontent %}{% trans "Send email" %}{% endblock %}
 
 {% block set_common_content %}
-<p>{% trans "The emails were sent, but some emails failed, because a field was empty. Below you can find a list of all failed participants." %}
+<p>
+    {% trans "The emails were sent, but some emails failed, because a field was empty. Below you can find a list of all failed participants." %}
 </p>
 <p>
     <strong>{% trans "From" %}</strong>: {{ from_email }}
@@ -17,7 +18,8 @@
     <strong>{% trans "Subject" %}</strong>: {{ subject }}
 </p>
 <p>
-    <strong>{% trans "Text" %}</strong>:<br />{{ text|linebreaks|urlize }}
+    <strong>{% trans "Text" %}</strong>:<br>
+    {{ text|linebreaks|urlize }}
 </p>
 
 <table class="table">

@@ -13,7 +13,8 @@
     <strong>{% trans "Subject" %}:</strong> {{ mail.subject }}
 </p>
 <p>
-    <strong>{% trans "Text" %}:</strong><br />{{ mail.text|linebreaks }}
+    <strong>{% trans "Text" %}:</strong><br>
+    {{ mail.text|linebreaks }}
 </p>
 <p>
     <strong>{% trans "Comment" %}:</strong> {{ mail.comment }}

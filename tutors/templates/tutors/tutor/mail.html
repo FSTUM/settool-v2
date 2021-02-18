@@ -8,11 +8,22 @@
 <hr>
 <div class="row">
     <div class="col-sm-12">
-        <p>{% trans "Do you really want to send the following email to the tutors below?" %}</p>
-        <p><strong>{% trans "From: " %}</strong>{{ from }}</p>
-        <p><strong>{% trans "To: " %}</strong>{% trans "see table below" %}</p>
-        <p><strong>{% trans "Subject: " %}</strong>{{ subject }}</p>
-        <p><strong>{% trans "Text: " %}</strong><br />{{ body|linebreaks|urlize }}</p>
+        <p>
+            {% trans "Do you really want to send the following email to the tutors below?" %}
+        </p>
+        <p>
+            <strong>{% trans "From: " %}</strong>{{ from }}
+        </p>
+        <p>
+            <strong>{% trans "To: " %}</strong>{% trans "see table below" %}
+        </p>
+        <p>
+            <strong>{% trans "Subject: " %}</strong>{{ subject }}
+        </p>
+        <p>
+            <strong>{% trans "Text: " %}</strong><br>
+            {{ body|linebreaks|urlize }}
+        </p>
 
         <form
             method="post"
