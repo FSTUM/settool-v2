@@ -23,7 +23,7 @@
                 <th>{% trans "First name" %}</th>
                 <th>{% trans "Surname" %}</th>
                 <th>{% trans "Registration time" %}</th>
-                <th>{% trans "Car" %}</th>
+                <th>{% trans "Transportation" %}</th>
                 <th>{% trans "U18" %}</th>
                 <th>{% trans "Allergies" %}</th>
             </tr>
@@ -34,20 +34,9 @@
                 <td><a href="{% url "fahrt_viewparticipant" participant.id %}">{{ participant.firstname }}</a></td>
                 <td><a href="{% url "fahrt_viewparticipant" participant.id %}">{{ participant.surname }}</a></td>
                 <td>{{ participant.registration_time }}</td>
-                <td>
-                    {% include "snippets/true_false_span.html" with value=participant.car %}
-                    {% if participant.car %}
-                    {% blocktranslate trimmed with additional_seats=participant.car_places %}
-                    {{ additional_seats }} additional seats
-                    {% endblocktranslate %}
-                    {% endif %}
-                </td>
-                <td>
-                    {% include "snippets/true_false_span.html" with value=participant.u18 inverted_colors=True %}
-                </td>
-                <td>
-                    {% include "snippets/true_false_span.html" with value=participant.allergies inverted_colors=True %}
-                </td>
+                <td>{% include "fahrt/snippets/transportation.html" with transportation=participant.transportation %}</td>
+                <td>{% include "snippets/true_false_span.html" with value=participant.u18 inverted_colors=True %}</td>
+                <td>{% include "snippets/true_false_span.html" with value=participant.allergies inverted_colors=True %}</td>
             </tr>
             {% endfor %}
         </tbody>

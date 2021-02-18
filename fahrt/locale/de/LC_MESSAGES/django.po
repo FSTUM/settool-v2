@@ -8,16 +8,28 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: fahrt/forms.py
-msgid "This field is required if you have a car"
-msgstr "Dieses Feld muss ausgefüllt werden wenn du ein Auto hast"
-
-#: fahrt/forms.py
 msgid "You cant be born today."
 msgstr "Du kannst nicht heute geboren worden sein."
 
 #: fahrt/forms.py
 msgid "You cant be born in the future."
 msgstr "Du kannst nicht in der Zukunft geboren worden sein."
+
+#: fahrt/forms.py
+msgid "I drive by car"
+msgstr "Ich Fahre mit dem Auto"
+
+#: fahrt/forms.py
+msgid "Number of people I can take along additionally"
+msgstr "Anzahl an Leuten, die ich zusätzlich mitnehmen kann"
+
+#: fahrt/forms.py
+msgid "I accept the terms and conditions of the following privacy policy:"
+msgstr "Ich stimme der folgenden Datenschutzerklärung zu:"
+
+#: fahrt/forms.py
+msgid "This field is required if you have a car"
+msgstr "Dieses Feld muss ausgefüllt werden wenn du ein Auto hast"
 
 #: fahrt/forms.py
 msgid "Email template:"
@@ -148,6 +160,22 @@ msgstr ""
 "Tagen vor der Zahlungs-Deadline (0=gleicher Tag)"
 
 #: fahrt/models.py
+msgid "Type of Transport"
+msgstr "Transporttyp"
+
+#: fahrt/models.py fahrt/templates/fahrt/snippets/transportation.html
+msgid "Car"
+msgstr "Auto"
+
+#: fahrt/models.py fahrt/templates/fahrt/snippets/transportation.html
+msgid "Train"
+msgstr ""
+
+#: fahrt/models.py
+msgid "Number of people (totally) for this mode of transport"
+msgstr ""
+
+#: fahrt/models.py
 msgid "male"
 msgstr "Männlich"
 
@@ -229,14 +257,6 @@ msgstr "vegan"
 #: fahrt/templates/fahrt/participants/view_participant_details.html
 msgid "Allergies"
 msgstr "Allergien"
-
-#: fahrt/models.py
-msgid "Drive by car"
-msgstr "Fahre mit dem Auto"
-
-#: fahrt/models.py
-msgid "Number of people I can take along additionally"
-msgstr "Anzahl an Leuten, die ich zusätzlich mitnehmen kann"
 
 #: fahrt/models.py fahrt/templates/fahrt/participants/list_cancelled.html
 #: fahrt/templates/fahrt/participants/view_participant_details.html
@@ -539,16 +559,8 @@ msgstr "Bezahlt/Zahlungsfrist"
 #: fahrt/templates/fahrt/participants/list_registered.html
 #: fahrt/templates/fahrt/participants/list_waitinglist.html
 #: fahrt/templates/fahrt/participants/view_participant_details.html
-msgid "Car"
-msgstr "Auto"
-
-#: fahrt/templates/fahrt/participants/list_confirmed.html
-#: fahrt/templates/fahrt/participants/list_registered.html
-#: fahrt/templates/fahrt/participants/list_waitinglist.html
-#: fahrt/templates/fahrt/participants/view_participant_details.html
-#, python-format
-msgid "%(additional_seats)s additional seats"
-msgstr "%(additional_seats)s zusätzliche Plätze"
+msgid "Transportation"
+msgstr ""
 
 #: fahrt/templates/fahrt/participants/list_confirmed.html
 msgid "Vegan"
@@ -620,6 +632,11 @@ msgstr "Bearbeiten"
 msgid "Delete"
 msgstr "Löschen"
 
+#: fahrt/templates/fahrt/snippets/transportation.html
+#, python-format
+msgid "%(additional_seats)s additional seats"
+msgstr "%(additional_seats)s zusätzliche Plätze"
+
 #: fahrt/templates/fahrt/standalone/registration_closed.html
 #: fahrt/templates/fahrt/standalone/signup.html
 msgid "Sign up for the SET-Fahrt"
@@ -667,9 +684,6 @@ msgid ""
 msgstr ""
 "Konnte die Registrierungs-Email nicht senden. Bitte vergewissere dich, das "
 "diese richtig konfiguirert ist"
-
-#~ msgid "I accept the terms and conditions of the following privacy policy:"
-#~ msgstr "Ich stimme der folgenden Datenschutzerklärung zu:"
 
 #~ msgid "Email subject"
 #~ msgstr "E-Mail Betreff"

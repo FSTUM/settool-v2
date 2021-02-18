@@ -101,7 +101,7 @@
                 <th>{% trans "Surname" %}</th>
                 <th>{% trans "Non-liability submitted" %}</th>
                 <th>{% trans "Paid/Payment deadline" %}</th>
-                <th>{% trans "Car" %}</th>
+                <th>{% trans "Transportation" %}</th>
                 <th>{% trans "U18" %}</th>
                 <th>{% trans "Nutrition" %}</th>
                 <th>{% trans "Allergies" %}</th>
@@ -128,18 +128,13 @@
                     {{ participant.payment_deadline }}
                     {% endif %}
                 </td>
-                <td>
-                    {% include "snippets/true_false_span.html" with value=participant.car %}
-                    {% if participant.car %}
-                    {% blocktranslate trimmed with additional_seats=participant.car_places %}
-                    {{ additional_seats }} additional seats
-                    {% endblocktranslate %}
-                    {% endif %}
-                </td>
+                <td>{% include "fahrt/snippets/transportation.html" with transportation=participant.transportation %}</td>
                 <td>{% include "snippets/true_false_span.html" with value=participant.u18 inverted_colors=True %}</td>
-                <td>{% if participant.nutrition == "vegan" %}
-                    {% trans "Vegan" %}{% elif participant.nutrition == "vegeterian" %}
-                    {% trans "Vegeterian" %}{% else %}{% trans "Normal" %}{% endif %}</td>
+                <td>
+                    {% if participant.nutrition == "vegan" %}{% trans "Vegan" %}
+                    {% elif participant.nutrition == "vegeterian" %}{% trans "Vegeterian" %}
+                    {% else %}{% trans "Normal" %}{% endif %}
+                </td>
                 <td>{% include "snippets/true_false_span.html" with value=participant.allergies inverted_colors=True %}</td>
             </tr>
             {% endfor %}

@@ -49,15 +49,8 @@
                 <td>{{ participant.allergies }}</td>
             </tr>
             <tr>
-                <th>{% trans "Car" %}</th>
-                <td>
-                    {% include "snippets/true_false_span.html" with value=participant.car %}
-                    {% if participant.car %}
-                    {% blocktranslate trimmed with additional_seats=participant.car_places %}
-                    {{ additional_seats }} additional seats
-                    {% endblocktranslate %}
-                    {% endif %}
-                </td>
+                <th>{% trans "Transportation" %}</th>
+                <td>{% include "fahrt/snippets/transportation.html" with transportation=participant.transportation %}</td>
             </tr>
         </table>
     </div>

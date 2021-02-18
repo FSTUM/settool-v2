@@ -7,11 +7,11 @@ from django.core.exceptions import ValidationError
 from django.db.models import QuerySet
 from django.utils.translation import ugettext_lazy as _
 
-from settool_common.forms import CommonParticipantForm, SemesterBasedForm, SemesterBasedModelForm
+from settool_common.forms import SemesterBasedForm, SemesterBasedModelForm
 from settool_common.models import Subject
 from settool_common.utils import produce_field_with_autosubmit
 
-from .models import Fahrt, FahrtMail, Participant
+from .models import Fahrt, FahrtMail, Participant, Transportation
 
 
 class FahrtForm(forms.ModelForm):
@@ -28,10 +28,21 @@ class FahrtForm(forms.ModelForm):
 class ParticipantAdminForm(SemesterBasedModelForm):
     class Meta:
         model = Participant
-        exclude = ["semester", "registration_time"]
+        exclude = ["semester", "registration_time", "transportation"]
+
+    def clean(self):
+        cleaned_data = super().clean()
+        birthday = cleaned_data["birthday"]
+        if birthday == date.today():
+            self.add_error("birthday", _("You cant be born today."))
+            raise ValidationError(_("You cant be born today."), code="birthday")
+            # required, as current template does not have an error place
+        if birthday > date.today():
+            self.add_error("birthday", _("You cant be born in the future."))
+            raise ValidationError(_("You cant be born in the future."), code="birthday")
 
 
-class ParticipantForm(CommonParticipantForm):
+class ParticipantForm(ParticipantAdminForm):
     class Meta:
         model = Participant
         exclude = [
@@ -43,23 +54,44 @@ class ParticipantForm(CommonParticipantForm):
             "mailinglist",
             "comment",
             "registration_time",
+            "transportation",
         ]
         widgets = {
             "birthday": DatePickerInput(format="%Y-%m-%d"),
         }
 
+    car = forms.BooleanField(
+        label=_("I drive by car"),
+    )
+
+    car_places = forms.IntegerField(
+        label=_("Number of people I can take along additionally"),
+        required=False,
+        min_value=0,
+    )
+
+    dsgvo = forms.BooleanField(
+        label=_("I accept the terms and conditions of the following privacy policy:"),
+        required=True,
+    )
+
     def clean(self):
         cleaned_data = super().clean()
         if cleaned_data["car"] and not cleaned_data["car_places"]:
             self.add_error("car_places", _("This field is required if you have a car"))
-        birthday = cleaned_data["birthday"]
-        if birthday == date.today():
-            self.add_error("birthday", _("You cant be born today."))
-            raise ValidationError(_("You cant be born today."), code="birthday")
-            # required, as current template does not have an error place
-        if birthday > date.today():
-            self.add_error("birthday", _("You cant be born in the future."))
-            raise ValidationError(_("You cant be born in the future."), code="birthday")
+
+    def save(self, commit=True):
+        participant: Participant = super().save(commit=True)
+
+        if self.cleaned_data["car"]:
+            car_places: int = self.cleaned_data["car_places"]
+            participant.transportation = Transportation.objects.update_or_create(
+                transport_type=Transportation.CAR,
+                creator=participant,
+                fahrt=participant.semester.fahrt,
+                places=1 + car_places,
+            )
+            participant.save()
 
 
 class MailForm(forms.ModelForm):

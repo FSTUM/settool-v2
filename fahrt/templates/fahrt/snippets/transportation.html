@@ -1,0 +1,22 @@
+{% load i18n %}
+{% if transportation %}
+{% if transportation.transport_type == 0 %}
+<span
+    style="color: green"
+    class='bi bi-stoplights'
+></span> {% trans "Car" %}
+{% else %}
+<span
+    style="color: green"
+    class='bi bi-wifi'
+></span> {% trans "Train" %}
+{% endif %}
+{% blocktranslate trimmed with additional_seats=transportation.places %}
+{{ additional_seats }} additional seats
+{% endblocktranslate %}
+{% else %}
+<span
+    style="color: red"
+    class="bi bi-x-circle-fill"
+></span>
+{% endif %}

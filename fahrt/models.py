@@ -122,6 +122,37 @@ class Fahrt(models.Model):
         return self.open_registration < timezone.now() < self.close_registration
 
 
+class Transportation(models.Model):
+    CAR = 0
+    TRAIN = 1
+
+    transport_type = models.PositiveSmallIntegerField(
+        _("Type of Transport"),
+        choices=(
+            (CAR, _("Car")),
+            (TRAIN, _("Train")),
+        ),
+    )
+
+    creator = models.OneToOneField(
+        "Participant",
+        on_delete=models.SET_NULL,
+        related_name="fahrt_transportation_creator",
+        null=True,
+    )
+
+    fahrt = models.ForeignKey(
+        Semester,
+        on_delete=models.CASCADE,
+        related_name="fahrt_transportation",
+    )
+
+    places = models.PositiveSmallIntegerField(
+        _("Number of people (totally) for this mode of transport"),
+        default=1,
+    )
+
+
 class Participant(models.Model):
     class Meta:
         permissions = (
@@ -202,12 +233,9 @@ class Participant(models.Model):
         blank=True,
     )
 
-    car = models.BooleanField(
-        _("Drive by car"),
-    )
-
-    car_places = models.IntegerField(
-        _("Number of people I can take along additionally"),
+    transportation = models.ForeignKey(
+        Transportation,
+        on_delete=models.SET_NULL,
         blank=True,
         null=True,
     )
@@ -293,6 +321,30 @@ class Participant(models.Model):
     #    delta = timedelta(days=weeks*7)
     #    deadline = today + delta
     #    self.payment_deadline = deadline.strftime("%d.%m.%Y")
+
+
+class TransportationComment(models.Model):
+    sender = models.ForeignKey(
+        Participant,
+        on_delete=models.CASCADE,
+    )
+
+    commented_on = models.ForeignKey(
+        Transportation,
+        on_delete=models.CASCADE,
+    )
+
+    comment_content = models.CharField(
+        _("Text"),
+        max_length=200,
+    )
+
+    def log(self, user, text):
+        LogEntry.objects.create(
+            participant=self.sender,
+            user=user,
+            text=text,
+        )
 
 
 class LogEntry(models.Model):
