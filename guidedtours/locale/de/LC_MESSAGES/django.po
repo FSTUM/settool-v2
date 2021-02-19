@@ -75,6 +75,7 @@ msgstr ""
 "der 30Minuten Leadup-Blacklist-Zeit) blockert wird"
 
 #: guidedtours/models.py guidedtours/templates/guidedtours/tour_dashboard.html
+#: guidedtours/templates/guidedtours/tours/list_tours.html
 msgid "Capacity"
 msgstr "Kapazität"
 
@@ -409,6 +410,10 @@ msgstr ""
 #: guidedtours/templates/guidedtours/tours/list_tours.html
 msgid "List of all tours"
 msgstr "Liste der Institutsführungen"
+
+#: guidedtours/templates/guidedtours/tours/list_tours.html
+msgid "Lenght [min]"
+msgstr "Länge [min]"
 
 #: guidedtours/templates/guidedtours/tours/list_tours.html
 msgid "Export confired participants as CSV"

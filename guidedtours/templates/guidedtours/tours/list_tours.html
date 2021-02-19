@@ -5,7 +5,7 @@
 <script>
     $(document).ready(() => {
         $('#tourTable').DataTable({
-            columnDefs: [{ targets: 2, orderable: false, className: 'text-right' }],
+            columnDefs: [{ targets: 4, orderable: false, className: 'text-right' }],
         });
     });
 </script>
@@ -23,6 +23,8 @@
             <tr>
                 <th>{% trans "Tour" %}</th>
                 <th>{% trans "Date" %}</th>
+                <th>{% trans "Capacity" %}</th>
+                <th>{% trans "Lenght [min]" %}</th>
                 <th>{% trans "Actions" %}</th>
             </tr>
         </thead>
@@ -31,6 +33,8 @@
             <tr>
                 <td><a href="{% url "tours_view" tour.id %}">{{ tour.name }}</a></td>
                 <td><a href="{% url "tours_view" tour.id %}">{{ tour.date }}</a></td>
+                <td>{{ tour.capacity }}</td>
+                <td>{{ tour.length }}</td>
                 <td>
                     <a
                         class='btn btn-secondary'
