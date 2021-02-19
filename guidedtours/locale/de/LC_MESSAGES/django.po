@@ -337,13 +337,40 @@ msgid "Sign up for a guided tour"
 msgstr "Institutsführungs-Anmeldung"
 
 #: guidedtours/templates/guidedtours/signup/signup.html
-msgid "Guided tours"
-msgstr "Institutsführungen"
+msgid "All availible Guided tours:"
+msgstr "Alle zur verfügung stehenden Institutsführungen:"
 
 #: guidedtours/templates/guidedtours/signup/signup.html
 #, python-format
-msgid "%(name)s on %(date)s (length: %(lenth)s minutes):"
-msgstr "%(name)s am %(date)s (länge: %(lenth)s minuten):"
+msgid "%(name)s on %(date)s"
+msgstr "%(name)s am %(date)s"
+
+#: guidedtours/templates/guidedtours/signup/signup.html
+msgid "Length:"
+msgstr "Länge:"
+
+#: guidedtours/templates/guidedtours/signup/signup.html
+msgid "minutes"
+msgstr "Minuten"
+
+#: guidedtours/templates/guidedtours/signup/signup.html
+msgid ""
+"Please note that tours sometimes take longer than this time.<br> Plan <b>at "
+"least with a 30 minutes buffer</b> between Guidedtours.<br> <br> TLDR:"
+"<br>Time-travel is impossible.<br>Your probably can not teleport.<br>If you "
+"apply for two confilicting tours we will cancel your registration, to be "
+"fair for everyone."
+msgstr ""
+"Bitte beachte, dass die Touren manchmal länger als diese Zeit dauern."
+"<br>Plane <b>mindestens 30 Minuten Puffer</b> zwischen den "
+"Institutsführungen ein.<br><br>TLDR:<br>Zeitreisen sind unmöglich.<br>Du "
+"kannst dich wahrscheinlich nicht teleportieren.<br>Wenn du dich für zwei, "
+"zeitlich in Konflikt stehende, Touren anmeldest, werden wir deine Anmeldung "
+"stornieren, um fair für alle zu sein."
+
+#: guidedtours/templates/guidedtours/signup/signup.html
+msgid "Description:"
+msgstr "Beschreibung:"
 
 #: guidedtours/templates/guidedtours/signup/signup_internal.html
 msgid "Add participant to a guided tour"
