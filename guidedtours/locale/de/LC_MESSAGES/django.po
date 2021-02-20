@@ -135,15 +135,12 @@ msgid "Mail Reminder"
 msgstr "Erinnerungs Email"
 
 #: guidedtours/models.py
-#, fuzzy
-#| msgid ""
-#| "Send the Reminder this amount of days before the begin Task (0=same day)"
 msgid ""
 "Send the reminder-mail automatically this amount of days before the Tour "
 "(0=same day)"
 msgstr ""
 "Sende die Erinnerungs Email automatisch diese menge an Tagen vor dem beginn "
-"des Tasks (0=gleicher Tag)"
+"der Tour (0=gleicher Tag)"
 
 #: guidedtours/templates/guidedtours/base_guildedtours.html
 #: guidedtours/templates/guidedtours/tour_dashboard.html
