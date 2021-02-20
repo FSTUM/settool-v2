@@ -6,8 +6,8 @@
 
 {% block set_common_content %}
 <div class="row">
-    <div class="col-sm-4">
-        <table class="table">
+    <div class="col-sm-6">
+        <table class="table table-hover">
             <tr>
                 <th>{% trans "Gender" %}</th>
                 <td>{{ participant.gender }}</td>
@@ -25,8 +25,19 @@
                 <td>{% include "snippets/true_false_span.html" with value=participant.u18 inverted_colors=True %}</td>
             </tr>
             <tr>
+                <th>{% trans "Subject" %}</th>
+                <td>{{ participant.subject }}</td>
+            </tr>
+            <tr>
                 <th>{% trans "Email" %}</th>
                 <td>{{ participant.email }}</td>
+            </tr>
+            <tr>
+                <th>{% trans "Mailing list" %}</th>
+                <td>
+                    {% include "snippets/true_false_span.html" with value=participant.mailinglist %}
+                    <a href="{% url "fahrt_toggle_mailinglist" participant.id %}"><span class="bi bi-toggles"></span></a>
+                </td>
             </tr>
             <tr>
                 <th>{% trans "Phone" %}</th>
@@ -37,10 +48,6 @@
                 <td>{{ participant.mobile }}</td>
             </tr>
             <tr>
-                <th>{% trans "Subject" %}</th>
-                <td>{{ participant.subject }}</td>
-            </tr>
-            <tr>
                 <th>{% trans "Nutrition" %}</th>
                 <td>{{ participant.nutrition }}</td>
             </tr>
@@ -48,16 +55,10 @@
                 <th>{% trans "Allergies" %}</th>
                 <td>{{ participant.allergies }}</td>
             </tr>
-            <tr>
-                <th>{% trans "Transportation" %}</th>
-                <td>{% include "fahrt/snippets/transportation.html" with transportation=participant.transportation %}</td>
-            </tr>
         </table>
     </div>
-    <div class="col-sm-1">
-    </div>
-    <div class="col-sm-4">
-        <table class="table">
+    <div class="col-sm-6">
+        <table class="table table-hover">
             <tr>
                 <th>{% trans "Non-liability submitted" %}</th>
                 <td>
@@ -109,7 +110,6 @@
             <tr>
                 <th>{% trans "Status" %}</th>
                 <td>
-
                     <div class='col'>
                         <div class='row'>
                             {{ participant.status }}
@@ -144,39 +144,43 @@
                             </div>
                             {% endif %}
                         </div>
+                    </div>
                 </td>
-            </tr>
-            <tr>
-                <th>{% trans "Mailing list" %}</th>
-                <td>
-                    {% include "snippets/true_false_span.html" with value=participant.mailinglist %}
-                    <a href="{% url "fahrt_toggle_mailinglist" participant.id %}"><span class="bi bi-toggles"></span></a>
-                </td>
-            </tr>
-            <tr>
-                <th>{% trans "Comment" %}</th>
-                <td>{{ participant.comment }}</td>
             </tr>
             <tr>
                 <th>{% trans "Registration time" %}</th>
                 <td>{{ participant.registration_time }}</td>
             </tr>
             <tr>
-                <th>{% trans "Edit" %}</th>
-                <td>
-                    <a href="{% url "fahrt_editparticipant" participant.id %}"><span class="bi bi-pencil-square"></span></a>
-                </td>
+                <th>{% trans "Transportation" %}</th>
+                <td>{% include "fahrt/snippets/transportation.html" with transportation=participant.transportation %}</td>
             </tr>
             <tr>
-                <th>{% trans "Delete" %}</th>
-                <td>
-                    <a href="{% url "fahrt_delparticipant" participant.id %}"><span class="bi bi-trash-fill"></span></a>
-                </td>
+                <th>{% trans "Comment" %}</th>
+                <td>{{ participant.comment }}</td>
             </tr>
         </table>
     </div>
 </div>
-<div class="row">
+
+<a
+    class='btn btn-secondary'
+    href="{% url "fahrt_main_index" %}"
+>{% trans "Back" %}</a>
+<a
+    class='btn btn-primary'
+    href='{% url "fahrt_editparticipant" participant.id %}'
+>{% trans "Edit" %}</a>
+<a
+    class='btn btn-danger'
+    href='{% url "fahrt_delparticipant" participant.id %}'
+>{% trans "Delete participant" %}</a>
+<a
+    class='btn btn-danger'
+    href='{% url "fahrt_transport_participant" participant.uuid %}'
+>{% trans "View transportation as participant" %}</a>
+
+<div class="row mt-3">
     <div class="col-sm-4">
         <form
             method="post"
