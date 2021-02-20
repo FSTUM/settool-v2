@@ -75,7 +75,6 @@ class CronFahrt(TestCase):
                 subject=subject,
                 nutrition="normal",
                 payment_deadline=date.today() + timedelta(days=1) if i % 2 == 0 else None,  # nosec: B311
-                car=False,
                 status="confirmed",
             )
 

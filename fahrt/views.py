@@ -1,6 +1,7 @@
 import time
 from datetime import date, timedelta
-from typing import Dict, List, Optional
+from typing import Any, Dict, List, Optional, Tuple
+from uuid import UUID
 
 from django import forms
 from django.contrib import messages
@@ -18,6 +19,7 @@ from settool_common import utils
 from settool_common.models import get_semester, Semester, Subject
 
 from .forms import (
+    AddParticipantToTransportForm,
     FahrtForm,
     FilterParticipantsForm,
     FilterRegisteredParticipantsForm,
@@ -26,8 +28,10 @@ from .forms import (
     ParticipantForm,
     SelectMailForm,
     SelectParticipantForm,
+    TransportAdminOptionForm,
+    TransportOptionForm,
 )
-from .models import Fahrt, FahrtMail, Participant
+from .models import Fahrt, FahrtMail, Participant, Transportation
 
 
 def get_confirmed_u18_participants_counts(semester: int) -> List[int]:
@@ -180,7 +184,8 @@ def get_possibly_filtered_participants(filterform, semester):
 
         car = filterform.cleaned_data["car"]
         if car is not None:
-            participants = participants.filter(car=car)
+            car_creators = semester.fahrt.transportation_set.filter(transport_type=Transportation.CAR).values("creator")
+            participants = participants.filter(id__in=car_creators)
 
         paid = filterform.cleaned_data["paid"]
         if paid is not None:
@@ -221,7 +226,7 @@ def list_confirmed(request: WSGIRequest) -> HttpResponse:
     num_women = participants.filter(gender="female").count()
     proportion_of_women = int(num_women * 1.0 / number * 100) if number != 0 else 0
 
-    places = participants.filter(car=True).aggregate(places=Sum("car_places"))["places"] or 0
+    cars = semester.fahrt.transportation_set.filter(transport_type=Transportation.CAR)
 
     context = {
         "filterform": filterform,
@@ -230,8 +235,8 @@ def list_confirmed(request: WSGIRequest) -> HttpResponse:
         "number": number,
         "non_liability": participants.filter(non_liability__isnull=False).count(),
         "paid": participants.filter(paid__isnull=False).count(),
-        "places": places,
-        "cars": participants.filter(car=True).count(),
+        "car_places": cars.aggregate(car_places=Sum("places"))["car_places"] or 0,
+        "cars": cars.count(),
         "u18s": u18s,
         "allergies": allergies,
         "num_women": num_women,
@@ -459,7 +464,7 @@ def signup_internal(request: WSGIRequest) -> HttpResponse:
 
     form = ParticipantForm(request.POST or None, semester=semester)
     if form.is_valid():
-        participant = form.save()
+        participant: Participant = form.save()
         participant.log(request.user, "Signed up")
         mail = participant.semester.fahrt.mail_registration
         if mail:
@@ -491,7 +496,7 @@ def filter_participants(request: WSGIRequest) -> HttpResponse:
 
     filterform = FilterParticipantsForm(request.POST or None)
     if filterform.is_valid():
-        set_request_session_filtered_participants(filterform, participants, request)
+        set_request_session_filtered_participants(filterform, participants, request, semester)
         return redirect("fahrt_filteredparticipants")
 
     context = {
@@ -501,7 +506,7 @@ def filter_participants(request: WSGIRequest) -> HttpResponse:
     return render(request, "fahrt/mail/filter_participants_send_mail.html", context)
 
 
-def set_request_session_filtered_participants(filterform, participants, request):
+def set_request_session_filtered_participants(filterform, participants, request, semester):
     search = filterform.cleaned_data["search"]
     if search:
         participants = participants.filter(
@@ -516,7 +521,8 @@ def set_request_session_filtered_participants(filterform, participants, request)
 
     car = filterform.cleaned_data["car"]
     if car is not None:
-        participants = participants.filter(car=car)
+        car_creators = semester.fahrt.transportation_set.filter(transport_type=Transportation.CAR).values("creator")
+        participants = participants.filter(id__in=car_creators)
 
     paid = filterform.cleaned_data["paid"]
     if paid:
@@ -762,3 +768,103 @@ def get_non_liability(participant_pk: int) -> HttpResponse:
     if participant.u18:
         return utils.download_pdf("fahrt/tex/u18_non_liability.tex", filename, context)
     return utils.download_pdf("fahrt/tex/ü18_non_liability.tex", filename, context)
+
+
+def get_transport_types(fahrt: Fahrt) -> List[Tuple[str, Any]]:
+    return [
+        (_("Car"), Transportation.objects.filter(transport_type=Transportation.CAR, fahrt=fahrt)),
+        (_("Train"), Transportation.objects.filter(transport_type=Transportation.TRAIN, fahrt=fahrt)),
+    ]
+
+
+def transport_participant(request: WSGIRequest, participant_uuid: UUID) -> HttpResponse:
+    semester = get_object_or_404(Semester, pk=get_semester(request))
+    participant: Participant = get_object_or_404(Participant, uuid=participant_uuid, status="confirmed")
+    context = {
+        "transport_types": get_transport_types(semester.fahrt),
+        "participant": participant,
+    }
+    return render(request, "fahrt/standalone/transport_participants.html", context)
+
+
+def transport_add_option(request: WSGIRequest, participant_uuid: UUID, transport_type: int) -> HttpResponse:
+    semester = get_object_or_404(Semester, pk=get_semester(request))
+    participant: Participant = get_object_or_404(Participant, uuid=participant_uuid, status="confirmed")
+    if transport_type not in [Transportation.CAR, Transportation.TRAIN]:
+        raise Http404()
+    transport: Optional[Transportation] = participant.transportation
+    if transport and transport.creator == participant:
+        if transport.transport_type == transport_type:
+            messages.error(request, _("You can not create a new Transport-option of the same type"))
+            return redirect("fahrt_transport_participant", participant_uuid)
+        if transport.participant_set.count() != 1:
+            messages.error(
+                request,
+                _("A Transportation-option cannot be without creator, if it has people depending upon it."),
+            )
+            return redirect("fahrt_transport_participant", participant_uuid)
+
+    form = TransportOptionForm(
+        request.POST or None,
+        transport_type=transport_type,
+        creator=participant,
+        semester=semester,
+    )
+    if form.is_valid():
+        form.save(commit=True)
+        return redirect("fahrt_transport_participant", participant_uuid)
+    context = {
+        "form": form,
+        "participant": participant,
+    }
+    return render(request, "fahrt/transportation/add_transport.html", context)
+
+
+def transport_add_participant(request: WSGIRequest, participant_uuid: UUID, transport_pk: int) -> HttpResponse:
+    semester = get_object_or_404(Semester, pk=get_semester(request))
+    participant: Participant = get_object_or_404(Participant, uuid=participant_uuid, status="confirmed")
+    transport: Transportation = get_object_or_404(Transportation, id=transport_pk, fahrt=semester.fahrt)
+
+    participant.transportation = transport
+    participant.save()
+    return redirect("fahrt_transport_participant", participant_uuid)
+
+
+@permission_required("fahrt.view_participants")
+def transport_mangagement(request: WSGIRequest) -> HttpResponse:
+    semester = get_object_or_404(Semester, pk=get_semester(request))
+    context = {"transport_types": get_transport_types(semester.fahrt)}
+    return render(request, "fahrt/transportation/transport_management.html", context)
+
+
+@permission_required("fahrt.view_participants")
+def transport_mangagement_add_option(request: WSGIRequest, transport_type: int) -> HttpResponse:
+    semester = get_object_or_404(Semester, pk=get_semester(request))
+    if transport_type not in [Transportation.CAR, Transportation.TRAIN]:
+        raise Http404()
+
+    form = TransportAdminOptionForm(request.POST or None, transport_type=transport_type, semester=semester)
+    if form.is_valid():
+        form.save(commit=True)
+        return redirect("fahrt_transport_mangagement")
+    context = {
+        "form": form,
+    }
+    return render(request, "fahrt/transportation/add_transport.html", context)
+
+
+@permission_required("fahrt.view_participants")
+def transport_mangagement_add_participant(request: WSGIRequest, transport_pk: int) -> HttpResponse:
+    semester = get_object_or_404(Semester, pk=get_semester(request))
+    transport: Transportation = Transportation.objects.get(id=transport_pk)
+    form = AddParticipantToTransportForm(request.POST or None, semester=semester)
+    if form.is_valid():
+        person: Participant = form.cleaned_data["person"]
+        if transport.participant_set.count() < transport.places:
+            person.transportation = transport
+            person.save()
+        else:
+            messages.error(request, _("The Selected option seems to be full"))
+        return redirect("fahrt_transport_mangagement")
+    context = {"transport": transport, "form": form}
+    return render(request, "fahrt/transportation/add_participant_to_transport.html", context)

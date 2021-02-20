@@ -4,16 +4,14 @@
 <span
     style="color: green"
     class='bi bi-stoplights'
-></span> {% trans "Car" %}
+></span>
 {% else %}
 <span
     style="color: green"
     class='bi bi-wifi'
-></span> {% trans "Train" %}
+></span>
 {% endif %}
-{% blocktranslate trimmed with additional_seats=transportation.places %}
-{{ additional_seats }} additional seats
-{% endblocktranslate %}
+{{ transportation }}
 {% else %}
 <span
     style="color: red"

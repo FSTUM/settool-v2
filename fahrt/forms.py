@@ -40,6 +40,7 @@ class ParticipantAdminForm(SemesterBasedModelForm):
         if birthday > date.today():
             self.add_error("birthday", _("You cant be born in the future."))
             raise ValidationError(_("You cant be born in the future."), code="birthday")
+        return cleaned_data
 
 
 class ParticipantForm(ParticipantAdminForm):
@@ -81,7 +82,7 @@ class ParticipantForm(ParticipantAdminForm):
             self.add_error("car_places", _("This field is required if you have a car"))
 
     def save(self, commit=True):
-        participant: Participant = super().save(commit=True)
+        participant: Participant = super().save(commit=False)
 
         if self.cleaned_data["car"]:
             car_places: int = self.cleaned_data["car_places"]
@@ -91,7 +92,65 @@ class ParticipantForm(ParticipantAdminForm):
                 fahrt=participant.semester.fahrt,
                 places=1 + car_places,
             )
-            participant.save()
+        participant.save()
+
+
+class TransportForm(SemesterBasedModelForm):
+    class Meta:
+        model = Transportation
+        exclude: List[str] = ["fahrt"]
+        widgets = {
+            "deparure_time": DateTimePickerInput(format="%Y-%m-%d %H:%M"),
+            "return_departure_time": DateTimePickerInput(format="%Y-%m-%d %H:%M"),
+        }
+
+    def clean(self):
+        cleaned_data = super().clean()
+        if not 0 < cleaned_data["places"] < 30:
+            self.add_error("places", _("We only allow 0 < places < 30."))
+        return cleaned_data
+
+    def save(self, commit=True):
+        transport: Transportation = super().save(commit=False)
+        if transport.creator.transportation != transport:
+            transport.creator.transportation = transport
+            transport.creator.save()
+        transport.save()
+
+
+class AddParticipantToTransportForm(SemesterBasedForm):
+    person = forms.ModelChoiceField(
+        queryset=None,
+        label=_("Unassigned participant"),
+    )
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields["person"].queryset = self.semester.fahrt_participant.filter(
+            transportation=None,
+            status="confirmed",
+        ).all()
+
+
+class TransportOptionForm(TransportForm):
+    class Meta(TransportForm.Meta):
+        exclude: List[str] = ["fahrt", "creator", "transport_type"]
+
+    def __init__(self, *args, **kwargs):
+        self.transport_type = kwargs.pop("transport_type")
+        self.creator = kwargs.pop("participant")
+        super().__init__(*args, **kwargs)
+        self.fahrt = self.semester.fahrt
+
+
+class TransportAdminOptionForm(TransportForm):
+    class Meta(TransportForm.Meta):
+        exclude: List[str] = ["fahrt", "transport_type"]
+
+    def __init__(self, *args, **kwargs):
+        self.transport_type = kwargs.pop("transport_type")
+        super().__init__(*args, **kwargs)
+        self.fields["creator"].queryset = self.semester.fahrt_participant.filter(transportation=None).all()
 
 
 class MailForm(forms.ModelForm):
