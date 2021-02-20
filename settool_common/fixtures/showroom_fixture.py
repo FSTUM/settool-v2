@@ -1,6 +1,7 @@
 import random
 from datetime import timedelta
 from subprocess import run  # nosec: used for flushing the db
+from typing import List
 
 import django.utils.timezone
 import lorem
@@ -43,6 +44,8 @@ def showroom_fixture_state_no_confirmation():  # nosec: this is only used in a f
     fahrt_data = _generate_fahrt_data()
     fahrt_participants = _generate_fahrt_participants(common_subjects, fahrt_data)
     _generate_log_entries(fahrt_participants, superuser_frank)
+    _generate_transportation(fahrt_participants)
+    _generate_transportation_comment()
 
     # app guildedtours
     _generate_guildedtours_mails()
@@ -142,13 +145,56 @@ def _generate_fahrt_data():  # nosec: this is only used in a fixture
     )
 
 
+def _generate_transportation_comment():  # nosec: this is only used in a fixture
+    transports = fahrt.models.Transportation.objects.all()
+    for trans in transports:
+        for _ in range(random.choice((0, 0, 1, 3))):
+            if trans.participant_set.exists():
+                fahrt.models.TransportationComment.objects.create(
+                    sender=random.choice(list(trans.participant_set.all())),
+                    commented_on=trans,
+                    comment_content=lorem.sentence()[:200],
+                )
+
+
+def _generate_transportation(fahrt_participants):  # nosec: this is only used in a fixture
+    transportation: List[fahrt.models.Transportation] = []
+    participant: fahrt.models.Participant
+    for participant in fahrt_participants[:10]:
+        if not participant.transportation:
+            transport_type = random.choice((fahrt.models.Transportation.CAR, fahrt.models.Transportation.TRAIN))
+            trans: fahrt.models.Transportation = fahrt.models.Transportation.objects.create(
+                transport_type=transport_type,
+                creator=participant,
+                fahrt=participant.semester.fahrt,
+                deparure_time=random.choice(
+                    [participant.semester.fahrt.date + timedelta(hours=random.randint(-5, 5)), None],
+                ),
+                return_departure_time=random.choice(
+                    [participant.semester.fahrt.date + timedelta(hours=random.randint(-5, 5)), None],
+                ),
+                deparure_place=random.choice([lorem.sentence(), "", ""]),
+                places=5 if transport_type == fahrt.models.Transportation.TRAIN else random.choice((1, 3, 4, 5, 7)),
+            )
+            participant.transportation = trans
+            participant.save()
+            if trans.places > trans.participant_set.count():
+                transportation.append(trans)
+    for participant in fahrt_participants:
+        if random.choice((True, True, False)) and len(transportation) > 4:
+            trans = random.choice(transportation)
+            participant.transportation = trans
+            participant.save()
+            if trans.places == trans.participant_set.count():
+                transportation.remove(trans)
+
+
 def _generate_fahrt_participants(  # nosec: this is only used in a fixture
     common_subjects,
     fahrt_data,
 ):
     fahrt_participants = []
     for i in range(60):
-        participant_has_car = random.choice((True, False, False))
         fahrt_participants.append(
             fahrt.models.Participant.objects.create(
                 semester=fahrt_data.semester,
@@ -164,8 +210,7 @@ def _generate_fahrt_participants(  # nosec: this is only used in a fixture
                 allergies=random.choice(("gute Noten", "sport", "spargel"))
                 if random.choice((True, False, False, False, False))
                 else "",
-                car=participant_has_car,
-                car_places=random.randint(0, 6) if participant_has_car else None,
+                publish_contact_to_other_paricipants=random.choice((True, True, False)),
                 non_liability=django.utils.timezone.make_aware(
                     datetime.today() - timedelta(random.randint(0, 4)),
                 )
