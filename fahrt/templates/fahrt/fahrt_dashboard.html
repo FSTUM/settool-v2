@@ -21,7 +21,7 @@
             class='container-md'
             style='max-width: 20rem;min-width: 10rem;min-height: 30rem;'
         >
-            <canvas id='confirmed_participants_by_food_chart'></canvas>
+            <canvas id='cp_by_food_chart'></canvas>
         </div>
     </div>
     <div class='col col-md'>
@@ -30,7 +30,7 @@
             class='container-md'
             style='max-width: 20rem;min-width: 10rem;min-height: 30rem;'
         >
-            <canvas id='confirmed_participants_by_gender_chart'></canvas>
+            <canvas id='cp_by_gender_chart'></canvas>
         </div>
     </div>
     <div class='col col-md'>
@@ -39,7 +39,7 @@
             class='container-md'
             style='max-width: 20rem;min-width: 10rem;min-height: 30rem;'
         >
-            <canvas id='confirmed_participants_by_age_chart'></canvas>
+            <canvas id='cp_by_age_chart'></canvas>
         </div>
     </div>
     <div class='col col-md'>
@@ -48,7 +48,7 @@
             class='container-md'
             style='max-width: 20rem;min-width: 10rem;min-height: 30rem;'
         >
-            <canvas id='confirmed_participants_by_paid_chart'></canvas>
+            <canvas id='cp_by_paid_chart'></canvas>
         </div>
     </div>
     <div class='col col-md'>
@@ -57,7 +57,7 @@
             class='container-md'
             style='max-width: 20rem;min-width: 10rem;min-height: 30rem;'
         >
-            <canvas id='confirmed_participants_by_non_liability_chart'></canvas>
+            <canvas id='cp_by_non_liability_chart'></canvas>
         </div>
     </div>
     <div class='col col-md'>
@@ -66,7 +66,16 @@
             class='container-md'
             style='max-width: 20rem;min-width: 10rem;min-height: 30rem;'
         >
-            <canvas id='confirmed_participants_by_bachlor_master'></canvas>
+            <canvas id='cp_by_bachlor_master'></canvas>
+        </div>
+    </div>
+    <div class='col col-md'>
+        <h5>{% trans "Transportation-status" %}</h5>
+        <div
+            class='container-md'
+            style='max-width: 20rem;min-width: 10rem;min-height: 30rem;'
+        >
+            <canvas id='cp_transportation_type'></canvas>
         </div>
     </div>
     <div class='col col-md'>
@@ -75,7 +84,7 @@
             class='container-xl'
             style='max-width: 70rem;min-width: 10rem;min-height: 40rem;'
         >
-            <canvas id='confirmed_participants_by_studies'></canvas>
+            <canvas id='cp_by_studies'></canvas>
         </div>
     </div>
 </div>
@@ -94,7 +103,7 @@
             datasets: [
                 {
                     data: {{ participants_by_group_data }},
-                    backgroundColor: ['rgb(255, 99, 132)', 'rgb(54, 162, 235)', 'rgb(255, 205, 86)'],
+                    backgroundColor: ['#ff6384', '#36a2eb', '#ffcd56'],
                 },
             ],
         },
@@ -102,14 +111,14 @@
     });
 
     /* eslint no-new: off */
-    new Chart(document.getElementById('confirmed_participants_by_food_chart').getContext('2d'), {
+    new Chart(document.getElementById('cp_by_food_chart').getContext('2d'), {
         type: 'pie',
         data: {
-            labels: {{ confirmed_participants_by_food_labels|safe }},
+            labels: {{ cp_by_food_labels|safe }},
             datasets: [
                 {
-                    data: {{ confirmed_participants_by_food_data }},
-                    backgroundColor: ['rgb(255, 99, 132)', 'rgb(54, 162, 235)', 'rgb(255, 205, 86)'],
+                    data: {{ cp_by_food_data }},
+                    backgroundColor: ['#ff6384', '#36a2eb', '#ffcd56'],
                 },
             ],
         },
@@ -117,14 +126,14 @@
     });
 
     /* eslint no-new: off */
-    new Chart(document.getElementById('confirmed_participants_by_gender_chart').getContext('2d'), {
+    new Chart(document.getElementById('cp_by_gender_chart').getContext('2d'), {
         type: 'pie',
         data: {
-            labels: {{ confirmed_participants_by_gender_labels|safe }},
+            labels: {{ cp_by_gender_labels|safe }},
             datasets: [
                 {
-                    data: {{ confirmed_participants_by_gender_data }},
-                    backgroundColor: ['rgb(255, 99, 132)', 'rgb(54, 162, 235)', 'rgb(255, 205, 86)'],
+                    data: {{ cp_by_food_data }},
+                    backgroundColor: ['#ff6384', '#36a2eb', '#ffcd56'],
                 },
             ],
         },
@@ -132,14 +141,14 @@
     });
 
     /* eslint no-new: off */
-    new Chart(document.getElementById('confirmed_participants_by_age_chart').getContext('2d'), {
+    new Chart(document.getElementById('cp_by_age_chart').getContext('2d'), {
         type: 'pie',
         data: {
             labels: ['{% trans "U18" %}', '{% trans "Ü18" %}'],
             datasets: [
                 {
-                    data: {{ confirmed_participants_age }},
-                    backgroundColor: ['rgb(255,69,0)', 'rgb(60,179,113)'],
+                    data: {{ cp_age }},
+                    backgroundColor: ['#ff4500', '#3cb371'],
                 },
             ],
         },
@@ -147,14 +156,14 @@
     });
 
     /* eslint no-new: off */
-    new Chart(document.getElementById('confirmed_participants_by_paid_chart').getContext('2d'), {
+    new Chart(document.getElementById('cp_by_paid_chart').getContext('2d'), {
         type: 'pie',
         data: {
             labels: ['{% trans "has paid" %}', '{% trans "has NOT paid" %}'],
             datasets: [
                 {
-                    data: {{ confirmed_participants_age }},
-                    backgroundColor: ['rgb(60,179,113)', 'rgb(255,69,0)'],
+                    data: {{ cp_age }},
+                    backgroundColor: ['#3cb371', '#ff4500'],
                 },
             ],
         },
@@ -162,14 +171,14 @@
     });
 
     /* eslint no-new: off */
-    new Chart(document.getElementById('confirmed_participants_by_non_liability_chart').getContext('2d'), {
+    new Chart(document.getElementById('cp_by_non_liability_chart').getContext('2d'), {
         type: 'pie',
         data: {
             labels: ['{% trans "has submitted non-liability" %}', '{% trans "has NOT submitted non-liability" %}'],
             datasets: [
                 {
-                    data: {{ confirmed_participants_age }},
-                    backgroundColor: ['rgb(60,179,113)', 'rgb(255,69,0)'],
+                    data: {{ cp_age }},
+                    backgroundColor: ['#3cb371', '#ff4500'],
                 },
             ],
         },
@@ -177,14 +186,14 @@
     });
 
     /* eslint no-new: off */
-    new Chart(document.getElementById('confirmed_participants_by_bachlor_master').getContext('2d'), {
+    new Chart(document.getElementById('cp_by_bachlor_master').getContext('2d'), {
         type: 'pie',
         data: {
             labels: ['{% trans "Bachlor" %}', '{% trans "Master" %}'],
             datasets: [
                 {
-                    data: {{ confirmed_participants_bachlor_master }},
-                    backgroundColor: ['#DE3163', '#3CAEA3'],
+                    data: {{ cp_bachlor_master }},
+                    backgroundColor: ['#36a2eb', '#ffcd56'],
                 },
             ],
         },
@@ -192,43 +201,58 @@
     });
 
     /* eslint no-new: off */
-    new Chart(document.getElementById('confirmed_participants_by_studies').getContext('2d'), {
+    new Chart(document.getElementById('cp_transportation_type').getContext('2d'), {
         type: 'pie',
         data: {
-            labels: {{ confirmed_participants_by_studies_labels|safe }},
+            labels: ['{% trans "Car" %}', '{% trans "Train" %}', '{% trans "Not assigned" %}'],
             datasets: [
                 {
-                    data: {{ confirmed_participants_by_studies_data }},
+                    data: {{ cp_by_transportation_type_data }},
+                    backgroundColor: ['#ffcd56', '#3cb371', '#ff4500'],
+                },
+            ],
+        },
+        options: chartOptions,
+    });
+
+    /* eslint no-new: off */
+    new Chart(document.getElementById('cp_by_studies').getContext('2d'), {
+        type: 'pie',
+        data: {
+            labels: {{ cp_by_studies_labels|safe }},
+            datasets: [
+                {
+                    data: {{ cp_by_studies_data }},
                     backgroundColor: [
-                        'rgb(255, 99, 132)',
-                        'rgb(54, 162, 235)',
-                        'rgb(255, 205, 86)',
-                        'rgb(60,179,113)',
-                        'rgb(255,69,0)',
-                        '#F6D55C',
-                        '#3CAEA3',
-                        '#ED553B',
-                        '#173F5F',
-                        '#E52B50',
-                        '#FFBF00',
-                        '#FBCEB1',
-                        '#007FFF',
-                        '#89CFF0',
-                        '#F5F5DC',
-                        '#CB4154',
-                        '#0000FF',
-                        '#0095B6',
-                        '#8A2BE2',
-                        '#DE5D83',
-                        '#CD7F32',
+                        '#ff6384',
+                        '#36a2eb',
+                        '#ffcd56',
+                        '#3cb371',
+                        '#ff4500',
+                        '#f6d55c',
+                        '#3caea3',
+                        '#ed553b',
+                        '#173f5f',
+                        '#e52b50',
+                        '#ffbf00',
+                        '#fbceb1',
+                        '#007fff',
+                        '#89cff0',
+                        '#f5f5dc',
+                        '#cb4154',
+                        '#0000ff',
+                        '#0095b6',
+                        '#8a2be2',
+                        '#de5d83',
+                        '#cd7f32',
                         '#702963',
                         '#960018',
-                        '#DE3163',
+                        '#de3163',
                     ],
                 },
             ],
         },
         options: chartOptions,
     });
-    </script>
+</script>
 {% endblock %}

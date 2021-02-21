@@ -34,110 +34,70 @@ from .forms import (
 from .models import Fahrt, FahrtMail, Participant, Transportation
 
 
-def get_confirmed_u18_participants_counts(semester: int) -> List[int]:
-    participants: QuerySet[Participant] = Participant.objects.filter(
-        Q(semester=semester) & Q(status="confirmed"),
-    ).all()
-    part_u18 = [participant.u18 for participant in participants]
+def get_cp_u18_counts(c_p: QuerySet[Participant]) -> List[int]:
+    part_u18 = [participant.u18 for participant in c_p.all()]
     u18_count = len([participant for participant in part_u18 if participant])
     non_u18_count = len(part_u18) - u18_count
     return [u18_count, non_u18_count]
 
 
-def get_confirmed_paid_participants_counts(semester: int) -> List[int]:
-    paid_participants_count: int = (
-        Participant.objects.exclude(paid=None).filter(Q(semester=semester) & Q(status="confirmed")).count()
-    )
-    unpaid_participants_count: int = Participant.objects.filter(
-        Q(semester=semester) & Q(status="confirmed") & Q(paid=None),
-    ).count()
+def get_cp_paid_counts(c_p: QuerySet[Participant]) -> List[int]:
+    paid_participants_count: int = c_p.exclude(paid=None).count()
+    unpaid_participants_count: int = c_p.filter(paid=None).count()
     return [paid_participants_count, unpaid_participants_count]
 
 
-def get_confirmed_non_liability_counts(semester: int) -> List[int]:
-    submitted_non_liability_count: int = (
-        Participant.objects.exclude(non_liability=None).filter(Q(semester=semester) & Q(status="confirmed")).count()
-    )
-    not_submitted_non_liability_count: int = Participant.objects.filter(
-        Q(semester=semester) & Q(status="confirmed") & Q(non_liability=None),
-    ).count()
+def get_cp_non_liability_counts(c_p: QuerySet[Participant]) -> List[int]:
+    submitted_non_liability_count: int = c_p.exclude(non_liability=None).count()
+    not_submitted_non_liability_count: int = c_p.filter(non_liability=None).count()
     return [submitted_non_liability_count, not_submitted_non_liability_count]
 
 
-def get_confirmed_participants_bachlor_master_counts(selected_semester: int) -> List[int]:
-    participants: QuerySet[Participant] = Participant.objects.filter(
-        Q(semester=selected_semester) & Q(status="confirmed"),
-    )
-    master_count: int = participants.filter(subject__degree=Subject.MASTER).count()
-    bachlor_count: int = participants.filter(subject__degree=Subject.BACHELOR).count()
+def get_cp_bachlor_master_counts(c_p: QuerySet[Participant]) -> List[int]:
+    master_count: int = c_p.filter(subject__degree=Subject.MASTER).count()
+    bachlor_count: int = c_p.filter(subject__degree=Subject.BACHELOR).count()
     return [bachlor_count, master_count]
+
+
+def get_cp_transportation_type_counts(c_p):
+    return [
+        c_p.filter(transportation__transport_type=Transportation.CAR).count(),
+        c_p.filter(transportation__transport_type=Transportation.TRAIN).count(),
+        c_p.filter(transportation=None).count(),
+    ]
 
 
 @permission_required("fahrt.view_participants")
 def fahrt_dashboard(request: WSGIRequest) -> HttpResponse:
-    selected_semester: int = get_semester(request)
-    confirmed_participants_by_studies = (
-        Participant.objects.filter(Q(semester=selected_semester) & Q(status="confirmed"))
-        .values("subject")
-        .annotate(subject_count=Count("subject"))
-        .order_by("subject_count")
-    )
+    semester = get_object_or_404(Semester, pk=get_semester(request))
+    # confirmed_participants
+    c_p: QuerySet[Participant] = Participant.objects.filter(Q(semester=semester) & Q(status="confirmed"))
+    cp_by_studies = c_p.values("subject").annotate(subject_count=Count("subject")).order_by("subject_count")
     participants_by_status = (
-        Participant.objects.filter(semester=selected_semester)
+        Participant.objects.filter(semester=semester)
         .values("status")
         .annotate(status_count=Count("status"))
         .order_by("status")
     )
 
-    confirmed_participants_by_gender = (
-        Participant.objects.filter(Q(semester=selected_semester) & Q(status="confirmed"))
-        .values("gender")
-        .annotate(gender_count=Count("gender"))
-        .order_by("-gender")
-    )
+    cp_by_gender = c_p.values("gender").annotate(gender_count=Count("gender")).order_by("-gender")
 
-    confirmed_participants_by_food = (
-        Participant.objects.filter(Q(semester=selected_semester) & Q(status="confirmed"))
-        .values("nutrition")
-        .annotate(nutrition_count=Count("nutrition"))
-        .order_by("-nutrition")
-    )
-
-    confirmed_participants_allergy_list = (
-        Participant.objects.filter(Q(semester=selected_semester) & Q(status="confirmed"))
-        .exclude(allergies=None)
-        .values("id", "allergies")
-        .order_by("allergies")
-    )
+    cp_by_food = c_p.values("nutrition").annotate(nutrition_count=Count("nutrition")).order_by("-nutrition")
 
     context = {
+        "cp_by_transportation_type_data": get_cp_transportation_type_counts(c_p),
         "participants_by_group_labels": [_(status["status"]) for status in participants_by_status],
         "participants_by_group_data": [status["status_count"] for status in participants_by_status],
-        "confirmed_participants_by_studies_labels": [
-            str(Subject.objects.get(pk=subject["subject"])) for subject in confirmed_participants_by_studies
-        ],
-        "confirmed_participants_by_studies_data": [
-            subject["subject_count"] for subject in confirmed_participants_by_studies
-        ],
-        "confirmed_participants_by_food_labels": [
-            _(nutrition["nutrition"]) for nutrition in confirmed_participants_by_food
-        ],
-        "confirmed_participants_by_food_data": [
-            nutrition["nutrition_count"] for nutrition in confirmed_participants_by_food
-        ],
-        "confirmed_participants_by_gender_labels": [_(gender["gender"]) for gender in confirmed_participants_by_gender],
-        "confirmed_participants_by_gender_data": [
-            gender["gender_count"] for gender in confirmed_participants_by_gender
-        ],
-        "confirmed_participants_bachlor_master": get_confirmed_participants_bachlor_master_counts(
-            selected_semester,
-        ),
-        "confirmed_participants_age": get_confirmed_u18_participants_counts(selected_semester),
-        "confirmed_participants_paid": get_confirmed_paid_participants_counts(selected_semester),
-        "confirmed_participants_non_liability": get_confirmed_non_liability_counts(
-            selected_semester,
-        ),
-        "confirmed_participants_allergy_list": confirmed_participants_allergy_list,
+        "cp_by_studies_labels": [str(Subject.objects.get(pk=subject["subject"])) for subject in cp_by_studies],
+        "cp_by_studies_data": [subject["subject_count"] for subject in cp_by_studies],
+        "cp_by_food_labels": [_(nutrition["nutrition"]) for nutrition in cp_by_food],
+        "cp_by_food_data": [nutrition["nutrition_count"] for nutrition in cp_by_food],
+        "cp_by_gender_labels": [_(gender["gender"]) for gender in cp_by_gender],
+        "cp_by_gender_data": [gender["gender_count"] for gender in cp_by_gender],
+        "cp_bachlor_master": get_cp_bachlor_master_counts(c_p),
+        "cp_age": get_cp_u18_counts(c_p),
+        "cp_paid": get_cp_paid_counts(c_p),
+        "cp_non_liability": get_cp_non_liability_counts(c_p),
     }
     return render(request, "fahrt/fahrt_dashboard.html", context)
 

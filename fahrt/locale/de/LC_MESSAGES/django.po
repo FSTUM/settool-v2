@@ -171,11 +171,11 @@ msgstr ""
 msgid "Type of Transport"
 msgstr "Transporttyp"
 
-#: fahrt/models.py fahrt/views.py
+#: fahrt/models.py fahrt/templates/fahrt/fahrt_dashboard.html fahrt/views.py
 msgid "Car"
 msgstr "Auto"
 
-#: fahrt/models.py fahrt/views.py
+#: fahrt/models.py fahrt/templates/fahrt/fahrt_dashboard.html fahrt/views.py
 msgid "Train"
 msgstr "Zug"
 
@@ -446,6 +446,10 @@ msgid "Master vs. Bachlor"
 msgstr "Master vs. Bachlor"
 
 #: fahrt/templates/fahrt/fahrt_dashboard.html
+msgid "Transportation-status"
+msgstr "Transportmittel-Status"
+
+#: fahrt/templates/fahrt/fahrt_dashboard.html
 msgid "Subjects"
 msgstr "Studiengänge"
 
@@ -484,6 +488,10 @@ msgstr "Bachlor"
 #: fahrt/templates/fahrt/fahrt_dashboard.html
 msgid "Master"
 msgstr "Master"
+
+#: fahrt/templates/fahrt/fahrt_dashboard.html
+msgid "Not assigned"
+msgstr "Nicht Zugewiesen"
 
 #: fahrt/templates/fahrt/general/add_participant.html
 msgid "Add participant to the SET-Fahrt"
