@@ -1,6 +1,6 @@
 import time
 from datetime import date, timedelta
-from typing import Dict, List, Optional
+from typing import Dict, List, Optional, Union
 
 from django import forms
 from django.contrib import messages
@@ -13,6 +13,8 @@ from django.http import Http404, HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
+from django_tex.response import PDFResponse
+from django_tex.shortcuts import render_to_pdf
 
 from settool_common import utils
 from settool_common.models import get_semester, Semester, Subject
@@ -424,7 +426,7 @@ def signup(request: WSGIRequest) -> HttpResponse:
         if mail:
             non_liability: Optional[HttpResponse] = None
             try:
-                non_liability = get_non_liability(participant.pk)
+                non_liability = get_non_liability(request, participant.pk)
             except Http404:
                 error: bool = True
             else:
@@ -463,7 +465,7 @@ def signup_internal(request: WSGIRequest) -> HttpResponse:
         participant.log(request.user, "Signed up")
         mail = participant.semester.fahrt.mail_registration
         if mail:
-            non_liability = get_non_liability(participant.pk)
+            non_liability = get_non_liability(request, participant.pk)
             if not mail.send_mail_registration(participant, non_liability):
                 messages.warning(
                     request,
@@ -717,7 +719,7 @@ def change_date(request: WSGIRequest) -> HttpResponse:
 
 
 @permission_required("fahrt.view_participants")
-def export(request: WSGIRequest, file_format: str = "csv") -> HttpResponse:
+def export(request: WSGIRequest, file_format: str = "csv") -> Union[HttpResponse, PDFResponse]:
     semester: Semester = get_object_or_404(Semester, pk=get_semester(request))
     try:
         fahrt = semester.fahrt
@@ -743,15 +745,15 @@ def export(request: WSGIRequest, file_format: str = "csv") -> HttpResponse:
             f"{filename}.csv",
             participants,
         )
-    return utils.download_pdf("fahrt/tex/participants.tex", f"{filename}.pdf", context)
+    return render_to_pdf(request, "fahrt/tex/participants.tex", context, f"{filename}.pdf")
 
 
 @permission_required("fahrt.view_participants")
-def non_liability_form(request: WSGIRequest, participant_pk: int) -> HttpResponse:
-    return get_non_liability(participant_pk)
+def non_liability_form(request: WSGIRequest, participant_pk: int) -> PDFResponse:
+    return get_non_liability(request, participant_pk)
 
 
-def get_non_liability(participant_pk: int) -> HttpResponse:
+def get_non_liability(request: WSGIRequest, participant_pk: int) -> PDFResponse:
     participant: Participant = get_object_or_404(Participant, pk=participant_pk)
     fahrt: Fahrt = get_object_or_404(Fahrt, semester=participant.semester)
     context = {
@@ -760,5 +762,5 @@ def get_non_liability(participant_pk: int) -> HttpResponse:
     }
     filename = f"non_liability_{participant.surname}_{participant.firstname}.pdf"
     if participant.u18:
-        return utils.download_pdf("fahrt/tex/u18_non_liability.tex", filename, context)
-    return utils.download_pdf("fahrt/tex/ü18_non_liability.tex", filename, context)
+        return render_to_pdf(request, "fahrt/tex/u18_non_liability.tex", context, filename)
+    return render_to_pdf(request, "fahrt/tex/ü18_non_liability.tex", context, filename)

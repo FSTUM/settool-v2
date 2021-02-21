@@ -1,5 +1,5 @@
 import time
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List, Optional, Union
 from uuid import UUID
 
 from django import http
@@ -16,6 +16,8 @@ from django.utils import timezone
 from django.utils.encoding import force_bytes
 from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
 from django.utils.translation import ugettext_lazy as _
+from django_tex.response import PDFResponse
+from django_tex.shortcuts import render_to_pdf
 
 from settool_common import utils
 from settool_common.models import get_semester, Semester, Subject
@@ -603,7 +605,7 @@ def task_mail(request: WSGIRequest, uid: UUID, mail_pk: Optional[int] = None) ->
 
 
 @permission_required("tutors.edit_tutors")
-def tutor_export(request: WSGIRequest, file_type: str, status: str = "all") -> HttpResponse:
+def tutor_export(request: WSGIRequest, file_type: str, status: str = "all") -> Union[HttpResponse, PDFResponse]:
     semester = get_object_or_404(Semester, pk=get_semester(request))
 
     if status == "all":
@@ -615,7 +617,7 @@ def tutor_export(request: WSGIRequest, file_type: str, status: str = "all") -> H
     filename = f"tutors_{time.strftime('%Y%m%d-%H%M')}"
 
     if file_type == "pdf":
-        return utils.download_pdf("tutors/tex/tutors.tex", f"{filename}.pdf", {"tutors": tutors})
+        return render_to_pdf(request, "tutors/tex/tutors.tex", {"tutors": tutors}, f"{filename}.pdf")
     if file_type == "csv":
         return utils.download_csv(
             ["last_name", "first_name", "subject", "matriculation_number", "birthday"],
@@ -623,24 +625,19 @@ def tutor_export(request: WSGIRequest, file_type: str, status: str = "all") -> H
             list(tutors),
         )
     if file_type == "tshirt":
-        return utils.download_pdf("tutors/tex/tshirts.tex", f"{filename}.pdf", {"tutors": tutors})
+        return render_to_pdf(request, "tutors/tex/tshirts.tex", {"tutors": tutors}, f"{filename}.pdf")
 
     raise Http404
 
 
 @permission_required("tutors.edit_tutors")
-def task_export(request: WSGIRequest, file_type: str, uid: UUID) -> HttpResponse:
+def task_export(request: WSGIRequest, file_type: str, uid: UUID) -> PDFResponse:
     task = get_object_or_404(Task, pk=uid)
     tutors = task.tutors.order_by("last_name", "first_name")
 
     filename = f"task_{task.id}_{time.strftime('%Y%m%d-%H%M')}"
     if file_type == "pdf":
-        return utils.download_pdf(
-            "tutors/tex/task.tex",
-            f"{filename}.pdf",
-            {"task": task, "tutors": tutors},
-        )
-
+        return render_to_pdf(request, "tutors/tex/task.tex", {"task": task, "tutors": tutors}, f"{filename}.pdf")
     raise Http404
 
 
