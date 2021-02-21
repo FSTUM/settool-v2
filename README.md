@@ -4,7 +4,7 @@
 
 ```bash
 sudo apt-get update
-sudo apt-get install -y python3-pip python3-venv texlive-base texlive-lang-german texlive-fonts-recommended texlive-latex-extra
+sudo apt-get install -y python3-pip python3-venv texlive-base texlive-lang-german texlive-fonts-recommended texlive-latex-extra latexmk
 ```
 
 2. Install python-dependencies in an virtual environment
