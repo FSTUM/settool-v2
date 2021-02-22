@@ -151,10 +151,12 @@
                 <th>{% trans "Registration time" %}</th>
                 <td>{{ participant.registration_time }}</td>
             </tr>
+            {% if participant.status == "confirmed" %}
             <tr>
                 <th>{% trans "Transportation" %}</th>
                 <td>{% include "fahrt/snippets/transportation.html" with transportation=participant.transportation %}</td>
             </tr>
+            {% endif %}
             <tr>
                 <th>{% trans "Comment" %}</th>
                 <td>{{ participant.comment }}</td>
@@ -175,10 +177,12 @@
     class='btn btn-danger'
     href='{% url "fahrt_delparticipant" participant.id %}'
 >{% trans "Delete participant" %}</a>
+{% if participant.status == "confirmed" %}
 <a
     class='btn btn-danger'
     href='{% url "fahrt_transport_participant" participant.uuid %}'
 >{% trans "View transportation as participant" %}</a>
+{% endif %}
 
 <div class="row mt-3">
     <div class="col-sm-4">
