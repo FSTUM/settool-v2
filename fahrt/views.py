@@ -772,6 +772,10 @@ def transport_add_option(request: WSGIRequest, participant_uuid: UUID, transport
     )
     if form.is_valid():
         form.save(commit=True)
+        participant.log(
+            None,
+            _("created Transport Option {transport} and assigned him/herself").format(transport=transport),
+        )
         return redirect("fahrt_transport_participant", participant_uuid)
     context = {
         "form": form,
@@ -785,8 +789,13 @@ def transport_add_participant(request: WSGIRequest, participant_uuid: UUID, tran
     participant: Participant = get_object_or_404(Participant, uuid=participant_uuid, status="confirmed")
     transport: Transportation = get_object_or_404(Transportation, id=transport_pk, fahrt=semester.fahrt)
 
-    participant.transportation = transport
-    participant.save()
+    if transport.participant_set.count() < transport.places:
+        participant.transportation = transport
+        participant.save()
+        participant.log(None, _("added him/herself to Transport Option {transport}").format(transport=transport))
+    else:
+        messages.error(request, _("The selected option seems to be full"))
+
     return redirect("fahrt_transport_participant", participant_uuid)
 
 
@@ -805,7 +814,12 @@ def transport_mangagement_add_option(request: WSGIRequest, transport_type: int) 
 
     form = TransportAdminOptionForm(request.POST or None, transport_type=transport_type, semester=semester)
     if form.is_valid():
-        form.save(commit=True)
+        transport: Transportation = form.save(commit=True)
+        if transport.creator:  # for mypy
+            transport.creator.log(
+                request.user,
+                _("created Transport Option {transport} and assigned participant").format(transport=transport),
+            )
         return redirect("fahrt_transport_mangagement")
     context = {
         "form": form,
@@ -823,6 +837,10 @@ def transport_mangagement_add_participant(request: WSGIRequest, transport_pk: in
         if transport.participant_set.count() < transport.places:
             person.transportation = transport
             person.save()
+            person.log(
+                request.user,
+                _("added to Transport Option {transport} and assigned pariticipant").format(transport=transport),
+            )
         else:
             messages.error(request, _("The Selected option seems to be full"))
         return redirect("fahrt_transport_mangagement")

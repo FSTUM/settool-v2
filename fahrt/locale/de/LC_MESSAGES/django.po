@@ -32,12 +32,12 @@ msgid "This field is required if you have a car"
 msgstr "Dieses Feld muss ausgefüllt werden wenn du ein Auto hast"
 
 #: fahrt/forms.py
-msgid "We only allow 0 < places < 30."
-msgstr "Wir lassen nur 0 < Plätze < 30 zu."
-
-#: fahrt/forms.py
 msgid "Unassigned participant"
 msgstr "Uneingeteilte Teilnehmer"
+
+#: fahrt/forms.py
+msgid "We only allow 0 < places < 30."
+msgstr "Wir lassen nur 0 < Plätze < 30 zu."
 
 #: fahrt/forms.py
 msgid "Email template:"
@@ -827,6 +827,38 @@ msgid ""
 msgstr ""
 "Eine Transportmittel-option kann nicht ohne Erschaffer sein, falls Personen "
 "von ihm abhängen."
+
+#: fahrt/views.py
+#, python-brace-format
+msgid "created Transport Option {transport} and assigned him/herself"
+msgstr ""
+"fügte die Transportmittel-option {transport} hinzu und fügte sich selbser "
+"hinzu"
+
+#: fahrt/views.py
+#, python-brace-format
+msgid "added him/herself to Transport Option {transport}"
+msgstr "fügt sich selber zu Transportmittel-option {transport} hinzu"
+
+#: fahrt/views.py
+#, fuzzy
+#| msgid "The Selected option seems to be full"
+msgid "The selected option seems to be full"
+msgstr "Die ausgewählte Option scheint voll zu sein"
+
+#: fahrt/views.py
+#, python-brace-format
+msgid "created Transport Option {transport} and assigned participant"
+msgstr ""
+"fügte die Transportmittel-option {transport} hinzu und fügte den Teilnehmer "
+"hinzu"
+
+#: fahrt/views.py
+#, python-brace-format
+msgid "added to Transport Option {transport} and assigned pariticipant"
+msgstr ""
+"fügte die Transportmittel-option {transport} hinzu und fügte den Teilnehmer "
+"hinzu"
 
 #: fahrt/views.py
 msgid "The Selected option seems to be full"
