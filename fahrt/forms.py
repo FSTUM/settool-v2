@@ -95,29 +95,6 @@ class ParticipantForm(ParticipantAdminForm):
         participant.save()
 
 
-class TransportForm(SemesterBasedModelForm):
-    class Meta:
-        model = Transportation
-        exclude: List[str] = ["fahrt"]
-        widgets = {
-            "deparure_time": DateTimePickerInput(format="%Y-%m-%d %H:%M"),
-            "return_departure_time": DateTimePickerInput(format="%Y-%m-%d %H:%M"),
-        }
-
-    def clean(self):
-        cleaned_data = super().clean()
-        if not 0 < cleaned_data["places"] < 30:
-            self.add_error("places", _("We only allow 0 < places < 30."))
-        return cleaned_data
-
-    def save(self, commit=True):
-        transport: Transportation = super().save(commit=False)
-        if transport.creator.transportation != transport:
-            transport.creator.transportation = transport
-            transport.creator.save()
-        transport.save()
-
-
 class AddParticipantToTransportForm(SemesterBasedForm):
     person = forms.ModelChoiceField(
         queryset=None,
@@ -132,15 +109,50 @@ class AddParticipantToTransportForm(SemesterBasedForm):
         ).all()
 
 
+class TransportForm(SemesterBasedModelForm):
+    class Meta:
+        model = Transportation
+        exclude: List[str] = ["fahrt"]
+        widgets = {
+            "deparure_time": DateTimePickerInput(format="%Y-%m-%d %H:%M"),
+            "return_departure_time": DateTimePickerInput(format="%Y-%m-%d %H:%M"),
+        }
+
+    def __init__(self, *args, **kwargs):
+        self.transport_type = kwargs.pop("transport_type")
+        super().__init__(*args, **kwargs)
+
+    def clean(self):
+        cleaned_data = super().clean()
+        if not 0 < cleaned_data["places"] < 30:
+            self.add_error("places", _("We only allow 0 < places < 30."))
+        return cleaned_data
+
+    def save(self, commit=True):
+        transport: Transportation = super().save(commit=False)
+        transport.fahrt = self.semester.fahrt
+        if commit:
+            transport.save()
+        return transport
+
+
 class TransportOptionForm(TransportForm):
     class Meta(TransportForm.Meta):
         exclude: List[str] = ["fahrt", "creator", "transport_type"]
 
     def __init__(self, *args, **kwargs):
-        self.transport_type = kwargs.pop("transport_type")
         self.creator = kwargs.pop("participant")
         super().__init__(*args, **kwargs)
-        self.fahrt = self.semester.fahrt
+
+    def save(self, commit=True):
+        transport: Transportation = super().save(commit=False)
+        transport.creator = self.creator
+        transport.save()
+        # we cannot respect the commit paramether, because we could need to change the creators transport
+        if transport.creator.transportation != transport:
+            transport.creator.transportation = transport
+            transport.creator.save()
+        return transport
 
 
 class TransportAdminOptionForm(TransportForm):
@@ -148,9 +160,18 @@ class TransportAdminOptionForm(TransportForm):
         exclude: List[str] = ["fahrt", "transport_type"]
 
     def __init__(self, *args, **kwargs):
-        self.transport_type = kwargs.pop("transport_type")
         super().__init__(*args, **kwargs)
         self.fields["creator"].queryset = self.semester.fahrt_participant.filter(transportation=None).all()
+
+    def save(self, commit=True):
+        transport: Transportation = super().save(commit=False)
+        transport.transport_type = self.transport_type
+        transport.save()
+        # we cannot respect the commit paramether, because we could need to change the creators transport
+        if transport.creator.transportation != transport:
+            transport.creator.transportation = transport
+            transport.creator.save()
+        return transport
 
 
 class MailForm(forms.ModelForm):
