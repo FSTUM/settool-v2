@@ -25,9 +25,7 @@ def latex_escape(string):
     string = string.replace("{", "\\{")
     string = string.replace("}", "\\}")
     string = string.replace("~", "\\textasciitilde ")
-    string = string.replace("^", "\\textasciicircum ")
-
-    return f"{{{string}}}"
+    return string.replace("^", "\\textasciicircum ")
 
 
 @register.simple_tag
