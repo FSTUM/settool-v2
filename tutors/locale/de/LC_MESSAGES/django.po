@@ -16,6 +16,10 @@ msgid "The matriculation number is already in use."
 msgstr "Die Matrikelnummer ist bereits in Verwendung."
 
 #: tutors/forms.py
+msgid "I want to receive ECTS for my work as a SET-Colaborator."
+msgstr "Ich möchte ECTS für meine Arbeit als SET-Mitarbeiter erhalten."
+
+#: tutors/forms.py
 msgid "Begin time must be before end time."
 msgstr "Der Startzeitpunkt muss vor dem Endzeitpunkt liegen."
 
@@ -354,8 +358,8 @@ msgid "Declined tutors"
 msgstr "Abgelehnte Tutoren"
 
 #: tutors/templates/tutors/base_tutors.html
-msgid "Inactive tutors"
-msgstr "Inaktive Tutoren"
+msgid "Tutors without Email-verification"
+msgstr "Tutoren ohne Email-Bestätigung"
 
 #: tutors/templates/tutors/base_tutors.html
 msgid "List Collaborators"

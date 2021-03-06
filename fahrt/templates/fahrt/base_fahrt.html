@@ -14,10 +14,6 @@
     class="nav-link {% active_link 'fahrt_signup_internal' %}"
     href="{% url 'fahrt_signup_internal' %}"
 >{% trans "Add participant" %}</a>
-<a
-    class="nav-link {% active_link 'fahrt_date' %}"
-    href="{% url 'fahrt_date' %}"
->{% trans "Change date" %}</a>
 
 <h4 class="navbar-text">{% trans "Participants" %}</h4>
 <a
@@ -50,4 +46,10 @@
     class="nav-link {% active_link 'fahrt_addmail' %}"
     href="{% url 'fahrt_addmail' %}"
 >{% trans "Add email template" %}</a>
+
+<h4 class="navbar-text">{% trans "Settings" %}</h4>
+<a
+    class="nav-link {% active_link 'fahrt_date' %}"
+    href="{% url 'fahrt_date' %}"
+>{% trans "General settings" %}</a>
 {% endblock %}

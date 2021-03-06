@@ -21,6 +21,7 @@ from settool_common import utils
 from settool_common.models import get_semester, Semester, Subject
 from tutors.forms import (
     AnswerForm,
+    CollaboratorForm,
     EventAdminForm,
     RequirementAdminForm,
     SettingsAdminForm,
@@ -126,7 +127,7 @@ def collaborator_signup(request: WSGIRequest) -> HttpResponse:
         )
 
     answer_formset = generate_answer_formset(request, semester)
-    form = TutorForm(request.POST or None, semester=semester)
+    form = CollaboratorForm(request.POST or None, semester=semester)
     if form.is_valid() and answer_formset.is_valid():
         collaborator: Tutor = form.save(commit=False)
         collaborator.status = Tutor.STATUS_EMPLOYEE

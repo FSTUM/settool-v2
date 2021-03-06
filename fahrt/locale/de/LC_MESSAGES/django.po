@@ -290,11 +290,6 @@ msgid "Add participant"
 msgstr "Teilnehmer hinzufügen"
 
 #: fahrt/templates/fahrt/base_fahrt.html
-#: fahrt/templates/fahrt/general/change_date.html
-msgid "Change date"
-msgstr "Datum ändern"
-
-#: fahrt/templates/fahrt/base_fahrt.html
 #: fahrt/templates/fahrt/participants/list_confirmed.html
 msgid "Participants"
 msgstr "Teilnehmer"
@@ -332,6 +327,15 @@ msgstr "Teilnehmer filtern/ E-Mails senden"
 #: fahrt/templates/fahrt/base_fahrt.html
 msgid "Add email template"
 msgstr "E-Mail-Vorlage hinzufügen"
+
+#: fahrt/templates/fahrt/base_fahrt.html
+msgid "Settings"
+msgstr "Einstellungen"
+
+#: fahrt/templates/fahrt/base_fahrt.html
+#: fahrt/templates/fahrt/general/settings.html
+msgid "General settings"
+msgstr "Allgemeine Einstellungen"
 
 #: fahrt/templates/fahrt/fahrt_dashboard.html
 msgid "All participants"
@@ -408,6 +412,10 @@ msgstr "Master"
 #: fahrt/templates/fahrt/general/add_participant.html
 msgid "Add participant to the SET-Fahrt"
 msgstr "Teilnehmer zur SET-Fahrt hinzufügen"
+
+#: fahrt/templates/fahrt/general/settings.html
+msgid "Save settings"
+msgstr "Einstellungen speichern"
 
 #: fahrt/templates/fahrt/mail/add_mail.html
 msgid "Add email"

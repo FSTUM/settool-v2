@@ -82,6 +82,12 @@ class TutorForm(CommonParticipantForm):
             del cleaned_data[field_name]
 
 
+class CollaboratorForm(TutorForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields["ects"].label = _("I want to receive ECTS for my work as a SET-Colaborator.")
+
+
 class EventAdminForm(SemesterBasedModelForm):
     class Meta:
         model = Event

@@ -713,7 +713,7 @@ def change_date(request: WSGIRequest) -> HttpResponse:
     context = {
         "form": form,
     }
-    return render(request, "fahrt/general/change_date.html", context)
+    return render(request, "fahrt/general/settings.html", context)
 
 
 @permission_required("fahrt.view_participants")
