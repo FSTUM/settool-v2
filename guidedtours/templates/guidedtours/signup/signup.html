@@ -36,6 +36,7 @@
                         data-target="#collapse{{ forloop.counter }}"
                         aria-expanded="{% if forloop.first %}true{% else %}false{% endif %}"
                         aria-controls="collapse{{ forloop.counter }}"
+                        onclick='assignTour("{{ tour.id }}")'
                     >
                         {% blocktranslate trimmed with name=tour.name date=tour.date lenth=tour.length %}
                         {{ name }} on {{ date }}
@@ -60,7 +61,7 @@
                                             class='bi bi-info-circle-fill'
                                             data-toggle='tooltip'
                                             data-html="true"
-                                            title='{% trans "Please note that tours sometimes take longer than this time.<br> Plan <b>at least with a 30 minutes buffer</b> between Guidedtours.<br> <br> TLDR:<br>Time-travel is impossible.<br>Your probably can not teleport.<br>If you apply for two confilicting tours we will cancel your registration, to be fair for everyone." %}'
+                                            title='{% trans "Please note that tours sometimes take longer than this time.<br> Plan <b>at least with a 30 minutes buffer</b> between Guidedtours.<br><br>Time-travel is impossible.<br>Your probably can not teleport.<br>If you apply for two confilicting tours we will cancel your registration, to be fair for everyone." %}'
                                         ></span>
                                     </td>
                                 </tr>
@@ -86,10 +87,15 @@
 />
 <script src='{% static "choices.js/public/assets/scripts/choices.min.js" %}'></script>
 <script type="text/javascript">
-        /* global Choices */
-        /* eslint no-new: off */
-        new Choices(document.getElementById('id_subject'));
-        new Choices(document.getElementById('id_tour'));
-        $('[data-toggle="tooltip"]').tooltip({ boundary: 'window' });
-    </script>
+    /* global Choices */
+    /* eslint no-new: off */
+    new Choices(document.getElementById('id_subject'));
+    const tour = new Choices(document.getElementById('id_tour'));
+    $('[data-toggle="tooltip"]').tooltip({ boundary: 'window' });
+
+    /* eslint-disable no-unused-vars */
+    function assignTour(id) {
+        tour.setChoiceByValue(id);
+    }
+</script>
 {% endblock %}
