@@ -22,4 +22,4 @@ class LatexAuxTest(unittest.TestCase):
             ("^", "\\textasciicircum "),
         ]
         for input_str, replacement_str in replacements:
-            self.assertEqual(f"{{{replacement_str}}}", latex.latex_escape(input_str))
+            self.assertEqual(replacement_str, latex.latex_escape(input_str))
