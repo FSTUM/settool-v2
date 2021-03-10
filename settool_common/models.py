@@ -1,7 +1,11 @@
 import datetime
+import os
 import re
+from io import BytesIO
 from typing import Any, Dict, List, Optional, Tuple, Union
 
+import qrcode
+from django.core.files import File
 from django.core.mail import EmailMessage, send_mail
 from django.db import models
 from django.http import HttpRequest, HttpResponse
@@ -9,6 +13,9 @@ from django.template import Context, Template
 from django.utils import timezone
 from django.utils.deconstruct import deconstructible
 from django.utils.translation import ugettext_lazy as _
+from PIL import Image
+
+import settool.settings as main_settings
 
 from .settings import SEMESTER_SESSION_KEY
 from .utils import pos_http_response_to_attachable
@@ -224,3 +231,52 @@ def get_semester(request: HttpRequest) -> int:
         sem = current_semester().pk
         request.session[SEMESTER_SESSION_KEY] = sem
     return sem  # noqa: R504
+
+
+class QRCode(models.Model):
+    content = models.CharField(max_length=200)
+    qr_code = models.ImageField(upload_to="qr_codes", blank=True)
+
+    def __str__(self):
+        return self.content
+
+    # pylint: disable=signature-differs
+    def save(self, *args, **kwargs):
+        qr_code = qrcode.QRCode(
+            error_correction=qrcode.constants.ERROR_CORRECT_H,
+            box_size=20,
+            border=1,
+        )
+        qr_code.add_data(self.content)
+        qr_code.make(fit=True)
+        qr_image = qr_code.make_image(fill_color="black", back_color="white")
+
+        with Image.new("RGB", (qr_image.pixel_size, qr_image.pixel_size), "white") as canvas:
+            canvas.paste(qr_image)
+
+            logo_path = os.path.join(main_settings.STATIC_ROOT, "eule.png")
+            with Image.open(logo_path) as logo:
+                usable_height = qr_image.pixel_size - qr_image.box_size * qr_image.border * 2
+                size = int(usable_height * 0.3 / qr_image.box_size + 1) * qr_image.box_size
+                # current image version can take it to have up to 30% covered up.
+                # due to math we are always below that limt
+                if ((qr_image.pixel_size - size) // 2 % qr_image.box_size) != 0:
+                    size += qr_image.box_size
+
+                v_size = int(size * (logo.height / logo.width))  # WHY is our logo not sqare?
+
+                t_logo = logo.resize((size, v_size), Image.ANTIALIAS)
+                pos = (qr_image.pixel_size - size) // 2
+                canvas.paste(t_logo, (pos, pos))
+
+            f_cleaned_content = (
+                self.content.replace("https://", "")
+                .replace("http://", "")
+                .strip("/")
+                .replace("/", "-")
+                .replace(".", "_")
+            )
+            buffer = BytesIO()
+            canvas.save(buffer, "PNG")
+            self.qr_code.save(f"qr_code_{f_cleaned_content}.png", File(buffer), save=False)
+            super().save(*args, **kwargs)

@@ -1,4 +1,5 @@
 {% extends "settool_common/settings/base_settings.html" %}
+{% load qr_codes %}
 {% load i18n %}
 
 {% block set_common_headercontent %}{% trans "Settings dashboard" %}{% endblock %}
@@ -45,7 +46,7 @@
         <a href='{% url "fahrt_signup" %}'>
             <img
                 class='m-2 img-fluid'
-                src='https://chart.googleapis.com/chart?cht=qr&chld=H|0&chs=400x400&chl={{ request.scheme }}://set.mpi.fs.tum.de{% url "fahrt_signup" %}'
+                src='{% generate_qr_code_url "fahrt_signup" %}'
                 alt='QR-Code linking to {{ request.scheme }}://set.mpi.fs.tum.de{% url "fahrt_signup" %}'
             >
         </a>
@@ -55,7 +56,7 @@
         <a href='{% url "tutor_signup" %}'>
             <img
                 class='m-2 img-fluid'
-                src='https://chart.googleapis.com/chart?cht=qr&chld=H|0&chs=400x400&chl={{ request.scheme }}://set.mpi.fs.tum.de{% url "tutor_signup" %}'
+                src='{% generate_qr_code_url "tutor_signup" %}'
                 alt='QR-Code linking to {{ request.scheme }}://set.mpi.fs.tum.de{% url "tutor_signup" %}'
             >
         </a>
@@ -65,7 +66,7 @@
         <a href='{% url "collaborator_signup" %}'>
             <img
                 class='m-2 img-fluid'
-                src='https://chart.googleapis.com/chart?cht=qr&chld=H|0&chs=400x400&chl={{ request.scheme }}://set.mpi.fs.tum.de{% url "collaborator_signup" %}'
+                src='{% generate_qr_code_url "collaborator_signup" %}'
                 alt='QR-Code linking to {{ request.scheme }}://set.mpi.fs.tum.de{% url "collaborator_signup" %}'
             >
         </a>
@@ -75,7 +76,7 @@
         <a href='{% url "tours_signup" %}'>
             <img
                 class='m-2 img-fluid'
-                src='https://chart.googleapis.com/chart?cht=qr&chld=H|0&chs=400x400&chl={{ request.scheme }}://set.mpi.fs.tum.de{% url "tours_signup" %}'
+                src='{% generate_qr_code_url "tours_signup" %}'
                 alt='QR-Code linking to {{ request.scheme }}://set.mpi.fs.tum.de{% url "tours_signup" %}'
             >
         </a>

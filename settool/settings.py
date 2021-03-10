@@ -144,6 +144,10 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),
 ]
 
+# Media files (QR-Codes, ...)
+MEDIA_URL = "/media/"
+MEDIA_ROOT = os.path.join(BASE_DIR, "mediafiles")
+
 # cronjobs
 CRONJOBS = [
     ("0 6 * * *", "settool_common.cron.master_cronjob"),
