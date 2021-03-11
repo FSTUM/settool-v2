@@ -5,8 +5,8 @@
 {% block  set_common_headercontent %}{% trans "List Transport for" %} {{ participant }}{% endblock %}
 
 {% block set_common_content %}
-{% for transport_name, transport_type in transport_types %}
-<h2 class='card-title'>{{ transport_name }}s</h2>
+{% for transport_name_pl,transport_name, transport_type in transport_types %}
+<h2 class='card-title'>{{ transport_name_pl }}</h2>
 <div class="container-fluid">
     <div class="row flex-row flex-nowrap overflow-auto">
         {% for transport in transport_type %}

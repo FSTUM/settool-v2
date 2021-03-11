@@ -23,7 +23,8 @@ class FahrtMail(common_models.Mail):
     conditional_placeholders: List[Tuple[str, str, str]] = []
     notes = _(
         "If the Email is configured as the fahrt's registration mail, the participants' personalised non-liability "
-        "form is automatically attached",
+        "form is automatically attached. Please notify the Participant to atach his ID "
+        "(THIS-->{{ participant.uuid }}<--THIS) in the Payment-Subject-Line.",
     )
 
     required_perm = common_models.Mail.required_perm + ["fahrt.view_participants"]

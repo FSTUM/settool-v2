@@ -135,11 +135,13 @@ msgstr "Der Teilnehmer"
 #: fahrt/models.py
 msgid ""
 "If the Email is configured as the fahrt's registration mail, the "
-"participants' personalised non-liability form is automatically attached"
+"participants' personalised non-liability form is automatically attached. "
+"Please notify the Participant to atach his ID (THIS-->{{ participant.uuid }}"
+"<--THIS) in the Payment-Subject-Line."
 msgstr ""
 "Falls eine Anmeldungs Email konfiguriert ist wird der personalisierte "
 "Haftungsauschuss automatisch an die Teilnehmer*in gesendet, sobald sie sich "
-"registrieren"
+"registrieren. Bitte weise den Teilnehmer darauf hin, seine ID (THIS-->{{ participant.uuid }}<--THIS) in der Zahlungs-Betreff-Zeile zu nennen."
 
 #: fahrt/models.py
 msgid "Date"
@@ -925,6 +927,14 @@ msgid ""
 msgstr ""
 "Konnte die Registrierungs-Email nicht senden. Bitte vergewissere dich, das "
 "diese richtig konfiguirert ist"
+
+#: fahrt/views.py
+msgid "Cars"
+msgstr "Autos"
+
+#: fahrt/views.py
+msgid "Trains"
+msgstr "Züge"
 
 #: fahrt/views.py
 msgid "You can not create a new Transport-option of the same type"

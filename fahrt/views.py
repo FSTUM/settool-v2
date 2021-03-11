@@ -735,10 +735,10 @@ def get_non_liability(participant_pk: int) -> HttpResponse:
     return utils.download_pdf("fahrt/tex/ü18_non_liability.tex", filename, context)
 
 
-def get_transport_types(fahrt: Fahrt) -> List[Tuple[str, Any]]:
+def get_transport_types(fahrt: Fahrt) -> List[Tuple[str, str, Any]]:
     return [
-        (_("Car"), Transportation.objects.filter(transport_type=Transportation.CAR, fahrt=fahrt)),
-        (_("Train"), Transportation.objects.filter(transport_type=Transportation.TRAIN, fahrt=fahrt)),
+        (_("Cars"), _("Car"), Transportation.objects.filter(transport_type=Transportation.CAR, fahrt=fahrt)),
+        (_("Trains"), _("Train"), Transportation.objects.filter(transport_type=Transportation.TRAIN, fahrt=fahrt)),
     ]
 
 
