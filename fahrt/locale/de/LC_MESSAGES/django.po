@@ -525,9 +525,6 @@ msgstr "Master"
 msgid "Not assigned"
 msgstr "Nicht Zugewiesen"
 
-#: fahrt/templates/fahrt/general/add_participant.html
-msgid "Add participant to the SET-Fahrt"
-msgstr "Teilnehmer zur SET-Fahrt hinzufügen"
 #: fahrt/templates/fahrt/finanz/automated_finanz.html
 msgid "Import Bank account exports to manage Payment Status"
 msgstr "Bankaccountexport importieren um den Zahlungsstatus zu managen"
@@ -978,8 +975,6 @@ msgstr ""
 msgid "The Selected option seems to be full"
 msgstr "Die ausgewählte Option scheint voll zu sein"
 
-#~ msgid "%(additional_seats)s additional seats"
-#~ msgstr "%(additional_seats)s zusätzliche Plätze"
 #: fahrt/views.py
 msgid "Saved changed payment status"
 msgstr "Änderungen am Zahlungsstatus wurden gespeichert"
@@ -988,11 +983,11 @@ msgstr "Änderungen am Zahlungsstatus wurden gespeichert"
 msgid "The File was successfully uploaded"
 msgstr "Die Datei wurde erfolgreich hochgeladen"
 
+#~ msgid "%(additional_seats)s additional seats"
+#~ msgstr "%(additional_seats)s zusätzliche Plätze"
+
 #~ msgid "Payment ID"
 #~ msgstr "Zahlungs ID"
-
-#~ msgid "I accept the terms and conditions of the following privacy policy:"
-#~ msgstr "Ich stimme der folgenden Datenschutzerklärung zu:"
 
 #~ msgid "Email subject"
 #~ msgstr "E-Mail Betreff"
