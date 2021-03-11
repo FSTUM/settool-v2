@@ -53,4 +53,17 @@ urlpatterns = [
         ),
     ),
     path("changedate/", views.change_date, name="fahrt_date"),
+    path(
+        "finanz/",
+        include(
+            [
+                path("simple/", views.fahrt_finanz_simple, name="fahrt_finanz_simple"),
+                path(
+                    "simple/confirm/",
+                    views.fahrt_finanz_simple_confirm_changes,
+                    name="fahrt_finanz_simple_confirm_changes",
+                ),
+            ],
+        ),
+    ),
 ]

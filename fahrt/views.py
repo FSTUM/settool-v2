@@ -26,6 +26,7 @@ from .forms import (
     ParticipantForm,
     SelectMailForm,
     SelectParticipantForm,
+    SelectParticipantSwitchForm,
 )
 from .models import Fahrt, FahrtMail, Participant
 
@@ -762,3 +763,78 @@ def get_non_liability(participant_pk: int) -> HttpResponse:
     if participant.u18:
         return utils.download_pdf("fahrt/tex/u18_non_liability.tex", filename, context)
     return utils.download_pdf("fahrt/tex/ü18_non_liability.tex", filename, context)
+
+
+@permission_required("fahrt.view_participants")
+def fahrt_finanz_simple(request: WSGIRequest) -> HttpResponse:
+    semester: Semester = get_object_or_404(Semester, pk=get_semester(request))
+    fahrt: Fahrt = get_object_or_404(Fahrt, semester=semester)
+    participants: List[Participant] = list(Participant.objects.filter(semester=semester, status="confirmed").all())
+    select_participant_form_set = formset_factory(SelectParticipantSwitchForm, extra=0)
+    participantforms = select_participant_form_set(
+        request.POST or None,
+        initial=[{"id": p.id, "selected": p.paid is not None} for p in participants],
+    )
+
+    if participantforms.is_valid():
+        new_paid_participants: List[Participant] = []
+        new_unpaid_participants: List[Participant] = []
+        for participant in participantforms:
+            try:
+                participant_id = participant.cleaned_data["id"]
+            except KeyError:
+                continue
+            try:
+                selected = participant.cleaned_data["selected"]
+            except KeyError:
+                selected = False
+            if selected:
+                if Participant.objects.filter(id=participant_id, paid__isnull=True).exists():
+                    new_paid_participants.append(participant_id)
+            else:
+                if Participant.objects.filter(id=participant_id, paid__isnull=False).exists():
+                    new_unpaid_participants.append(participant_id)
+        if new_paid_participants or new_unpaid_participants:
+            request.session["new_paid_participants"] = new_paid_participants
+            request.session["new_unpaid_participants"] = new_unpaid_participants
+            return redirect("fahrt_finanz_simple_confirm_changes")
+
+    participants_and_select = []
+    for participant in participants:
+        for participant_form in participantforms:
+            if participant_form.initial["id"] == participant.id:
+                participants_and_select.append((participant, participant_form))
+                break
+    context = {
+        "fahrt": fahrt,
+        "participants_and_select": participants_and_select,
+        "participantforms": participantforms,
+    }
+    return render(request, "fahrt/finanz/simple_finanz.html", context)
+
+
+@permission_required("fahrt.view_participants")
+def fahrt_finanz_simple_confirm_changes(request: WSGIRequest) -> HttpResponse:
+    new_paid_participants = [
+        Participant.objects.get(id=part_id) for part_id in request.session["new_paid_participants"]
+    ]
+    new_unpaid_participants = [
+        Participant.objects.get(id=part_id) for part_id in request.session["new_unpaid_participants"]
+    ]
+    form = forms.Form(request.POST or None)
+    if form.is_valid():
+        for new_paid_participant in new_paid_participants:
+            new_paid_participant.paid = date.today()
+            new_paid_participant.save()
+        for new_unpaid_participant in new_unpaid_participants:
+            new_unpaid_participant.paid = None
+            new_unpaid_participant.save()
+        messages.success(request, _("Saved changed payment status"))
+        return redirect("fahrt_finanz_simple")
+
+    context = {
+        "form": form,
+        "new_paid_participants": new_paid_participants,
+        "new_unpaid_participants": new_unpaid_participants,
+    }
+    return render(request, "fahrt/finanz/simple_finanz_confirmation.html", context)

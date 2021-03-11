@@ -126,5 +126,21 @@ class FilterParticipantsForm(forms.Form):
 
 class SelectParticipantForm(forms.Form):
     id = forms.IntegerField()
-
     selected = forms.BooleanField(required=False)
+
+
+class SelectParticipantSwitchForm(forms.Form):
+    id = forms.IntegerField()
+    selected = forms.BooleanField(
+        widget=forms.widgets.CheckboxInput(
+            attrs={
+                "class": "bootstrap-select",
+                "data-toggle": "switch",
+                "data-on-color": "primary",
+                "data-on-text": _("Paid"),
+                "data-off-color": "default",
+                "data-off-text": _("NOT Paid"),
+            },
+        ),
+        required=False,
+    )

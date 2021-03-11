@@ -38,6 +38,7 @@ msgid "With car"
 msgstr "Mit Auto"
 
 #: fahrt/forms.py fahrt/models.py
+#: fahrt/templates/fahrt/finanz/simple_finanz.html
 #: fahrt/templates/fahrt/participants/view_participant_details.html
 msgid "Paid"
 msgstr "Bezahlt"
@@ -50,7 +51,9 @@ msgstr "Zahlungsfrist vorbei"
 msgid "On mailinglist"
 msgstr "Auf Mailingliste"
 
-#: fahrt/forms.py fahrt/models.py fahrt/templates/fahrt/mail/del_mail.html
+#: fahrt/forms.py fahrt/models.py
+#: fahrt/templates/fahrt/finanz/simple_finanz.html
+#: fahrt/templates/fahrt/mail/del_mail.html
 #: fahrt/templates/fahrt/mail/index_mails.html
 #: fahrt/templates/fahrt/mail/send_mail.html
 #: fahrt/templates/fahrt/mail/send_mail_failure.html
@@ -85,6 +88,10 @@ msgstr "Warteliste"
 #: fahrt/forms.py fahrt/models.py
 msgid "cancelled"
 msgstr "abgesagt"
+
+#: fahrt/forms.py
+msgid "NOT Paid"
+msgstr "NICHT bezahlt"
 
 #: fahrt/models.py
 msgid "The participant's first name"
@@ -164,7 +171,8 @@ msgstr "Divers"
 msgid "Gender"
 msgstr "Geschlecht"
 
-#: fahrt/models.py
+#: fahrt/models.py fahrt/templates/fahrt/finanz/simple_finanz.html
+#: fahrt/templates/fahrt/finanz/simple_finanz_confirmation.html
 #: fahrt/templates/fahrt/mail/list_filtered_participants_send_mail.html
 #: fahrt/templates/fahrt/mail/send_mail.html
 #: fahrt/templates/fahrt/mail/send_mail_failure.html
@@ -176,7 +184,8 @@ msgstr "Geschlecht"
 msgid "First name"
 msgstr "Vorname"
 
-#: fahrt/models.py
+#: fahrt/models.py fahrt/templates/fahrt/finanz/simple_finanz.html
+#: fahrt/templates/fahrt/finanz/simple_finanz_confirmation.html
 #: fahrt/templates/fahrt/mail/list_filtered_participants_send_mail.html
 #: fahrt/templates/fahrt/mail/send_mail.html
 #: fahrt/templates/fahrt/mail/send_mail_failure.html
@@ -312,6 +321,18 @@ msgid "Cancelled participants"
 msgstr "Abgesagte Teilnehmer"
 
 #: fahrt/templates/fahrt/base_fahrt.html
+msgid "Payment"
+msgstr "Zahlung"
+
+#: fahrt/templates/fahrt/base_fahrt.html
+msgid "Simplified payment processing"
+msgstr "Vereinfachte Zahlungsabwicklung"
+
+#: fahrt/templates/fahrt/base_fahrt.html
+msgid "Automated payment processing"
+msgstr "Automatisierte Zahlungsabwicklung"
+
+#: fahrt/templates/fahrt/base_fahrt.html
 msgid "Mails"
 msgstr "E-Mails"
 
@@ -409,6 +430,59 @@ msgstr "Bachlor"
 msgid "Master"
 msgstr "Master"
 
+#: fahrt/templates/fahrt/finanz/simple_finanz.html
+msgid "Manage Payment Status"
+msgstr "Zahlungsstatus bearbeiten"
+
+#: fahrt/templates/fahrt/finanz/simple_finanz.html
+msgid "Payment deadline normal"
+msgstr "Zahlungsfrist normal"
+
+#: fahrt/templates/fahrt/finanz/simple_finanz.html
+msgid "Payment deadline is soon"
+msgstr "Zahlungsfrist ist bald"
+
+#: fahrt/templates/fahrt/finanz/simple_finanz.html
+msgid "Payment deadline exceeded"
+msgstr "Zahlungsfrist vorbei"
+
+#: fahrt/templates/fahrt/finanz/simple_finanz.html
+msgid "List of all confirmed participants"
+msgstr "Liste aller bestätigten Teilnehmer"
+
+#: fahrt/templates/fahrt/finanz/simple_finanz.html
+msgid "Payment Deadline"
+msgstr "Zahlungsfrist"
+
+#: fahrt/templates/fahrt/finanz/simple_finanz.html
+#: fahrt/templates/fahrt/finanz/simple_finanz_confirmation.html
+#: fahrt/templates/fahrt/mail/add_mail.html
+#: fahrt/templates/fahrt/mail/del_mail.html
+#: fahrt/templates/fahrt/mail/edit_mail.html
+#: fahrt/templates/fahrt/mail/send_mail.html
+#: fahrt/templates/fahrt/participants/del_participant.html
+#: fahrt/templates/fahrt/participants/edit_participants.html
+#: fahrt/templates/fahrt/participants/view_participant_details.html
+msgid "Cancel"
+msgstr "Abbrechen"
+
+#: fahrt/templates/fahrt/finanz/simple_finanz.html
+#: fahrt/templates/fahrt/finanz/simple_finanz_confirmation.html
+msgid "Save changed payment status"
+msgstr "Änderungen am Zahlungsstatus speichern"
+
+#: fahrt/templates/fahrt/finanz/simple_finanz_confirmation.html
+msgid "Confirm Payment Status Changes"
+msgstr "Änderungen am Zahlungsstatus bestätigen"
+
+#: fahrt/templates/fahrt/finanz/simple_finanz_confirmation.html
+msgid "Participants who will GET the 'Paid' Status"
+msgstr "Teilnehmer die den 'Bezahlt' Status BEKOMMEN"
+
+#: fahrt/templates/fahrt/finanz/simple_finanz_confirmation.html
+msgid "Participants who will LOOSE the 'Paid' Status"
+msgstr "Teilnehmer die den 'Bezahlt' Status VERLIEREN"
+
 #: fahrt/templates/fahrt/general/add_participant.html
 msgid "Add participant to the SET-Fahrt"
 msgstr "Teilnehmer zur SET-Fahrt hinzufügen"
@@ -420,16 +494,6 @@ msgstr "Einstellungen speichern"
 #: fahrt/templates/fahrt/mail/add_mail.html
 msgid "Add email"
 msgstr "E-Mail hinzufügen"
-
-#: fahrt/templates/fahrt/mail/add_mail.html
-#: fahrt/templates/fahrt/mail/del_mail.html
-#: fahrt/templates/fahrt/mail/edit_mail.html
-#: fahrt/templates/fahrt/mail/send_mail.html
-#: fahrt/templates/fahrt/participants/del_participant.html
-#: fahrt/templates/fahrt/participants/edit_participants.html
-#: fahrt/templates/fahrt/participants/view_participant_details.html
-msgid "Cancel"
-msgstr "Abbrechen"
 
 #: fahrt/templates/fahrt/mail/del_mail.html
 msgid "Delete email template"
@@ -675,6 +739,10 @@ msgid ""
 msgstr ""
 "Konnte die Registrierungs-Email nicht senden. Bitte vergewissere dich, das "
 "diese richtig konfiguirert ist"
+
+#: fahrt/views.py
+msgid "Saved changed payment status"
+msgstr "Änderungen am Zahlungsstatus wurden gespeichert"
 
 #~ msgid "I accept the terms and conditions of the following privacy policy:"
 #~ msgstr "Ich stimme der folgenden Datenschutzerklärung zu:"
