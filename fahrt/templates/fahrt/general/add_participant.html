@@ -23,3 +23,14 @@
     >{% trans "Add participant" %}</button>
 </form>
 {% endblock %}
+
+{% block defered_script %}
+<script type="text/javascript">
+    const car = $('#id_car');
+    const carPlaces = $('#id_car_places').parent();
+    carPlaces.toggle(car.is(':checked'));
+    car.change(() => {
+        carPlaces.toggle(car.is(':checked'));
+    });
+</script>
+{% endblock %}

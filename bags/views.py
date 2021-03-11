@@ -177,8 +177,8 @@ def update_field(request: WSGIRequest, company_pk: int, field: str) -> HttpRespo
             "False": False,
             "None": None,
         }
-        if value in str_to_bool_map.keys():
-            value = str_to_bool_map[value]
+        if value in str_to_bool_map:
+            value = str_to_bool_map.get(value)
         changes = {field: value}
 
         # to display email_sent_success and email_sent_success in one column we use a Failure state

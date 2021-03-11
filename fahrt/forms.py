@@ -7,11 +7,11 @@ from django.core.exceptions import ValidationError
 from django.db.models import QuerySet
 from django.utils.translation import ugettext_lazy as _
 
-from settool_common.forms import CommonParticipantForm, SemesterBasedForm, SemesterBasedModelForm
+from settool_common.forms import SemesterBasedForm, SemesterBasedModelForm
 from settool_common.models import Subject
 from settool_common.utils import produce_field_with_autosubmit
 
-from .models import Fahrt, FahrtMail, Participant
+from .models import Fahrt, FahrtMail, Participant, Transportation
 
 
 class FahrtForm(forms.ModelForm):
@@ -28,10 +28,22 @@ class FahrtForm(forms.ModelForm):
 class ParticipantAdminForm(SemesterBasedModelForm):
     class Meta:
         model = Participant
-        exclude = ["semester", "registration_time"]
+        exclude = ["semester", "registration_time", "transportation"]
+
+    def clean(self):
+        cleaned_data = super().clean()
+        birthday = cleaned_data["birthday"]
+        if birthday == date.today():
+            self.add_error("birthday", _("You cant be born today."))
+            raise ValidationError(_("You cant be born today."), code="birthday")
+            # required, as current template does not have an error place
+        if birthday > date.today():
+            self.add_error("birthday", _("You cant be born in the future."))
+            raise ValidationError(_("You cant be born in the future."), code="birthday")
+        return cleaned_data
 
 
-class ParticipantForm(CommonParticipantForm):
+class ParticipantForm(ParticipantAdminForm):
     class Meta:
         model = Participant
         exclude = [
@@ -43,23 +55,123 @@ class ParticipantForm(CommonParticipantForm):
             "mailinglist",
             "comment",
             "registration_time",
+            "transportation",
         ]
         widgets = {
             "birthday": DatePickerInput(format="%Y-%m-%d"),
         }
 
+    car = forms.BooleanField(
+        label=_("I drive by car"),
+    )
+
+    car_places = forms.IntegerField(
+        label=_("Number of people I can take along additionally"),
+        required=False,
+        min_value=0,
+    )
+
+    dsgvo = forms.BooleanField(
+        label=_("I accept the terms and conditions of the following privacy policy:"),
+        required=True,
+    )
+
     def clean(self):
         cleaned_data = super().clean()
         if cleaned_data["car"] and not cleaned_data["car_places"]:
             self.add_error("car_places", _("This field is required if you have a car"))
-        birthday = cleaned_data["birthday"]
-        if birthday == date.today():
-            self.add_error("birthday", _("You cant be born today."))
-            raise ValidationError(_("You cant be born today."), code="birthday")
-            # required, as current template does not have an error place
-        if birthday > date.today():
-            self.add_error("birthday", _("You cant be born in the future."))
-            raise ValidationError(_("You cant be born in the future."), code="birthday")
+
+    def save(self, commit=True):
+        participant: Participant = super().save(commit=False)
+
+        if self.cleaned_data["car"]:
+            car_places: int = self.cleaned_data["car_places"]
+            participant.transportation = Transportation.objects.update_or_create(
+                transport_type=Transportation.CAR,
+                creator=participant,
+                fahrt=participant.semester.fahrt,
+                places=1 + car_places,
+            )
+        participant.save()
+
+
+class AddParticipantToTransportForm(SemesterBasedForm):
+    person = forms.ModelChoiceField(
+        queryset=None,
+        label=_("Unassigned participant"),
+    )
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields["person"].queryset = self.semester.fahrt_participant.filter(
+            transportation=None,
+            status="confirmed",
+        ).all()
+
+
+class TransportForm(SemesterBasedModelForm):
+    class Meta:
+        model = Transportation
+        exclude: List[str] = ["fahrt"]
+        widgets = {
+            "deparure_time": DateTimePickerInput(format="%Y-%m-%d %H:%M"),
+            "return_departure_time": DateTimePickerInput(format="%Y-%m-%d %H:%M"),
+        }
+
+    def __init__(self, *args, **kwargs):
+        self.transport_type = kwargs.pop("transport_type")
+        super().__init__(*args, **kwargs)
+
+    def clean(self):
+        cleaned_data = super().clean()
+        if not 0 < cleaned_data["places"] < 30:
+            self.add_error("places", _("We only allow 0 < places < 30."))
+        return cleaned_data
+
+    def save(self, commit=True):
+        transport: Transportation = super().save(commit=False)
+        transport.fahrt = self.semester.fahrt
+        if commit:
+            transport.save()
+        return transport
+
+
+class TransportOptionForm(TransportForm):
+    class Meta(TransportForm.Meta):
+        exclude: List[str] = ["fahrt", "creator", "transport_type"]
+
+    def __init__(self, *args, **kwargs):
+        self.creator = kwargs.pop("participant")
+        super().__init__(*args, **kwargs)
+
+    def save(self, commit=True):
+        transport: Transportation = super().save(commit=False)
+        transport.creator = self.creator
+        transport.save()
+        # we cannot respect the commit paramether, because we could need to change the creators transport
+        if transport.creator.transportation != transport:
+            transport.creator.transportation = transport
+            transport.creator.save()
+        return transport
+
+
+class TransportAdminOptionForm(TransportForm):
+    class Meta(TransportForm.Meta):
+        exclude: List[str] = ["fahrt", "transport_type"]
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields["creator"].queryset = self.semester.fahrt_participant.filter(transportation=None).all()
+
+    def save(self, commit=True):
+        transport: Transportation = super().save(commit=False)
+        transport.transport_type = self.transport_type
+        transport.save()
+        # we cannot respect the commit paramether, because we could need to change the creators transport
+        if transport.creator.transportation != transport:
+            transport.creator.transportation = transport
+            transport.creator.save()
+        return transport
 
 
 class MailForm(forms.ModelForm):

@@ -1,0 +1,124 @@
+{% extends "base_single_card_layout.html" %}
+{% load task_extras %}
+{% load i18n %}
+
+{% block  set_common_headercontent %}{% trans "List Transport for" %} {{ participant }}{% endblock %}
+
+{% block set_common_content %}
+{% for transport_name, transport_type in transport_types %}
+<h2 class='card-title'>{{ transport_name }}s</h2>
+<div class="container-fluid">
+    <div class="row flex-row flex-nowrap overflow-auto">
+        {% for transport in transport_type %}
+        <div
+            class="card card-block"
+            style='min-width: 30rem'
+        >
+            <div class='card-header'>{{ transport_name }} {{ forloop.counter }}</div>
+            <div class='card-body'>
+                <div class='table-responsive'>
+                    <table class='table table-hover'>
+                        <tbody>
+                            <tr>
+                                <th>{% trans "Organisor/Driver:" %}</th>
+                                <td>
+                                    {% if transport.creator %}
+                                    {{ transport.creator }}
+                                    {% else %}
+                                    {% trans "[Deleted]" %}
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>{% trans "Contact:" %}</th>
+                                <td>
+                                    {% if transport.creator %}
+                                    {% if transport.creator.publish_contact_to_other_paricipants %}
+                                    {{ transport.creator.mobile|default_if_none:transport.creator.phone|default_if_none:transport.creator.email }}
+                                    {% else %}
+                                    {% trans "Hidden" %}
+                                    {% endif %}
+                                    {% else %}
+                                    {% trans "[Deleted]" %}
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>{% trans "Meeting-Place:" %}</th>
+                                <td>{{ transport.deparure_place|default:"n.A." }}</td>
+                            </tr>
+                            <tr>
+                                <th>{% trans "Departure:" %}</th>
+                                <td>{{ transport.deparure_time|default:"n.A." }}</td>
+                            </tr>
+                            <tr>
+                                <th>{% trans "Departure for return:" %}</th>
+                                <td>{{ transport.return_departure_time|default:"n.A." }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class='table-responsive'>
+                    <table class='table table-hover'>
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>{% trans "Name" %}</th>
+                                <th>{% trans "Contact" %}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for participant in transport.participant_set.all %}
+                            <tr>
+                                <td>{{ forloop.counter }}</td>
+                                <td><a href='{% url "fahrt_viewparticipant" participant.id %}'>{{ participant }}</a>
+                                </td>
+                                <td>
+                                    {% if participant.publish_contact_to_other_paricipants %}
+                                    {{ participant.mobile|default_if_none:participant.phone|default_if_none:participant.email }}
+                                    {% else %}
+                                    {% trans "Hidden" %}
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            {% endfor %}
+                            {% for _ in transport.places|subtract:transport.participant_set.count|times %}
+                            <tr>
+                                <td class='table-info'></td>
+                                <td class='table-info'><a href='{% url "fahrt_transport_management_add_participant" transport.id %}'><span class='bi bi-plus'></span></a></td>
+                                <td class='table-info'><a href='{% url "fahrt_transport_management_add_participant" transport.id %}'><span class='bi bi-plus'></span></a></td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        {% if forloop.last %}
+        <div
+            class="card card-block"
+            style='min-width: 30rem'
+        >
+            <div class='card-header'>
+                {% blocktrans trimmed with transport_name=transport_name %}
+                Add {{ transport_name }}
+                {% endblocktrans %}
+            </div>
+            <a href='{% url "fahrt_transport_management_add_transport" transport.transport_type %}'>
+                <div class='card-body text-center flex align-content-center '>
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="20rem"
+                        viewBox="0 0 16 16"
+                    >
+                        <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"></path>
+                    </svg>
+                </div>
+            </a>
+        </div>
+        {% endif %}
+        {% endfor %}
+    </div>
+</div>
+{% endfor %}
+{% endblock %}

@@ -41,6 +41,53 @@ urlpatterns = [
     path("filtered/", views.filtered_list, name="fahrt_filteredparticipants"),
     path("emails/", views.index_mails, name="fahrt_listmails"),
     path(
+        "transport/",
+        include(
+            [
+                path(
+                    "mangagement/",
+                    include(
+                        [
+                            path(
+                                "add/option/<int:transport_type>",
+                                views.transport_mangagement_add_option,
+                                name="fahrt_transport_management_add_transport",
+                            ),
+                            path(
+                                "add/participant/<int:transport_pk>/",
+                                views.transport_mangagement_add_participant,
+                                name="fahrt_transport_management_add_participant",
+                            ),
+                            path("", views.transport_mangagement, name="fahrt_transport_mangagement"),
+                        ],
+                    ),
+                ),
+                path(
+                    "participant/",
+                    include(
+                        [
+                            path(
+                                "add/option/<uuid:participant_uuid>/<int:transport_type>/",
+                                views.transport_add_option,
+                                name="fahrt_transport_participant_add_option",
+                            ),
+                            path(
+                                "add/participant/<uuid:participant_uuid>/<int:transport_pk>/",
+                                views.transport_add_participant,
+                                name="fahrt_transport_add_participant",
+                            ),
+                            path(
+                                "<uuid:participant_uuid>/",
+                                views.transport_participant,
+                                name="fahrt_transport_participant",
+                            ),
+                        ],
+                    ),
+                ),
+            ],
+        ),
+    ),
+    path(
         "email/",  # due to active_link
         include(
             [

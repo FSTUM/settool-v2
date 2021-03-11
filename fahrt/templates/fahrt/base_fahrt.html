@@ -43,6 +43,12 @@
     href="{% url 'fahrt_finanz_automated' %}"
 >{% trans "Automated payment processing" %}</a>
 
+<h4 class="navbar-text">{% trans "Transportation" %}</h4>
+<a
+    class="nav-link {% active_link 'fahrt_transport_mangagement' %}"
+    href="{% url 'fahrt_transport_mangagement' %}"
+>{% trans "Current transportation arrangement" %}</a>
+
 <h4 class="navbar-text">{% trans "Mails" %}</h4>
 <a
     class="nav-link {% active_link 'fahrt_listmails' %}"

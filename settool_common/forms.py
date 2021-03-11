@@ -8,12 +8,12 @@ from fahrt.models import FahrtMail
 from guidedtours.models import TourMail
 from tutors.models import TutorMail
 
-from .models import Mail
+from .models import Mail, Semester
 
 
 class SemesterBasedForm(forms.Form):
     def __init__(self, *args, **kwargs):
-        self.semester = kwargs.pop("semester")
+        self.semester: Semester = kwargs.pop("semester")
         super().__init__(*args, **kwargs)
 
 
