@@ -1,11 +1,13 @@
 import time
 from datetime import date, timedelta
+from io import TextIOWrapper
 from typing import Dict, List, Optional
 
 from django import forms
 from django.contrib import messages
 from django.contrib.auth.decorators import permission_required
 from django.core.exceptions import ObjectDoesNotExist
+from django.core.files.uploadedfile import UploadedFile
 from django.core.handlers.wsgi import WSGIRequest
 from django.db.models import Count, Q, QuerySet, Sum
 from django.forms import formset_factory
@@ -18,6 +20,7 @@ from settool_common import utils
 from settool_common.models import get_semester, Semester, Subject
 
 from .forms import (
+    CSVFileUploadForm,
     FahrtForm,
     FilterParticipantsForm,
     FilterRegisteredParticipantsForm,
@@ -29,6 +32,7 @@ from .forms import (
     SelectParticipantSwitchForm,
 )
 from .models import Fahrt, FahrtMail, Participant
+from .parser import Entry, parse_camt_csv
 
 
 def get_confirmed_u18_participants_counts(semester: int) -> List[int]:
@@ -797,7 +801,7 @@ def fahrt_finanz_simple(request: WSGIRequest) -> HttpResponse:
         if new_paid_participants or new_unpaid_participants:
             request.session["new_paid_participants"] = new_paid_participants
             request.session["new_unpaid_participants"] = new_unpaid_participants
-            return redirect("fahrt_finanz_simple_confirm_changes")
+            return redirect("fahrt_finanz_confirm")
 
     participants_and_select = []
     for participant in participants:
@@ -814,7 +818,7 @@ def fahrt_finanz_simple(request: WSGIRequest) -> HttpResponse:
 
 
 @permission_required("fahrt.view_participants")
-def fahrt_finanz_simple_confirm_changes(request: WSGIRequest) -> HttpResponse:
+def fahrt_finanz_confirm(request: WSGIRequest) -> HttpResponse:
     new_paid_participants = [
         Participant.objects.get(id=part_id) for part_id in request.session["new_paid_participants"]
     ]
@@ -837,4 +841,44 @@ def fahrt_finanz_simple_confirm_changes(request: WSGIRequest) -> HttpResponse:
         "new_paid_participants": new_paid_participants,
         "new_unpaid_participants": new_unpaid_participants,
     }
-    return render(request, "fahrt/finanz/simple_finanz_confirmation.html", context)
+    return render(request, "fahrt/finanz/finanz_confirmation.html", context)
+
+
+@permission_required("bags.view_participants")
+def fahrt_finanz_automated(request: WSGIRequest) -> HttpResponse:
+    file_upload_form = CSVFileUploadForm(request.POST or None, request.FILES)
+
+    if file_upload_form.is_valid():
+        csv_file: Optional[UploadedFile] = request.FILES.get("file")
+        if csv_file is None:
+            raise Http404
+        csv_file_text = TextIOWrapper(csv_file.file, encoding="iso-8859-1")
+        results, errors = parse_camt_csv(csv_file_text)
+        if errors:
+            for error in errors:
+                messages.error(request, error)
+            return redirect("fahrt_finanz_automated")
+        request.session["results"] = results
+        messages.success(request, _("The File was successfully uploaded"))
+        return redirect("fahrt_finanz_auto_matching")
+
+    context = {
+        "form": file_upload_form,
+    }
+    return render(request, "fahrt/finanz/automated_finanz.html", context)
+
+
+@permission_required("bags.view_participants")
+def fahrt_finanz_auto_matching(request: WSGIRequest) -> HttpResponse:
+    semester: Semester = get_object_or_404(Semester, pk=get_semester(request))
+    participants: QuerySet[Participant] = Participant.objects.filter(semester=semester, status="confirmed")
+    transactions: List[Entry] = [Entry.from_json(entry) for entry in request.session["results"]]
+
+    for transaction in transactions:
+        pass
+
+    context = {
+        "matched_transactions": None,
+        "unmatched_transactions": None,
+    }
+    return render(request, "fahrt/finanz/automated_finanz_matching.html", context)

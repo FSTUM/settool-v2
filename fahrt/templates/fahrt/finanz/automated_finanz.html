@@ -1,0 +1,107 @@
+{% extends "fahrt/base_fahrt.html" %}
+{% load i18n %}
+{% load bootstrap4 %}
+
+{% block set_common_headercontent %}{% trans "Import Bank account exports to manage Payment Status" %}{% endblock %}
+
+{% block set_common_content %}
+<form
+    method="post"
+    action=""
+    enctype="multipart/form-data"
+>
+    {% csrf_token %}
+    <div class='hide-in-preview'>
+        {% bootstrap_form form %}
+    </div>
+    <div
+        id='preview-table'
+        style='display: none'
+    >
+        <h4>{% trans "Preview" %}</h4>
+        <div class='table-responsive'>
+            <table
+                id='csvTable'
+                class='table dataTable'
+            >
+                <thead>
+                    <tr>
+                        <th>Auftragskonto</th>
+                        <th>Buchungstag</th>
+                        <th>Valutadatum</th>
+                        <th>Buchungstext</th>
+                        <th>Verwendungszweck</th>
+                        <th>Glaeubiger ID</th>
+                        <th>Mandatsreferenz</th>
+                        <th>Kundenreferenz (End-to-End)</th>
+                        <th>Sammlerreferenz</th>
+                        <th>Lastschrift Ursprungsbetrag</th>
+                        <th>Auslagenersatz Ruecklastschrift</th>
+                        <th>Beguenstigter/Zahlungspflichtiger</th>
+                        <th>Kontonummer/IBAN</th>
+                        <th>BIC (SWIFT-Code)</th>
+                        <th>Betrag</th>
+                        <th>Waehrung</th>
+                        <th>Info</th>
+                    </tr>
+                </thead>
+                <tbody id='csv-content'>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <a
+        class='btn btn-secondary'
+        href='{% url "bags_main_index" %}'
+    >{% trans "Cancel" %}</a>
+    <button
+        class='btn btn-primary hide-in-preview'
+        id='preview'
+        type='button'
+    >{% trans "Preview Bank account export" %}</button>
+    <button
+        class='btn btn-primary'
+        id='upload'
+        style='display: none;'
+        type='submit'
+    >{% trans "Upload and match Bank account export against Participants" %} <span class="bi bi-cloud-upload"></span></button>
+</form>
+{% endblock %}
+
+{% block defered_script %}
+<script>
+    function unundef(s) {
+        if (s === undefined) return '';
+        return s;
+    }
+
+    $(document).ready(() => {
+        $('#preview').click(() => {
+            const csvFile = $('#id_file')[0].files[0];
+            if (csvFile === undefined || csvFile.type !== 'text/csv') {
+                /* eslint no-alert: off */
+                alert(`The file-format is invalid. Expected 'text/csv', but was '${csvFile.type}'.`);
+            } else {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    const fields = e.target.result.split(/;|\r\n|\n\r/);
+                    let text = '';
+                    for (let i = 1; i < fields.length; i += 1) {
+                        if (i % 17 === 0) text += '<tr>';
+                        text += `<td>${unundef(fields[i])}</td>`;
+                        if (i % 17 === 16) {
+                            $('tbody').append(`${text}</tr>`);
+                            text = '';
+                        }
+                    }
+                    $('#csvTable').DataTable();
+                    $('#preview-table').show();
+                    $('#upload').show();
+                };
+                reader.readAsText(csvFile);
+                $('.hide-in-preview').hide();
+            }
+        });
+    });
+</script>
+{% endblock %}

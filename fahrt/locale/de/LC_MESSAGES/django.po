@@ -93,6 +93,13 @@ msgstr "abgesagt"
 msgid "NOT Paid"
 msgstr "NICHT bezahlt"
 
+#: fahrt/forms.py
+#, python-brace-format
+msgid ""
+"Upload a csv-file in CSV-CAMT format. (encoding='iso-8859-1', Semicolon-"
+"Seperated, First line is header, Column-order: {fields}) "
+msgstr ""
+
 #: fahrt/models.py
 msgid "The participant's first name"
 msgstr "Vorname des Teilnehmers"
@@ -171,8 +178,8 @@ msgstr "Divers"
 msgid "Gender"
 msgstr "Geschlecht"
 
-#: fahrt/models.py fahrt/templates/fahrt/finanz/simple_finanz.html
-#: fahrt/templates/fahrt/finanz/simple_finanz_confirmation.html
+#: fahrt/models.py fahrt/templates/fahrt/finanz/finanz_confirmation.html
+#: fahrt/templates/fahrt/finanz/simple_finanz.html
 #: fahrt/templates/fahrt/mail/list_filtered_participants_send_mail.html
 #: fahrt/templates/fahrt/mail/send_mail.html
 #: fahrt/templates/fahrt/mail/send_mail_failure.html
@@ -184,8 +191,8 @@ msgstr "Geschlecht"
 msgid "First name"
 msgstr "Vorname"
 
-#: fahrt/models.py fahrt/templates/fahrt/finanz/simple_finanz.html
-#: fahrt/templates/fahrt/finanz/simple_finanz_confirmation.html
+#: fahrt/models.py fahrt/templates/fahrt/finanz/finanz_confirmation.html
+#: fahrt/templates/fahrt/finanz/simple_finanz.html
 #: fahrt/templates/fahrt/mail/list_filtered_participants_send_mail.html
 #: fahrt/templates/fahrt/mail/send_mail.html
 #: fahrt/templates/fahrt/mail/send_mail_failure.html
@@ -430,6 +437,67 @@ msgstr "Bachlor"
 msgid "Master"
 msgstr "Master"
 
+#: fahrt/templates/fahrt/finanz/automated_finanz.html
+msgid "Import Bank account exports to manage Payment Status"
+msgstr "Bankaccountexport importieren um den Zahlungsstatus zu managen"
+
+#: fahrt/templates/fahrt/finanz/automated_finanz.html
+msgid "Preview"
+msgstr "Vorschau"
+
+#: fahrt/templates/fahrt/finanz/automated_finanz.html
+#: fahrt/templates/fahrt/finanz/automated_finanz_matching.html
+#: fahrt/templates/fahrt/finanz/finanz_confirmation.html
+#: fahrt/templates/fahrt/finanz/simple_finanz.html
+#: fahrt/templates/fahrt/mail/add_mail.html
+#: fahrt/templates/fahrt/mail/del_mail.html
+#: fahrt/templates/fahrt/mail/edit_mail.html
+#: fahrt/templates/fahrt/mail/send_mail.html
+#: fahrt/templates/fahrt/participants/del_participant.html
+#: fahrt/templates/fahrt/participants/edit_participants.html
+#: fahrt/templates/fahrt/participants/view_participant_details.html
+msgid "Cancel"
+msgstr "Abbrechen"
+
+#: fahrt/templates/fahrt/finanz/automated_finanz.html
+msgid "Preview Bank account export"
+msgstr "Bankaccountexport importieren um den Zahlungsstatus zu managen"
+
+#: fahrt/templates/fahrt/finanz/automated_finanz.html
+msgid "Upload and match Bank account export against Participants"
+msgstr "Vorschau des Bankkonto-Exports"
+
+#: fahrt/templates/fahrt/finanz/automated_finanz_matching.html
+#: fahrt/templates/fahrt/finanz/finanz_confirmation.html
+msgid "Confirm Payment Status Changes"
+msgstr "Änderungen am Zahlungsstatus bestätigen"
+
+#: fahrt/templates/fahrt/finanz/automated_finanz_matching.html
+msgid "Matched Transactions"
+msgstr "Gematchte Transaktionen"
+
+#: fahrt/templates/fahrt/finanz/automated_finanz_matching.html
+msgid "Participant"
+msgstr "Teilnehmer"
+
+#: fahrt/templates/fahrt/finanz/automated_finanz_matching.html
+msgid "Unatched Transactions"
+msgstr "Nicht Gematchte Transaktionen"
+
+#: fahrt/templates/fahrt/finanz/automated_finanz_matching.html
+#: fahrt/templates/fahrt/finanz/finanz_confirmation.html
+#: fahrt/templates/fahrt/finanz/simple_finanz.html
+msgid "Save changed payment status"
+msgstr "Änderungen am Zahlungsstatus speichern"
+
+#: fahrt/templates/fahrt/finanz/finanz_confirmation.html
+msgid "Participants who will GET the 'Paid' Status"
+msgstr "Teilnehmer die den 'Bezahlt' Status BEKOMMEN"
+
+#: fahrt/templates/fahrt/finanz/finanz_confirmation.html
+msgid "Participants who will LOOSE the 'Paid' Status"
+msgstr "Teilnehmer die den 'Bezahlt' Status VERLIEREN"
+
 #: fahrt/templates/fahrt/finanz/simple_finanz.html
 msgid "Manage Payment Status"
 msgstr "Zahlungsstatus bearbeiten"
@@ -453,35 +521,6 @@ msgstr "Liste aller bestätigten Teilnehmer"
 #: fahrt/templates/fahrt/finanz/simple_finanz.html
 msgid "Payment Deadline"
 msgstr "Zahlungsfrist"
-
-#: fahrt/templates/fahrt/finanz/simple_finanz.html
-#: fahrt/templates/fahrt/finanz/simple_finanz_confirmation.html
-#: fahrt/templates/fahrt/mail/add_mail.html
-#: fahrt/templates/fahrt/mail/del_mail.html
-#: fahrt/templates/fahrt/mail/edit_mail.html
-#: fahrt/templates/fahrt/mail/send_mail.html
-#: fahrt/templates/fahrt/participants/del_participant.html
-#: fahrt/templates/fahrt/participants/edit_participants.html
-#: fahrt/templates/fahrt/participants/view_participant_details.html
-msgid "Cancel"
-msgstr "Abbrechen"
-
-#: fahrt/templates/fahrt/finanz/simple_finanz.html
-#: fahrt/templates/fahrt/finanz/simple_finanz_confirmation.html
-msgid "Save changed payment status"
-msgstr "Änderungen am Zahlungsstatus speichern"
-
-#: fahrt/templates/fahrt/finanz/simple_finanz_confirmation.html
-msgid "Confirm Payment Status Changes"
-msgstr "Änderungen am Zahlungsstatus bestätigen"
-
-#: fahrt/templates/fahrt/finanz/simple_finanz_confirmation.html
-msgid "Participants who will GET the 'Paid' Status"
-msgstr "Teilnehmer die den 'Bezahlt' Status BEKOMMEN"
-
-#: fahrt/templates/fahrt/finanz/simple_finanz_confirmation.html
-msgid "Participants who will LOOSE the 'Paid' Status"
-msgstr "Teilnehmer die den 'Bezahlt' Status VERLIEREN"
 
 #: fahrt/templates/fahrt/general/add_participant.html
 msgid "Add participant to the SET-Fahrt"
@@ -743,6 +782,13 @@ msgstr ""
 #: fahrt/views.py
 msgid "Saved changed payment status"
 msgstr "Änderungen am Zahlungsstatus wurden gespeichert"
+
+#: fahrt/views.py
+msgid "The File was successfully uploaded"
+msgstr "Die Datei wurde erfolgreich hochgeladen"
+
+#~ msgid "Payment ID"
+#~ msgstr "Zahlungs ID"
 
 #~ msgid "I accept the terms and conditions of the following privacy policy:"
 #~ msgstr "Ich stimme der folgenden Datenschutzerklärung zu:"

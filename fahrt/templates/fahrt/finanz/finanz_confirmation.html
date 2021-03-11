@@ -67,10 +67,10 @@
     {% csrf_token %}
     <a
         class="btn btn-secondary"
-        href="{% url "fahrt_finanz_simple_confirm_changes" %}"
+        href="{% url "fahrt_main_index" %}"
     >{% trans "Cancel" %}</a>
     <button
-        class="btn btn-danger"
+        class="btn btn-warning"
         type="submit"
     >{% trans "Save changed payment status" %}</button>
 </form>

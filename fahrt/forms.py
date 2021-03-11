@@ -144,3 +144,18 @@ class SelectParticipantSwitchForm(forms.Form):
         ),
         required=False,
     )
+
+
+class CSVFileUploadForm(forms.Form):
+    file = forms.FileField(
+        allow_empty_file=False,
+        label=_(
+            "Upload a csv-file in CSV-CAMT format. "
+            "(encoding='iso-8859-1', Semicolon-Seperated, First line is header, Column-order: {fields}) ",
+        ).format(
+            fields="Auftragskonto;Buchungstag;Valutadatum;Buchungstext;Verwendungszweck;Glaeubiger ID;"
+            "Mandatsreferenz;Kundenreferenz (End-to-End);Sammlerreferenz;Lastschrift Ursprungsbetrag;"
+            "Auslagenersatz Ruecklastschrift;Beguenstigter/Zahlungspflichtiger;Kontonummer/IBAN;"
+            "BIC (SWIFT-Code);Betrag;Waehrung;Info",
+        ),
+    )

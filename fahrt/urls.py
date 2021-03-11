@@ -57,12 +57,10 @@ urlpatterns = [
         "finanz/",
         include(
             [
+                path("confirm/", views.fahrt_finanz_confirm, name="fahrt_finanz_confirm"),
                 path("simple/", views.fahrt_finanz_simple, name="fahrt_finanz_simple"),
-                path(
-                    "simple/confirm/",
-                    views.fahrt_finanz_simple_confirm_changes,
-                    name="fahrt_finanz_simple_confirm_changes",
-                ),
+                path("automated/", views.fahrt_finanz_automated, name="fahrt_finanz_automated"),
+                path("automated/matching/", views.fahrt_finanz_auto_matching, name="fahrt_finanz_auto_matching"),
             ],
         ),
     ),
