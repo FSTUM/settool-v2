@@ -262,6 +262,11 @@ class ParticipantSelectForm(SemesterBasedForm):
     selected = forms.ModelChoiceField(
         queryset=None,
         required=False,
+        widget=forms.widgets.Select(
+            attrs={
+                "class": "choices-select",
+            },
+        ),
     )
 
     def __init__(self, *args, **kwargs):
