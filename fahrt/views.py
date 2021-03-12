@@ -929,7 +929,7 @@ def fahrt_finanz_confirm(request: WSGIRequest) -> HttpResponse:
     return render(request, "fahrt/finanz/finanz_confirmation.html", context)
 
 
-@permission_required("bags.view_participants")
+@permission_required("fahrt.view_participants")
 def fahrt_finanz_automated(request: WSGIRequest) -> HttpResponse:
     file_upload_form = CSVFileUploadForm(request.POST or None, request.FILES)
 
@@ -953,7 +953,7 @@ def fahrt_finanz_automated(request: WSGIRequest) -> HttpResponse:
     return render(request, "fahrt/finanz/automated_finanz.html", context)
 
 
-@permission_required("bags.view_participants")
+@permission_required("fahrt.view_participants")
 def fahrt_finanz_auto_matching(request: WSGIRequest) -> HttpResponse:
     semester: Semester = get_object_or_404(Semester, pk=get_semester(request))
     participants: QuerySet[Participant] = Participant.objects.filter(semester=semester, status="confirmed")
