@@ -956,13 +956,71 @@ def fahrt_finanz_automated(request: WSGIRequest) -> HttpResponse:
 def fahrt_finanz_auto_matching(request: WSGIRequest) -> HttpResponse:
     semester: Semester = get_object_or_404(Semester, pk=get_semester(request))
     participants: QuerySet[Participant] = Participant.objects.filter(semester=semester, status="confirmed")
+
+    # mypy is weird for this one. equivalent [but not Typechecking]:  participants.values_list("uuid", flat=True)
+    participants_ids_pre_mypy: List[Optional[UUID]] = [element["uuid"] for element in participants.values("uuid")]
+    participants_ids: List[UUID] = [uuid for uuid in participants_ids_pre_mypy if uuid]
+
     transactions: List[Entry] = [Entry.from_json(entry) for entry in request.session["results"]]
 
-    for transaction in transactions:
-        pass
+    error, matched_transactions, unmatched_transactions = match_transactions_participant_ids(
+        participants_ids,
+        request,
+        transactions,
+    )
+    if error:
+        return redirect(fahrt_finanz_automated)
+
+    # genrerate selection boxes
 
     context = {
-        "matched_transactions": None,
-        "unmatched_transactions": None,
+        "matched_transactions": matched_transactions,
+        "unmatched_transactions": unmatched_transactions,
     }
     return render(request, "fahrt/finanz/automated_finanz_matching.html", context)
+
+
+def match_transactions_participant_ids(
+    participants_ids: List[UUID],
+    request: WSGIRequest,
+    transactions: List[Entry],
+) -> Tuple[bool, List[Entry], List[Entry]]:
+    participant_matches: Dict[UUID, List[Entry]] = {p_uuid: [] for p_uuid in participants_ids}
+    matched_transactions: List[Entry] = []
+    unmatched_transactions: List[Entry] = []
+    error = False
+
+    transaction: Entry
+    for transaction in transactions:
+        matches: List[UUID] = [p_uuid for p_uuid in participants_ids if str(p_uuid) in transaction.verwendungszweck]
+        if matches:
+            matched_transactions.append(transaction)
+            for match in matches:
+                participant_matches[match].append(transaction)
+            # Transaction:Person = 1:1
+            if len(matches) > 1:
+                messages.error(
+                    request,
+                    _("Transaction {transaction} contains multiple UUIDs (matches). This is not allowed.").format(
+                        transaction=transaction.__repr__(),
+                        matches=matches,
+                    ),
+                )
+                error = True
+        else:
+            unmatched_transactions.append(transaction)
+    # Transaction:Person = 1:1
+    for (p_uuid, transaction_list) in [
+        (p_uuid, transaction_list)
+        for (p_uuid, transaction_list) in participant_matches.items()
+        if len(transaction_list) > 1
+    ]:
+        messages.error(
+            request,
+            _("UUIDs {p_uuid} is contained in multiple Transactions (transaction_list). This is not allowed.").format(
+                p_uuid=p_uuid,
+                transaction_list=transaction_list,
+            ),
+        )
+        error = True
+    return error, matched_transactions, unmatched_transactions
