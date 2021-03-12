@@ -141,7 +141,8 @@ msgid ""
 msgstr ""
 "Falls eine Anmeldungs Email konfiguriert ist wird der personalisierte "
 "Haftungsauschuss automatisch an die Teilnehmer*in gesendet, sobald sie sich "
-"registrieren. Bitte weise den Teilnehmer darauf hin, seine ID (THIS-->{{ participant.uuid }}<--THIS) in der Zahlungs-Betreff-Zeile zu nennen."
+"registrieren. Bitte weise den Teilnehmer darauf hin, seine ID (THIS--"
+">{{ participant.uuid }}<--THIS) in der Zahlungs-Betreff-Zeile zu nennen."
 
 #: fahrt/models.py
 msgid "Date"
@@ -992,6 +993,20 @@ msgstr "Änderungen am Zahlungsstatus wurden gespeichert"
 #: fahrt/views.py
 msgid "The File was successfully uploaded"
 msgstr "Die Datei wurde erfolgreich hochgeladen"
+
+#: fahrt/views.py
+#, python-brace-format
+msgid ""
+"Transaction {transaction} contains multiple UUIDs (matches). This is not "
+"allowed."
+msgstr ""
+
+#: fahrt/views.py
+#, python-brace-format
+msgid ""
+"UUIDs {p_uuid} is contained in multiple Transactions (transaction_list). "
+"This is not allowed."
+msgstr ""
 
 #~ msgid "%(additional_seats)s additional seats"
 #~ msgstr "%(additional_seats)s zusätzliche Plätze"

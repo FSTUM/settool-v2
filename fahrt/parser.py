@@ -1,27 +1,19 @@
 import json
 from csv import DictReader
-from decimal import InvalidOperation
+from decimal import Decimal, InvalidOperation
 
-from django.utils.datetime_safe import datetime
+from django.utils.datetime_safe import date, datetime
 
 
 # pylint: disable=too-many-arguments
 class Entry:
-    def __init__(
-        self,
-        datum=None,
-        verwendungszweck=None,
-        zahlungspflichtiger=None,
-        iban=None,
-        bic=None,
-        betrag=None,
-    ):
-        self.datum = datum
-        self.verwendungszweck = verwendungszweck
-        self.zahlungspflichtiger = zahlungspflichtiger
-        self.iban = iban
-        self.bic = bic
-        self.betrag = betrag
+    def __init__(self, datum, verwendungszweck, zahlungspflichtiger, iban, bic, betrag):
+        self.datum: date = datum
+        self.verwendungszweck: str = verwendungszweck
+        self.zahlungspflichtiger: str = zahlungspflichtiger
+        self.iban: str = iban
+        self.bic: str = bic
+        self.betrag: str = betrag
 
     def to_json(self):
         return json.dumps(self, default=lambda o: o.__dict__)
@@ -54,31 +46,23 @@ def parse_camt_csv(csvfile):
     results = []
     errors = []
 
-    # read CSV file
-    csvcontents = DictReader(csvfile, delimiter=";")
-    for counter, row in enumerate(csvcontents):
+    csv_contents = DictReader(csvfile, delimiter=";")
+    for counter, row in enumerate(csv_contents):
 
         buchungstext = row["Buchungstext"]
         if buchungstext in ["GUTSCHR. UEBERWEISUNG", "ECHTZEIT-GUTSCHRIFT"]:
-            entry = Entry()
-
             try:
-                entry.datum = datetime.strptime(row["Buchungstag"], "%d.%m.%y").date()
+                datum = datetime.strptime(row["Buchungstag"], "%d.%m.%y").date()
             except ValueError:
                 try:
-                    entry.datum = datetime.strptime(row["Buchungstag"], "%d.%m.%Y").date()
+                    datum = datetime.strptime(row["Buchungstag"], "%d.%m.%Y").date()
                 except ValueError:
                     errors.append(f"Zeile {counter}: Ungültiges Datum: {row['Buchungstag']}")
                     continue
 
-            entry.verwendungszweck = row["Verwendungszweck"]
-            entry.zahlungspflichtiger = row["Beguenstigter/Zahlungspflichtiger"]
-            entry.iban = row["Kontonummer/IBAN"]
-            entry.bic = row["BIC (SWIFT-Code)"]
-
-            betrag = row["Betrag"]
+            betrag = row["Betrag"].replace(",", ".")
             try:
-                entry.betrag = betrag.replace(",", ".")
+                Decimal(betrag)
             except InvalidOperation:
                 errors.append(
                     f"Zeile {counter}: Ungültiger Betrag: {betrag}",
@@ -87,12 +71,19 @@ def parse_camt_csv(csvfile):
 
             waehrung = row["Waehrung"]
             if waehrung != "EUR":
-                errors.append(
-                    f"Zeile {counter}: Eintrag in anderer Währung als Euro",
-                )
+                errors.append(f"Zeile {counter}: Eintrag in anderer Währung als Euro")
                 continue
 
+            entry = Entry(
+                datum,
+                row["Verwendungszweck"],
+                row["Beguenstigter/Zahlungspflichtiger"],
+                row["Kontonummer/IBAN"],
+                row["BIC (SWIFT-Code)"],
+                betrag,
+            )
             results.append(entry.to_json())
+
         # TODO Check if this is ok
         elif buchungstext in [
             "ENTGELTABSCHLUSS",
