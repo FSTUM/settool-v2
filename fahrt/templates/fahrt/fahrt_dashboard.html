@@ -117,7 +117,7 @@
             labels: {{ cp_by_food_labels|safe }},
             datasets: [
                 {
-                    data: {{ confirmed_participants_by_food_data }},
+                    data: {{ cp_by_food_data }},
                     backgroundColor: ['#1dd1a1', '#48dbfb', '#feca57'],
                 },
             ],
@@ -132,7 +132,7 @@
             labels: {{ cp_by_gender_labels|safe }},
             datasets: [
                 {
-                    data: {{ confirmed_participants_by_gender_data }},
+                    data: {{ cp_by_gender_data }},
                     backgroundColor: ['#1dd1a1', '#48dbfb', '#feca57'],
                 },
             ],
@@ -162,7 +162,7 @@
             labels: ['{% trans "has paid" %}', '{% trans "has NOT paid" %}'],
             datasets: [
                 {
-                    data: {{ cp_age }},
+                    data: {{ cp_paid }},
                     backgroundColor: ['#1dd1a1', '#ff6b6b'],
                 },
             ],
@@ -177,7 +177,7 @@
             labels: ['{% trans "has submitted non-liability" %}', '{% trans "has NOT submitted non-liability" %}'],
             datasets: [
                 {
-                    data: {{ cp_age }},
+                    data: {{ cp_non_liability }},
                     backgroundColor: ['#1dd1a1', '#ff6b6b'],
                 },
             ],
