@@ -4,80 +4,84 @@
 {% block  set_common_headercontent %}{% trans "Confirm Payment Status Changes" %}{% endblock %}
 
 {% block set_common_content %}
-{% if matched_transactions %}
-<h1 class='h5'>{% trans "Matched Transactions" %}</h1>
-<div class="table-responsive">
-    <table
-        id="matchedTable"
-        class="table dataTable"
-    >
-        <thead>
-            <tr>
-                <th>{% trans "Participant" %}</th>
-                <th>Buchungstag</th>
-                <th>Verwendungszweck</th>
-                <th>Beguenstigter/Zahlungspflichtiger</th>
-                <th>Kontonummer/IBAN</th>
-                <th>BIC (SWIFT-Code)</th>
-                <th>Betrag</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for selector, tansaction in new_paid_participants %}
-            <tr>
-                <td>{{ selector }}</td>
-                <td>{{ tansaction.datum }}</td>
-                <td>{{ tansaction.betrag }}</td>
-                <td>{{ tansaction.zahlungspflichtiger }}</td>
-                <td>{{ tansaction.iban }}</td>
-                <td>{{ tansaction.bic }}</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-</div>
-{% endif %}
-{% if unmatched_transactions %}
-<h1 class='h5'>{% trans "Unatched Transactions" %}</h1>
-<div class="table-responsive">
-    <table
-        id="unmatchedTable"
-        class="table"
-    >
-        <thead>
-            <tr>
-                <th>{% trans "Participant" %}</th>
-                <th>Buchungstag</th>
-                <th>Verwendungszweck</th>
-                <th>Beguenstigter/Zahlungspflichtiger</th>
-                <th>Kontonummer/IBAN</th>
-                <th>BIC (SWIFT-Code)</th>
-                <th>Betrag</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for selector, tansaction in new_paid_participants %}
-            <tr>
-                <td>{{ selector }}</td>
-                <td>{{ tansaction.datum }}</td>
-                <td>{{ tansaction.betrag }}</td>
-                <td>{{ tansaction.zahlungspflichtiger }}</td>
-                <td>{{ tansaction.iban }}</td>
-                <td>{{ tansaction.bic }}</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-</div>
-{% endif %}
-
-
 <form
     id='personselectform'
     action=''
     method='post'
 >
     {% csrf_token %}
+    {{ forms_matched.management_form }}
+    {{ forms_unmatched.management_form }}
+
+    {% if matched_transactions %}
+    <h1 class='h5'>{% trans "Matched Transactions" %}</h1>
+    <div class="table-responsive">
+        <table
+            id="matchedTable"
+            class="table dataTable"
+        >
+            <thead>
+                <tr>
+                    <th>{% trans "Participant" %}</th>
+                    <th>Buchungstag</th>
+                    <th>Betrag</th>
+                    <th>Beguenstigter/Zahlungspflichtiger</th>
+                    <th>Verwendungszweck</th>
+                    <th>Kontonummer/IBAN</th>
+                    <th>BIC (SWIFT-Code)</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for selector, tansaction in matched_transactions %}
+                <tr>
+                    <td>{{ selector.selected }}</td>
+                    <td>{{ tansaction.datum }}</td>
+                    <td>{{ tansaction.betrag }}</td>
+                    <td>{{ tansaction.zahlungspflichtiger }}</td>
+                    <td>{{ tansaction.verwendungszweck }}</td>
+                    <td>{{ tansaction.iban }}</td>
+                    <td>{{ tansaction.bic }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% endif %}
+    {% if unmatched_transactions %}
+    <h1 class='h5'>{% trans "Unatched Transactions" %}</h1>
+    <div class="table-responsive">
+        <table
+            id="unmatchedTable"
+            class="table"
+        >
+            <thead>
+                <tr>
+                    <th>{% trans "Participant" %}</th>
+                    <th>Buchungstag</th>
+                    <th>Betrag</th>
+                    <th>Beguenstigter/Zahlungspflichtiger</th>
+                    <th>Verwendungszweck</th>
+                    <th>Kontonummer/IBAN</th>
+                    <th>BIC (SWIFT-Code)</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for selector, tansaction in unmatched_transactions %}
+                <tr>
+                    <td>{{ selector.selected }}</td>
+                    <td>{{ tansaction.datum }}</td>
+                    <td>{{ tansaction.betrag }}</td>
+                    <td>{{ tansaction.zahlungspflichtiger }}</td>
+                    <td>{{ tansaction.verwendungszweck }}</td>
+                    <td>{{ tansaction.iban }}</td>
+                    <td>{{ tansaction.bic }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% endif %}
+
     <a
         class="btn btn-secondary"
         href="{% url "fahrt_finanz_automated" %}"

@@ -995,6 +995,10 @@ msgid "The File was successfully uploaded"
 msgstr "Die Datei wurde erfolgreich hochgeladen"
 
 #: fahrt/views.py
+msgid "No Changes to Payment-state detected"
+msgstr "Keine Änderungen des zahlungs-Status erkannt"
+
+#: fahrt/views.py
 #, python-brace-format
 msgid ""
 "Transaction {transaction} contains multiple UUIDs (matches). This is not "

@@ -258,6 +258,17 @@ class SelectParticipantSwitchForm(forms.Form):
     )
 
 
+class ParticipantSelectForm(SemesterBasedForm):
+    selected = forms.ModelChoiceField(
+        queryset=None,
+        required=False,
+    )
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields["selected"].queryset = self.semester.fahrt_participant.filter(status="confirmed").all()
+
+
 class CSVFileUploadForm(forms.Form):
     file = forms.FileField(
         allow_empty_file=False,

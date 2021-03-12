@@ -1,6 +1,7 @@
 import json
 from csv import DictReader
 from decimal import Decimal, InvalidOperation
+from typing import Any
 
 from django.utils.datetime_safe import date, datetime
 
@@ -16,13 +17,15 @@ class Entry:
         self.betrag: str = betrag
 
     def to_json(self):
-        return json.dumps(self, default=lambda o: o.__dict__)
+        dump = self.__dict__.copy()
+        dump["datum"] = self.datum.strftime("%d.%m.%y")
+        return json.dumps(dump)
 
     @staticmethod
     def from_json(json_str):
         entity_dict = json.loads(json_str)
         return Entry(
-            datum=entity_dict["datum"],
+            datum=Entry.parse_date(entity_dict["datum"]),
             verwendungszweck=entity_dict["verwendungszweck"],
             zahlungspflichtiger=entity_dict["zahlungspflichtiger"],
             iban=entity_dict["iban"],
@@ -41,6 +44,13 @@ class Entry:
             f"betrag={self.betrag}>"
         )
 
+    @classmethod
+    def parse_date(cls, s_date: str) -> Any:
+        try:
+            return datetime.strptime(s_date, "%d.%m.%y").date()
+        except ValueError:
+            return datetime.strptime(s_date, "%d.%m.%Y").date()
+
 
 def parse_camt_csv(csvfile):
     results = []
@@ -52,13 +62,10 @@ def parse_camt_csv(csvfile):
         buchungstext = row["Buchungstext"]
         if buchungstext in ["GUTSCHR. UEBERWEISUNG", "ECHTZEIT-GUTSCHRIFT"]:
             try:
-                datum = datetime.strptime(row["Buchungstag"], "%d.%m.%y").date()
+                datum = Entry.parse_date(row["Buchungstag"])
             except ValueError:
-                try:
-                    datum = datetime.strptime(row["Buchungstag"], "%d.%m.%Y").date()
-                except ValueError:
-                    errors.append(f"Zeile {counter}: Ungültiges Datum: {row['Buchungstag']}")
-                    continue
+                errors.append(f"Zeile {counter}: Ungültiges Datum: {row['Buchungstag']}")
+                continue
 
             betrag = row["Betrag"].replace(",", ".")
             try:

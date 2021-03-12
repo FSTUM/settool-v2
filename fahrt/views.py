@@ -29,6 +29,7 @@ from .forms import (
     MailForm,
     ParticipantAdminForm,
     ParticipantForm,
+    ParticipantSelectForm,
     SelectMailForm,
     SelectParticipantForm,
     SelectParticipantSwitchForm,
@@ -972,10 +973,49 @@ def fahrt_finanz_auto_matching(request: WSGIRequest) -> HttpResponse:
         return redirect(fahrt_finanz_automated)
 
     # genrerate selection boxes
+    unmatched_trans_form_set = formset_factory(ParticipantSelectForm, extra=len(unmatched_transactions))
+    forms_unmatched = unmatched_trans_form_set(request.POST or None, form_kwargs={"semester": semester})
+    forms_unmatched_trans = list(zip(forms_unmatched, unmatched_transactions))
+    matched_trans_form_set = formset_factory(ParticipantSelectForm, extra=0)
+    forms_matched = matched_trans_form_set(
+        request.POST or None,
+        initial=[{"selected": p_uuid} for (p_uuid, _) in matched_transactions],
+        form_kwargs={"semester": semester},
+    )
+    forms_matched_trans = []
+    for p_uuid, transaction in matched_transactions:
+        for p_form in forms_matched:
+            if p_form.initial["selected"] == p_uuid:
+                forms_matched_trans.append((p_form, transaction))
+                break
+
+    # parse forms and redirect to confirmation page
+    if forms_unmatched.is_valid() and forms_matched.is_valid():
+        # hs notation: fst(unzip xs)++fst(unzip ys)
+        selection_forms = []
+        if forms_matched_trans:
+            selection_forms += list(zip(*forms_matched_trans))[0]
+        if forms_unmatched_trans:
+            selection_forms += list(zip(*forms_unmatched_trans))[0]
+        new_paid_participants = set()
+        for form in selection_forms:
+            if form.cleaned_data:
+                selected_part: Participant = form.cleaned_data["selected"]
+                if selected_part and Participant.objects.get(id=selected_part.id).paid is None:
+                    new_paid_participants.add(selected_part.id)
+
+        if new_paid_participants:
+            request.session["new_paid_participants"] = list(new_paid_participants)
+            request.session["new_unpaid_participants"] = []
+            return redirect("fahrt_finanz_confirm")
+        messages.warning(request, _("No Changes to Payment-state detected"))
+        return redirect("fahrt_finanz_automated")
 
     context = {
-        "matched_transactions": matched_transactions,
-        "unmatched_transactions": unmatched_transactions,
+        "matched_transactions": forms_matched_trans,
+        "unmatched_transactions": forms_unmatched_trans,
+        "forms_matched": forms_matched,
+        "forms_unmatched": forms_unmatched,
     }
     return render(request, "fahrt/finanz/automated_finanz_matching.html", context)
 
@@ -984,9 +1024,9 @@ def match_transactions_participant_ids(
     participants_ids: List[UUID],
     request: WSGIRequest,
     transactions: List[Entry],
-) -> Tuple[bool, List[Entry], List[Entry]]:
+) -> Tuple[bool, List[Tuple[UUID, Entry]], List[Entry]]:
     participant_matches: Dict[UUID, List[Entry]] = {p_uuid: [] for p_uuid in participants_ids}
-    matched_transactions: List[Entry] = []
+    matched_transactions: List[Tuple[UUID, Entry]] = []
     unmatched_transactions: List[Entry] = []
     error = False
 
@@ -994,8 +1034,8 @@ def match_transactions_participant_ids(
     for transaction in transactions:
         matches: List[UUID] = [p_uuid for p_uuid in participants_ids if str(p_uuid) in transaction.verwendungszweck]
         if matches:
-            matched_transactions.append(transaction)
             for match in matches:
+                matched_transactions.append((match, transaction))
                 participant_matches[match].append(transaction)
             # Transaction:Person = 1:1
             if len(matches) > 1:
