@@ -4,6 +4,8 @@
 {% load bootstrap4 %}
 
 {% block set_common_navigation %}
+
+{% if 'fahrt.view_participants' in perms %}
 <a
     class="nav-link {% active_link 'fahrt_index' %}"
     href="{% url 'fahrt_index' %}"
@@ -32,7 +34,9 @@
     class="nav-link {% active_link 'fahrt_list_cancelled' %}"
     href="{% url 'fahrt_list_cancelled' %}"
 >{% trans "Cancelled participants" %}</a>
+{% endif %}
 
+{% if 'finanz' in perms %}
 <h4 class="navbar-text">{% trans "Payment" %}</h4>
 <a
     class="nav-link {% active_link 'fahrt_finanz_simple' %}"
@@ -42,7 +46,9 @@
     class="nav-link {% active_link 'fahrt_finanz_automated' %}"
     href="{% url 'fahrt_finanz_automated' %}"
 >{% trans "Automated payment processing" %}</a>
+{% endif %}
 
+{% if 'fahrt.view_participants' in perms %}
 <h4 class="navbar-text">{% trans "Transportation" %}</h4>
 <a
     class="nav-link {% active_link 'fahrt_transport_mangagement' %}"
@@ -68,4 +74,5 @@
     class="nav-link {% active_link 'fahrt_date' %}"
     href="{% url 'fahrt_date' %}"
 >{% trans "General settings" %}</a>
+{% endif %}
 {% endblock %}

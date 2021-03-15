@@ -854,7 +854,7 @@ def transport_mangagement_add_participant(request: WSGIRequest, transport_pk: in
     return render(request, "fahrt/transportation/add_participant_to_transport.html", context)
 
 
-@permission_required("fahrt.view_participants")
+@permission_required("finanz")
 def fahrt_finanz_simple(request: WSGIRequest) -> HttpResponse:
     semester: Semester = get_object_or_404(Semester, pk=get_semester(request))
     fahrt: Fahrt = get_object_or_404(Fahrt, semester=semester)
@@ -902,7 +902,7 @@ def fahrt_finanz_simple(request: WSGIRequest) -> HttpResponse:
     return render(request, "fahrt/finanz/simple_finanz.html", context)
 
 
-@permission_required("fahrt.view_participants")
+@permission_required("finanz")
 def fahrt_finanz_confirm(request: WSGIRequest) -> HttpResponse:
     new_paid_participants = [
         Participant.objects.get(id=part_id) for part_id in request.session["new_paid_participants"]
@@ -929,7 +929,7 @@ def fahrt_finanz_confirm(request: WSGIRequest) -> HttpResponse:
     return render(request, "fahrt/finanz/finanz_confirmation.html", context)
 
 
-@permission_required("fahrt.view_participants")
+@permission_required("finanz")
 def fahrt_finanz_automated(request: WSGIRequest) -> HttpResponse:
     file_upload_form = CSVFileUploadForm(request.POST or None, request.FILES)
 
@@ -953,7 +953,7 @@ def fahrt_finanz_automated(request: WSGIRequest) -> HttpResponse:
     return render(request, "fahrt/finanz/automated_finanz.html", context)
 
 
-@permission_required("fahrt.view_participants")
+@permission_required("finanz")
 def fahrt_finanz_auto_matching(request: WSGIRequest) -> HttpResponse:
     semester: Semester = get_object_or_404(Semester, pk=get_semester(request))
     participants: QuerySet[Participant] = Participant.objects.filter(semester=semester, status="confirmed")
@@ -970,7 +970,7 @@ def fahrt_finanz_auto_matching(request: WSGIRequest) -> HttpResponse:
         transactions,
     )
     if error:
-        return redirect(fahrt_finanz_automated)
+        return redirect("fahrt_finanz_automated")
 
     # genrerate selection boxes
     unmatched_trans_form_set = formset_factory(ParticipantSelectForm, extra=len(unmatched_transactions))

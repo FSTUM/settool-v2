@@ -612,6 +612,10 @@ msgid "List of all confirmed participants"
 msgstr "Liste aller bestätigten Teilnehmer"
 
 #: fahrt/templates/fahrt/finanz/simple_finanz.html
+msgid "UUID"
+msgstr "UUID"
+
+#: fahrt/templates/fahrt/finanz/simple_finanz.html
 msgid "Payment Deadline"
 msgstr "Zahlungsfrist"
 
