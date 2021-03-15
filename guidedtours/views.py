@@ -1,6 +1,6 @@
 import time
 from datetime import timedelta
-from typing import Any, Dict, Optional
+from typing import Any, Dict, Optional, Union
 
 from django import forms
 from django.contrib import messages
@@ -14,6 +14,8 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.utils import timezone
 from django.utils.datetime_safe import date
 from django.utils.translation import ugettext_lazy as _
+from django_tex.response import PDFResponse
+from django_tex.shortcuts import render_to_pdf
 
 from settool_common import utils
 from settool_common.models import get_semester, Semester
@@ -388,7 +390,7 @@ def signup_internal(request: WSGIRequest) -> HttpResponse:
 
 
 @permission_required("guidedtours.view_participants")
-def export(request: WSGIRequest, file_format: str, tour_pk: int) -> HttpResponse:
+def export(request: WSGIRequest, file_format: str, tour_pk: int) -> Union[HttpResponse, PDFResponse]:
     tour = get_object_or_404(Tour, pk=tour_pk)
     participants = tour.participant_set.order_by("time")
     confirmed_participants = participants[: tour.capacity]
@@ -400,7 +402,7 @@ def export(request: WSGIRequest, file_format: str, tour_pk: int) -> HttpResponse
             f"{filename}.csv",
             confirmed_participants,
         )
-    return utils.download_pdf("guidedtours/tex/tour.tex", f"{filename}.pdf", context)
+    return render_to_pdf(request, "guidedtours/tex/tour.tex", context, f"{filename}.pdf")
 
 
 @permission_required("guidedtours.view_participants")

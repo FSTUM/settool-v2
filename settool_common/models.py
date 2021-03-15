@@ -18,7 +18,6 @@ from PIL import Image
 import settool.settings as main_settings
 
 from .settings import SEMESTER_SESSION_KEY
-from .utils import pos_http_response_to_attachable
 
 
 class Mail(models.Model):
@@ -113,10 +112,18 @@ class Mail(models.Model):
             send_mail(subject, text, self.sender, recipients, fail_silently=False)
         else:
             mail = EmailMessage(subject, text, self.sender, recipients)
-            for (filename, content, mimetype) in [pos_http_response_to_attachable(attach) for attach in attachments]:
+            for (filename, content, mimetype) in [clean_attachable(attach) for attach in attachments]:
                 mail.attach(filename, content, mimetype)
             mail.send(fail_silently=False)
         return True
+
+
+def clean_attachable(response: Union[HttpResponse, Tuple[str, Any, str]]) -> Tuple[str, Any, str]:
+    if not isinstance(response, HttpResponse):
+        return response
+    content_type = response.get("Content-Type", "text/text")
+    filename = response.get("Content-Disposition", "filename.txt").replace("inline; filename=", "")
+    return filename, response.content, content_type
 
 
 @deconstructible

@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     "bootstrap_datepicker_plus",
     "active_link",
     "django_crontab",
+    "django_tex",
     "settool_common",
     "guidedtours",
     "bags",
@@ -82,7 +83,14 @@ TEMPLATES = [
             ],
         },
     },
+    {
+        "NAME": "tex",
+        "BACKEND": "django.template.backends.django.DjangoTemplates",
+        "APP_DIRS": True,
+        "DIRS": ["templates"],
+    },
 ]
+LATEX_INTERPRETER = "latexmk -pdf"
 
 WSGI_APPLICATION = "settool.wsgi.application"
 

@@ -6,7 +6,7 @@ stages:
 
 before_script:
     - apt-get update
-    - apt-get -qq install -y gettext texlive-base texlive-lang-german texlive-fonts-recommended texlive-latex-extra
+    - apt-get -qq install -y gettext texlive-base texlive-lang-german texlive-fonts-recommended texlive-latex-extra latexmk
     - python -m venv venv
     - source venv/bin/activate
     - pip install --upgrade pip
