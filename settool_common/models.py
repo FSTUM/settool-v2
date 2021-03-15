@@ -280,3 +280,11 @@ class QRCode(models.Model):
             canvas.save(buffer, "PNG")
             self.qr_code.save(f"qr_code_{f_cleaned_content}.png", File(buffer), save=False)
             super().save(*args, **kwargs)
+
+
+class AnonymisationLog(models.Model):
+    semester = models.ForeignKey(Semester, on_delete=models.CASCADE)
+    anon_log_str = models.CharField(max_length=10)
+
+    def __str__(self):
+        return f"{self.semester}-{self.anon_log_str}"

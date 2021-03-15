@@ -150,5 +150,6 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "mediafiles")
 
 # cronjobs
 CRONJOBS = [
-    ("0 6 * * *", "settool_common.cron.master_cronjob"),
+    ("0 6 * * *", "settool_common.cron.reminder_cronjob"),  # At 06:00
+    ("5 0 * * 0", "settool_common.cron.privacy_cronjob"),  # At 05:00 on Sundays
 ]
