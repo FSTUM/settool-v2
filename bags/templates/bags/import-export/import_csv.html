@@ -72,11 +72,20 @@
         if (s === undefined) return '';
         return s;
     }
+function isCsvFileType(s) {
+        if (s === 'text/csv') return true;
+        if (s === 'application/vnd.ms-excel') return true;
+        if (s === 'text/x-csv') return true;
+        if (s === 'text/plain') return true;
+        if (s === 'application/csv') return true;
+        if (s === 'text/comma-separated-values') return true;
+        return s === 'text/x-comma-separated-values';
+    }
 
     $(document).ready(() => {
         $('#preview').click(() => {
             const csvFile = $('#id_file')[0].files[0];
-            if (csvFile === undefined || csvFile.type !== 'text/csv') {
+            if (csvFile === undefined || !isCsvFileType(csvFile.type)) {
                 /* eslint no-alert: off */
                 alert(`The file-format is invalid. Expected 'text/csv', but was '${csvFile.type}'.`);
             } else {

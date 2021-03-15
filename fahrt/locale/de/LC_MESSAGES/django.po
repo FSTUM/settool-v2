@@ -8,16 +8,36 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: fahrt/forms.py
-msgid "This field is required if you have a car"
-msgstr "Dieses Feld muss ausgefüllt werden wenn du ein Auto hast"
-
-#: fahrt/forms.py
 msgid "You cant be born today."
 msgstr "Du kannst nicht heute geboren worden sein."
 
 #: fahrt/forms.py
 msgid "You cant be born in the future."
 msgstr "Du kannst nicht in der Zukunft geboren worden sein."
+
+#: fahrt/forms.py
+msgid "I drive by car"
+msgstr "Ich Fahre mit dem Auto"
+
+#: fahrt/forms.py
+msgid "Number of people I can take along additionally"
+msgstr "Anzahl an Leuten, die ich zusätzlich mitnehmen kann"
+
+#: fahrt/forms.py
+msgid "I accept the terms and conditions of the following privacy policy:"
+msgstr "Ich stimme der folgenden Datenschutzerklärung zu:"
+
+#: fahrt/forms.py
+msgid "This field is required if you have a car"
+msgstr "Dieses Feld muss ausgefüllt werden wenn du ein Auto hast"
+
+#: fahrt/forms.py
+msgid "Unassigned participant"
+msgstr "Uneingeteilte Teilnehmer"
+
+#: fahrt/forms.py
+msgid "We only allow 0 < places < 30."
+msgstr "Wir lassen nur 0 < Plätze < 30 zu."
 
 #: fahrt/forms.py
 msgid "Email template:"
@@ -38,6 +58,7 @@ msgid "With car"
 msgstr "Mit Auto"
 
 #: fahrt/forms.py fahrt/models.py
+#: fahrt/templates/fahrt/finanz/simple_finanz.html
 #: fahrt/templates/fahrt/participants/view_participant_details.html
 msgid "Paid"
 msgstr "Bezahlt"
@@ -50,7 +71,9 @@ msgstr "Zahlungsfrist vorbei"
 msgid "On mailinglist"
 msgstr "Auf Mailingliste"
 
-#: fahrt/forms.py fahrt/models.py fahrt/templates/fahrt/mail/del_mail.html
+#: fahrt/forms.py fahrt/models.py
+#: fahrt/templates/fahrt/finanz/simple_finanz.html
+#: fahrt/templates/fahrt/mail/del_mail.html
 #: fahrt/templates/fahrt/mail/index_mails.html
 #: fahrt/templates/fahrt/mail/send_mail.html
 #: fahrt/templates/fahrt/mail/send_mail_failure.html
@@ -86,6 +109,17 @@ msgstr "Warteliste"
 msgid "cancelled"
 msgstr "abgesagt"
 
+#: fahrt/forms.py
+msgid "NOT Paid"
+msgstr "NICHT bezahlt"
+
+#: fahrt/forms.py
+#, python-brace-format
+msgid ""
+"Upload a csv-file in CSV-CAMT format. (encoding='iso-8859-1', Semicolon-"
+"Seperated, First line is header, Column-order: {fields}) "
+msgstr ""
+
 #: fahrt/models.py
 msgid "The participant's first name"
 msgstr "Vorname des Teilnehmers"
@@ -101,11 +135,14 @@ msgstr "Der Teilnehmer"
 #: fahrt/models.py
 msgid ""
 "If the Email is configured as the fahrt's registration mail, the "
-"participants' personalised non-liability form is automatically attached"
+"participants' personalised non-liability form is automatically attached. "
+"Please notify the Participant to atach his ID (THIS-->{{ participant.uuid }}"
+"<--THIS) in the Payment-Subject-Line."
 msgstr ""
 "Falls eine Anmeldungs Email konfiguriert ist wird der personalisierte "
 "Haftungsauschuss automatisch an die Teilnehmer*in gesendet, sobald sie sich "
-"registrieren"
+"registrieren. Bitte weise den Teilnehmer darauf hin, seine ID (THIS--"
+">{{ participant.uuid }}<--THIS) in der Zahlungs-Betreff-Zeile zu nennen."
 
 #: fahrt/models.py
 msgid "Date"
@@ -148,6 +185,49 @@ msgstr ""
 "Tagen vor der Zahlungs-Deadline (0=gleicher Tag)"
 
 #: fahrt/models.py
+msgid "Type of Transport"
+msgstr "Transporttyp"
+
+#: fahrt/models.py fahrt/templates/fahrt/fahrt_dashboard.html fahrt/views.py
+msgid "Car"
+msgstr "Auto"
+
+#: fahrt/models.py fahrt/templates/fahrt/fahrt_dashboard.html fahrt/views.py
+msgid "Train"
+msgstr "Zug"
+
+#: fahrt/models.py
+msgid ""
+"Planned time of departure for the trip (leave blank if you dont have a "
+"preferance)"
+msgstr "Geplante Abfahrtszeit für den Trip (leer=keine Präferenz)"
+
+#: fahrt/models.py
+msgid ""
+"Planned time of departure for the return-trip (leave blank if you dont have "
+"a preferance)"
+msgstr ""
+"Geplante Abfahrtszeit für die Rückfahrt vom Trip  (leer=keine Präferenz"
+
+#: fahrt/models.py
+msgid "The place we will start our trip"
+msgstr "Der Ort, wo wir starten"
+
+#: fahrt/models.py
+msgid "Number of people (totally) for this mode of transport"
+msgstr "Anzahl an Menschen (total) für dieses Transportmittel"
+
+#: fahrt/models.py
+#, python-brace-format
+msgid "Train ({free_places} free)"
+msgstr "Bahn ({free_places} frei)"
+
+#: fahrt/models.py
+#, python-brace-format
+msgid "Car ({free_places} free)"
+msgstr "Auto ({free_places} frei)"
+
+#: fahrt/models.py
 msgid "male"
 msgstr "Männlich"
 
@@ -164,7 +244,8 @@ msgstr "Divers"
 msgid "Gender"
 msgstr "Geschlecht"
 
-#: fahrt/models.py
+#: fahrt/models.py fahrt/templates/fahrt/finanz/finanz_confirmation.html
+#: fahrt/templates/fahrt/finanz/simple_finanz.html
 #: fahrt/templates/fahrt/mail/list_filtered_participants_send_mail.html
 #: fahrt/templates/fahrt/mail/send_mail.html
 #: fahrt/templates/fahrt/mail/send_mail_failure.html
@@ -176,7 +257,8 @@ msgstr "Geschlecht"
 msgid "First name"
 msgstr "Vorname"
 
-#: fahrt/models.py
+#: fahrt/models.py fahrt/templates/fahrt/finanz/finanz_confirmation.html
+#: fahrt/templates/fahrt/finanz/simple_finanz.html
 #: fahrt/templates/fahrt/mail/list_filtered_participants_send_mail.html
 #: fahrt/templates/fahrt/mail/send_mail.html
 #: fahrt/templates/fahrt/mail/send_mail_failure.html
@@ -231,12 +313,12 @@ msgid "Allergies"
 msgstr "Allergien"
 
 #: fahrt/models.py
-msgid "Drive by car"
-msgstr "Fahre mit dem Auto"
-
-#: fahrt/models.py
-msgid "Number of people I can take along additionally"
-msgstr "Anzahl an Leuten, die ich zusätzlich mitnehmen kann"
+msgid ""
+"Publish your most relevant (mobile > phone > email), contact-info to other "
+"Fahrt-participants."
+msgstr ""
+"Veröffentlicht mein am meisten relevante Kontaktart (Mobil > Telefon > "
+"Email) an die anderen Fahrt-Teilnehmer."
 
 #: fahrt/models.py fahrt/templates/fahrt/participants/list_cancelled.html
 #: fahrt/templates/fahrt/participants/view_participant_details.html
@@ -270,6 +352,11 @@ msgstr "Anmeldezeitpunkt"
 #: fahrt/templates/fahrt/mail/send_mail_failure.html
 msgid "Text"
 msgstr "Text"
+
+#: fahrt/models.py
+#, python-brace-format
+msgid "{sender} on {commented_on}: {comment_content}"
+msgstr "{sender} auf {commented_on}: {comment_content}"
 
 #: fahrt/models.py
 msgid "Time"
@@ -310,6 +397,30 @@ msgstr "Warteliste"
 #: fahrt/templates/fahrt/base_fahrt.html
 msgid "Cancelled participants"
 msgstr "Abgesagte Teilnehmer"
+
+#: fahrt/templates/fahrt/base_fahrt.html
+msgid "Payment"
+msgstr "Zahlung"
+
+#: fahrt/templates/fahrt/base_fahrt.html
+msgid "Simplified payment processing"
+msgstr "Vereinfachte Zahlungsabwicklung"
+
+#: fahrt/templates/fahrt/base_fahrt.html
+msgid "Automated payment processing"
+msgstr "Automatisierte Zahlungsabwicklung"
+
+#: fahrt/templates/fahrt/base_fahrt.html
+#: fahrt/templates/fahrt/participants/list_confirmed.html
+#: fahrt/templates/fahrt/participants/list_registered.html
+#: fahrt/templates/fahrt/participants/list_waitinglist.html
+#: fahrt/templates/fahrt/participants/view_participant_details.html
+msgid "Transportation"
+msgstr "Transportmittel"
+
+#: fahrt/templates/fahrt/base_fahrt.html
+msgid "Current transportation arrangement"
+msgstr "Derzeitige Transportmittelverteilung"
 
 #: fahrt/templates/fahrt/base_fahrt.html
 msgid "Mails"
@@ -370,6 +481,10 @@ msgid "Master vs. Bachlor"
 msgstr "Master vs. Bachlor"
 
 #: fahrt/templates/fahrt/fahrt_dashboard.html
+msgid "Transportation-status"
+msgstr "Transportmittel-Status"
+
+#: fahrt/templates/fahrt/fahrt_dashboard.html
 msgid "Subjects"
 msgstr "Studiengänge"
 
@@ -409,6 +524,101 @@ msgstr "Bachlor"
 msgid "Master"
 msgstr "Master"
 
+#: fahrt/templates/fahrt/fahrt_dashboard.html
+msgid "Not assigned"
+msgstr "Nicht Zugewiesen"
+
+#: fahrt/templates/fahrt/finanz/automated_finanz.html
+msgid "Import Bank account exports to manage Payment Status"
+msgstr "Bankaccountexport importieren um den Zahlungsstatus zu managen"
+
+#: fahrt/templates/fahrt/finanz/automated_finanz.html
+msgid "Preview"
+msgstr "Vorschau"
+
+#: fahrt/templates/fahrt/finanz/automated_finanz.html
+#: fahrt/templates/fahrt/finanz/automated_finanz_matching.html
+#: fahrt/templates/fahrt/finanz/finanz_confirmation.html
+#: fahrt/templates/fahrt/finanz/simple_finanz.html
+#: fahrt/templates/fahrt/mail/add_mail.html
+#: fahrt/templates/fahrt/mail/del_mail.html
+#: fahrt/templates/fahrt/mail/edit_mail.html
+#: fahrt/templates/fahrt/mail/send_mail.html
+#: fahrt/templates/fahrt/participants/del_participant.html
+#: fahrt/templates/fahrt/participants/edit_participants.html
+#: fahrt/templates/fahrt/participants/view_participant_details.html
+#: fahrt/templates/fahrt/transportation/add_participant_to_transport.html
+#: fahrt/templates/fahrt/transportation/add_transport.html
+msgid "Cancel"
+msgstr "Abbrechen"
+
+#: fahrt/templates/fahrt/finanz/automated_finanz.html
+msgid "Preview Bank account export"
+msgstr "Bankaccountexport importieren um den Zahlungsstatus zu managen"
+
+#: fahrt/templates/fahrt/finanz/automated_finanz.html
+msgid "Upload and match Bank account export against Participants"
+msgstr "Vorschau des Bankkonto-Exports"
+
+#: fahrt/templates/fahrt/finanz/automated_finanz_matching.html
+#: fahrt/templates/fahrt/finanz/finanz_confirmation.html
+msgid "Confirm Payment Status Changes"
+msgstr "Änderungen am Zahlungsstatus bestätigen"
+
+#: fahrt/templates/fahrt/finanz/automated_finanz_matching.html
+msgid "Matched Transactions"
+msgstr "Gematchte Transaktionen"
+
+#: fahrt/templates/fahrt/finanz/automated_finanz_matching.html
+msgid "Participant"
+msgstr "Teilnehmer"
+
+#: fahrt/templates/fahrt/finanz/automated_finanz_matching.html
+msgid "Unatched Transactions"
+msgstr "Nicht Gematchte Transaktionen"
+
+#: fahrt/templates/fahrt/finanz/automated_finanz_matching.html
+#: fahrt/templates/fahrt/finanz/finanz_confirmation.html
+#: fahrt/templates/fahrt/finanz/simple_finanz.html
+msgid "Save changed payment status"
+msgstr "Änderungen am Zahlungsstatus speichern"
+
+#: fahrt/templates/fahrt/finanz/finanz_confirmation.html
+msgid "Participants who will GET the 'Paid' Status"
+msgstr "Teilnehmer die den 'Bezahlt' Status BEKOMMEN"
+
+#: fahrt/templates/fahrt/finanz/finanz_confirmation.html
+msgid "Participants who will LOOSE the 'Paid' Status"
+msgstr "Teilnehmer die den 'Bezahlt' Status VERLIEREN"
+
+#: fahrt/templates/fahrt/finanz/simple_finanz.html
+msgid "Manage Payment Status"
+msgstr "Zahlungsstatus bearbeiten"
+
+#: fahrt/templates/fahrt/finanz/simple_finanz.html
+msgid "Payment deadline normal"
+msgstr "Zahlungsfrist normal"
+
+#: fahrt/templates/fahrt/finanz/simple_finanz.html
+msgid "Payment deadline is soon"
+msgstr "Zahlungsfrist ist bald"
+
+#: fahrt/templates/fahrt/finanz/simple_finanz.html
+msgid "Payment deadline exceeded"
+msgstr "Zahlungsfrist vorbei"
+
+#: fahrt/templates/fahrt/finanz/simple_finanz.html
+msgid "List of all confirmed participants"
+msgstr "Liste aller bestätigten Teilnehmer"
+
+#: fahrt/templates/fahrt/finanz/simple_finanz.html
+msgid "UUID"
+msgstr "UUID"
+
+#: fahrt/templates/fahrt/finanz/simple_finanz.html
+msgid "Payment Deadline"
+msgstr "Zahlungsfrist"
+
 #: fahrt/templates/fahrt/general/add_participant.html
 msgid "Add participant to the SET-Fahrt"
 msgstr "Teilnehmer zur SET-Fahrt hinzufügen"
@@ -420,16 +630,6 @@ msgstr "Einstellungen speichern"
 #: fahrt/templates/fahrt/mail/add_mail.html
 msgid "Add email"
 msgstr "E-Mail hinzufügen"
-
-#: fahrt/templates/fahrt/mail/add_mail.html
-#: fahrt/templates/fahrt/mail/del_mail.html
-#: fahrt/templates/fahrt/mail/edit_mail.html
-#: fahrt/templates/fahrt/mail/send_mail.html
-#: fahrt/templates/fahrt/participants/del_participant.html
-#: fahrt/templates/fahrt/participants/edit_participants.html
-#: fahrt/templates/fahrt/participants/view_participant_details.html
-msgid "Cancel"
-msgstr "Abbrechen"
 
 #: fahrt/templates/fahrt/mail/del_mail.html
 msgid "Delete email template"
@@ -496,6 +696,7 @@ msgstr ""
 "aufgelistet."
 
 #: fahrt/templates/fahrt/participants/del_participant.html
+#: fahrt/templates/fahrt/participants/view_participant_details.html
 msgid "Delete participant"
 msgstr "Teilnehmer löschen"
 
@@ -542,21 +743,6 @@ msgstr "Bestätigte Teilnehmer als PDF exportieren"
 #: fahrt/templates/fahrt/participants/list_confirmed.html
 msgid "Paid/Payment deadline"
 msgstr "Bezahlt/Zahlungsfrist"
-
-#: fahrt/templates/fahrt/participants/list_confirmed.html
-#: fahrt/templates/fahrt/participants/list_registered.html
-#: fahrt/templates/fahrt/participants/list_waitinglist.html
-#: fahrt/templates/fahrt/participants/view_participant_details.html
-msgid "Car"
-msgstr "Auto"
-
-#: fahrt/templates/fahrt/participants/list_confirmed.html
-#: fahrt/templates/fahrt/participants/list_registered.html
-#: fahrt/templates/fahrt/participants/list_waitinglist.html
-#: fahrt/templates/fahrt/participants/view_participant_details.html
-#, python-format
-msgid "%(additional_seats)s additional seats"
-msgstr "%(additional_seats)s zusätzliche Plätze"
 
 #: fahrt/templates/fahrt/participants/list_confirmed.html
 msgid "Vegan"
@@ -621,12 +807,16 @@ msgid "Add participant to waitinglist"
 msgstr "Teilnehmer der Warteliste hinzufügen"
 
 #: fahrt/templates/fahrt/participants/view_participant_details.html
+msgid "Back"
+msgstr "Zurück"
+
+#: fahrt/templates/fahrt/participants/view_participant_details.html
 msgid "Edit"
 msgstr "Bearbeiten"
 
 #: fahrt/templates/fahrt/participants/view_participant_details.html
-msgid "Delete"
-msgstr "Löschen"
+msgid "View transportation as participant"
+msgstr "Transportmittel für Teilnehmen ansehen"
 
 #: fahrt/templates/fahrt/standalone/registration_closed.html
 #: fahrt/templates/fahrt/standalone/signup.html
@@ -653,6 +843,73 @@ msgstr ""
 "Du wirst alle weiteren Informationen per E-Mail erhalten. Dies kann etwas "
 "dauern, da wir deine Anmeldung manuell überprüfen."
 
+#: fahrt/templates/fahrt/standalone/transport_participants.html
+msgid "List Transport for"
+msgstr "Transportmittel für"
+
+#: fahrt/templates/fahrt/standalone/transport_participants.html
+#: fahrt/templates/fahrt/transportation/transport_management.html
+msgid "Organisor/Driver:"
+msgstr "Organisator/Fahrer:"
+
+#: fahrt/templates/fahrt/standalone/transport_participants.html
+#: fahrt/templates/fahrt/transportation/transport_management.html
+msgid "[Deleted]"
+msgstr "[Gelöscht]"
+
+#: fahrt/templates/fahrt/standalone/transport_participants.html
+#: fahrt/templates/fahrt/transportation/transport_management.html
+msgid "Contact:"
+msgstr "Kontakt:"
+
+#: fahrt/templates/fahrt/standalone/transport_participants.html
+msgid "Hidden"
+msgstr "Versteckt"
+
+#: fahrt/templates/fahrt/standalone/transport_participants.html
+#: fahrt/templates/fahrt/transportation/transport_management.html
+msgid "Meeting-Place:"
+msgstr "Treffpunkt"
+
+#: fahrt/templates/fahrt/standalone/transport_participants.html
+#: fahrt/templates/fahrt/transportation/transport_management.html
+msgid "Departure:"
+msgstr "Abfahrt:"
+
+#: fahrt/templates/fahrt/standalone/transport_participants.html
+#: fahrt/templates/fahrt/transportation/transport_management.html
+msgid "Departure for return:"
+msgstr "Abfahrt für den rückweg"
+
+#: fahrt/templates/fahrt/standalone/transport_participants.html
+#: fahrt/templates/fahrt/transportation/transport_management.html
+msgid "Name"
+msgstr "Name"
+
+#: fahrt/templates/fahrt/standalone/transport_participants.html
+#: fahrt/templates/fahrt/transportation/transport_management.html
+msgid "Contact"
+msgstr "Kontakt"
+
+#: fahrt/templates/fahrt/standalone/transport_participants.html
+#: fahrt/templates/fahrt/transportation/transport_management.html
+#, python-format
+msgid "Add %(transport_name)s"
+msgstr "%(transport_name)s hinzufügen"
+
+#: fahrt/templates/fahrt/transportation/add_participant_to_transport.html
+msgid "Add unassigned participant to"
+msgstr "Uneingeteilten Teilnehmer hinzufügen zu"
+
+#: fahrt/templates/fahrt/transportation/add_participant_to_transport.html
+#: fahrt/templates/fahrt/transportation/add_transport.html
+msgid "Add Transport"
+msgstr "Transportmittel hinzufügen"
+
+#: fahrt/templates/fahrt/transportation/transport_management.html
+msgid "List of current Transport arragements"
+msgstr "Liste der derzeitige Transportmittelverteilung"
+
 #: fahrt/views.py
 #, python-brace-format
 msgid ""
@@ -676,8 +933,94 @@ msgstr ""
 "Konnte die Registrierungs-Email nicht senden. Bitte vergewissere dich, das "
 "diese richtig konfiguirert ist"
 
-#~ msgid "I accept the terms and conditions of the following privacy policy:"
-#~ msgstr "Ich stimme der folgenden Datenschutzerklärung zu:"
+#: fahrt/views.py
+msgid "Cars"
+msgstr "Autos"
+
+#: fahrt/views.py
+msgid "Trains"
+msgstr "Züge"
+
+#: fahrt/views.py
+msgid "You can not create a new Transport-option of the same type"
+msgstr ""
+"Du kannst nicht eine neue Transportmittel-option vom selben Typ hinzufügen"
+
+#: fahrt/views.py
+msgid ""
+"A Transportation-option cannot be without creator, if it has people "
+"depending upon it."
+msgstr ""
+"Eine Transportmittel-option kann nicht ohne Erschaffer sein, falls Personen "
+"von ihm abhängen."
+
+#: fahrt/views.py
+#, python-brace-format
+msgid "created Transport Option {transport} and assigned him/herself"
+msgstr ""
+"fügte die Transportmittel-option {transport} hinzu und fügte sich selbser "
+"hinzu"
+
+#: fahrt/views.py
+#, python-brace-format
+msgid "added him/herself to Transport Option {transport}"
+msgstr "fügt sich selber zu Transportmittel-option {transport} hinzu"
+
+#: fahrt/views.py
+#, fuzzy
+#| msgid "The Selected option seems to be full"
+msgid "The selected option seems to be full"
+msgstr "Die ausgewählte Option scheint voll zu sein"
+
+#: fahrt/views.py
+#, python-brace-format
+msgid "created Transport Option {transport} and assigned participant"
+msgstr ""
+"fügte die Transportmittel-option {transport} hinzu und fügte den Teilnehmer "
+"hinzu"
+
+#: fahrt/views.py
+#, python-brace-format
+msgid "added to Transport Option {transport} and assigned pariticipant"
+msgstr ""
+"fügte die Transportmittel-option {transport} hinzu und fügte den Teilnehmer "
+"hinzu"
+
+#: fahrt/views.py
+msgid "The Selected option seems to be full"
+msgstr "Die ausgewählte Option scheint voll zu sein"
+
+#: fahrt/views.py
+msgid "Saved changed payment status"
+msgstr "Änderungen am Zahlungsstatus wurden gespeichert"
+
+#: fahrt/views.py
+msgid "The File was successfully uploaded"
+msgstr "Die Datei wurde erfolgreich hochgeladen"
+
+#: fahrt/views.py
+msgid "No Changes to Payment-state detected"
+msgstr "Keine Änderungen des zahlungs-Status erkannt"
+
+#: fahrt/views.py
+#, python-brace-format
+msgid ""
+"Transaction {transaction} contains multiple UUIDs (matches). This is not "
+"allowed."
+msgstr ""
+
+#: fahrt/views.py
+#, python-brace-format
+msgid ""
+"UUIDs {p_uuid} is contained in multiple Transactions (transaction_list). "
+"This is not allowed."
+msgstr ""
+
+#~ msgid "%(additional_seats)s additional seats"
+#~ msgstr "%(additional_seats)s zusätzliche Plätze"
+
+#~ msgid "Payment ID"
+#~ msgstr "Zahlungs ID"
 
 #~ msgid "Email subject"
 #~ msgstr "E-Mail Betreff"

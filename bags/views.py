@@ -56,20 +56,12 @@ def bags_dashboard(request: WSGIRequest) -> HttpResponse:
     filterform = FilterCompaniesForm(request.POST or None)
     companies = get_possibly_filtered_companies(filterform, semester)
 
-    if "mailform" in request.POST:
-        mailform = SelectMailForm(request.POST)
-        select_company_form_set = formset_factory(SelectCompanyForm, extra=0)
-        companyforms = select_company_form_set(
-            request.POST,
-            initial=[{"id": c.id, "selected": True} for c in companies],
-        )
-    else:
-        mailform = SelectMailForm(None)
-        select_company_form_set = formset_factory(SelectCompanyForm, extra=0)
-        companyforms = select_company_form_set(
-            None,
-            initial=[{"id": c.id, "selected": True} for c in companies],
-        )
+    mailform = SelectMailForm(request.POST if "mailform" in request.POST else None)
+    select_company_form_set = formset_factory(SelectCompanyForm, extra=0)
+    companyforms = select_company_form_set(
+        request.POST if "mailform" in request.POST else None,
+        initial=[{"id": c.id, "selected": True} for c in companies],
+    )
 
     if "mailform" in request.POST and mailform.is_valid() and companyforms.is_valid():
         mail = mailform.cleaned_data["mail"]

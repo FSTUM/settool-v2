@@ -1,4 +1,5 @@
 import datetime
+import uuid
 from typing import List, Tuple
 
 from dateutil.relativedelta import relativedelta
@@ -22,7 +23,8 @@ class FahrtMail(common_models.Mail):
     conditional_placeholders: List[Tuple[str, str, str]] = []
     notes = _(
         "If the Email is configured as the fahrt's registration mail, the participants' personalised non-liability "
-        "form is automatically attached",
+        "form is automatically attached. Please notify the Participant to atach his ID "
+        "(THIS-->{{ participant.uuid }}<--THIS) in the Payment-Subject-Line.",
     )
 
     required_perm = common_models.Mail.required_perm + ["fahrt.view_participants"]
@@ -122,6 +124,60 @@ class Fahrt(models.Model):
         return self.open_registration < timezone.now() < self.close_registration
 
 
+class Transportation(models.Model):
+    CAR = 0
+    TRAIN = 1
+
+    transport_type = models.PositiveSmallIntegerField(
+        _("Type of Transport"),
+        choices=(
+            (CAR, _("Car")),
+            (TRAIN, _("Train")),
+        ),
+    )
+
+    creator = models.OneToOneField(
+        "Participant",
+        on_delete=models.SET_NULL,
+        related_name="fahrt_transportation_creator",
+        null=True,
+    )
+
+    fahrt = models.ForeignKey(
+        Fahrt,
+        on_delete=models.CASCADE,
+    )
+
+    deparure_time = models.DateTimeField(
+        _("Planned time of departure for the trip (leave blank if you dont have a preferance)"),
+        null=True,
+        blank=True,
+    )
+
+    return_departure_time = models.DateTimeField(
+        _("Planned time of departure for the return-trip (leave blank if you dont have a preferance)"),
+        null=True,
+        blank=True,
+    )
+
+    deparure_place = models.CharField(
+        _("The place we will start our trip"),
+        max_length=100,
+        blank=True,
+    )
+
+    places = models.PositiveSmallIntegerField(
+        _("Number of people (totally) for this mode of transport"),
+        default=1,
+    )
+
+    def __str__(self):
+        free_places = self.places - self.participant_set.count()
+        if self.transport_type:
+            return _("Train ({free_places} free)").format(free_places=free_places)
+        return _("Car ({free_places} free)").format(free_places=free_places)
+
+
 class Participant(models.Model):
     class Meta:
         permissions = (
@@ -130,6 +186,11 @@ class Participant(models.Model):
                 "Can view and edit the list of participants",
             ),
         )
+
+    uuid = models.UUIDField(
+        unique=True,
+        default=uuid.uuid4,
+    )
 
     GENDER_CHOICES = (
         ("male", _("male")),
@@ -202,14 +263,16 @@ class Participant(models.Model):
         blank=True,
     )
 
-    car = models.BooleanField(
-        _("Drive by car"),
-    )
-
-    car_places = models.IntegerField(
-        _("Number of people I can take along additionally"),
+    transportation = models.ForeignKey(
+        Transportation,
+        on_delete=models.SET_NULL,
         blank=True,
         null=True,
+    )
+
+    publish_contact_to_other_paricipants = models.BooleanField(
+        _("Publish your most relevant (mobile > phone > email), contact-info to other Fahrt-participants."),
+        default=False,
     )
 
     non_liability = models.DateField(
@@ -268,6 +331,9 @@ class Participant(models.Model):
             text=text,
         )
 
+    def __str_(self):
+        return f"{self.surname} {self.firstname}"
+
     @property
     def u18(self) -> bool:
         return relativedelta(self.semester.fahrt.date, self.birthday).years < 18
@@ -293,6 +359,41 @@ class Participant(models.Model):
     #    delta = timedelta(days=weeks*7)
     #    deadline = today + delta
     #    self.payment_deadline = deadline.strftime("%d.%m.%Y")
+
+
+class TransportationComment(models.Model):
+    sender = models.ForeignKey(
+        Participant,
+        on_delete=models.CASCADE,
+    )
+
+    commented_on = models.ForeignKey(
+        Transportation,
+        on_delete=models.CASCADE,
+    )
+
+    comment_content = models.CharField(
+        _("Text"),
+        max_length=200,
+    )
+
+    def log(self, user, text):
+        LogEntry.objects.create(
+            participant=self.sender,
+            user=user,
+            text=text,
+        )
+
+    def __str__(self):
+        if len(self.comment_content) > 30:
+            comment_content = self.comment_content[:30] + "..."
+        else:
+            comment_content = self.comment_content
+        return _("{sender} on {commented_on}: {comment_content}").format(
+            sender=self.sender,
+            commented_on=self.commented_on,
+            comment_content=comment_content,
+        )
 
 
 class LogEntry(models.Model):

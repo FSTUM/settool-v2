@@ -1,13 +1,16 @@
+import datetime as real_datetime
 from datetime import timedelta
+from typing import Any, Optional, Union
 
+from dateutil.relativedelta import relativedelta
 from django.db.models.query_utils import Q
-from django.utils.datetime_safe import date
+from django.utils.datetime_safe import date, datetime
 
 import fahrt
 import guidedtours
 from fahrt.models import Fahrt
 from guidedtours.models import Setting, Tour
-from settool_common.models import current_semester, Semester
+from settool_common.models import AnonymisationLog, current_semester, Semester
 from settool_common.utils import get_or_none
 from tutors.models import Settings, Task, Tutor
 
@@ -64,10 +67,52 @@ def fahrt_payment_reminder(semester: Semester, today: date) -> None:
             current_fahrt.mail_payment_deadline.send_mail_participant(participant)
 
 
-def master_cronjob():
+def reminder_cronjob():
     today = date.today()
     semester = current_semester()
     fahrt_date_reminder(semester, today)
     fahrt_payment_reminder(semester, today)
     tutor_reminder(semester, today)
     guidedtour_reminder(semester, today)
+
+
+def date_is_too_old(today: date, date_obj: Union[datetime, date, real_datetime.datetime, real_datetime.date]) -> bool:
+    if isinstance(date_obj, (datetime, real_datetime.datetime)):
+        date_obj = date_obj.date()
+    return today + relativedelta(months=3) <= date_obj
+
+
+def anonymise_fahrt(semester: Semester, today: date) -> None:
+    current_fahrt: Optional[Fahrt] = get_or_none(Fahrt, semester=semester)
+    if current_fahrt and date_is_too_old(today, current_fahrt.date):
+        # fahrt is save to be anonymised for this semester
+        pass  # TODO check what privacy statement says has to be anonimised
+
+
+def anonymise_guidedtours(semester: Semester, today: date) -> None:
+    most_recent_tour: Optional[Tour] = Tour.objects.filter(semester=semester).order_by("date").last()
+    if most_recent_tour and date_is_too_old(today, most_recent_tour.date):
+        # guidedtours is save to be anonymised for this semester
+        pass  # TODO check what privacy statement says has to be anonimised
+
+
+def anonymise_tutors(semester: Semester, today: date) -> None:
+    most_recent_task: Optional[Task] = Task.objects.filter(semester=semester).order_by("end").last()
+    if most_recent_task and date_is_too_old(today, most_recent_task.end):
+        # guidedtours is save to be anonymised for this semester
+        pass  # TODO check what privacy statement says has to be anonimised
+
+
+def privacy_helper(semester: Semester, today: date, anonymisation_method: Any, log_name: str) -> None:
+    if not semester.anonymisationlog_set.filter(anon_log_str=log_name).exists():
+        anonymisation_method(semester, today)
+        AnonymisationLog.objects.create(semester=semester, anon_log_str=log_name)
+
+
+def privacy_cronjob():
+    today = date.today()
+    for semester in Semester.objects.all():
+        privacy_helper(semester, today, anonymise_fahrt, "fahrt")
+        # anonymise_bags is not nessesary, as this does not have any personal data
+        privacy_helper(semester, today, anonymise_guidedtours, "guidedtours")
+        privacy_helper(semester, today, anonymise_tutors, "tutors")

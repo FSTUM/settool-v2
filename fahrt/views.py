@@ -1,11 +1,14 @@
 import time
 from datetime import date, timedelta
-from typing import Dict, List, Optional, Union
+from io import TextIOWrapper
+from typing import Any, Dict, List, Optional, Tuple, Union
+from uuid import UUID
 
 from django import forms
 from django.contrib import messages
 from django.contrib.auth.decorators import permission_required
 from django.core.exceptions import ObjectDoesNotExist
+from django.core.files.uploadedfile import UploadedFile
 from django.core.handlers.wsgi import WSGIRequest
 from django.db.models import Count, Q, QuerySet, Sum
 from django.forms import formset_factory
@@ -20,122 +23,89 @@ from settool_common import utils
 from settool_common.models import get_semester, Semester, Subject
 
 from .forms import (
+    AddParticipantToTransportForm,
+    CSVFileUploadForm,
     FahrtForm,
     FilterParticipantsForm,
     FilterRegisteredParticipantsForm,
     MailForm,
     ParticipantAdminForm,
     ParticipantForm,
+    ParticipantSelectForm,
     SelectMailForm,
     SelectParticipantForm,
+    SelectParticipantSwitchForm,
+    TransportAdminOptionForm,
+    TransportOptionForm,
 )
-from .models import Fahrt, FahrtMail, Participant
+from .models import Fahrt, FahrtMail, Participant, Transportation
+from .parser import Entry, parse_camt_csv
 
 
-def get_confirmed_u18_participants_counts(semester: int) -> List[int]:
-    participants: QuerySet[Participant] = Participant.objects.filter(
-        Q(semester=semester) & Q(status="confirmed"),
-    ).all()
-    part_u18 = [participant.u18 for participant in participants]
+def get_cp_u18_counts(c_p: QuerySet[Participant]) -> List[int]:
+    part_u18 = [participant.u18 for participant in c_p.all()]
     u18_count = len([participant for participant in part_u18 if participant])
     non_u18_count = len(part_u18) - u18_count
     return [u18_count, non_u18_count]
 
 
-def get_confirmed_paid_participants_counts(semester: int) -> List[int]:
-    paid_participants_count: int = (
-        Participant.objects.exclude(paid=None).filter(Q(semester=semester) & Q(status="confirmed")).count()
-    )
-    unpaid_participants_count: int = Participant.objects.filter(
-        Q(semester=semester) & Q(status="confirmed") & Q(paid=None),
-    ).count()
+def get_cp_paid_counts(c_p: QuerySet[Participant]) -> List[int]:
+    paid_participants_count: int = c_p.exclude(paid=None).count()
+    unpaid_participants_count: int = c_p.filter(paid=None).count()
     return [paid_participants_count, unpaid_participants_count]
 
 
-def get_confirmed_non_liability_counts(semester: int) -> List[int]:
-    submitted_non_liability_count: int = (
-        Participant.objects.exclude(non_liability=None).filter(Q(semester=semester) & Q(status="confirmed")).count()
-    )
-    not_submitted_non_liability_count: int = Participant.objects.filter(
-        Q(semester=semester) & Q(status="confirmed") & Q(non_liability=None),
-    ).count()
+def get_cp_non_liability_counts(c_p: QuerySet[Participant]) -> List[int]:
+    submitted_non_liability_count: int = c_p.exclude(non_liability=None).count()
+    not_submitted_non_liability_count: int = c_p.filter(non_liability=None).count()
     return [submitted_non_liability_count, not_submitted_non_liability_count]
 
 
-def get_confirmed_participants_bachlor_master_counts(selected_semester: int) -> List[int]:
-    participants: QuerySet[Participant] = Participant.objects.filter(
-        Q(semester=selected_semester) & Q(status="confirmed"),
-    )
-    master_count: int = participants.filter(subject__degree=Subject.MASTER).count()
-    bachlor_count: int = participants.filter(subject__degree=Subject.BACHELOR).count()
+def get_cp_bachlor_master_counts(c_p: QuerySet[Participant]) -> List[int]:
+    master_count: int = c_p.filter(subject__degree=Subject.MASTER).count()
+    bachlor_count: int = c_p.filter(subject__degree=Subject.BACHELOR).count()
     return [bachlor_count, master_count]
+
+
+def get_cp_transportation_type_counts(c_p):
+    return [
+        c_p.filter(transportation__transport_type=Transportation.CAR).count(),
+        c_p.filter(transportation__transport_type=Transportation.TRAIN).count(),
+        c_p.filter(transportation=None).count(),
+    ]
 
 
 @permission_required("fahrt.view_participants")
 def fahrt_dashboard(request: WSGIRequest) -> HttpResponse:
-    selected_semester: int = get_semester(request)
-    confirmed_participants_by_studies = (
-        Participant.objects.filter(Q(semester=selected_semester) & Q(status="confirmed"))
-        .values("subject")
-        .annotate(subject_count=Count("subject"))
-        .order_by("subject_count")
-    )
+    semester = get_object_or_404(Semester, pk=get_semester(request))
+    # confirmed_participants
+    c_p: QuerySet[Participant] = Participant.objects.filter(Q(semester=semester) & Q(status="confirmed"))
+    cp_by_studies = c_p.values("subject").annotate(subject_count=Count("subject")).order_by("subject_count")
     participants_by_status = (
-        Participant.objects.filter(semester=selected_semester)
+        Participant.objects.filter(semester=semester)
         .values("status")
         .annotate(status_count=Count("status"))
         .order_by("status")
     )
 
-    confirmed_participants_by_gender = (
-        Participant.objects.filter(Q(semester=selected_semester) & Q(status="confirmed"))
-        .values("gender")
-        .annotate(gender_count=Count("gender"))
-        .order_by("-gender")
-    )
+    cp_by_gender = c_p.values("gender").annotate(gender_count=Count("gender")).order_by("-gender")
 
-    confirmed_participants_by_food = (
-        Participant.objects.filter(Q(semester=selected_semester) & Q(status="confirmed"))
-        .values("nutrition")
-        .annotate(nutrition_count=Count("nutrition"))
-        .order_by("-nutrition")
-    )
-
-    confirmed_participants_allergy_list = (
-        Participant.objects.filter(Q(semester=selected_semester) & Q(status="confirmed"))
-        .exclude(allergies=None)
-        .values("id", "allergies")
-        .order_by("allergies")
-    )
+    cp_by_food = c_p.values("nutrition").annotate(nutrition_count=Count("nutrition")).order_by("-nutrition")
 
     context = {
+        "cp_by_transportation_type_data": get_cp_transportation_type_counts(c_p),
         "participants_by_group_labels": [_(status["status"]) for status in participants_by_status],
         "participants_by_group_data": [status["status_count"] for status in participants_by_status],
-        "confirmed_participants_by_studies_labels": [
-            str(Subject.objects.get(pk=subject["subject"])) for subject in confirmed_participants_by_studies
-        ],
-        "confirmed_participants_by_studies_data": [
-            subject["subject_count"] for subject in confirmed_participants_by_studies
-        ],
-        "confirmed_participants_by_food_labels": [
-            _(nutrition["nutrition"]) for nutrition in confirmed_participants_by_food
-        ],
-        "confirmed_participants_by_food_data": [
-            nutrition["nutrition_count"] for nutrition in confirmed_participants_by_food
-        ],
-        "confirmed_participants_by_gender_labels": [_(gender["gender"]) for gender in confirmed_participants_by_gender],
-        "confirmed_participants_by_gender_data": [
-            gender["gender_count"] for gender in confirmed_participants_by_gender
-        ],
-        "confirmed_participants_bachlor_master": get_confirmed_participants_bachlor_master_counts(
-            selected_semester,
-        ),
-        "confirmed_participants_age": get_confirmed_u18_participants_counts(selected_semester),
-        "confirmed_participants_paid": get_confirmed_paid_participants_counts(selected_semester),
-        "confirmed_participants_non_liability": get_confirmed_non_liability_counts(
-            selected_semester,
-        ),
-        "confirmed_participants_allergy_list": confirmed_participants_allergy_list,
+        "cp_by_studies_labels": [str(Subject.objects.get(pk=subject["subject"])) for subject in cp_by_studies],
+        "cp_by_studies_data": [subject["subject_count"] for subject in cp_by_studies],
+        "cp_by_food_labels": [_(nutrition["nutrition"]) for nutrition in cp_by_food],
+        "cp_by_food_data": [nutrition["nutrition_count"] for nutrition in cp_by_food],
+        "cp_by_gender_labels": [_(gender["gender"]) for gender in cp_by_gender],
+        "cp_by_gender_data": [gender["gender_count"] for gender in cp_by_gender],
+        "cp_bachlor_master": get_cp_bachlor_master_counts(c_p),
+        "cp_age": get_cp_u18_counts(c_p),
+        "cp_paid": get_cp_paid_counts(c_p),
+        "cp_non_liability": get_cp_non_liability_counts(c_p),
     }
     return render(request, "fahrt/fahrt_dashboard.html", context)
 
@@ -182,7 +152,8 @@ def get_possibly_filtered_participants(filterform, semester):
 
         car = filterform.cleaned_data["car"]
         if car is not None:
-            participants = participants.filter(car=car)
+            car_creators = semester.fahrt.transportation_set.filter(transport_type=Transportation.CAR).values("creator")
+            participants = participants.filter(id__in=car_creators)
 
         paid = filterform.cleaned_data["paid"]
         if paid is not None:
@@ -223,7 +194,7 @@ def list_confirmed(request: WSGIRequest) -> HttpResponse:
     num_women = participants.filter(gender="female").count()
     proportion_of_women = int(num_women * 1.0 / number * 100) if number != 0 else 0
 
-    places = participants.filter(car=True).aggregate(places=Sum("car_places"))["places"] or 0
+    cars = semester.fahrt.transportation_set.filter(transport_type=Transportation.CAR)
 
     context = {
         "filterform": filterform,
@@ -232,8 +203,8 @@ def list_confirmed(request: WSGIRequest) -> HttpResponse:
         "number": number,
         "non_liability": participants.filter(non_liability__isnull=False).count(),
         "paid": participants.filter(paid__isnull=False).count(),
-        "places": places,
-        "cars": participants.filter(car=True).count(),
+        "car_places": cars.aggregate(car_places=Sum("places"))["car_places"] or 0,
+        "cars": cars.count(),
         "u18s": u18s,
         "allergies": allergies,
         "num_women": num_women,
@@ -461,7 +432,7 @@ def signup_internal(request: WSGIRequest) -> HttpResponse:
 
     form = ParticipantForm(request.POST or None, semester=semester)
     if form.is_valid():
-        participant = form.save()
+        participant: Participant = form.save()
         participant.log(request.user, "Signed up")
         mail = participant.semester.fahrt.mail_registration
         if mail:
@@ -493,7 +464,7 @@ def filter_participants(request: WSGIRequest) -> HttpResponse:
 
     filterform = FilterParticipantsForm(request.POST or None)
     if filterform.is_valid():
-        set_request_session_filtered_participants(filterform, participants, request)
+        set_request_session_filtered_participants(filterform, participants, request, semester)
         return redirect("fahrt_filteredparticipants")
 
     context = {
@@ -503,7 +474,7 @@ def filter_participants(request: WSGIRequest) -> HttpResponse:
     return render(request, "fahrt/mail/filter_participants_send_mail.html", context)
 
 
-def set_request_session_filtered_participants(filterform, participants, request):
+def set_request_session_filtered_participants(filterform, participants, request, semester):
     search = filterform.cleaned_data["search"]
     if search:
         participants = participants.filter(
@@ -518,7 +489,8 @@ def set_request_session_filtered_participants(filterform, participants, request)
 
     car = filterform.cleaned_data["car"]
     if car is not None:
-        participants = participants.filter(car=car)
+        car_creators = semester.fahrt.transportation_set.filter(transport_type=Transportation.CAR).values("creator")
+        participants = participants.filter(id__in=car_creators)
 
     paid = filterform.cleaned_data["paid"]
     if paid:
@@ -764,3 +736,333 @@ def get_non_liability(request: WSGIRequest, participant_pk: int) -> PDFResponse:
     if participant.u18:
         return render_to_pdf(request, "fahrt/tex/u18_non_liability.tex", context, filename)
     return render_to_pdf(request, "fahrt/tex/ü18_non_liability.tex", context, filename)
+
+
+def get_transport_types(fahrt: Fahrt) -> List[Tuple[str, str, Any]]:
+    return [
+        (_("Cars"), _("Car"), Transportation.objects.filter(transport_type=Transportation.CAR, fahrt=fahrt)),
+        (_("Trains"), _("Train"), Transportation.objects.filter(transport_type=Transportation.TRAIN, fahrt=fahrt)),
+    ]
+
+
+def transport_participant(request: WSGIRequest, participant_uuid: UUID) -> HttpResponse:
+    semester = get_object_or_404(Semester, pk=get_semester(request))
+    participant: Participant = get_object_or_404(Participant, uuid=participant_uuid, status="confirmed")
+    context = {
+        "transport_types": get_transport_types(semester.fahrt),
+        "participant": participant,
+    }
+    return render(request, "fahrt/standalone/transport_participants.html", context)
+
+
+def transport_add_option(request: WSGIRequest, participant_uuid: UUID, transport_type: int) -> HttpResponse:
+    semester = get_object_or_404(Semester, pk=get_semester(request))
+    participant: Participant = get_object_or_404(Participant, uuid=participant_uuid, status="confirmed")
+    if transport_type not in [Transportation.CAR, Transportation.TRAIN]:
+        raise Http404()
+    transport: Optional[Transportation] = participant.transportation
+    if transport and transport.creator == participant:
+        if transport.transport_type == transport_type:
+            messages.error(request, _("You can not create a new Transport-option of the same type"))
+            return redirect("fahrt_transport_participant", participant_uuid)
+        if transport.participant_set.count() != 1:
+            messages.error(
+                request,
+                _("A Transportation-option cannot be without creator, if it has people depending upon it."),
+            )
+            return redirect("fahrt_transport_participant", participant_uuid)
+
+    form = TransportOptionForm(
+        request.POST or None,
+        transport_type=transport_type,
+        creator=participant,
+        semester=semester,
+    )
+    if form.is_valid():
+        form.save(commit=True)
+        participant.log(
+            None,
+            _("created Transport Option {transport} and assigned him/herself").format(transport=transport),
+        )
+        return redirect("fahrt_transport_participant", participant_uuid)
+    context = {
+        "form": form,
+        "participant": participant,
+    }
+    return render(request, "fahrt/transportation/add_transport.html", context)
+
+
+def transport_add_participant(request: WSGIRequest, participant_uuid: UUID, transport_pk: int) -> HttpResponse:
+    semester = get_object_or_404(Semester, pk=get_semester(request))
+    participant: Participant = get_object_or_404(Participant, uuid=participant_uuid, status="confirmed")
+    transport: Transportation = get_object_or_404(Transportation, id=transport_pk, fahrt=semester.fahrt)
+
+    if transport.participant_set.count() < transport.places:
+        participant.transportation = transport
+        participant.save()
+        participant.log(None, _("added him/herself to Transport Option {transport}").format(transport=transport))
+    else:
+        messages.error(request, _("The selected option seems to be full"))
+
+    return redirect("fahrt_transport_participant", participant_uuid)
+
+
+@permission_required("fahrt.view_participants")
+def transport_mangagement(request: WSGIRequest) -> HttpResponse:
+    semester = get_object_or_404(Semester, pk=get_semester(request))
+    context = {"transport_types": get_transport_types(semester.fahrt)}
+    return render(request, "fahrt/transportation/transport_management.html", context)
+
+
+@permission_required("fahrt.view_participants")
+def transport_mangagement_add_option(request: WSGIRequest, transport_type: int) -> HttpResponse:
+    semester = get_object_or_404(Semester, pk=get_semester(request))
+    if transport_type not in [Transportation.CAR, Transportation.TRAIN]:
+        raise Http404()
+
+    form = TransportAdminOptionForm(request.POST or None, transport_type=transport_type, semester=semester)
+    if form.is_valid():
+        transport: Transportation = form.save(commit=True)
+        if transport.creator:  # for mypy
+            transport.creator.log(
+                request.user,
+                _("created Transport Option {transport} and assigned participant").format(transport=transport),
+            )
+        return redirect("fahrt_transport_mangagement")
+    context = {
+        "form": form,
+    }
+    return render(request, "fahrt/transportation/add_transport.html", context)
+
+
+@permission_required("fahrt.view_participants")
+def transport_mangagement_add_participant(request: WSGIRequest, transport_pk: int) -> HttpResponse:
+    semester = get_object_or_404(Semester, pk=get_semester(request))
+    transport: Transportation = Transportation.objects.get(id=transport_pk)
+    form = AddParticipantToTransportForm(request.POST or None, semester=semester)
+    if form.is_valid():
+        person: Participant = form.cleaned_data["person"]
+        if transport.participant_set.count() < transport.places:
+            person.transportation = transport
+            person.save()
+            person.log(
+                request.user,
+                _("added to Transport Option {transport} and assigned pariticipant").format(transport=transport),
+            )
+        else:
+            messages.error(request, _("The Selected option seems to be full"))
+        return redirect("fahrt_transport_mangagement")
+    context = {"transport": transport, "form": form}
+    return render(request, "fahrt/transportation/add_participant_to_transport.html", context)
+
+
+@permission_required("finanz")
+def fahrt_finanz_simple(request: WSGIRequest) -> HttpResponse:
+    semester: Semester = get_object_or_404(Semester, pk=get_semester(request))
+    fahrt: Fahrt = get_object_or_404(Fahrt, semester=semester)
+    participants: List[Participant] = list(Participant.objects.filter(semester=semester, status="confirmed").all())
+    select_participant_form_set = formset_factory(SelectParticipantSwitchForm, extra=0)
+    participantforms = select_participant_form_set(
+        request.POST or None,
+        initial=[{"id": p.id, "selected": p.paid is not None} for p in participants],
+    )
+
+    if participantforms.is_valid():
+        new_paid_participants: List[Participant] = []
+        new_unpaid_participants: List[Participant] = []
+        for participant in participantforms:
+            try:
+                participant_id = participant.cleaned_data["id"]
+            except KeyError:
+                continue
+            try:
+                selected = participant.cleaned_data["selected"]
+            except KeyError:
+                selected = False
+            if selected:
+                if Participant.objects.filter(id=participant_id, paid__isnull=True).exists():
+                    new_paid_participants.append(participant_id)
+            else:
+                if Participant.objects.filter(id=participant_id, paid__isnull=False).exists():
+                    new_unpaid_participants.append(participant_id)
+        if new_paid_participants or new_unpaid_participants:
+            request.session["new_paid_participants"] = new_paid_participants
+            request.session["new_unpaid_participants"] = new_unpaid_participants
+            return redirect("fahrt_finanz_confirm")
+
+    participants_and_select = []
+    for participant in participants:
+        for participant_form in participantforms:
+            if participant_form.initial["id"] == participant.id:
+                participants_and_select.append((participant, participant_form))
+                break
+    context = {
+        "fahrt": fahrt,
+        "participants_and_select": participants_and_select,
+        "participantforms": participantforms,
+    }
+    return render(request, "fahrt/finanz/simple_finanz.html", context)
+
+
+@permission_required("finanz")
+def fahrt_finanz_confirm(request: WSGIRequest) -> HttpResponse:
+    new_paid_participants = [
+        Participant.objects.get(id=part_id) for part_id in request.session["new_paid_participants"]
+    ]
+    new_unpaid_participants = [
+        Participant.objects.get(id=part_id) for part_id in request.session["new_unpaid_participants"]
+    ]
+    form = forms.Form(request.POST or None)
+    if form.is_valid():
+        for new_paid_participant in new_paid_participants:
+            new_paid_participant.paid = date.today()
+            new_paid_participant.save()
+        for new_unpaid_participant in new_unpaid_participants:
+            new_unpaid_participant.paid = None
+            new_unpaid_participant.save()
+        messages.success(request, _("Saved changed payment status"))
+        return redirect("fahrt_finanz_simple")
+
+    context = {
+        "form": form,
+        "new_paid_participants": new_paid_participants,
+        "new_unpaid_participants": new_unpaid_participants,
+    }
+    return render(request, "fahrt/finanz/finanz_confirmation.html", context)
+
+
+@permission_required("finanz")
+def fahrt_finanz_automated(request: WSGIRequest) -> HttpResponse:
+    file_upload_form = CSVFileUploadForm(request.POST or None, request.FILES)
+
+    if file_upload_form.is_valid():
+        csv_file: Optional[UploadedFile] = request.FILES.get("file")
+        if csv_file is None:
+            raise Http404
+        csv_file_text = TextIOWrapper(csv_file.file, encoding="iso-8859-1")
+        results, errors = parse_camt_csv(csv_file_text)
+        if errors:
+            for error in errors:
+                messages.error(request, error)
+            return redirect("fahrt_finanz_automated")
+        request.session["results"] = results
+        messages.success(request, _("The File was successfully uploaded"))
+        return redirect("fahrt_finanz_auto_matching")
+
+    context = {
+        "form": file_upload_form,
+    }
+    return render(request, "fahrt/finanz/automated_finanz.html", context)
+
+
+@permission_required("finanz")
+def fahrt_finanz_auto_matching(request: WSGIRequest) -> HttpResponse:
+    semester: Semester = get_object_or_404(Semester, pk=get_semester(request))
+    participants: QuerySet[Participant] = Participant.objects.filter(semester=semester, status="confirmed")
+
+    # mypy is weird for this one. equivalent [but not Typechecking]:  participants.values_list("uuid", flat=True)
+    participants_ids_pre_mypy: List[Optional[UUID]] = [element["uuid"] for element in participants.values("uuid")]
+    participants_ids: List[UUID] = [uuid for uuid in participants_ids_pre_mypy if uuid]
+
+    transactions: List[Entry] = [Entry.from_json(entry) for entry in request.session["results"]]
+
+    error, matched_transactions, unmatched_transactions = match_transactions_participant_ids(
+        participants_ids,
+        request,
+        transactions,
+    )
+    if error:
+        return redirect("fahrt_finanz_automated")
+
+    # genrerate selection boxes
+    unmatched_trans_form_set = formset_factory(ParticipantSelectForm, extra=len(unmatched_transactions))
+    forms_unmatched = unmatched_trans_form_set(request.POST or None, form_kwargs={"semester": semester})
+    forms_unmatched_trans = list(zip(forms_unmatched, unmatched_transactions))
+    matched_trans_form_set = formset_factory(ParticipantSelectForm, extra=0)
+    forms_matched = matched_trans_form_set(
+        request.POST or None,
+        initial=[{"selected": p_uuid} for (p_uuid, _) in matched_transactions],
+        form_kwargs={"semester": semester},
+    )
+    forms_matched_trans = []
+    for p_uuid, transaction in matched_transactions:
+        for p_form in forms_matched:
+            if p_form.initial["selected"] == p_uuid:
+                forms_matched_trans.append((p_form, transaction))
+                break
+
+    # parse forms and redirect to confirmation page
+    if forms_unmatched.is_valid() and forms_matched.is_valid():
+        # hs notation: fst(unzip xs)++fst(unzip ys)
+        selection_forms = []
+        if forms_matched_trans:
+            selection_forms += list(zip(*forms_matched_trans))[0]
+        if forms_unmatched_trans:
+            selection_forms += list(zip(*forms_unmatched_trans))[0]
+        new_paid_participants = set()
+        for form in selection_forms:
+            if form.cleaned_data:
+                selected_part: Participant = form.cleaned_data["selected"]
+                if selected_part and Participant.objects.get(id=selected_part.id).paid is None:
+                    new_paid_participants.add(selected_part.id)
+
+        if new_paid_participants:
+            request.session["new_paid_participants"] = list(new_paid_participants)
+            request.session["new_unpaid_participants"] = []
+            return redirect("fahrt_finanz_confirm")
+        messages.warning(request, _("No Changes to Payment-state detected"))
+        return redirect("fahrt_finanz_automated")
+
+    context = {
+        "matched_transactions": forms_matched_trans,
+        "unmatched_transactions": forms_unmatched_trans,
+        "forms_matched": forms_matched,
+        "forms_unmatched": forms_unmatched,
+    }
+    return render(request, "fahrt/finanz/automated_finanz_matching.html", context)
+
+
+def match_transactions_participant_ids(
+    participants_ids: List[UUID],
+    request: WSGIRequest,
+    transactions: List[Entry],
+) -> Tuple[bool, List[Tuple[UUID, Entry]], List[Entry]]:
+    participant_matches: Dict[UUID, List[Entry]] = {p_uuid: [] for p_uuid in participants_ids}
+    matched_transactions: List[Tuple[UUID, Entry]] = []
+    unmatched_transactions: List[Entry] = []
+    error = False
+
+    transaction: Entry
+    for transaction in transactions:
+        matches: List[UUID] = [p_uuid for p_uuid in participants_ids if str(p_uuid) in transaction.verwendungszweck]
+        if matches:
+            for match in matches:
+                matched_transactions.append((match, transaction))
+                participant_matches[match].append(transaction)
+            # Transaction:Person = 1:1
+            if len(matches) > 1:
+                messages.error(
+                    request,
+                    _("Transaction {transaction} contains multiple UUIDs (matches). This is not allowed.").format(
+                        transaction=transaction.__repr__(),
+                        matches=matches,
+                    ),
+                )
+                error = True
+        else:
+            unmatched_transactions.append(transaction)
+    # Transaction:Person = 1:1
+    for (p_uuid, transaction_list) in [
+        (p_uuid, transaction_list)
+        for (p_uuid, transaction_list) in participant_matches.items()
+        if len(transaction_list) > 1
+    ]:
+        messages.error(
+            request,
+            _("UUIDs {p_uuid} is contained in multiple Transactions (transaction_list). This is not allowed.").format(
+                p_uuid=p_uuid,
+                transaction_list=transaction_list,
+            ),
+        )
+        error = True
+    return error, matched_transactions, unmatched_transactions

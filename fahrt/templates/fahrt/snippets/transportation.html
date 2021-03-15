@@ -1,0 +1,20 @@
+{% load i18n %}
+{% if transportation %}
+{% if transportation.transport_type == 0 %}
+<span
+    style="color: green"
+    class='bi bi-stoplights'
+></span>
+{% else %}
+<span
+    style="color: green"
+    class='bi bi-wifi'
+></span>
+{% endif %}
+{{ transportation }}
+{% else %}
+<span
+    style="color: red"
+    class="bi bi-x-circle-fill"
+></span>
+{% endif %}

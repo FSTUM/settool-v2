@@ -8,12 +8,12 @@ from fahrt.models import FahrtMail
 from guidedtours.models import TourMail
 from tutors.models import TutorMail
 
-from .models import Mail
+from .models import Mail, Semester
 
 
 class SemesterBasedForm(forms.Form):
     def __init__(self, *args, **kwargs):
-        self.semester = kwargs.pop("semester")
+        self.semester: Semester = kwargs.pop("semester")
         super().__init__(*args, **kwargs)
 
 
@@ -81,17 +81,14 @@ class MailForm(forms.ModelForm):
 
 
 class SelectMailForm(forms.Form):
-    mail = forms.ModelChoiceField(
-        queryset=Mail.objects.all(),
-        label=_("Email template:"),
-    )
+    mail = forms.ModelChoiceField(queryset=Mail.objects.all(), label=_("Email template:"))
 
 
 def produce_csv_file_upload_field(fields):
     return forms.FileField(
         allow_empty_file=False,
         label=_(
-            "Upload a csv-file in exel-formatting. " "(Column-order: {fields}. First line is header.)",
+            "Upload a csv-file in exel-formatting. (Column-order: {fields}. First line is header.)",
         ).format(fields=fields),
     )
 

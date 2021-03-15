@@ -1,8 +1,8 @@
-{% extends "settool_common/settings/base_settings.html" %}
+{% extends "fahrt/base_fahrt.html" %}
 {% load i18n %}
 {% load bootstrap4 %}
 
-{% block set_common_headercontent %}{% trans "Import emails" %}{% endblock %}
+{% block set_common_headercontent %}{% trans "Import Bank account exports to manage Payment Status" %}{% endblock %}
 
 {% block set_common_content %}
 <form
@@ -26,10 +26,23 @@
             >
                 <thead>
                     <tr>
-                        <th>sender</th>
-                        <th>subject</th>
-                        <th>text</th>
-                        <th>comment</th>
+                        <th>Auftragskonto</th>
+                        <th>Buchungstag</th>
+                        <th>Valutadatum</th>
+                        <th>Buchungstext</th>
+                        <th>Verwendungszweck</th>
+                        <th>Glaeubiger ID</th>
+                        <th>Mandatsreferenz</th>
+                        <th>Kundenreferenz (End-to-End)</th>
+                        <th>Sammlerreferenz</th>
+                        <th>Lastschrift Ursprungsbetrag</th>
+                        <th>Auslagenersatz Ruecklastschrift</th>
+                        <th>Beguenstigter/Zahlungspflichtiger</th>
+                        <th>Kontonummer/IBAN</th>
+                        <th>BIC (SWIFT-Code)</th>
+                        <th>Betrag</th>
+                        <th>Waehrung</th>
+                        <th>Info</th>
                     </tr>
                 </thead>
                 <tbody id='csv-content'>
@@ -39,19 +52,19 @@
     </div>
     <a
         class='btn btn-secondary'
-        href='{% url "mail_list" %}'
+        href='{% url "bags_main_index" %}'
     >{% trans "Cancel" %}</a>
     <button
         class='btn btn-primary hide-in-preview'
         id='preview'
         type='button'
-    >{% trans "Preview emails" %}</button>
+    >{% trans "Preview Bank account export" %}</button>
     <button
-        class='btn btn-danger'
+        class='btn btn-primary'
         id='upload'
         style='display: none;'
         type='submit'
-    >{% trans "Upload and replace all emails" %} <span class="bi bi-cloud-upload"></span></button>
+    >{% trans "Upload and match Bank account export against Participants" %} <span class="bi bi-cloud-upload"></span></button>
 </form>
 {% endblock %}
 
@@ -61,7 +74,8 @@
         if (s === undefined) return '';
         return s;
     }
-function isCsvFileType(s) {
+
+    function isCsvFileType(s) {
         if (s === 'text/csv') return true;
         if (s === 'application/vnd.ms-excel') return true;
         if (s === 'text/x-csv') return true;
@@ -80,13 +94,13 @@ function isCsvFileType(s) {
             } else {
                 const reader = new FileReader();
                 reader.onload = function (e) {
-                    const fields = e.target.result.split(/,|\r\n|\n\r/);
+                    const fields = e.target.result.split(/;|\r\n|\n\r/);
                     let text = '';
-                    for (let i = 4; i < fields.length; i += 1) {
-                        if (i % 4 === 0) text += '<tr>';
+                    for (let i = 1; i < fields.length; i += 1) {
+                        if (i % 17 === 0) text += '<tr>';
                         text += `<td>${unundef(fields[i])}</td>`;
-                        if (i % 4 === 3) {
-                            $('tbody').append(`${text}</td>`);
+                        if (i % 17 === 16) {
+                            $('tbody').append(`${text}</tr>`);
                             text = '';
                         }
                     }

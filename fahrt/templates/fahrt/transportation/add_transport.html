@@ -1,0 +1,50 @@
+{% extends "fahrt/base_fahrt.html" %}
+{% load static %}
+{% load i18n %}
+{% load bootstrap4 %}
+
+{% block  set_common_headercontent %}{% trans "Add Transport" %}{% endblock %}
+
+{% block set_common_content %}
+
+<form
+    method="post"
+    action=""
+>
+    {% csrf_token %}
+
+    <div class="row">
+        <div class="col-xs-12 col-lg-5">
+            {% bootstrap_form form %}
+        </div>
+    </div>
+
+    <a
+        class="btn btn-secondary"
+        {% if participant %}
+        href="{% url "fahrt_transport_participant" participant.uuid %}"
+        {% else %}
+        href="{% url "fahrt_transport_mangagement" %}"
+        {% endif %}
+    >{% trans "Cancel" %}</a>
+    <button
+        class="btn btn-primary"
+        type="submit"
+    >{% trans "Add Transport" %}</button>
+</form>
+{% endblock %}
+
+{% if not participant %}
+{% block defered_script %}
+<link
+    href='{% static "choices.js/public/assets/styles/choices.min.css" %}'
+    rel='stylesheet'
+/>
+<script src='{% static "choices.js/public/assets/scripts/choices.min.js" %}'></script>
+<script type="text/javascript">
+            /* global Choices */
+            /* eslint no-new: off */
+            new Choices(document.getElementById('id_creator'));
+        </script>
+{% endblock %}
+{% endif %}
