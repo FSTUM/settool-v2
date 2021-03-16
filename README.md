@@ -37,7 +37,8 @@ python3 manage.py migrate
 python3 manage.py createsuperuser
 ```
 
-Note that this doesn't set the `fist_name`, thus the `username` is shown on the website. If you want your `fist_name` to be shown instead, you have to add your fist name in the admin interface.
+Note that this doesn't set the `fist_name`, thus the `username` is shown on the website. If you want your `fist_name` to
+be shown instead, you have to add your fist name in the admin interface.
 
 4. Start the local webserver
 
@@ -57,7 +58,8 @@ You can install `pre-commit`, so it will automatically run on every commit:
 pre-commit install
 ```
 
-This will check all files modified by your commit and will prevent the commit if a hook fails. To check all files, you can run
+This will check all files modified by your commit and will prevent the commit if a hook fails. To check all files, you
+can run
 
 ```bash
 pre-commit run --all-files
@@ -67,7 +69,8 @@ This will also be run by CI if you push to the repository.
 
 ## Sample-Data/ "Fixtures"
 
-you can generate example-data (overrides every model with data that looks partially plausible, but is clearly not production-data)
+you can generate example-data (overrides every model with data that looks partially plausible, but is clearly not
+production-data)
 by opening the django shell using:
 
 ```shell
@@ -78,6 +81,7 @@ In the shell type
 
 ```python
 import settool_common.fixtures.showroom_fixture
+
 settool_common.fixtures.showroom_fixture.showroom_fixture_state()
 ```
 
@@ -86,7 +90,8 @@ This operation might take a few seconds. Don't worry.
 ## Adding Depenencies
 
 If you want to add a dependency that is in `pip` add it to the appropriate `requirements`-file.  
-If you want to add a dependency that is in `npm` run `npm i DEPENDENCY`. **Make shure that you do only commit the nessesary files to git.**
+If you want to add a dependency that is in `npm` run `npm i DEPENDENCY`. **Make shure that you do only commit the
+nessesary files to git.**
 
 # Translation
 
@@ -100,10 +105,13 @@ python manage.py makemessages -a
 
     In the Settings please change:
 
-    - Your `name` and `email`
-    - `Line endings`=`Unix`
-    - `Wrap at`=`100`
-    - `check-spelling`=`True`
+    |        Setting | to value |
+    | -------------: | -------- |
+    |           name | `$NAME`  |
+    |          email | `$EMAIL` |
+    |   Line endings | `Unix`   |
+    |        Wrap at | `120`    |
+    | check-spelling | `True`   |
 
 3. Edit the `.po`-files, e.g. `guidedtours/locale/de/LC_MESSAGES/django.po`.
 
