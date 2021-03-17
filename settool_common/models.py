@@ -241,7 +241,7 @@ def get_semester(request: HttpRequest) -> int:
 
 
 class QRCode(models.Model):
-    content = models.CharField(max_length=200)
+    content = models.CharField(max_length=200, unique=True)
     qr_code = models.ImageField(upload_to="qr_codes", blank=True)
 
     def __str__(self):
