@@ -160,9 +160,17 @@ def _generate_transportation_comment():  # nosec: this is only used in a fixture
 def _generate_transportation(fahrt_participants):  # nosec: this is only used in a fixture
     transportation: List[fahrt.models.Transportation] = []
     participant: fahrt.models.Participant
-    for participant in fahrt_participants[:10]:
-        if not participant.transportation:
+    counter = 0
+    for participant in fahrt_participants:
+        if not participant.transportation and participant.status == "confirmed":
+            counter += 1
+            if counter > 5:
+                break
             transport_type = random.choice((fahrt.models.Transportation.CAR, fahrt.models.Transportation.TRAIN))
+            if transport_type == fahrt.models.Transportation.TRAIN:
+                places_count = 5
+            else:
+                places_count = random.choice((1, 3, 4, 4, 5, 5, 5, 7))
             trans: fahrt.models.Transportation = fahrt.models.Transportation.objects.create(
                 transport_type=transport_type,
                 creator=participant,
@@ -174,14 +182,14 @@ def _generate_transportation(fahrt_participants):  # nosec: this is only used in
                     [participant.semester.fahrt.date + timedelta(hours=random.randint(-5, 5)), None],
                 ),
                 deparure_place=random.choice([lorem.sentence(), "", ""]),
-                places=5 if transport_type == fahrt.models.Transportation.TRAIN else random.choice((1, 3, 4, 5, 7)),
+                places=places_count,
             )
             participant.transportation = trans
             participant.save()
             if trans.places > trans.participant_set.count():
                 transportation.append(trans)
     for participant in fahrt_participants:
-        if random.choice((True, True, False)) and len(transportation) > 4:
+        if len(transportation) > 3 and participant.status == "confirmed":
             trans = random.choice(transportation)
             participant.transportation = trans
             participant.save()
