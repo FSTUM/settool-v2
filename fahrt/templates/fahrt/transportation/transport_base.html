@@ -74,13 +74,13 @@
                         <thead>
                             <tr>
                                 {% if management_view %}
-                                <th>#</th>
-                                <th>{% trans "Name" %}</th>
-                                <th>{% trans "Contact" %}</th>
-                                {% else %}
                                 <th>{% trans "Name" %}</th>
                                 <th>{% trans "Contact" %}</th>
                                 <th><span class='bi bi-lightning'></span></th>
+                                {% else %}
+                                <th>#</th>
+                                <th>{% trans "Name" %}</th>
+                                <th>{% trans "Contact" %}</th>
                                 {% endif %}
                             </tr>
                         </thead>
@@ -140,6 +140,8 @@
                         </tbody>
                     </table>
                 </div>
+                {% else %}
+                {% trans "This Transport-option does only offer one place" %}
                 {% endif %}
             </div>
         </div>

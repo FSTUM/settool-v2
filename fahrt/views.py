@@ -779,6 +779,8 @@ def transport_add_option(request: WSGIRequest, participant_uuid: UUID, transport
         semester=semester,
     )
     if form.is_valid():
+        if transport and transport.creator == participant:
+            transport.delete()  # we checked before that we are the only participant of this Transport option
         form.save(commit=True)
         participant.log(
             None,
@@ -795,12 +797,23 @@ def transport_add_option(request: WSGIRequest, participant_uuid: UUID, transport
 def transport_add_participant(request: WSGIRequest, participant_uuid: UUID, transport_pk: int) -> HttpResponse:
     semester = get_object_or_404(Semester, pk=get_semester(request))
     participant: Participant = get_object_or_404(Participant, uuid=participant_uuid, status="confirmed")
-    transport: Transportation = get_object_or_404(Transportation, id=transport_pk, fahrt=semester.fahrt)
+    new_transport: Transportation = get_object_or_404(Transportation, id=transport_pk, fahrt=semester.fahrt)
 
-    if transport.participant_set.count() < transport.places:
-        participant.transportation = transport
+    transport: Optional[Transportation] = participant.transportation
+    if transport and transport.creator == participant and transport.participant_set.count() != 1:
+        messages.error(
+            request,
+            _("A Transportation-option cannot be without creator, if it has people depending upon it."),
+        )
+        return redirect("fahrt_transport_participant", participant_uuid)
+
+    if new_transport.participant_set.count() < new_transport.places:
+
+        if transport and transport.creator == participant:
+            transport.delete()  # we checked before that we are the only participant of this Transport option
+        participant.transportation = new_transport
         participant.save()
-        participant.log(None, _("added him/herself to Transport Option {transport}").format(transport=transport))
+        participant.log(None, _("added him/herself to Transport Option {transport}").format(transport=new_transport))
     else:
         messages.error(request, _("The selected option seems to be full"))
 

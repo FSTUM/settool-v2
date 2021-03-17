@@ -919,6 +919,10 @@ msgid "Contact"
 msgstr "Kontakt"
 
 #: fahrt/templates/fahrt/transportation/transport_base.html
+msgid "This Transport-option does only offer one place"
+msgstr "Diese Tramsportmittel-option verfügt über lediglich einen Platz"
+
+#: fahrt/templates/fahrt/transportation/transport_base.html
 #, python-format
 msgid "Add %(transport_name)s"
 msgstr "%(transport_name)s hinzufügen"
