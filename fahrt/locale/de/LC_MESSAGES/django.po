@@ -847,56 +847,6 @@ msgstr ""
 msgid "List Transport for"
 msgstr "Transportmittel für"
 
-#: fahrt/templates/fahrt/standalone/transport_participants.html
-#: fahrt/templates/fahrt/transportation/transport_management.html
-msgid "Organisor/Driver:"
-msgstr "Organisator/Fahrer:"
-
-#: fahrt/templates/fahrt/standalone/transport_participants.html
-#: fahrt/templates/fahrt/transportation/transport_management.html
-msgid "[Deleted]"
-msgstr "[Gelöscht]"
-
-#: fahrt/templates/fahrt/standalone/transport_participants.html
-#: fahrt/templates/fahrt/transportation/transport_management.html
-msgid "Contact:"
-msgstr "Kontakt:"
-
-#: fahrt/templates/fahrt/standalone/transport_participants.html
-msgid "Hidden"
-msgstr "Versteckt"
-
-#: fahrt/templates/fahrt/standalone/transport_participants.html
-#: fahrt/templates/fahrt/transportation/transport_management.html
-msgid "Meeting-Place:"
-msgstr "Treffpunkt"
-
-#: fahrt/templates/fahrt/standalone/transport_participants.html
-#: fahrt/templates/fahrt/transportation/transport_management.html
-msgid "Departure:"
-msgstr "Abfahrt:"
-
-#: fahrt/templates/fahrt/standalone/transport_participants.html
-#: fahrt/templates/fahrt/transportation/transport_management.html
-msgid "Departure for return:"
-msgstr "Abfahrt für den rückweg"
-
-#: fahrt/templates/fahrt/standalone/transport_participants.html
-#: fahrt/templates/fahrt/transportation/transport_management.html
-msgid "Name"
-msgstr "Name"
-
-#: fahrt/templates/fahrt/standalone/transport_participants.html
-#: fahrt/templates/fahrt/transportation/transport_management.html
-msgid "Contact"
-msgstr "Kontakt"
-
-#: fahrt/templates/fahrt/standalone/transport_participants.html
-#: fahrt/templates/fahrt/transportation/transport_management.html
-#, python-format
-msgid "Add %(transport_name)s"
-msgstr "%(transport_name)s hinzufügen"
-
 #: fahrt/templates/fahrt/transportation/add_participant_to_transport.html
 msgid "Add unassigned participant to"
 msgstr "Uneingeteilten Teilnehmer hinzufügen zu"
@@ -905,6 +855,47 @@ msgstr "Uneingeteilten Teilnehmer hinzufügen zu"
 #: fahrt/templates/fahrt/transportation/add_transport.html
 msgid "Add Transport"
 msgstr "Transportmittel hinzufügen"
+
+#: fahrt/templates/fahrt/transportation/transport_base.html
+msgid "Organisor/Driver:"
+msgstr "Organisator/Fahrer:"
+
+#: fahrt/templates/fahrt/transportation/transport_base.html
+msgid "Hidden"
+msgstr "Versteckt"
+
+#: fahrt/templates/fahrt/transportation/transport_base.html
+msgid "[Deleted]"
+msgstr "[Gelöscht]"
+
+#: fahrt/templates/fahrt/transportation/transport_base.html
+msgid "Contact:"
+msgstr "Kontakt:"
+
+#: fahrt/templates/fahrt/transportation/transport_base.html
+msgid "Meeting-Place:"
+msgstr "Treffpunkt"
+
+#: fahrt/templates/fahrt/transportation/transport_base.html
+msgid "Departure:"
+msgstr "Abfahrt:"
+
+#: fahrt/templates/fahrt/transportation/transport_base.html
+msgid "Departure for return:"
+msgstr "Abfahrt für den rückweg"
+
+#: fahrt/templates/fahrt/transportation/transport_base.html
+msgid "Name"
+msgstr "Name"
+
+#: fahrt/templates/fahrt/transportation/transport_base.html
+msgid "Contact"
+msgstr "Kontakt"
+
+#: fahrt/templates/fahrt/transportation/transport_base.html
+#, python-format
+msgid "Add %(transport_name)s"
+msgstr "%(transport_name)s hinzufügen"
 
 #: fahrt/templates/fahrt/transportation/transport_management.html
 msgid "List of current Transport arragements"
