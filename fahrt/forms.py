@@ -28,7 +28,12 @@ class FahrtForm(forms.ModelForm):
 class ParticipantAdminForm(SemesterBasedModelForm):
     class Meta:
         model = Participant
-        exclude = ["semester", "registration_time", "transportation"]
+        exclude = ["uuid", "semester", "registration_time", "transportation"]
+        widgets = {
+            "paid": DatePickerInput(format="%Y-%m-%d"),
+            "payment_deadline": DatePickerInput(format="%Y-%m-%d"),
+            "non_liability": DatePickerInput(format="%Y-%m-%d"),
+        }
 
     def clean(self):
         cleaned_data = super().clean()
