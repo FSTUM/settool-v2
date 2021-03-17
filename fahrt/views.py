@@ -856,6 +856,88 @@ def transport_mangagement_add_participant(request: WSGIRequest, transport_pk: in
     return render(request, "fahrt/transportation/add_participant_to_transport.html", context)
 
 
+@permission_required("fahrt.view_participants")
+def transport_mangagement_edit_participant(request: WSGIRequest, participant_uuid: UUID) -> HttpResponse:
+    semester = get_object_or_404(Semester, pk=get_semester(request))
+    participant: Participant = get_object_or_404(Participant, uuid=participant_uuid, status="confirmed")
+    transport: Optional[Transportation] = participant.transportation
+
+    form = ParticipantSelectForm(request.POST or None, semester=semester)
+    if form.is_valid():
+        participant2: Participant = form.cleaned_data["selected"]
+        if participant2 == participant:
+            messages.warning(request, _("Succesfully exchanged {p1} with itsself :)").format(p1=participant))
+            return redirect("fahrt_transport_mangagement")
+
+        # possibly exchanging creators
+        if participant.transportation and participant.transportation.creator == participant:
+            participant.transportation.creator = participant2
+            participant.transportation.save()
+        if participant2.transportation and participant2.transportation.creator == participant2:
+            participant2.transportation.creator = participant
+            participant2.transportation.save()
+        # possibly exchanging transportation
+        participant.transportation = participant2.transportation
+        participant.save()
+        participant.log(request.user, f"Exchanged transport option with {participant2}")
+
+        participant2.transportation = transport
+        participant2.save()
+        participant2.log(request.user, f"Exchanged transport option with {participant}")
+        messages.success(request, _("Succesfully exchanged {p1} and {p2}").format(p1=participant, p2=participant2))
+        return redirect("fahrt_transport_mangagement")
+
+    context = {
+        "form": form,
+        "participant": participant,
+        "transport": transport,
+    }
+    return render(request, "fahrt/transportation/edit_participant_transport.html", context)
+
+
+@permission_required("fahrt.view_participants")
+def transport_mangagement_del_participant(request: WSGIRequest, participant_uuid: UUID) -> HttpResponse:
+    participant: Participant = get_object_or_404(Participant, uuid=participant_uuid, status="confirmed")
+    transport: Optional[Transportation] = participant.transportation
+    if transport is None:
+        messages.warning(
+            request,
+            _(
+                "This participant is not assigned to a transport option. this can Thus not be edited. You can however "
+                "create a new transport option for this participant",
+            ),
+        )
+        return redirect("fahrt_transport_participant", participant_uuid)
+
+    if transport.creator == participant and transport.participant_set.count() > 1:
+        messages.error(
+            request,
+            _(
+                "The Transportation option of the Creator of a Transportation option can NOT be deleted if his "
+                "Transportation option has participants left",
+            ),
+        )
+        return redirect("fahrt_transport_mangagement")
+
+    form = forms.Form(request.POST or None)
+    if form.is_valid():
+        participant.transportation = None
+        participant.save()
+        participant.log(request.user, "Deleted transport option")
+        messages.success(
+            request,
+            _("Succesfully deleted transport option of {participant}").format(participant=participant),
+        )
+        return redirect("fahrt_transport_mangagement")
+
+    context = {
+        "form": form,
+        "participant": participant,
+        "transport": transport,
+    }
+    return render(request, "fahrt/transportation/del_participant_transport.html", context)
+
+
 @permission_required("finanz")
 def fahrt_finanz_simple(request: WSGIRequest) -> HttpResponse:
     semester: Semester = get_object_or_404(Semester, pk=get_semester(request))

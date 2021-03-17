@@ -119,6 +119,8 @@ msgid ""
 "Upload a csv-file in CSV-CAMT format. (encoding='iso-8859-1', Semicolon-"
 "Seperated, First line is header, Column-order: {fields}) "
 msgstr ""
+"Lade eine CSV-Datei im CSV-CAMT format hoch. (encoding='iso-8859-1', "
+"Semicolon-Separiert, Erste Zeile ist header, Column-order: {fields}) "
 
 #: fahrt/models.py
 msgid "The participant's first name"
@@ -227,6 +229,12 @@ msgstr "Bahn ({free_places} frei)"
 msgid "Car ({free_places} free)"
 msgstr "Auto ({free_places} frei)"
 
+#: fahrt/models.py fahrt/templates/fahrt/participants/list_registered.html
+#: fahrt/templates/fahrt/participants/list_waitinglist.html
+#: fahrt/templates/fahrt/participants/view_participant_details.html
+msgid "Registration time"
+msgstr "Anmeldezeitpunkt"
+
 #: fahrt/models.py
 msgid "male"
 msgstr "Männlich"
@@ -288,11 +296,6 @@ msgstr "Telefon"
 msgid "Mobile phone"
 msgstr "Handy"
 
-#: fahrt/models.py fahrt/templates/fahrt/participants/list_confirmed.html
-#: fahrt/templates/fahrt/participants/view_participant_details.html
-msgid "Nutrition"
-msgstr "Essen"
-
 #: fahrt/models.py
 msgid "normal"
 msgstr "normal"
@@ -304,6 +307,11 @@ msgstr "vegetarisch"
 #: fahrt/models.py
 msgid "vegan"
 msgstr "vegan"
+
+#: fahrt/models.py fahrt/templates/fahrt/participants/list_confirmed.html
+#: fahrt/templates/fahrt/participants/view_participant_details.html
+msgid "Nutrition"
+msgstr "Essen"
 
 #: fahrt/models.py fahrt/templates/fahrt/participants/list_confirmed.html
 #: fahrt/templates/fahrt/participants/list_registered.html
@@ -339,12 +347,6 @@ msgstr "Mailingliste"
 #: fahrt/templates/fahrt/participants/view_participant_details.html
 msgid "Comment"
 msgstr "Kommentar"
-
-#: fahrt/models.py fahrt/templates/fahrt/participants/list_registered.html
-#: fahrt/templates/fahrt/participants/list_waitinglist.html
-#: fahrt/templates/fahrt/participants/view_participant_details.html
-msgid "Registration time"
-msgstr "Anmeldezeitpunkt"
 
 #: fahrt/models.py fahrt/templates/fahrt/mail/del_mail.html
 #: fahrt/templates/fahrt/mail/index_mails.html
@@ -549,6 +551,8 @@ msgstr "Vorschau"
 #: fahrt/templates/fahrt/participants/view_participant_details.html
 #: fahrt/templates/fahrt/transportation/add_participant_to_transport.html
 #: fahrt/templates/fahrt/transportation/add_transport.html
+#: fahrt/templates/fahrt/transportation/del_participant_transport.html
+#: fahrt/templates/fahrt/transportation/edit_participant_transport.html
 msgid "Cancel"
 msgstr "Abbrechen"
 
@@ -856,6 +860,28 @@ msgstr "Uneingeteilten Teilnehmer hinzufügen zu"
 msgid "Add Transport"
 msgstr "Transportmittel hinzufügen"
 
+#: fahrt/templates/fahrt/transportation/del_participant_transport.html
+#, python-format
+msgid ""
+"Deleting Participants Transpportation (%(participant)s is currently in "
+"%(transport)s)"
+msgstr ""
+"Transport-option des Teilnehmers (%(participant)s, momentan in "
+"%(transport)s) löschen"
+
+#: fahrt/templates/fahrt/transportation/del_participant_transport.html
+msgid "Delete participants transpportation"
+msgstr "Teilnehmer-Transport-option löschen"
+
+#: fahrt/templates/fahrt/transportation/edit_participant_transport.html
+#, python-format
+msgid "Exchange Participant %(participant)s"
+msgstr "Teilnehmer %(participant)s austauschen"
+
+#: fahrt/templates/fahrt/transportation/edit_participant_transport.html
+msgid "Exchange Participants"
+msgstr "Teilnehmer austauschen"
+
 #: fahrt/templates/fahrt/transportation/transport_base.html
 msgid "Organisor/Driver:"
 msgstr "Organisator/Fahrer:"
@@ -958,8 +984,6 @@ msgid "added him/herself to Transport Option {transport}"
 msgstr "fügt sich selber zu Transportmittel-option {transport} hinzu"
 
 #: fahrt/views.py
-#, fuzzy
-#| msgid "The Selected option seems to be full"
 msgid "The selected option seems to be full"
 msgstr "Die ausgewählte Option scheint voll zu sein"
 
@@ -982,6 +1006,39 @@ msgid "The Selected option seems to be full"
 msgstr "Die ausgewählte Option scheint voll zu sein"
 
 #: fahrt/views.py
+#, python-brace-format
+msgid "Succesfully exchanged {p1} with itsself :)"
+msgstr "Teilnehmer {p1} wurde erfolgreich mit sich selbst ausgetauscht"
+
+#: fahrt/views.py
+#, python-brace-format
+msgid "Succesfully exchanged {p1} and {p2}"
+msgstr "Teilnehmer {p1} und {p2} wurden erfolgreich ausgetauscht"
+
+#: fahrt/views.py
+msgid ""
+"This participant is not assigned to a transport option. this can Thus not be "
+"edited. You can however create a new transport option for this participant"
+msgstr ""
+"Dieser Teilnehmer wurde keiner Transportmittel-option hinzugefügt. Er kann "
+"damit nicht bearbeitet werden. Du kannst allerdings eine neue "
+"Transportmittel-option für diesen Teilnehmer erschaffen"
+
+#: fahrt/views.py
+msgid ""
+"The Transportation option of the Creator of a Transportation option can NOT "
+"be deleted if his Transportation option has participants left"
+msgstr ""
+"Die Transportmittel-option des Erschöpfers einer Transportmittel-option kan "
+"NICHT gelöscht werden, falls in dieser Transportmittel-option noch "
+"Teilnehmer existieren"
+
+#: fahrt/views.py
+#, python-brace-format
+msgid "Succesfully deleted transport option of {participant}"
+msgstr "Transportmittel-option von {participant} wuder erfolgreich gelöscht"
+
+#: fahrt/views.py
 msgid "Saved changed payment status"
 msgstr "Änderungen am Zahlungsstatus wurden gespeichert"
 
@@ -999,6 +1056,8 @@ msgid ""
 "Transaction {transaction} contains multiple UUIDs (matches). This is not "
 "allowed."
 msgstr ""
+"Transaktion {transaction} enthält mehrere UUIDs (matches). Dies ist nicht "
+"erlaubt."
 
 #: fahrt/views.py
 #, python-brace-format
@@ -1006,6 +1065,8 @@ msgid ""
 "UUIDs {p_uuid} is contained in multiple Transactions (transaction_list). "
 "This is not allowed."
 msgstr ""
+"UUIDs {p_uuid} ist in mehreren Transaktionen (transaction_list) enhalten. "
+"Dies ist nicht erlaubt."
 
 #~ msgid "%(additional_seats)s additional seats"
 #~ msgstr "%(additional_seats)s zusätzliche Plätze"

@@ -32,6 +32,11 @@
                                     {% else %}
                                     {% trans "[Deleted]" %}
                                     {% endif %}
+
+                                    {% if user.is_authenticated and transport.creator %}
+                                    <a href='{% url "fahrt_transport_edit_participant" transport.creator.uuid %}'><span class='bi bi-pencil'></span></a>
+                                    <a href='{% url "fahrt_transport_del_participant" transport.creator.uuid %}'><span class='bi bi-trash'></span></a>
+                                    {% endif %}
                                 </td>
                             </tr>
                             <tr>
@@ -67,15 +72,22 @@
                     <table class='table table-hover'>
                         <thead>
                             <tr>
+                                {% if not user.is_authenticated %}
                                 <th>#</th>
+                                {% endif %}
                                 <th>{% trans "Name" %}</th>
                                 <th>{% trans "Contact" %}</th>
+                                {% if user.is_authenticated %}
+                                <th><span class='bi bi-lightning'></span></th>
+                                {% endif %}
                             </tr>
                         </thead>
                         <tbody>
                             {% for participant in transport.participant_set.all %}
                             <tr>
+                                {% if not user.is_authenticated %}
                                 <td>{{ forloop.counter }}</td>
+                                {% endif %}
                                 <td>
                                     {% if participant %}
                                     {% if user.is_authenticated %}
@@ -100,13 +112,22 @@
                                     {% trans "[Deleted]" %}
                                     {% endif %}
                                 </td>
+                                {% if user.is_authenticated %}
+                                <td>
+                                    <a href='{% url "fahrt_transport_edit_participant" participant.uuid %}'><span class='bi bi-pencil'></span></a>
+                                    <a href='{% url "fahrt_transport_del_participant" participant.uuid %}'><span class='bi bi-trash'></span></a>
+                                </td>
+                                {% endif %}
                             </tr>
                             {% endfor %}
                             {% for _ in transport.places|subtract:transport.participant_set.count|times %}
                             <tr>
-                                <td class='table-info'></td>
+                                {% if not user.is_authenticated %}
+                                <td class='table-info'></td>{% endif %}
                                 <td class='table-info'><a href='{% url "fahrt_transport_management_add_participant" transport.id %}'><span class='bi bi-plus'></span></a></td>
                                 <td class='table-info'><a href='{% url "fahrt_transport_management_add_participant" transport.id %}'><span class='bi bi-plus'></span></a></td>
+                                {% if user.is_authenticated %}
+                                <td class='table-info'></td>{% endif %}
                             </tr>
                             {% endfor %}
                         </tbody>

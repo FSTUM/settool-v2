@@ -1,0 +1,34 @@
+{% extends "fahrt/base_fahrt.html" %}
+{% load static %}
+{% load i18n %}
+{% load bootstrap4 %}
+
+{% block  set_common_headercontent %}
+{% blocktrans trimmed with participant=participant %}
+Exchange Participant {{ participant }}
+{% endblocktrans %}
+{% endblock %}
+
+{% block set_common_content %}
+<form
+    method="post"
+    action=""
+>
+    {% csrf_token %}
+
+    <div class="row">
+        <div class="col-xs-12 col-lg-5">
+            {% bootstrap_form form %}
+        </div>
+    </div>
+
+    <a
+        class="btn btn-secondary"
+        href="{% url "fahrt_transport_mangagement" %}"
+    >{% trans "Cancel" %}</a>
+    <button
+        class="btn btn-danger"
+        type="submit"
+    >{% trans "Exchange Participants" %}</button>
+</form>
+{% endblock %}

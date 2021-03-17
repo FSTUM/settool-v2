@@ -49,14 +49,38 @@ urlpatterns = [
                     include(
                         [
                             path(
-                                "add/option/<int:transport_type>",
-                                views.transport_mangagement_add_option,
-                                name="fahrt_transport_management_add_transport",
+                                "participant/",
+                                include(
+                                    [
+                                        path(
+                                            "delete/<uuid:participant_uuid>/",
+                                            views.transport_mangagement_del_participant,
+                                            name="fahrt_transport_del_participant",
+                                        ),
+                                        path(
+                                            "edit/<uuid:participant_uuid>/",
+                                            views.transport_mangagement_edit_participant,
+                                            name="fahrt_transport_edit_participant",
+                                        ),
+                                    ],
+                                ),
                             ),
                             path(
-                                "add/participant/<int:transport_pk>/",
-                                views.transport_mangagement_add_participant,
-                                name="fahrt_transport_management_add_participant",
+                                "add/",
+                                include(
+                                    [
+                                        path(
+                                            "option/<int:transport_type>",
+                                            views.transport_mangagement_add_option,
+                                            name="fahrt_transport_management_add_transport",
+                                        ),
+                                        path(
+                                            "participant/<int:transport_pk>/",
+                                            views.transport_mangagement_add_participant,
+                                            name="fahrt_transport_management_add_participant",
+                                        ),
+                                    ],
+                                ),
                             ),
                             path("", views.transport_mangagement, name="fahrt_transport_mangagement"),
                         ],
@@ -67,14 +91,21 @@ urlpatterns = [
                     include(
                         [
                             path(
-                                "add/option/<uuid:participant_uuid>/<int:transport_type>/",
-                                views.transport_add_option,
-                                name="fahrt_transport_participant_add_option",
-                            ),
-                            path(
-                                "add/participant/<uuid:participant_uuid>/<int:transport_pk>/",
-                                views.transport_add_participant,
-                                name="fahrt_transport_add_participant",
+                                "add/",
+                                include(
+                                    [
+                                        path(
+                                            "option/<uuid:participant_uuid>/<int:transport_type>/",
+                                            views.transport_add_option,
+                                            name="fahrt_transport_participant_add_option",
+                                        ),
+                                        path(
+                                            "participant/<uuid:participant_uuid>/<int:transport_pk>/",
+                                            views.transport_add_participant,
+                                            name="fahrt_transport_add_participant",
+                                        ),
+                                    ],
+                                ),
                             ),
                             path(
                                 "<uuid:participant_uuid>/",
