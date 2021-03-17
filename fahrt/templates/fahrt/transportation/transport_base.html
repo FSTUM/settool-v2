@@ -10,7 +10,7 @@
         {% for transport in transport_type %}
         <div
             class="card card-block"
-            style='min-width: 30rem'
+            style='width: 30rem'
         >
             <div class='card-header'>{{ transport_name }} {{ forloop.counter }}</div>
             <div
@@ -24,7 +24,7 @@
                                 <th>{% trans "Organisor/Driver:" %}</th>
                                 <td>
                                     {% if transport.creator %}
-                                    {% if transport.creator.publish_contact_to_other_paricipants or user.is_authenticated %}
+                                    {% if management_view or transport.creator.publish_contact_to_other_paricipants %}
                                     {{ transport.creator }}
                                     {% else %}
                                     {% trans "Hidden" %}
@@ -33,7 +33,7 @@
                                     {% trans "[Deleted]" %}
                                     {% endif %}
 
-                                    {% if user.is_authenticated and transport.creator %}
+                                    {% if management_view and transport.creator %}
                                     <a href='{% url "fahrt_transport_edit_participant" transport.creator.uuid %}'><span class='bi bi-pencil'></span></a>
                                     <a href='{% url "fahrt_transport_del_participant" transport.creator.uuid %}'><span class='bi bi-trash'></span></a>
                                     {% endif %}
@@ -43,7 +43,7 @@
                                 <th>{% trans "Contact:" %}</th>
                                 <td>
                                     {% if transport.creator %}
-                                    {% if transport.creator.publish_contact_to_other_paricipants or user.is_authenticated %}
+                                    {% if management_view or transport.creator.publish_contact_to_other_paricipants %}
                                     {{ transport.creator.mobile|default_if_none:transport.creator.phone|default_if_none:transport.creator.email }}
                                     {% else %}
                                     {% trans "Hidden" %}
@@ -73,12 +73,13 @@
                     <table class='table table-hover'>
                         <thead>
                             <tr>
-                                {% if not user.is_authenticated %}
+                                {% if management_view %}
                                 <th>#</th>
-                                {% endif %}
                                 <th>{% trans "Name" %}</th>
                                 <th>{% trans "Contact" %}</th>
-                                {% if user.is_authenticated %}
+                                {% else %}
+                                <th>{% trans "Name" %}</th>
+                                <th>{% trans "Contact" %}</th>
                                 <th><span class='bi bi-lightning'></span></th>
                                 {% endif %}
                             </tr>
@@ -87,12 +88,12 @@
                             {% for participant in transport.participant_set.all %}
                             {% if participant.uuid != transport.creator.uuid %}
                             <tr>
-                                {% if not user.is_authenticated %}
+                                {% if not management_view %}
                                 <td>{{ forloop.counter }}</td>
                                 {% endif %}
                                 <td>
                                     {% if participant %}
-                                    {% if user.is_authenticated %}
+                                    {% if management_view %}
                                     <a href='{% url "fahrt_viewparticipant" participant.id %}'>{{ participant }}</a>
                                     {% elif participant.publish_contact_to_other_paricipants %}
                                     {{ participant }}
@@ -105,7 +106,7 @@
                                 </td>
                                 <td>
                                     {% if participant %}
-                                    {% if participant.publish_contact_to_other_paricipants or user.is_authenticated %}
+                                    {% if participant.publish_contact_to_other_paricipants or management_view %}
                                     {{ participant.mobile|default_if_none:participant.phone|default_if_none:participant.email }}
                                     {% else %}
                                     {% trans "Hidden" %}
@@ -114,7 +115,7 @@
                                     {% trans "[Deleted]" %}
                                     {% endif %}
                                 </td>
-                                {% if user.is_authenticated %}
+                                {% if management_view %}
                                 <td>
                                     <a href='{% url "fahrt_transport_edit_participant" participant.uuid %}'><span class='bi bi-pencil'></span></a>
                                     <a href='{% url "fahrt_transport_del_participant" participant.uuid %}'><span class='bi bi-trash'></span></a>
@@ -125,12 +126,15 @@
                             {% endfor %}
                             {% for _ in transport.places|subtract:transport.participant_set.count|subtract:1|times %}
                             <tr>
-                                {% if not user.is_authenticated %}
-                                <td class='table-info'></td>{% endif %}
+                                {% if management_view %}
                                 <td class='table-info'><a href='{% url "fahrt_transport_management_add_participant" transport.id %}'><span class='bi bi-plus'></span></a></td>
                                 <td class='table-info'><a href='{% url "fahrt_transport_management_add_participant" transport.id %}'><span class='bi bi-plus'></span></a></td>
-                                {% if user.is_authenticated %}
-                                <td class='table-info'></td>{% endif %}
+                                <td class='table-info'></td>
+                                {% else %}
+                                <td class='table-info'></td>
+                                <td class='table-info'><a href='{% url "fahrt_transport_add_participant" calling_participant.uuid transport.pk %}'><span class='bi bi-plus'></span></a></td>
+                                <td class='table-info'><a href='{% url "fahrt_transport_add_participant" calling_participant.uuid transport.pk %}'><span class='bi bi-plus'></span></a></td>
+                                {% endif %}
                             </tr>
                             {% endfor %}
                         </tbody>
@@ -142,14 +146,14 @@
         {% if forloop.last %}
         <div
             class="card card-block"
-            style='min-width: 30rem'
+            style='width: 30rem'
         >
             <div class='card-header'>
                 {% blocktrans trimmed with transport_name=transport_name %}
                 Add {{ transport_name }}
                 {% endblocktrans %}
             </div>
-            <a href='{% url "fahrt_transport_management_add_transport" transport.transport_type %}'>
+            <a href='{% if management_view %}{% url "fahrt_transport_management_add_option" transport.transport_type %}{% else %}{% url "fahrt_transport_add_option" calling_participant.uuid transport.transport_type %}{% endif %}'>
                 <div class='card-body text-center flex align-content-center '>
                     <svg
                         xmlns="http://www.w3.org/2000/svg"

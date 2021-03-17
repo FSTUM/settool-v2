@@ -72,7 +72,7 @@ urlpatterns = [
                                         path(
                                             "option/<int:transport_type>",
                                             views.transport_mangagement_add_option,
-                                            name="fahrt_transport_management_add_transport",
+                                            name="fahrt_transport_management_add_option",
                                         ),
                                         path(
                                             "participant/<int:transport_pk>/",
@@ -97,7 +97,7 @@ urlpatterns = [
                                         path(
                                             "option/<uuid:participant_uuid>/<int:transport_type>/",
                                             views.transport_add_option,
-                                            name="fahrt_transport_participant_add_option",
+                                            name="fahrt_transport_add_option",
                                         ),
                                         path(
                                             "participant/<uuid:participant_uuid>/<int:transport_pk>/",

@@ -137,6 +137,7 @@ class TransportForm(SemesterBasedModelForm):
     def save(self, commit=True):
         transport: Transportation = super().save(commit=False)
         transport.fahrt = self.semester.fahrt
+        transport.transport_type = self.transport_type
         if commit:
             transport.save()
         return transport
@@ -147,7 +148,7 @@ class TransportOptionForm(TransportForm):
         exclude: List[str] = ["fahrt", "creator", "transport_type"]
 
     def __init__(self, *args, **kwargs):
-        self.creator = kwargs.pop("participant")
+        self.creator = kwargs.pop("creator")
         super().__init__(*args, **kwargs)
 
     def save(self, commit=True):

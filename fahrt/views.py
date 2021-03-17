@@ -750,7 +750,7 @@ def transport_participant(request: WSGIRequest, participant_uuid: UUID) -> HttpR
     participant: Participant = get_object_or_404(Participant, uuid=participant_uuid, status="confirmed")
     context = {
         "transport_types": get_transport_types(semester.fahrt),
-        "participant": participant,
+        "calling_participant": participant,
     }
     return render(request, "fahrt/standalone/transport_participants.html", context)
 
