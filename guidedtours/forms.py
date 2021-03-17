@@ -73,7 +73,10 @@ class FilterParticipantsForm(SemesterBasedForm):
 
 class SelectParticipantForm(forms.Form):
     id = forms.IntegerField()
-    selected = forms.BooleanField(required=False)
+    selected = forms.BooleanField(
+        widget=forms.widgets.CheckboxInput(attrs={"class": "selectTarget"}),
+        required=False,
+    )
 
 
 class SettingsAdminForm(SemesterBasedModelForm):

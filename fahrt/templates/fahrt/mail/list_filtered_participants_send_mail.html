@@ -4,8 +4,20 @@
 
 {% block head %}
 <script>
+    /* eslint-disable no-unused-vars */
+    function selectAllSelectable(newState) {
+        $('.selectTarget').prop('checked', newState);
+        $('#selectAllButton').attr('onclick', `selectAllSelectable(${!newState})`);
+    }
+
     $(document).ready(() => {
-        $('#fahrtTable').DataTable();
+        $('#fahrtTable').DataTable({
+            order: [
+                [2, 'asc'],
+                [1, 'asc'],
+            ],
+            columnDefs: [{ targets: 0, orderable: false }],
+        });
     });
 </script>
 {% endblock %}
@@ -38,7 +50,11 @@
         >
             <thead>
                 <tr>
-                    <th><span class="bi bi-check-square"></span></th>
+                    <th><span
+                            id='selectAllButton'
+                            class="bi bi-check-square"
+                            onclick='selectAllSelectable(true)'
+                        ></span></th>
                     <th>{% trans "First name" %}</th>
                     <th>{% trans "Surname" %}</th>
                     <th>{% trans "Status" %}</th>
