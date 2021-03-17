@@ -76,9 +76,30 @@
                             {% for participant in transport.participant_set.all %}
                             <tr>
                                 <td>{{ forloop.counter }}</td>
-                                <td><a href='{% url "fahrt_viewparticipant" participant.id %}'>{{ participant }}</a>
+                                <td>
+                                    {% if participant %}
+                                    {% if user.is_authenticated %}
+                                    <a href='{% url "fahrt_viewparticipant" participant.id %}'>{{ participant }}</a>
+                                    {% elif participant.publish_contact_to_other_paricipants %}
+                                    {{ participant }}
+                                    {% else %}
+                                    {% trans "Hidden" %}
+                                    {% endif %}
+                                    {% else %}
+                                    {% trans "[Deleted]" %}
+                                    {% endif %}
                                 </td>
-                                <td>{{ participant.mobile|default_if_none:participant.phone|default_if_none:participant.email }}</td>
+                                <td>
+                                    {% if participant %}
+                                    {% if participant.publish_contact_to_other_paricipants or user.is_authenticated %}
+                                    {{ participant.mobile|default_if_none:participant.phone|default_if_none:participant.email }}
+                                    {% else %}
+                                    {% trans "Hidden" %}
+                                    {% endif %}
+                                    {% else %}
+                                    {% trans "[Deleted]" %}
+                                    {% endif %}
+                                </td>
                             </tr>
                             {% endfor %}
                             {% for _ in transport.places|subtract:transport.participant_set.count|times %}
