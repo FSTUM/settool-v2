@@ -143,10 +143,7 @@ class Transportation(models.Model):
         null=True,
     )
 
-    fahrt = models.ForeignKey(
-        Fahrt,
-        on_delete=models.CASCADE,
-    )
+    fahrt = models.ForeignKey(Fahrt, on_delete=models.CASCADE)
 
     deparure_time = models.DateTimeField(
         _("Planned time of departure for the trip (leave blank if you dont have a preferance)"),
@@ -187,9 +184,12 @@ class Participant(models.Model):
             ),
         )
 
-    uuid = models.UUIDField(
-        unique=True,
-        default=uuid.uuid4,
+    uuid = models.UUIDField(unique=True, default=uuid.uuid4)
+    registration_time = models.DateTimeField(_("Registration time"), auto_now_add=True)
+    semester = models.ForeignKey(
+        Semester,
+        on_delete=models.CASCADE,
+        related_name="fahrt_participant",
     )
 
     GENDER_CHOICES = (
@@ -197,71 +197,26 @@ class Participant(models.Model):
         ("female", _("female")),
         ("diverse", _("diverse")),
     )
-
-    semester = models.ForeignKey(
-        Semester,
-        on_delete=models.CASCADE,
-        related_name="fahrt_participant",
-    )
-
-    gender = models.CharField(
-        _("Gender"),
-        max_length=200,
-        choices=GENDER_CHOICES,
-    )
-
-    firstname = models.CharField(
-        _("First name"),
-        max_length=200,
-    )
-
-    surname = models.CharField(
-        _("Surname"),
-        max_length=200,
-    )
-
-    birthday = models.DateField(
-        _("Birthday"),
-    )
-
-    email = models.EmailField(
-        _("Email address"),
-    )
-
-    phone = models.CharField(
-        _("Phone"),
-        max_length=200,
-        blank=True,
-    )
-
-    mobile = models.CharField(
-        _("Mobile phone"),
-        max_length=200,
-        blank=True,
-    )
-
+    gender = models.CharField(_("Gender"), max_length=200, choices=GENDER_CHOICES)
+    firstname = models.CharField(_("First name"), max_length=200)
+    surname = models.CharField(_("Surname"), max_length=200)
+    birthday = models.DateField(_("Birthday"))
+    email = models.EmailField(_("Email address"))
+    phone = models.CharField(_("Phone"), max_length=200, blank=True)
+    mobile = models.CharField(_("Mobile phone"), max_length=200, blank=True)
     subject = models.ForeignKey(
         Subject,
         on_delete=models.CASCADE,
         verbose_name=_("Subject"),
         related_name="fahrt_participant",
     )
-
-    nutrition = models.CharField(
-        _("Nutrition"),
-        max_length=200,
-        choices=(
-            ("normal", _("normal")),
-            ("vegeterian", _("vegeterian")),
-            ("vegan", _("vegan")),
-        ),
+    NUTRITION_CHOICES = (
+        ("normal", _("normal")),
+        ("vegeterian", _("vegeterian")),
+        ("vegan", _("vegan")),
     )
-
-    allergies = models.CharField(
-        _("Allergies"),
-        max_length=200,
-        blank=True,
-    )
+    nutrition = models.CharField(_("Nutrition"), max_length=200, choices=NUTRITION_CHOICES)
+    allergies = models.CharField(_("Allergies"), max_length=200, blank=True)
 
     transportation = models.ForeignKey(
         Transportation,
@@ -269,29 +224,14 @@ class Participant(models.Model):
         blank=True,
         null=True,
     )
-
     publish_contact_to_other_paricipants = models.BooleanField(
         _("Publish your most relevant (mobile > phone > email), contact-info to other Fahrt-participants."),
         default=False,
     )
 
-    non_liability = models.DateField(
-        _("Non-liability submitted"),
-        blank=True,
-        null=True,
-    )
-
-    paid = models.DateField(
-        _("Paid"),
-        blank=True,
-        null=True,
-    )
-
-    payment_deadline = models.DateField(
-        _("Payment deadline"),
-        blank=True,
-        null=True,
-    )
+    non_liability = models.DateField(_("Non-liability submitted"), blank=True, null=True)
+    paid = models.DateField(_("Paid"), blank=True, null=True)
+    payment_deadline = models.DateField(_("Payment deadline"), blank=True, null=True)
 
     status = models.CharField(
         _("Status"),
@@ -305,21 +245,9 @@ class Participant(models.Model):
         default="registered",
     )
 
-    mailinglist = models.BooleanField(
-        _("Mailing list"),
-        default=False,
-    )
+    mailinglist = models.BooleanField(_("Mailing list"), default=False)
 
-    comment = models.CharField(
-        _("Comment"),
-        max_length=400,
-        blank=True,
-    )
-
-    registration_time = models.DateTimeField(
-        _("Registration time"),
-        auto_now_add=True,
-    )
+    comment = models.CharField(_("Comment"), max_length=400, blank=True)
 
     def __str__(self):
         return f"{self.firstname} {self.surname}"
@@ -330,9 +258,6 @@ class Participant(models.Model):
             user=user,
             text=text,
         )
-
-    def __str_(self):
-        return f"{self.surname} {self.firstname}"
 
     @property
     def u18(self) -> bool:
@@ -397,27 +322,15 @@ class TransportationComment(models.Model):
 
 
 class LogEntry(models.Model):
-    participant = models.ForeignKey(
-        Participant,
-        on_delete=models.CASCADE,
-    )
-
+    time = models.DateTimeField(_("Time"), auto_now_add=True)
+    participant = models.ForeignKey(Participant, on_delete=models.CASCADE)
+    text = models.CharField(_("Text"), max_length=200)
     user = models.ForeignKey(
         get_user_model(),
         on_delete=models.CASCADE,
         related_name="mylogentry_set",
         blank=True,
         null=True,
-    )
-
-    text = models.CharField(
-        _("Text"),
-        max_length=200,
-    )
-
-    time = models.DateTimeField(
-        _("Time"),
-        auto_now_add=True,
     )
 
     def __str__(self):
