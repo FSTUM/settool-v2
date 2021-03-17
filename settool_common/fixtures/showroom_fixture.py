@@ -189,7 +189,8 @@ def _generate_transportation(fahrt_participants):  # nosec: this is only used in
             if trans.places > trans.participant_set.count():
                 transportation.append(trans)
     for participant in fahrt_participants:
-        if len(transportation) > 3 and participant.status == "confirmed":
+        p_is_no_creator = not any(trans.creator == participant for trans in transportation)
+        if p_is_no_creator and len(transportation) > 3 and participant.status == "confirmed":
             trans = random.choice(transportation)
             participant.transportation = trans
             participant.save()
