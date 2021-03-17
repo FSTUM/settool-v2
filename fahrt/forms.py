@@ -47,6 +47,7 @@ class ParticipantForm(ParticipantAdminForm):
     class Meta:
         model = Participant
         exclude = [
+            "uuid",
             "semester",
             "non_liability",
             "paid",
