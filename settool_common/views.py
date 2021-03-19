@@ -20,8 +20,8 @@ from bags.models import BagMail
 from fahrt.models import FahrtMail
 from guidedtours.models import TourMail
 from settool_common import utils
-from settool_common.forms import MailForm
-from settool_common.models import get_semester, Mail, Semester
+from settool_common.forms import CourseBundleForm, MailForm, SubjectForm
+from settool_common.models import CourseBundle, get_semester, Mail, Semester, Subject
 from tutors.models import TutorMail
 
 from .forms import CSVFileUploadForm
@@ -177,11 +177,8 @@ def mail_import(request: WSGIRequest) -> HttpResponse:
         import_mail_csv_to_db(request.FILES["file"])
         messages.success(request, _("The File was successfully uploaded"))
         return redirect("mail_list")
-    return render(
-        request,
-        "settool_common/settings/mail/import_email.html",
-        {"form": file_upload_form},
-    )
+    context = {"form": file_upload_form}
+    return render(request, "settool_common/settings/mail/import_email.html", context)
 
 
 @permission_required("set.mail")
@@ -207,3 +204,89 @@ def _clean_mail(mail):
         "text": mail.text or "",
         "comment": mail.comment if hasattr(mail, "comment") else "",
     }
+
+
+@permission_required("set.mail")
+def subject_list(request: WSGIRequest) -> HttpResponse:
+    context = {
+        "subjects": Subject.objects.all(),
+    }
+    return render(request, "settool_common/settings/subjects/subject/list_subjects.html", context)
+
+
+@permission_required("set.mail")
+def course_bundle_list(request: WSGIRequest) -> HttpResponse:
+    context = {
+        "course_bundles": CourseBundle.objects.all(),
+    }
+    return render(request, "settool_common/settings/subjects/course_bundle/list_course_bundle.html", context)
+
+
+@permission_required("set.mail")
+def subject_add(request: WSGIRequest) -> HttpResponse:
+    subject_form = SubjectForm(request.POST or None)
+    if subject_form.is_valid():
+        subject_form.save()
+        messages.success(request, _("The Subject was successfully added"))
+        return redirect("subject_list")
+    context = {"form": subject_form}
+    return render(request, "settool_common/settings/subjects/subject/add_subject.html", context)
+
+
+@permission_required("set.mail")
+def course_bundle_add(request: WSGIRequest) -> HttpResponse:
+    course_bundle_form = CourseBundleForm(request.POST or None)
+    if course_bundle_form.is_valid():
+        course_bundle_form.save()
+        messages.success(request, _("The Course-bundle was successfully added"))
+        return redirect("course_bundle_list")
+    context = {"form": course_bundle_form}
+    return render(request, "settool_common/settings/subjects/course_bundle/add_course_bundle.html", context)
+
+
+@permission_required("set.mail")
+def subject_edit(request: WSGIRequest, subject_pk: int) -> HttpResponse:
+    subject: Subject = get_object_or_404(Subject, id=subject_pk)
+    subject_form = SubjectForm(request.POST or None, instance=subject)
+    if subject_form.is_valid():
+        subject_form.save()
+        messages.success(request, _("The Subject was successfully added"))
+        return redirect("subject_list")
+    context = {"form": subject_form, "subject": subject}
+    return render(request, "settool_common/settings/subjects/subject/edit_subject.html", context)
+
+
+@permission_required("set.mail")
+def course_bundle_edit(request: WSGIRequest, course_bundle_pk: int) -> HttpResponse:
+    course_bundle: CourseBundle = get_object_or_404(CourseBundle, id=course_bundle_pk)
+    course_bundle_form = CourseBundleForm(request.POST or None, instance=course_bundle)
+    if course_bundle_form.is_valid():
+        course_bundle_form.save()
+        messages.success(request, _("The Course-bundle was successfully added"))
+        return redirect("course_bundle_list")
+    context = {"form": course_bundle_form, "course_bundle": course_bundle}
+    return render(request, "settool_common/settings/subjects/course_bundle/edit_course_bundle.html", context)
+
+
+@permission_required("set.mail")
+def course_bundle_delete(request: WSGIRequest, course_bundle_pk: int) -> HttpResponse:
+    course_bundle: CourseBundle = get_object_or_404(CourseBundle, id=course_bundle_pk)
+    form = forms.Form(request.POST or None)
+    if form.is_valid():
+        course_bundle.delete()
+        messages.success(request, _("The Course-bundle was successfully deleted"))
+        return redirect("course_bundle_list")
+    context = {"form": form, "course_bundle": course_bundle}
+    return render(request, "settool_common/settings/subjects/course_bundle/del_course_bundle.html", context)
+
+
+@permission_required("set.mail")
+def subject_delete(request: WSGIRequest, subject_pk: int) -> HttpResponse:
+    subject: Subject = get_object_or_404(Subject, id=subject_pk)
+    form = forms.Form(request.POST or None)
+    if form.is_valid():
+        subject.delete()
+        messages.success(request, _("The Subject was successfully deleted"))
+        return redirect("subject_list")
+    context = {"form": form, "subject": subject}
+    return render(request, "settool_common/settings/subjects/subject/del_subject.html", context)

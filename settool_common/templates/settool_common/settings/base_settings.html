@@ -22,6 +22,14 @@
     class="nav-link {% active_link 'mail_add' %}"
     href="{% url 'mail_add' %}"
 >{% trans "Add template" %}</a>
+
+
+<h4 class="navbar-text">{% trans "Study-Subjects" %}</h4>
+<a
+    class="nav-link {% active_link 'subject_list' %}"
+    href="{% url 'subject_list' %}"
+>{% trans "Manage Study-Subjects" %}</a>
+
 {% else %}
 Sorry, but you have no Settings
 {% endif %}

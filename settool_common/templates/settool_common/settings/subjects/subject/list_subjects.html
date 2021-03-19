@@ -1,0 +1,64 @@
+{% extends "settool_common/settings/base_settings.html" %}
+{% load i18n %}
+
+{% block head %}
+<script>
+    $(document).ready(() => {
+        $('#subjectsTable').DataTable({
+            columnDefs: [{ targets: 4, orderable: false }],
+        });
+    });
+</script>
+{% endblock %}
+
+{% block set_common_headercontent %}{% trans "List all subjects" %}{% endblock %}
+
+{% block set_common_content %}
+
+<div class='row'>
+    <div class='col-sm p-1'>
+        <a
+            class='btn btn-secondary btn-block'
+            href="{% url "subject_add" %}"
+        >{% trans "Add new subject" %}</a>
+    </div>
+    <div class='col-sm p-1'>
+        <a
+            class='btn btn-secondary btn-block'
+            href="{% url "course_bundle_list" %}"
+        >{% trans "List all Course-bundles" %}</a>
+    </div>
+</div>
+<div class="mt-3 table-responsive">
+    <table
+        id="subjectsTable"
+        class="table dataTable"
+    >
+
+        <thead>
+            <tr>
+                <th>{% trans "Course-bundle" %}</th>
+                <th>{% trans "Degree" %}</th>
+                <th>{% trans "Subject" %} [de]</th>
+                <th>{% trans "Subject" %} [en]</th>
+                <th>{% trans "Actions" %}</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for subject in subjects %}
+            <tr>
+                <td>{{ subject.course_bundle }}</td>
+                <td>{{ subject.degree }}</td>
+                <td>{{ subject.subject_de }}</td>
+                <td>{{ subject.subject_en }}</td>
+                <td>
+                    <a href="{% url "subject_edit" subject.id %}"><span class="bi bi-pencil-square"></span></a>
+                    <a href="{% url "subject_delete" subject.id %}"><span class="bi bi-trash-fill"></span></a>
+                </td>
+
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

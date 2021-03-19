@@ -174,12 +174,6 @@ class Subject(models.Model):
 
     BACHELOR = "BA"
     MASTER = "MA"
-    DEGREE_CHOICES = (
-        (BACHELOR, _("Bachelor")),
-        (MASTER, _("Master")),
-    )
-
-    OPERATIONS_RESEARCH = "Mathe OR"
 
     course_bundle = models.ForeignKey(
         CourseBundle,
@@ -189,7 +183,10 @@ class Subject(models.Model):
 
     degree = models.CharField(
         max_length=2,
-        choices=DEGREE_CHOICES,
+        choices=(
+            (BACHELOR, _("Bachelor")),
+            (MASTER, _("Master")),
+        ),
         default=BACHELOR,
         verbose_name=_("Degree"),
     )
