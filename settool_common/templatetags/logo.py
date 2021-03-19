@@ -7,10 +7,10 @@ register = template.Library()
 
 
 @register.simple_tag(takes_context=True)
-def fslogo(context):  # nosec: mark_save and random are fully defined
+def fslogo(context):
     request = context["request"]
-    if request.user.is_authenticated and random.randint(0, 100) == 0:
-        return mark_safe(
+    if request.user.is_authenticated and random.randint(0, 100) == 0:  # nosec: fully defined
+        return mark_safe(  # nosec: fully defined
             "<img style='max-height: 2rem' src='data:i"
             "mage/png;base"
             "64,"
@@ -18,4 +18,4 @@ def fslogo(context):  # nosec: mark_save and random are fully defined
             " alt='Lo"
             "go' />",
         )  # linebreaks are intentionally this way :)
-    return mark_safe('<span class="bi bi-people-fill"></span> SET-TOOL')
+    return mark_safe('<span class="bi bi-people-fill"></span> SET-TOOL')  # nosec: fully defined
