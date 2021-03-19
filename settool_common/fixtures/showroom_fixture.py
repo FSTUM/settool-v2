@@ -522,7 +522,7 @@ def _generate_subjects():  # nosec: this is only used in a fixture
         ("Mathe Bio", "Mathematics in Bioscience", "Mathematics in Bioscience", course_bundle_mathe),
     ]
 
-    for subject_choice, subject_choice_de, subject_choice_en, course_bundle in sub_trans:
+    for subject_choice, subject_choice_en, subject_choice_de, course_bundle in sub_trans:
         for degree in [settool_common.models.Subject.MASTER, settool_common.models.Subject.BACHELOR]:
             subjects.append(
                 settool_common.models.Subject.objects.create(
