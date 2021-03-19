@@ -8,7 +8,7 @@ from fahrt.models import FahrtMail
 from guidedtours.models import TourMail
 from tutors.models import TutorMail
 
-from .models import Mail, Semester
+from .models import CourseBundle, Mail, Semester, Subject
 
 
 class SemesterBasedForm(forms.Form):
@@ -102,3 +102,15 @@ class CommonParticipantForm(SemesterBasedModelForm):
         label=_("I accept the terms and conditions of the following privacy policy:"),
         required=True,
     )
+
+
+class CourseBundleForm(forms.ModelForm):
+    class Meta:
+        model = CourseBundle
+        exclude: List[str] = ["name"]
+
+
+class SubjectForm(forms.ModelForm):
+    class Meta:
+        model = Subject
+        exclude: List[str] = ["subject"]

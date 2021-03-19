@@ -1,35 +1,37 @@
 [
-    {
-        "model": "settool_common.semester",
-        "pk": 1,
-        "fields": {
-            "semester": "WS",
-            "year": 2019
-        }
-    },
-    {
-        "model": "settool_common.semester",
-        "pk": 2,
-        "fields": {
-            "semester": "SS",
-            "year": 2021
-        }
-    },
+    { "model": "settool_common.semester", "pk": 1, "fields": { "semester": "WS", "year": 2019 } },
+    { "model": "settool_common.semester", "pk": 2, "fields": { "semester": "SS", "year": 2021 } },
     {
         "model": "settool_common.subject",
         "pk": 1,
         "fields": {
-            "degree": "BA",
-            "subject": "Info"
-        }
-    },
-    {
-        "model": "settool_common.subject",
-        "pk": 2,
-        "fields": {
+            "course_bundle": 1,
             "degree": "MA",
-            "subject": "Mathe"
+            "subject": "Mathematik",
+            "subject_de": "Mathematics",
+            "subject_en": "Mathematik"
         }
+    },
+    {
+        "model": "settool_common.subject",
+        "pk": 2,
+        "fields": {
+            "course_bundle": 2,
+            "degree": "MA",
+            "subject": "Informatik",
+            "subject_de": "Informatics",
+            "subject_en": "Informatik"
+        }
+    },
+    {
+        "model": "settool_common.coursebundle",
+        "pk": 1,
+        "fields": { "name": "Mathematik", "name_de": "Mathematics", "name_en": "Mathematik" }
+    },
+    {
+        "model": "settool_common.coursebundle",
+        "pk": 2,
+        "fields": { "name": "Informatik", "name_de": "Informatics", "name_en": "Informatik" }
     },
     {
         "model": "tutors.tutor",

@@ -104,6 +104,17 @@ msgid "Year"
 msgstr "Jahr"
 
 #: settool_common/models.py
+#, fuzzy
+#| msgid "Course-Bundle"
+msgid "Course-bundles' name"
+msgstr "Studiengangsbündel"
+
+#: settool_common/models.py
+#: settool_common/templates/settool_common/settings/subjects/subject/list_subjects.html
+msgid "Course-bundle"
+msgstr "Studiengangsbündel"
+
+#: settool_common/models.py
 msgid "Bachelor"
 msgstr "Bachelor"
 
@@ -112,63 +123,13 @@ msgid "Master"
 msgstr "Master"
 
 #: settool_common/models.py
-msgid "Mathematics"
-msgstr "Mathematik"
-
-#: settool_common/models.py
-msgid "Physics"
-msgstr "Physik"
-
-#: settool_common/models.py
-msgid "Informatics"
-msgstr "Informatik"
-
-#: settool_common/models.py
-msgid "Informatics: Games Engineering"
-msgstr "Informatik: Games Engineering"
-
-#: settool_common/models.py
-msgid "Information Systems"
-msgstr "Wirtschaftsinformatik"
-
-#: settool_common/models.py
-msgid "Automotive Software Engineering"
-msgstr "Automotive Software Engineering"
-
-#: settool_common/models.py
-msgid "Computational Science and Engineering"
-msgstr "Computational Science and Engineering"
-
-#: settool_common/models.py
-msgid "Biomedical Computing"
-msgstr "Biomedical Computing"
-
-#: settool_common/models.py
-msgid "Robotics, Cognition, Intelligence"
-msgstr "Robotics, Cognition, Intelligence"
-
-#: settool_common/models.py
-msgid "Mathematics in Operatios Research"
-msgstr "Mathematics in Operatios Research"
-
-#: settool_common/models.py
-msgid "Mathematics in Science and Engineering"
-msgstr "Mathematics in Science and Engineering"
-
-#: settool_common/models.py
-msgid "Mathematics in Finance and Acturial Science"
-msgstr "Mathematics in Finance and Acturial Science"
-
-#: settool_common/models.py
-msgid "Mathematics in Bioscience"
-msgstr "Mathematics in Bioscience"
-
-#: settool_common/models.py
+#: settool_common/templates/settool_common/settings/subjects/subject/list_subjects.html
 msgid "Degree"
 msgstr "Abschluss"
 
 #: settool_common/models.py
 #: settool_common/templates/settool_common/settings/mail/send_email_failure.html
+#: settool_common/templates/settool_common/settings/subjects/subject/list_subjects.html
 msgid "Subject"
 msgstr "Studiengang"
 
@@ -192,6 +153,14 @@ msgstr "Tutor E-Mail-Vorlagen"
 msgid "Add template"
 msgstr "E-Mail-Vorlage hinzufügen"
 
+#: settool_common/templates/settool_common/settings/base_settings.html
+msgid "Study-Subjects"
+msgstr "Studiengänge"
+
+#: settool_common/templates/settool_common/settings/base_settings.html
+msgid "Manage Study-Subjects"
+msgstr "Studiengänge managen"
+
 #: settool_common/templates/settool_common/settings/mail/add_email.html
 msgid "Add email"
 msgstr "E-Mail hinzufügen"
@@ -200,6 +169,12 @@ msgstr "E-Mail hinzufügen"
 #: settool_common/templates/settool_common/settings/mail/delete_email.html
 #: settool_common/templates/settool_common/settings/mail/import_email.html
 #: settool_common/templates/settool_common/settings/mail/send_email_confirmation.html
+#: settool_common/templates/settool_common/settings/subjects/course_bundle/add_course_bundle.html
+#: settool_common/templates/settool_common/settings/subjects/course_bundle/del_course_bundle.html
+#: settool_common/templates/settool_common/settings/subjects/course_bundle/edit_course_bundle.html
+#: settool_common/templates/settool_common/settings/subjects/subject/add_subject.html
+#: settool_common/templates/settool_common/settings/subjects/subject/del_subject.html
+#: settool_common/templates/settool_common/settings/subjects/subject/edit_subject.html
 msgid "Cancel"
 msgstr "Abbrechen"
 
@@ -267,6 +242,8 @@ msgid "EMail Text"
 msgstr "E-Mail Betreff"
 
 #: settool_common/templates/settool_common/settings/mail/list_email_templates.html
+#: settool_common/templates/settool_common/settings/subjects/course_bundle/list_course_bundle.html
+#: settool_common/templates/settool_common/settings/subjects/subject/list_subjects.html
 msgid "Actions"
 msgstr "Aktionen"
 
@@ -326,6 +303,7 @@ msgid "Email-templates by sender"
 msgstr "E-Mail-Vorlagen nach Sender"
 
 #: settool_common/templates/settool_common/settings/settings_dashboard.html
+#: settool_common/templates/settool_common/settings/subjects/course_bundle/list_course_bundle.html
 msgid "Name"
 msgstr "Name"
 
@@ -361,9 +339,101 @@ msgstr "Mitarbeiter-Anmeldung"
 msgid "Guildedtour-Signup"
 msgstr "Institutsführungs-Anmeldung"
 
+#: settool_common/templates/settool_common/settings/subjects/course_bundle/add_course_bundle.html
+msgid "Add new Course-bundle"
+msgstr "neues Studiengangsbündel hinzufügen"
+
+#: settool_common/templates/settool_common/settings/subjects/course_bundle/del_course_bundle.html
+msgid "Delete Course-bundle"
+msgstr "Studiengangsbündel löschen"
+
+#: settool_common/templates/settool_common/settings/subjects/course_bundle/edit_course_bundle.html
+msgid "Edit Course-bundle"
+msgstr "Studiengangsbündel bearbeiten"
+
+#: settool_common/templates/settool_common/settings/subjects/course_bundle/edit_course_bundle.html
+msgid "Save edited Course-bundle"
+msgstr "editieres Studiengangsbündel speichern"
+
+#: settool_common/templates/settool_common/settings/subjects/course_bundle/list_course_bundle.html
+#: settool_common/templates/settool_common/settings/subjects/subject/list_subjects.html
+msgid "List all subjects"
+msgstr "Alle Studiengänge auflisten"
+
+#: settool_common/templates/settool_common/settings/subjects/course_bundle/list_course_bundle.html
+#: settool_common/templates/settool_common/settings/subjects/subject/add_subject.html
+#: settool_common/templates/settool_common/settings/subjects/subject/list_subjects.html
+msgid "Add new subject"
+msgstr "neuen Studiengang hinzufügen"
+
+#: settool_common/templates/settool_common/settings/subjects/subject/del_subject.html
+msgid "Delete subject"
+msgstr "Studiengang löschen"
+
+#: settool_common/templates/settool_common/settings/subjects/subject/edit_subject.html
+msgid "Edit subject"
+msgstr "Studiengang bearbeiten"
+
+#: settool_common/templates/settool_common/settings/subjects/subject/edit_subject.html
+msgid "Save edited subject"
+msgstr "Editierten Studiengang speichern"
+
+#: settool_common/templates/settool_common/settings/subjects/subject/list_subjects.html
+msgid "List all Course-bundles"
+msgstr "Alle Studiengangsbündel auflisten"
+
 #: settool_common/views.py
 msgid "The File was successfully uploaded"
 msgstr "Diese Datei wurde erfolgreich ge-uploaded"
+
+#: settool_common/views.py
+msgid "The Subject was successfully added"
+msgstr "Der Studiengang wurde erfolgreich hinzugefügt"
+
+#: settool_common/views.py
+msgid "The Course-bundle was successfully added"
+msgstr "Der Studiengangbündel wurde erfolgreich hinzugefügt"
+
+#: settool_common/views.py
+msgid "The Course-bundle was successfully deleted"
+msgstr "Der Studiengangbündel wurde erfolgreich gelöscht"
+
+#: settool_common/views.py
+#, fuzzy
+#| msgid ""
+#| "Be aware that deleting this cascades. This means that if a subject has "
+#| "this Course-bundle it will be deleted. This includes everything that "
+#| "cascades of that subject."
+msgid ""
+"Be aware that deleting this cascades. This means that if a subject has this "
+"Course-bundle it will be deleted. This includes everything that cascades of "
+"that subject. "
+msgstr ""
+"Sei dir bewusst das diese Löschung Caskadiert. Das heißt, das falls ein "
+"Studenfach von dieesem Studenfachbündel abhängig ist, das es ebenfalls "
+"gelöscht wird. Das heißt auch das Teilnehmer die diesem Studenfachbündel "
+"angehören ebenfalls mögl. gelöscht werden."
+
+#: settool_common/views.py
+msgid "Be aware that deleting this affects all semesters. There be dragons."
+msgstr ""
+"Sei dir bewusst das diese Löschung alle Semester betrifft. There be dragons."
+
+#: settool_common/views.py
+msgid "The Subject was successfully deleted"
+msgstr "Der Studiengang wurde erfolgreich gelöscht"
+
+#: settool_common/views.py
+#, fuzzy
+#| msgid ""
+#| "Be aware that deleting this cascades. This means that if a participant "
+#| "has this Subject he/she will be deleted."
+msgid ""
+"Be aware that deleting this cascades. This means that if a participant has "
+"this Subject he/she will be deleted. "
+msgstr ""
+"Sei dir bewusst das diese Löschung Caskadiert. Das heißt das Teilnehmer die "
+"diesem Studenfach angehören ebenfalls mögl. gelöscht werden."
 
 #~ msgid "Bag mail templates"
 #~ msgstr "E-Mail-Vorlagen auflisten"

@@ -59,9 +59,17 @@ class CronFahrt(TestCase):
             mail_payment_deadline=payment_mail,
             reminder_payment_deadline_days_count=0,
         )
-        subject = common_models.Subject.objects.create(
-            degree=common_models.Subject.MASTER,
-            subject=common_models.Subject.OPERATIONS_RESEARCH,
+        course_bundle_info = settool_common.models.CourseBundle.objects.create(
+            name="Info",
+            name_de="Informatics",
+            name_en="Informatik",
+        )
+        subject = settool_common.models.Subject.objects.create(
+            degree=settool_common.models.Subject.MASTER,
+            subject="OR",
+            subject_de="Operatopms Recearch",
+            subject_en="Operatopms Recearch",
+            course_bundle=course_bundle_info,
         )
         for i in range(10):
             fahrt_models.Participant.objects.create(
@@ -133,9 +141,18 @@ class CronTutor(TestCase):
             mail_reminder=mail_reminder,
             reminder_tour_days_count=0,
         )
-        subject = common_models.Subject.objects.create(
-            degree=common_models.Subject.MASTER,
-            subject=common_models.Subject.OPERATIONS_RESEARCH,
+
+        course_bundle_info = settool_common.models.CourseBundle.objects.create(
+            name="Info",
+            name_de="Informatics",
+            name_en="Informatik",
+        )
+        subject = settool_common.models.Subject.objects.create(
+            degree=settool_common.models.Subject.MASTER,
+            subject="OR",
+            subject_de="Operatopms Recearch",
+            subject_en="Operatopms Recearch",
+            course_bundle=course_bundle_info,
         )
         event = tutor_models.Event.objects.create(
             semester=common_models.current_semester(),
@@ -214,9 +231,17 @@ class CronGuidedtour(TestCase):
             mail_reminder=mail_reminder,
             reminder_tour_days_count=0,
         )
-        subject = common_models.Subject.objects.create(
-            degree=common_models.Subject.MASTER,
-            subject=common_models.Subject.OPERATIONS_RESEARCH,
+        course_bundle_info = settool_common.models.CourseBundle.objects.create(
+            name="Info",
+            name_de="Informatics",
+            name_en="Informatik",
+        )
+        subject = settool_common.models.Subject.objects.create(
+            degree=settool_common.models.Subject.MASTER,
+            subject="OR",
+            subject_de="Operatopms Recearch",
+            subject_en="Operatopms Recearch",
+            course_bundle=course_bundle_info,
         )
         for i in range(4):
             tour_models.Tour.objects.create(

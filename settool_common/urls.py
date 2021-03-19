@@ -12,6 +12,43 @@ urlpatterns = [
                 path("", RedirectView.as_view(pattern_name="settings_dashboard"), name="settings_main_index"),
                 path("dashboard/", views.dashboard, name="settings_dashboard"),
                 path(
+                    "study/",
+                    include(
+                        [
+                            path(
+                                "subjects/",
+                                include(
+                                    [
+                                        path("list/", views.subject_list, name="subject_list"),
+                                        path("add/", views.subject_add, name="subject_add"),
+                                        path("delete/<int:subject_pk>/", views.subject_delete, name="subject_delete"),
+                                        path("edit/<int:subject_pk>/", views.subject_edit, name="subject_edit"),
+                                    ],
+                                ),
+                            ),
+                            path(
+                                "course_bundle/",
+                                include(
+                                    [
+                                        path("list/", views.course_bundle_list, name="course_bundle_list"),
+                                        path("add/", views.course_bundle_add, name="course_bundle_add"),
+                                        path(
+                                            "delete/<int:course_bundle_pk>/",
+                                            views.course_bundle_delete,
+                                            name="course_bundle_delete",
+                                        ),
+                                        path(
+                                            "edit/<int:course_bundle_pk>/",
+                                            views.course_bundle_edit,
+                                            name="course_bundle_edit",
+                                        ),
+                                    ],
+                                ),
+                            ),
+                        ],
+                    ),
+                ),
+                path(
                     "mail/",
                     include(
                         [
