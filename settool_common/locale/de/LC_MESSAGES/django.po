@@ -399,8 +399,41 @@ msgid "The Course-bundle was successfully deleted"
 msgstr "Der Studiengangbündel wurde erfolgreich gelöscht"
 
 #: settool_common/views.py
+#, fuzzy
+#| msgid ""
+#| "Be aware that deleting this cascades. This means that if a subject has "
+#| "this Course-bundle it will be deleted. This includes everything that "
+#| "cascades of that subject."
+msgid ""
+"Be aware that deleting this cascades. This means that if a subject has this "
+"Course-bundle it will be deleted. This includes everything that cascades of "
+"that subject. "
+msgstr ""
+"Sei dir bewusst das diese Löschung Caskadiert. Das heißt, das falls ein "
+"Studenfach von dieesem Studenfachbündel abhängig ist, das es ebenfalls "
+"gelöscht wird. Das heißt auch das Teilnehmer die diesem Studenfachbündel "
+"angehören ebenfalls mögl. gelöscht werden."
+
+#: settool_common/views.py
+msgid "Be aware that deleting this affects all semesters. There be dragons."
+msgstr ""
+"Sei dir bewusst das diese Löschung alle Semester betrifft. There be dragons."
+
+#: settool_common/views.py
 msgid "The Subject was successfully deleted"
 msgstr "Der Studiengang wurde erfolgreich gelöscht"
+
+#: settool_common/views.py
+#, fuzzy
+#| msgid ""
+#| "Be aware that deleting this cascades. This means that if a participant "
+#| "has this Subject he/she will be deleted."
+msgid ""
+"Be aware that deleting this cascades. This means that if a participant has "
+"this Subject he/she will be deleted. "
+msgstr ""
+"Sei dir bewusst das diese Löschung Caskadiert. Das heißt das Teilnehmer die "
+"diesem Studenfach angehören ebenfalls mögl. gelöscht werden."
 
 #~ msgid "Bag mail templates"
 #~ msgstr "E-Mail-Vorlagen auflisten"

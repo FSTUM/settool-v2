@@ -276,6 +276,14 @@ def course_bundle_delete(request: WSGIRequest, course_bundle_pk: int) -> HttpRes
         course_bundle.delete()
         messages.success(request, _("The Course-bundle was successfully deleted"))
         return redirect("course_bundle_list")
+    messages.warning(
+        request,
+        _(
+            "Be aware that deleting this cascades. This means that if a subject has this Course-bundle it will be "
+            "deleted. This includes everything that cascades of that subject. ",
+        ),
+    )
+    messages.warning(request, _("Be aware that deleting this affects all semesters. There be dragons."))
     context = {"form": form, "course_bundle": course_bundle}
     return render(request, "settool_common/settings/subjects/course_bundle/del_course_bundle.html", context)
 
@@ -288,5 +296,13 @@ def subject_delete(request: WSGIRequest, subject_pk: int) -> HttpResponse:
         subject.delete()
         messages.success(request, _("The Subject was successfully deleted"))
         return redirect("subject_list")
+    messages.warning(
+        request,
+        _(
+            "Be aware that deleting this cascades. This means that if a participant has this Subject he/she will be "
+            "deleted. ",
+        ),
+    )
+    messages.warning(request, _("Be aware that deleting this affects all semesters. There be dragons."))
     context = {"form": form, "subject": subject}
     return render(request, "settool_common/settings/subjects/subject/del_subject.html", context)
