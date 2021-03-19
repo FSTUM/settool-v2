@@ -891,6 +891,10 @@ msgid "Hidden"
 msgstr "Versteckt"
 
 #: fahrt/templates/fahrt/transportation/transport_base.html
+msgid "[Me]"
+msgstr "[Ich]"
+
+#: fahrt/templates/fahrt/transportation/transport_base.html
 msgid "[Deleted]"
 msgstr "[Gelöscht]"
 

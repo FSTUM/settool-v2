@@ -20,15 +20,26 @@
                 <div class='table-responsive'>
                     <table class='table table-hover table-borderless'>
                         <tbody>
-                            <tr>
+                            <tr
+                                {% if transport.creator and calling_participant == transport.creator %}class="table-primary"
+                                {% endif %}
+                            >
                                 <th>{% trans "Organisor/Driver:" %}</th>
                                 <td>
                                     {% if transport.creator %}
-                                    {% if management_view or transport.creator.publish_contact_to_other_paricipants %}
+
+                                    {% if management_view %}
+                                    <a href='{% url "fahrt_viewparticipant" transport.creator.id %}'>{{ transport.creator }}</a>
+                                    {% elif transport.creator.publish_contact_to_other_paricipants %}
                                     {{ transport.creator }}
                                     {% else %}
                                     {% trans "Hidden" %}
                                     {% endif %}
+
+                                    {% if calling_participant == transport.creator %}
+                                    {% trans "[Me]" %}
+                                    {% endif %}
+
                                     {% else %}
                                     {% trans "[Deleted]" %}
                                     {% endif %}
@@ -87,12 +98,14 @@
                         <tbody>
                             {% for participant in transport.participant_set.all %}
                             {% if participant.uuid != transport.creator.uuid %}
-                            <tr>
+                            <tr
+                                {% if calling_participant == participant %}class="table-primary"
+                                {% endif %}
+                            >
                                 {% if not management_view %}
                                 <td>{{ forloop.counter }}</td>
                                 {% endif %}
                                 <td>
-                                    {% if participant %}
                                     {% if management_view %}
                                     <a href='{% url "fahrt_viewparticipant" participant.id %}'>{{ participant }}</a>
                                     {% elif participant.publish_contact_to_other_paricipants %}
@@ -100,19 +113,16 @@
                                     {% else %}
                                     {% trans "Hidden" %}
                                     {% endif %}
-                                    {% else %}
-                                    {% trans "[Deleted]" %}
+
+                                    {% if calling_participant == participant %}
+                                    {% trans "[Me]" %}
                                     {% endif %}
                                 </td>
                                 <td>
-                                    {% if participant %}
                                     {% if participant.publish_contact_to_other_paricipants or management_view %}
                                     {{ participant.mobile|default_if_none:participant.phone|default_if_none:participant.email }}
                                     {% else %}
                                     {% trans "Hidden" %}
-                                    {% endif %}
-                                    {% else %}
-                                    {% trans "[Deleted]" %}
                                     {% endif %}
                                 </td>
                                 {% if management_view %}
