@@ -104,6 +104,12 @@ msgid "Year"
 msgstr "Jahr"
 
 #: settool_common/models.py
+#, fuzzy
+#| msgid "Course-Bundle"
+msgid "Course-bundles' name"
+msgstr "Studiengangs-Bündel"
+
+#: settool_common/models.py
 msgid "Bachelor"
 msgstr "Bachelor"
 
@@ -112,56 +118,10 @@ msgid "Master"
 msgstr "Master"
 
 #: settool_common/models.py
-msgid "Mathematics"
-msgstr "Mathematik"
-
-#: settool_common/models.py
-msgid "Physics"
-msgstr "Physik"
-
-#: settool_common/models.py
-msgid "Informatics"
-msgstr "Informatik"
-
-#: settool_common/models.py
-msgid "Informatics: Games Engineering"
-msgstr "Informatik: Games Engineering"
-
-#: settool_common/models.py
-msgid "Information Systems"
-msgstr "Wirtschaftsinformatik"
-
-#: settool_common/models.py
-msgid "Automotive Software Engineering"
-msgstr "Automotive Software Engineering"
-
-#: settool_common/models.py
-msgid "Computational Science and Engineering"
-msgstr "Computational Science and Engineering"
-
-#: settool_common/models.py
-msgid "Biomedical Computing"
-msgstr "Biomedical Computing"
-
-#: settool_common/models.py
-msgid "Robotics, Cognition, Intelligence"
-msgstr "Robotics, Cognition, Intelligence"
-
-#: settool_common/models.py
-msgid "Mathematics in Operatios Research"
-msgstr "Mathematics in Operatios Research"
-
-#: settool_common/models.py
-msgid "Mathematics in Science and Engineering"
-msgstr "Mathematics in Science and Engineering"
-
-#: settool_common/models.py
-msgid "Mathematics in Finance and Acturial Science"
-msgstr "Mathematics in Finance and Acturial Science"
-
-#: settool_common/models.py
-msgid "Mathematics in Bioscience"
-msgstr "Mathematics in Bioscience"
+#, fuzzy
+#| msgid "Course-Bundle"
+msgid "Course-bundle"
+msgstr "Studiengangs-Bündel"
 
 #: settool_common/models.py
 msgid "Degree"
