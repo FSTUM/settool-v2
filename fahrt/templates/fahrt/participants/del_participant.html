@@ -4,9 +4,9 @@
 {% block  set_common_headercontent %}{% trans "Delete participant" %}{% endblock %}
 
 {% block set_common_content %}
-{% url "fahrt_viewparticipant" participant.id as viewparticipant_url %}
+{% url "fahrt:view_participant" participant.id as view_participant_url %}
 <p>
-    {% blocktranslate trimmed with name=participant url=viewparticipant_url %}
+    {% blocktranslate trimmed with name=participant url=view_participant_url %}
     Do you really want to delete the participant <a href="{{ url }}">{{ name }}</a>?
     {% endblocktranslate %}
 </p>
@@ -18,7 +18,7 @@
 
     <a
         class="btn btn-secondary"
-        href="{{ viewparticipant }}"
+        href="{{ view_participant_url }}"
     >{% trans "Cancel" %}</a>
     <button
         class="btn btn-danger"

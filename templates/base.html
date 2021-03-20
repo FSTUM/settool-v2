@@ -69,8 +69,8 @@
                 <nav class="navbar-nav">
                     {% if 'fahrt.view_participants' in perms or 'finanz' in perms %}
                     <a
-                        class="nav-link {% active_link 'fahrt_main_index' %}"
-                        href="{% url "fahrt_main_index" %}"
+                        class="nav-link {% active_link 'fahrt:main_index' %}"
+                        href="{% url "fahrt:main_index" %}"
                     >{% trans "SET-Fahrt" %}</a>
                     {% endif %}
                     {% if 'bags.view_companies' in perms %}

@@ -55,9 +55,9 @@
                 {% for participant, select in participants_and_select %}
                 <tr>
                     {% if 'fahrt.view_participants' in perms %}
-                    <td><a href="{% url "fahrt_viewparticipant" participant.id %}">{{ participant.uuid }}</a></td>
-                    <td><a href="{% url "fahrt_viewparticipant" participant.id %}">{{ participant.firstname }}</a></td>
-                    <td><a href="{% url "fahrt_viewparticipant" participant.id %}">{{ participant.surname }}</a></td>
+                    <td><a href="{% url "fahrt:view_participant" participant.id %}">{{ participant.uuid }}</a></td>
+                    <td><a href="{% url "fahrt:view_participant" participant.id %}">{{ participant.firstname }}</a></td>
+                    <td><a href="{% url "fahrt:view_participant" participant.id %}">{{ participant.surname }}</a></td>
                     {% else %}
                     <td>{{ participant.uuid }}</td>
                     <td>{{ participant.firstname }}</td>
@@ -80,7 +80,7 @@
 
     <a
         class="btn btn-secondary"
-        href="{% url "fahrt_main_index" %}"
+        href="{% url "fahrt:main_index" %}"
     >{% trans "Cancel" %}</a>
     <button
         class="btn btn-warning"

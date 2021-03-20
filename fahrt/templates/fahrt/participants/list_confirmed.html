@@ -63,13 +63,13 @@
     <div class='col-sm p-1'>
         <a
             class='btn btn-secondary btn-block'
-            href="{% url "fahrt_export" "csv" %}"
+            href="{% url "fahrt:export" "csv" %}"
         >{% trans "Export confired participants as CSV" %} <span class="bi bi-file-spreadsheet"></span></a>
     </div>
     <div class='col-sm p-1'>
         <a
             class='btn btn-secondary btn-block'
-            href="{% url "fahrt_export" "pdf" %}"
+            href="{% url "fahrt:export" "pdf" %}"
         >{% trans "Export confired participants as PDF" %} <span class="bi bi-file-earmark-person-fill"></span></a>
     </div>
 </div>
@@ -110,8 +110,8 @@
         <tbody>
             {% for participant in participants %}
             <tr>
-                <td><a href="{% url "fahrt_viewparticipant" participant.id %}">{{ participant.firstname }}</a></td>
-                <td><a href="{% url "fahrt_viewparticipant" participant.id %}">{{ participant.surname }}</a></td>
+                <td><a href="{% url "fahrt:view_participant" participant.id %}">{{ participant.firstname }}</a></td>
+                <td><a href="{% url "fahrt:view_participant" participant.id %}">{{ participant.surname }}</a></td>
                 <td>{% include "snippets/true_false_span.html" with value=participant.non_liability %}</td>
                 <td>
                     {% if participant.paid %}

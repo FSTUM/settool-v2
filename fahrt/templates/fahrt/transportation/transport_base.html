@@ -29,7 +29,7 @@
                                     {% if transport.creator %}
 
                                     {% if management_view %}
-                                    <a href='{% url "fahrt_viewparticipant" transport.creator.id %}'>{{ transport.creator }}</a>
+                                    <a href='{% url "fahrt:view_participant" transport.creator.id %}'>{{ transport.creator }}</a>
                                     {% elif transport.creator.publish_contact_to_other_paricipants %}
                                     {{ transport.creator }}
                                     {% else %}
@@ -45,8 +45,8 @@
                                     {% endif %}
 
                                     {% if management_view and transport.creator %}
-                                    <a href='{% url "fahrt_transport_edit_participant" transport.creator.uuid %}'><span class='bi bi-pencil'></span></a>
-                                    <a href='{% url "fahrt_transport_del_participant" transport.creator.uuid %}'><span class='bi bi-trash'></span></a>
+                                    <a href='{% url "fahrt:edit_transport_participant_by_management" transport.creator.uuid %}'><span class='bi bi-pencil'></span></a>
+                                    <a href='{% url "fahrt:del_transport_participant_by_management" transport.creator.uuid %}'><span class='bi bi-trash'></span></a>
                                     {% endif %}
                                 </td>
                             </tr>
@@ -107,7 +107,7 @@
                                 {% endif %}
                                 <td>
                                     {% if management_view %}
-                                    <a href='{% url "fahrt_viewparticipant" participant.id %}'>{{ participant }}</a>
+                                    <a href='{% url "fahrt:view_participant" participant.id %}'>{{ participant }}</a>
                                     {% elif participant.publish_contact_to_other_paricipants %}
                                     {{ participant }}
                                     {% else %}
@@ -127,8 +127,8 @@
                                 </td>
                                 {% if management_view %}
                                 <td>
-                                    <a href='{% url "fahrt_transport_edit_participant" participant.uuid %}'><span class='bi bi-pencil'></span></a>
-                                    <a href='{% url "fahrt_transport_del_participant" participant.uuid %}'><span class='bi bi-trash'></span></a>
+                                    <a href='{% url "fahrt:edit_transport_participant_by_management" participant.uuid %}'><span class='bi bi-pencil'></span></a>
+                                    <a href='{% url "fahrt:del_transport_participant_by_management" participant.uuid %}'><span class='bi bi-trash'></span></a>
                                 </td>
                                 {% endif %}
                             </tr>
@@ -137,13 +137,13 @@
                             {% for _ in transport.places|subtract:transport.participant_set.count|subtract:1|times %}
                             <tr>
                                 {% if management_view %}
-                                <td class='table-info'><a href='{% url "fahrt_transport_management_add_participant" transport.id %}'><span class='bi bi-plus'></span></a></td>
-                                <td class='table-info'><a href='{% url "fahrt_transport_management_add_participant" transport.id %}'><span class='bi bi-plus'></span></a></td>
+                                <td class='table-info'><a href='{% url "fahrt:add_transport_participant_by_management" transport.id %}'><span class='bi bi-plus'></span></a></td>
+                                <td class='table-info'><a href='{% url "fahrt:add_transport_participant_by_management" transport.id %}'><span class='bi bi-plus'></span></a></td>
                                 <td class='table-info'></td>
                                 {% else %}
                                 <td class='table-info'></td>
-                                <td class='table-info'><a href='{% url "fahrt_transport_add_participant" calling_participant.uuid transport.pk %}'><span class='bi bi-plus'></span></a></td>
-                                <td class='table-info'><a href='{% url "fahrt_transport_add_participant" calling_participant.uuid transport.pk %}'><span class='bi bi-plus'></span></a></td>
+                                <td class='table-info'><a href='{% url "fahrt:add_transport_participant" calling_participant.uuid transport.pk %}'><span class='bi bi-plus'></span></a></td>
+                                <td class='table-info'><a href='{% url "fahrt:add_transport_participant" calling_participant.uuid transport.pk %}'><span class='bi bi-plus'></span></a></td>
                                 {% endif %}
                             </tr>
                             {% endfor %}
@@ -165,7 +165,7 @@
                 Add {{ transport_name }}
                 {% endblocktrans %}
             </div>
-            <a href='{% if management_view %}{% url "fahrt_transport_management_add_option" transport.transport_type %}{% else %}{% url "fahrt_transport_add_option" calling_participant.uuid transport.transport_type %}{% endif %}'>
+            <a href='{% if management_view %}{% url "fahrt:add_transport_option_by_management" transport.transport_type %}{% else %}{% url "fahrt:add_transport_option" calling_participant.uuid transport.transport_type %}{% endif %}'>
                 <div class='card-body text-center flex align-content-center '>
                     <svg
                         xmlns="http://www.w3.org/2000/svg"

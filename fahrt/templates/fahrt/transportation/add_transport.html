@@ -22,9 +22,9 @@
     <a
         class="btn btn-secondary"
         {% if participant %}
-        href="{% url "fahrt_transport_participant" participant.uuid %}"
+        href="{% url "fahrt:transport_participant" participant.uuid %}"
         {% else %}
-        href="{% url "fahrt_transport_mangagement" %}"
+        href="{% url "fahrt:transport_mangagement" %}"
         {% endif %}
     >{% trans "Cancel" %}</a>
     <button

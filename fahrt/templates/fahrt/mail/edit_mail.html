@@ -20,7 +20,7 @@
     {% include "snippets/mail_template_table.html" with mail=mail %}
 
     <a
-        href="{% url "fahrt_listmails" %}"
+        href="{% url "fahrt:list_mails" %}"
         class="btn btn-secondary"
     >{% trans "Cancel" %}</a>
     <button

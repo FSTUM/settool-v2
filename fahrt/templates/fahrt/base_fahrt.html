@@ -5,74 +5,74 @@
 
 {% block set_common_navigation %}
 
-{% if 'fahrt.view_participants' in perms %}
+{% if "fahrt.view_participants" in perms %}
 <a
-    class="nav-link {% active_link 'fahrt_index' %}"
-    href="{% url 'fahrt_index' %}"
+    class="nav-link {% active_link "fahrt:dashboard" %}"
+    href="{% url "fahrt:dashboard" %}"
 >{% trans "Dashboard" %}</a>
 
 <h4 class="navbar-text">{% trans "General" %}</h4>
 <a
-    class="nav-link {% active_link 'fahrt_signup_internal' %}"
-    href="{% url 'fahrt_signup_internal' %}"
+    class="nav-link {% active_link "fahrt:signup_internal" %}"
+    href="{% url "fahrt:signup_internal" %}"
 >{% trans "Add participant" %}</a>
 
 <h4 class="navbar-text">{% trans "Participants" %}</h4>
 <a
-    class="nav-link {% active_link 'fahrt_list_registered' %}"
-    href="{% url 'fahrt_list_registered' %}"
+    class="nav-link {% active_link "fahrt:list_registered" %}"
+    href="{% url "fahrt:list_registered" %}"
 >{% trans "Registered participants" %}</a>
 <a
-    class="nav-link {% active_link 'fahrt_list_confirmed' %}"
-    href="{% url 'fahrt_list_confirmed' %}"
+    class="nav-link {% active_link "fahrt:list_confirmed" %}"
+    href="{% url "fahrt:list_confirmed" %}"
 >{% trans "Confirmed participants" %}</a>
 <a
-    class="nav-link {% active_link 'fahrt_list_waitinglist' %}"
-    href="{% url 'fahrt_list_waitinglist' %}"
+    class="nav-link {% active_link "fahrt:list_waitinglist" %}"
+    href="{% url "fahrt:list_waitinglist" %}"
 >{% trans "Waitinglist " %}</a>
 <a
-    class="nav-link {% active_link 'fahrt_list_cancelled' %}"
-    href="{% url 'fahrt_list_cancelled' %}"
+    class="nav-link {% active_link "fahrt:list_cancelled" %}"
+    href="{% url "fahrt:list_cancelled" %}"
 >{% trans "Cancelled participants" %}</a>
 {% endif %}
 
-{% if 'finanz' in perms %}
+{% if "finanz" in perms %}
 <h4 class="navbar-text">{% trans "Payment" %}</h4>
 <a
-    class="nav-link {% active_link 'fahrt_finanz_simple' %}"
-    href="{% url 'fahrt_finanz_simple' %}"
+    class="nav-link {% active_link "fahrt:finanz_simple" %}"
+    href="{% url "fahrt:finanz_simple" %}"
 >{% trans "Simplified payment processing" %}</a>
 <a
-    class="nav-link {% active_link 'fahrt_finanz_automated' %}"
-    href="{% url 'fahrt_finanz_automated' %}"
+    class="nav-link {% active_link "fahrt:finanz_automated" %}"
+    href="{% url "fahrt:finanz_automated" %}"
 >{% trans "Automated payment processing" %}</a>
 {% endif %}
 
-{% if 'fahrt.view_participants' in perms %}
+{% if "fahrt.view_participants" in perms %}
 <h4 class="navbar-text">{% trans "Transportation" %}</h4>
 <a
-    class="nav-link {% active_link 'fahrt_transport_mangagement' %}"
-    href="{% url 'fahrt_transport_mangagement' %}"
+    class="nav-link {% active_link "fahrt:transport_mangagement" %}"
+    href="{% url "fahrt:transport_mangagement" %}"
 >{% trans "Current transportation arrangement" %}</a>
 
 <h4 class="navbar-text">{% trans "Mails" %}</h4>
 <a
-    class="nav-link {% active_link 'fahrt_listmails' %}"
-    href="{% url 'fahrt_listmails' %}"
+    class="nav-link {% active_link "fahrt:list_mails" %}"
+    href="{% url "fahrt:list_mails" %}"
 >{% trans "List email templates" %}</a>
 <a
-    class="nav-link {% active_link 'fahrt_filter' %}"
-    href="{% url 'fahrt_filter' %}"
+    class="nav-link {% active_link "fahrt:filter" %}"
+    href="{% url "fahrt:filter" %}"
 >{% trans "Filter participants/ Send emails" %}</a>
 <a
-    class="nav-link {% active_link 'fahrt_addmail' %}"
-    href="{% url 'fahrt_addmail' %}"
+    class="nav-link {% active_link "fahrt:add_mail" %}"
+    href="{% url "fahrt:add_mail" %}"
 >{% trans "Add email template" %}</a>
 
 <h4 class="navbar-text">{% trans "Settings" %}</h4>
 <a
-    class="nav-link {% active_link 'fahrt_date' %}"
-    href="{% url 'fahrt_date' %}"
+    class="nav-link {% active_link "fahrt:settings" %}"
+    href="{% url "fahrt:settings" %}"
 >{% trans "General settings" %}</a>
 {% endif %}
 {% endblock %}

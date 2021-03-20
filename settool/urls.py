@@ -25,7 +25,7 @@ urlpatterns = [
     path("bags/", include("bags.urls")),
     # SET-Fahrt
     path("fahrt/", include("fahrt.urls")),
-    path("f/", RedirectView.as_view(pattern_name="fahrt_signup")),
+    path("f/", RedirectView.as_view(pattern_name="fahrt:signup")),
     # Tutoren
     path("tutors/", include("tutors.urls")),
     path("c/", RedirectView.as_view(pattern_name="collaborator_signup")),

@@ -24,7 +24,7 @@
                 </thead>
                 <tbody>
                     <tr>
-                        <td><a href='{% url "fahrt_date" %}'>{% trans "Fahrt-Settings" %}</a></td>
+                        <td><a href='{% url "fahrt:settings" %}'>{% trans "Fahrt-Settings" %}</a></td>
                         <td>{% include "snippets/true_false_span.html" with value=fahrt_exists %}</td>
                     </tr>
                     <tr>
@@ -43,11 +43,11 @@
 <div class='row'>
     <div class='col-md'>
         <h5 class='card-title'>{% trans "Fahrt-Signup" %}</h5>
-        <a href='{% url "fahrt_signup" %}'>
+        <a href='{% url "fahrt:signup" %}'>
             <img
                 class='m-2 img-fluid'
-                src='{% generate_qr_code_url "fahrt_signup" %}'
-                alt='QR-Code linking to {{ request.scheme }}://set.mpi.fs.tum.de{% url "fahrt_signup" %}'
+                src='{% generate_qr_code_url "fahrt:signup" %}'
+                alt='QR-Code linking to {{ request.scheme }}://set.mpi.fs.tum.de{% url "fahrt:signup" %}'
             >
         </a>
     </div>

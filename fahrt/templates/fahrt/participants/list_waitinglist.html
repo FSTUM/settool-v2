@@ -31,8 +31,8 @@
         <tbody>
             {% for participant in participants %}
             <tr>
-                <td><a href="{% url "fahrt_viewparticipant" participant.id %}">{{ participant.firstname }}</a></td>
-                <td><a href="{% url "fahrt_viewparticipant" participant.id %}">{{ participant.surname }}</a></td>
+                <td><a href="{% url "fahrt:view_participant" participant.id %}">{{ participant.firstname }}</a></td>
+                <td><a href="{% url "fahrt:view_participant" participant.id %}">{{ participant.surname }}</a></td>
                 <td>{{ participant.registration_time }}</td>
                 <td>{% include "fahrt/snippets/transportation.html" with transportation=participant.transportation %}</td>
                 <td>{% include "snippets/true_false_span.html" with value=participant.u18 inverted_colors=True %}</td>

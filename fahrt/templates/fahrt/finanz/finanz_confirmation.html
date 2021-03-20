@@ -20,9 +20,9 @@
         <tbody>
             {% for participant in new_paid_participants %}
             <tr>
-                <td><a href="{% url "fahrt_viewparticipant" participant.id %}">{{ participant.firstname }}</a>
+                <td><a href="{% url "fahrt:view_participant" participant.id %}">{{ participant.firstname }}</a>
                 </td>
-                <td><a href="{% url "fahrt_viewparticipant" participant.id %}">{{ participant.surname }}</a>
+                <td><a href="{% url "fahrt:view_participant" participant.id %}">{{ participant.surname }}</a>
                 </td>
             </tr>
             {% endfor %}
@@ -46,9 +46,9 @@
         <tbody>
             {% for participant in new_unpaid_participants %}
             <tr>
-                <td><a href="{% url "fahrt_viewparticipant" participant.id %}">{{ participant.firstname }}</a>
+                <td><a href="{% url "fahrt:view_participant" participant.id %}">{{ participant.firstname }}</a>
                 </td>
-                <td><a href="{% url "fahrt_viewparticipant" participant.id %}">{{ participant.surname }}</a>
+                <td><a href="{% url "fahrt:view_participant" participant.id %}">{{ participant.surname }}</a>
                 </td>
             </tr>
             {% endfor %}
@@ -67,7 +67,7 @@
     {% csrf_token %}
     <a
         class="btn btn-secondary"
-        href="{% url "fahrt_main_index" %}"
+        href="{% url "fahrt:main_index" %}"
     >{% trans "Cancel" %}</a>
     <button
         class="btn btn-danger"
