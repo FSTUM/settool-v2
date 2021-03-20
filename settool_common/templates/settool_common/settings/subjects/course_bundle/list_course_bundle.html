@@ -16,7 +16,7 @@
 {% block set_common_content %}
 <a
     class='btn btn-secondary btn-block'
-    href="{% url "course_bundle_add" %}"
+    href="{% url "add_course_bundle" %}"
 >{% trans "Add new subject" %}</a>
 <div class="mt-3 table-responsive">
     <table
@@ -37,8 +37,8 @@
                 <td>{{ course_bundle.name_de }}</td>
                 <td>{{ course_bundle.name_en }}</td>
                 <td>
-                    <a href="{% url "course_bundle_edit" course_bundle.id %}"><span class="bi bi-pencil-square"></span></a>
-                    <a href="{% url "course_bundle_delete" course_bundle.id %}"><span class="bi bi-trash-fill"></span></a>
+                    <a href="{% url "edit_course_bundle" course_bundle.id %}"><span class="bi bi-pencil-square"></span></a>
+                    <a href="{% url "del_course_bundle" course_bundle.id %}"><span class="bi bi-trash-fill"></span></a>
                 </td>
             </tr>
             {% endfor %}

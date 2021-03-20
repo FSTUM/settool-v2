@@ -25,14 +25,14 @@
     <div class='col-sm p-1'>
         <a
             class="btn btn-secondary btn-block"
-            href="{% url "mail_export" %}"
+            href="{% url "export_mail" %}"
         >{% trans "Export e-mails as CSV" %}
             <span class="bi bi-file-spreadsheet"></span></a>
     </div>
     {% if user.is_superuser %}
     <div class='col-sm p-1'><a
             class="btn btn-danger btn-block"
-            href="{% url "mail_import" %}"
+            href="{% url "import_mail" %}"
         >{% trans "Override e-mails from CSV" %} <span class="bi bi-file-spreadsheet"></span></a>
     </div>
     {% endif %}
@@ -56,12 +56,12 @@
             {% for mail in mails %}
             <tr>
                 <td>{{ mail.sender }}</td>
-                <td><a href="{% url "mail_view" mail.id %}">{{ mail.subject }}</a></td>
+                <td><a href="{% url "view_mail" mail.id %}">{{ mail.subject }}</a></td>
                 <td>{{ mail.text|slice:":100" }}{% if mail.text|length > 100 %}...{% endif %}</td>
                 <td>{{ mail.comment|slice:":50" }}{% if mail.text|length > 50 %}...{% endif %}</td>
                 <td>
-                    <a href="{% url "mail_edit" mail.id %}"><span class="bi bi-pencil-square"></span></a>
-                    <a href="{% url "mail_delete" mail.id %}"><span class="bi bi-trash-fill"></span></a>
+                    <a href="{% url "edit_mail" mail.id %}"><span class="bi bi-pencil-square"></span></a>
+                    <a href="{% url "del_mail" mail.id %}"><span class="bi bi-trash-fill"></span></a>
                 </td>
             </tr>
             {% endfor %}

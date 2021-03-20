@@ -6,28 +6,28 @@
 {% block set_common_navigation %}
 {% if perms.set %}
 <a
-    class="nav-link {% active_link 'settings_dashboard' %}"
-    href="{% url 'settings_dashboard' %}"
+    class="nav-link {% active_link "settings_dashboard" %}"
+    href="{% url "settings_dashboard" %}"
 >{% trans "Dashboard" %}</a>
 <h4 class="navbar-text">{% trans "Email-Templates" %}</h4>
 <a
-    class="nav-link {% active_link 'mail_list' %}"
-    href="{% url 'mail_list' %}"
+    class="nav-link {% active_link "list_mail" %}"
+    href="{% url "list_mail" %}"
 >{% trans "All templates" %}</a>
 <a
-    class="nav-link {% active_link 'filtered_mail_list_tutors' %}"
-    href="{% url 'filtered_mail_list_tutors' %}"
+    class="nav-link {% active_link "list_filtered_mail_tutors" %}"
+    href="{% url "list_filtered_mail_tutors" %}"
 >{% trans "Tutor mail templates" %}</a>
 <a
-    class="nav-link {% active_link 'mail_add' %}"
-    href="{% url 'mail_add' %}"
+    class="nav-link {% active_link "add_mail" %}"
+    href="{% url "add_mail" %}"
 >{% trans "Add template" %}</a>
 
 
 <h4 class="navbar-text">{% trans "Study-Subjects" %}</h4>
 <a
-    class="nav-link {% active_link 'subject_list' %}"
-    href="{% url 'subject_list' %}"
+    class="nav-link {% active_link "list_subjects" %}"
+    href="{% url "list_subjects" %}"
 >{% trans "Manage Study-Subjects" %}</a>
 
 {% else %}

@@ -48,13 +48,13 @@ def set_semester(request: WSGIRequest) -> HttpResponse:
 
 
 @permission_required("set.mail")
-def mail_list(request: WSGIRequest) -> HttpResponse:
+def list_mail(request: WSGIRequest) -> HttpResponse:
     context = {"mails": Mail.objects.all()}
     return render(request, "settool_common/settings/mail/list_email_templates.html", context)
 
 
 @permission_required("set.mail")
-def filtered_mail_list(request: WSGIRequest, mail_filter: str) -> HttpResponse:
+def list_filtered_mail(request: WSGIRequest, mail_filter: str) -> HttpResponse:
     mail_lut: Dict[str, Tuple[QuerySet[Any], str]] = {
         # "bags": (BagMail.objects.all(), "bags.view_companies"),
         # "fahrt": (FahrtMail.objects.all(), "fahrt.view_participants"),
@@ -71,7 +71,7 @@ def filtered_mail_list(request: WSGIRequest, mail_filter: str) -> HttpResponse:
 
 
 @permission_required("set.mail")
-def mail_view(request: WSGIRequest, mail_pk: int) -> HttpResponse:
+def view_mail(request: WSGIRequest, mail_pk: int) -> HttpResponse:
     mail = Mail.objects.get(pk=mail_pk)
 
     context = {
@@ -81,11 +81,11 @@ def mail_view(request: WSGIRequest, mail_pk: int) -> HttpResponse:
 
 
 @permission_required("set.mail")
-def mail_add(request: WSGIRequest) -> HttpResponse:
+def add_mail(request: WSGIRequest) -> HttpResponse:
     form = MailForm(request.POST or None, user=request.user)
     if form.is_valid():
         form.save()
-        return redirect("mail_list")
+        return redirect("list_mail")
 
     context = {
         "form": form,
@@ -95,13 +95,13 @@ def mail_add(request: WSGIRequest) -> HttpResponse:
 
 
 @permission_required("set.mail")
-def mail_edit(request: WSGIRequest, mail_pk: int) -> HttpResponse:
+def edit_mail(request: WSGIRequest, mail_pk: int) -> HttpResponse:
     mail = get_object_or_404(Mail, pk=mail_pk)
 
     form = MailForm(request.POST or None, instance=mail, user=request.user)
     if form.is_valid():
         form.save()
-        return redirect("mail_list")
+        return redirect("list_mail")
 
     context = {
         "form": form,
@@ -112,13 +112,13 @@ def mail_edit(request: WSGIRequest, mail_pk: int) -> HttpResponse:
 
 
 @permission_required("set.mail")
-def mail_delete(request: WSGIRequest, mail_pk: int) -> HttpResponse:
+def del_mail(request: WSGIRequest, mail_pk: int) -> HttpResponse:
     mail = get_object_or_404(Mail, pk=mail_pk)
 
     form = forms.Form(request.POST or None)
     if form.is_valid():
         mail.delete()
-        return redirect("mail_list")
+        return redirect("list_mail")
 
     context = {
         "mail": mail,
@@ -171,18 +171,18 @@ def import_mail_csv_to_db(csv_file):
 
 @user_passes_test(lambda u: u.is_superuser)
 @permission_required("set.mail")
-def mail_import(request: WSGIRequest) -> HttpResponse:
+def import_mail(request: WSGIRequest) -> HttpResponse:
     file_upload_form = CSVFileUploadForm(request.POST or None, request.FILES)
     if file_upload_form.is_valid():
         import_mail_csv_to_db(request.FILES["file"])
         messages.success(request, _("The File was successfully uploaded"))
-        return redirect("mail_list")
+        return redirect("list_mail")
     context = {"form": file_upload_form}
     return render(request, "settool_common/settings/mail/import_email.html", context)
 
 
 @permission_required("set.mail")
-def mail_export(request: WSGIRequest) -> HttpResponse:
+def export_mail(request: WSGIRequest) -> HttpResponse:
     mails_bags = BagMail.objects.all()
     mails_fahrt = FahrtMail.objects.all()
     mails_guidedtours = TourMail.objects.all()
@@ -207,7 +207,7 @@ def _clean_mail(mail):
 
 
 @permission_required("set.mail")
-def subject_list(request: WSGIRequest) -> HttpResponse:
+def list_subjects(request: WSGIRequest) -> HttpResponse:
     context = {
         "subjects": Subject.objects.all(),
     }
@@ -215,7 +215,7 @@ def subject_list(request: WSGIRequest) -> HttpResponse:
 
 
 @permission_required("set.mail")
-def course_bundle_list(request: WSGIRequest) -> HttpResponse:
+def list_course_bundles(request: WSGIRequest) -> HttpResponse:
     context = {
         "course_bundles": CourseBundle.objects.all(),
     }
@@ -223,59 +223,59 @@ def course_bundle_list(request: WSGIRequest) -> HttpResponse:
 
 
 @permission_required("set.mail")
-def subject_add(request: WSGIRequest) -> HttpResponse:
+def add_subject(request: WSGIRequest) -> HttpResponse:
     subject_form = SubjectForm(request.POST or None)
     if subject_form.is_valid():
         subject_form.save()
         messages.success(request, _("The Subject was successfully added"))
-        return redirect("subject_list")
+        return redirect("list_subjects")
     context = {"form": subject_form}
     return render(request, "settool_common/settings/subjects/subject/add_subject.html", context)
 
 
 @permission_required("set.mail")
-def course_bundle_add(request: WSGIRequest) -> HttpResponse:
+def add_course_bundle(request: WSGIRequest) -> HttpResponse:
     course_bundle_form = CourseBundleForm(request.POST or None)
     if course_bundle_form.is_valid():
         course_bundle_form.save()
         messages.success(request, _("The Course-bundle was successfully added"))
-        return redirect("course_bundle_list")
+        return redirect("list_course_bundles")
     context = {"form": course_bundle_form}
     return render(request, "settool_common/settings/subjects/course_bundle/add_course_bundle.html", context)
 
 
 @permission_required("set.mail")
-def subject_edit(request: WSGIRequest, subject_pk: int) -> HttpResponse:
+def edit_subject(request: WSGIRequest, subject_pk: int) -> HttpResponse:
     subject: Subject = get_object_or_404(Subject, id=subject_pk)
     subject_form = SubjectForm(request.POST or None, instance=subject)
     if subject_form.is_valid():
         subject_form.save()
         messages.success(request, _("The Subject was successfully added"))
-        return redirect("subject_list")
+        return redirect("list_subjects")
     context = {"form": subject_form, "subject": subject}
     return render(request, "settool_common/settings/subjects/subject/edit_subject.html", context)
 
 
 @permission_required("set.mail")
-def course_bundle_edit(request: WSGIRequest, course_bundle_pk: int) -> HttpResponse:
+def edit_course_bundle(request: WSGIRequest, course_bundle_pk: int) -> HttpResponse:
     course_bundle: CourseBundle = get_object_or_404(CourseBundle, id=course_bundle_pk)
     course_bundle_form = CourseBundleForm(request.POST or None, instance=course_bundle)
     if course_bundle_form.is_valid():
         course_bundle_form.save()
         messages.success(request, _("The Course-bundle was successfully added"))
-        return redirect("course_bundle_list")
+        return redirect("list_course_bundles")
     context = {"form": course_bundle_form, "course_bundle": course_bundle}
     return render(request, "settool_common/settings/subjects/course_bundle/edit_course_bundle.html", context)
 
 
 @permission_required("set.mail")
-def course_bundle_delete(request: WSGIRequest, course_bundle_pk: int) -> HttpResponse:
+def del_course_bundle(request: WSGIRequest, course_bundle_pk: int) -> HttpResponse:
     course_bundle: CourseBundle = get_object_or_404(CourseBundle, id=course_bundle_pk)
     form = forms.Form(request.POST or None)
     if form.is_valid():
         course_bundle.delete()
         messages.success(request, _("The Course-bundle was successfully deleted"))
-        return redirect("course_bundle_list")
+        return redirect("list_course_bundles")
     messages.warning(
         request,
         _(
@@ -289,13 +289,13 @@ def course_bundle_delete(request: WSGIRequest, course_bundle_pk: int) -> HttpRes
 
 
 @permission_required("set.mail")
-def subject_delete(request: WSGIRequest, subject_pk: int) -> HttpResponse:
+def del_subject(request: WSGIRequest, subject_pk: int) -> HttpResponse:
     subject: Subject = get_object_or_404(Subject, id=subject_pk)
     form = forms.Form(request.POST or None)
     if form.is_valid():
         subject.delete()
         messages.success(request, _("The Subject was successfully deleted"))
-        return redirect("subject_list")
+        return redirect("list_subjects")
     messages.warning(
         request,
         _(

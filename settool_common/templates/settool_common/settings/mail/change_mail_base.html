@@ -18,7 +18,7 @@
 
     <a
         class="btn btn-secondary"
-        href="{% if perms.set %}{% url "mail_list" %}{% else %}{% url "main-view" %}{% endif %}"
+        href="{% if perms.set %}{% url "list_mail" %}{% else %}{% url "main-view" %}{% endif %}"
     >{% trans "Cancel" %}</a>
     <button
         class="btn btn-primary"
