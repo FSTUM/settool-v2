@@ -75,8 +75,8 @@
                     {% endif %}
                     {% if 'bags.view_companies' in perms %}
                     <a
-                        class="nav-link {% active_link 'bags_main_index' %}"
-                        href="{% url "bags_main_index" %}"
+                        class="nav-link {% active_link 'bags:main_index' %}"
+                        href="{% url "bags:main_index" %}"
                     >{% trans "SET-Bags" %}</a>
                     {% endif %}
                     {% if 'tutors.edit_tutors' in perms %}

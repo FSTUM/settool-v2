@@ -24,7 +24,7 @@
     {% csrf_token %}
 
     <a
-        href="{% url "bags_dashboard" %}"
+        href="{% url "bags:dashboard" %}"
         class="btn btn-secondary"
     >{% trans "Cancel" %}</a>
     <button
@@ -70,7 +70,7 @@
         <tbody>
             {% for company in companies %}
             <tr>
-                <td><a href="{% url "viewcompany" company.id %}">{{ company.name }}</a></td>
+                <td><a href="{% url "bags:view_company" company.id %}">{{ company.name }}</a></td>
                 <td>{{ company.full_contact }}</td>
                 <td>{{ company.email }}</td>
                 <td>{% include "snippets/true_false_span.html" with value=company.email_sent %}</td>
@@ -83,8 +83,8 @@
                 <td>{% include "snippets/true_false_span.html" with value=company.arrived %}</td>
                 <td>{% include "snippets/true_false_none_span.html" with value=company.contact_again %}</td>
                 <td>
-                    <a href="{% url "editcompany" company.id %}"><span class="bi bi-pencil-square"></span></a>
-                    <a href="{% url "delcompany" company.id %}"><span class="bi bi-trash-fill"></span></a>
+                    <a href="{% url "bags:edit_company" company.id %}"><span class="bi bi-pencil-square"></span></a>
+                    <a href="{% url "bags:del_company" company.id %}"><span class="bi bi-trash-fill"></span></a>
                 </td>
             </tr>
             {% endfor %}

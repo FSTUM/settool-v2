@@ -214,7 +214,7 @@
                             {{ select.id.as_hidden }}
                             {{ select.selected }}{% comment %}this is an input with the class of selectTarget{% endcomment %}
                         </td>
-                        <td><a href="{% url "viewcompany" company.id %}">{{ company.name }}</a></td>
+                        <td><a href="{% url "bags:view_company" company.id %}">{{ company.name }}</a></td>
                         <td>{{ company.full_contact }}</td>
                         <td>
                             <a
@@ -223,7 +223,7 @@
                                 data-type="text"
                                 data-pk="{{ company.id }}"
                                 data-title='{% trans "Email" %}'
-                                data-url='{% url "updatecompany" company.id "email" %}'
+                                data-url='{% url "bags:update_company" company.id "email" %}'
                                 data-params="{csrfmiddlewaretoken:'{{ csrf_token }}'}"
                             >{{ company.email }}</a>
                         </td>
@@ -234,7 +234,7 @@
                                 data-type="select"
                                 data-pk="{{ company.id }}"
                                 data-title='{% trans "sent" %}'
-                                data-url='{% url "updatecompany" company.id "email_sent" %}'
+                                data-url='{% url "bags:update_company" company.id "email_sent" %}'
                                 data-params="{csrfmiddlewaretoken:'{{ csrf_token }}'}"
                             >{% if not company.email_sent_success and company.email_sent %}
                                 {% include "snippets/true_false_none_span.html" with value="Failure" %}
@@ -249,7 +249,7 @@
                                 data-type="select"
                                 data-pk="{{ company.id }}"
                                 data-title='{% trans "Promise" %}'
-                                data-url='{% url "updatecompany" company.id "promise" %}'
+                                data-url='{% url "bags:update_company" company.id "promise" %}'
                                 data-params="{csrfmiddlewaretoken:'{{ csrf_token }}'}"
                             >{% include "snippets/true_false_none_span.html" with value=company.promise %}</a>
                         </td>
@@ -260,7 +260,7 @@
                                 data-type="text"
                                 data-pk="{{ company.id }}"
                                 data-title='{% trans "Giveaways" %}'
-                                data-url='{% url "updatecompany" company.id "giveaways" %}'
+                                data-url='{% url "bags:update_company" company.id "giveaways" %}'
                                 data-params="{csrfmiddlewaretoken:'{{ csrf_token }}'}"
                             >{{ company.giveaways }}</a>
                         </td>
@@ -271,7 +271,7 @@
                                 data-type="text"
                                 data-pk="{{ company.id }}"
                                 data-title='{% trans "Arrival time" %}'
-                                data-url='{% url "updatecompany" company.id "arrival_time" %}'
+                                data-url='{% url "bags:update_company" company.id "arrival_time" %}'
                                 data-params="{csrfmiddlewaretoken:'{{ csrf_token }}'}"
                             >{{ company.arrival_time }}</a>
                         </td>
@@ -282,7 +282,7 @@
                                 data-type="select"
                                 data-pk="{{ company.id }}"
                                 data-title='{% trans "Arrived" %}'
-                                data-url='{% url "updatecompany" company.id "arrived" %}'
+                                data-url='{% url "bags:update_company" company.id "arrived" %}'
                                 data-params="{csrfmiddlewaretoken:'{{ csrf_token }}'}"
                             >{% include "snippets/true_false_span.html" with value=company.arrived %}</a>
                         </td>
@@ -293,7 +293,7 @@
                                 data-type="select"
                                 data-pk="{{ company.id }}"
                                 data-title='{% trans "Participated last year" %}'
-                                data-url='{% url "updatecompany" company.id "last_year" %}'
+                                data-url='{% url "bags:update_company" company.id "last_year" %}'
                                 data-params="{csrfmiddlewaretoken:'{{ csrf_token }}'}"
                             >{% include "snippets/true_false_span.html" with value=company.last_year %}</a>
                         </td>
@@ -304,7 +304,7 @@
                                 data-type="text"
                                 data-pk="{{ company.id }}"
                                 data-title='{% trans "Giveaways last year" %}'
-                                data-url='{% url "updatecompany" company.id "giveaways_last_year" %}'
+                                data-url='{% url "bags:update_company" company.id "giveaways_last_year" %}'
                                 data-params="{csrfmiddlewaretoken:'{{ csrf_token }}'}"
                             >{{ company.giveaways_last_year }}</a>
                         </td>
@@ -315,13 +315,13 @@
                                 data-type="select"
                                 data-pk="{{ company.id }}"
                                 data-title='{% trans "Enter contact again" %}'
-                                data-url='{% url "updatecompany" company.id "contact_again" %}'
+                                data-url='{% url "bags:update_company" company.id "contact_again" %}'
                                 data-params="{csrfmiddlewaretoken:'{{ csrf_token }}'}"
                             >{% include "snippets/true_false_none_span.html" with value=company.contact_again %}</a>
                         </td>
                         <td>
-                            <a href="{% url "editcompany" company.id %}"><span class="bi bi-pencil-square"></span></a>
-                            <a href="{% url "delcompany" company.id %}"><span class="bi bi-trash-fill"></span></a>
+                            <a href="{% url "bags:edit_company" company.id %}"><span class="bi bi-pencil-square"></span></a>
+                            <a href="{% url "bags:del_company" company.id %}"><span class="bi bi-trash-fill"></span></a>
                         </td>
                         <td>
                             <a
@@ -330,7 +330,7 @@
                                 data-type="text"
                                 data-pk="{{ company.id }}"
                                 data-title='{% trans "Comment" %}'
-                                data-url='{% url "updatecompany" company.id "comment" %}'
+                                data-url='{% url "bags:update_company" company.id "comment" %}'
                                 data-params="{csrfmiddlewaretoken:'{{ csrf_token }}'}"
                             >{{ company.comment }}</a>
                         </td>

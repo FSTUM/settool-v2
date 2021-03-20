@@ -4,9 +4,9 @@
 {% block set_common_headercontent %}{% trans "Delete company" %}: {{ company.name }}{% endblock %}
 
 {% block set_common_content %}
-{% url "viewcompany" company.id as viewcompany %}
+{% url "bags:view_company" company.id as view_company_url %}
 <p>
-    {% blocktranslate trimmed with name=company.name url=viewcompany %}
+    {% blocktranslate trimmed with name=company.name url=view_company_url %}
     Do you really want to delete the company <a href="{{ url }}">{{ name }}</a>?
     {% endblocktranslate %}
 </p>
@@ -18,7 +18,7 @@
 
     <a
         class="btn btn-secondary"
-        href="{% url "bags_dashboard" %}"
+        href="{% url "bags:dashboard" %}"
     >{% trans "Cancel" %}</a>
     <button
         class="btn btn-danger"

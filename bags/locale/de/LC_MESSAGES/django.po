@@ -137,7 +137,7 @@ msgstr "Ankunftszeit"
 #: bags/models.py bags/templates/bags/bags_dashboard.html
 #: bags/templates/bags/company/company_details.html
 #: bags/templates/bags/mail/del_mail.html
-#: bags/templates/bags/mail/index_mails.html
+#: bags/templates/bags/mail/list_mails.html
 #: bags/templates/bags/mail/send_mail.html
 msgid "Comment"
 msgstr "Kommentar"
@@ -167,7 +167,7 @@ msgstr "Giveaway hinzufügen"
 #: bags/templates/bags/mail/add_mail.html
 #: bags/templates/bags/mail/del_mail.html
 #: bags/templates/bags/mail/edit_mail.html
-#: bags/templates/bags/mail/index_mails.html
+#: bags/templates/bags/mail/list_mails.html
 #: bags/templates/bags/mail/send_mail.html
 msgid "Cancel"
 msgstr "Abbrechen"
@@ -223,7 +223,7 @@ msgid "sent"
 msgstr "gesendet"
 
 #: bags/templates/bags/bags_dashboard.html
-#: bags/templates/bags/mail/index_mails.html
+#: bags/templates/bags/mail/list_mails.html
 #: bags/templates/bags/mail/send_mail.html
 msgid "Actions"
 msgstr "Actionen"
@@ -329,7 +329,7 @@ msgid "Upload and update_or_create all Companies"
 msgstr "Upload und update_or_create alle Firmen"
 
 #: bags/templates/bags/mail/add_mail.html
-#: bags/templates/bags/mail/index_mails.html
+#: bags/templates/bags/mail/list_mails.html
 msgid "Add email"
 msgstr "E-Mail-Vorlage hinzufügen"
 
@@ -342,13 +342,13 @@ msgid "Do you really want to delete the following email template?"
 msgstr "Soll die folgende E-Mail-Vorlage wirklich gelöscht werden?"
 
 #: bags/templates/bags/mail/del_mail.html
-#: bags/templates/bags/mail/index_mails.html
+#: bags/templates/bags/mail/list_mails.html
 #: bags/templates/bags/mail/send_mail.html
 msgid "Subject"
 msgstr "Betreff"
 
 #: bags/templates/bags/mail/del_mail.html
-#: bags/templates/bags/mail/index_mails.html
+#: bags/templates/bags/mail/list_mails.html
 #: bags/templates/bags/mail/send_mail.html
 msgid "Text"
 msgstr "Text"
@@ -357,7 +357,7 @@ msgstr "Text"
 msgid "Edit email"
 msgstr "E-Mail-Vorlage bearbeiten"
 
-#: bags/templates/bags/mail/index_mails.html
+#: bags/templates/bags/mail/list_mails.html
 msgid "List email templates"
 msgstr "E-Mail-Vorlagen"
 

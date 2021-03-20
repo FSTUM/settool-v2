@@ -5,35 +5,35 @@
 
 {% block set_common_navigation %}
 <a
-    class="nav-link {% active_link 'bags_dashboard' %}"
-    href="{% url 'bags_dashboard' %}"
+    class="nav-link {% active_link "bags:dashboard" %}"
+    href="{% url "bags:dashboard" %}"
 >{% trans "Dashboard" %}</a>
 <h4 class="navbar-text">{% trans "General" %}</h4>
 <a
-    class="nav-link {% active_link 'addcompany' %}"
-    href="{% url "addcompany" %}"
+    class="nav-link {% active_link "bags:add_company" %}"
+    href="{% url "bags:add_company" %}"
 >{% trans "Add a company" %}</a>
 <a
-    class="nav-link {% active_link 'insert_giveaways' %}"
-    href="{% url "insert_giveaways" %}"
+    class="nav-link {% active_link "bags:add_giveaway" %}"
+    href="{% url "bags:add_giveaway" %}"
 >{% trans "Add a giveaway" %}</a>
 <a
-    class="nav-link {% active_link 'listmails' %}"
-    href="{% url "listmails" %}"
+    class="nav-link {% active_link "bags:list_mails" %}"
+    href="{% url "bags:list_mails" %}"
 >{% trans "Edit email-templates" %}</a>
 {% if user.is_staff %}
 <h4 class="navbar-text">{% trans "Import/ Export" %}</h4>
 <a
-    class="nav-link {% active_link 'import_previous_semester' %}"
-    href="{% url "import_previous_semester" %}"
+    class="nav-link {% active_link "bags:import_previous_semester" %}"
+    href="{% url "bags:import_previous_semester" %}"
 >{% trans "Import companies" %}</a>
 <a
-    class="nav-link {% active_link 'import_csv' %}"
-    href="{% url "import_csv" %}"
+    class="nav-link {% active_link "bags:import_csv" %}"
+    href="{% url "bags:import_csv" %}"
 >{% trans "Import CSV" %}</a>
 <a
-    class="nav-link {% active_link 'export_csv' %}"
-    href="{% url "export_csv" %}"
+    class="nav-link {% active_link "bags:export_csv" %}"
+    href="{% url "bags:export_csv" %}"
 >{% trans "Export CSV" %}</a>
 {% endif %}
 {% endblock %}
