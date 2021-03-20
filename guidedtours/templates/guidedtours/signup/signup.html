@@ -81,21 +81,15 @@
 {% endblock %}
 
 {% block defered_script %}
-<link
-    href='{% static "choices.js/public/assets/styles/choices.min.css" %}'
-    rel='stylesheet'
-/>
-<script src='{% static "choices.js/public/assets/scripts/choices.min.js" %}'></script>
 <script type="text/javascript">
     /* global Choices */
     /* eslint no-new: off */
-    new Choices(document.getElementById('id_subject'));
     const tour = new Choices(document.getElementById('id_tour'));
-    $('[data-toggle="tooltip"]').tooltip({ boundary: 'window' });
-
     /* eslint-disable no-unused-vars */
     function assignTour(id) {
         tour.setChoiceByValue(id);
     }
+
+    $('[data-toggle="tooltip"]').tooltip({ boundary: 'window' });
 </script>
 {% endblock %}
