@@ -91,7 +91,6 @@ def parse_camt_csv(csvfile):
             )
             results.append(entry.to_json())
 
-        # TODO Check if this is ok
         elif buchungstext in [
             "ENTGELTABSCHLUSS",
             "ONLINE-UEBERWEISUNG",

@@ -669,15 +669,14 @@ def send_mail(request: WSGIRequest, mail_pk: int) -> HttpResponse:
 def settings(request: WSGIRequest) -> HttpResponse:
     semester = get_object_or_404(Semester, pk=get_semester(request))
 
-    try:  # TODO get_or_create
-        fahrt = semester.fahrt
-    except ObjectDoesNotExist:
-        fahrt = Fahrt.objects.create(
-            semester=semester,
-            date=timezone.now().date(),
-            open_registration=timezone.now(),
-            close_registration=timezone.now(),
-        )
+    fahrt: Fahrt = Fahrt.objects.get_or_create(
+        semester=semester,
+        defaults={
+            "date": timezone.now().date(),
+            "open_registration": timezone.now(),
+            "close_registration": timezone.now(),
+        },
+    )[0]
 
     form = FahrtForm(request.POST or None, instance=fahrt)
     if form.is_valid():
