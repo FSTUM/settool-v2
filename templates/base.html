@@ -81,8 +81,8 @@
                     {% endif %}
                     {% if 'tutors.edit_tutors' in perms %}
                     <a
-                        class="nav-link {% active_link 'tutor_main_index' %}"
-                        href="{% url "tutor_main_index" %}"
+                        class="nav-link {% active_link 'tutors:main_index' %}"
+                        href="{% url "tutors:main_index" %}"
                     >{% trans "SET-Tutor" %}</a>
                     {% endif %}
                     {% if 'guidedtours.view_participants' in perms %}

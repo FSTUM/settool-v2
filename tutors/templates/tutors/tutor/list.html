@@ -18,20 +18,20 @@
     <div class="col-sm p-1">
         <a
             class="btn btn-secondary btn-block"
-            href="{% if status == "all" %}{% url "tutor_export" "pdf" %}{% else %}{% url "tutor_export_status" "pdf" status %}{% endif %}"
+            href="{% if status == "all" %}{% url "tutors:export_tutors" "pdf" %}{% else %}{% url "tutors:export_tutors_by_status" "pdf" status %}{% endif %}"
         >{% trans "Export PDF" %} <span class="bi bi-file-earmark-person-fill"></span></a>
     </div>
     <div class="col-sm p-1">
         <a
             class="btn btn-secondary btn-block"
-            href="{% if status == "all" %}{% url "tutor_export" "csv" %}{% else %}{% url "tutor_export_status" "csv" status %}{% endif %}"
+            href="{% if status == "all" %}{% url "tutors:export_tutors" "csv" %}{% else %}{% url "tutors:export_tutors_by_status" "csv" status %}{% endif %}"
         >{% trans "Export CSV" %} <span class="bi bi-file-spreadsheet"></span></a>
     </div>
     {% if status == "accepted" or status == "employee" %}
     <div class="col-sm p-1">
         <a
             class="btn btn-secondary btn-block"
-            href="{% url "tutor_export_status" "tshirt" status %}"
+            href="{% url "tutors:export_tutors_by_status" "tshirt" status %}"
         >{% trans "T-Shirt List" %} <span class="bi bi-person-lines-fill"></span></a>
     </div>
     {% endif %}
@@ -39,7 +39,7 @@
     <div class="col-sm p-1">
         <a
             class="btn btn-warning btn-block"
-            href="{% url "tutor_mail_status" status %}"
+            href="{% url "tutors:mail_status" status %}"
         >{% trans "Send email" %}</a>
     </div>
     {% endif %}
@@ -47,13 +47,13 @@
     <div class="col-sm p-1">
         <a
             class="btn btn-danger btn-block"
-            href="{% url "tutor_batch_accept" %}"
+            href="{% url "tutors:batch_accept" %}"
         >{% trans "Batch Accept" %}</a>
     </div>
     <div class="col-sm p-1">
         <a
             class="btn btn-danger btn-block"
-            href="{% url "tutor_batch_decline" %}"
+            href="{% url "tutors:batch_decline" %}"
         >{% trans "Batch Decline" %}</a>
     </div>
     {% endif %}
@@ -111,8 +111,8 @@
             {% for tutor in tutors %}
             <tr>
                 <td>{{ forloop.counter }}</td>
-                <td><a href="{% url "tutor_view" tutor.id %}">{{ tutor.first_name }}</a></td>
-                <td><a href="{% url "tutor_view" tutor.id %}">{{ tutor.last_name }}</a></td>
+                <td><a href="{% url "tutors:view_tutor" tutor.id %}">{{ tutor.first_name }}</a></td>
+                <td><a href="{% url "tutors:view_tutor" tutor.id %}">{{ tutor.last_name }}</a></td>
                 <td>{{ tutor.subject }}</td>
                 <td>
                     {% with subject_info=tutor.subject.subjecttutorcountassignment_set.first accepted=tutor.subject.tutor_set|are_accepted %}
@@ -147,9 +147,9 @@
                 {% endwith %}
                 {% endif %}
                 <td>
-                    <a href="{% url "tutor_edit" tutor.id %}"><span class="bi bi-pencil-square"></span></a>
-                    <a href="{% url "tutor_delete" tutor.id %}"><span class="bi bi-trash-fill"></span></a>
-                    <a href="{% url "tutor_mail_tutor" tutor.id %}"><span class="bi bi-envelope-fill"></span></a>
+                    <a href="{% url "tutors:edit_tutor" tutor.id %}"><span class="bi bi-pencil-square"></span></a>
+                    <a href="{% url "tutors:del_tutor" tutor.id %}"><span class="bi bi-trash-fill"></span></a>
+                    <a href="{% url "tutors:mail_tutor" tutor.id %}"><span class="bi bi-envelope-fill"></span></a>
                 </td>
             </tr>
             {% endfor %}

@@ -31,7 +31,7 @@
 
         <a
             class="btn btn-secondary"
-            href="{% url "task_view" task.id %}"
+            href="{% url "tutors:view_task" task.id %}"
         >{% trans "Cancel" %}</a>
         <button
             class="btn btn-warning"
@@ -44,7 +44,7 @@
 
 <script type="text/javascript">
     $('#id_mail_template').on('change', document, () => {
-        window.location.href = `{% url "task_mail" task.id %}${$('#id_mail_template').find(':selected').val()}`;
+        window.location.href = `{% url "tutors:task_mail" task.id %}${$('#id_mail_template').find(':selected').val()}`;
     });
 </script>
 {% endblock %}

@@ -14,16 +14,16 @@
 <div>
     <a
         class="btn btn-secondary"
-        href="{% url "requirement_list" %}"
+        href="{% url "tutors:list_requirements" %}"
     >{% trans "Back" %}</a>
     {% if perms.tutor.edit_tutors %}
     <a
         class="btn btn-primary"
-        href="{% url "requirement_edit" requirement.id %}"
+        href="{% url "tutors:edit_requirement" requirement.id %}"
     >{% trans "Edit requirement" %}</a>
     <a
         class="btn btn-danger"
-        href="{% url "requirement_delete" requirement.id %}"
+        href="{% url "tutors:del_requirement" requirement.id %}"
     >{% trans "Delete requirement" %}</a>
     {% endif %}
 </div>

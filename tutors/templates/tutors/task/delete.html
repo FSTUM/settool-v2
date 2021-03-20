@@ -29,7 +29,7 @@
             </tr>
             <tr>
                 <th>{% trans "Event" %}</th>
-                <td><a href="{% url "event_view" task.event.id %}">{{ task.event }}</a></td>
+                <td><a href="{% url "tutors:view_event" task.event.id %}">{{ task.event }}</a></td>
             </tr>
             {% if perms.tutor.edit_tutors %}
             <tr>
@@ -86,7 +86,7 @@
             <tbody>
                 {% for tutor in task.tutorassignment_set.all %}
                 <tr>
-                    <td><a href="{% url "tutor_view" tutor.tutor.id %}">{{ tutor }}</a></td>
+                    <td><a href="{% url "tutors:view_tutor" tutor.tutor.id %}">{{ tutor }}</a></td>
                 </tr>
                 {% endfor %}
             </tbody>
@@ -104,7 +104,7 @@
 
     <a
         class="btn btn-secondary"
-        href="{% url "task_list" %}"
+        href="{% url "tutors:list_task" %}"
     >{% trans "Cancel" %}</a>
     <button
         class="btn btn-danger"

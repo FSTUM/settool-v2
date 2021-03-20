@@ -3,9 +3,10 @@ from django.views.generic import RedirectView
 
 from . import views
 
+app_name = "tutors"
 urlpatterns = [
-    path("", RedirectView.as_view(pattern_name="tutor_dashboard"), name="tutor_main_index"),
-    path("dashboard/", views.dashboard, name="tutor_dashboard"),
+    path("", RedirectView.as_view(pattern_name="tutors:dashboard"), name="main_index"),
+    path("dashboard/", views.dashboard, name="dashboard"),
     path(
         "collaborator/",
         include(
@@ -19,60 +20,88 @@ urlpatterns = [
         "tutor/",
         include(
             [
-                path("signup/", views.tutor_signup, name="tutor_signup"),
-                path("signup/success/", views.tutor_signup_success, name="tutor_signup_success"),
                 path(
-                    "signup/confirm/",
-                    views.tutor_signup_confirmation_required,
-                    name="tutor_signup_confirmation_required",
+                    "signup/",
+                    include(
+                        [
+                            path("", views.tutor_signup, name="tutor_signup"),
+                            path("success/", views.tutor_signup_success, name="tutor_signup_success"),
+                            path(
+                                "confirm/",
+                                views.tutor_signup_confirmation_required,
+                                name="tutor_signup_confirmation_required",
+                            ),
+                            path("confirm/<uidb64>/<token>/", views.tutor_signup_confirm, name="tutor_signup_confirm"),
+                            path("invalid/", views.tutor_signup_invalid, name="tutor_signup_invalid"),
+                        ],
+                    ),
                 ),
-                path("signup/confirm/<uidb64>/<token>/", views.tutor_signup_confirm, name="tutor_signup_confirm"),
-                path("signup/invalid/", views.tutor_signup_invalid, name="tutor_signup_invalid"),
                 path(
                     "list/",
                     include(
                         [
-                            path("all/", views.tutor_list, {"status": "all"}, name="tutor_list_status_all"),
+                            path("all/", views.list_participants, {"status": "all"}, name="list_status_all"),
                             path(
                                 "accepted/",
-                                views.tutor_list,
+                                views.list_participants,
                                 {"status": "accepted"},
-                                name="tutor_list_status_accepted",
+                                name="list_status_accepted",
                             ),
-                            path("active/", views.tutor_list, {"status": "active"}, name="tutor_list_status_active"),
+                            path("active/", views.list_participants, {"status": "active"}, name="list_status_active"),
                             path(
                                 "declined/",
-                                views.tutor_list,
+                                views.list_participants,
                                 {"status": "declined"},
-                                name="tutor_list_status_declined",
+                                name="list_status_declined",
                             ),
                             path(
                                 "inactive/",
-                                views.tutor_list,
+                                views.list_participants,
                                 {"status": "inactive"},
-                                name="tutor_list_status_inactive",
+                                name="list_status_inactive",
                             ),
                             path(
                                 "collaborator/",
-                                views.tutor_list,
+                                views.list_participants,
                                 {"status": "employee"},
-                                name="tutor_list_status_employee",
+                                name="list_status_employee",
                             ),
                         ],
                     ),
                 ),
-                path("view/<uuid:uid>/", views.tutor_view, name="tutor_view"),
-                path("status/<uuid:uid>/<str:status>/", views.tutor_change_status, name="tutor_change_status"),
-                path("delete/<uuid:uid>/", views.tutor_delete, name="tutor_delete"),
-                path("edit/<uuid:uid>/", views.tutor_edit, name="tutor_edit"),
-                path("export/<str:file_type>/", views.tutor_export, name="tutor_export"),
-                path("export/<str:file_type>/<str:status>/", views.tutor_export, name="tutor_export_status"),
-                path("mail/<str:status>/", views.tutor_mail, name="tutor_mail_status"),
-                path("mail/<str:status>/<int:mail_pk>/", views.tutor_mail, name="tutor_mail_status_template"),
-                path("mail/tutor/<uuid:uid>/", views.tutor_mail, name="tutor_mail_tutor"),
-                path("mail/tutor/<uuid:uid>/<int:mail_pk>/", views.tutor_mail, name="tutor_mail_tutor_template"),
-                path("batch/accept/", views.tutor_batch_accept, name="tutor_batch_accept"),
-                path("batch/decline/", views.tutor_batch_decline, name="tutor_batch_decline"),
+                path("view/<uuid:uid>/", views.view_tutor, name="view_tutor"),
+                path("status/<uuid:uid>/<str:status>/", views.change_tutor_status, name="change_tutor_status"),
+                path("delete/<uuid:uid>/", views.del_tutor, name="del_tutor"),
+                path("edit/<uuid:uid>/", views.edit_tutor, name="edit_tutor"),
+                path(
+                    "export/",
+                    include(
+                        [
+                            path("<str:file_type>/", views.export, name="export_tutors"),
+                            path("<str:file_type>/<str:status>/", views.export, name="export_tutors_by_status"),
+                        ],
+                    ),
+                ),
+                path(
+                    "mail/",
+                    include(
+                        [
+                            path("<str:status>/", views.send_mail, name="mail_status"),
+                            path("<str:status>/<int:mail_pk>/", views.send_mail, name="mail_status_template"),
+                            path("tutor/<uuid:uid>/", views.send_mail, name="mail_tutor"),
+                            path("tutor/<uuid:uid>/<int:mail_pk>/", views.send_mail, name="mail_template"),
+                        ],
+                    ),
+                ),
+                path(
+                    "batch/",
+                    include(
+                        [
+                            path("accept/", views.batch_accept, name="batch_accept"),
+                            path("decline/", views.batch_decline, name="batch_decline"),
+                        ],
+                    ),
+                ),
             ],
         ),
     ),
@@ -80,11 +109,11 @@ urlpatterns = [
         "event/",
         include(
             [
-                path("list/", views.event_list, name="event_list"),
-                path("add/", views.event_add, name="event_add"),
-                path("edit/<uuid:uid>/", views.event_edit, name="event_edit"),
-                path("delete/<uuid:uid>/", views.event_delete, name="event_delete"),
-                path("view/<uuid:uid>/", views.event_view, name="event_view"),
+                path("list/", views.list_event, name="list_event"),
+                path("add/", views.add_event, name="add_event"),
+                path("edit/<uuid:uid>/", views.edit_event, name="edit_event"),
+                path("delete/<uuid:uid>/", views.del_event, name="del_event"),
+                path("view/<uuid:uid>/", views.view_event, name="view_event"),
             ],
         ),
     ),
@@ -92,15 +121,15 @@ urlpatterns = [
         "task/",
         include(
             [
-                path("list/", views.task_list, name="task_list"),
-                path("add/", views.task_add, name="task_add"),
-                path("add/<uuid:eid>/", views.task_add, name="task_add_event"),
-                path("edit/<uuid:uid>/", views.task_edit, name="task_edit"),
-                path("delete/<uuid:uid>/", views.task_delete, name="task_delete"),
-                path("view/<uuid:uid>/", views.task_view, name="task_view"),
+                path("list/", views.list_task, name="list_task"),
+                path("add/", views.add_task, name="add_task"),
+                path("add/<uuid:eid>/", views.add_task, name="add_task_for_event"),
+                path("edit/<uuid:uid>/", views.edit_task, name="edit_task"),
+                path("delete/<uuid:uid>/", views.del_task, name="del_task"),
+                path("view/<uuid:uid>/", views.view_task, name="view_task"),
                 path("mail/<uuid:uid>/", views.task_mail, name="task_mail"),
                 path("mail/<uuid:uid>/<int:mail_pk>/", views.task_mail, name="task_mail_template"),
-                path("export/<str:file_type>/<uuid:uid>/", views.task_export, name="task_export"),
+                path("export/<str:file_type>/<uuid:uid>/", views.export_task, name="export_task"),
             ],
         ),
     ),
@@ -108,11 +137,11 @@ urlpatterns = [
         "requirement/",
         include(
             [
-                path("list/", views.requirement_list, name="requirement_list"),
-                path("add/", views.requirement_add, name="requirement_add"),
-                path("edit/<uuid:uid>/", views.requirement_edit, name="requirement_edit"),
-                path("delete/<uuid:uid>/", views.requirement_delete, name="requirement_delete"),
-                path("view/<uuid:uid>/", views.requirement_view, name="requirement_view"),
+                path("list/", views.list_requirements, name="list_requirements"),
+                path("add/", views.add_requirement, name="add_requirement"),
+                path("edit/<uuid:uid>/", views.edit_requirement, name="edit_requirement"),
+                path("delete/<uuid:uid>/", views.del_requirement, name="del_requirement"),
+                path("view/<uuid:uid>/", views.view_requirement, name="view_requirement"),
             ],
         ),
     ),
@@ -120,9 +149,9 @@ urlpatterns = [
         "settings/",
         include(
             [
-                path("", RedirectView.as_view(pattern_name="tutors_settings_general")),
-                path("general/", views.tutors_settings_general, name="tutors_settings_general"),
-                path("tutors/", views.tutors_settings_tutors, name="tutors_settings_tutors"),
+                path("", RedirectView.as_view(pattern_name="general_settings")),
+                path("general/", views.general_settings, name="general_settings"),
+                path("tutors/", views.tutor_settings, name="tutor_settings"),
             ],
         ),
     ),

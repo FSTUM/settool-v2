@@ -28,7 +28,7 @@
                         <td>{% include "snippets/true_false_span.html" with value=fahrt_exists %}</td>
                     </tr>
                     <tr>
-                        <td><a href='{% url "tutors_settings_general" %}'>{% trans "Tutor-Settings" %}</a></td>
+                        <td><a href='{% url "tutors:general_settings" %}'>{% trans "Tutor-Settings" %}</a></td>
                         <td>{% include "snippets/true_false_span.html" with value=tutor_general_exists %}</td>
                     </tr>
                     <tr>
@@ -53,21 +53,21 @@
     </div>
     <div class='col-md'>
         <h5 class='card-title'>{% trans "Tutor-Signup" %}</h5>
-        <a href='{% url "tutor_signup" %}'>
+        <a href='{% url "tutors:tutor_signup" %}'>
             <img
                 class='m-2 img-fluid'
-                src='{% generate_qr_code_url "tutor_signup" %}'
-                alt='QR-Code linking to {{ request.scheme }}://set.mpi.fs.tum.de{% url "tutor_signup" %}'
+                src='{% generate_qr_code_url "tutors:tutor_signup" %}'
+                alt='QR-Code linking to {{ request.scheme }}://set.mpi.fs.tum.de{% url "tutors:tutor_signup" %}'
             >
         </a>
     </div>
     <div class='col-md'>
         <h5 class='card-title'>{% trans "Colaborator-Signup" %}</h5>
-        <a href='{% url "collaborator_signup" %}'>
+        <a href='{% url "tutors:collaborator_signup" %}'>
             <img
                 class='m-2 img-fluid'
-                src='{% generate_qr_code_url "collaborator_signup" %}'
-                alt='QR-Code linking to {{ request.scheme }}://set.mpi.fs.tum.de{% url "collaborator_signup" %}'
+                src='{% generate_qr_code_url "tutors:collaborator_signup" %}'
+                alt='QR-Code linking to {{ request.scheme }}://set.mpi.fs.tum.de{% url "tutors:collaborator_signup" %}'
             >
         </a>
     </div>

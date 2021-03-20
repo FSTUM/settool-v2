@@ -56,40 +56,40 @@
                 {% if tutor.status == "inactive" %}
                 <button
                     class="btn btn-secondary"
-                    formaction="{% url "tutor_change_status" tutor.id "active" %}"
+                    formaction="{% url "tutors:change_tutor_status" tutor.id "active" %}"
                     type="submit"
                 >{% trans "Open" %}</button>
                 {% elif tutor.status == "active" %}
                 <button
                     class="btn btn-secondary"
-                    formaction="{% url "tutor_change_status" tutor.id "accepted" %}"
+                    formaction="{% url "tutors:change_tutor_status" tutor.id "accepted" %}"
                     type="submit"
                 >{% trans "Accept" %}</button>
                 <button
                     class="btn btn-secondary"
-                    formaction="{% url "tutor_change_status" tutor.id "declined" %}"
+                    formaction="{% url "tutors:change_tutor_status" tutor.id "declined" %}"
                     type="submit"
                 >{% trans "Decline" %}</button>
                 {% elif tutor.status == "accepted" %}
                 <button
                     class="btn btn-secondary"
-                    formaction="{% url "tutor_change_status" tutor.id "active" %}"
+                    formaction="{% url "tutors:change_tutor_status" tutor.id "active" %}"
                     type="submit"
                 >{% trans "Open" %}</button>
                 <button
                     class="btn btn-secondary"
-                    formaction="{% url "tutor_change_status" tutor.id "declined" %}"
+                    formaction="{% url "tutors:change_tutor_status" tutor.id "declined" %}"
                     type="submit"
                 >{% trans "Decline" %}</button>
                 {% elif tutor.status == "declined" %}
                 <button
                     class="btn btn-secondary"
-                    formaction="{% url "tutor_change_status" tutor.id "active" %}"
+                    formaction="{% url "tutors:change_tutor_status" tutor.id "active" %}"
                     type="submit"
                 >{% trans "Open" %}</button>
                 <button
                     class="btn btn-secondary"
-                    formaction="{% url "tutor_change_status" tutor.id "accepted" %}"
+                    formaction="{% url "tutors:change_tutor_status" tutor.id "accepted" %}"
                     type="submit"
                 >{% trans "Accept" %}</button>
                 {% endif %}
@@ -103,19 +103,19 @@
 <div>
     <a
         class="btn btn-secondary"
-        href="{% url "tutor_list_status_all" %}"
+        href="{% url "tutors:list_status_all" %}"
     >{% trans "Back" %}</a>
     <a
         class="btn btn-primary"
-        href="{% url "tutor_edit" tutor.id %}"
+        href="{% url "tutors:edit_tutor" tutor.id %}"
     >{% trans "Edit tutor" %}</a>
     <a
         class="btn btn-warning"
-        href="{% url "tutor_mail_tutor" tutor.id %}"
+        href="{% url "tutors:mail_tutor" tutor.id %}"
     >{% trans "Send email to tutor" %}</a>
     <a
         class="btn btn-danger"
-        href="{% url "tutor_delete" tutor.id %}"
+        href="{% url "tutors:del_tutor" tutor.id %}"
     >{% trans "Delete tutor" %}</a>
 </div>
 {% endif %}
@@ -159,7 +159,7 @@
         {% for assignment in tutor.tutorassignment_set.all %}
         <tr>
             <td>{{ forloop.counter }}</td>
-            <td><a href="{% url "task_view" assignment.task.id %}">{{ assignment.task.name }}</a>
+            <td><a href="{% url "tutors:view_task" assignment.task.id %}">{{ assignment.task.name }}</a>
             </td>
             <td>{{ assignment.task.begin }}</td>
             <td>{{ assignment.task.end }}</td>
