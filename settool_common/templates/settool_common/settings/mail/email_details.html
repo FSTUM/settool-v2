@@ -19,16 +19,16 @@
 <div>
     <a
         class="btn btn-secondary"
-        href="{% url "mail_list" %}"
+        href="{% url "list_mail" %}"
     >{% trans "Back" %}</a>
     {% if perms.tutor.edit_tutors %}
     <a
         class="btn btn-primary"
-        href="{% url "mail_edit" mail.id %}"
+        href="{% url "edit_mail" mail.id %}"
     >{% trans "Edit email" %}</a>
     <a
         class="btn btn-danger"
-        href="{% url "mail_delete" mail.id %}"
+        href="{% url "del_mail" mail.id %}"
     >{% trans "Delete email template" %}</a>
     {% endif %}
 </div>

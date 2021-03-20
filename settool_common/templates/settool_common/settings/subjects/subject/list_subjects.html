@@ -19,13 +19,13 @@
     <div class='col-sm p-1'>
         <a
             class='btn btn-secondary btn-block'
-            href="{% url "subject_add" %}"
+            href="{% url "add_subject" %}"
         >{% trans "Add new subject" %}</a>
     </div>
     <div class='col-sm p-1'>
         <a
             class='btn btn-secondary btn-block'
-            href="{% url "course_bundle_list" %}"
+            href="{% url "list_course_bundles" %}"
         >{% trans "List all Course-bundles" %}</a>
     </div>
 </div>
@@ -52,8 +52,8 @@
                 <td>{{ subject.subject_de }}</td>
                 <td>{{ subject.subject_en }}</td>
                 <td>
-                    <a href="{% url "subject_edit" subject.id %}"><span class="bi bi-pencil-square"></span></a>
-                    <a href="{% url "subject_delete" subject.id %}"><span class="bi bi-trash-fill"></span></a>
+                    <a href="{% url "edit_subject" subject.id %}"><span class="bi bi-pencil-square"></span></a>
+                    <a href="{% url "del_subject" subject.id %}"><span class="bi bi-trash-fill"></span></a>
                 </td>
 
             </tr>

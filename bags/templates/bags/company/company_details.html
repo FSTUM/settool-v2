@@ -61,14 +61,14 @@
 
 <a
     class="btn btn-secondary"
-    href="{% url "bags_dashboard" %}"
+    href="{% url "bags:dashboard" %}"
 >{% trans "Back" %}</a>
 <a
     class='btn btn-primary'
-    href="{% url "editcompany" company.id %}"
+    href="{% url "bags:edit_company" company.id %}"
 >{% trans "Edit company" %}</a>
 <a
     class='btn btn-danger'
-    href="{% url "delcompany" company.id %}"
+    href="{% url "bags:del_company" company.id %}"
 >{% trans "Delete company" %}</a>
 {% endblock %}

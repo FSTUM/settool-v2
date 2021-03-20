@@ -30,7 +30,7 @@
         </tr>
         <tr>
             <th>{% trans "Event" %}</th>
-            <td><a href="{% url "event_view" task.event.id %}">{{ task.event }}</a></td>
+            <td><a href="{% url "tutors:view_event" task.event.id %}">{{ task.event }}</a></td>
         </tr>
         {% if perms.tutor.edit_tutors %}
         <tr>
@@ -81,23 +81,23 @@
     <div>
         <a
             class="btn btn-secondary"
-            href="{% url "task_list" %}"
+            href="{% url "tutors:list_task" %}"
         >{% trans "Back" %}</a>
         <a
             class="btn btn-primary"
-            href="{% url "task_export" "pdf" task.id %}"
+            href="{% url "tutors:export_task" "pdf" task.id %}"
         >{% trans "List tutors" %} <span class="bi bi-person-lines-fill"></span></a>
         <a
             class="btn btn-primary"
-            href="{% url "task_edit" task.id %}"
+            href="{% url "tutors:edit_task" task.id %}"
         >{% trans "Edit task" %}</a>
         <a
             class="btn btn-warning"
-            href="{% url "task_mail" task.id %}"
+            href="{% url "tutors:task_mail" task.id %}"
         >{% trans "Send mail" %} ({% mail_task_count task %}{% trans " missing mails" %})</a>
         <a
             class="btn btn-danger"
-            href="{% url "task_delete" task.id %}"
+            href="{% url "tutors:del_task" task.id %}"
         >{% trans "Delete task" %}</a>
     </div>
     <div class="form-group">
@@ -125,10 +125,10 @@
                 <tr>
                     <td>{{ forloop.counter }}</td>
                     <td>
-                        <a href="{% url "tutor_view" tutor.id %}">{{ tutor.first_name }}</a>
+                        <a href="{% url "tutors:view_tutor" tutor.id %}">{{ tutor.first_name }}</a>
                     </td>
                     <td>
-                        <a href="{% url "tutor_view" tutor.id %}">{{ tutor.last_name }}</a>
+                        <a href="{% url "tutors:view_tutor" tutor.id %}">{{ tutor.last_name }}</a>
                     </td>
                     <td>{{ tutor.subject }}</td>
                     <td>{{ tutor.task_set.count }}</td>
@@ -181,10 +181,10 @@
                 <tr>
                     <td>{{ forloop.counter }}</td>
                     <td>
-                        <a href="{% url "tutor_view" tutor.id %}">{{ tutor.first_name }}</a>
+                        <a href="{% url "tutors:view_tutor" tutor.id %}">{{ tutor.first_name }}</a>
                     </td>
                     <td>
-                        <a href="{% url "tutor_view" tutor.id %}">{{ tutor.last_name }}</a>
+                        <a href="{% url "tutors:view_tutor" tutor.id %}">{{ tutor.last_name }}</a>
                     </td>
                     <td>{{ tutor.subject }}</td>
                     <td>{{ tutor.task_set.count }}</td>

@@ -61,7 +61,7 @@
             <tbody>
                 {% for task in event.task_set.all %}
                 <tr>
-                    <td><a href="{% url "task_view" task.id %}">{{ task.name }}</a></td>
+                    <td><a href="{% url "tutors:view_task" task.id %}">{{ task.name }}</a></td>
                     <td>{{ task.begin }}</td>
                     <td>{{ task.end }}</td>
                     <td>{{ task.meeting_point }}</td>
@@ -81,7 +81,7 @@
 
     <a
         class="btn btn-secondary"
-        href="{% url "event_list" %}"
+        href="{% url "tutors:list_event" %}"
     >{% trans "Cancel" %}</a>
     <button
         class="btn btn-danger"

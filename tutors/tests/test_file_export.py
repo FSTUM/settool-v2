@@ -173,10 +173,10 @@ class TaskExportTest(django.test.TestCase):
     def setUp(self):
         self.client = self.client = get_mocked_logged_in_client()
 
-    def test_pdf_task_export_no_data(self):
+    def test_pdf_export_task_no_data(self):
         self.task_pdf_generation("3cd2b4b0-c36f-4348-8a93-b3bb72029f46")
 
-    def test_pdf_task_export(self):
+    def test_pdf_export_task(self):
         self.task_pdf_generation("3cd2b4b0-c36f-4348-8a93-b3bb72029f47")
 
     def task_pdf_generation(self, private_key):

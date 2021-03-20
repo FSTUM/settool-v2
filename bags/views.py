@@ -51,7 +51,7 @@ def get_possibly_filtered_companies(filterform, semester):
 
 
 @permission_required("bags.view_companies")
-def bags_dashboard(request: WSGIRequest) -> HttpResponse:
+def dashboard(request: WSGIRequest) -> HttpResponse:
     semester = get_object_or_404(Semester, pk=get_semester(request))
     filterform = FilterCompaniesForm(request.POST or None)
     companies = get_possibly_filtered_companies(filterform, semester)
@@ -80,7 +80,7 @@ def bags_dashboard(request: WSGIRequest) -> HttpResponse:
                 selected_companies.append(company_id)
 
         request.session["selected_companies"] = selected_companies
-        return redirect("sendmail", mail.id)
+        return redirect("bags:send_mail", mail.id)
 
     companies_and_select = []
     for company in companies:
@@ -99,7 +99,7 @@ def bags_dashboard(request: WSGIRequest) -> HttpResponse:
 
 
 @permission_required("bags.view_companies")
-def insert_giveaways(request: WSGIRequest) -> HttpResponse:
+def add_giveaway(request: WSGIRequest) -> HttpResponse:
     semester = get_object_or_404(Semester, pk=get_semester(request))
 
     form = GiveawayForm(request.POST or None, semester=semester)
@@ -110,7 +110,7 @@ def insert_giveaways(request: WSGIRequest) -> HttpResponse:
         company.giveaways = giveaways
         company.save()
 
-        return redirect("insert_giveaways")
+        return redirect("bags:add_giveaway")
 
     context = {
         "form": form,
@@ -119,21 +119,21 @@ def insert_giveaways(request: WSGIRequest) -> HttpResponse:
 
 
 @permission_required("bags.view_companies")
-def add(request: WSGIRequest) -> HttpResponse:
+def add_company(request: WSGIRequest) -> HttpResponse:
     semester = get_object_or_404(Semester, pk=get_semester(request))
 
     form = CompanyForm(request.POST or None, semester=semester)
     if form.is_valid():
         company = form.save()
 
-        return redirect("viewcompany", company.id)
+        return redirect("bags:view_company", company.id)
 
     context = {"form": form}
     return render(request, "bags/company/add_company.html", context)
 
 
 @permission_required("bags.view_companies")
-def company_details(request: WSGIRequest, company_pk: int) -> HttpResponse:
+def view_company(request: WSGIRequest, company_pk: int) -> HttpResponse:
     company = get_object_or_404(Company, pk=company_pk)
 
     context = {"company": company}
@@ -141,7 +141,7 @@ def company_details(request: WSGIRequest, company_pk: int) -> HttpResponse:
 
 
 @permission_required("bags.view_companies")
-def edit(request: WSGIRequest, company_pk: int) -> HttpResponse:
+def edit_company(request: WSGIRequest, company_pk: int) -> HttpResponse:
     company = get_object_or_404(Company, pk=company_pk)
 
     form = CompanyForm(
@@ -152,7 +152,7 @@ def edit(request: WSGIRequest, company_pk: int) -> HttpResponse:
     if form.is_valid():
         form.save()
 
-        return redirect("viewcompany", company.id)
+        return redirect("bags:view_company", company.id)
 
     context = {
         "form": form,
@@ -198,14 +198,14 @@ def update_field(request: WSGIRequest, company_pk: int, field: str) -> HttpRespo
 
 
 @permission_required("bags.view_companies")
-def delete(request: WSGIRequest, company_pk: int) -> HttpResponse:
+def del_company(request: WSGIRequest, company_pk: int) -> HttpResponse:
     company = get_object_or_404(Company, pk=company_pk)
 
     form = forms.Form(request.POST or None)
     if form.is_valid():
         company.delete()
 
-        return redirect("bags_dashboard")
+        return redirect("bags:dashboard")
 
     context = {
         "company": company,
@@ -215,9 +215,9 @@ def delete(request: WSGIRequest, company_pk: int) -> HttpResponse:
 
 
 @permission_required("bags.view_companies")
-def index_mails(request: WSGIRequest) -> HttpResponse:
+def list_mails(request: WSGIRequest) -> HttpResponse:
     context = {"mails": BagMail.objects.all()}
-    return render(request, "bags/mail/index_mails.html", context)
+    return render(request, "bags/mail/list_mails.html", context)
 
 
 @permission_required("bags.view_companies")
@@ -226,7 +226,7 @@ def add_mail(request: WSGIRequest) -> HttpResponse:
     if form.is_valid():
         form.save()
 
-        return redirect("listmails")
+        return redirect("bags:list_mails")
 
     context = {"form": form, "mail": BagMail}
     return render(request, "bags/mail/add_mail.html", context)
@@ -239,7 +239,7 @@ def edit_mail(request: WSGIRequest, mail_pk: int) -> HttpResponse:
     form = MailForm(request.POST or None, instance=mail)
     if form.is_valid():
         form.save()
-        return redirect("listmails")
+        return redirect("bags:list_mails")
 
     context = {
         "form": form,
@@ -256,7 +256,7 @@ def delete_mail(request: WSGIRequest, mail_pk: int) -> HttpResponse:
     if form.is_valid():
         mail.delete()
 
-        return redirect("listmails")
+        return redirect("bags:list_mails")
 
     context = {
         "mail": mail,
@@ -283,7 +283,7 @@ def send_mail(request: WSGIRequest, mail_pk: int) -> HttpResponse:
             company.email_sent_success = mail.send_mail_company(company)
             company.email_sent = True
             company.save()
-        return redirect("bags_dashboard")
+        return redirect("bags:dashboard")
 
     context = {
         "companies": companies,
@@ -338,7 +338,7 @@ def import_csv(request: WSGIRequest) -> HttpResponse:
     if file_upload_form.is_valid():
         import_mail_csv_to_db(request.FILES["file"], semester)
         messages.success(request, _("The File was successfully uploaded"))
-        return redirect("bags_main_index")
+        return redirect("bags:main_index")
     return render(
         request,
         "bags/import-export/import_csv.html",
@@ -383,7 +383,7 @@ def import_previous_semester(request: WSGIRequest) -> HttpResponse:
                 arrived=False,
                 contact_again=None,
             )
-        return redirect("bags_dashboard")
+        return redirect("bags:dashboard")
 
     context = {
         "form": form,

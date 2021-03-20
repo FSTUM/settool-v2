@@ -1,4 +1,4 @@
-{% extends "guidedtours/base_guildedtours.html" %}
+{% extends "guidedtours/base_guidedtours.html" %}
 {% load i18n %}
 
 {% block head %}
@@ -31,18 +31,18 @@
         <tbody>
             {% for tour in tours %}
             <tr>
-                <td><a href="{% url "tours_view" tour.id %}">{{ tour.name }}</a></td>
-                <td><a href="{% url "tours_view" tour.id %}">{{ tour.date }}</a></td>
+                <td><a href="{% url "guidedtours:view_tour" tour.id %}">{{ tour.name }}</a></td>
+                <td><a href="{% url "guidedtours:view_tour" tour.id %}">{{ tour.date }}</a></td>
                 <td>{{ tour.capacity }}</td>
                 <td>{{ tour.length }}</td>
                 <td>
                     <a
                         class='btn btn-secondary'
-                        href="{% url "tours_export" "csv" tour.id %}"
+                        href="{% url "guidedtours:export_tour" "csv" tour.id %}"
                     >{% trans "Export confired participants as CSV" %} <span class="bi bi-file-spreadsheet"></span></a>
                     <a
                         class='btn btn-primary'
-                        href="{% url "tours_export" "pdf" tour.id %}"
+                        href="{% url "guidedtours:export_tour" "pdf" tour.id %}"
                     >{% trans "Export confired participants as PDF" %} <span class="bi bi-file-earmark-person-fill"></span></a>
                 </td>
             </tr>

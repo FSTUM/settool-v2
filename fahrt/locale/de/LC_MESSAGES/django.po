@@ -74,7 +74,7 @@ msgstr "Auf Mailingliste"
 #: fahrt/forms.py fahrt/models.py
 #: fahrt/templates/fahrt/finanz/simple_finanz.html
 #: fahrt/templates/fahrt/mail/del_mail.html
-#: fahrt/templates/fahrt/mail/index_mails.html
+#: fahrt/templates/fahrt/mail/list_mails.html
 #: fahrt/templates/fahrt/mail/send_mail.html
 #: fahrt/templates/fahrt/mail/send_mail_failure.html
 #: fahrt/templates/fahrt/participants/view_participant_details.html
@@ -339,8 +339,8 @@ msgid "Mailing list"
 msgstr "Mailingliste"
 
 #: fahrt/models.py fahrt/templates/fahrt/mail/del_mail.html
-#: fahrt/templates/fahrt/mail/index_mails.html
 #: fahrt/templates/fahrt/mail/list_filtered_participants_send_mail.html
+#: fahrt/templates/fahrt/mail/list_mails.html
 #: fahrt/templates/fahrt/mail/send_mail.html
 #: fahrt/templates/fahrt/mail/send_mail_failure.html
 #: fahrt/templates/fahrt/participants/list_cancelled.html
@@ -349,7 +349,7 @@ msgid "Comment"
 msgstr "Kommentar"
 
 #: fahrt/models.py fahrt/templates/fahrt/mail/del_mail.html
-#: fahrt/templates/fahrt/mail/index_mails.html
+#: fahrt/templates/fahrt/mail/list_mails.html
 #: fahrt/templates/fahrt/mail/send_mail.html
 #: fahrt/templates/fahrt/mail/send_mail_failure.html
 msgid "Text"
@@ -429,7 +429,7 @@ msgid "Mails"
 msgstr "E-Mails"
 
 #: fahrt/templates/fahrt/base_fahrt.html
-#: fahrt/templates/fahrt/mail/index_mails.html
+#: fahrt/templates/fahrt/mail/list_mails.html
 msgid "List email templates"
 msgstr "E-Mail-Vorlagen auflisten"
 
@@ -651,10 +651,6 @@ msgstr "E-Mail bearbeiten"
 msgid "Filter participants"
 msgstr "Teilnehmer filtern"
 
-#: fahrt/templates/fahrt/mail/index_mails.html
-msgid "Actons"
-msgstr "Aktonen"
-
 #: fahrt/templates/fahrt/mail/list_filtered_participants_send_mail.html
 msgid "Filtered participants"
 msgstr "Gefilterte Teilnehmer"
@@ -663,6 +659,10 @@ msgstr "Gefilterte Teilnehmer"
 #: fahrt/templates/fahrt/mail/send_mail.html
 msgid "Send emails"
 msgstr "E-Mails senden"
+
+#: fahrt/templates/fahrt/mail/list_mails.html
+msgid "Actions"
+msgstr "Aktionen"
 
 #: fahrt/templates/fahrt/mail/send_mail.html
 #: fahrt/templates/fahrt/mail/send_mail_failure.html

@@ -31,7 +31,7 @@
             {% for mail in mails %}
             <tr>
                 <td>
-                    <a href="{% url "editmail" mail.id %}">{{ mail.subject }}</a>
+                    <a href="{% url "bags:edit_mail" mail.id %}">{{ mail.subject }}</a>
                 </td>
                 <td>
                     {{ mail.text|slice:":100" }}{% if mail.text|length > 100 %}...{% endif %}
@@ -40,8 +40,8 @@
                     {{ mail.comment }}
                 </td>
                 <td>
-                    <a href="{% url "editmail" mail.id %}"><span class="bi bi-pencil-square"></span></a>
-                    <a href="{% url "delmail" mail.id %}"><span class="bi bi-trash-fill"></span></a>
+                    <a href="{% url "bags:edit_mail" mail.id %}"><span class="bi bi-pencil-square"></span></a>
+                    <a href="{% url "bags:del_mail" mail.id %}"><span class="bi bi-trash-fill"></span></a>
                 </td>
             </tr>
             {% endfor %}
@@ -51,10 +51,10 @@
 
 <a
     class="btn btn-secondary"
-    href="{% url "bags_dashboard" %}"
+    href="{% url "bags:dashboard" %}"
 >{% trans "Cancel" %}</a>
 <a
     class="btn btn-primary"
-    href="{% url "addmail" %}"
+    href="{% url "bags:add_mail" %}"
 >{% trans "Add email" %}</a>
 {% endblock %}

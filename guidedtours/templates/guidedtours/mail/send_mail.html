@@ -1,4 +1,4 @@
-{% extends "guidedtours/base_guildedtours.html" %}
+{% extends "guidedtours/base_guidedtours.html" %}
 {% load i18n %}
 {% load bootstrap4 %}
 
@@ -16,7 +16,7 @@
 
     <a
         class="btn btn-secondary"
-        href="{% url "tours_filter" %}"
+        href="{% url "guidedtours:filter_tours" %}"
     >{% trans "Cancel" %}</a>
     <button
         class="btn btn-warning"

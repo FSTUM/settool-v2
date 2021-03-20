@@ -108,7 +108,7 @@ msgid "Mobile phone"
 msgstr "Handynummer"
 
 #: guidedtours/models.py guidedtours/templates/guidedtours/mail/del_mail.html
-#: guidedtours/templates/guidedtours/mail/index_mails.html
+#: guidedtours/templates/guidedtours/mail/list_mails.html
 #: guidedtours/templates/guidedtours/mail/send_mail.html
 #: guidedtours/templates/guidedtours/participants/filtered_participants.html
 #: guidedtours/templates/guidedtours/participants/list_tour-participants.html
@@ -143,55 +143,55 @@ msgstr ""
 "Sende die Erinnerungs Email automatisch diese menge an Tagen vor dem beginn "
 "der Tour (0=gleicher Tag)"
 
-#: guidedtours/templates/guidedtours/base_guildedtours.html
+#: guidedtours/templates/guidedtours/base_guidedtours.html
 #: guidedtours/templates/guidedtours/tour_dashboard.html
 msgid "Dashboard"
 msgstr "Dashboard"
 
-#: guidedtours/templates/guidedtours/base_guildedtours.html
+#: guidedtours/templates/guidedtours/base_guidedtours.html
 msgid "General"
 msgstr "Allgemein"
 
-#: guidedtours/templates/guidedtours/base_guildedtours.html
+#: guidedtours/templates/guidedtours/base_guidedtours.html
 #: guidedtours/templates/guidedtours/signup/signup.html
 msgid "Sign up"
 msgstr "Anmelden"
 
-#: guidedtours/templates/guidedtours/base_guildedtours.html
+#: guidedtours/templates/guidedtours/base_guidedtours.html
 msgid "Tours"
 msgstr "Institutsführungen"
 
-#: guidedtours/templates/guidedtours/base_guildedtours.html
+#: guidedtours/templates/guidedtours/base_guidedtours.html
 msgid "List tours"
 msgstr "Liste der Institutsführungen"
 
-#: guidedtours/templates/guidedtours/base_guildedtours.html
+#: guidedtours/templates/guidedtours/base_guidedtours.html
 #: guidedtours/templates/guidedtours/tours/add_tour.html
 msgid "Add tour"
 msgstr "Institutsführung hinzufügen"
 
-#: guidedtours/templates/guidedtours/base_guildedtours.html
+#: guidedtours/templates/guidedtours/base_guidedtours.html
 msgid "Mails"
 msgstr "E-Mails"
 
-#: guidedtours/templates/guidedtours/base_guildedtours.html
-#: guidedtours/templates/guidedtours/mail/index_mails.html
+#: guidedtours/templates/guidedtours/base_guidedtours.html
+#: guidedtours/templates/guidedtours/mail/list_mails.html
 msgid "List email templates"
 msgstr "Liste der E-Mail-Vorlagen"
 
-#: guidedtours/templates/guidedtours/base_guildedtours.html
+#: guidedtours/templates/guidedtours/base_guidedtours.html
 msgid "Filter participants/ Send emails"
 msgstr "Teilnehmer filtern/ E-Mails senden"
 
-#: guidedtours/templates/guidedtours/base_guildedtours.html
+#: guidedtours/templates/guidedtours/base_guidedtours.html
 msgid "Add email template"
 msgstr "E-Mail-Vorlage hinzufügen"
 
-#: guidedtours/templates/guidedtours/base_guildedtours.html
+#: guidedtours/templates/guidedtours/base_guidedtours.html
 msgid "Settings"
 msgstr "Einstellungen"
 
-#: guidedtours/templates/guidedtours/base_guildedtours.html
+#: guidedtours/templates/guidedtours/base_guidedtours.html
 #: guidedtours/templates/guidedtours/settings/general.html
 msgid "General settings"
 msgstr "Allgemeine Einstellungen"
@@ -221,13 +221,13 @@ msgid "Do you really want to delete the following email template?"
 msgstr "Soll die folgende E-Mail-Vorlage wirklich gelöscht werden?"
 
 #: guidedtours/templates/guidedtours/mail/del_mail.html
-#: guidedtours/templates/guidedtours/mail/index_mails.html
+#: guidedtours/templates/guidedtours/mail/list_mails.html
 #: guidedtours/templates/guidedtours/mail/send_mail.html
 msgid "Text"
 msgstr "Text"
 
 #: guidedtours/templates/guidedtours/mail/del_mail.html
-#: guidedtours/templates/guidedtours/mail/index_mails.html
+#: guidedtours/templates/guidedtours/mail/list_mails.html
 msgid "Comment"
 msgstr "Kommentar"
 
@@ -235,7 +235,7 @@ msgstr "Kommentar"
 msgid "Edit email"
 msgstr "E-Mail-Vorlage bearbeiten"
 
-#: guidedtours/templates/guidedtours/mail/index_mails.html
+#: guidedtours/templates/guidedtours/mail/list_mails.html
 #: guidedtours/templates/guidedtours/tours/list_tours.html
 msgid "Actions"
 msgstr "Aktionen"
@@ -322,7 +322,7 @@ msgstr "Anmeldung Fehlgeschlagen"
 #: guidedtours/templates/guidedtours/signup/blocked.html
 #, python-format
 msgid ""
-"We are sorry, you can't participate in two guildedtours at the same time. If "
+"We are sorry, you can't participate in two guidedtours: at the same time. If "
 "you think there is an error, contact %(mail)s."
 msgstr ""
 "Wir sind Sorry, aber du kannst nicht an zwei Institutsführungen gleichzeitig "
@@ -335,7 +335,7 @@ msgid "Sign up for a guided tour"
 msgstr "Institutsführungs-Anmeldung"
 
 #: guidedtours/templates/guidedtours/signup/signup.html
-msgid "All availible Guided tours:"
+msgid "All availible Guided guidedtours:"
 msgstr "Alle zur verfügung stehenden Institutsführungen:"
 
 #: guidedtours/templates/guidedtours/signup/signup.html
@@ -445,7 +445,7 @@ msgstr ""
 #~ msgid "Email subject"
 #~ msgstr "Betreff der E-Mail"
 
-#~ msgid "Guildedtours dashboard"
+#~ msgid "Guidedtours dashboard"
 #~ msgstr "Institutsführungsdashboard"
 
 #~ msgid "Delete"

@@ -35,10 +35,10 @@
         {% for participant in failed_participants %}
         <tr>
             <td>
-                <a href="{% url "fahrt_viewparticipant" participant.id %}">{{ participant.firstname }}</a>
+                <a href="{% url "fahrt:view_participant" participant.id %}">{{ participant.firstname }}</a>
             </td>
             <td>
-                <a href="{% url "fahrt_viewparticipant" participant.id %}">{{ participant.surname }}</a>
+                <a href="{% url "fahrt:view_participant" participant.id %}">{{ participant.surname }}</a>
             </td>
             <td>{{ participant.status }}</td>
             <td>{{ participant.comment }}</td>

@@ -69,26 +69,26 @@
                 <nav class="navbar-nav">
                     {% if 'fahrt.view_participants' in perms or 'finanz' in perms %}
                     <a
-                        class="nav-link {% active_link 'fahrt_main_index' %}"
-                        href="{% url "fahrt_main_index" %}"
+                        class="nav-link {% active_link 'fahrt:main_index' %}"
+                        href="{% url "fahrt:main_index" %}"
                     >{% trans "SET-Fahrt" %}</a>
                     {% endif %}
                     {% if 'bags.view_companies' in perms %}
                     <a
-                        class="nav-link {% active_link 'bags_main_index' %}"
-                        href="{% url "bags_main_index" %}"
+                        class="nav-link {% active_link 'bags:main_index' %}"
+                        href="{% url "bags:main_index" %}"
                     >{% trans "SET-Bags" %}</a>
                     {% endif %}
                     {% if 'tutors.edit_tutors' in perms %}
                     <a
-                        class="nav-link {% active_link 'tutor_main_index' %}"
-                        href="{% url "tutor_main_index" %}"
+                        class="nav-link {% active_link 'tutors:main_index' %}"
+                        href="{% url "tutors:main_index" %}"
                     >{% trans "SET-Tutor" %}</a>
                     {% endif %}
                     {% if 'guidedtours.view_participants' in perms %}
                     <a
-                        class="nav-link {% active_link 'tour_main_index' %}"
-                        href="{% url "tour_main_index" %}"
+                        class="nav-link {% active_link 'guidedtours:main_index' %}"
+                        href="{% url "guidedtours:main_index" %}"
                     >{% trans "Guided tours of the institutes" %}</a>
                     {% endif %}
                     {% if 'set.perms.set' in perms %}

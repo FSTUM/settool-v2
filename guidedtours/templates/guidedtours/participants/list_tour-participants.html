@@ -1,4 +1,4 @@
-{% extends "guidedtours/base_guildedtours.html" %}
+{% extends "guidedtours/base_guidedtours.html" %}
 {% load i18n %}
 
 {% block set_common_headercontent %}{% blocktranslate trimmed with name=tour.name date=tour.date %}
@@ -51,14 +51,14 @@ List of participants for {{ name }} on {{ date }}
 
 <a
     class="btn btn-secondary"
-    href="{% url "tours_list_tours" %}"
+    href="{% url "guidedtours:list_tours" %}"
 >{% trans "Back" %}</a>
 <a
     class="btn btn-primary"
-    href="{% url "tours_edit" tour.id %}"
+    href="{% url "guidedtours:edit_tour" tour.id %}"
 >{% trans "Edit tour" %}</a>
 <a
     class="btn btn-danger"
-    href="{% url "tours_del" tour.id %}"
+    href="{% url "guidedtours:del_tour" tour.id %}"
 >{% trans "Delete tour" %}</a>
 {% endblock %}

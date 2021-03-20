@@ -39,7 +39,7 @@
         <h2>
             {% trans "Questions" %}:
             {% if not perms.tutor.edit_tutors %}
-            <a href="{% url "tutor_edit" tutor.id %}"><span class="bi bi-pencil-square">Edit</span></a>
+            <a href="{% url "tutors:edit_tutor" tutor.id %}"><span class="bi bi-pencil-square">Edit</span></a>
             {% endif %}
         </h2>
         <table class="table">
@@ -73,7 +73,7 @@
                 {% for assignment in tutor.tutorassignment_set.all %}
                 <tr>
                     <td>{{ forloop.counter }}</td>
-                    <td><a href="{% url "task_view" assignment.task.id %}">{{ assignment.task.name }}</a></td>
+                    <td><a href="{% url "tutors:view_task" assignment.task.id %}">{{ assignment.task.name }}</a></td>
                     <td>{{ assignment.task.begin }}</td>
                     <td>{{ assignment.task.end }}</td>
                     <td>{{ assignment.task.meeting_point }}</td>
@@ -92,7 +92,7 @@
 
     <a
         class="btn btn-secondary"
-        href="{% url "tutor_list_status_all" %}"
+        href="{% url "tutors:list_status_all" %}"
     >{% trans "Cancel" %}</a>
     <button
         class="btn btn-danger"

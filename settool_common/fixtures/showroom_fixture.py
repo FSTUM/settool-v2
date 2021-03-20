@@ -47,10 +47,10 @@ def showroom_fixture_state_no_confirmation():  # nosec: this is only used in a f
     _generate_transportation(fahrt_participants)
     _generate_transportation_comment()
 
-    # app guildedtours
-    _generate_guildedtours_mails()
-    guildedtours_tours = _generate_guildedtours_tours(common_semesters)
-    _generate_guildedtours_participants(common_subjects, guildedtours_tours)
+    # app guidedtours:
+    _generate_guidedtours_mails()
+    guidedtours_tours = _generate_guidedtours_tours(common_semesters)
+    _generate_guidedtours_participants(common_subjects, guidedtours_tours)
 
     # app tutors
     _generate_tutor_mails()
@@ -252,14 +252,14 @@ def _generate_fahrt_participants(  # nosec: this is only used in a fixture
     return fahrt_participants
 
 
-def _generate_guildedtours_participants(  # nosec: this is only used in a fixture
+def _generate_guidedtours_participants(  # nosec: this is only used in a fixture
     common_subjects,
-    guildedtours_tours,
+    guidedtours_tours,
 ):
-    guildedtours_participants = []
-    for tour in guildedtours_tours:
+    guidedtours_participants = []
+    for tour in guidedtours_tours:
         for i in range(random.randint(int(tour.capacity * 0.7), int(tour.capacity * 1.5))):
-            guildedtours_participants.append(
+            guidedtours_participants.append(
                 guidedtours.models.Participant.objects.create(
                     tour=tour,
                     firstname=f"Firstname {i}",
@@ -269,13 +269,13 @@ def _generate_guildedtours_participants(  # nosec: this is only used in a fixtur
                     subject=random.choice(common_subjects),
                 ),
             )
-    return guildedtours_participants
+    return guidedtours_participants
 
 
-def _generate_guildedtours_tours(common_semesters):  # nosec: this is only used in a fixture
-    guildedtours_tours = []
+def _generate_guidedtours_tours(common_semesters):  # nosec: this is only used in a fixture
+    guidedtours_tours = []
     for i in range(50):
-        guildedtours_tours.append(
+        guidedtours_tours.append(
             guidedtours.models.Tour.objects.create(
                 semester=random.choice(common_semesters),
                 name=f"Tour {i}",
@@ -292,7 +292,7 @@ def _generate_guildedtours_tours(common_semesters):  # nosec: this is only used 
                 ),
             ),
         )
-    return guildedtours_tours
+    return guidedtours_tours
 
 
 def _generate_companies(common_semesters):  # nosec: this is only used in a fixture
@@ -444,7 +444,7 @@ def _generate_bags_mails() -> None:  # nosec: this is only used in a fixture
         )
 
 
-def _generate_guildedtours_mails() -> None:  # nosec: this is only used in a fixture
+def _generate_guidedtours_mails() -> None:  # nosec: this is only used in a fixture
     for _ in range(random.randint(10, 20)):
         guidedtours.models.TourMail.objects.create(
             subject=f"guidedtours {lorem.sentence()}"[:100],
@@ -560,4 +560,4 @@ def generate_common_mails():
     _generate_bags_mails()
     _generate_fahrt_mails()
     _generate_tutor_mails()
-    _generate_guildedtours_mails()
+    _generate_guidedtours_mails()

@@ -59,7 +59,7 @@ def dashboard(request: WSGIRequest) -> HttpResponse:
 
 
 @permission_required("guidedtours.view_participants")
-def view(request: WSGIRequest, tour_pk: int) -> HttpResponse:
+def view_tour(request: WSGIRequest, tour_pk: int) -> HttpResponse:
     tour = get_object_or_404(Tour, pk=tour_pk)
     participants = tour.participant_set.order_by("time")
     waitinglist = participants[tour.capacity :]
@@ -74,7 +74,7 @@ def view(request: WSGIRequest, tour_pk: int) -> HttpResponse:
 
 
 @permission_required("guidedtours.view_participants")
-def add(request: WSGIRequest) -> HttpResponse:
+def add_tour(request: WSGIRequest) -> HttpResponse:
     semester = get_object_or_404(Semester, pk=get_semester(request))
 
     form = TourForm(
@@ -85,7 +85,7 @@ def add(request: WSGIRequest) -> HttpResponse:
     if form.is_valid():
         form.save()
 
-        return redirect("tours_list_tours")
+        return redirect("guidedtours:list_tours")
 
     context = {
         "form": form,
@@ -94,7 +94,7 @@ def add(request: WSGIRequest) -> HttpResponse:
 
 
 @permission_required("guidedtours.view_participants")
-def edit(request: WSGIRequest, tour_pk: int) -> HttpResponse:
+def edit_tour(request: WSGIRequest, tour_pk: int) -> HttpResponse:
     tour = get_object_or_404(Tour, pk=tour_pk)
 
     form = TourForm(
@@ -105,7 +105,7 @@ def edit(request: WSGIRequest, tour_pk: int) -> HttpResponse:
     if form.is_valid():
         form.save()
 
-        return redirect("tours_view", tour.id)
+        return redirect("guidedtours:view_tour", tour.id)
 
     context = {
         "form": form,
@@ -115,14 +115,14 @@ def edit(request: WSGIRequest, tour_pk: int) -> HttpResponse:
 
 
 @permission_required("guidedtours.view_participants")
-def delete(request: WSGIRequest, tour_pk: int) -> HttpResponse:
+def del_tour(request: WSGIRequest, tour_pk: int) -> HttpResponse:
     tour = get_object_or_404(Tour, pk=tour_pk)
 
     form = forms.Form(request.POST or None)
     if form.is_valid():
         tour.delete()
 
-        return redirect("tours_list_tours")
+        return redirect("guidedtours:list_tours")
 
     context = {
         "form": form,
@@ -168,7 +168,7 @@ def filter_participants(request: WSGIRequest) -> HttpResponse:
             filtered_participants = [p.id for p in participants]
 
         request.session["filtered_participants"] = filtered_participants
-        return redirect("tours_filteredparticipants")
+        return redirect("guidedtours:filtered_participants")
 
     context = {
         "participants": participants,
@@ -211,7 +211,7 @@ def filtered_list(request: WSGIRequest) -> HttpResponse:
                 selected_participants.append(participant_id)
 
         request.session["selected_participants"] = selected_participants
-        return redirect("tours_sendmail", mail.id)
+        return redirect("guidedtours:send_mail", mail.id)
 
     participants_and_select = []
     for participant in participants:
@@ -229,9 +229,9 @@ def filtered_list(request: WSGIRequest) -> HttpResponse:
 
 
 @permission_required("guidedtours.view_participants")
-def index_mails(request: WSGIRequest) -> HttpResponse:
+def list_mails(request: WSGIRequest) -> HttpResponse:
     context = {"mails": TourMail.objects.all()}
-    return render(request, "guidedtours/mail/index_mails.html", context)
+    return render(request, "guidedtours/mail/list_mails.html", context)
 
 
 @permission_required("guidedtours.view_participants")
@@ -240,7 +240,7 @@ def add_mail(request: WSGIRequest) -> HttpResponse:
     if form.is_valid():
         form.save()
 
-        return redirect("tours_listmails")
+        return redirect("guidedtours:list_mails")
 
     context = {"form": form, "mail": TourMail}
     return render(request, "guidedtours/mail/add_mail.html", context)
@@ -254,7 +254,7 @@ def edit_mail(request: WSGIRequest, mail_pk: int) -> HttpResponse:
     if form.is_valid():
         form.save()
 
-        return redirect("tours_listmails")
+        return redirect("guidedtours:list_mails")
 
     context = {
         "form": form,
@@ -271,7 +271,7 @@ def delete_mail(request: WSGIRequest, mail_pk: int) -> HttpResponse:
     if form.is_valid():
         mail.delete()
 
-        return redirect("tours_listmails")
+        return redirect("guidedtours:list_mails")
 
     context = {
         "mail": mail,
@@ -294,7 +294,7 @@ def send_mail(request: WSGIRequest, mail_pk: int) -> HttpResponse:
     if form.is_valid():
         for participant in participants:
             mail.send_mail_participant(participant)
-        return redirect("tours_filter")
+        return redirect("guidedtours:filter_tours")
 
     context = {
         "participants": participants,
@@ -309,7 +309,7 @@ def send_mail(request: WSGIRequest, mail_pk: int) -> HttpResponse:
 
 def signup(request: WSGIRequest) -> HttpResponse:
     semester = get_object_or_404(Semester, pk=get_semester(request))
-    settings: Setting = Setting.objects.get_or_create(semester=semester)[0]
+    curr_settings: Setting = Setting.objects.get_or_create(semester=semester)[0]
     tours = semester.tour_set.filter(
         open_registration__lt=timezone.now(),
         close_registration__gt=timezone.now(),
@@ -331,8 +331,8 @@ def signup(request: WSGIRequest) -> HttpResponse:
         if Participant.objects.filter(Q(email=participant.email) & Q(tours__in=conflicting_tours)).exists():
             return render(request, "guidedtours/signup/blocked.html", {"mail": TourMail.SET})
         participant.save()
-        if settings.mail_registration:
-            mail: TourMail = settings.mail_registration
+        if curr_settings.mail_registration:
+            mail: TourMail = curr_settings.mail_registration
             if not mail.send_mail_participant(participant):
                 messages.error(
                     request,
@@ -342,7 +342,7 @@ def signup(request: WSGIRequest) -> HttpResponse:
                     ).format(mail=TourMail.SET),
                 )
 
-        return redirect("tours_signup_success")
+        return redirect("guidedtours:signup_success")
 
     context = {
         "semester": semester,
@@ -359,17 +359,17 @@ def signup_success(request: WSGIRequest) -> HttpResponse:
 @permission_required("guidedtours.view_participants")
 def signup_internal(request: WSGIRequest) -> HttpResponse:
     semester = get_object_or_404(Semester, pk=get_semester(request))
-    settings: Setting = Setting.objects.get_or_create(semester=semester)[0]
+    curr_settings: Setting = Setting.objects.get_or_create(semester=semester)[0]
     tours = semester.tour_set.order_by("date")
 
     if not tours:
-        return redirect("tours_add")
+        return redirect("guidedtours:add_tour")
 
     form = ParticipantForm(request.POST or None, tours=tours, semester=semester)
     if form.is_valid():
         participant: Participant = form.save()
-        if settings.mail_registration:
-            mail: TourMail = settings.mail_registration
+        if curr_settings.mail_registration:
+            mail: TourMail = curr_settings.mail_registration
             if not mail.send_mail_participant(participant):
                 messages.error(
                     request,
@@ -380,7 +380,7 @@ def signup_internal(request: WSGIRequest) -> HttpResponse:
                     ),
                 )
 
-        return redirect("tours_view", participant.tour.id)
+        return redirect("guidedtours:view_tour", participant.tour.id)
 
     context = {
         "semester": semester,
@@ -390,7 +390,7 @@ def signup_internal(request: WSGIRequest) -> HttpResponse:
 
 
 @permission_required("guidedtours.view_participants")
-def export(request: WSGIRequest, file_format: str, tour_pk: int) -> Union[HttpResponse, PDFResponse]:
+def export_tour(request: WSGIRequest, file_format: str, tour_pk: int) -> Union[HttpResponse, PDFResponse]:
     tour = get_object_or_404(Tour, pk=tour_pk)
     participants = tour.participant_set.order_by("time")
     confirmed_participants = participants[: tour.capacity]
@@ -406,19 +406,19 @@ def export(request: WSGIRequest, file_format: str, tour_pk: int) -> Union[HttpRe
 
 
 @permission_required("guidedtours.view_participants")
-def tours_settings(request: WSGIRequest) -> HttpResponse:
+def settings(request: WSGIRequest) -> HttpResponse:
     semester = get_object_or_404(Semester, pk=get_semester(request))
-    settings: Setting = Setting.objects.get_or_create(semester=semester)[0]
+    curr_settings: Setting = Setting.objects.get_or_create(semester=semester)[0]
 
-    form = SettingsAdminForm(request.POST or None, semester=semester, instance=settings)
+    form = SettingsAdminForm(request.POST or None, semester=semester, instance=curr_settings)
     if form.is_valid():
-        settings = form.save()
-        if settings:
+        curr_settings = form.save()
+        if curr_settings:
             messages.success(request, "Saved Settings.")
         else:
             messages.error(request, "The Settings do not exist.")
 
-        return redirect("tours_dashboard")
+        return redirect("guidedtours:dashboard")
 
     return render(
         request,

@@ -76,7 +76,7 @@ def get_cp_transportation_type_counts(c_p):
 
 
 @permission_required("fahrt.view_participants")
-def fahrt_dashboard(request: WSGIRequest) -> HttpResponse:
+def dashboard(request: WSGIRequest) -> HttpResponse:
     semester = get_object_or_404(Semester, pk=get_semester(request))
     # confirmed_participants
     c_p: QuerySet[Participant] = Participant.objects.filter(Q(semester=semester) & Q(status="confirmed"))
@@ -241,7 +241,7 @@ def list_cancelled(request: WSGIRequest) -> HttpResponse:
 
 
 @permission_required("fahrt.view_participants")
-def view(request: WSGIRequest, participant_pk: int) -> HttpResponse:
+def view_participant(request: WSGIRequest, participant_pk: int) -> HttpResponse:
     participant = get_object_or_404(Participant, pk=participant_pk)
     log_entries = participant.logentry_set.order_by("time")
 
@@ -251,7 +251,7 @@ def view(request: WSGIRequest, participant_pk: int) -> HttpResponse:
         mail = form.cleaned_data["mail"]
         request.session["selected_participants"] = [participant.id]
 
-        return redirect("fahrt_sendmail", mail.id)
+        return redirect("fahrt:send_mail", mail.id)
 
     context = {
         "participant": participant,
@@ -262,7 +262,7 @@ def view(request: WSGIRequest, participant_pk: int) -> HttpResponse:
 
 
 @permission_required("fahrt.view_participants")
-def edit(request: WSGIRequest, participant_pk: int) -> HttpResponse:
+def edit_participant(request: WSGIRequest, participant_pk: int) -> HttpResponse:
     participant = get_object_or_404(Participant, pk=participant_pk)
 
     form = ParticipantAdminForm(
@@ -274,7 +274,7 @@ def edit(request: WSGIRequest, participant_pk: int) -> HttpResponse:
         form.save()
         participant.log(request.user, "Participant edited")
 
-        return redirect("fahrt_viewparticipant", participant.id)
+        return redirect("fahrt:view_participant", participant.id)
 
     context = {
         "form": form,
@@ -284,14 +284,14 @@ def edit(request: WSGIRequest, participant_pk: int) -> HttpResponse:
 
 
 @permission_required("fahrt.view_participants")
-def delete(request: WSGIRequest, participant_pk: int) -> HttpResponse:
+def del_participant(request: WSGIRequest, participant_pk: int) -> HttpResponse:
     participant = get_object_or_404(Participant, pk=participant_pk)
 
     form = forms.Form(request.POST or None)
     if form.is_valid():
         participant.delete()
 
-        return redirect("fahrt_index")
+        return redirect("fahrt:main_index")
 
     context = {
         "form": form,
@@ -306,7 +306,7 @@ def toggle_mailinglist(request: WSGIRequest, participant_pk: int) -> HttpRespons
     participant.toggle_mailinglist()
     participant.log(request.user, "Toggle mailinglist")
 
-    return redirect("fahrt_viewparticipant", participant.id)
+    return redirect("fahrt:view_participant", participant.id)
 
 
 @permission_required("fahrt.view_participants")
@@ -317,7 +317,7 @@ def set_paid(request: WSGIRequest, participant_pk: int) -> HttpResponse:
     )
     participant.log(request.user, "Set paid")
 
-    return redirect("fahrt_viewparticipant", participant_pk)
+    return redirect("fahrt:view_participant", participant_pk)
 
 
 @permission_required("fahrt.view_participants")
@@ -328,29 +328,29 @@ def set_nonliability(request: WSGIRequest, participant_pk: int) -> HttpResponse:
     )
     participant.log(request.user, "Set non-liability")
 
-    return redirect("fahrt_viewparticipant", participant_pk)
+    return redirect("fahrt:view_participant", participant_pk)
 
 
 @permission_required("fahrt.view_participants")
-def confirm(request: WSGIRequest, participant_pk: int) -> HttpResponse:
+def set_status_confirmed(request: WSGIRequest, participant_pk: int) -> HttpResponse:
     participant = get_object_or_404(Participant, pk=participant_pk)
     Participant.objects.filter(pk=participant_pk).update(
         status="confirmed",
     )
     participant.log(request.user, "Confirmed")
 
-    return redirect("fahrt_viewparticipant", participant_pk)
+    return redirect("fahrt:view_participant", participant_pk)
 
 
 @permission_required("fahrt.view_participants")
-def waitinglist(request: WSGIRequest, participant_pk: int) -> HttpResponse:
+def set_status_waitinglist(request: WSGIRequest, participant_pk: int) -> HttpResponse:
     participant = get_object_or_404(Participant, pk=participant_pk)
     Participant.objects.filter(pk=participant_pk).update(
         status="waitinglist",
     )
     participant.log(request.user, "On waitinglist")
 
-    return redirect("fahrt_viewparticipant", participant_pk)
+    return redirect("fahrt:view_participant", participant_pk)
 
 
 @permission_required("fahrt.view_participants")
@@ -365,18 +365,18 @@ def set_payment_deadline(request: WSGIRequest, participant_pk: int, weeks: int) 
     )
     participant.log(request.user, f"Set deadline {weeks} week")
 
-    return redirect("fahrt_viewparticipant", participant_pk)
+    return redirect("fahrt:view_participant", participant_pk)
 
 
 @permission_required("fahrt.view_participants")
-def cancel(request: WSGIRequest, participant_pk: int) -> HttpResponse:
+def set_status_canceled(request: WSGIRequest, participant_pk: int) -> HttpResponse:
     participant = get_object_or_404(Participant, pk=participant_pk)
     Participant.objects.filter(pk=participant_pk).update(
         status="cancelled",
     )
     participant.log(request.user, "Cancelled")
 
-    return redirect("fahrt_viewparticipant", participant_pk)
+    return redirect("fahrt:view_participant", participant_pk)
 
 
 def signup(request: WSGIRequest) -> HttpResponse:
@@ -411,7 +411,7 @@ def signup(request: WSGIRequest) -> HttpResponse:
                     ).format(mail=FahrtMail.SET_FAHRT),
                 )
 
-        return redirect("fahrt_signup_success")
+        return redirect("fahrt:signup_success")
 
     context = {
         "semester": semester,
@@ -428,7 +428,7 @@ def signup_internal(request: WSGIRequest) -> HttpResponse:
         semester.fahrt
     except ObjectDoesNotExist:
         messages.error(request, _("Please setup the SETtings for the Fahrt"))
-        return redirect("fahrt_date")
+        return redirect("fahrt:settings")
 
     form = ParticipantForm(request.POST or None, semester=semester)
     if form.is_valid():
@@ -443,7 +443,7 @@ def signup_internal(request: WSGIRequest) -> HttpResponse:
                     _("Could not send the registration email. Make shure you configured the Registration-Mail."),
                 )
 
-        return redirect("fahrt_list_registered")
+        return redirect("fahrt:list_registered")
 
     context = {
         "semester": semester,
@@ -465,7 +465,7 @@ def filter_participants(request: WSGIRequest) -> HttpResponse:
     filterform = FilterParticipantsForm(request.POST or None)
     if filterform.is_valid():
         set_request_session_filtered_participants(filterform, participants, request, semester)
-        return redirect("fahrt_filteredparticipants")
+        return redirect("fahrt:filtered_participants")
 
     context = {
         "participants": participants,
@@ -561,7 +561,7 @@ def filtered_list(request: WSGIRequest) -> HttpResponse:
                 selected_participants.append(participant_id)
 
         request.session["selected_participants"] = selected_participants
-        return redirect("fahrt_sendmail", mail.id)
+        return redirect("fahrt:send_mail", mail.id)
 
     participants_and_select = []
     for participant in participants:
@@ -579,9 +579,9 @@ def filtered_list(request: WSGIRequest) -> HttpResponse:
 
 
 @permission_required("fahrt.view_participants")
-def index_mails(request: WSGIRequest) -> HttpResponse:
+def list_mails(request: WSGIRequest) -> HttpResponse:
     context = {"mails": FahrtMail.objects.all()}
-    return render(request, "fahrt/mail/index_mails.html", context)
+    return render(request, "fahrt/mail/list_mails.html", context)
 
 
 @permission_required("fahrt.view_participants")
@@ -590,7 +590,7 @@ def add_mail(request: WSGIRequest) -> HttpResponse:
     if form.is_valid():
         form.save()
 
-        return redirect("fahrt_listmails")
+        return redirect("fahrt:list_mails")
 
     context = {"form": form, "mail": FahrtMail}
     return render(request, "fahrt/mail/add_mail.html", context)
@@ -604,7 +604,7 @@ def edit_mail(request: WSGIRequest, mail_pk: int) -> HttpResponse:
     if form.is_valid():
         form.save()
 
-        return redirect("fahrt_listmails")
+        return redirect("fahrt:list_mails")
 
     context = {
         "form": form,
@@ -614,14 +614,14 @@ def edit_mail(request: WSGIRequest, mail_pk: int) -> HttpResponse:
 
 
 @permission_required("fahrt.view_participants")
-def delete_mail(request: WSGIRequest, mail_pk: int) -> HttpResponse:
+def del_mail(request: WSGIRequest, mail_pk: int) -> HttpResponse:
     mail = get_object_or_404(FahrtMail, pk=mail_pk)
 
     form = forms.Form(request.POST or None)
     if form.is_valid():
         mail.delete()
 
-        return redirect("fahrt_listmails")
+        return redirect("fahrt:list_mails")
 
     context = {
         "mail": mail,
@@ -649,7 +649,7 @@ def send_mail(request: WSGIRequest, mail_pk: int) -> HttpResponse:
             else:
                 failed_participants.append(participant)
         if not failed_participants:
-            return redirect("fahrt_filter")
+            return redirect("fahrt:filter")
 
     context = {
         "participants": participants,
@@ -666,23 +666,22 @@ def send_mail(request: WSGIRequest, mail_pk: int) -> HttpResponse:
 
 
 @permission_required("fahrt.view_participants")
-def change_date(request: WSGIRequest) -> HttpResponse:
+def settings(request: WSGIRequest) -> HttpResponse:
     semester = get_object_or_404(Semester, pk=get_semester(request))
 
-    try:
-        fahrt = semester.fahrt
-    except ObjectDoesNotExist:
-        fahrt = Fahrt.objects.create(
-            semester=semester,
-            date=timezone.now().date(),
-            open_registration=timezone.now(),
-            close_registration=timezone.now(),
-        )
+    fahrt: Fahrt = Fahrt.objects.get_or_create(
+        semester=semester,
+        defaults={
+            "date": timezone.now().date(),
+            "open_registration": timezone.now(),
+            "close_registration": timezone.now(),
+        },
+    )[0]
 
     form = FahrtForm(request.POST or None, instance=fahrt)
     if form.is_valid():
         form.save()
-        return redirect("fahrt_index")
+        return redirect("fahrt:main_index")
 
     context = {
         "form": form,
@@ -697,7 +696,7 @@ def export(request: WSGIRequest, file_format: str = "csv") -> Union[HttpResponse
         fahrt = semester.fahrt
     except ObjectDoesNotExist:
         messages.error(request, _("Please setup the SETtings for the Fahrt"))
-        return redirect("fahrt_date")
+        return redirect("fahrt:settings")
     participants = semester.fahrt_participant.order_by("surname", "firstname")
     filename = f"fahrt_participants_{fahrt.semester}_{fahrt.date}_{time.strftime('%Y%m%d-%H%M')}"
     context = {"participants": participants, "fahrt": fahrt}
@@ -755,7 +754,7 @@ def transport_participant(request: WSGIRequest, participant_uuid: UUID) -> HttpR
     return render(request, "fahrt/standalone/transport_participants.html", context)
 
 
-def transport_add_option(request: WSGIRequest, participant_uuid: UUID, transport_type: int) -> HttpResponse:
+def add_transport_option(request: WSGIRequest, participant_uuid: UUID, transport_type: int) -> HttpResponse:
     semester = get_object_or_404(Semester, pk=get_semester(request))
     participant: Participant = get_object_or_404(Participant, uuid=participant_uuid, status="confirmed")
     if transport_type not in [Transportation.CAR, Transportation.TRAIN]:
@@ -764,13 +763,13 @@ def transport_add_option(request: WSGIRequest, participant_uuid: UUID, transport
     if transport and transport.creator == participant:
         if transport.transport_type == transport_type:
             messages.error(request, _("You can not create a new Transport-option of the same type"))
-            return redirect("fahrt_transport_participant", participant_uuid)
+            return redirect("fahrt:transport_participant", participant_uuid)
         if transport.participant_set.count() != 1:
             messages.error(
                 request,
                 _("A Transportation-option cannot be without creator, if it has people depending upon it."),
             )
-            return redirect("fahrt_transport_participant", participant_uuid)
+            return redirect("fahrt:transport_participant", participant_uuid)
 
     form = TransportOptionForm(
         request.POST or None,
@@ -786,7 +785,7 @@ def transport_add_option(request: WSGIRequest, participant_uuid: UUID, transport
             None,
             _("created Transport Option {transport} and assigned him/herself").format(transport=transport),
         )
-        return redirect("fahrt_transport_participant", participant_uuid)
+        return redirect("fahrt:transport_participant", participant_uuid)
     context = {
         "form": form,
         "participant": participant,
@@ -794,7 +793,7 @@ def transport_add_option(request: WSGIRequest, participant_uuid: UUID, transport
     return render(request, "fahrt/transportation/add_transport.html", context)
 
 
-def transport_add_participant(request: WSGIRequest, participant_uuid: UUID, transport_pk: int) -> HttpResponse:
+def add_transport_participant(request: WSGIRequest, participant_uuid: UUID, transport_pk: int) -> HttpResponse:
     semester = get_object_or_404(Semester, pk=get_semester(request))
     participant: Participant = get_object_or_404(Participant, uuid=participant_uuid, status="confirmed")
     new_transport: Transportation = get_object_or_404(Transportation, id=transport_pk, fahrt=semester.fahrt)
@@ -805,7 +804,7 @@ def transport_add_participant(request: WSGIRequest, participant_uuid: UUID, tran
             request,
             _("A Transportation-option cannot be without creator, if it has people depending upon it."),
         )
-        return redirect("fahrt_transport_participant", participant_uuid)
+        return redirect("fahrt:transport_participant", participant_uuid)
 
     if new_transport.participant_set.count() < new_transport.places:
 
@@ -817,7 +816,7 @@ def transport_add_participant(request: WSGIRequest, participant_uuid: UUID, tran
     else:
         messages.error(request, _("The selected option seems to be full"))
 
-    return redirect("fahrt_transport_participant", participant_uuid)
+    return redirect("fahrt:transport_participant", participant_uuid)
 
 
 @permission_required("fahrt.view_participants")
@@ -828,7 +827,7 @@ def transport_mangagement(request: WSGIRequest) -> HttpResponse:
 
 
 @permission_required("fahrt.view_participants")
-def transport_mangagement_add_option(request: WSGIRequest, transport_type: int) -> HttpResponse:
+def add_transport_option_by_management(request: WSGIRequest, transport_type: int) -> HttpResponse:
     semester = get_object_or_404(Semester, pk=get_semester(request))
     if transport_type not in [Transportation.CAR, Transportation.TRAIN]:
         raise Http404()
@@ -841,7 +840,7 @@ def transport_mangagement_add_option(request: WSGIRequest, transport_type: int) 
                 request.user,
                 _("created Transport Option {transport} and assigned participant").format(transport=transport),
             )
-        return redirect("fahrt_transport_mangagement")
+        return redirect("fahrt:transport_mangagement")
     context = {
         "form": form,
     }
@@ -849,7 +848,7 @@ def transport_mangagement_add_option(request: WSGIRequest, transport_type: int) 
 
 
 @permission_required("fahrt.view_participants")
-def transport_mangagement_add_participant(request: WSGIRequest, transport_pk: int) -> HttpResponse:
+def add_transport_participant_by_management(request: WSGIRequest, transport_pk: int) -> HttpResponse:
     semester = get_object_or_404(Semester, pk=get_semester(request))
     transport: Transportation = Transportation.objects.get(id=transport_pk)
     form = AddParticipantToTransportForm(request.POST or None, semester=semester)
@@ -864,13 +863,13 @@ def transport_mangagement_add_participant(request: WSGIRequest, transport_pk: in
             )
         else:
             messages.error(request, _("The Selected option seems to be full"))
-        return redirect("fahrt_transport_mangagement")
+        return redirect("fahrt:transport_mangagement")
     context = {"transport": transport, "form": form}
     return render(request, "fahrt/transportation/add_participant_to_transport.html", context)
 
 
 @permission_required("fahrt.view_participants")
-def transport_mangagement_edit_participant(request: WSGIRequest, participant_uuid: UUID) -> HttpResponse:
+def edit_transport_participant_by_management(request: WSGIRequest, participant_uuid: UUID) -> HttpResponse:
     semester = get_object_or_404(Semester, pk=get_semester(request))
     participant: Participant = get_object_or_404(Participant, uuid=participant_uuid, status="confirmed")
     transport: Optional[Transportation] = participant.transportation
@@ -880,7 +879,7 @@ def transport_mangagement_edit_participant(request: WSGIRequest, participant_uui
         participant2: Participant = form.cleaned_data["selected"]
         if participant2 == participant:
             messages.warning(request, _("Succesfully exchanged {p1} with itsself :)").format(p1=participant))
-            return redirect("fahrt_transport_mangagement")
+            return redirect("fahrt:transport_mangagement")
 
         # possibly exchanging creators
         if participant.transportation and participant.transportation.creator == participant:
@@ -898,7 +897,7 @@ def transport_mangagement_edit_participant(request: WSGIRequest, participant_uui
         participant2.save()
         participant2.log(request.user, f"Exchanged transport option with {participant}")
         messages.success(request, _("Succesfully exchanged {p1} and {p2}").format(p1=participant, p2=participant2))
-        return redirect("fahrt_transport_mangagement")
+        return redirect("fahrt:transport_mangagement")
 
     context = {
         "form": form,
@@ -909,7 +908,7 @@ def transport_mangagement_edit_participant(request: WSGIRequest, participant_uui
 
 
 @permission_required("fahrt.view_participants")
-def transport_mangagement_del_participant(request: WSGIRequest, participant_uuid: UUID) -> HttpResponse:
+def del_transport_participant_by_management(request: WSGIRequest, participant_uuid: UUID) -> HttpResponse:
     participant: Participant = get_object_or_404(Participant, uuid=participant_uuid, status="confirmed")
     transport: Optional[Transportation] = participant.transportation
     if transport is None:
@@ -920,7 +919,7 @@ def transport_mangagement_del_participant(request: WSGIRequest, participant_uuid
                 "create a new transport option for this participant",
             ),
         )
-        return redirect("fahrt_transport_participant", participant_uuid)
+        return redirect("fahrt:transport_participant", participant_uuid)
 
     if transport.creator == participant and transport.participant_set.count() > 1:
         messages.error(
@@ -930,7 +929,7 @@ def transport_mangagement_del_participant(request: WSGIRequest, participant_uuid
                 "Transportation option has participants left",
             ),
         )
-        return redirect("fahrt_transport_mangagement")
+        return redirect("fahrt:transport_mangagement")
 
     form = forms.Form(request.POST or None)
     if form.is_valid():
@@ -941,7 +940,7 @@ def transport_mangagement_del_participant(request: WSGIRequest, participant_uuid
             request,
             _("Succesfully deleted transport option of {participant}").format(participant=participant),
         )
-        return redirect("fahrt_transport_mangagement")
+        return redirect("fahrt:transport_mangagement")
 
     context = {
         "form": form,
@@ -952,7 +951,7 @@ def transport_mangagement_del_participant(request: WSGIRequest, participant_uuid
 
 
 @permission_required("finanz")
-def fahrt_finanz_simple(request: WSGIRequest) -> HttpResponse:
+def finanz_simple(request: WSGIRequest) -> HttpResponse:
     semester: Semester = get_object_or_404(Semester, pk=get_semester(request))
     fahrt: Fahrt = get_object_or_404(Fahrt, semester=semester)
     participants: List[Participant] = list(Participant.objects.filter(semester=semester, status="confirmed").all())
@@ -983,7 +982,7 @@ def fahrt_finanz_simple(request: WSGIRequest) -> HttpResponse:
         if new_paid_participants or new_unpaid_participants:
             request.session["new_paid_participants"] = new_paid_participants
             request.session["new_unpaid_participants"] = new_unpaid_participants
-            return redirect("fahrt_finanz_confirm")
+            return redirect("fahrt:finanz_confirm")
 
     participants_and_select = []
     for participant in participants:
@@ -1000,7 +999,7 @@ def fahrt_finanz_simple(request: WSGIRequest) -> HttpResponse:
 
 
 @permission_required("finanz")
-def fahrt_finanz_confirm(request: WSGIRequest) -> HttpResponse:
+def finanz_confirm(request: WSGIRequest) -> HttpResponse:
     new_paid_participants = [
         Participant.objects.get(id=part_id) for part_id in request.session["new_paid_participants"]
     ]
@@ -1016,7 +1015,7 @@ def fahrt_finanz_confirm(request: WSGIRequest) -> HttpResponse:
             new_unpaid_participant.paid = None
             new_unpaid_participant.save()
         messages.success(request, _("Saved changed payment status"))
-        return redirect("fahrt_finanz_simple")
+        return redirect("fahrt:finanz_simple")
 
     context = {
         "form": form,
@@ -1027,7 +1026,7 @@ def fahrt_finanz_confirm(request: WSGIRequest) -> HttpResponse:
 
 
 @permission_required("finanz")
-def fahrt_finanz_automated(request: WSGIRequest) -> HttpResponse:
+def finanz_automated(request: WSGIRequest) -> HttpResponse:
     file_upload_form = CSVFileUploadForm(request.POST or None, request.FILES)
 
     if file_upload_form.is_valid():
@@ -1039,10 +1038,10 @@ def fahrt_finanz_automated(request: WSGIRequest) -> HttpResponse:
         if errors:
             for error in errors:
                 messages.error(request, error)
-            return redirect("fahrt_finanz_automated")
+            return redirect("fahrt:finanz_automated")
         request.session["results"] = results
         messages.success(request, _("The File was successfully uploaded"))
-        return redirect("fahrt_finanz_auto_matching")
+        return redirect("fahrt:finanz_auto_matching")
 
     context = {
         "form": file_upload_form,
@@ -1051,7 +1050,7 @@ def fahrt_finanz_automated(request: WSGIRequest) -> HttpResponse:
 
 
 @permission_required("finanz")
-def fahrt_finanz_auto_matching(request: WSGIRequest) -> HttpResponse:
+def finanz_auto_matching(request: WSGIRequest) -> HttpResponse:
     semester: Semester = get_object_or_404(Semester, pk=get_semester(request))
     participants: QuerySet[Participant] = Participant.objects.filter(semester=semester, status="confirmed")
 
@@ -1067,7 +1066,7 @@ def fahrt_finanz_auto_matching(request: WSGIRequest) -> HttpResponse:
         transactions,
     )
     if error:
-        return redirect("fahrt_finanz_automated")
+        return redirect("fahrt:finanz_automated")
 
     # genrerate selection boxes
     unmatched_trans_form_set = formset_factory(ParticipantSelectForm, extra=len(unmatched_transactions))
@@ -1104,9 +1103,9 @@ def fahrt_finanz_auto_matching(request: WSGIRequest) -> HttpResponse:
         if new_paid_participants:
             request.session["new_paid_participants"] = list(new_paid_participants)
             request.session["new_unpaid_participants"] = []
-            return redirect("fahrt_finanz_confirm")
+            return redirect("fahrt:finanz_confirm")
         messages.warning(request, _("No Changes to Payment-state detected"))
-        return redirect("fahrt_finanz_automated")
+        return redirect("fahrt:finanz_automated")
 
     context = {
         "matched_transactions": forms_matched_trans,

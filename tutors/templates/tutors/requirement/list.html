@@ -32,11 +32,11 @@
             <tr>
                 <td>{{ forloop.counter }}</td>
                 <td>
-                    <a href="{% url "requirement_view" requirement.id %}">{{ requirement.question }}</a>
+                    <a href="{% url "tutors:view_requirement" requirement.id %}">{{ requirement.question }}</a>
                 </td>
                 <td>
-                    <a href="{% url "requirement_edit" requirement.id %}"><span class="bi bi-pencil-square"></span></a>
-                    <a href="{% url "requirement_delete" requirement.id %}"><span class="bi bi-trash-fill"></span></a>
+                    <a href="{% url "tutors:edit_requirement" requirement.id %}"><span class="bi bi-pencil-square"></span></a>
+                    <a href="{% url "tutors:del_requirement" requirement.id %}"><span class="bi bi-trash-fill"></span></a>
                 </td>
             </tr>
             {% endfor %}
