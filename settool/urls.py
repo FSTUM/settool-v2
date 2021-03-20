@@ -20,7 +20,7 @@ urlpatterns = [
     path("semester/", include("settool_common.urls")),
     # guided tours
     path("tours/", include("guidedtours.urls")),
-    path("g/", RedirectView.as_view(pattern_name="tours_signup")),
+    path("g/", RedirectView.as_view(pattern_name="guidedtours:signup")),
     # freshmen bags
     path("bags/", include("bags.urls")),
     # SET-Fahrt

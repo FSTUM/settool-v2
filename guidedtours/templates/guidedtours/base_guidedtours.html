@@ -1,0 +1,48 @@
+{% extends "base_card_layout.html" %}
+{% load i18n %}
+{% load bootstrap4 %}
+{% load active_link_tags %}
+
+
+{% block set_common_navigation %}
+<a
+    class="nav-link {% active_link "guidedtours:dashboard" %}"
+    href="{% url "guidedtours:dashboard" %}"
+>{% trans "Dashboard" %}</a>
+
+<h4 class="navbar-text">{% trans "General" %}</h4>
+<a
+    class="nav-link {% active_link "guidedtours:signup" %}"
+    href="{% url "guidedtours:signup" %}"
+>{% trans "Sign up" %}</a>
+
+<h4 class="navbar-text">{% trans "Tours" %}</h4>
+<a
+    class="nav-link {% active_link "guidedtours:list_tours" %}"
+    href="{% url "guidedtours:list_tours" %}"
+>{% trans "List tours" %}</a>
+<a
+    class="nav-link {% active_link "guidedtours:add_tour" %}"
+    href="{% url "guidedtours:add_tour" %}"
+>{% trans "Add tour" %}</a>
+
+<h4 class="navbar-text">{% trans "Mails" %}</h4>
+<a
+    class="nav-link {% active_link "guidedtours:list_mails" %}"
+    href="{% url "guidedtours:list_mails" %}"
+>{% trans "List email templates" %}</a>
+<a
+    class="nav-link {% active_link "guidedtours:filter" %}"
+    href="{% url "guidedtours:filter" %}"
+>{% trans "Filter participants/ Send emails" %}</a>
+<a
+    class="nav-link {% active_link "guidedtours:add_mail" %}"
+    href="{% url "guidedtours:add_mail" %}"
+>{% trans "Add email template" %}</a>
+
+<h4 class="navbar-text">{% trans "Settings" %}</h4>
+<a
+    class="nav-link {% active_link "guidedtours:settings" %}"
+    href="{% url "guidedtours:settings" %}"
+>{% trans "General settings" %}</a>
+{% endblock %}

@@ -14,7 +14,7 @@
         >
             {% csrf_token %}
             {% bootstrap_form form %}
-            {% include "privacy_policies/guildedtours_privacy_policy.html" %}
+            {% include "privacy_policies/guidedtours_privacy_policy.html" %}
             <button
                 class="btn btn-primary"
                 type="submit"
@@ -22,7 +22,7 @@
         </form>
     </div>
     <div class="col-xs-12 col-lg-5">
-        <h2 class='h4'>{% trans "All availible Guided tours:" %}</h2>
+        <h2 class='h4'>{% trans "All availible Guided guidedtours:" %}</h2>
         <div id="accordion">
             {% for tour in tours %}
             <div class="card">

@@ -32,7 +32,7 @@
                         <td>{% include "snippets/true_false_span.html" with value=tutor_general_exists %}</td>
                     </tr>
                     <tr>
-                        <td><a href='{% url "tours_settings" %}'>{% trans "Guidedtour-Settings" %}</a></td>
+                        <td><a href='{% url "guidedtours:settings" %}'>{% trans "Guidedtour-Settings" %}</a></td>
                         <td>{% include "snippets/true_false_span.html" with value=guidedtours_exists %}</td>
                     </tr>
                 </tbody>
@@ -73,11 +73,11 @@
     </div>
     <div class='col-md'>
         <h5 class='card-title'>{% trans "Guildedtour-Signup" %}</h5>
-        <a href='{% url "tours_signup" %}'>
+        <a href='{% url "guidedtours:signup" %}'>
             <img
                 class='m-2 img-fluid'
-                src='{% generate_qr_code_url "tours_signup" %}'
-                alt='QR-Code linking to {{ request.scheme }}://set.mpi.fs.tum.de{% url "tours_signup" %}'
+                src='{% generate_qr_code_url "guidedtours:signup" %}'
+                alt='QR-Code linking to {{ request.scheme }}://set.mpi.fs.tum.de{% url "guidedtours:signup" %}'
             >
         </a>
     </div>

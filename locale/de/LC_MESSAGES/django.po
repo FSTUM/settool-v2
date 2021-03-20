@@ -149,7 +149,7 @@ msgstr ""
 "Widerrufs werden mit dem Zugang meiner Widerrufserklärung meine Daten "
 "gelöscht.</p>"
 
-#: templates/privacy_policies/guildedtours_privacy_policy.html
+#: templates/privacy_policies/guidedtours_privacy_policy.html
 msgid ""
 "<p>With your permission, your data will be collected, processed, and used "
 "for the following purposes:</p> <ul> <li>Generation of participant lists</"

@@ -87,8 +87,8 @@
                     {% endif %}
                     {% if 'guidedtours.view_participants' in perms %}
                     <a
-                        class="nav-link {% active_link 'tour_main_index' %}"
-                        href="{% url "tour_main_index" %}"
+                        class="nav-link {% active_link 'guidedtours:main_index' %}"
+                        href="{% url "guidedtours:main_index" %}"
                     >{% trans "Guided tours of the institutes" %}</a>
                     {% endif %}
                     {% if 'set.perms.set' in perms %}
