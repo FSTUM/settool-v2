@@ -331,8 +331,8 @@ def _generate_giveaways(  # nosec: this is only used in a fixture
         if giveaway_group.semester.id not in giveaway_groups:
             giveaway_groups[giveaway_group.semester.id] = []
         giveaway_groups[giveaway_group.semester.id].append(giveaway_group)
-    sel_companies = random.sample(bags_companies, int(len(bags_companies) * 0.25))
-    for company in sel_companies:
+    for _ in range(int(len(bags_companies) * 0.25)):
+        company = random.choice(bags_companies)
         group = None
         if random.choice((True, True, False)) and company.semester.id in giveaway_groups:
             group = random.choice(giveaway_groups[company.semester.id])
