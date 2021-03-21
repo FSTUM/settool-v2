@@ -6,19 +6,7 @@ from . import views
 app_name = "bags"
 urlpatterns = [
     path("", RedirectView.as_view(pattern_name="bags:dashboard"), name="main_index"),
-    path(
-        "dashboard/",
-        include(
-            [
-                path("", views.dashboard, name="dashboard"),
-                re_path(
-                    r"^update/(?P<company_pk>[0-9]+)/(?P<field>[a-z_]+)/",
-                    views.update_field,
-                    name="update_company",
-                ),
-            ],
-        ),
-    ),
+    path("dashboard", views.dashboard, name="dashboard"),
     path(
         "company/",
         include(
@@ -27,6 +15,19 @@ urlpatterns = [
                 path("view/<int:company_pk>/", views.view_company, name="view_company"),
                 path("edit/<int:company_pk>/", views.edit_company, name="edit_company"),
                 path("delete/<int:company_pk>/", views.del_company, name="del_company"),
+                path(
+                    "list/",
+                    include(
+                        [
+                            path("", views.list_companys, name="list_companys"),
+                            re_path(
+                                r"^update/(?P<company_pk>[0-9]+)/(?P<field>[a-z_]+)/",
+                                views.update_field,
+                                name="update_company",
+                            ),
+                        ],
+                    ),
+                ),
             ],
         ),
     ),
@@ -34,7 +35,31 @@ urlpatterns = [
         "giveaway/",
         include(
             [
+                path(
+                    "group/",
+                    include(
+                        [
+                            path("list/", views.list_giveaway_group, name="list_giveaway_group"),
+                            path("add/", views.add_giveaway_group, name="add_giveaway_group"),
+                            path(
+                                "edit/<int:giveaway_group_pk>/",
+                                views.edit_giveaway_group,
+                                name="edit_giveaway_group",
+                            ),
+                            path(
+                                "delete/<int:giveaway_group_pk>/",
+                                views.del_giveaway_group,
+                                name="del_giveaway_group",
+                            ),
+                        ],
+                    ),
+                ),
                 path("add/", views.add_giveaway, name="add_giveaway"),
+                path("view/<int:giveaway_pk>/", views.view_giveaway, name="view_giveaway"),
+                path("edit/<int:giveaway_pk>/", views.edit_giveaway, name="edit_giveaway"),
+                path("delete/<int:giveaway_pk>/", views.del_giveaway, name="del_giveaway"),
+                path("grouped/", views.list_grouped_giveaways, name="list_grouped_giveaways"),
+                path("list/", views.list_giveaways, name="list_giveaways"),
             ],
         ),
     ),

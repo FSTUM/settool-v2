@@ -1,0 +1,54 @@
+{% extends "bags/base_bags.html" %}
+{% load i18n %}
+{% load bootstrap4 %}
+
+{% block set_common_headercontent %}{% trans "Giveaway" %} {{ giveaway }}{% endblock %}
+
+{% block set_common_content %}
+<div class='table-responsive'>
+    <table class='table'>
+        <tbody>
+            <tr>
+                <th>{% trans "Company" %}</th>
+                <td><a href='{% url "bags:view_company" giveaway.company.id %}'>{{ giveaway.company }}</a></td>
+            </tr>
+            <tr>
+                <th>{% trans "Giveaway-groups" %}</th>
+                <td>{{ giveaway.group }}</td>
+            </tr>
+            <tr>
+                <th>{% trans "Giveaway-title" %}</th>
+                <td>{{ giveaway.name }}</td>
+            </tr>
+            <tr>
+                <th>{% trans "Insert every x bags" %}</th>
+                <td>{{ giveaway.every_x_bags }}</td>
+            </tr>
+            <tr>
+                <th>{% trans "Capacity per Bag" %}</th>
+                <td>{{ giveaway.per_bag_count }}</td>
+            </tr>
+            <tr>
+                <th>{% trans "Arrival time" %}</th>
+                <td>{{ giveaway.arrival_time }}</td>
+            </tr>
+            <tr>
+                <th>{% trans "Arrived" %}</th>
+                <td>{{ giveaway.arrived }}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<a
+    class="btn btn-secondary"
+    href="{% url "bags:list_giveaways" %}"
+>{% trans "Back" %}</a>
+<a
+    class="btn btn-primary"
+    href="{% url "bags:edit_giveaway" giveaway.id %}"
+>{% trans "Edit tour" %}</a>
+<a
+    class="btn btn-danger"
+    href="{% url "bags:del_giveaway" giveaway.id %}"
+>{% trans "Delete tour" %}</a>
+{% endblock %}

@@ -8,19 +8,40 @@
     class="nav-link {% active_link "bags:dashboard" %}"
     href="{% url "bags:dashboard" %}"
 >{% trans "Dashboard" %}</a>
-<h4 class="navbar-text">{% trans "General" %}</h4>
+<h4 class="navbar-text">{% trans "Companys" %}</h4>
+<a
+    class="nav-link {% active_link "bags:list_companys" %}"
+    href="{% url "bags:list_companys" %}"
+>{% trans "List companys" %}</a>
 <a
     class="nav-link {% active_link "bags:add_company" %}"
     href="{% url "bags:add_company" %}"
 >{% trans "Add a company" %}</a>
+
+<h4 class="navbar-text">{% trans "Giveaways" %}</h4>
+<a
+    class="nav-link {% active_link "bags:list_giveaways" %}"
+    href="{% url "bags:list_giveaways" %}"
+>{% trans "List Giveaways" %}</a>
+<a
+    class="nav-link {% active_link "bags:list_grouped_giveaways" %}"
+    href="{% url "bags:list_grouped_giveaways" %}"
+>{% trans "List grouped Giveaways" %}</a>
 <a
     class="nav-link {% active_link "bags:add_giveaway" %}"
     href="{% url "bags:add_giveaway" %}"
 >{% trans "Add a giveaway" %}</a>
+
+<h4 class="navbar-text">{% trans "Mails" %}</h4>
 <a
     class="nav-link {% active_link "bags:list_mails" %}"
     href="{% url "bags:list_mails" %}"
->{% trans "Edit email-templates" %}</a>
+>{% trans "List email templates" %}</a>
+<a
+    class="nav-link {% active_link "bags:add_mail" %}"
+    href="{% url "bags:add_mail" %}"
+>{% trans "Add email template" %}</a>
+
 {% if user.is_staff %}
 <h4 class="navbar-text">{% trans "Import/ Export" %}</h4>
 <a

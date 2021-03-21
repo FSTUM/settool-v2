@@ -7,7 +7,7 @@ from settool_common.forms import produce_csv_file_upload_field, SemesterBasedFor
 from settool_common.models import Semester
 from settool_common.utils import produce_field_with_autosubmit
 
-from .models import BagMail, Company
+from .models import BagMail, Company, Giveaway, GiveawayGroup
 
 
 class CompanyForm(SemesterBasedModelForm):
@@ -16,17 +16,16 @@ class CompanyForm(SemesterBasedModelForm):
         exclude = ["semester"]
 
 
-class GiveawayForm(SemesterBasedForm):
-    company = forms.ModelChoiceField(
-        queryset=None,
-        label=_("Company"),
-    )
+class GiveawayForm(SemesterBasedModelForm):
+    class Meta:
+        model = Giveaway
+        exclude: List[str] = []
 
-    giveaways = forms.CharField(label=_("Giveaways"))
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.fields["company"].queryset = self.semester.company_set.filter(giveaways="").order_by("name")
+class GiveawayGroupForm(SemesterBasedModelForm):
+    class Meta:
+        model = GiveawayGroup
+        exclude: List[str] = ["semester"]
 
 
 class MailForm(forms.ModelForm):
