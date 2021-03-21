@@ -38,12 +38,12 @@ msgid "No promise"
 msgstr "Keine Zusage"
 
 #: bags/forms.py
-msgid "Giveaways set"
-msgstr "Giveaways eingetragen"
+msgid "At least one Giveaway exists"
+msgstr "Wenigstens ein Werbegeschenk existiert"
 
 #: bags/forms.py
 msgid "Giveaways already arrived"
-msgstr "Giveaways bereits angekommen"
+msgstr "Werbegeschenke bereits angekommen"
 
 #: bags/forms.py
 msgid "Import from semester"
@@ -186,7 +186,7 @@ msgstr "Nach Status gruppiert"
 
 #: bags/templates/bags/bags_dashboard.html
 msgid "Companys with giveaways"
-msgstr "Firmen mit Giveaways"
+msgstr "Firmen mit Werbegeschenken"
 
 #: bags/templates/bags/bags_dashboard.html
 msgid "Grouped by XX"
@@ -217,10 +217,8 @@ msgid "List Giveaways"
 msgstr "Werbegeschenke auflisten"
 
 #: bags/templates/bags/base_bags.html
-#, fuzzy
-#| msgid "Ungrouped Giveaways"
 msgid "List grouped Giveaways"
-msgstr "Ungruppierte Werbegeschenke"
+msgstr "Gruppierte Werbegeschenke"
 
 #: bags/templates/bags/base_bags.html
 #: bags/templates/bags/giveaways/giveaway/add_giveaway.html
@@ -436,16 +434,12 @@ msgid "Giveaway-groups"
 msgstr "Werbegeschenk-Gruppen"
 
 #: bags/templates/bags/giveaways/giveaway/view_giveaway.html
-#, fuzzy
-#| msgid "Edit"
 msgid "Edit tour"
-msgstr "Bearbeiten"
+msgstr "Tour bearbeiten"
 
 #: bags/templates/bags/giveaways/giveaway/view_giveaway.html
-#, fuzzy
-#| msgid "Delete"
 msgid "Delete tour"
-msgstr "Löschen"
+msgstr "Tour löschen"
 
 #: bags/templates/bags/giveaways/giveaway_group/add_giveaway_group.html
 msgid "Add giveaway-group"
@@ -555,7 +549,7 @@ msgid "The File was successfully uploaded"
 msgstr "Die Datei wurde noch erfolgreich hochgeladen"
 
 #~ msgid "Giveaways last year"
-#~ msgstr "Giveaways von letztem Jahr"
+#~ msgstr "Werbegeschenke von letztem Jahr"
 
 #~ msgid "General"
 #~ msgstr "Gereral"

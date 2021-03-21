@@ -52,7 +52,7 @@ class FilterCompaniesForm(forms.Form):
     contact_again = produce_boolean_field_with_autosubmit(_("Contact again next year"))
     promise = produce_boolean_field_with_autosubmit(_("Promise given"))
     no_promise = produce_boolean_field_with_autosubmit(_("No promise"))
-    giveaways = produce_boolean_field_with_autosubmit(_("Giveaways set"))
+    giveaways = produce_boolean_field_with_autosubmit(_("At least one Giveaway exists"))
     arrived = produce_boolean_field_with_autosubmit(_("Giveaways already arrived"))
 
 
