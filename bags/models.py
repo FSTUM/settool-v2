@@ -98,24 +98,6 @@ class Company(models.Model):
         null=True,
     )
 
-    giveaways = models.CharField(
-        _("Giveaways"),
-        max_length=200,
-        blank=True,
-    )
-
-    giveaways_last_year = models.CharField(
-        _("Giveaways last year"),
-        max_length=200,
-        blank=True,
-    )
-
-    arrival_time = models.CharField(
-        _("Arrival time"),
-        max_length=200,
-        blank=True,
-    )
-
     comment = models.CharField(
         _("Comment"),
         max_length=200,
@@ -124,10 +106,6 @@ class Company(models.Model):
 
     last_year = models.BooleanField(
         _("Participated last year"),
-    )
-
-    arrived = models.BooleanField(
-        _("Arrived"),
     )
 
     contact_again = models.BooleanField(
@@ -161,3 +139,69 @@ class Company(models.Model):
     @property
     def contact_name(self):
         return f"{self.contact_firstname} {self.contact_lastname}"
+
+
+class GiveawayGroup(models.Model):
+    semester = models.ForeignKey(
+        Semester,
+        on_delete=models.CASCADE,
+    )
+
+    name = models.CharField(
+        _("Giveaway-groups' name"),
+        max_length=200,
+    )
+
+    def __str__(self):
+        return self.name
+
+
+class Giveaway(models.Model):
+    company = models.ForeignKey(
+        Company,
+        on_delete=models.CASCADE,
+    )
+    group = models.ForeignKey(
+        GiveawayGroup,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+    )
+    name = models.CharField(
+        _("Giveaway-title"),
+        max_length=200,
+    )
+    every_x_bags = models.FloatField(
+        verbose_name=_("Insert every x bags"),
+        default=1.0,
+    )
+    per_bag_count = models.PositiveSmallIntegerField(
+        verbose_name=_("Capacity per Bag"),
+        default=1,
+    )
+    arrival_time = models.CharField(
+        _("Arrival time"),
+        max_length=200,
+        blank=True,
+    )
+
+    arrived = models.BooleanField(
+        _("Arrived"),
+        default=False,
+    )
+
+    @property
+    def custom_per_bag_message(self):
+        if self.per_bag_count == 0 or self.every_x_bags == 0.0:
+            return _("Wont be included in any bags")
+        if self.per_bag_count == 1:
+            return _("{per_bag_count} per bag").format(per_bag_count=self.per_bag_count)
+        return _("{per_bag_count} every {every_x_bags} bags").format(
+            per_bag_count=self.per_bag_count,
+            every_x_bags=self.every_x_bags,
+        )
+
+    def __str__(self):
+        if self.group:
+            return f"{self.name} ({self.group}; {self.custom_per_bag_message})"
+        return f"{self.name} ({self.custom_per_bag_message})"
