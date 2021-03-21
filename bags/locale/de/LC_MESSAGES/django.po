@@ -7,17 +7,6 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: bags/forms.py bags/templates/bags/bags_dashboard.html
-#: bags/templates/bags/mail/send_mail.html
-msgid "Company"
-msgstr "Firma"
-
-#: bags/forms.py bags/models.py bags/templates/bags/bags_dashboard.html
-#: bags/templates/bags/company/company_details.html
-#: bags/templates/bags/mail/send_mail.html
-msgid "Giveaways"
-msgstr "Giveaways"
-
 #: bags/forms.py
 msgid "Email template:"
 msgstr "E-Mail-Vorlage:"
@@ -26,8 +15,8 @@ msgstr "E-Mail-Vorlage:"
 msgid "Email was not (successfully) sent"
 msgstr "E-Mail wurde noch nicht (erfolgreich) versendet"
 
-#: bags/forms.py bags/models.py bags/templates/bags/bags_dashboard.html
-#: bags/templates/bags/company/company_details.html
+#: bags/forms.py bags/models.py bags/templates/bags/company/list_companys.html
+#: bags/templates/bags/company/view_company.html
 #: bags/templates/bags/mail/send_mail.html
 msgid "Participated last year"
 msgstr "Letztes Jahr teilgenommen"
@@ -81,7 +70,7 @@ msgstr "Die Anrede 'Hallo Herr/Frau XYZ'"
 msgid "The formal greeting 'Sehr geehrte/r Herr/Frau XYZ'"
 msgstr "Die formale Anrede 'Sehr geehrte/r Herr/Frau XYZ'"
 
-#: bags/models.py bags/templates/bags/company/company_details.html
+#: bags/models.py bags/templates/bags/company/view_company.html
 msgid "Name"
 msgstr "Name"
 
@@ -117,141 +106,138 @@ msgstr "E-Mail gesendet"
 msgid "Email successfully sent"
 msgstr "E-Mail erfolgreich gesendet"
 
-#: bags/models.py bags/templates/bags/bags_dashboard.html
-#: bags/templates/bags/company/company_details.html
+#: bags/models.py bags/templates/bags/company/list_companys.html
+#: bags/templates/bags/company/view_company.html
 #: bags/templates/bags/mail/send_mail.html
 msgid "Promise"
 msgstr "Zusage"
 
-#: bags/models.py bags/templates/bags/bags_dashboard.html
-#: bags/templates/bags/company/company_details.html
-msgid "Giveaways last year"
-msgstr "Giveaways von letztem Jahr"
-
-#: bags/models.py bags/templates/bags/bags_dashboard.html
-#: bags/templates/bags/company/company_details.html
-#: bags/templates/bags/mail/send_mail.html
-msgid "Arrival time"
-msgstr "Ankunftszeit"
-
-#: bags/models.py bags/templates/bags/bags_dashboard.html
-#: bags/templates/bags/company/company_details.html
+#: bags/models.py bags/templates/bags/company/list_companys.html
+#: bags/templates/bags/company/view_company.html
 #: bags/templates/bags/mail/del_mail.html
 #: bags/templates/bags/mail/list_mails.html
 #: bags/templates/bags/mail/send_mail.html
 msgid "Comment"
 msgstr "Kommentar"
 
-#: bags/models.py bags/templates/bags/bags_dashboard.html
-#: bags/templates/bags/company/company_details.html
-#: bags/templates/bags/mail/send_mail.html
-msgid "Arrived"
-msgstr "Angekommen"
-
-#: bags/models.py bags/templates/bags/bags_dashboard.html
-#: bags/templates/bags/company/company_details.html
+#: bags/models.py bags/templates/bags/company/list_companys.html
+#: bags/templates/bags/company/view_company.html
 #: bags/templates/bags/mail/send_mail.html
 msgid "Contact again"
 msgstr "Erneut kontaktieren"
 
-#: bags/templates/bags/add_giveaway.html bags/templates/bags/base_bags.html
-msgid "Add a giveaway"
-msgstr "Giveaway hinzufügen"
+#: bags/models.py
+msgid "Giveaway-groups' name"
+msgstr "Name der Giveaway-Gruppe"
 
-#: bags/templates/bags/add_giveaway.html
-#: bags/templates/bags/company/add_company.html
-#: bags/templates/bags/company/del_company.html
-#: bags/templates/bags/company/edit_company.html
-#: bags/templates/bags/import-export/import_companies.html
-#: bags/templates/bags/import-export/import_csv.html
-#: bags/templates/bags/mail/add_mail.html
-#: bags/templates/bags/mail/del_mail.html
-#: bags/templates/bags/mail/edit_mail.html
-#: bags/templates/bags/mail/list_mails.html
+#: bags/models.py bags/templates/bags/giveaways/giveaway/list_giveaways.html
+#: bags/templates/bags/giveaways/giveaway/list_grouped_giveaways.html
+#: bags/templates/bags/giveaways/giveaway/view_giveaway.html
+msgid "Giveaway-title"
+msgstr "Giveaway-Titel"
+
+#: bags/models.py bags/templates/bags/giveaways/giveaway/view_giveaway.html
+msgid "Insert every x bags"
+msgstr "Einen jede x Tüten beilegen"
+
+#: bags/models.py bags/templates/bags/giveaways/giveaway/view_giveaway.html
+msgid "Capacity per Bag"
+msgstr "Kapazität pro Tüte"
+
+#: bags/models.py bags/templates/bags/giveaways/giveaway/list_giveaways.html
+#: bags/templates/bags/giveaways/giveaway/list_grouped_giveaways.html
+#: bags/templates/bags/giveaways/giveaway/view_giveaway.html
 #: bags/templates/bags/mail/send_mail.html
-msgid "Cancel"
-msgstr "Abbrechen"
+msgid "Arrival time"
+msgstr "Ankunftszeit"
 
-#: bags/templates/bags/add_giveaway.html
-msgid "Add giveaway"
-msgstr "Giveaway hinzufügen"
-
-#: bags/templates/bags/bags_dashboard.html
-msgid "Yes"
-msgstr "Ja"
-
-#: bags/templates/bags/bags_dashboard.html
-msgid "No"
-msgstr "Nein"
-
-#: bags/templates/bags/bags_dashboard.html
-msgid "Failure"
-msgstr "Fehlschlag"
-
-#: bags/templates/bags/bags_dashboard.html
-msgid "Unknown"
-msgstr "Unbekannt"
-
-#: bags/templates/bags/bags_dashboard.html
-msgid "List companies"
-msgstr "Firmenliste"
-
-#: bags/templates/bags/bags_dashboard.html
-msgid "Availible Filters"
-msgstr "Zur Verfügung stehende Filter"
-
-#: bags/templates/bags/bags_dashboard.html
-msgid "Select recipients and send mail"
-msgstr "Empfänger auswählen und E-Mail senden"
-
-#: bags/templates/bags/bags_dashboard.html
-#: bags/templates/bags/company/company_details.html
+#: bags/models.py bags/templates/bags/giveaways/giveaway/list_giveaways.html
+#: bags/templates/bags/giveaways/giveaway/list_grouped_giveaways.html
+#: bags/templates/bags/giveaways/giveaway/view_giveaway.html
 #: bags/templates/bags/mail/send_mail.html
-msgid "Contact"
-msgstr "Kontakt"
+msgid "Arrived"
+msgstr "Angekommen"
 
-#: bags/templates/bags/bags_dashboard.html
-#: bags/templates/bags/company/company_details.html
-#: bags/templates/bags/mail/send_mail.html
-msgid "Email"
-msgstr "E-Mail"
+#: bags/models.py
+msgid "Wont be included in any bags"
+msgstr "Wird in keiner Tüte beigelegt"
 
-#: bags/templates/bags/bags_dashboard.html
-#: bags/templates/bags/company/company_details.html
-#: bags/templates/bags/mail/send_mail.html
-msgid "sent"
-msgstr "gesendet"
+#: bags/models.py
+#, python-brace-format
+msgid "{per_bag_count} per bag"
+msgstr "{per_bag_count} pro Tüte"
 
-#: bags/templates/bags/bags_dashboard.html
-#: bags/templates/bags/mail/list_mails.html
-#: bags/templates/bags/mail/send_mail.html
-msgid "Actions"
-msgstr "Actionen"
+#: bags/models.py
+#, python-brace-format
+msgid "{per_bag_count} every {every_x_bags} bags"
+msgstr "{per_bag_count} jede {every_x_bags} Tüte"
 
-#: bags/templates/bags/bags_dashboard.html
-msgid "Enter contact again"
-msgstr "Erneut kontaktieren"
-
-#: bags/templates/bags/bags_dashboard.html
-msgid "Send emails"
-msgstr "E-Mails senden"
-
-#: bags/templates/bags/base_bags.html
+#: bags/templates/bags/bags_dashboard.html bags/templates/bags/base_bags.html
 msgid "Dashboard"
 msgstr "Dashboard"
 
+#: bags/templates/bags/bags_dashboard.html
+msgid "All Companys"
+msgstr "Alle Firmen"
+
+#: bags/templates/bags/bags_dashboard.html
+msgid "Grouped by status"
+msgstr "Nach Status gruppiert"
+
+#: bags/templates/bags/bags_dashboard.html
+msgid "Companys with giveaways"
+msgstr "Firmen mit Giveaways"
+
+#: bags/templates/bags/bags_dashboard.html
+msgid "Grouped by XX"
+msgstr "Gruppiert nach XX"
+
 #: bags/templates/bags/base_bags.html
-msgid "General"
-msgstr "Gereral"
+msgid "Companys"
+msgstr "Firmen"
+
+#: bags/templates/bags/base_bags.html
+msgid "List companys"
+msgstr "Firmenliste"
 
 #: bags/templates/bags/base_bags.html
 #: bags/templates/bags/company/add_company.html
 msgid "Add a company"
-msgstr "Firma hinzufügen"
+msgstr "Eine Firma hinzufügen"
 
 #: bags/templates/bags/base_bags.html
-msgid "Edit email-templates"
-msgstr "E-Mail-Vorlagen bearbeiten"
+#: bags/templates/bags/company/list_companys.html
+#: bags/templates/bags/company/view_company.html
+#: bags/templates/bags/mail/send_mail.html
+msgid "Giveaways"
+msgstr "Werbegeschenke"
+
+#: bags/templates/bags/base_bags.html
+msgid "List Giveaways"
+msgstr "Werbegeschenke auflisten"
+
+#: bags/templates/bags/base_bags.html
+#, fuzzy
+#| msgid "Ungrouped Giveaways"
+msgid "List grouped Giveaways"
+msgstr "Ungruppierte Werbegeschenke"
+
+#: bags/templates/bags/base_bags.html
+#: bags/templates/bags/giveaways/giveaway/add_giveaway.html
+msgid "Add a giveaway"
+msgstr "Werbegeschenk hinzufügen"
+
+#: bags/templates/bags/base_bags.html
+msgid "Mails"
+msgstr "E-Mails"
+
+#: bags/templates/bags/base_bags.html bags/templates/bags/mail/list_mails.html
+msgid "List email templates"
+msgstr "E-Mail-Vorlagen auflisten"
+
+#: bags/templates/bags/base_bags.html
+msgid "Add email template"
+msgstr "E-Mail-Vorlage hinzufügen"
 
 #: bags/templates/bags/base_bags.html
 msgid "Import/ Export"
@@ -270,29 +256,29 @@ msgid "Export CSV"
 msgstr "CSV Exportieren"
 
 #: bags/templates/bags/company/add_company.html
+#: bags/templates/bags/company/del_company.html
+#: bags/templates/bags/company/edit_company.html
+#: bags/templates/bags/giveaways/giveaway/add_giveaway.html
+#: bags/templates/bags/giveaways/giveaway/del_giveaway.html
+#: bags/templates/bags/giveaways/giveaway/edit_giveaway.html
+#: bags/templates/bags/giveaways/giveaway_group/add_giveaway_group.html
+#: bags/templates/bags/giveaways/giveaway_group/del_giveaway_group.html
+#: bags/templates/bags/giveaways/giveaway_group/edit_giveaway_group.html
+#: bags/templates/bags/import-export/import_companies.html
+#: bags/templates/bags/import-export/import_csv.html
+#: bags/templates/bags/mail/add_mail.html
+#: bags/templates/bags/mail/del_mail.html
+#: bags/templates/bags/mail/edit_mail.html
+#: bags/templates/bags/mail/send_mail.html
+msgid "Cancel"
+msgstr "Abbrechen"
+
+#: bags/templates/bags/company/add_company.html
 msgid "Add company"
 msgstr "Firma hinzufügen"
 
-#: bags/templates/bags/company/company_details.html
-msgid "Company details"
-msgstr "Firmendetails"
-
-#: bags/templates/bags/company/company_details.html
-#: bags/templates/bags/mail/send_mail.html
-msgid "successfully sent"
-msgstr "erfolgreich gesendet"
-
-#: bags/templates/bags/company/company_details.html
-msgid "Back"
-msgstr "Zurück"
-
-#: bags/templates/bags/company/company_details.html
-#: bags/templates/bags/company/edit_company.html
-msgid "Edit company"
-msgstr "Firma bearbeiten"
-
-#: bags/templates/bags/company/company_details.html
 #: bags/templates/bags/company/del_company.html
+#: bags/templates/bags/company/view_company.html
 msgid "Delete company"
 msgstr "Firma löschen"
 
@@ -302,6 +288,192 @@ msgid ""
 "Do you really want to delete the company <a href=\"%(url)s\">%(name)s</a>?"
 msgstr ""
 "Soll die Firma <a href=\"%(url)s\">%(name)s</a> wirklich gelöscht werden?"
+
+#: bags/templates/bags/company/edit_company.html
+#: bags/templates/bags/company/view_company.html
+msgid "Edit company"
+msgstr "Firma bearbeiten"
+
+#: bags/templates/bags/company/list_companys.html
+msgid "Yes"
+msgstr "Ja"
+
+#: bags/templates/bags/company/list_companys.html
+msgid "No"
+msgstr "Nein"
+
+#: bags/templates/bags/company/list_companys.html
+msgid "Failure"
+msgstr "Fehlschlag"
+
+#: bags/templates/bags/company/list_companys.html
+msgid "Unknown"
+msgstr "Unbekannt"
+
+#: bags/templates/bags/company/list_companys.html
+msgid "List companies"
+msgstr "Firmenliste"
+
+#: bags/templates/bags/company/list_companys.html
+msgid "Availible Filters"
+msgstr "Zur Verfügung stehende Filter"
+
+#: bags/templates/bags/company/list_companys.html
+msgid "Select recipients and send mail"
+msgstr "Empfänger auswählen und E-Mail senden"
+
+#: bags/templates/bags/company/list_companys.html
+#: bags/templates/bags/giveaways/giveaway/list_giveaways.html
+#: bags/templates/bags/giveaways/giveaway/list_grouped_giveaways.html
+#: bags/templates/bags/giveaways/giveaway/view_giveaway.html
+#: bags/templates/bags/mail/send_mail.html
+msgid "Company"
+msgstr "Firma"
+
+#: bags/templates/bags/company/list_companys.html
+#: bags/templates/bags/company/view_company.html
+#: bags/templates/bags/mail/send_mail.html
+msgid "Contact"
+msgstr "Kontakt"
+
+#: bags/templates/bags/company/list_companys.html
+#: bags/templates/bags/company/view_company.html
+#: bags/templates/bags/mail/send_mail.html
+msgid "Email"
+msgstr "E-Mail"
+
+#: bags/templates/bags/company/list_companys.html
+#: bags/templates/bags/company/view_company.html
+#: bags/templates/bags/mail/send_mail.html
+msgid "sent"
+msgstr "gesendet"
+
+#: bags/templates/bags/company/list_companys.html
+#: bags/templates/bags/giveaways/giveaway/list_giveaways.html
+#: bags/templates/bags/giveaways/giveaway/list_grouped_giveaways.html
+#: bags/templates/bags/giveaways/giveaway_group/list_giveaways_group.html
+#: bags/templates/bags/mail/list_mails.html
+#: bags/templates/bags/mail/send_mail.html
+msgid "Actions"
+msgstr "Actionen"
+
+#: bags/templates/bags/company/list_companys.html
+msgid "Enter contact again"
+msgstr "Erneut kontaktieren"
+
+#: bags/templates/bags/company/list_companys.html
+msgid "Send emails"
+msgstr "E-Mails senden"
+
+#: bags/templates/bags/company/view_company.html
+msgid "Company details"
+msgstr "Firmendetails"
+
+#: bags/templates/bags/company/view_company.html
+#: bags/templates/bags/mail/send_mail.html
+msgid "successfully sent"
+msgstr "erfolgreich gesendet"
+
+#: bags/templates/bags/company/view_company.html
+#: bags/templates/bags/giveaways/giveaway/view_giveaway.html
+msgid "Back"
+msgstr "Zurück"
+
+#: bags/templates/bags/giveaways/giveaway/add_giveaway.html
+msgid "Add giveaway"
+msgstr "Werbegeschenk hinzufügen"
+
+#: bags/templates/bags/giveaways/giveaway/del_giveaway.html
+msgid "Delete giveaway:"
+msgstr "Werbegeschenk löschen:"
+
+#: bags/templates/bags/giveaways/giveaway/del_giveaway.html
+msgid "Delete giveaway"
+msgstr "Werbegeschenk löschen"
+
+#: bags/templates/bags/giveaways/giveaway/edit_giveaway.html
+msgid "Edit giveaway:"
+msgstr "Werbegeschenk bearbeiten:"
+
+#: bags/templates/bags/giveaways/giveaway/edit_giveaway.html
+msgid "Edit giveaway"
+msgstr "Werbegeschenk bearbeiten"
+
+#: bags/templates/bags/giveaways/giveaway/list_giveaways.html
+#: bags/templates/bags/giveaways/giveaway/list_grouped_giveaways.html
+msgid "List all giveaways"
+msgstr "Alle Werbegeschenke auflisten"
+
+#: bags/templates/bags/giveaways/giveaway/list_giveaways.html
+#: bags/templates/bags/giveaways/giveaway/list_grouped_giveaways.html
+msgid "Distribution over bags"
+msgstr "Verteilung über die Tüten"
+
+#: bags/templates/bags/giveaways/giveaway/list_grouped_giveaways.html
+#: bags/templates/bags/giveaways/giveaway_group/add_giveaway_group.html
+#: bags/templates/bags/giveaways/giveaway_group/list_giveaways_group.html
+msgid "Add a giveaway-group"
+msgstr "Eine Werbegeschenk-Gruppe hinzufügen"
+
+#: bags/templates/bags/giveaways/giveaway/list_grouped_giveaways.html
+msgid "List all giveaway-groups"
+msgstr "Alle Werbegeschenk-Gruppen auflisten"
+
+#: bags/templates/bags/giveaways/giveaway/list_grouped_giveaways.html
+msgid "Grouped Giveaways"
+msgstr "Gruppierte Werbegeschenke"
+
+#: bags/templates/bags/giveaways/giveaway/list_grouped_giveaways.html
+msgid "Ungrouped Giveaways"
+msgstr "Ungruppierte Werbegeschenke"
+
+#: bags/templates/bags/giveaways/giveaway/view_giveaway.html
+msgid "Giveaway"
+msgstr "Werbegeschenk"
+
+#: bags/templates/bags/giveaways/giveaway/view_giveaway.html
+msgid "Giveaway-groups"
+msgstr "Werbegeschenk-Gruppen"
+
+#: bags/templates/bags/giveaways/giveaway/view_giveaway.html
+#, fuzzy
+#| msgid "Edit"
+msgid "Edit tour"
+msgstr "Bearbeiten"
+
+#: bags/templates/bags/giveaways/giveaway/view_giveaway.html
+#, fuzzy
+#| msgid "Delete"
+msgid "Delete tour"
+msgstr "Löschen"
+
+#: bags/templates/bags/giveaways/giveaway_group/add_giveaway_group.html
+msgid "Add giveaway-group"
+msgstr "Werbegeschenke-Gruppe hinzufügen"
+
+#: bags/templates/bags/giveaways/giveaway_group/del_giveaway_group.html
+msgid "Delete giveaway-group:"
+msgstr "Werbegeschenke-Gruppe löschen:"
+
+#: bags/templates/bags/giveaways/giveaway_group/del_giveaway_group.html
+msgid "Delete giveaway-group"
+msgstr "Werbegeschenke-Gruppe löschen"
+
+#: bags/templates/bags/giveaways/giveaway_group/edit_giveaway_group.html
+msgid "Edit giveaway-group:"
+msgstr "Werbegeschenke-Gruppe bearbeiten:"
+
+#: bags/templates/bags/giveaways/giveaway_group/edit_giveaway_group.html
+msgid "Edit giveaway-group"
+msgstr "Werbegeschenke-Gruppe bearbeiten"
+
+#: bags/templates/bags/giveaways/giveaway_group/list_giveaways_group.html
+msgid "List all giveaways-groups"
+msgstr "Alle Werbegeschenke-Gruppen auflisten"
+
+#: bags/templates/bags/giveaways/giveaway_group/list_giveaways_group.html
+msgid "Giveaway-Groups' Title"
+msgstr "Werbegeschenk-Gruppentitel"
 
 #: bags/templates/bags/import-export/import_companies.html
 #: bags/templates/bags/import-export/import_csv.html
@@ -329,7 +501,6 @@ msgid "Upload and update_or_create all Companies"
 msgstr "Upload und update_or_create alle Firmen"
 
 #: bags/templates/bags/mail/add_mail.html
-#: bags/templates/bags/mail/list_mails.html
 msgid "Add email"
 msgstr "E-Mail-Vorlage hinzufügen"
 
@@ -357,10 +528,6 @@ msgstr "Text"
 msgid "Edit email"
 msgstr "E-Mail-Vorlage bearbeiten"
 
-#: bags/templates/bags/mail/list_mails.html
-msgid "List email templates"
-msgstr "E-Mail-Vorlagen"
-
 #: bags/templates/bags/mail/send_mail.html
 msgid "Send email"
 msgstr "E-Mail senden"
@@ -387,17 +554,17 @@ msgstr "siehe Tabelle unten"
 msgid "The File was successfully uploaded"
 msgstr "Die Datei wurde noch erfolgreich hochgeladen"
 
-#~ msgid "Email subject"
-#~ msgstr "Betreff der E-Mail"
+#~ msgid "Giveaways last year"
+#~ msgstr "Giveaways von letztem Jahr"
 
-#~ msgid "Edit email templates"
+#~ msgid "General"
+#~ msgstr "Gereral"
+
+#~ msgid "Edit email-templates"
 #~ msgstr "E-Mail-Vorlagen bearbeiten"
 
-#~ msgid "Add Company"
-#~ msgstr "Firma hinzufügen"
-
-#~ msgid "Delete"
-#~ msgstr "Löschen"
+#~ msgid "Email subject"
+#~ msgstr "Betreff der E-Mail"
 
 #~ msgid "Send"
 #~ msgstr "Senden"
@@ -408,17 +575,8 @@ msgstr "Die Datei wurde noch erfolgreich hochgeladen"
 #~ msgid "Company Details"
 #~ msgstr "Firmendetails"
 
-#~ msgid "Edit"
-#~ msgstr "Bearbeiten"
-
 #~ msgid "Import"
 #~ msgstr "Importieren"
-
-#~ msgid "E-Mail"
-#~ msgstr "E-Mail"
-
-#~ msgid "Insert Giveaways"
-#~ msgstr "Giveaways einfügen"
 
 #~ msgid "Freshmen bags"
 #~ msgstr "Erstitüten"
