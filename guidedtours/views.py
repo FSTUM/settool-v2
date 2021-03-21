@@ -34,7 +34,7 @@ from .models import Participant, Setting, Tour, TourMail
 
 @permission_required("guidedtours.view_participants")
 def list_tours(request: WSGIRequest) -> HttpResponse:
-    semester = get_object_or_404(Semester, pk=get_semester(request))
+    semester: Semester = get_object_or_404(Semester, pk=get_semester(request))
     tours = semester.tour_set.all()
 
     context = {"tours": tours}
@@ -75,7 +75,7 @@ def view_tour(request: WSGIRequest, tour_pk: int) -> HttpResponse:
 
 @permission_required("guidedtours.view_participants")
 def add_tour(request: WSGIRequest) -> HttpResponse:
-    semester = get_object_or_404(Semester, pk=get_semester(request))
+    semester: Semester = get_object_or_404(Semester, pk=get_semester(request))
 
     form = TourForm(
         request.POST or None,
@@ -133,7 +133,7 @@ def del_tour(request: WSGIRequest, tour_pk: int) -> HttpResponse:
 
 @permission_required("guidedtours.view_participants")
 def filter_participants(request: WSGIRequest) -> HttpResponse:
-    semester = get_object_or_404(Semester, pk=get_semester(request))
+    semester: Semester = get_object_or_404(Semester, pk=get_semester(request))
     participants: QuerySet[Participant] = Participant.objects.filter(
         tour__semester=semester.id,
     ).order_by("surname")
@@ -308,7 +308,7 @@ def send_mail(request: WSGIRequest, mail_pk: int) -> HttpResponse:
 
 
 def signup(request: WSGIRequest) -> HttpResponse:
-    semester = get_object_or_404(Semester, pk=get_semester(request))
+    semester: Semester = get_object_or_404(Semester, pk=get_semester(request))
     curr_settings: Setting = Setting.objects.get_or_create(semester=semester)[0]
     tours = semester.tour_set.filter(
         open_registration__lt=timezone.now(),
@@ -358,7 +358,7 @@ def signup_success(request: WSGIRequest) -> HttpResponse:
 
 @permission_required("guidedtours.view_participants")
 def signup_internal(request: WSGIRequest) -> HttpResponse:
-    semester = get_object_or_404(Semester, pk=get_semester(request))
+    semester: Semester = get_object_or_404(Semester, pk=get_semester(request))
     curr_settings: Setting = Setting.objects.get_or_create(semester=semester)[0]
     tours = semester.tour_set.order_by("date")
 
@@ -407,7 +407,7 @@ def export_tour(request: WSGIRequest, file_format: str, tour_pk: int) -> Union[H
 
 @permission_required("guidedtours.view_participants")
 def settings(request: WSGIRequest) -> HttpResponse:
-    semester = get_object_or_404(Semester, pk=get_semester(request))
+    semester: Semester = get_object_or_404(Semester, pk=get_semester(request))
     curr_settings: Setting = Setting.objects.get_or_create(semester=semester)[0]
 
     form = SettingsAdminForm(request.POST or None, semester=semester, instance=curr_settings)

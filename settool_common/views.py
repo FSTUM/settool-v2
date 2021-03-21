@@ -129,7 +129,7 @@ def del_mail(request: WSGIRequest, mail_pk: int) -> HttpResponse:
 
 @permission_required("set.mail")
 def dashboard(request: WSGIRequest) -> HttpResponse:
-    semester = get_object_or_404(Semester, pk=get_semester(request))
+    semester: Semester = get_object_or_404(Semester, pk=get_semester(request))
     mail_templates_by_sender = (
         Mail.objects.values("sender").annotate(sender_count=Count("sender")).order_by("-sender_count")
     )

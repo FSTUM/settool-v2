@@ -51,8 +51,8 @@ def get_possibly_filtered_companies(filterform, semester):
 
 
 @permission_required("bags.view_companies")
-def dashboard(request: WSGIRequest) -> HttpResponse:
-    semester = get_object_or_404(Semester, pk=get_semester(request))
+def list_companys(request: WSGIRequest) -> HttpResponse:
+    semester: Semester = get_object_or_404(Semester, pk=get_semester(request))
     filterform = FilterCompaniesForm(request.POST or None)
     companies = get_possibly_filtered_companies(filterform, semester)
 
@@ -120,7 +120,7 @@ def add_giveaway(request: WSGIRequest) -> HttpResponse:
 
 @permission_required("bags.view_companies")
 def add_company(request: WSGIRequest) -> HttpResponse:
-    semester = get_object_or_404(Semester, pk=get_semester(request))
+    semester: Semester = get_object_or_404(Semester, pk=get_semester(request))
 
     form = CompanyForm(request.POST or None, semester=semester)
     if form.is_valid():
@@ -269,7 +269,7 @@ def delete_mail(request: WSGIRequest, mail_pk: int) -> HttpResponse:
 def send_mail(request: WSGIRequest, mail_pk: int) -> HttpResponse:
     mail = get_object_or_404(BagMail, pk=mail_pk)
     selected_companies = request.session["selected_companies"]
-    semester = get_object_or_404(Semester, pk=get_semester(request))
+    semester: Semester = get_object_or_404(Semester, pk=get_semester(request))
     companies = semester.company_set.filter(
         id__in=selected_companies,
     ).order_by("name")
@@ -333,7 +333,7 @@ def import_mail_csv_to_db(csv_file, semester):
 @user_passes_test(lambda user: user.is_staff)
 @permission_required("bags.view_companies")
 def import_csv(request: WSGIRequest) -> HttpResponse:
-    semester = get_object_or_404(Semester, pk=get_semester(request))
+    semester: Semester = get_object_or_404(Semester, pk=get_semester(request))
     file_upload_form = CSVFileUploadForm(request.POST or None, request.FILES)
     if file_upload_form.is_valid():
         import_mail_csv_to_db(request.FILES["file"], semester)
@@ -349,7 +349,7 @@ def import_csv(request: WSGIRequest) -> HttpResponse:
 @permission_required("bags.view_companies")
 @user_passes_test(lambda user: user.is_staff)
 def import_previous_semester(request: WSGIRequest) -> HttpResponse:
-    new_semester = get_object_or_404(Semester, pk=get_semester(request))
+    new_semester: Semester = get_object_or_404(Semester, pk=get_semester(request))
 
     form = ImportForm(request.POST or None, semester=new_semester)
     if form.is_valid():
@@ -394,7 +394,7 @@ def import_previous_semester(request: WSGIRequest) -> HttpResponse:
 
 @permission_required("guidedtours.view_participants")
 def export_csv(request: WSGIRequest) -> HttpResponse:
-    semester = get_object_or_404(Semester, pk=get_semester(request))
+    semester: Semester = get_object_or_404(Semester, pk=get_semester(request))
     companies = semester.company_set.order_by("name")
     return utils.download_csv(
         [
