@@ -28,6 +28,18 @@ class GiveawayGroupForm(SemesterBasedModelForm):
         exclude: List[str] = ["semester"]
 
 
+class GiveawayToGiveawayGroupForm(SemesterBasedForm):
+    giveaway = forms.ModelChoiceField(
+        queryset=None,
+        label=_("Giveaway"),
+    )
+
+    def __init__(self, *args, **kwargs):
+        giveaway_group: GiveawayGroup = kwargs.pop("giveaway_group")
+        super().__init__(*args, **kwargs)
+        self.fields["giveaway"].queryset = Giveaway.objects.exclude(id__in=giveaway_group.giveaway_set.all())
+
+
 class MailForm(forms.ModelForm):
     class Meta:
         model = BagMail

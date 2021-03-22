@@ -21,6 +21,7 @@ from .forms import (
     FilterCompaniesForm,
     GiveawayForm,
     GiveawayGroupForm,
+    GiveawayToGiveawayGroupForm,
     ImportForm,
     MailForm,
     SelectCompanyForm,
@@ -527,6 +528,24 @@ def add_giveaway_group(request: WSGIRequest) -> HttpResponse:
         "form": form,
     }
     return render(request, "bags/giveaways/giveaway_group/add_giveaway_group.html", context)
+
+
+@permission_required("bags.view_companies")
+def add_giveaway_to_giveaway_group(request: WSGIRequest, giveaway_group_pk: int) -> HttpResponse:
+    semester: Semester = get_object_or_404(Semester, pk=get_semester(request))
+    giveaway_group: GiveawayGroup = get_object_or_404(GiveawayGroup, id=giveaway_group_pk)
+    form = GiveawayToGiveawayGroupForm(request.POST or None, semester=semester, giveaway_group=giveaway_group)
+    if form.is_valid():
+        giveaway = form.cleaned_data["giveaway"]
+        giveaway.group = giveaway_group
+        giveaway.save()
+        return redirect("bags:list_giveaways")
+
+    context = {
+        "giveaway_group": giveaway_group,
+        "form": form,
+    }
+    return render(request, "bags/giveaways/giveaway_group/add_giveaway_to_giveaway_group.html", context)
 
 
 @permission_required("bags.view_companies")

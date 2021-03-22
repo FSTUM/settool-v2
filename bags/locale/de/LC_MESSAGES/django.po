@@ -7,6 +7,10 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
+#: bags/forms.py bags/templates/bags/giveaways/giveaway/view_giveaway.html
+msgid "Giveaway"
+msgstr "Werbegeschenk"
+
 #: bags/forms.py
 msgid "Email template:"
 msgstr "E-Mail-Vorlage:"
@@ -317,6 +321,7 @@ msgstr "CSV Exportieren"
 #: bags/templates/bags/giveaways/giveaway/del_giveaway.html
 #: bags/templates/bags/giveaways/giveaway/edit_giveaway.html
 #: bags/templates/bags/giveaways/giveaway_group/add_giveaway_group.html
+#: bags/templates/bags/giveaways/giveaway_group/add_giveaway_to_giveaway_group.html
 #: bags/templates/bags/giveaways/giveaway_group/del_giveaway_group.html
 #: bags/templates/bags/giveaways/giveaway_group/edit_giveaway_group.html
 #: bags/templates/bags/import-export/import_companies.html
@@ -439,16 +444,8 @@ msgid "Add giveaway"
 msgstr "Werbegeschenk hinzufügen"
 
 #: bags/templates/bags/giveaways/giveaway/del_giveaway.html
-msgid "Delete giveaway:"
-msgstr "Werbegeschenk löschen:"
-
-#: bags/templates/bags/giveaways/giveaway/del_giveaway.html
 msgid "Delete giveaway"
 msgstr "Werbegeschenk löschen"
-
-#: bags/templates/bags/giveaways/giveaway/edit_giveaway.html
-msgid "Edit giveaway:"
-msgstr "Werbegeschenk bearbeiten:"
 
 #: bags/templates/bags/giveaways/giveaway/edit_giveaway.html
 msgid "Edit giveaway"
@@ -483,10 +480,6 @@ msgid "Ungrouped Giveaways"
 msgstr "Ungruppierte Werbegeschenke"
 
 #: bags/templates/bags/giveaways/giveaway/view_giveaway.html
-msgid "Giveaway"
-msgstr "Werbegeschenk"
-
-#: bags/templates/bags/giveaways/giveaway/view_giveaway.html
 msgid "Giveaway-groups"
 msgstr "Werbegeschenk-Gruppen"
 
@@ -502,17 +495,17 @@ msgstr "Tour löschen"
 msgid "Add giveaway-group"
 msgstr "Werbegeschenke-Gruppe hinzufügen"
 
-#: bags/templates/bags/giveaways/giveaway_group/del_giveaway_group.html
-msgid "Delete giveaway-group:"
-msgstr "Werbegeschenke-Gruppe löschen:"
+#: bags/templates/bags/giveaways/giveaway_group/add_giveaway_to_giveaway_group.html
+msgid "Add a giveaway to Giveaway-Group"
+msgstr "Ein Werbegeschenk zu einer Werbegeschenk-Gruppe hinzufügen"
+
+#: bags/templates/bags/giveaways/giveaway_group/add_giveaway_to_giveaway_group.html
+msgid "Add giveaway to Giveaway-Group"
+msgstr "Werbegeschenk zu einer Werbegeschenk-Gruppe hinzufügen"
 
 #: bags/templates/bags/giveaways/giveaway_group/del_giveaway_group.html
 msgid "Delete giveaway-group"
 msgstr "Werbegeschenke-Gruppe löschen"
-
-#: bags/templates/bags/giveaways/giveaway_group/edit_giveaway_group.html
-msgid "Edit giveaway-group:"
-msgstr "Werbegeschenke-Gruppe bearbeiten:"
 
 #: bags/templates/bags/giveaways/giveaway_group/edit_giveaway_group.html
 msgid "Edit giveaway-group"

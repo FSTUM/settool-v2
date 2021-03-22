@@ -42,6 +42,11 @@ urlpatterns = [
                             path("list/", views.list_giveaway_group, name="list_giveaway_group"),
                             path("add/", views.add_giveaway_group, name="add_giveaway_group"),
                             path(
+                                "add/<int:giveaway_group_pk>/",
+                                views.add_giveaway_to_giveaway_group,
+                                name="add_giveaway_to_giveaway_group",
+                            ),
+                            path(
                                 "edit/<int:giveaway_group_pk>/",
                                 views.edit_giveaway_group,
                                 name="edit_giveaway_group",

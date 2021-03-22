@@ -37,7 +37,12 @@
     {% for giveaway_group, giveaway_set in giveaway_groups %}
     <div class='col-sm-6 p-1'>
         <div class='card'>
-            <div class='card-header'>{{ giveaway_group.name }}</div>
+            <div class='card-header'>
+                {{ giveaway_group.name }}
+                <a href="{% url "bags:add_giveaway_to_giveaway_group" giveaway_group.id %}"><span class="bi bi-bag-plus-fill"></span></a>
+                <a href="{% url "bags:edit_giveaway_group" giveaway_group.id %}"><span class="bi bi-pencil-square"></span></a>
+                <a href="{% url "bags:del_giveaway_group" giveaway_group.id %}"><span class="bi bi-trash-fill"></span></a>
+            </div>
             <div class='card-body'>
                 <div class="table-responsive">
                     <table

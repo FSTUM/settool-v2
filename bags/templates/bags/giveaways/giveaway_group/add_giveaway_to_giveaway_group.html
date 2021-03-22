@@ -2,7 +2,7 @@
 {% load i18n %}
 {% load bootstrap4 %}
 
-{% block set_common_headercontent %}{% trans "Delete giveaway" %}: {{ giveaway }}{% endblock %}
+{% block set_common_headercontent %}{% trans "Add a giveaway to Giveaway-Group" %}: {{ giveaway_group }}{% endblock %}
 
 {% block set_common_content %}
 <form
@@ -19,11 +19,11 @@
 
     <a
         class="btn btn-secondary"
-        href="{% url "bags:list_giveaways" %}"
+        href="{% url "bags:list_grouped_giveaways" %}"
     >{% trans "Cancel" %}</a>
     <button
         class="btn btn-primary"
         type="submit"
-    >{% trans "Delete giveaway" %}</button>
+    >{% trans "Add giveaway to Giveaway-Group" %}</button>
 </form>
 {% endblock %}
