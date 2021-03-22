@@ -279,7 +279,6 @@ msgstr "Nachname"
 
 #: settool_common/templates/settool_common/settings/mail/send_email_confirmation.html
 #: settool_common/templates/settool_common/settings/mail/send_email_failure.html
-#: settool_common/templates/settool_common/settings/settings_dashboard.html
 msgid "Status"
 msgstr "Status"
 
@@ -301,25 +300,37 @@ msgid "Email-templates by sender"
 msgstr "E-Mail-Vorlagen nach Sender"
 
 #: settool_common/templates/settool_common/settings/settings_dashboard.html
+msgid "Status for selected Semester"
+msgstr "Status für das selektierte Semester"
+
+#: settool_common/templates/settool_common/settings/settings_dashboard.html
 #: settool_common/templates/settool_common/settings/subjects/course_bundle/list_course_bundle.html
 msgid "Name"
 msgstr "Name"
 
 #: settool_common/templates/settool_common/settings/settings_dashboard.html
-msgid "Exists for this Semester"
-msgstr "Existiert für dieses Semester"
+msgid "Settings have been created"
+msgstr "Einstellungen wurden erstellt"
 
 #: settool_common/templates/settool_common/settings/settings_dashboard.html
-msgid "Fahrt-Settings"
-msgstr "Fahrt-Einstellungen"
+msgid "GDPR-relevant data has been anonimsed"
+msgstr "DSGVO relevante Daten wurden anonymisiert"
 
 #: settool_common/templates/settool_common/settings/settings_dashboard.html
-msgid "Tutor-Settings"
-msgstr "Tutor-Einstellungen"
+msgid "SET-Fahrt"
+msgstr "SET-Fahrt"
 
 #: settool_common/templates/settool_common/settings/settings_dashboard.html
-msgid "Guidedtour-Settings"
-msgstr "Institutsführungs-Einstellungen"
+msgid "SET-Bags"
+msgstr "SET-Tüten"
+
+#: settool_common/templates/settool_common/settings/settings_dashboard.html
+msgid "SET-Tutor"
+msgstr "SET-Tutoren"
+
+#: settool_common/templates/settool_common/settings/settings_dashboard.html
+msgid "Guided tours of the institutes"
+msgstr "Institutsführungen"
 
 #: settool_common/templates/settool_common/settings/settings_dashboard.html
 msgid "Fahrt-Signup"

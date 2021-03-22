@@ -40,9 +40,9 @@ def produce_field_with_autosubmit(field_class, label, **kwargs):
     return tmp
 
 
-def object_does_exists(klass, semester):
+def object_does_exists(klass, semester, **kwargs):
     try:
-        klass.objects.get(semester=semester)
+        klass.objects.get(semester=semester, **kwargs)
     except ObjectDoesNotExist:
         return False
     return True
