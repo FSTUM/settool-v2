@@ -46,9 +46,11 @@ def get_possibly_filtered_companies(filterform, semester):
         if filterform.cleaned_data["no_promise"]:
             companies = companies.exclude(promise=True)
         if filterform.cleaned_data["giveaways"]:
-            companies = companies.exclude(giveaways="")
+            companies = companies.exclude(giveaway__isnull=True)
+        if filterform.cleaned_data["no_giveaway"]:
+            companies = companies.filter(giveaway__isnull=True)
         if filterform.cleaned_data["arrived"]:
-            companies = companies.filter(arrived=True)
+            companies = companies.filter(giveaway__arrived=True)
     return companies  # noqa: R504
 
 

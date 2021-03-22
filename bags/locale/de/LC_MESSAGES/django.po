@@ -42,6 +42,10 @@ msgid "At least one Giveaway exists"
 msgstr "Wenigstens ein Werbegeschenk existiert"
 
 #: bags/forms.py
+msgid "No Giveaway exists"
+msgstr "Kein Werbegeschenk existiert"
+
+#: bags/forms.py
 msgid "Giveaways already arrived"
 msgstr "Werbegeschenke bereits angekommen"
 
@@ -170,7 +174,7 @@ msgstr "{per_bag_count} pro Tüte"
 #: bags/models.py
 #, python-brace-format
 msgid "{per_bag_count} every {every_x_bags} bags"
-msgstr "{per_bag_count} jede {every_x_bags} Tüte"
+msgstr "{per_bag_count} jede {every_x_bags}te Tüte"
 
 #: bags/templates/bags/bags_dashboard.html bags/templates/bags/base_bags.html
 msgid "Dashboard"
