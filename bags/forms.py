@@ -1,5 +1,6 @@
 from typing import List
 
+from bootstrap_modal_forms.forms import BSModalModelForm
 from django import forms
 from django.utils.translation import ugettext_lazy as _
 
@@ -20,6 +21,12 @@ class GiveawayForm(SemesterBasedModelForm):
     class Meta:
         model = Giveaway
         exclude: List[str] = []
+
+
+class GiveawayDistributionModelForm(BSModalModelForm):
+    class Meta:
+        model = Giveaway
+        fields = ["per_bag_count", "every_x_bags"]
 
 
 class GiveawayGroupForm(SemesterBasedModelForm):

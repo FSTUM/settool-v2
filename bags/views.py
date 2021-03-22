@@ -2,14 +2,17 @@ import csv
 import os
 import time
 
+from bootstrap_modal_forms.generic import BSModalCreateView, BSModalUpdateView
 from django import forms
 from django.contrib import messages
 from django.contrib.auth.decorators import permission_required, user_passes_test
 from django.core.handlers.wsgi import WSGIRequest
 from django.db.models import Q
 from django.forms import formset_factory
-from django.http import HttpResponse, HttpResponseBadRequest
+from django.http import Http404, HttpResponse, HttpResponseBadRequest, JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
+from django.template.loader import render_to_string
+from django.urls import reverse_lazy
 from django.utils.translation import ugettext_lazy as _
 
 from settool_common import utils
@@ -19,6 +22,7 @@ from .forms import (
     CompanyForm,
     CSVFileUploadForm,
     FilterCompaniesForm,
+    GiveawayDistributionModelForm,
     GiveawayForm,
     GiveawayGroupForm,
     GiveawayToGiveawayGroupForm,
@@ -474,6 +478,13 @@ def add_giveaway(request: WSGIRequest) -> HttpResponse:
     return render(request, "bags/giveaways/giveaway/add_giveaway.html", context=context)
 
 
+class GiveawayCreateView(BSModalCreateView):
+    template_name = "bags/giveaways/giveaway/update_giveaway.html"
+    form_class = GiveawayDistributionModelForm
+    success_message = "Success: giveaway was created."
+    success_url = reverse_lazy("bags:main_index")
+
+
 @permission_required("bags.view_companies")
 def edit_giveaway(request: WSGIRequest, giveaway_pk: int) -> HttpResponse:
     semester: Semester = get_object_or_404(Semester, pk=get_semester(request))
@@ -489,6 +500,49 @@ def edit_giveaway(request: WSGIRequest, giveaway_pk: int) -> HttpResponse:
         "form": form,
     }
     return render(request, "bags/giveaways/giveaway/edit_giveaway.html", context=context)
+
+
+class GiveawayDistributionUpdateView(BSModalUpdateView):
+    model = Giveaway
+    template_name = "bags/giveaways/giveaway/update_giveaway.html"
+    form_class = GiveawayDistributionModelForm
+    success_message = "Success: Giveaway was updated."
+    success_url = reverse_lazy("bags:list_grouped_giveaways")
+
+
+@permission_required("bags.view_companies")
+def giveaway_data_ungrouped(request):
+    semester: Semester = get_object_or_404(Semester, pk=get_semester(request))
+    if request.method == "GET":
+        ungrouped_giveaways = Giveaway.objects.filter(Q(group=None) & Q(company__semester=semester))
+        data = {
+            "giveaway_data_ungrouped": render_to_string(
+                "bags/giveaways/giveaway/_ungrouped_giveaways.html",
+                {"ungrouped_giveaways": ungrouped_giveaways},
+                request=request,
+            ),
+        }
+        return JsonResponse(data)
+    raise Http404()
+
+
+@permission_required("bags.view_companies")
+def giveaway_data_grouped(request):
+    semester: Semester = get_object_or_404(Semester, pk=get_semester(request))
+    if request.method == "GET":
+        giveaway_groups = [
+            (ggroup, ggroup.giveaway_set.filter(company__semester=semester).all())
+            for ggroup in semester.giveawaygroup_set.all()
+        ]
+        data = {
+            "giveaway_data_grouped": render_to_string(
+                "bags/giveaways/giveaway/_grouped_giveaways.html",
+                {"giveaway_groups": giveaway_groups},
+                request=request,
+            ),
+        }
+        return JsonResponse(data)
+    raise Http404()
 
 
 @permission_required("bags.view_companies")

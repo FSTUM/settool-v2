@@ -1,3 +1,4 @@
+from django.contrib.auth.decorators import permission_required
 from django.urls import include, path, re_path
 from django.views.generic import RedirectView
 
@@ -60,6 +61,26 @@ urlpatterns = [
                     ),
                 ),
                 path("add/", views.add_giveaway, name="add_giveaway"),
+                path(
+                    "update/",
+                    include(
+                        [
+                            path(
+                                "<int:pk>/",
+                                permission_required("bags.view_companies")(
+                                    views.GiveawayDistributionUpdateView.as_view(),
+                                ),
+                                name="update_giveaway",
+                            ),
+                            path(
+                                "giveaway_data/ungrouped/",
+                                views.giveaway_data_ungrouped,
+                                name="giveaway_data_ungrouped",
+                            ),
+                            path("giveaway_data/grouped/", views.giveaway_data_grouped, name="giveaway_data_grouped"),
+                        ],
+                    ),
+                ),
                 path("view/<int:giveaway_pk>/", views.view_giveaway, name="view_giveaway"),
                 path("edit/<int:giveaway_pk>/", views.edit_giveaway, name="edit_giveaway"),
                 path("delete/<int:giveaway_pk>/", views.del_giveaway, name="del_giveaway"),

@@ -1,22 +1,25 @@
 {% extends "bags/base_bags.html" %}
+{% load static %}
 {% load i18n %}
 {% load bootstrap4 %}
 
-{% block head %}
-<script>
-    $(document).ready(() => {
-        $('.dataTable').DataTable({
-            columnDefs: [{ targets: 5, orderable: false }],
-            paging: false,
-            searching: false,
-        });
-    });
-</script>
-{% endblock %}
 
 {% block set_common_headercontent %}{% trans "List all giveaways" %}{% endblock %}
 
 {% block set_common_content %}
+<div
+    class="modal fade"
+    tabindex="-1"
+    role="dialog"
+    id="modal"
+>
+    <div
+        class="modal-dialog"
+        role="document"
+    >
+        <div class="modal-content"></div>
+    </div>
+</div>
 <div class='row'>
     <div class='col-sm p-1'>
         <a
@@ -31,90 +34,87 @@
         >{% trans "List all giveaway-groups" %}</a>
     </div>
 </div>
-{% if giveaway_groups %}
-<h1 class='card-title'>{% trans "Grouped Giveaways" %}</h1>
-<div class='row'>
-    {% for giveaway_group, giveaway_set in giveaway_groups %}
-    <div class='col-xl-6 p-1'>
-        <div class='card'>
-            <div class='card-header'>
-                {{ giveaway_group.name }}
-                <a href="{% url "bags:add_giveaway_to_giveaway_group" giveaway_group.id %}"><span class="bi bi-bag-plus-fill"></span></a>
-                <a href="{% url "bags:edit_giveaway_group" giveaway_group.id %}"><span class="bi bi-pencil-square"></span></a>
-                <a href="{% url "bags:del_giveaway_group" giveaway_group.id %}"><span class="bi bi-trash-fill"></span></a>
-            </div>
-            <div class='card-body'>
-                <div class="table-responsive">
-                    <table
-                        id="giveawayTable"
-                        class="table dataTable"
-                    >
-                        <thead>
-                            <tr>
-                                <th>{% trans "Company" %}</th>
-                                <th>{% trans "Giveaway-title" %}</th>
-                                <th>{% trans "Distribution over bags" %}</th>
-                                <th>{% trans "Arrival time" %}</th>
-                                <th>{% trans "Arrived" %}</th>
-                                <th>{% trans "Actions" %}</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for giveaway in giveaway_set.all %}
-                            <tr>
-                                <td><a href="{% url "bags:view_company" giveaway.company.id %}">{{ giveaway.company }}</a></td>
-                                <td>{{ giveaway.name }}</td>
-                                <td>{{ giveaway.custom_per_bag_message }}</td>
-                                <td>{{ giveaway.arrival_time|default:"-" }}</td>
-                                <td>{% include "snippets/true_false_span.html" with value=giveaway.arrived %}</td>
-                                <td>
-                                    <a href="{% url "bags:edit_giveaway" giveaway.id %}"><span class="bi bi-pencil-square"></span></a>
-                                    <a href="{% url "bags:del_giveaway" giveaway.id %}"><span class="bi bi-trash-fill"></span></a>
-                                </td>
-                            </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-    </div>
-    {% endfor %}
-</div>
-{% endif %}
-{% if ungrouped_giveaways %}
-<h1 class='card-title mt-3'>{% trans "Ungrouped Giveaways" %}</h1>
-<div class="table-responsive">
-    <table
-        id="giveawayTable"
-        class="table dataTable"
-    >
-        <thead>
-            <tr>
-                <th>{% trans "Company" %}</th>
-                <th>{% trans "Giveaway-title" %}</th>
-                <th>{% trans "Distribution over bags" %}</th>
-                <th>{% trans "Arrival time" %}</th>
-                <th>{% trans "Arrived" %}</th>
-                <th>{% trans "Actions" %}</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for giveaway in ungrouped_giveaways %}
-            <tr>
-                <td><a href="{% url "bags:view_company" giveaway.company.id %}">{{ giveaway.company }}</a></td>
-                <td>{{ giveaway.name }}</td>
-                <td>{{ giveaway.custom_per_bag_message }}</td>
-                <td>{{ giveaway.arrival_time|default:"-" }}</td>
-                <td>{% include "snippets/true_false_span.html" with value=giveaway.arrived %}</td>
-                <td>
-                    <a href="{% url "bags:edit_giveaway" giveaway.id %}"><span class="bi bi-pencil-square"></span></a>
-                    <a href="{% url "bags:del_giveaway" giveaway.id %}"><span class="bi bi-trash-fill"></span></a>
-                </td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-</div>
-{% endif %}
+<div id='replacement_target_grouped'>{% include "bags/giveaways/giveaway/_grouped_giveaways.html" %}</div>
+<div id='replacement_target_ungrouped'>{% include "bags/giveaways/giveaway/_ungrouped_giveaways.html" %}</div>
+{% endblock %}
+
+{% block defered_script %}
+<script src="{% static 'js/jquery.bootstrap.modal.forms.min.js' %}"></script>
+<script>
+    $(document).ready(() => {
+        // Update giveaway asynchronous button
+        /* eslint no-useless-escape: off */
+        // prettier-ignore
+        const asyncSuccessMessageUpdate = [
+            '<div ',
+            "style='position:fixed;top:0;z-index:10000;width:100%;border-radius:0;' ",
+            "class='alert alert-icon alert-success alert-dismissible fade show mb-0' role='alert'>",
+            "{% trans 'Success: Giveaway-Distribution was updated.' %}",
+            "<button type='button' class='close' data-dismiss='alert' aria-label='Close'>",
+            "<span aria-hidden='true'>&times;</span>",
+            '</button>',
+            '</div>',
+            '<script>',
+            "$('.alert').fadeTo(2000, 500).slideUp(500, function () {$('.alert').slideUp(500).remove();});",
+            '<\/script>',
+        ].join();
+
+        // modal form
+        function updateGiveawayModalFormUngrouped() {
+            $('.update-giveaway_ungrouped').each(function () {
+                $(this).modalForm({
+                    formURL: $(this).data('form-url'),
+                    asyncUpdate: true,
+                    asyncSettings: {
+                        closeOnSubmit: true,
+                        successMessage: asyncSuccessMessageUpdate,
+                        dataUrl: '{% url "bags:giveaway_data_ungrouped" %}',
+                        dataElementId: '#replacement_target_ungrouped',
+                        dataKey: 'giveaway_data_ungrouped',
+                        addModalFormFunction: updateGiveawayModalFormUngrouped,
+                    },
+                });
+            });
+            $('.dataTableUngrouped').DataTable({
+                columnDefs: [{ targets: 5, orderable: false }],
+                paging: false,
+                searching: false,
+            });
+        }
+
+        updateGiveawayModalFormUngrouped();
+
+        // modal form
+        function updateGiveawayModalFormGrouped() {
+            $('.update-giveaway_grouped').each(function () {
+                $(this).modalForm({
+                    formURL: $(this).data('form-url'),
+                    asyncUpdate: true,
+                    asyncSettings: {
+                        closeOnSubmit: true,
+                        successMessage: asyncSuccessMessageUpdate,
+                        dataUrl: '{% url "bags:giveaway_data_grouped" %}',
+                        dataElementId: '#replacement_target_grouped',
+                        dataKey: 'giveaway_data_grouped',
+                        addModalFormFunction: updateGiveawayModalFormGrouped,
+                    },
+                });
+            });
+            $('.dataTableGrouped').DataTable({
+                columnDefs: [{ targets: 5, orderable: false }],
+                paging: false,
+                searching: false,
+            });
+        }
+
+        updateGiveawayModalFormGrouped();
+
+        // Hide message
+        $('.alert')
+            .fadeTo(2000, 500)
+            .slideUp(500, function () {
+                $('.alert').slideUp(500);
+            });
+    });
+</script>
 {% endblock %}

@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "bootstrap4",
     "bootstrap_datepicker_plus",
+    "bootstrap_modal_forms",
     "active_link",
     "django_crontab",
     "django_tex",

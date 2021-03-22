@@ -141,8 +141,10 @@ msgstr "Erneut kontaktieren"
 msgid "Giveaway-groups' name"
 msgstr "Name der Giveaway-Gruppe"
 
-#: bags/models.py bags/templates/bags/giveaways/giveaway/list_giveaways.html
-#: bags/templates/bags/giveaways/giveaway/list_grouped_giveaways.html
+#: bags/models.py
+#: bags/templates/bags/giveaways/giveaway/_grouped_giveaways.html
+#: bags/templates/bags/giveaways/giveaway/_ungrouped_giveaways.html
+#: bags/templates/bags/giveaways/giveaway/list_giveaways.html
 #: bags/templates/bags/giveaways/giveaway/view_giveaway.html
 msgid "Giveaway-title"
 msgstr "Giveaway-Titel"
@@ -155,15 +157,19 @@ msgstr "Einen jede x Tüten beilegen"
 msgid "Capacity per Bag"
 msgstr "Kapazität pro Tüte"
 
-#: bags/models.py bags/templates/bags/giveaways/giveaway/list_giveaways.html
-#: bags/templates/bags/giveaways/giveaway/list_grouped_giveaways.html
+#: bags/models.py
+#: bags/templates/bags/giveaways/giveaway/_grouped_giveaways.html
+#: bags/templates/bags/giveaways/giveaway/_ungrouped_giveaways.html
+#: bags/templates/bags/giveaways/giveaway/list_giveaways.html
 #: bags/templates/bags/giveaways/giveaway/view_giveaway.html
 #: bags/templates/bags/mail/send_mail.html
 msgid "Arrival time"
 msgstr "Ankunftszeit"
 
-#: bags/models.py bags/templates/bags/giveaways/giveaway/list_giveaways.html
-#: bags/templates/bags/giveaways/giveaway/list_grouped_giveaways.html
+#: bags/models.py
+#: bags/templates/bags/giveaways/giveaway/_grouped_giveaways.html
+#: bags/templates/bags/giveaways/giveaway/_ungrouped_giveaways.html
+#: bags/templates/bags/giveaways/giveaway/list_giveaways.html
 #: bags/templates/bags/giveaways/giveaway/view_giveaway.html
 #: bags/templates/bags/mail/send_mail.html
 msgid "Arrived"
@@ -383,8 +389,9 @@ msgid "Select recipients and send mail"
 msgstr "Empfänger auswählen und E-Mail senden"
 
 #: bags/templates/bags/company/list_companys.html
+#: bags/templates/bags/giveaways/giveaway/_grouped_giveaways.html
+#: bags/templates/bags/giveaways/giveaway/_ungrouped_giveaways.html
 #: bags/templates/bags/giveaways/giveaway/list_giveaways.html
-#: bags/templates/bags/giveaways/giveaway/list_grouped_giveaways.html
 #: bags/templates/bags/giveaways/giveaway/view_giveaway.html
 #: bags/templates/bags/mail/send_mail.html
 msgid "Company"
@@ -409,8 +416,9 @@ msgid "sent"
 msgstr "gesendet"
 
 #: bags/templates/bags/company/list_companys.html
+#: bags/templates/bags/giveaways/giveaway/_grouped_giveaways.html
+#: bags/templates/bags/giveaways/giveaway/_ungrouped_giveaways.html
 #: bags/templates/bags/giveaways/giveaway/list_giveaways.html
-#: bags/templates/bags/giveaways/giveaway/list_grouped_giveaways.html
 #: bags/templates/bags/giveaways/giveaway_group/list_giveaways_group.html
 #: bags/templates/bags/mail/list_mails.html
 #: bags/templates/bags/mail/send_mail.html
@@ -439,6 +447,20 @@ msgstr "erfolgreich gesendet"
 msgid "Back"
 msgstr "Zurück"
 
+#: bags/templates/bags/giveaways/giveaway/_grouped_giveaways.html
+msgid "Grouped Giveaways"
+msgstr "Gruppierte Werbegeschenke"
+
+#: bags/templates/bags/giveaways/giveaway/_grouped_giveaways.html
+#: bags/templates/bags/giveaways/giveaway/_ungrouped_giveaways.html
+#: bags/templates/bags/giveaways/giveaway/list_giveaways.html
+msgid "Distribution over bags"
+msgstr "Verteilung über die Tüten"
+
+#: bags/templates/bags/giveaways/giveaway/_ungrouped_giveaways.html
+msgid "Ungrouped Giveaways"
+msgstr "Ungruppierte Werbegeschenke"
+
 #: bags/templates/bags/giveaways/giveaway/add_giveaway.html
 msgid "Add giveaway"
 msgstr "Werbegeschenk hinzufügen"
@@ -456,11 +478,6 @@ msgstr "Werbegeschenk bearbeiten"
 msgid "List all giveaways"
 msgstr "Alle Werbegeschenke auflisten"
 
-#: bags/templates/bags/giveaways/giveaway/list_giveaways.html
-#: bags/templates/bags/giveaways/giveaway/list_grouped_giveaways.html
-msgid "Distribution over bags"
-msgstr "Verteilung über die Tüten"
-
 #: bags/templates/bags/giveaways/giveaway/list_grouped_giveaways.html
 #: bags/templates/bags/giveaways/giveaway_group/add_giveaway_group.html
 #: bags/templates/bags/giveaways/giveaway_group/list_giveaways_group.html
@@ -472,12 +489,8 @@ msgid "List all giveaway-groups"
 msgstr "Alle Werbegeschenk-Gruppen auflisten"
 
 #: bags/templates/bags/giveaways/giveaway/list_grouped_giveaways.html
-msgid "Grouped Giveaways"
-msgstr "Gruppierte Werbegeschenke"
-
-#: bags/templates/bags/giveaways/giveaway/list_grouped_giveaways.html
-msgid "Ungrouped Giveaways"
-msgstr "Ungruppierte Werbegeschenke"
+msgid "Success: Giveaway-Distribution was updated."
+msgstr "Erfolg: Werbegeschenk-Verteilung wurde geupdated"
 
 #: bags/templates/bags/giveaways/giveaway/view_giveaway.html
 msgid "Giveaway-groups"
