@@ -7,7 +7,8 @@ from django import forms
 from django.contrib import messages
 from django.contrib.auth.decorators import permission_required, user_passes_test
 from django.core.handlers.wsgi import WSGIRequest
-from django.db.models import Q
+from django.db.models import Q, QuerySet
+from django.db.models.aggregates import Count
 from django.forms import formset_factory
 from django.http import Http404, HttpResponse, HttpResponseBadRequest, JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
@@ -17,6 +18,7 @@ from django.utils.translation import ugettext_lazy as _
 
 from settool_common import utils
 from settool_common.models import get_semester, Semester
+from settool_common.utils import get_or_none
 
 from .forms import (
     CompanyForm,
@@ -406,8 +408,26 @@ def export_csv(request: WSGIRequest) -> HttpResponse:
 
 @permission_required("bags.view_companies")
 def dashboard(request: WSGIRequest) -> HttpResponse:
-    companies = Company.objects
-    g_companies = Company.objects.filter(giveaway__isnull=False)
+    semester: Semester = get_object_or_404(Semester, pk=get_semester(request))
+
+    companies: QuerySet[Company] = Company.objects.filter(semester=semester)
+    g_companies: QuerySet[Company] = Company.objects.filter(giveaway__isnull=False, semester=semester)
+    giveaways: QuerySet[Giveaway] = Giveaway.objects.filter(company__semester=semester)
+
+    g_by_group = list(giveaways.filter(group__isnull=False).values("group").annotate(group_count=Count("group")))
+    g_by_group.append(
+        {
+            "group": None,
+            "group_count": giveaways.filter(group__isnull=True).count(),
+        },
+    )
+    g_by_every_x_bags = (
+        giveaways.values("every_x_bags").annotate(every_x_bags_count=Count("every_x_bags")).order_by("every_x_bags")
+    )
+    g_by_per_bag_count = (
+        giveaways.values("per_bag_count").annotate(per_bag_count_count=Count("per_bag_count")).order_by("per_bag_count")
+    )
+
     context = {
         "c_by_giveaway_data": [
             companies.filter(giveaway__isnull=False).count(),
@@ -417,8 +437,14 @@ def dashboard(request: WSGIRequest) -> HttpResponse:
             companies.filter(contact_again=True).count(),
             companies.filter(contact_again=False).count(),
         ],
-        "c_by_last_year_data": [companies.filter(last_year=True).count(), companies.filter(last_year=False).count()],
-        "c_by_promise_data": [companies.filter(promise=True).count(), companies.filter(promise=False).count()],
+        "c_by_last_year_data": [
+            companies.filter(last_year=True).count(),
+            companies.filter(last_year=False).count(),
+        ],
+        "c_by_promise_data": [
+            companies.filter(promise=True).count(),
+            companies.filter(promise=False).count(),
+        ],
         "c_by_email_sent_data": [
             companies.filter(email_sent=True, email_sent_success=False).count(),
             companies.filter(email_sent=True, email_sent_success=True).count(),
@@ -432,12 +458,28 @@ def dashboard(request: WSGIRequest) -> HttpResponse:
             g_companies.filter(last_year=True).count(),
             g_companies.filter(last_year=False).count(),
         ],
-        "gc_by_promise_data": [g_companies.filter(promise=True).count(), g_companies.filter(promise=False).count()],
+        "gc_by_promise_data": [
+            g_companies.filter(promise=True).count(),
+            g_companies.filter(promise=False).count(),
+        ],
         "gc_by_email_sent_data": [
             g_companies.filter(email_sent=True, email_sent_success=False).count(),
             g_companies.filter(email_sent=True, email_sent_success=True).count(),
             g_companies.filter(email_sent=False).count(),
         ],
+        "gc_by_giveaway_arrived_data": [
+            g_companies.filter(giveaway__arrived=True).count(),
+            g_companies.filter(giveaway__arrived=False).count(),
+        ],
+        "g_by_group_labels": [
+            str(get_or_none(GiveawayGroup, id=group["group"]) or _("NOT assigned to a giveaway-group"))
+            for group in g_by_group
+        ],
+        "g_by_group_data": [group["group_count"] for group in g_by_group],
+        "g_by_every_x_bags_labels": [str(every_x_bags["every_x_bags"]) for every_x_bags in g_by_every_x_bags],
+        "g_by_every_x_bags_data": [every_x_bags["every_x_bags_count"] for every_x_bags in g_by_every_x_bags],
+        "g_by_per_bag_count_labels": [str(per_bag_count["per_bag_count"]) for per_bag_count in g_by_per_bag_count],
+        "g_by_per_bag_count_data": [per_bag_count["per_bag_count_count"] for per_bag_count in g_by_per_bag_count],
     }
     return render(request, "bags/bags_dashboard.html", context=context)
 

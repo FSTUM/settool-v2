@@ -206,20 +206,35 @@ msgid "Promise status"
 msgstr "Zusagen-Status"
 
 #: bags/templates/bags/bags_dashboard.html
-msgid "Participated last year status"
-msgstr "Letztes Jahr teilgenommen Status"
-
-#: bags/templates/bags/bags_dashboard.html
-msgid "Contact again status"
-msgstr "Erneut kontaktieren Status"
-
-#: bags/templates/bags/bags_dashboard.html
 msgid "Giveaway status"
 msgstr "Werbegeschenke-Status"
 
 #: bags/templates/bags/bags_dashboard.html
 msgid "Companys with giveaways"
 msgstr "Firmen mit Werbegeschenken"
+
+#: bags/templates/bags/bags_dashboard.html bags/templates/bags/base_bags.html
+#: bags/templates/bags/company/list_companys.html
+#: bags/templates/bags/company/view_company.html
+#: bags/templates/bags/mail/send_mail.html
+msgid "Giveaways"
+msgstr "Werbegeschenke"
+
+#: bags/templates/bags/bags_dashboard.html
+msgid "Giveaway-arrival status"
+msgstr "Werbegeschenk-Aknunfts-Status"
+
+#: bags/templates/bags/bags_dashboard.html
+msgid "Grouped by giveaway-group"
+msgstr "Gruppiert nach Werbegeschenk-Gruppe"
+
+#: bags/templates/bags/bags_dashboard.html
+msgid "Grouped by Insert every x bags"
+msgstr "Gruppiert nach jede x Tüten beilegen"
+
+#: bags/templates/bags/bags_dashboard.html
+msgid "Grouped by per-bag-capacity"
+msgstr "Gruppiert nach Kapazität pro Tüte"
 
 #: bags/templates/bags/bags_dashboard.html
 msgid "E-Mail failiure"
@@ -259,6 +274,16 @@ msgstr "KEIN Werbegeschenk existiert"
 msgid "No Promise"
 msgstr "KEINE Zusage"
 
+#: bags/templates/bags/bags_dashboard.html
+msgid "Giveaway did arrive"
+msgstr "Werbegeschenke sind angekommen"
+
+#: bags/templates/bags/bags_dashboard.html
+#, fuzzy
+#| msgid "Giveaways already arrived"
+msgid "Giveaway did NOT arrive"
+msgstr "Werbegeschenke sind NICHT angekommen"
+
 #: bags/templates/bags/base_bags.html
 msgid "Companys"
 msgstr "Firmen"
@@ -271,13 +296,6 @@ msgstr "Firmenliste"
 #: bags/templates/bags/company/add_company.html
 msgid "Add a company"
 msgstr "Eine Firma hinzufügen"
-
-#: bags/templates/bags/base_bags.html
-#: bags/templates/bags/company/list_companys.html
-#: bags/templates/bags/company/view_company.html
-#: bags/templates/bags/mail/send_mail.html
-msgid "Giveaways"
-msgstr "Werbegeschenke"
 
 #: bags/templates/bags/base_bags.html
 msgid "List Giveaways"
@@ -610,6 +628,10 @@ msgstr "siehe Tabelle unten"
 #: bags/views.py
 msgid "The File was successfully uploaded"
 msgstr "Die Datei wurde noch erfolgreich hochgeladen"
+
+#: bags/views.py
+msgid "NOT assigned to a giveaway-group"
+msgstr "NICHT einer Werbegeschenk-Gruppe zugewiesen"
 
 #~ msgid "Giveaways last year"
 #~ msgstr "Werbegeschenke von letztem Jahr"

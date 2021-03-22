@@ -26,7 +26,7 @@
         </div>
     </div>
     <div class='col col-md'>
-        <h5>{% trans "Participated last year status" %}</h5>
+        <h5>{% trans "Participated last year" %}</h5>
         <div
             class='container-md'
             style='max-width: 20rem;min-width: 10rem;min-height: 30rem;'
@@ -35,7 +35,7 @@
         </div>
     </div>
     <div class='col col-md'>
-        <h5>{% trans "Contact again status" %}</h5>
+        <h5>{% trans "Contact again" %}</h5>
         <div
             class='container-md'
             style='max-width: 20rem;min-width: 10rem;min-height: 30rem;'
@@ -74,7 +74,7 @@
         </div>
     </div>
     <div class='col col-md'>
-        <h5>{% trans "Participated last year status" %}</h5>
+        <h5>{% trans "Participated last year" %}</h5>
         <div
             class='container-md'
             style='max-width: 20rem;min-width: 10rem;min-height: 30rem;'
@@ -83,7 +83,7 @@
         </div>
     </div>
     <div class='col col-md'>
-        <h5>{% trans "Contact again status" %}</h5>
+        <h5>{% trans "Contact again" %}</h5>
         <div
             class='container-md'
             style='max-width: 20rem;min-width: 10rem;min-height: 30rem;'
@@ -92,7 +92,51 @@
         </div>
     </div>
 </div>
+
+<h4 class='card-title'>{% trans "Giveaways" %}</h4>
+<div class='row'>
+    <div class='col col-md'>
+        <h5>{% trans "Giveaway-arrival status" %}</h5>
+        <div
+            class='container-md'
+            style='max-width: 20rem;min-width: 10rem;min-height: 30rem;'
+        >
+            <canvas id='gc_by_giveaway_arrived'></canvas>
+        </div>
+    </div>
+    <div class='col col-md'>
+        <h5>{% trans "Grouped by giveaway-group" %}</h5>
+        <div
+            class='container-md'
+            style='max-width: 20rem;min-width: 10rem;min-height: 30rem;'
+        >
+            <canvas id='g_by_group'></canvas>
+        </div>
+    </div>
+    <div class='col col-md'>
+        <h5>{% trans "Grouped by Insert every x bags" %}</h5>
+        <div
+            class='container-md'
+            style='max-width: 20rem;min-width: 10rem;min-height: 30rem;'
+        >
+            <canvas id='g_by_every_x_bags'></canvas>
+        </div>
+    </div>
+    <div class='col col-md'>
+        <h5>{% trans "Grouped by per-bag-capacity" %}</h5>
+        <div
+            class='container-md'
+            style='max-width: 20rem;min-width: 10rem;min-height: 30rem;'
+        >
+            <canvas id='g_by_per_bag_count'></canvas>
+        </div>
+    </div>
+</div>
 {% endblock %}
+
+
+
+
 
 {% block defered_script %}
 <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4"></script>
@@ -228,6 +272,128 @@
                 {
                     data: {{ gc_by_contact_again_data }},
                     backgroundColor: ['#1dd1a1', '#ff6b6b'],
+                },
+            ],
+        },
+        options: chartOptions,
+    });
+    /* eslint no-new: off */
+    new Chart(document.getElementById('gc_by_giveaway_arrived').getContext('2d'), {
+        type: 'doughnut',
+        data: {
+            labels: ['{% trans "Giveaway did arrive" %}', '{% trans "Giveaway did NOT arrive" %}'],
+            datasets: [
+                {
+                    data: {{ gc_by_giveaway_arrived_data }},
+                    backgroundColor: ['#1dd1a1', '#ff6b6b'],
+                },
+            ],
+        },
+        options: chartOptions,
+    });
+    /* eslint no-new: off */
+    new Chart(document.getElementById('g_by_group').getContext('2d'), {
+        type: 'doughnut',
+        data: {
+            labels: {{ g_by_group_labels|safe }},
+            datasets: [
+                {
+                    data: {{ g_by_group_data }},
+                    backgroundColor: [
+                        '#1dd1a1',
+                        '#48dbfb',
+                        '#feca57',
+                        '#70a1ff',
+                        '#ff6b6b',
+                        '#badc58',
+                        '#ff9ff3',
+                        '#c8d6e5',
+                        '#f6e58d',
+                        '#00d2d3',
+                        '#54a0ff',
+                        '#ff7979',
+                        '#ffbe76',
+                        '#7ed6df',
+                        '#95afc0',
+                        '#ff7f50',
+                        '#eccc68',
+                        '#7bed9f',
+                        '#2ed573',
+                        '#a4b0be',
+                        '#f1f2f6',
+                    ],
+                },
+            ],
+        },
+        options: chartOptions,
+    });
+    /* eslint no-new: off */
+    new Chart(document.getElementById('g_by_every_x_bags').getContext('2d'), {
+        type: 'doughnut',
+        data: {
+            labels: {{ g_by_every_x_bags_labels|safe }},
+            datasets: [
+                {
+                    data: {{ g_by_every_x_bags_data }},
+                    backgroundColor: [
+                        '#1dd1a1',
+                        '#48dbfb',
+                        '#feca57',
+                        '#70a1ff',
+                        '#ff6b6b',
+                        '#badc58',
+                        '#ff9ff3',
+                        '#c8d6e5',
+                        '#f6e58d',
+                        '#00d2d3',
+                        '#54a0ff',
+                        '#ff7979',
+                        '#ffbe76',
+                        '#7ed6df',
+                        '#95afc0',
+                        '#ff7f50',
+                        '#eccc68',
+                        '#7bed9f',
+                        '#2ed573',
+                        '#a4b0be',
+                        '#f1f2f6',
+                    ],
+                },
+            ],
+        },
+        options: chartOptions,
+    });
+    /* eslint no-new: off */
+    new Chart(document.getElementById('g_by_per_bag_count').getContext('2d'), {
+        type: 'doughnut',
+        data: {
+            labels: {{ g_by_per_bag_count_labels|safe }},
+            datasets: [
+                {
+                    data: {{ g_by_per_bag_count_data }},
+                    backgroundColor: [
+                        '#1dd1a1',
+                        '#48dbfb',
+                        '#feca57',
+                        '#70a1ff',
+                        '#ff6b6b',
+                        '#badc58',
+                        '#ff9ff3',
+                        '#c8d6e5',
+                        '#f6e58d',
+                        '#00d2d3',
+                        '#54a0ff',
+                        '#ff7979',
+                        '#ffbe76',
+                        '#7ed6df',
+                        '#95afc0',
+                        '#ff7f50',
+                        '#eccc68',
+                        '#7bed9f',
+                        '#2ed573',
+                        '#a4b0be',
+                        '#f1f2f6',
+                    ],
                 },
             ],
         },
