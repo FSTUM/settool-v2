@@ -6,22 +6,89 @@
 
 {% block set_common_content %}
 <h4 class='card-title'>{% trans "All Companys" %}</h4>
-<h5>{% trans "Grouped by status" %}</h5>
-<div
-    class='container-md'
-    style='max-width: 30rem;min-width: 10rem;min-height: 30rem;'
->
-    <canvas id='c_by_group_chart'></canvas>
-</div>
-<h4 class='card-title'>{% trans "Companys with giveaways" %}</h4>
 <div class='row'>
     <div class='col col-md'>
-        <h5>{% trans "Grouped by XX" %}</h5>
+        <h5>{% trans "E-Mail status" %}</h5>
         <div
             class='container-md'
             style='max-width: 20rem;min-width: 10rem;min-height: 30rem;'
         >
-            <canvas id='c_by_food_chart'></canvas>
+            <canvas id='c_by_email_sent'></canvas>
+        </div>
+    </div>
+    <div class='col col-md'>
+        <h5>{% trans "Promise status" %}</h5>
+        <div
+            class='container-md'
+            style='max-width: 20rem;min-width: 10rem;min-height: 30rem;'
+        >
+            <canvas id='c_by_promise'></canvas>
+        </div>
+    </div>
+    <div class='col col-md'>
+        <h5>{% trans "Participated last year status" %}</h5>
+        <div
+            class='container-md'
+            style='max-width: 20rem;min-width: 10rem;min-height: 30rem;'
+        >
+            <canvas id='c_by_last_year'></canvas>
+        </div>
+    </div>
+    <div class='col col-md'>
+        <h5>{% trans "Contact again status" %}</h5>
+        <div
+            class='container-md'
+            style='max-width: 20rem;min-width: 10rem;min-height: 30rem;'
+        >
+            <canvas id='c_by_contact_again'></canvas>
+        </div>
+    </div>
+    <div class='col col-md'>
+        <h5>{% trans "Giveaway status" %}</h5>
+        <div
+            class='container-md'
+            style='max-width: 20rem;min-width: 10rem;min-height: 30rem;'
+        >
+            <canvas id='c_by_giveaway'></canvas>
+        </div>
+    </div>
+</div>
+<h4 class='card-title'>{% trans "Companys with giveaways" %}</h4>
+<div class='row'>
+    <div class='col col-md'>
+        <h5>{% trans "E-Mail status" %}</h5>
+        <div
+            class='container-md'
+            style='max-width: 20rem;min-width: 10rem;min-height: 30rem;'
+        >
+            <canvas id='gc_by_email_sent'></canvas>
+        </div>
+    </div>
+    <div class='col col-md'>
+        <h5>{% trans "Promise status" %}</h5>
+        <div
+            class='container-md'
+            style='max-width: 20rem;min-width: 10rem;min-height: 30rem;'
+        >
+            <canvas id='gc_by_promise'></canvas>
+        </div>
+    </div>
+    <div class='col col-md'>
+        <h5>{% trans "Participated last year status" %}</h5>
+        <div
+            class='container-md'
+            style='max-width: 20rem;min-width: 10rem;min-height: 30rem;'
+        >
+            <canvas id='gc_by_last_year'></canvas>
+        </div>
+    </div>
+    <div class='col col-md'>
+        <h5>{% trans "Contact again status" %}</h5>
+        <div
+            class='container-md'
+            style='max-width: 20rem;min-width: 10rem;min-height: 30rem;'
+        >
+            <canvas id='gc_by_contact_again'></canvas>
         </div>
     </div>
 </div>
@@ -33,36 +100,134 @@
     /* global Chart */
     const chartOptions = { maintainAspectRatio: false };
     /* eslint no-new: off */
-    new Chart(document.getElementById('c_by_group_chart').getContext('2d'), {
+    new Chart(document.getElementById('c_by_email_sent').getContext('2d'), {
         type: 'doughnut',
         data: {
-            labels: {{ c_by_group_labels|safe }},
+            labels: [
+                '{% trans "E-Mail failiure" %}',
+                '{% trans "E-Mail successfully sent" %}',
+                '{% trans "E-Mail Not sent" %}',
+            ],
             datasets: [
                 {
-                    data: {{ c_by_group_data }},
-                    backgroundColor: [
-                        '#1dd1a1',
-                        '#48dbfb',
-                        '#feca57',
-                        '#70a1ff',
-                        '#ff6b6b',
-                        '#badc58',
-                        '#ff9ff3',
-                        '#c8d6e5',
-                        '#f6e58d',
-                        '#00d2d3',
-                        '#54a0ff',
-                        '#ff7979',
-                        '#ffbe76',
-                        '#7ed6df',
-                        '#95afc0',
-                        '#ff7f50',
-                        '#eccc68',
-                        '#7bed9f',
-                        '#2ed573',
-                        '#a4b0be',
-                        '#f1f2f6',
-                    ],
+                    data: {{ c_by_email_sent_data }},
+                    backgroundColor: ['#ff7f50', '#1dd1a1', '#ff6b6b'],
+                },
+            ],
+        },
+        options: chartOptions,
+    });
+    /* eslint no-new: off */
+    new Chart(document.getElementById('c_by_promise').getContext('2d'), {
+        type: 'doughnut',
+        data: {
+            labels: ['{% trans "Promise" %}', '{% trans "NO Promise" %}'],
+            datasets: [
+                {
+                    data: {{ c_by_promise_data }},
+                    backgroundColor: ['#1dd1a1', '#ff6b6b'],
+                },
+            ],
+        },
+        options: chartOptions,
+    });
+    /* eslint no-new: off */
+    new Chart(document.getElementById('c_by_last_year').getContext('2d'), {
+        type: 'doughnut',
+        data: {
+            labels: ['{% trans "Participated last year" %}', '{% trans "NOT Participated last year" %}'],
+            datasets: [
+                {
+                    data: {{ c_by_last_year_data }},
+                    backgroundColor: ['#1dd1a1', '#ff6b6b'],
+                },
+            ],
+        },
+        options: chartOptions,
+    });
+    /* eslint no-new: off */
+    new Chart(document.getElementById('c_by_contact_again').getContext('2d'), {
+        type: 'doughnut',
+        data: {
+            labels: ['{% trans "Contact again" %}', '{% trans "Do NOT Contact again" %}'],
+            datasets: [
+                {
+                    data: {{ c_by_contact_again_data }},
+                    backgroundColor: ['#1dd1a1', '#ff6b6b'],
+                },
+            ],
+        },
+        options: chartOptions,
+    });
+    /* eslint no-new: off */
+    new Chart(document.getElementById('c_by_giveaway').getContext('2d'), {
+        type: 'doughnut',
+        data: {
+            labels: ['{% trans "Giveaway exists" %}', '{% trans "Giveaway does NOT exists" %}'],
+            datasets: [
+                {
+                    data: {{ c_by_giveaway_data }},
+                    backgroundColor: ['#1dd1a1', '#ff6b6b'],
+                },
+            ],
+        },
+        options: chartOptions,
+    });
+    /* eslint no-new: off */
+    new Chart(document.getElementById('gc_by_email_sent').getContext('2d'), {
+        type: 'doughnut',
+        data: {
+            labels: [
+                '{% trans "E-Mail failiure" %}',
+                '{% trans "E-Mail successfully sent" %}',
+                '{% trans "E-Mail Not sent" %}',
+            ],
+            datasets: [
+                {
+                    data: {{ gc_by_email_sent_data }},
+                    backgroundColor: ['#ff7f50', '#1dd1a1', '#ff6b6b'],
+                },
+            ],
+        },
+        options: chartOptions,
+    });
+    /* eslint no-new: off */
+    new Chart(document.getElementById('gc_by_promise').getContext('2d'), {
+        type: 'doughnut',
+        data: {
+            labels: ['{% trans "Promise" %}', '{% trans "No Promise" %}'],
+            datasets: [
+                {
+                    data: {{ gc_by_promise_data }},
+                    backgroundColor: ['#1dd1a1', '#ff6b6b'],
+                },
+            ],
+        },
+        options: chartOptions,
+    });
+    /* eslint no-new: off */
+    new Chart(document.getElementById('gc_by_last_year').getContext('2d'), {
+        type: 'doughnut',
+        data: {
+            labels: ['{% trans "Participated last year" %}', '{% trans "NOT Participated last year" %}'],
+            datasets: [
+                {
+                    data: {{ gc_by_last_year_data }},
+                    backgroundColor: ['#1dd1a1', '#ff6b6b'],
+                },
+            ],
+        },
+        options: chartOptions,
+    });
+    /* eslint no-new: off */
+    new Chart(document.getElementById('gc_by_contact_again').getContext('2d'), {
+        type: 'doughnut',
+        data: {
+            labels: ['{% trans "Contact again" %}', '{% trans "Do NOT Contact again" %}'],
+            datasets: [
+                {
+                    data: {{ gc_by_contact_again_data }},
+                    backgroundColor: ['#1dd1a1', '#ff6b6b'],
                 },
             ],
         },

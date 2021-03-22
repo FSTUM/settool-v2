@@ -401,9 +401,38 @@ def export_csv(request: WSGIRequest) -> HttpResponse:
 
 @permission_required("bags.view_companies")
 def dashboard(request: WSGIRequest) -> HttpResponse:
+    companies = Company.objects
+    g_companies = Company.objects.filter(giveaway__isnull=False)
     context = {
-        "c_by_group_labels": None,
-        "c_by_group_data": None,
+        "c_by_giveaway_data": [
+            companies.filter(giveaway__isnull=False).count(),
+            companies.filter(giveaway__isnull=True).count(),
+        ],
+        "c_by_contact_again_data": [
+            companies.filter(contact_again=True).count(),
+            companies.filter(contact_again=False).count(),
+        ],
+        "c_by_last_year_data": [companies.filter(last_year=True).count(), companies.filter(last_year=False).count()],
+        "c_by_promise_data": [companies.filter(promise=True).count(), companies.filter(promise=False).count()],
+        "c_by_email_sent_data": [
+            companies.filter(email_sent=True, email_sent_success=False).count(),
+            companies.filter(email_sent=True, email_sent_success=True).count(),
+            companies.filter(email_sent=False).count(),
+        ],
+        "gc_by_contact_again_data": [
+            g_companies.filter(contact_again=True).count(),
+            g_companies.filter(contact_again=False).count(),
+        ],
+        "gc_by_last_year_data": [
+            g_companies.filter(last_year=True).count(),
+            g_companies.filter(last_year=False).count(),
+        ],
+        "gc_by_promise_data": [g_companies.filter(promise=True).count(), g_companies.filter(promise=False).count()],
+        "gc_by_email_sent_data": [
+            g_companies.filter(email_sent=True, email_sent_success=False).count(),
+            g_companies.filter(email_sent=True, email_sent_success=True).count(),
+            g_companies.filter(email_sent=False).count(),
+        ],
     }
     return render(request, "bags/bags_dashboard.html", context=context)
 

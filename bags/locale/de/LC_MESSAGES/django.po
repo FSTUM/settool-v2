@@ -15,7 +15,8 @@ msgstr "E-Mail-Vorlage:"
 msgid "Email was not (successfully) sent"
 msgstr "E-Mail wurde noch nicht (erfolgreich) versendet"
 
-#: bags/forms.py bags/models.py bags/templates/bags/company/list_companys.html
+#: bags/forms.py bags/models.py bags/templates/bags/bags_dashboard.html
+#: bags/templates/bags/company/list_companys.html
 #: bags/templates/bags/company/view_company.html
 #: bags/templates/bags/mail/send_mail.html
 msgid "Participated last year"
@@ -110,7 +111,8 @@ msgstr "E-Mail gesendet"
 msgid "Email successfully sent"
 msgstr "E-Mail erfolgreich gesendet"
 
-#: bags/models.py bags/templates/bags/company/list_companys.html
+#: bags/models.py bags/templates/bags/bags_dashboard.html
+#: bags/templates/bags/company/list_companys.html
 #: bags/templates/bags/company/view_company.html
 #: bags/templates/bags/mail/send_mail.html
 msgid "Promise"
@@ -124,7 +126,8 @@ msgstr "Zusage"
 msgid "Comment"
 msgstr "Kommentar"
 
-#: bags/models.py bags/templates/bags/company/list_companys.html
+#: bags/models.py bags/templates/bags/bags_dashboard.html
+#: bags/templates/bags/company/list_companys.html
 #: bags/templates/bags/company/view_company.html
 #: bags/templates/bags/mail/send_mail.html
 msgid "Contact again"
@@ -185,16 +188,66 @@ msgid "All Companys"
 msgstr "Alle Firmen"
 
 #: bags/templates/bags/bags_dashboard.html
-msgid "Grouped by status"
-msgstr "Nach Status gruppiert"
+msgid "E-Mail status"
+msgstr "E-Mail-Status"
+
+#: bags/templates/bags/bags_dashboard.html
+msgid "Promise status"
+msgstr "Zusagen-Status"
+
+#: bags/templates/bags/bags_dashboard.html
+msgid "Participated last year status"
+msgstr "Letztes Jahr teilgenommen Status"
+
+#: bags/templates/bags/bags_dashboard.html
+msgid "Contact again status"
+msgstr "Erneut kontaktieren Status"
+
+#: bags/templates/bags/bags_dashboard.html
+msgid "Giveaway status"
+msgstr "Werbegeschenke-Status"
 
 #: bags/templates/bags/bags_dashboard.html
 msgid "Companys with giveaways"
 msgstr "Firmen mit Werbegeschenken"
 
 #: bags/templates/bags/bags_dashboard.html
-msgid "Grouped by XX"
-msgstr "Gruppiert nach XX"
+msgid "E-Mail failiure"
+msgstr "E-Mail-Fehler"
+
+#: bags/templates/bags/bags_dashboard.html
+msgid "E-Mail successfully sent"
+msgstr "E-Mail erfolgreich gesendet"
+
+#: bags/templates/bags/bags_dashboard.html
+msgid "E-Mail Not sent"
+msgstr "E-Mail NICHT gesendet"
+
+#: bags/templates/bags/bags_dashboard.html
+msgid "NO Promise"
+msgstr "KEINE Zusage"
+
+#: bags/templates/bags/bags_dashboard.html
+msgid "NOT Participated last year"
+msgstr "Letztes Jahr NICHT teilgenommen"
+
+#: bags/templates/bags/bags_dashboard.html
+msgid "Do NOT Contact again"
+msgstr "NICHT erneut kontaktieren"
+
+#: bags/templates/bags/bags_dashboard.html
+msgid "Giveaway exists"
+msgstr "Werbegeschenk existiert"
+
+#: bags/templates/bags/bags_dashboard.html
+msgid "Giveaway does NOT exists"
+msgstr "KEIN Werbegeschenk existiert"
+
+#: bags/templates/bags/bags_dashboard.html
+#, fuzzy
+#| msgid "NO Promise"
+msgid "No Promise"
+msgstr "KEINE Zusage"
 
 #: bags/templates/bags/base_bags.html
 msgid "Companys"
