@@ -5,6 +5,11 @@
 {% block head %}
 <script
     crossorigin='anonymous'
+    integrity='sha512-/WRL6m0vrZwChpCDXLzRVpFqM5FqmF0k5A7NWQ+HvhtUtREs8MemDuFcMfEHZqg53UJmWbrs9aAWl6cDwdDv6w=='
+    src='https://cdnjs.cloudflare.com/ajax/libs/poshytip/1.2/jquery.poshytip.min.js'
+></script>
+<script
+    crossorigin='anonymous'
     src="https://cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/jquery-editable/js/jquery-editable-poshytip.min.js"
 ></script>
 <link
@@ -19,29 +24,17 @@
         $('#selectAllButton').attr('onclick', `selectAllSelectable(${!newState})`);
     }
 
-    const displayTrueFalse = (value, _, response) => {
-        if (value === 'True') {
+    const displayTrueFalseNoneFailure = (value, _, response) => {
+        if (value === 'None') {
+            $(response).html(`{% include "snippets/true_false_none_span.html" with value=None %}`);
+        } else if (value === 'Failure') {
+            $(response).html(`{% include "snippets/true_false_none_span.html" with value="Failure" %}`);
+        } else if (value === 'True') {
             $(response).html(`{% include "snippets/true_false_span.html" with value=True%}`);
         } else if (value === 'False') {
             $(response).html(`{% include "snippets/true_false_span.html" with value=False%}`);
         } else {
             $(response).empty();
-        }
-    };
-
-    const displayTrueFalseNone = (value, _, response) => {
-        if (value === 'None') {
-            $(response).html(`{% include "snippets/true_false_none_span.html" with value=None %}`);
-        } else {
-            displayTrueFalse(value, _, response);
-        }
-    };
-
-    const displayTrueFalseFailure = (value, _, response) => {
-        if (value === 'Failure') {
-            $(response).html(`{% include "snippets/true_false_none_span.html" with value="Failure" %}`);
-        } else {
-            displayTrueFalse(value, _, response);
         }
     };
 
@@ -57,17 +50,17 @@
             ],
             paging: false,
         });
-        $.fn.editableform.buttons = `<button class="btn btn-primary btn-sm editable-submit" type="submit">
-                                        <span class="bi bi-check"></span>
+        $.fn.editableform.buttons = `<button class='btn btn-primary btn-sm editable-submit' type='submit'>
+                                        <span class='bi bi-check'></span>
                                     </button>`;
         $.fn.editableform.loading = `<div>
-                                        <span aria-hidden="true" class="spinner-border spinner-border-sm" role="status"></span>
-                                        <span class="sr-only">Loading...</span>
+                                        <span aria-hidden='true' class='spinner-border spinner-border-sm' role='status'></span>
+                                        <span class='sr-only'>Loading...</span>
                                      </div>`;
         $.fn.editable.defaults.mode = 'inline';
         $.fn.editable.defaults.emptytext = '-';
 
-        {% for company, select in companies %}
+        {% for company, select in companies_and_select %}
         $('#company_{{ company.id }}_email').editable({});
         $('#company_{{ company.id }}_email_sent').editable({
             escape: false,
@@ -78,17 +71,17 @@
                 { value: 'False', text: '{% trans "No" %}' },
                 { value: 'Failure', text: '{% trans "Failure" %}' },
             ],
-            display: displayTrueFalseFailure,
+            display: displayTrueFalseNoneFailure,
         });
         $('#company_{{ company.id }}_promise').editable({
             escape: false,
             value: '{{ company.promise }}',
             source: [
-                { value: 'None', text: '{% trans "Unknown" %}' },
                 { value: 'True', text: '{% trans "Yes" %}' },
                 { value: 'False', text: '{% trans "No" %}' },
+                { value: 'None', text: '{% trans "Unknown" %}' },
             ],
-            display: displayTrueFalseNone,
+            display: displayTrueFalseNoneFailure,
         });
         $('#company_{{ company.id }}_last_year').editable({
             escape: false,
@@ -97,17 +90,17 @@
                 { value: 'True', text: '{% trans "Yes" %}' },
                 { value: 'False', text: '{% trans "No" %}' },
             ],
-            display: displayTrueFalse,
+            display: displayTrueFalseNoneFailure,
         });
         $('#company_{{ company.id }}_contact_again').editable({
             escape: false,
             value: '{{ company.contact_again }}',
             source: [
-                { value: 'None', text: '{% trans "Unknown" %}' },
                 { value: 'True', text: '{% trans "Yes" %}' },
                 { value: 'False', text: '{% trans "No" %}' },
+                { value: 'None', text: '{% trans "Unknown" %}' },
             ],
-            display: displayTrueFalseNone,
+            display: displayTrueFalseNoneFailure,
         });
         $('#company_{{ company.id }}_comment').editable({});
         {% endfor %}
