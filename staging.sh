@@ -1,7 +1,7 @@
 #!/bin/sh
 
 #always being in top of things is good
-git pull
+git pull --ff-only
 
 # init_venv.sh
 if [ -d "./bin" ];then

@@ -1,0 +1,44 @@
+{% load i18n %}
+{% if ungrouped_giveaways %}
+<h1 class='card-title mt-3'>{% trans "Ungrouped Giveaways" %}</h1>
+<div class="table-responsive">
+    <table
+        id="giveawayTable"
+        class="table dataTable dataTableUngrouped"
+    >
+        <thead>
+            <tr>
+                <th>{% trans "Company" %}</th>
+                <th>{% trans "Giveaway-title" %}</th>
+                <th>{% trans "Distribution over bags" %}</th>
+                <th>{% trans "Arrival time" %}</th>
+                <th>{% trans "Arrived" %}</th>
+                <th>{% trans "Actions" %}</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for giveaway in ungrouped_giveaways %}
+            <tr>
+                <td><a href="{% url "bags:view_company" giveaway.company.id %}">{{ giveaway.company }}</a></td>
+                <td>{{ giveaway.name }}</td>
+                <td>
+                    <a
+                        type="button"
+                        class="update-giveaway_ungrouped"
+                        data-form-url="{% url 'bags:update_giveaway' giveaway.pk %}"
+                    >
+                        {{ giveaway.custom_per_bag_message }}
+                    </a>
+                </td>
+                <td>{{ giveaway.arrival_time|default:"-" }}</td>
+                <td>{% include "snippets/true_false_span.html" with value=giveaway.arrived %}</td>
+                <td>
+                    <a href="{% url "bags:edit_giveaway" giveaway.id %}"><span class="bi bi-pencil-square"></span></a>
+                    <a href="{% url "bags:del_giveaway" giveaway.id %}"><span class="bi bi-trash-fill"></span></a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endif %}

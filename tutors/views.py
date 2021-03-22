@@ -50,7 +50,7 @@ from tutors.tokens import account_activation_token
 
 
 def tutor_signup(request: WSGIRequest) -> HttpResponse:
-    semester = get_object_or_404(Semester, pk=get_semester(request))
+    semester: Semester = get_object_or_404(Semester, pk=get_semester(request))
     settings = get_object_or_404(Settings, semester=semester)
 
     if not settings.registration_open():
@@ -115,7 +115,7 @@ def save_answer_formset(answer_formset, tutor_id):
 
 
 def collaborator_signup(request: WSGIRequest) -> HttpResponse:
-    semester = get_object_or_404(Semester, pk=get_semester(request))
+    semester: Semester = get_object_or_404(Semester, pk=get_semester(request))
     settings = get_object_or_404(Settings, semester=semester)
 
     if not settings.registration_open():
@@ -205,7 +205,7 @@ def tutor_signup_confirm(request: WSGIRequest, uidb64: Any, token: Any) -> HttpR
 
 @permission_required("tutors.edit_tutors")
 def list_participants(request: WSGIRequest, status: str) -> HttpResponse:
-    semester = get_object_or_404(Semester, pk=get_semester(request))
+    semester: Semester = get_object_or_404(Semester, pk=get_semester(request))
 
     if status == "all":
         tutors = Tutor.objects.filter(semester=semester)
@@ -258,7 +258,7 @@ def del_tutor(request: WSGIRequest, uid: UUID) -> HttpResponse:
 
 @permission_required("tutors.edit_tutors")
 def edit_tutor(request: WSGIRequest, uid: UUID) -> HttpResponse:
-    semester = get_object_or_404(Semester, pk=get_semester(request))
+    semester: Semester = get_object_or_404(Semester, pk=get_semester(request))
     tutor = get_object_or_404(Tutor, pk=uid)
 
     question_count = Question.objects.filter(semester=semester).count()
@@ -338,7 +338,7 @@ def edit_event(request: WSGIRequest, uid: UUID) -> HttpResponse:
 
 @permission_required("tutors.edit_tutors")
 def list_event(request: WSGIRequest) -> HttpResponse:
-    semester = get_object_or_404(Semester, pk=get_semester(request))
+    semester: Semester = get_object_or_404(Semester, pk=get_semester(request))
     events = Event.objects.filter(semester=semester).order_by("begin")
     return render(request, "tutors/event/list.html", {"events": events})
 
@@ -362,7 +362,7 @@ def del_event(request: WSGIRequest, uid: UUID) -> HttpResponse:
 
 @permission_required("tutors.edit_tutors")
 def add_event(request: WSGIRequest) -> HttpResponse:
-    semester = get_object_or_404(Semester, pk=get_semester(request))
+    semester: Semester = get_object_or_404(Semester, pk=get_semester(request))
 
     form = EventAdminForm(request.POST or None, semester=semester)
     if form.is_valid():
@@ -431,7 +431,7 @@ def del_task(request: WSGIRequest, uid: UUID) -> HttpResponse:
 
 @permission_required("tutors.edit_tutors")
 def add_task(request: WSGIRequest, eid: Optional[UUID] = None) -> HttpResponse:
-    semester = get_object_or_404(Semester, pk=get_semester(request))
+    semester: Semester = get_object_or_404(Semester, pk=get_semester(request))
 
     form = TaskAdminForm(request.POST or None, semester=semester, initial={"event": eid})
     if form.is_valid():
@@ -449,7 +449,7 @@ def add_task(request: WSGIRequest, eid: Optional[UUID] = None) -> HttpResponse:
 
 
 def view_task(request: WSGIRequest, uid: UUID) -> HttpResponse:
-    semester = get_object_or_404(Semester, pk=get_semester(request))
+    semester: Semester = get_object_or_404(Semester, pk=get_semester(request))
     task = get_object_or_404(Task, pk=uid)
 
     if not request.user.has_perm("tutors.edit_tutors"):
@@ -484,7 +484,7 @@ def view_task(request: WSGIRequest, uid: UUID) -> HttpResponse:
 
 @permission_required("tutors.edit_tutors")
 def list_requirements(request: WSGIRequest) -> HttpResponse:
-    semester = get_object_or_404(Semester, pk=get_semester(request))
+    semester: Semester = get_object_or_404(Semester, pk=get_semester(request))
     questions = Question.objects.filter(semester=semester)
     return render(request, "tutors/requirement/list.html", {"requirements": questions})
 
@@ -497,7 +497,7 @@ def view_requirement(request: WSGIRequest, uid: UUID) -> HttpResponse:
 
 @permission_required("tutors.edit_tutors")
 def add_requirement(request: WSGIRequest) -> HttpResponse:
-    semester = get_object_or_404(Semester, pk=get_semester(request))
+    semester: Semester = get_object_or_404(Semester, pk=get_semester(request))
 
     form = RequirementAdminForm(request.POST or None, semester=semester)
     if form.is_valid():
@@ -555,7 +555,7 @@ def del_requirement(request: WSGIRequest, uid: UUID) -> HttpResponse:
 
 @permission_required("tutors.edit_tutors")
 def task_mail(request: WSGIRequest, uid: UUID, mail_pk: Optional[int] = None) -> HttpResponse:
-    semester = get_object_or_404(Semester, pk=get_semester(request))
+    semester: Semester = get_object_or_404(Semester, pk=get_semester(request))
     settings = get_object_or_404(Settings, semester=semester)
     task = get_object_or_404(Task, pk=uid)
 
@@ -607,7 +607,7 @@ def task_mail(request: WSGIRequest, uid: UUID, mail_pk: Optional[int] = None) ->
 
 @permission_required("tutors.edit_tutors")
 def export(request: WSGIRequest, file_type: str, status: str = "all") -> Union[HttpResponse, PDFResponse]:
-    semester = get_object_or_404(Semester, pk=get_semester(request))
+    semester: Semester = get_object_or_404(Semester, pk=get_semester(request))
 
     if status == "all":
         tutors = Tutor.objects.filter(semester=semester)
@@ -644,7 +644,7 @@ def export_task(request: WSGIRequest, file_type: str, uid: UUID) -> PDFResponse:
 
 @permission_required("tutors.edit_tutors")
 def general_settings(request: WSGIRequest) -> HttpResponse:
-    semester = get_object_or_404(Semester, pk=get_semester(request))
+    semester: Semester = get_object_or_404(Semester, pk=get_semester(request))
     all_tutor_settings = Settings.objects.filter(semester=semester)
     if all_tutor_settings.count() == 0:
         settings = None
@@ -673,7 +673,7 @@ def general_settings(request: WSGIRequest) -> HttpResponse:
 
 @permission_required("tutors.edit_tutors")
 def tutor_settings(request: WSGIRequest) -> HttpResponse:
-    semester = get_object_or_404(Semester, pk=get_semester(request))
+    semester: Semester = get_object_or_404(Semester, pk=get_semester(request))
 
     subject_count = Subject.objects.all().count()
     subjects_existing = SubjectTutorCountAssignment.objects.filter(semester=semester)
@@ -735,7 +735,7 @@ def send_mail(
     mail_pk: Optional[int] = None,
     uid: Optional[UUID] = None,
 ) -> HttpResponse:
-    semester = get_object_or_404(Semester, pk=get_semester(request))
+    semester: Semester = get_object_or_404(Semester, pk=get_semester(request))
     settings = get_object_or_404(Settings, semester=semester)
     template = default_tutor_mail(settings, status, mail_pk)
 
@@ -843,7 +843,7 @@ def default_tutor_mail(
 
 @permission_required("tutors.edit_tutors")
 def batch_accept(request: WSGIRequest) -> HttpResponse:
-    semester = get_object_or_404(Semester, pk=get_semester(request))
+    semester: Semester = get_object_or_404(Semester, pk=get_semester(request))
     tutors_active = Tutor.objects.filter(semester=semester, status=Tutor.STATUS_ACTIVE)
     tutors_accepted = Tutor.objects.filter(semester=semester, status=Tutor.STATUS_ACCEPTED)
     assignments_wish_counter = SubjectTutorCountAssignment.objects.filter(semester=semester)
@@ -894,7 +894,7 @@ def batch_accept(request: WSGIRequest) -> HttpResponse:
 
 @permission_required("tutors.edit_tutors")
 def batch_decline(request: WSGIRequest) -> HttpResponse:
-    semester = get_object_or_404(Semester, pk=get_semester(request))
+    semester: Semester = get_object_or_404(Semester, pk=get_semester(request))
     tutors_active = Tutor.objects.filter(semester=semester, status=Tutor.STATUS_ACTIVE)
     tutors_accepted = Tutor.objects.filter(semester=semester, status=Tutor.STATUS_ACCEPTED)
     assignments_wish_counter = SubjectTutorCountAssignment.objects.filter(semester=semester)
@@ -945,7 +945,7 @@ def batch_decline(request: WSGIRequest) -> HttpResponse:
 
 @permission_required("tutors.edit_tutors")
 def dashboard(request: WSGIRequest) -> HttpResponse:
-    semester = get_object_or_404(Semester, pk=get_semester(request))
+    semester: Semester = get_object_or_404(Semester, pk=get_semester(request))
 
     assignments_wish_counter: QuerySet[SubjectTutorCountAssignment]
     assignments_wish_counter = SubjectTutorCountAssignment.objects.filter(semester=semester)

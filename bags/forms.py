@@ -1,5 +1,6 @@
 from typing import List
 
+from bootstrap_modal_forms.forms import BSModalModelForm
 from django import forms
 from django.utils.translation import ugettext_lazy as _
 
@@ -7,7 +8,7 @@ from settool_common.forms import produce_csv_file_upload_field, SemesterBasedFor
 from settool_common.models import Semester
 from settool_common.utils import produce_field_with_autosubmit
 
-from .models import BagMail, Company
+from .models import BagMail, Company, Giveaway, GiveawayGroup
 
 
 class CompanyForm(SemesterBasedModelForm):
@@ -16,17 +17,34 @@ class CompanyForm(SemesterBasedModelForm):
         exclude = ["semester"]
 
 
-class GiveawayForm(SemesterBasedForm):
-    company = forms.ModelChoiceField(
+class GiveawayForm(SemesterBasedModelForm):
+    class Meta:
+        model = Giveaway
+        exclude: List[str] = []
+
+
+class GiveawayDistributionModelForm(BSModalModelForm):
+    class Meta:
+        model = Giveaway
+        fields = ["per_bag_count", "every_x_bags"]
+
+
+class GiveawayGroupForm(SemesterBasedModelForm):
+    class Meta:
+        model = GiveawayGroup
+        exclude: List[str] = ["semester"]
+
+
+class GiveawayToGiveawayGroupForm(SemesterBasedForm):
+    giveaway = forms.ModelChoiceField(
         queryset=None,
-        label=_("Company"),
+        label=_("Giveaway"),
     )
 
-    giveaways = forms.CharField(label=_("Giveaways"))
-
     def __init__(self, *args, **kwargs):
+        giveaway_group: GiveawayGroup = kwargs.pop("giveaway_group")
         super().__init__(*args, **kwargs)
-        self.fields["company"].queryset = self.semester.company_set.filter(giveaways="").order_by("name")
+        self.fields["giveaway"].queryset = Giveaway.objects.exclude(id__in=giveaway_group.giveaway_set.all())
 
 
 class MailForm(forms.ModelForm):
@@ -53,7 +71,8 @@ class FilterCompaniesForm(forms.Form):
     contact_again = produce_boolean_field_with_autosubmit(_("Contact again next year"))
     promise = produce_boolean_field_with_autosubmit(_("Promise given"))
     no_promise = produce_boolean_field_with_autosubmit(_("No promise"))
-    giveaways = produce_boolean_field_with_autosubmit(_("Giveaways set"))
+    giveaways = produce_boolean_field_with_autosubmit(_("At least one Giveaway exists"))
+    no_giveaway = produce_boolean_field_with_autosubmit(_("No Giveaway exists"))
     arrived = produce_boolean_field_with_autosubmit(_("Giveaways already arrived"))
 
 

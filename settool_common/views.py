@@ -21,7 +21,7 @@ from fahrt.models import FahrtMail
 from guidedtours.models import TourMail
 from settool_common import utils
 from settool_common.forms import CourseBundleForm, MailForm, SubjectForm
-from settool_common.models import CourseBundle, get_semester, Mail, Semester, Subject
+from settool_common.models import AnonymisationLog, CourseBundle, get_semester, Mail, Semester, Subject
 from tutors.models import TutorMail
 
 from .forms import CSVFileUploadForm
@@ -129,7 +129,7 @@ def del_mail(request: WSGIRequest, mail_pk: int) -> HttpResponse:
 
 @permission_required("set.mail")
 def dashboard(request: WSGIRequest) -> HttpResponse:
-    semester = get_object_or_404(Semester, pk=get_semester(request))
+    semester: Semester = get_object_or_404(Semester, pk=get_semester(request))
     mail_templates_by_sender = (
         Mail.objects.values("sender").annotate(sender_count=Count("sender")).order_by("-sender_count")
     )
@@ -137,8 +137,11 @@ def dashboard(request: WSGIRequest) -> HttpResponse:
         "mail_template_sender": [sender["sender"] for sender in mail_templates_by_sender],
         "mail_template_count": [sender["sender_count"] for sender in mail_templates_by_sender],
         "fahrt_exists": object_does_exists(fahrt.models.Fahrt, semester),
-        "tutor_general_exists": object_does_exists(tutors.models.Settings, semester),
+        "fahrt_privatised": object_does_exists(AnonymisationLog, semester, anon_log_str="guidedtours"),
+        "tutors_general_exists": object_does_exists(tutors.models.Settings, semester),
+        "tutors_privatised": object_does_exists(AnonymisationLog, semester, anon_log_str="guidedtours"),
         "guidedtours_exists": object_does_exists(guidedtours.models.Setting, semester),
+        "guidedtours_privatised": object_does_exists(AnonymisationLog, semester, anon_log_str="guidedtours"),
     }
     return render(request, "settool_common/settings/settings_dashboard.html", context)
 

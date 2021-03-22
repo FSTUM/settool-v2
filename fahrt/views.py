@@ -77,7 +77,7 @@ def get_cp_transportation_type_counts(c_p):
 
 @permission_required("fahrt.view_participants")
 def dashboard(request: WSGIRequest) -> HttpResponse:
-    semester = get_object_or_404(Semester, pk=get_semester(request))
+    semester: Semester = get_object_or_404(Semester, pk=get_semester(request))
     # confirmed_participants
     c_p: QuerySet[Participant] = Participant.objects.filter(Q(semester=semester) & Q(status="confirmed"))
     cp_by_studies = c_p.values("subject").annotate(subject_count=Count("subject")).order_by("subject_count")
@@ -112,7 +112,7 @@ def dashboard(request: WSGIRequest) -> HttpResponse:
 
 @permission_required("fahrt.view_participants")
 def list_registered(request: WSGIRequest) -> HttpResponse:
-    semester = get_object_or_404(Semester, pk=get_semester(request))
+    semester: Semester = get_object_or_404(Semester, pk=get_semester(request))
     participants = semester.fahrt_participant.filter(status="registered").order_by(
         "-registration_time",
     )
@@ -125,7 +125,7 @@ def list_registered(request: WSGIRequest) -> HttpResponse:
 
 @permission_required("fahrt.view_participants")
 def list_waitinglist(request: WSGIRequest) -> HttpResponse:
-    semester = get_object_or_404(Semester, pk=get_semester(request))
+    semester: Semester = get_object_or_404(Semester, pk=get_semester(request))
     participants = semester.fahrt_participant.filter(status="waitinglist").order_by(
         "-registration_time",
     )
@@ -183,7 +183,7 @@ def get_possibly_filtered_participants(filterform, semester):
 
 @permission_required("fahrt.view_participants")
 def list_confirmed(request: WSGIRequest) -> HttpResponse:
-    semester = get_object_or_404(Semester, pk=get_semester(request))
+    semester: Semester = get_object_or_404(Semester, pk=get_semester(request))
     filterform = FilterRegisteredParticipantsForm(request.POST or None, semester=semester)
     participants = get_possibly_filtered_participants(filterform, semester)
 
@@ -231,7 +231,7 @@ def get_nutritunal_information(
 
 @permission_required("fahrt.view_participants")
 def list_cancelled(request: WSGIRequest) -> HttpResponse:
-    semester = get_object_or_404(Semester, pk=get_semester(request))
+    semester: Semester = get_object_or_404(Semester, pk=get_semester(request))
     participants = semester.fahrt_participant.filter(status="cancelled").order_by("surname")
 
     context = {
@@ -380,7 +380,7 @@ def set_status_canceled(request: WSGIRequest, participant_pk: int) -> HttpRespon
 
 
 def signup(request: WSGIRequest) -> HttpResponse:
-    semester = get_object_or_404(Semester, pk=get_semester(request))
+    semester: Semester = get_object_or_404(Semester, pk=get_semester(request))
     try:
         fahrt = semester.fahrt
     except ObjectDoesNotExist:
@@ -422,7 +422,7 @@ def signup(request: WSGIRequest) -> HttpResponse:
 
 @permission_required("fahrt.view_participants")
 def signup_internal(request: WSGIRequest) -> HttpResponse:
-    semester = get_object_or_404(Semester, pk=get_semester(request))
+    semester: Semester = get_object_or_404(Semester, pk=get_semester(request))
 
     try:
         semester.fahrt
@@ -458,7 +458,7 @@ def signup_success(request: WSGIRequest) -> HttpResponse:
 
 @permission_required("fahrt.view_participants")
 def filter_participants(request: WSGIRequest) -> HttpResponse:
-    semester = get_object_or_404(Semester, pk=get_semester(request))
+    semester: Semester = get_object_or_404(Semester, pk=get_semester(request))
 
     participants = semester.fahrt_participant.order_by("surname")
 
@@ -529,7 +529,7 @@ def set_request_session_filtered_participants(filterform, participants, request,
 @permission_required("fahrt.view_participants")
 def filtered_list(request: WSGIRequest) -> HttpResponse:
     filtered_participants = request.session["filtered_participants"]
-    semester = get_object_or_404(Semester, pk=get_semester(request))
+    semester: Semester = get_object_or_404(Semester, pk=get_semester(request))
     participants = semester.fahrt_participant.filter(
         id__in=filtered_participants,
     ).order_by("surname")
@@ -634,7 +634,7 @@ def del_mail(request: WSGIRequest, mail_pk: int) -> HttpResponse:
 def send_mail(request: WSGIRequest, mail_pk: int) -> HttpResponse:
     mail: FahrtMail = get_object_or_404(FahrtMail, pk=mail_pk)
     selected_participants = request.session["selected_participants"]
-    semester = get_object_or_404(Semester, pk=get_semester(request))
+    semester: Semester = get_object_or_404(Semester, pk=get_semester(request))
     participants = semester.fahrt_participant.filter(id__in=selected_participants).order_by("surname")
 
     subject, text, from_email = mail.get_mail_participant()
@@ -667,7 +667,7 @@ def send_mail(request: WSGIRequest, mail_pk: int) -> HttpResponse:
 
 @permission_required("fahrt.view_participants")
 def settings(request: WSGIRequest) -> HttpResponse:
-    semester = get_object_or_404(Semester, pk=get_semester(request))
+    semester: Semester = get_object_or_404(Semester, pk=get_semester(request))
 
     fahrt: Fahrt = Fahrt.objects.get_or_create(
         semester=semester,
@@ -745,7 +745,7 @@ def get_transport_types(fahrt: Fahrt) -> List[Tuple[str, str, Any]]:
 
 
 def transport_participant(request: WSGIRequest, participant_uuid: UUID) -> HttpResponse:
-    semester = get_object_or_404(Semester, pk=get_semester(request))
+    semester: Semester = get_object_or_404(Semester, pk=get_semester(request))
     participant: Participant = get_object_or_404(Participant, uuid=participant_uuid, status="confirmed")
     context = {
         "transport_types": get_transport_types(semester.fahrt),
@@ -755,7 +755,7 @@ def transport_participant(request: WSGIRequest, participant_uuid: UUID) -> HttpR
 
 
 def add_transport_option(request: WSGIRequest, participant_uuid: UUID, transport_type: int) -> HttpResponse:
-    semester = get_object_or_404(Semester, pk=get_semester(request))
+    semester: Semester = get_object_or_404(Semester, pk=get_semester(request))
     participant: Participant = get_object_or_404(Participant, uuid=participant_uuid, status="confirmed")
     if transport_type not in [Transportation.CAR, Transportation.TRAIN]:
         raise Http404()
@@ -794,7 +794,7 @@ def add_transport_option(request: WSGIRequest, participant_uuid: UUID, transport
 
 
 def add_transport_participant(request: WSGIRequest, participant_uuid: UUID, transport_pk: int) -> HttpResponse:
-    semester = get_object_or_404(Semester, pk=get_semester(request))
+    semester: Semester = get_object_or_404(Semester, pk=get_semester(request))
     participant: Participant = get_object_or_404(Participant, uuid=participant_uuid, status="confirmed")
     new_transport: Transportation = get_object_or_404(Transportation, id=transport_pk, fahrt=semester.fahrt)
 
@@ -821,14 +821,14 @@ def add_transport_participant(request: WSGIRequest, participant_uuid: UUID, tran
 
 @permission_required("fahrt.view_participants")
 def transport_mangagement(request: WSGIRequest) -> HttpResponse:
-    semester = get_object_or_404(Semester, pk=get_semester(request))
+    semester: Semester = get_object_or_404(Semester, pk=get_semester(request))
     context = {"transport_types": get_transport_types(semester.fahrt)}
     return render(request, "fahrt/transportation/transport_management.html", context)
 
 
 @permission_required("fahrt.view_participants")
 def add_transport_option_by_management(request: WSGIRequest, transport_type: int) -> HttpResponse:
-    semester = get_object_or_404(Semester, pk=get_semester(request))
+    semester: Semester = get_object_or_404(Semester, pk=get_semester(request))
     if transport_type not in [Transportation.CAR, Transportation.TRAIN]:
         raise Http404()
 
@@ -849,7 +849,7 @@ def add_transport_option_by_management(request: WSGIRequest, transport_type: int
 
 @permission_required("fahrt.view_participants")
 def add_transport_participant_by_management(request: WSGIRequest, transport_pk: int) -> HttpResponse:
-    semester = get_object_or_404(Semester, pk=get_semester(request))
+    semester: Semester = get_object_or_404(Semester, pk=get_semester(request))
     transport: Transportation = Transportation.objects.get(id=transport_pk)
     form = AddParticipantToTransportForm(request.POST or None, semester=semester)
     if form.is_valid():
@@ -870,7 +870,7 @@ def add_transport_participant_by_management(request: WSGIRequest, transport_pk: 
 
 @permission_required("fahrt.view_participants")
 def edit_transport_participant_by_management(request: WSGIRequest, participant_uuid: UUID) -> HttpResponse:
-    semester = get_object_or_404(Semester, pk=get_semester(request))
+    semester: Semester = get_object_or_404(Semester, pk=get_semester(request))
     participant: Participant = get_object_or_404(Participant, uuid=participant_uuid, status="confirmed")
     transport: Optional[Transportation] = participant.transportation
 

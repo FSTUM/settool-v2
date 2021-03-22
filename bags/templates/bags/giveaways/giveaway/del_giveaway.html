@@ -2,7 +2,7 @@
 {% load i18n %}
 {% load bootstrap4 %}
 
-{% block set_common_headercontent %}{% trans "Edit company" %}: {{ company.name }}{% endblock %}
+{% block set_common_headercontent %}{% trans "Delete giveaway" %}: {{ giveaway }}{% endblock %}
 
 {% block set_common_content %}
 <form
@@ -19,11 +19,11 @@
 
     <a
         class="btn btn-secondary"
-        href="{% url "bags:list_companys" %}"
+        href="{% url "bags:list_giveaways" %}"
     >{% trans "Cancel" %}</a>
     <button
         class="btn btn-primary"
         type="submit"
-    >{% trans "Edit company" %}</button>
+    >{% trans "Delete giveaway" %}</button>
 </form>
 {% endblock %}

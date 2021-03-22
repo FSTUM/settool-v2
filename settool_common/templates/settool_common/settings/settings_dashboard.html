@@ -13,27 +13,36 @@
         </div>
     </div>
     <div class='col-md'>
-        <h5 class='card-title'>{% trans "Status" %}</h5>
+        <h5 class='card-title'>{% trans "Status for selected Semester" %}</h5>
         <div class='table-responsive'>
             <table class='table dataTable hover'>
                 <thead>
                     <tr>
                         <th>{% trans "Name" %}</th>
-                        <th>{% trans "Exists for this Semester" %}</th>
+                        <th>{% trans "Settings have been created" %}</th>
+                        <th>{% trans "GDPR-relevant data has been anonimsed" %}</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <td><a href='{% url "fahrt:settings" %}'>{% trans "Fahrt-Settings" %}</a></td>
-                        <td>{% include "snippets/true_false_span.html" with value=fahrt_exists %}</td>
+                        <td>{% trans "SET-Fahrt" %}</td>
+                        <td><a href='{% url "fahrt:settings" %}'>{% include "snippets/true_false_span.html" with value=fahrt_exists %}</a></td>
+                        <td>{% include "snippets/true_false_span.html" with value=fahrt_privatised %}</td>
                     </tr>
                     <tr>
-                        <td><a href='{% url "tutors:general_settings" %}'>{% trans "Tutor-Settings" %}</a></td>
-                        <td>{% include "snippets/true_false_span.html" with value=tutor_general_exists %}</td>
+                        <td>{% trans "SET-Bags" %}</td>
+                        <td>-</td>
+                        <td>-</td>
                     </tr>
                     <tr>
-                        <td><a href='{% url "guidedtours:settings" %}'>{% trans "Guidedtour-Settings" %}</a></td>
-                        <td>{% include "snippets/true_false_span.html" with value=guidedtours_exists %}</td>
+                        <td>{% trans "SET-Tutor" %}</td>
+                        <td><a href='{% url "tutors:general_settings" %}'>{% include "snippets/true_false_span.html" with value=tutors_general_exists %}</a></td>
+                        <td>{% include "snippets/true_false_span.html" with value=tutors_privatised %}</td>
+                    </tr>
+                    <tr>
+                        <td>{% trans "Guided tours of the institutes" %}</td>
+                        <td><a href='{% url "guidedtours:settings" %}'>{% include "snippets/true_false_span.html" with value=guidedtours_exists %}</a></td>
+                        <td>{% include "snippets/true_false_span.html" with value=guidedtours_privatised %}</td>
                     </tr>
                 </tbody>
             </table>

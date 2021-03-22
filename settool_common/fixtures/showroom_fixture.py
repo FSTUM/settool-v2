@@ -1,7 +1,7 @@
 import random
 from datetime import timedelta
 from subprocess import run  # nosec: used for flushing the db
-from typing import List
+from typing import Dict, List
 
 import django.utils.timezone
 import lorem
@@ -37,7 +37,8 @@ def showroom_fixture_state_no_confirmation():  # nosec: this is only used in a f
 
     # app bags
     _generate_bags_mails()
-    _generate_companies(common_semesters)
+    bags_companies = _generate_companies(common_semesters)
+    _generate_giveaways(common_semesters, bags_companies)
 
     # app fahrt
     _generate_fahrt_mails()
@@ -309,16 +310,58 @@ def _generate_companies(common_semesters):  # nosec: this is only used in a fixt
                 email_sent=random.choice((True, False)),
                 email_sent_success=random.choice((True, False)),
                 promise=random.choice((True, False, None)),
-                giveaways=lorem.sentence()[:50] if random.randint(0, 5) == 0 else "",
-                giveaways_last_year=lorem.sentence()[:50] if random.randint(0, 5) == 0 else "",
-                arrival_time=lorem.sentence()[:10] if random.randint(0, 5) < 3 else "",
                 last_year=random.choice((True, False)),
-                arrived=random.choice((True, False)),
                 contact_again=random.choice((True, False)),
                 comment=lorem.sentence()[:50] if random.randint(0, 5) == 0 else "",
             ),
         )
     return bags_companies
+
+
+def _generate_giveaways(  # nosec: this is only used in a fixture
+    semesters: List[settool_common.models.Semester],
+    bags_companies: List[bags.models.Company],
+) -> None:
+    giveaway_groups: Dict[int, List[bags.models.GiveawayGroup]] = {}
+    for i in range(10):
+        giveaway_group = bags.models.GiveawayGroup.objects.create(
+            semester=random.choice(semesters),
+            name=f"GiveawayGroup {i}",
+        )
+        if giveaway_group.semester.id not in giveaway_groups:
+            giveaway_groups[giveaway_group.semester.id] = []
+        giveaway_groups[giveaway_group.semester.id].append(giveaway_group)
+    for _ in range(int(len(bags_companies) * 0.25)):
+        company = random.choice(bags_companies)
+        group = None
+        if random.choice((True, True, False)) and company.semester.id in giveaway_groups:
+            group = random.choice(giveaway_groups[company.semester.id])
+        bags.models.Giveaway.objects.create(
+            company=company,
+            group=group,
+            name=lorem.sentence()[:50],
+            every_x_bags=random.choice((0.2, 0.3, 0.9, 1.0, 1.0, 1.0, 2.0, 2.0, 2.5, 3, 4, 5, 9)),
+            per_bag_count=random.randint(0, 10),
+            arrival_time=random.choice(
+                (
+                    random.choice(
+                        (
+                            "never",
+                            "yesterday",
+                            "tomorrow",
+                            "st.nimmerleinstag",
+                            "wenn amazon bock hat",
+                            "wenn dhl bock hat",
+                            "wenn dpd bock hat",
+                            "wenn die Poststelle bock hat",
+                        ),
+                    ),
+                    lorem.sentence()[:10],
+                    "",
+                ),
+            ),
+            arrived=random.choice((True, False)),
+        )
 
 
 def _generate_tasks_tutorasignemt(  # nosec: this is only used in a fixture

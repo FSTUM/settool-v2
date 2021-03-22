@@ -2,354 +2,402 @@
 {% load i18n %}
 {% load bootstrap4 %}
 
-{% block head %}
-<script
-    crossorigin='anonymous'
-    src="https://cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/jquery-editable/js/jquery-editable-poshytip.min.js"
-></script>
-<link
-    crossorigin='anonymous'
-    href='https://cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/jquery-editable/css/jquery-editable.css'
-    rel='stylesheet'
-/>
-<script>
-    /* eslint-disable no-unused-vars */
-    function selectAllSelectable(newState) {
-        $('.selectTarget').prop('checked', newState);
-        $('#selectAllButton').attr('onclick', `selectAllSelectable(${!newState})`);
-    }
-
-    const displayTrueFalse = (value, _, response) => {
-        if (value === 'True') {
-            $(response).html(`{% include "snippets/true_false_span.html" with value=True%}`);
-        } else if (value === 'False') {
-            $(response).html(`{% include "snippets/true_false_span.html" with value=False%}`);
-        } else {
-            $(response).empty();
-        }
-    };
-
-    const displayTrueFalseNone = (value, _, response) => {
-        if (value === 'None') {
-            $(response).html(`{% include "snippets/true_false_none_span.html" with value=None %}`);
-        } else {
-            displayTrueFalse(value, _, response);
-        }
-    };
-
-    const displayTrueFalseFailure = (value, _, response) => {
-        if (value === 'Failure') {
-            $(response).html(`{% include "snippets/true_false_none_span.html" with value="Failure" %}`);
-        } else {
-            displayTrueFalse(value, _, response);
-        }
-    };
-
-    $(document).ready(() => {
-        $('#bagTable').DataTable({
-            order: [
-                [1, 'asc'],
-                [2, 'asc'],
-            ],
-            columnDefs: [
-                { targets: 0, orderable: false },
-                { targets: 12, orderable: false },
-            ],
-            paging: false,
-        });
-        $.fn.editableform.buttons = `<button class="btn btn-primary btn-sm editable-submit" type="submit">
-                                        <span class="bi bi-check"></span>
-                                    </button>`;
-        $.fn.editableform.loading = `<div>
-                                        <span aria-hidden="true" class="spinner-border spinner-border-sm" role="status"></span>
-                                        <span class="sr-only">Loading...</span>
-                                     </div>`;
-        $.fn.editable.defaults.mode = 'inline';
-        $.fn.editable.defaults.emptytext = '-';
-
-        {% for company, select in companies %}
-        $('#company_{{ company.id }}_email').editable({});
-        $('#company_{{ company.id }}_email_sent').editable({
-            escape: false,
-            value:
-                '{% if not company.email_sent_success and company.email_sent %}Failure{% else %}{{ company.email_sent }}{% endif %}',
-            source: [
-                { value: 'True', text: '{% trans "Yes" %}' },
-                { value: 'False', text: '{% trans "No" %}' },
-                { value: 'Failure', text: '{% trans "Failure" %}' },
-            ],
-            display: displayTrueFalseFailure,
-        });
-        $('#company_{{ company.id }}_promise').editable({
-            escape: false,
-            value: '{{ company.promise }}',
-            source: [
-                { value: 'None', text: '{% trans "Unknown" %}' },
-                { value: 'True', text: '{% trans "Yes" %}' },
-                { value: 'False', text: '{% trans "No" %}' },
-            ],
-            display: displayTrueFalseNone,
-        });
-        $('#company_{{ company.id }}_giveaways').editable({});
-        $('#company_{{ company.id }}_arrival_time').editable({});
-        $('#company_{{ company.id }}_arrived').editable({
-            escape: false,
-            value: '{{ company.arrived }}',
-            source: [
-                { value: 'True', text: '{% trans "Yes" %}' },
-                { value: 'False', text: '{% trans "No" %}' },
-            ],
-            display: displayTrueFalse,
-        });
-        $('#company_{{ company.id }}_last_year').editable({
-            escape: false,
-            value: '{{ company.last_year }}',
-            source: [
-                { value: 'True', text: '{% trans "Yes" %}' },
-                { value: 'False', text: '{% trans "No" %}' },
-            ],
-            display: displayTrueFalse,
-        });
-        $('#company_{{ company.id }}_giveaways_last_year').editable({});
-        $('#company_{{ company.id }}_contact_again').editable({
-            escape: false,
-            value: '{{ company.contact_again }}',
-            source: [
-                { value: 'None', text: '{% trans "Unknown" %}' },
-                { value: 'True', text: '{% trans "Yes" %}' },
-                { value: 'False', text: '{% trans "No" %}' },
-            ],
-            display: displayTrueFalseNone,
-        });
-        $('#company_{{ company.id }}_comment').editable({});
-        {% endfor %}
-        document.getElementById('table_spinner').style.display = 'none';
-        document.getElementById('hidden_table').style.visibility = 'visible';
-    });
-</script>
-{% endblock %}
-
-{% block set_common_headercontent %}{% trans "List companies" %}{% endblock %}
+{% block  set_common_headercontent %}{% trans "Dashboard" %}{% endblock %}
 
 {% block set_common_content %}
-<button
-    class="btn btn-secondary"
-    type="button"
-    data-toggle="collapse"
-    data-target="#collapseFilters"
-    aria-expanded="false"
-    aria-controls="collapseFilters"
->{% trans "Availible Filters" %}
-</button>
-<div
-    class="collapse"
-    id="collapseFilters"
->
-    <form
-        id="filterform"
-        method="post"
-        action=""
-    >
-        {% csrf_token %}
-        {% bootstrap_form filterform %}
-    </form>
-</div>
-
-<h4 class='mt-3'>{% trans "Select recipients and send mail" %}</h4>
-<div
-    class="justify-content-center mt-3"
-    id="table_spinner"
-    style="display: flex"
->
-    <div
-        class="spinner-border"
-        style="width: 3rem; height: 3rem;"
-        role="status"
-    >
-        <span class="sr-only">Loading...</span>
+<h4 class='card-title'>{% trans "All Companys" %}</h4>
+<div class='row'>
+    <div class='col col-md'>
+        <h5>{% trans "E-Mail status" %}</h5>
+        <div
+            class='container-md'
+            style='max-width: 20rem;min-width: 10rem;min-height: 30rem;'
+        >
+            <canvas id='c_by_email_sent'></canvas>
+        </div>
+    </div>
+    <div class='col col-md'>
+        <h5>{% trans "Promise status" %}</h5>
+        <div
+            class='container-md'
+            style='max-width: 20rem;min-width: 10rem;min-height: 30rem;'
+        >
+            <canvas id='c_by_promise'></canvas>
+        </div>
+    </div>
+    <div class='col col-md'>
+        <h5>{% trans "Participated last year" %}</h5>
+        <div
+            class='container-md'
+            style='max-width: 20rem;min-width: 10rem;min-height: 30rem;'
+        >
+            <canvas id='c_by_last_year'></canvas>
+        </div>
+    </div>
+    <div class='col col-md'>
+        <h5>{% trans "Contact again" %}</h5>
+        <div
+            class='container-md'
+            style='max-width: 20rem;min-width: 10rem;min-height: 30rem;'
+        >
+            <canvas id='c_by_contact_again'></canvas>
+        </div>
+    </div>
+    <div class='col col-md'>
+        <h5>{% trans "Giveaway status" %}</h5>
+        <div
+            class='container-md'
+            style='max-width: 20rem;min-width: 10rem;min-height: 30rem;'
+        >
+            <canvas id='c_by_giveaway'></canvas>
+        </div>
     </div>
 </div>
-<div
-    id="hidden_table"
-    style="visibility: hidden"
->
-    <form
-        id="companyselectform"
-        method="post"
-        action=""
-    >
-        {% csrf_token %}
-        {{ companyforms.management_form }}
-        <div class="table-responsive">
-            <table
-                id="bagTable"
-                class="table dataTable"
-            >
-                <thead>
-                    <tr>
-                        <th><span
-                                id='selectAllButton'
-                                class="bi bi-check-square"
-                                onclick='selectAllSelectable(true)'
-                            ></span></th>
-                        <th>{% trans "Company" %}</th>
-                        <th>{% trans "Contact" %}</th>
-                        <th>{% trans "Email" %}</th>
-                        <th>{% trans "sent" %}</th>
-                        <th>{% trans "Promise" %}</th>
-                        <th>{% trans "Giveaways" %}</th>
-                        <th>{% trans "Arrival time" %}</th>
-                        <th>{% trans "Arrived" %}</th>
-                        <th>{% trans "Participated last year" %}</th>
-                        <th>{% trans "Giveaways last year" %}</th>
-                        <th>{% trans "Contact again" %}</th>
-                        <th>{% trans "Actions" %}</th>
-                        <th>{% trans "Comment" %}</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for company, select in companies %}
-                    <tr>
-                        <td>
-                            {{ select.id.as_hidden }}
-                            {{ select.selected }}{% comment %}this is an input with the class of selectTarget{% endcomment %}
-                        </td>
-                        <td><a href="{% url "bags:view_company" company.id %}">{{ company.name }}</a></td>
-                        <td>{{ company.full_contact }}</td>
-                        <td>
-                            <a
-                                href="#"
-                                id="company_{{ company.id }}_email"
-                                data-type="text"
-                                data-pk="{{ company.id }}"
-                                data-title='{% trans "Email" %}'
-                                data-url='{% url "bags:update_company" company.id "email" %}'
-                                data-params="{csrfmiddlewaretoken:'{{ csrf_token }}'}"
-                            >{{ company.email }}</a>
-                        </td>
-                        <td>
-                            <a
-                                href="#"
-                                id="company_{{ company.id }}_email_sent"
-                                data-type="select"
-                                data-pk="{{ company.id }}"
-                                data-title='{% trans "sent" %}'
-                                data-url='{% url "bags:update_company" company.id "email_sent" %}'
-                                data-params="{csrfmiddlewaretoken:'{{ csrf_token }}'}"
-                            >{% if not company.email_sent_success and company.email_sent %}
-                                {% include "snippets/true_false_none_span.html" with value="Failure" %}
-                                {% else %}
-                                {% include "snippets/true_false_none_span.html" with value=company.email_sent %}
-                                {% endif %}</a>
-                        </td>
-                        <td>
-                            <a
-                                href="#"
-                                id="company_{{ company.id }}_promise"
-                                data-type="select"
-                                data-pk="{{ company.id }}"
-                                data-title='{% trans "Promise" %}'
-                                data-url='{% url "bags:update_company" company.id "promise" %}'
-                                data-params="{csrfmiddlewaretoken:'{{ csrf_token }}'}"
-                            >{% include "snippets/true_false_none_span.html" with value=company.promise %}</a>
-                        </td>
-                        <td>
-                            <a
-                                href="#"
-                                id="company_{{ company.id }}_giveaways"
-                                data-type="text"
-                                data-pk="{{ company.id }}"
-                                data-title='{% trans "Giveaways" %}'
-                                data-url='{% url "bags:update_company" company.id "giveaways" %}'
-                                data-params="{csrfmiddlewaretoken:'{{ csrf_token }}'}"
-                            >{{ company.giveaways }}</a>
-                        </td>
-                        <td>
-                            <a
-                                href="#"
-                                id="company_{{ company.id }}_arrival_time"
-                                data-type="text"
-                                data-pk="{{ company.id }}"
-                                data-title='{% trans "Arrival time" %}'
-                                data-url='{% url "bags:update_company" company.id "arrival_time" %}'
-                                data-params="{csrfmiddlewaretoken:'{{ csrf_token }}'}"
-                            >{{ company.arrival_time }}</a>
-                        </td>
-                        <td>
-                            <a
-                                href="#"
-                                id="company_{{ company.id }}_arrived"
-                                data-type="select"
-                                data-pk="{{ company.id }}"
-                                data-title='{% trans "Arrived" %}'
-                                data-url='{% url "bags:update_company" company.id "arrived" %}'
-                                data-params="{csrfmiddlewaretoken:'{{ csrf_token }}'}"
-                            >{% include "snippets/true_false_span.html" with value=company.arrived %}</a>
-                        </td>
-                        <td>
-                            <a
-                                href="#"
-                                id="company_{{ company.id }}_last_year"
-                                data-type="select"
-                                data-pk="{{ company.id }}"
-                                data-title='{% trans "Participated last year" %}'
-                                data-url='{% url "bags:update_company" company.id "last_year" %}'
-                                data-params="{csrfmiddlewaretoken:'{{ csrf_token }}'}"
-                            >{% include "snippets/true_false_span.html" with value=company.last_year %}</a>
-                        </td>
-                        <td>
-                            <a
-                                href="#"
-                                id="company_{{ company.id }}_giveaways_last_year"
-                                data-type="text"
-                                data-pk="{{ company.id }}"
-                                data-title='{% trans "Giveaways last year" %}'
-                                data-url='{% url "bags:update_company" company.id "giveaways_last_year" %}'
-                                data-params="{csrfmiddlewaretoken:'{{ csrf_token }}'}"
-                            >{{ company.giveaways_last_year }}</a>
-                        </td>
-                        <td>
-                            <a
-                                href="#"
-                                id="company_{{ company.id }}_contact_again"
-                                data-type="select"
-                                data-pk="{{ company.id }}"
-                                data-title='{% trans "Enter contact again" %}'
-                                data-url='{% url "bags:update_company" company.id "contact_again" %}'
-                                data-params="{csrfmiddlewaretoken:'{{ csrf_token }}'}"
-                            >{% include "snippets/true_false_none_span.html" with value=company.contact_again %}</a>
-                        </td>
-                        <td>
-                            <a href="{% url "bags:edit_company" company.id %}"><span class="bi bi-pencil-square"></span></a>
-                            <a href="{% url "bags:del_company" company.id %}"><span class="bi bi-trash-fill"></span></a>
-                        </td>
-                        <td>
-                            <a
-                                href="#"
-                                id="company_{{ company.id }}_comment"
-                                data-type="text"
-                                data-pk="{{ company.id }}"
-                                data-title='{% trans "Comment" %}'
-                                data-url='{% url "bags:update_company" company.id "comment" %}'
-                                data-params="{csrfmiddlewaretoken:'{{ csrf_token }}'}"
-                            >{{ company.comment }}</a>
-                        </td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
+<h4 class='card-title'>{% trans "Companys with giveaways" %}</h4>
+<div class='row'>
+    <div class='col col-md'>
+        <h5>{% trans "E-Mail status" %}</h5>
+        <div
+            class='container-md'
+            style='max-width: 20rem;min-width: 10rem;min-height: 30rem;'
+        >
+            <canvas id='gc_by_email_sent'></canvas>
         </div>
-        <div class="row">
-            <div class="col-xs-12 col-lg-5">
-                {% bootstrap_form mailform %}
-            </div>
+    </div>
+    <div class='col col-md'>
+        <h5>{% trans "Promise status" %}</h5>
+        <div
+            class='container-md'
+            style='max-width: 20rem;min-width: 10rem;min-height: 30rem;'
+        >
+            <canvas id='gc_by_promise'></canvas>
         </div>
-
-        <button
-            class="btn btn-warning"
-            name="mailform"
-            type="submit"
-        >{% trans "Send emails" %}</button>
-    </form>
+    </div>
+    <div class='col col-md'>
+        <h5>{% trans "Participated last year" %}</h5>
+        <div
+            class='container-md'
+            style='max-width: 20rem;min-width: 10rem;min-height: 30rem;'
+        >
+            <canvas id='gc_by_last_year'></canvas>
+        </div>
+    </div>
+    <div class='col col-md'>
+        <h5>{% trans "Contact again" %}</h5>
+        <div
+            class='container-md'
+            style='max-width: 20rem;min-width: 10rem;min-height: 30rem;'
+        >
+            <canvas id='gc_by_contact_again'></canvas>
+        </div>
+    </div>
 </div>
+
+<h4 class='card-title'>{% trans "Giveaways" %}</h4>
+<div class='row'>
+    <div class='col col-md'>
+        <h5>{% trans "Giveaway-arrival status" %}</h5>
+        <div
+            class='container-md'
+            style='max-width: 20rem;min-width: 10rem;min-height: 30rem;'
+        >
+            <canvas id='gc_by_giveaway_arrived'></canvas>
+        </div>
+    </div>
+    <div class='col col-md'>
+        <h5>{% trans "Grouped by giveaway-group" %}</h5>
+        <div
+            class='container-md'
+            style='max-width: 20rem;min-width: 10rem;min-height: 30rem;'
+        >
+            <canvas id='g_by_group'></canvas>
+        </div>
+    </div>
+    <div class='col col-md'>
+        <h5>{% trans "Grouped by Insert every x bags" %}</h5>
+        <div
+            class='container-md'
+            style='max-width: 20rem;min-width: 10rem;min-height: 30rem;'
+        >
+            <canvas id='g_by_every_x_bags'></canvas>
+        </div>
+    </div>
+    <div class='col col-md'>
+        <h5>{% trans "Grouped by per-bag-capacity" %}</h5>
+        <div
+            class='container-md'
+            style='max-width: 20rem;min-width: 10rem;min-height: 30rem;'
+        >
+            <canvas id='g_by_per_bag_count'></canvas>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+
+
+
+
+{% block defered_script %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4"></script>
+<script>
+    /* global Chart */
+    const chartOptions = { maintainAspectRatio: false };
+    /* eslint no-new: off */
+    new Chart(document.getElementById('c_by_email_sent').getContext('2d'), {
+        type: 'doughnut',
+        data: {
+            labels: [
+                '{% trans "E-Mail failiure" %}',
+                '{% trans "E-Mail successfully sent" %}',
+                '{% trans "E-Mail Not sent" %}',
+            ],
+            datasets: [
+                {
+                    data: {{ c_by_email_sent_data }},
+                    backgroundColor: ['#ff7f50', '#1dd1a1', '#ff6b6b'],
+                },
+            ],
+        },
+        options: chartOptions,
+    });
+    /* eslint no-new: off */
+    new Chart(document.getElementById('c_by_promise').getContext('2d'), {
+        type: 'doughnut',
+        data: {
+            labels: ['{% trans "Promise" %}', '{% trans "NO Promise" %}'],
+            datasets: [
+                {
+                    data: {{ c_by_promise_data }},
+                    backgroundColor: ['#1dd1a1', '#ff6b6b'],
+                },
+            ],
+        },
+        options: chartOptions,
+    });
+    /* eslint no-new: off */
+    new Chart(document.getElementById('c_by_last_year').getContext('2d'), {
+        type: 'doughnut',
+        data: {
+            labels: ['{% trans "Participated last year" %}', '{% trans "NOT Participated last year" %}'],
+            datasets: [
+                {
+                    data: {{ c_by_last_year_data }},
+                    backgroundColor: ['#1dd1a1', '#ff6b6b'],
+                },
+            ],
+        },
+        options: chartOptions,
+    });
+    /* eslint no-new: off */
+    new Chart(document.getElementById('c_by_contact_again').getContext('2d'), {
+        type: 'doughnut',
+        data: {
+            labels: ['{% trans "Contact again" %}', '{% trans "Do NOT Contact again" %}'],
+            datasets: [
+                {
+                    data: {{ c_by_contact_again_data }},
+                    backgroundColor: ['#1dd1a1', '#ff6b6b'],
+                },
+            ],
+        },
+        options: chartOptions,
+    });
+    /* eslint no-new: off */
+    new Chart(document.getElementById('c_by_giveaway').getContext('2d'), {
+        type: 'doughnut',
+        data: {
+            labels: ['{% trans "Giveaway exists" %}', '{% trans "Giveaway does NOT exists" %}'],
+            datasets: [
+                {
+                    data: {{ c_by_giveaway_data }},
+                    backgroundColor: ['#1dd1a1', '#ff6b6b'],
+                },
+            ],
+        },
+        options: chartOptions,
+    });
+    /* eslint no-new: off */
+    new Chart(document.getElementById('gc_by_email_sent').getContext('2d'), {
+        type: 'doughnut',
+        data: {
+            labels: [
+                '{% trans "E-Mail failiure" %}',
+                '{% trans "E-Mail successfully sent" %}',
+                '{% trans "E-Mail Not sent" %}',
+            ],
+            datasets: [
+                {
+                    data: {{ gc_by_email_sent_data }},
+                    backgroundColor: ['#ff7f50', '#1dd1a1', '#ff6b6b'],
+                },
+            ],
+        },
+        options: chartOptions,
+    });
+    /* eslint no-new: off */
+    new Chart(document.getElementById('gc_by_promise').getContext('2d'), {
+        type: 'doughnut',
+        data: {
+            labels: ['{% trans "Promise" %}', '{% trans "No Promise" %}'],
+            datasets: [
+                {
+                    data: {{ gc_by_promise_data }},
+                    backgroundColor: ['#1dd1a1', '#ff6b6b'],
+                },
+            ],
+        },
+        options: chartOptions,
+    });
+    /* eslint no-new: off */
+    new Chart(document.getElementById('gc_by_last_year').getContext('2d'), {
+        type: 'doughnut',
+        data: {
+            labels: ['{% trans "Participated last year" %}', '{% trans "NOT Participated last year" %}'],
+            datasets: [
+                {
+                    data: {{ gc_by_last_year_data }},
+                    backgroundColor: ['#1dd1a1', '#ff6b6b'],
+                },
+            ],
+        },
+        options: chartOptions,
+    });
+    /* eslint no-new: off */
+    new Chart(document.getElementById('gc_by_contact_again').getContext('2d'), {
+        type: 'doughnut',
+        data: {
+            labels: ['{% trans "Contact again" %}', '{% trans "Do NOT Contact again" %}'],
+            datasets: [
+                {
+                    data: {{ gc_by_contact_again_data }},
+                    backgroundColor: ['#1dd1a1', '#ff6b6b'],
+                },
+            ],
+        },
+        options: chartOptions,
+    });
+    /* eslint no-new: off */
+    new Chart(document.getElementById('gc_by_giveaway_arrived').getContext('2d'), {
+        type: 'doughnut',
+        data: {
+            labels: ['{% trans "Giveaway did arrive" %}', '{% trans "Giveaway did NOT arrive" %}'],
+            datasets: [
+                {
+                    data: {{ gc_by_giveaway_arrived_data }},
+                    backgroundColor: ['#1dd1a1', '#ff6b6b'],
+                },
+            ],
+        },
+        options: chartOptions,
+    });
+    /* eslint no-new: off */
+    new Chart(document.getElementById('g_by_group').getContext('2d'), {
+        type: 'doughnut',
+        data: {
+            labels: {{ g_by_group_labels|safe }},
+            datasets: [
+                {
+                    data: {{ g_by_group_data }},
+                    backgroundColor: [
+                        '#1dd1a1',
+                        '#48dbfb',
+                        '#feca57',
+                        '#70a1ff',
+                        '#ff6b6b',
+                        '#badc58',
+                        '#ff9ff3',
+                        '#c8d6e5',
+                        '#f6e58d',
+                        '#00d2d3',
+                        '#54a0ff',
+                        '#ff7979',
+                        '#ffbe76',
+                        '#7ed6df',
+                        '#95afc0',
+                        '#ff7f50',
+                        '#eccc68',
+                        '#7bed9f',
+                        '#2ed573',
+                        '#a4b0be',
+                        '#f1f2f6',
+                    ],
+                },
+            ],
+        },
+        options: chartOptions,
+    });
+    /* eslint no-new: off */
+    new Chart(document.getElementById('g_by_every_x_bags').getContext('2d'), {
+        type: 'doughnut',
+        data: {
+            labels: {{ g_by_every_x_bags_labels|safe }},
+            datasets: [
+                {
+                    data: {{ g_by_every_x_bags_data }},
+                    backgroundColor: [
+                        '#1dd1a1',
+                        '#48dbfb',
+                        '#feca57',
+                        '#70a1ff',
+                        '#ff6b6b',
+                        '#badc58',
+                        '#ff9ff3',
+                        '#c8d6e5',
+                        '#f6e58d',
+                        '#00d2d3',
+                        '#54a0ff',
+                        '#ff7979',
+                        '#ffbe76',
+                        '#7ed6df',
+                        '#95afc0',
+                        '#ff7f50',
+                        '#eccc68',
+                        '#7bed9f',
+                        '#2ed573',
+                        '#a4b0be',
+                        '#f1f2f6',
+                    ],
+                },
+            ],
+        },
+        options: chartOptions,
+    });
+    /* eslint no-new: off */
+    new Chart(document.getElementById('g_by_per_bag_count').getContext('2d'), {
+        type: 'doughnut',
+        data: {
+            labels: {{ g_by_per_bag_count_labels|safe }},
+            datasets: [
+                {
+                    data: {{ g_by_per_bag_count_data }},
+                    backgroundColor: [
+                        '#1dd1a1',
+                        '#48dbfb',
+                        '#feca57',
+                        '#70a1ff',
+                        '#ff6b6b',
+                        '#badc58',
+                        '#ff9ff3',
+                        '#c8d6e5',
+                        '#f6e58d',
+                        '#00d2d3',
+                        '#54a0ff',
+                        '#ff7979',
+                        '#ffbe76',
+                        '#7ed6df',
+                        '#95afc0',
+                        '#ff7f50',
+                        '#eccc68',
+                        '#7bed9f',
+                        '#2ed573',
+                        '#a4b0be',
+                        '#f1f2f6',
+                    ],
+                },
+            ],
+        },
+        options: chartOptions,
+    });
+</script>
 {% endblock %}

@@ -31,27 +31,19 @@
     </tr>
     <tr>
         <th>{% trans "Giveaways" %}</th>
-        <td>{{ company.giveaways }}</td>
-    </tr>
-    <tr>
-        <th>{% trans "Arrival time" %}</th>
-        <td>{{ company.arrival_time }}</td>
+        <td>
+            {% for giveaway in company.giveaway_set.all %}
+            <a href='{% url "bags:view_giveaway" giveaway.id %}'>{{ giveaway }}</a>
+            {% endfor %}
+        </td>
     </tr>
     <tr>
         <th>{% trans "Comment" %}</th>
         <td>{{ company.comment }}</td>
     </tr>
     <tr>
-        <th>{% trans "Arrived" %}</th>
-        <td>{% include "snippets/true_false_span.html" with value=company.arrived %}</td>
-    </tr>
-    <tr>
         <th>{% trans "Participated last year" %}</th>
         <td>{% include "snippets/true_false_span.html" with value=company.last_year %}</td>
-    </tr>
-    <tr>
-        <th>{% trans "Giveaways last year" %}</th>
-        <td>{{ company.giveaways_last_year }}</td>
     </tr>
     <tr>
         <th>{% trans "Contact again" %}</th>
@@ -61,7 +53,7 @@
 
 <a
     class="btn btn-secondary"
-    href="{% url "bags:dashboard" %}"
+    href="{% url "bags:list_companys" %}"
 >{% trans "Back" %}</a>
 <a
     class='btn btn-primary'
