@@ -817,6 +817,7 @@ msgid "Add participant to waitinglist"
 msgstr "Teilnehmer der Warteliste hinzufügen"
 
 #: fahrt/templates/fahrt/participants/view_participant_details.html
+#: fahrt/templates/fahrt/transportation/transport_chat.html
 msgid "Back"
 msgstr "Zurück"
 
@@ -845,60 +846,62 @@ msgstr ""
 "dauern, da wir deine Anmeldung manuell überprüfen."
 
 #: fahrt/templates/fahrt/transportation/add_transport.html
-#: fahrt/templates/fahrt/transportation/main_transport_view.html
+#: fahrt/templates/fahrt/transportation/list_transports.html
 #: fahrt/templates/fahrt/transportation/management_only/add_participant_to_transport.html
 msgid "Add Transport"
 msgstr "Transportmittel hinzufügen"
 
-#: fahrt/templates/fahrt/transportation/main_transport_view.html
+#: fahrt/templates/fahrt/transportation/list_transports.html
 msgid "Organisor/Driver:"
 msgstr "Organisator/Fahrer:"
 
-#: fahrt/templates/fahrt/transportation/main_transport_view.html
+#: fahrt/templates/fahrt/transportation/list_transports.html
+#: fahrt/templates/fahrt/transportation/transport_chat.html
 msgid "Hidden"
 msgstr "Versteckt"
 
-#: fahrt/templates/fahrt/transportation/main_transport_view.html
+#: fahrt/templates/fahrt/transportation/list_transports.html
 msgid "[Me]"
 msgstr "[Ich]"
 
-#: fahrt/templates/fahrt/transportation/main_transport_view.html
+#: fahrt/templates/fahrt/transportation/list_transports.html
+#: fahrt/templates/fahrt/transportation/transport_chat.html
 msgid "[Deleted]"
 msgstr "[Gelöscht]"
 
-#: fahrt/templates/fahrt/transportation/main_transport_view.html
+#: fahrt/templates/fahrt/transportation/list_transports.html
 msgid "Contact:"
 msgstr "Kontakt:"
 
-#: fahrt/templates/fahrt/transportation/main_transport_view.html
+#: fahrt/templates/fahrt/transportation/list_transports.html
 msgid "Meeting-Place:"
 msgstr "Treffpunkt"
 
-#: fahrt/templates/fahrt/transportation/main_transport_view.html
+#: fahrt/templates/fahrt/transportation/list_transports.html
 msgid "Departure:"
 msgstr "Abfahrt:"
 
-#: fahrt/templates/fahrt/transportation/main_transport_view.html
+#: fahrt/templates/fahrt/transportation/list_transports.html
 msgid "Departure for return:"
 msgstr "Abfahrt für den rückweg"
 
-#: fahrt/templates/fahrt/transportation/main_transport_view.html
+#: fahrt/templates/fahrt/transportation/list_transports.html
 msgid "Name"
 msgstr "Name"
 
-#: fahrt/templates/fahrt/transportation/main_transport_view.html
+#: fahrt/templates/fahrt/transportation/list_transports.html
 msgid "Contact"
 msgstr "Kontakt"
 
-#: fahrt/templates/fahrt/transportation/main_transport_view.html
+#: fahrt/templates/fahrt/transportation/list_transports.html
 msgid "This Transport-option does only offer one place"
 msgstr "Diese Tramsportmittel-option verfügt über lediglich einen Platz"
 
-#: fahrt/templates/fahrt/transportation/main_transport_view.html
+#: fahrt/templates/fahrt/transportation/list_transports.html
 msgid "Chatwall"
 msgstr "Chatwall"
 
-#: fahrt/templates/fahrt/transportation/main_transport_view.html
+#: fahrt/templates/fahrt/transportation/list_transports.html
 #, python-format
 msgid "Add %(transport_name)s"
 msgstr "%(transport_name)s hinzufügen"
@@ -932,6 +935,14 @@ msgstr "Teilnehmer austauschen"
 #: fahrt/templates/fahrt/transportation/transport_chat.html
 msgid "Chat for Transport-Option"
 msgstr "Chat für Transportmittel-Option"
+
+#: fahrt/templates/fahrt/transportation/transport_chat.html
+msgid ""
+"By submitting your comment here I acknowledge, that other participants and "
+"the organisers can see this content."
+msgstr ""
+"Mit dem Absenden deines Kommentars hier erkenne ich an, dass andere "
+"Teilnehmer und Organisatioren diesen Inhalt sehen können."
 
 #: fahrt/views/finanz_views.py
 msgid "Saved changed payment status"
@@ -1073,6 +1084,25 @@ msgstr ""
 #, python-brace-format
 msgid "Succesfully deleted transport option of {participant}"
 msgstr "Transportmittel-option von {participant} wuder erfolgreich gelöscht"
+
+#: fahrt/views/transport_views.py
+msgid ""
+"You have chosen to not discose your name and most relevant contact info to "
+"other participants. We respect that choice and thus hide your personal data "
+"even here."
+msgstr ""
+"Du hast sich dafür entschieden, deinen Namen und die wichtigsten "
+"Kontaktinformationen nicht an andere Teilnehmer weiterzugeben. Wir "
+"respektieren diese Wahl und verbergen daher auch hier deine persönlichen "
+"Daten."
+
+#: fahrt/views/transport_views.py
+msgid ""
+"Currently this is only a Chatwall and not a Live-Chat. This means you have "
+"to refresh the page to get new messages."
+msgstr ""
+"Derzeit ist dies nur eine Chatwall und kein Live-Chat. Das bedeutet, dass du "
+"die Seite aktualisieren musst, um neue Nachrichten zu erhalten."
 
 #~ msgid "Add participant to the SET-Fahrt"
 #~ msgstr "Teilnehmer zur SET-Fahrt hinzufügen"

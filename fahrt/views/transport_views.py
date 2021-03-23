@@ -11,7 +11,13 @@ from django.utils.translation import ugettext_lazy as _
 
 from settool_common.models import get_semester, Semester
 
-from ..forms import AddParticipantToTransportForm, ParticipantSelectForm, TransportAdminOptionForm, TransportOptionForm
+from ..forms import (
+    AddParticipantToTransportForm,
+    ParticipantSelectForm,
+    TransportAdminOptionForm,
+    TransportationCommentForm,
+    TransportOptionForm,
+)
 from ..models import Fahrt, Participant, Transportation
 
 
@@ -237,8 +243,41 @@ def del_transport_participant_by_management(request: WSGIRequest, participant_uu
 
 
 def transport_chat(request: WSGIRequest, participant_uuid: UUID, transport_pk: int) -> HttpResponse:
-    return HttpResponse()
+    participant: Participant = get_object_or_404(Participant, uuid=participant_uuid, status="confirmed")
+    transport: Transportation = get_object_or_404(Transportation, pk=transport_pk)
+    if not participant.publish_contact_to_other_paricipants:
+        messages.warning(
+            request,
+            _(
+                "You have chosen to not discose your name and most relevant contact info to other participants. We "
+                "respect that choice and thus hide your personal data even here.",
+            ),
+        )
+    messages.info(
+        request,
+        _(
+            "Currently this is only a Chatwall and not a Live-Chat. This means you have to refresh the page to get "
+            "new messages.",
+        ),
+    )
+
+    form = TransportationCommentForm(request.POST or None, transport=transport, participant=participant)
+    if form.is_valid():
+        form.save()
+        return redirect("fahrt:transport_chat", participant.uuid, transport.pk)
+
+    context = {
+        "form": form,
+        "calling_participant": participant,
+        "transport": transport,
+    }
+    return render(request, "fahrt/transportation/transport_chat.html", context)
 
 
 def transport_chat_by_management(request: WSGIRequest, transport_pk: int) -> HttpResponse:
-    return HttpResponse()
+    transport: Transportation = get_object_or_404(Transportation, pk=transport_pk)
+
+    context = {
+        "transport": transport,
+    }
+    return render(request, "fahrt/transportation/transport_chat.html", context)

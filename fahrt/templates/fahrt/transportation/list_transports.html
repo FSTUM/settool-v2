@@ -167,9 +167,17 @@
             >
                 <a
                     class='btn {% if calling_participant.transportation == transport %}btn-primary{% else %}btn-secondary{% endif %}'
-                    href='{% if calling_participant %}{% url "fahrt:transport_chat" calling_participant.uuid transport.pk %}{% else %}{% url "fahrt:transport_chat_by_management" transport.transport_type %}{% endif %}'
+                    href='{% if calling_participant %}{% url "fahrt:transport_chat" calling_participant.uuid transport.pk %}{% else %}{% url "fahrt:transport_chat_by_management" transport.pk %}{% endif %}'
                 >
-                    {% trans "Chatwall" %} <span class="bi bi-chat-left-fill"></span>
+                    {% trans "Chatwall" %}
+                    {% if transport.transportationcomment_set.count == 0 %}
+                    <span class='bi bi-chat-fill'></span>
+                    {% else %}
+                    <span style='position: relative;padding-right: 10px'>
+                        <span class='bi bi-chat-fill'></span>
+                        <span style='position: absolute;top: -4px;left: 11px;background-color: var(--primary);color: #fff;border-radius: 3px;padding: 1px 3px;font: 10px Verdana'>{{ transport.transportationcomment_set.count }}</span>
+                    </span>
+                    {% endif %}
                 </a>
             </div>
         </div>
@@ -183,7 +191,12 @@
                 Add {{ transport_name }}
                 {% endblocktrans %}
             </div>
-            <a href='{% if not calling_participant %}{% url "fahrt:add_transport_option_by_management" transport.transport_type %}{% else %}{% url "fahrt:add_transport_option" calling_participant.uuid transport.transport_type %}{% endif %}'>
+            <a href='
+
+
+
+
+                                {% if not calling_participant %}{% url "fahrt:add_transport_option_by_management" transport.transport_type %}{% else %}{% url "fahrt:add_transport_option" calling_participant.uuid transport.transport_type %}{% endif %}'>
                 <div class='card-body text-center flex align-content-center '>
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
