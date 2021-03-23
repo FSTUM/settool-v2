@@ -183,15 +183,26 @@ def edit_transport_participant_by_management(request: WSGIRequest, participant_u
             messages.warning(request, _("Succesfully exchanged {p1} with itsself :)").format(p1=participant))
             return redirect("fahrt:transport_mangagement")
 
+        transport_2: Optional[Transportation] = participant2.transportation
+        transport_creator_1_has_to_change = transport and transport.creator == participant
+        transport_creator_2_has_to_change = transport_2 and transport_2.creator == participant2
         # possibly exchanging creators
-        if participant.transportation and participant.transportation.creator == participant:
-            participant.transportation.creator = participant2
-            participant.transportation.save()
-        if participant2.transportation and participant2.transportation.creator == participant2:
-            participant2.transportation.creator = participant
-            participant2.transportation.save()
+        if transport and transport_2 and transport_creator_1_has_to_change and transport_creator_2_has_to_change:
+            # redundant typechecking is due to mypy
+            transport.creator = None
+            transport.save()
+            transport_2.creator = participant
+            transport_2.save()
+            transport.creator = participant2
+            transport.save()
+        elif transport and transport_creator_1_has_to_change:  # redundant typechecking is due to mypy
+            transport.creator = participant2
+            transport.save()
+        elif transport_2 and transport_creator_2_has_to_change:  # redundant typechecking is due to mypy
+            transport_2.creator = participant
+            transport_2.save()
         # possibly exchanging transportation
-        participant.transportation = participant2.transportation
+        participant.transportation = transport_2
         participant.save()
         participant.log(request.user, f"Exchanged transport option with {participant2}")
 
