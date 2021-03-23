@@ -1,0 +1,70 @@
+{% extends "fahrt/base_fahrt.html" %}
+{% load i18n %}
+{% load bootstrap4 %}
+
+{% if calling_participant %}{% block navigation %}{% endblock %}{% endif %}
+
+{% block  set_common_headercontent %}{% trans "Chat for Transport-Option" %} {{ transport }}{% endblock %}
+
+{% block set_common_content %}
+<div class='ml-3'>
+    {% for comment in transport.transportationcomment_set.all %}
+    <div class='row'>
+        <p class='overflow-auto'>
+            <span
+                class='font-weight-bold'
+                {% if calling_participant == comment.sender %}style='color: var(--info)'
+                {% else %}style='color: var(--secondary)'
+                {% endif %}
+            >
+                {% if comment.sender %}
+                {% if not calling_participant %}
+                <a href='{% url "fahrt:view_participant" comment.sender.id %}'>{{ comment.sender }}</a>
+                {% elif comment.sender.publish_contact_to_other_paricipants %}
+                {{ comment.sender }}
+                {% else %}
+                {% trans "Hidden" %}
+                {% endif %}
+                {% else %}
+                {% trans "[Deleted]" %}
+                {% endif %}
+            </span>
+            <span>{{ comment.comment_content }}</span>
+        </p>
+    </div>
+    {% endfor %}
+</div>
+{% if calling_participant %}
+<form
+    method="post"
+    action=""
+>
+    {% csrf_token %}
+    <div class='row mr-3'>
+        <div class='col-md-2 mb-3'>
+            <a
+                class="btn btn-secondary btn-block"
+                href="{% url "fahrt:transport_participant" calling_participant.uuid %}"
+            >{% trans "Back" %}</a>
+        </div>
+        <div class='col-md-9 m-0'>
+            {% bootstrap_form form layout='inline' %}
+        </div>
+
+        <div class='col-md-1'>
+            <button
+                class="btn btn-primary btn-block"
+                type="submit"
+            ><span class='bi bi-arrow-return-left'></span></button>
+        </div>
+    </div>
+    <p>{% trans "By submitting your comment here I acknowledge, that other participants and the organisers can see this content." %}</p>
+</form>
+{% else %}
+<a
+    class="btn btn-secondary"
+    href="{% url "fahrt:transport_mangagement" %}"
+>{% trans "Back" %}</a>
+{% endif %}
+
+{% endblock %}

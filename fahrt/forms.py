@@ -11,7 +11,7 @@ from settool_common.forms import SemesterBasedForm, SemesterBasedModelForm
 from settool_common.models import Subject
 from settool_common.utils import produce_field_with_autosubmit
 
-from .models import Fahrt, FahrtMail, Participant, Transportation
+from .models import Fahrt, FahrtMail, Participant, Transportation, TransportationComment
 
 
 class FahrtForm(forms.ModelForm):
@@ -293,3 +293,20 @@ class CSVFileUploadForm(forms.Form):
             "BIC (SWIFT-Code);Betrag;Waehrung;Info",
         ),
     )
+
+
+class TransportationCommentForm(forms.ModelForm):
+    class Meta:
+        model = TransportationComment
+        exclude: List[str] = ["sender", "commented_on"]
+
+    def __init__(self, *args, **kwargs):
+        self.transport = kwargs.pop("transport")
+        self.participant = kwargs.pop("participant")
+        super().__init__(*args, **kwargs)
+
+    def save(self, commit=True):
+        t_comment: TransportationComment = super().save(commit=False)
+        t_comment.commented_on = self.transport
+        t_comment.sender = self.participant
+        t_comment.save()

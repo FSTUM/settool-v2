@@ -3,10 +3,11 @@
 {% load i18n %}
 {% load bootstrap4 %}
 
+{% if calling_participant %}{% block navigation %}{% endblock %}{% endif %}
+
 {% block  set_common_headercontent %}{% trans "Add Transport" %}{% endblock %}
 
 {% block set_common_content %}
-
 <form
     method="post"
     action=""
@@ -21,8 +22,8 @@
 
     <a
         class="btn btn-secondary"
-        {% if participant %}
-        href="{% url "fahrt:transport_participant" participant.uuid %}"
+        {% if calling_participant %}
+        href="{% url "fahrt:transport_participant" calling_participant.uuid %}"
         {% else %}
         href="{% url "fahrt:transport_mangagement" %}"
         {% endif %}

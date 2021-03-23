@@ -1,8 +1,0 @@
-{% extends "fahrt/base_fahrt.html" %}
-{% load i18n %}
-
-{% block  set_common_headercontent %}{% trans "List of current Transport arragements" %}{% endblock %}
-
-{% block set_common_content %}
-{% include "fahrt/transportation/transport_base.html" with management_view=True%}
-{% endblock %}
