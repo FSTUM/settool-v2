@@ -9,11 +9,11 @@
 {% block  set_common_headercontent %}{% trans "Add Transport" %}{% endblock %}
 
 {% block set_common_content %}
-{% for transport_name_pl,transport_name, transport_type in transport_types %}
+{% for transport_name_pl,transport_name, transport_type, transports_of_type in transport_types %}
 <h2 class='card-title'>{{ transport_name_pl }}</h2>
 <div class="container-fluid mb-3">
     <div class="row flex-row flex-nowrap overflow-auto">
-        {% for transport in transport_type %}
+        {% for transport in transports_of_type %}
         <div
             class="card card-block"
             style='min-width: 30rem;max-width: 30rem;'
@@ -159,7 +159,6 @@
                 {% else %}
                 {% trans "This Transport-option does only offer one place" %}
                 {% endif %}
-
             </div>
             <div
                 class='card-footer'
@@ -181,7 +180,7 @@
                 </a>
             </div>
         </div>
-        {% if forloop.last %}
+        {% endfor %}
         <div
             class="card card-block"
             style='min-width: 30rem;max-width: 30rem;'
@@ -191,12 +190,7 @@
                 Add {{ transport_name }}
                 {% endblocktrans %}
             </div>
-            <a href='
-
-
-
-
-                                {% if not calling_participant %}{% url "fahrt:add_transport_option_by_management" transport.transport_type %}{% else %}{% url "fahrt:add_transport_option" calling_participant.uuid transport.transport_type %}{% endif %}'>
+            <a href='{% if not calling_participant %}{% url "fahrt:add_transport_option_by_management" transport_type %}{% else %}{% url "fahrt:add_transport_option" calling_participant.uuid transport_type %}{% endif %}'>
                 <div class='card-body text-center flex align-content-center '>
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -208,8 +202,6 @@
                 </div>
             </a>
         </div>
-        {% endif %}
-        {% endfor %}
     </div>
 </div>
 {% endfor %}

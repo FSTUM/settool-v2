@@ -21,10 +21,20 @@ from ..forms import (
 from ..models import Fahrt, Participant, Transportation
 
 
-def get_transport_types(fahrt: Fahrt) -> List[Tuple[str, str, Any]]:
+def get_transport_types(fahrt: Fahrt) -> List[Tuple[str, str, int, Any]]:
     return [
-        (_("Cars"), _("Car"), Transportation.objects.filter(transport_type=Transportation.CAR, fahrt=fahrt)),
-        (_("Trains"), _("Train"), Transportation.objects.filter(transport_type=Transportation.TRAIN, fahrt=fahrt)),
+        (
+            _("Cars"),
+            _("Car"),
+            Transportation.CAR,
+            Transportation.objects.filter(transport_type=Transportation.CAR, fahrt=fahrt),
+        ),
+        (
+            _("Trains"),
+            _("Train"),
+            Transportation.TRAIN,
+            Transportation.objects.filter(transport_type=Transportation.TRAIN, fahrt=fahrt),
+        ),
     ]
 
 
