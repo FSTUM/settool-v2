@@ -287,27 +287,9 @@ class Participant(models.Model):
 
 
 class TransportationComment(models.Model):
-    sender = models.ForeignKey(
-        Participant,
-        on_delete=models.CASCADE,
-    )
-
-    commented_on = models.ForeignKey(
-        Transportation,
-        on_delete=models.CASCADE,
-    )
-
-    comment_content = models.CharField(
-        _("Text"),
-        max_length=200,
-    )
-
-    def log(self, user, text):
-        LogEntry.objects.create(
-            participant=self.sender,
-            user=user,
-            text=text,
-        )
+    sender = models.ForeignKey(Participant, on_delete=models.CASCADE)
+    commented_on = models.ForeignKey(Transportation, on_delete=models.CASCADE)
+    comment_content = models.CharField(_("Text"), max_length=200)
 
     def __str__(self):
         if len(self.comment_content) > 30:

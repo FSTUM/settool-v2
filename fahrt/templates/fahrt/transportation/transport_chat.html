@@ -1,0 +1,13 @@
+{% extends "fahrt/base_fahrt.html" %}
+{% load static %}
+{% load task_extras %}
+{% load i18n %}
+{% load bootstrap4 %}
+
+{% if calling_participant %}{% block navigation %}{% endblock %}{% endif %}
+
+{% block  set_common_headercontent %}{% trans "Chat for Transport-Option" %}{{ transport }}{% endblock %}
+
+{% block set_common_content %}
+
+{% endblock %}

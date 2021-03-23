@@ -2,7 +2,10 @@
 {% load i18n %}
 {% load bootstrap4 %}
 
-{% block set_common_headercontent %}{% trans "Add participant to the SET-Fahrt" %}{% endblock %}
+{% if not management_view %}{% block navigation %}{% endblock %}{% endif %}
+
+{% block set_common_headercontent %}{% trans "Sign up for the SET-Fahrt" %}{% endblock %}
+
 {% block set_common_content %}
 <form
     method="post"
@@ -20,7 +23,7 @@
     <button
         class="btn btn-primary"
         type="submit"
-    >{% trans "Add participant" %}</button>
+    >{% trans "Sign up" %}</button>
 </form>
 {% endblock %}
 

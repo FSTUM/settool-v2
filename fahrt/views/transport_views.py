@@ -29,7 +29,7 @@ def transport_participant(request: WSGIRequest, participant_uuid: UUID) -> HttpR
         "transport_types": get_transport_types(semester.fahrt),
         "calling_participant": participant,
     }
-    return render(request, "fahrt/transportation/main_transport_view.html", context)
+    return render(request, "fahrt/transportation/list_transports.html", context)
 
 
 def add_transport_option(request: WSGIRequest, participant_uuid: UUID, transport_type: int) -> HttpResponse:
@@ -103,7 +103,7 @@ def transport_mangagement(request: WSGIRequest) -> HttpResponse:
     context = {"transport_types": get_transport_types(semester.fahrt)}
     return render(
         request,
-        "fahrt/transportation/main_transport_view.html",
+        "fahrt/transportation/list_transports.html",
         context,
     )
 

@@ -1,8 +1,0 @@
-{% extends "base_single_card_layout.html" %}
-{% load i18n %}
-
-{% block  set_common_headercontent %}{% trans "List Transport for" %} {{ participant }}{% endblock %}
-
-{% block set_common_content %}
-{% include "fahrt/transportation/transport_base.html"  with management_view=False %}
-{% endblock %}
