@@ -1,7 +1,7 @@
 import csv
 import os
 import time
-from typing import Any, Dict, Optional, Tuple
+from typing import Any, Dict, List, Optional, Tuple, Union
 
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required, permission_required, user_passes_test
@@ -158,16 +158,26 @@ def import_mail_csv_to_db(csv_file):
     TourMail.objects.all().delete()
     Mail.objects.all().delete()
     TutorMail.objects.all().delete()
+
+    mail_klass_lut = {
+        "bags": BagMail,
+        "fahrt": FahrtMail,
+        "guidedtours": TourMail,
+        "settool_common": Mail,
+        "tutors": TutorMail,
+    }
+
     # create new mail
     with open(tmp_filename, "r") as tmp_csv_file:
         rows = csv.DictReader(tmp_csv_file)
         for row in rows:
-            Mail.objects.create(
-                sender=row["sender"],
-                subject=row["subject"],
-                text=row["text"],
-                comment=row["comment"],
-            )
+            if row["source"] in mail_klass_lut:
+                mail_klass_lut[row["source"]].objects.create(
+                    sender=row["sender"],
+                    subject=row["subject"],
+                    text=row["text"],
+                    comment=row["comment"],
+                )
     # delete tempfile
     os.remove(tmp_filename)
 
@@ -186,26 +196,28 @@ def import_mail(request: WSGIRequest) -> HttpResponse:
 
 @permission_required("set.mail")
 def export_mail(request: WSGIRequest) -> HttpResponse:
-    mails_bags = BagMail.objects.all()
-    mails_fahrt = FahrtMail.objects.all()
-    mails_guidedtours = TourMail.objects.all()
-    mails_settool_common = Mail.objects.all()
+    mail_klass_lut = {
+        "bags": BagMail,
+        "fahrt": FahrtMail,
+        "guidedtours": TourMail,
+        "settool_common": Mail,
+        "tutors": TutorMail,
+    }
+    mails: List[Dict[str, str]] = []
+    for source, klass in mail_klass_lut.items():
+        mails += [_clean_mail(mail, source) for mail in klass.objects.all()]
 
-    mails = [_clean_mail(mail) for mail in mails_bags]
-    mails += [_clean_mail(mail) for mail in mails_fahrt]
-    mails += [_clean_mail(mail) for mail in mails_guidedtours]
-    mails += [_clean_mail(mail) for mail in mails_settool_common]
-
-    filename = f"emails{time.strftime('%Y%m%d-%H%M')}.csv"
-    return utils.download_csv(["sender", "subject", "text", "comment"], filename, mails)
+    filename = f"emails_{time.strftime('%Y%m%d-%H%M')}.csv"
+    return utils.download_csv(["source", "sender", "subject", "text", "comment"], filename, mails)
 
 
-def _clean_mail(mail):
+def _clean_mail(mail: Union[BagMail, FahrtMail, TourMail, Mail, TutorMail], source: str) -> Dict[str, str]:
     return {
+        "source": source,
         "sender": mail.sender or "",
         "subject": mail.subject or "",
         "text": mail.text or "",
-        "comment": mail.comment if hasattr(mail, "comment") else "",
+        "comment": mail.comment or "",
     }
 
 

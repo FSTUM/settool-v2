@@ -26,6 +26,7 @@
             >
                 <thead>
                     <tr>
+                        <th>source</th>
                         <th>sender</th>
                         <th>subject</th>
                         <th>text</th>
@@ -82,10 +83,10 @@ function isCsvFileType(s) {
                 reader.onload = function (e) {
                     const fields = e.target.result.split(/,|\r\n|\n\r/);
                     let text = '';
-                    for (let i = 4; i < fields.length; i += 1) {
-                        if (i % 4 === 0) text += '<tr>';
+                    for (let i = 5; i < fields.length; i += 1) {
+                        if (i % 5 === 0) text += '<tr>';
                         text += `<td>${unundef(fields[i])}</td>`;
-                        if (i % 4 === 3) {
+                        if (i % 5 === 4) {
                             $('tbody').append(`${text}</td>`);
                             text = '';
                         }
