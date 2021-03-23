@@ -217,7 +217,7 @@ def del_transport_participant_by_management(request: WSGIRequest, participant_uu
         messages.warning(
             request,
             _(
-                "This participant is not assigned to a transport option. this can Thus not be edited. You can however "
+                "This participant is not assigned to a transport option. this can Thus not be deleted. You can however "
                 "create a new transport option for this participant",
             ),
         )
@@ -235,6 +235,8 @@ def del_transport_participant_by_management(request: WSGIRequest, participant_uu
 
     form = forms.Form(request.POST or None)
     if form.is_valid():
+        if transport and transport.creator == participant:
+            transport.delete()  # we checked before that we are the only participant of this Transport option
         participant.transportation = None
         participant.save()
         participant.log(request.user, "Deleted transport option")

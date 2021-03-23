@@ -1065,11 +1065,11 @@ msgstr "Teilnehmer {p1} und {p2} wurden erfolgreich ausgetauscht"
 #: fahrt/views/transport_views.py
 msgid ""
 "This participant is not assigned to a transport option. this can Thus not be "
-"edited. You can however create a new transport option for this participant"
+"deleted. You can however create a new transport option for this participant"
 msgstr ""
 "Dieser Teilnehmer wurde keiner Transportmittel-option hinzugefügt. Er kann "
-"damit nicht bearbeitet werden. Du kannst allerdings eine neue "
-"Transportmittel-option für diesen Teilnehmer erschaffen"
+"damit nicht gelöscht werden. Du kannst allerdings eine neue Transportmittel-"
+"option für diesen Teilnehmer erschaffen"
 
 #: fahrt/views/transport_views.py
 msgid ""
