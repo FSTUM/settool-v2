@@ -196,7 +196,7 @@ def del_company(request: WSGIRequest, company_pk: int) -> HttpResponse:
     if form.is_valid():
         company.delete()
 
-        return redirect("bags:dashboard")
+        return redirect("bags:main_index")
 
     context = {
         "company": company,
@@ -274,7 +274,7 @@ def send_mail(request: WSGIRequest, mail_pk: int) -> HttpResponse:
             company.email_sent_success = mail.send_mail_company(company)
             company.email_sent = True
             company.save()
-        return redirect("bags:dashboard")
+        return redirect("bags:main_index")
 
     context = {
         "companies": companies,
@@ -287,7 +287,7 @@ def send_mail(request: WSGIRequest, mail_pk: int) -> HttpResponse:
     return render(request, "bags/mail/send_mail.html", context)
 
 
-def import_mail_csv_to_db(csv_file, semester):
+def import_company_csv_to_db(csv_file, semester):
     # load content into tempfile
     tmp_filename = f"upload_{csv_file.name}"
     with open(tmp_filename, "wb+") as tmp_csv_file:
@@ -308,12 +308,8 @@ def import_mail_csv_to_db(csv_file, semester):
                     "email_sent": row["email_sent"],
                     "email_sent_success": row["email_sent_success"],
                     "promise": row["promise"],
-                    "giveaways": row["giveaways"],
-                    "giveaways_last_year": row["giveaways_last_year"],
-                    "arrival_time": row["arrival_time"],
                     "comment": row["comment"],
                     "last_year": row["last_year"],
-                    "arrived": row["arrived"],
                     "contact_again": row["contact_again"],
                 },
             )
@@ -327,7 +323,7 @@ def import_csv(request: WSGIRequest) -> HttpResponse:
     semester: Semester = get_object_or_404(Semester, pk=get_semester(request))
     file_upload_form = CSVFileUploadForm(request.POST or None, request.FILES)
     if file_upload_form.is_valid():
-        import_mail_csv_to_db(request.FILES["file"], semester)
+        import_company_csv_to_db(request.FILES["file"], semester)
         messages.success(request, _("The File was successfully uploaded"))
         return redirect("bags:main_index")
     return render(
@@ -370,7 +366,7 @@ def import_previous_semester(request: WSGIRequest) -> HttpResponse:
                 last_year=True,
                 contact_again=None,
             )
-        return redirect("bags:dashboard")
+        return redirect("bags:main_index")
 
     context = {
         "form": form,
