@@ -44,20 +44,19 @@
     $(document).ready(() => {
         // Update giveaway asynchronous button
         /* eslint no-useless-escape: off */
-        // prettier-ignore
-        const asyncSuccessMessageUpdate = [
-            '<div ',
-            "style='position:fixed;top:0;z-index:10000;width:100%;border-radius:0;' ",
-            "class='alert alert-icon alert-success alert-dismissible fade show mb-0' role='alert'>",
-            "{% trans 'Success: Giveaway-Distribution was updated.' %}",
-            "<button type='button' class='close' data-dismiss='alert' aria-label='Close'>",
-            "<span aria-hidden='true'>&times;</span>",
-            '</button>',
-            '</div>',
-            '<script>',
-            "$('.alert').fadeTo(2000, 500).slideUp(500, function () {$('.alert').slideUp(500).remove();});",
-            '<\/script>',
-        ].join();
+        const asyncSuccessMessageUpdate = `
+            <div
+                style='position:fixed;top:0;z-index:10000;width:100%;border-radius:0;'
+                class='alert alert-icon alert-success alert-dismissible fade show mb-0' role='alert'
+            >
+                {% trans "Success: Giveaway-Distribution was updated." %}
+                <button type='button' class='close' data-dismiss='alert' aria-label='Close'>
+                    <span aria-hidden='true'>&times;</span>
+                </button>
+            </div>
+            <script>
+                $('.alert').fadeTo(2000, 500).slideUp(500, function () {$('.alert').slideUp(500).remove();});
+            <\/script>`;
 
         // modal form
         function updateGiveawayModalFormUngrouped() {
