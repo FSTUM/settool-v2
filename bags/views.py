@@ -641,7 +641,7 @@ def edit_giveaway_group(request: WSGIRequest, giveaway_group_pk: int) -> HttpRes
     semester: Semester = get_object_or_404(Semester, pk=get_semester(request))
     giveaway_group: GiveawayGroup = get_object_or_404(GiveawayGroup, id=giveaway_group_pk)
 
-    form = GiveawayGroupForm(request.POST or None, initial=giveaway_group, semester=semester)
+    form = GiveawayGroupForm(request.POST or None, instance=giveaway_group, semester=semester)
     if form.is_valid():
         form.save()
         return redirect("bags:list_giveaways")
