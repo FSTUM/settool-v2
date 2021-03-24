@@ -17,10 +17,15 @@ class CompanyForm(SemesterBasedModelForm):
         exclude = ["semester"]
 
 
-class GiveawayForm(SemesterBasedModelForm):
+class GiveawayForm(SemesterBasedForm, forms.ModelForm):
     class Meta:
         model = Giveaway
         exclude: List[str] = []
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields["company"].queryset = self.semester.company_set.all()
+        self.fields["group"].queryset = self.semester.giveawaygroup_set.all()
 
 
 class GiveawayDistributionModelForm(BSModalModelForm):
