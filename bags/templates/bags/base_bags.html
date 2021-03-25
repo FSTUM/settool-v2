@@ -26,11 +26,25 @@
 <a
     class="nav-link {% active_link "bags:list_grouped_giveaways" %}"
     href="{% url "bags:list_grouped_giveaways" %}"
->{% trans "List grouped Giveaways" %}</a>
+>{% trans "Grouped Giveaways" %}</a>
+<a
+    class="nav-link {% active_link "bags:list_giveaway_distribution" %}"
+    href="{% url "bags:list_giveaway_distribution" %}"
+>{% trans "Giveaway-Bag-Distribution" %}</a>
 <a
     class="nav-link {% active_link "bags:add_giveaway" %}"
     href="{% url "bags:add_giveaway" %}"
 >{% trans "Add a giveaway" %}</a>
+
+<h4 class="navbar-text">{% trans "Giveaway-Groups" %}</h4>
+<a
+    class="nav-link {% active_link "bags:list_giveaway_group" %}"
+    href="{% url "bags:list_giveaway_group" %}"
+>{% trans "List Giveaway-Groups" %}</a>
+<a
+    class="nav-link {% active_link "bags:add_giveaway_group" %}"
+    href="{% url "bags:add_giveaway_group" %}"
+>{% trans "Add Giveaway-Group" %}</a>
 
 <h4 class="navbar-text">{% trans "Mails" %}</h4>
 <a
