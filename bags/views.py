@@ -490,7 +490,7 @@ def list_grouped_giveaways(request: WSGIRequest) -> HttpResponse:
 
 
 @permission_required("bags.view_companies")
-def list_giveaways(request: WSGIRequest) -> HttpResponse:
+def list_giveaways_arrivals(request: WSGIRequest) -> HttpResponse:
     semester: Semester = get_object_or_404(Semester, pk=get_semester(request))
     context = {
         "giveaways": Giveaway.objects.filter(company__semester=semester),
