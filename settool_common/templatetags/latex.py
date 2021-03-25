@@ -30,4 +30,4 @@ def latex_escape(string):
 
 @register.simple_tag
 def fslogo_path():
-    return f'{{{os.path.join(BASE_DIR, "static", "eule.png")}}}'
+    return f'{{{os.path.join(BASE_DIR, "static", "eule_original.png")}}}'
