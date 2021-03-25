@@ -234,7 +234,7 @@ class QRCode(models.Model):
     def save(self, *args, **kwargs):
         qr_code = qrcode.QRCode(
             error_correction=qrcode.constants.ERROR_CORRECT_H,
-            box_size=20,
+            box_size=19,
             border=1,
         )
         qr_code.add_data(self.content)
@@ -244,18 +244,17 @@ class QRCode(models.Model):
         with Image.new("RGB", (qr_image.pixel_size, qr_image.pixel_size), "white") as canvas:
             canvas.paste(qr_image)
 
-            logo_path = os.path.join(main_settings.STATIC_ROOT, "eule.png")
+            logo_path = os.path.join(main_settings.STATIC_ROOT, "eule_squared.png")
             with Image.open(logo_path) as logo:
-                usable_height = qr_image.pixel_size - qr_image.box_size * qr_image.border * 2
-                size = int(usable_height * 0.3 / qr_image.box_size + 1) * qr_image.box_size
+                total_usable_height = qr_image.pixel_size - qr_image.box_size * qr_image.border * 2
+                usable_height = total_usable_height * 0.3
+                size = int(usable_height // qr_image.box_size + 1) * qr_image.box_size
                 # current image version can take it to have up to 30% covered up.
                 # due to math we are always below that limt
                 if ((qr_image.pixel_size - size) // 2 % qr_image.box_size) != 0:
                     size += qr_image.box_size
 
-                v_size = int(size * (logo.height / logo.width))  # WHY is our logo not sqare?
-
-                t_logo = logo.resize((size, v_size), Image.ANTIALIAS)
+                t_logo = logo.resize((size, size))
                 pos = (qr_image.pixel_size - size) // 2
                 canvas.paste(t_logo, (pos, pos))
 

@@ -52,41 +52,41 @@
 <div class='row'>
     <div class='col-md'>
         <h5 class='card-title'>{% trans "Fahrt-Signup" %}</h5>
-        <a href='{% url "fahrt:signup" %}'>
+        <a href='{% url "short_fahrt_signup" %}'>
             <img
                 class='m-2 img-fluid'
-                src='{% generate_qr_code_url "fahrt:signup" %}'
-                alt='QR-Code linking to {{ request.scheme }}://set.mpi.fs.tum.de{% url "fahrt:signup" %}'
+                src='{% generate_qr_code_url "short_fahrt_signup" %}'
+                alt='QR-Code linking to {{ request.scheme }}://set.mpi.fs.tum.de{% url "short_fahrt_signup" %}'
             >
         </a>
     </div>
     <div class='col-md'>
         <h5 class='card-title'>{% trans "Tutor-Signup" %}</h5>
-        <a href='{% url "tutors:tutor_signup" %}'>
+        <a href='{% url "short_tutor_signup" %}'>
             <img
                 class='m-2 img-fluid'
-                src='{% generate_qr_code_url "tutors:tutor_signup" %}'
-                alt='QR-Code linking to {{ request.scheme }}://set.mpi.fs.tum.de{% url "tutors:tutor_signup" %}'
+                src='{% generate_qr_code_url "short_tutor_signup" %}'
+                alt='QR-Code linking to {{ request.scheme }}://set.mpi.fs.tum.de{% url "short_tutor_signup" %}'
             >
         </a>
     </div>
     <div class='col-md'>
         <h5 class='card-title'>{% trans "Colaborator-Signup" %}</h5>
-        <a href='{% url "tutors:collaborator_signup" %}'>
+        <a href='{% url "short_collaborator_signup" %}'>
             <img
                 class='m-2 img-fluid'
-                src='{% generate_qr_code_url "tutors:collaborator_signup" %}'
-                alt='QR-Code linking to {{ request.scheme }}://set.mpi.fs.tum.de{% url "tutors:collaborator_signup" %}'
+                src='{% generate_qr_code_url "short_collaborator_signup" %}'
+                alt='QR-Code linking to {{ request.scheme }}://set.mpi.fs.tum.de{% url "short_collaborator_signup" %}'
             >
         </a>
     </div>
     <div class='col-md'>
         <h5 class='card-title'>{% trans "Guildedtour-Signup" %}</h5>
-        <a href='{% url "guidedtours:signup" %}'>
+        <a href='{% url "short_guidedtour_signup" %}'>
             <img
                 class='m-2 img-fluid'
-                src='{% generate_qr_code_url "guidedtours:signup" %}'
-                alt='QR-Code linking to {{ request.scheme }}://set.mpi.fs.tum.de{% url "guidedtours:signup" %}'
+                src='{% generate_qr_code_url "short_guidedtour_signup" %}'
+                alt='QR-Code linking to {{ request.scheme }}://set.mpi.fs.tum.de{% url "short_guidedtour_signup" %}'
             >
         </a>
     </div>
