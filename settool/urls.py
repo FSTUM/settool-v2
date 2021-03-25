@@ -20,16 +20,16 @@ urlpatterns = [
     path("semester/", include("settool_common.urls")),
     # guided tours
     path("tours/", include("guidedtours.urls")),
-    path("g/", RedirectView.as_view(pattern_name="guidedtours:signup")),
+    path("g/", RedirectView.as_view(pattern_name="guidedtours:signup"), name="short_guidedtour_signup"),
     # freshmen bags
     path("bags/", include("bags.urls")),
     # SET-Fahrt
     path("fahrt/", include("fahrt.urls")),
-    path("f/", RedirectView.as_view(pattern_name="fahrt:signup")),
+    path("f/", RedirectView.as_view(pattern_name="fahrt:signup"), name="short_fahrt_signup"),
     # Tutoren
     path("tutors/", include("tutors.urls")),
-    path("c/", RedirectView.as_view(pattern_name="tutors:collaborator_signup")),
-    path("t/", RedirectView.as_view(pattern_name="tutors:tutor_signup")),
+    path("c/", RedirectView.as_view(pattern_name="tutors:collaborator_signup"), name="short_collaborator_signup"),
+    path("t/", RedirectView.as_view(pattern_name="tutors:tutor_signup"), name="short_tutor_signup"),
 ]
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
