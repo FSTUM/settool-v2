@@ -26,6 +26,7 @@ def finanz_simple(request: WSGIRequest) -> HttpResponse:
     semester: Semester = get_object_or_404(Semester, pk=get_semester(request))
     fahrt: Fahrt = get_object_or_404(Fahrt, semester=semester)
     participants: List[Participant] = list(Participant.objects.filter(semester=semester, status="confirmed").all())
+
     select_participant_form_set = formset_factory(SelectParticipantSwitchForm, extra=0)
     participantforms = select_participant_form_set(
         request.POST or None,
@@ -33,8 +34,8 @@ def finanz_simple(request: WSGIRequest) -> HttpResponse:
     )
 
     if participantforms.is_valid():
-        new_paid_participants: List[Participant] = []
-        new_unpaid_participants: List[Participant] = []
+        new_paid_participants: List[int] = []
+        new_unpaid_participants: List[int] = []
         for participant in participantforms:
             try:
                 participant_id = participant.cleaned_data["id"]
@@ -71,10 +72,10 @@ def finanz_simple(request: WSGIRequest) -> HttpResponse:
 
 @permission_required("finanz")
 def finanz_confirm(request: WSGIRequest) -> HttpResponse:
-    new_paid_participants = [
+    new_paid_participants: List[Participant] = [
         Participant.objects.get(id=part_id) for part_id in request.session["new_paid_participants"]
     ]
-    new_unpaid_participants = [
+    new_unpaid_participants: List[Participant] = [
         Participant.objects.get(id=part_id) for part_id in request.session["new_unpaid_participants"]
     ]
     form = forms.Form(request.POST or None)
