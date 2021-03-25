@@ -45,7 +45,7 @@ def transport_participant(request: WSGIRequest, participant_uuid: UUID) -> HttpR
         "transport_types": get_transport_types(semester.fahrt),
         "calling_participant": participant,
     }
-    return render(request, "fahrt/transportation/list_transports.html", context)
+    return render(request, "fahrt/transportation/participant/list_transports.html", context)
 
 
 def add_transport_option(request: WSGIRequest, participant_uuid: UUID, transport_type: int) -> HttpResponse:
@@ -84,7 +84,7 @@ def add_transport_option(request: WSGIRequest, participant_uuid: UUID, transport
         "form": form,
         "calling_participant": participant,
     }
-    return render(request, "fahrt/transportation/add_transport.html", context)
+    return render(request, "fahrt/transportation/participant/add_transport.html", context)
 
 
 def add_transport_participant(request: WSGIRequest, participant_uuid: UUID, transport_pk: int) -> HttpResponse:
@@ -119,7 +119,7 @@ def transport_mangagement(request: WSGIRequest) -> HttpResponse:
     context = {"transport_types": get_transport_types(semester.fahrt)}
     return render(
         request,
-        "fahrt/transportation/list_transports.html",
+        "fahrt/transportation/management/list_transports.html",
         context,
     )
 
@@ -142,7 +142,7 @@ def add_transport_option_by_management(request: WSGIRequest, transport_type: int
     context = {
         "form": form,
     }
-    return render(request, "fahrt/transportation/add_transport.html", context)
+    return render(request, "fahrt/transportation/management/add_transport.html", context)
 
 
 @permission_required("fahrt.view_participants")
@@ -294,7 +294,7 @@ def transport_chat(request: WSGIRequest, participant_uuid: UUID, transport_pk: i
         "calling_participant": participant,
         "transport": transport,
     }
-    return render(request, "fahrt/transportation/transport_chat.html", context)
+    return render(request, "fahrt/transportation/participant/transport_chat.html", context)
 
 
 def transport_chat_by_management(request: WSGIRequest, transport_pk: int) -> HttpResponse:
@@ -303,4 +303,4 @@ def transport_chat_by_management(request: WSGIRequest, transport_pk: int) -> Htt
     context = {
         "transport": transport,
     }
-    return render(request, "fahrt/transportation/transport_chat.html", context)
+    return render(request, "fahrt/transportation/management/transport_chat.html", context)

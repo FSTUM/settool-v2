@@ -64,10 +64,6 @@ repos:
                 - flake8-print
                 - flake8-use-fstring
                 - flake8-django
-    - repo: https://github.com/thibaudcolas/curlylint
-      rev: v0.12.2
-      hooks:
-          - id: curlylint
     - repo: local
       hooks:
           - id: django-makemigrations

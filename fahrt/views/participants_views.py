@@ -334,7 +334,7 @@ def signup(request: WSGIRequest) -> HttpResponse:
         "semester": semester,
         "form": form,
     }
-    return render(request, "fahrt/participants/signup.html", context)
+    return render(request, "fahrt/participants/signup/signup_external.html", context)
 
 
 @permission_required("fahrt.view_participants")
@@ -367,7 +367,7 @@ def signup_internal(request: WSGIRequest) -> HttpResponse:
         "form": form,
         "management_view": True,
     }
-    return render(request, "fahrt/participants/signup.html", context)
+    return render(request, "fahrt/participants/signup/signup_internal.html", context)
 
 
 def signup_success(request: WSGIRequest) -> HttpResponse:

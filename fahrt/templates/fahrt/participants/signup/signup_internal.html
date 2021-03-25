@@ -1,9 +1,6 @@
 {% extends "fahrt/base_fahrt.html" %}
-{% load i18n %}
 {% load bootstrap4 %}
-
-{% if not management_view %}{% block navigation %}{% endblock %}{% endif %}
-
+{% load i18n %}
 {% block set_common_headercontent %}{% trans "Sign up for the SET-Fahrt" %}{% endblock %}
 
 {% block set_common_content %}

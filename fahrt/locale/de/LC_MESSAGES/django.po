@@ -550,7 +550,7 @@ msgstr "Vorschau"
 #: fahrt/templates/fahrt/participants/del_participant.html
 #: fahrt/templates/fahrt/participants/edit_participants.html
 #: fahrt/templates/fahrt/participants/view_participant_details.html
-#: fahrt/templates/fahrt/transportation/add_transport.html
+#: fahrt/templates/fahrt/transportation/management/add_transport.html
 #: fahrt/templates/fahrt/transportation/management_only/add_participant_to_transport.html
 #: fahrt/templates/fahrt/transportation/management_only/del_participant_transport.html
 #: fahrt/templates/fahrt/transportation/management_only/edit_participant_transport.html
@@ -775,12 +775,12 @@ msgstr "Angemeldete Teilnehmer auflisten"
 msgid "List participants on waitinglist"
 msgstr "Warteliste"
 
-#: fahrt/templates/fahrt/participants/signup.html
+#: fahrt/templates/fahrt/participants/signup/signup_internal.html
 #: fahrt/templates/fahrt/standalone/registration_closed.html
 msgid "Sign up for the SET-Fahrt"
 msgstr "Anmeldung zur SET-Fahrt"
 
-#: fahrt/templates/fahrt/participants/signup.html
+#: fahrt/templates/fahrt/participants/signup/signup_internal.html
 msgid "Sign up"
 msgstr "Anmelden"
 
@@ -817,7 +817,7 @@ msgid "Add participant to waitinglist"
 msgstr "Teilnehmer der Warteliste hinzufügen"
 
 #: fahrt/templates/fahrt/participants/view_participant_details.html
-#: fahrt/templates/fahrt/transportation/transport_chat.html
+#: fahrt/templates/fahrt/transportation/management/transport_chat.html
 msgid "Back"
 msgstr "Zurück"
 
@@ -845,66 +845,78 @@ msgstr ""
 "Du wirst alle weiteren Informationen per E-Mail erhalten. Dies kann etwas "
 "dauern, da wir deine Anmeldung manuell überprüfen."
 
-#: fahrt/templates/fahrt/transportation/add_transport.html
-#: fahrt/templates/fahrt/transportation/list_transports.html
+#: fahrt/templates/fahrt/transportation/management/add_transport.html
+#: fahrt/templates/fahrt/transportation/management/list_transports.html
 #: fahrt/templates/fahrt/transportation/management_only/add_participant_to_transport.html
 msgid "Add Transport"
 msgstr "Transportmittel hinzufügen"
 
-#: fahrt/templates/fahrt/transportation/list_transports.html
+#: fahrt/templates/fahrt/transportation/management/list_transports.html
 msgid "Organisor/Driver:"
 msgstr "Organisator/Fahrer:"
 
-#: fahrt/templates/fahrt/transportation/list_transports.html
-#: fahrt/templates/fahrt/transportation/transport_chat.html
+#: fahrt/templates/fahrt/transportation/management/list_transports.html
+#: fahrt/templates/fahrt/transportation/management/transport_chat.html
 msgid "Hidden"
 msgstr "Versteckt"
 
-#: fahrt/templates/fahrt/transportation/list_transports.html
+#: fahrt/templates/fahrt/transportation/management/list_transports.html
 msgid "[Me]"
 msgstr "[Ich]"
 
-#: fahrt/templates/fahrt/transportation/list_transports.html
-#: fahrt/templates/fahrt/transportation/transport_chat.html
+#: fahrt/templates/fahrt/transportation/management/list_transports.html
+#: fahrt/templates/fahrt/transportation/management/transport_chat.html
 msgid "[Deleted]"
 msgstr "[Gelöscht]"
 
-#: fahrt/templates/fahrt/transportation/list_transports.html
+#: fahrt/templates/fahrt/transportation/management/list_transports.html
 msgid "Contact:"
 msgstr "Kontakt:"
 
-#: fahrt/templates/fahrt/transportation/list_transports.html
+#: fahrt/templates/fahrt/transportation/management/list_transports.html
 msgid "Meeting-Place:"
 msgstr "Treffpunkt"
 
-#: fahrt/templates/fahrt/transportation/list_transports.html
+#: fahrt/templates/fahrt/transportation/management/list_transports.html
 msgid "Departure:"
 msgstr "Abfahrt:"
 
-#: fahrt/templates/fahrt/transportation/list_transports.html
+#: fahrt/templates/fahrt/transportation/management/list_transports.html
 msgid "Departure for return:"
 msgstr "Abfahrt für den rückweg"
 
-#: fahrt/templates/fahrt/transportation/list_transports.html
+#: fahrt/templates/fahrt/transportation/management/list_transports.html
 msgid "Name"
 msgstr "Name"
 
-#: fahrt/templates/fahrt/transportation/list_transports.html
+#: fahrt/templates/fahrt/transportation/management/list_transports.html
 msgid "Contact"
 msgstr "Kontakt"
 
-#: fahrt/templates/fahrt/transportation/list_transports.html
+#: fahrt/templates/fahrt/transportation/management/list_transports.html
 msgid "This Transport-option does only offer one place"
 msgstr "Diese Tramsportmittel-option verfügt über lediglich einen Platz"
 
-#: fahrt/templates/fahrt/transportation/list_transports.html
+#: fahrt/templates/fahrt/transportation/management/list_transports.html
 msgid "Chatwall"
 msgstr "Chatwall"
 
-#: fahrt/templates/fahrt/transportation/list_transports.html
+#: fahrt/templates/fahrt/transportation/management/list_transports.html
 #, python-format
 msgid "Add %(transport_name)s"
 msgstr "%(transport_name)s hinzufügen"
+
+#: fahrt/templates/fahrt/transportation/management/transport_chat.html
+msgid "Chat for Transport-Option"
+msgstr "Chat für Transportmittel-Option"
+
+#: fahrt/templates/fahrt/transportation/management/transport_chat.html
+msgid ""
+"By submitting your comment here I acknowledge, that other participants and "
+"the organisers can see this content."
+msgstr ""
+"Mit dem Absenden deines Kommentars hier erkenne ich an, dass andere "
+"Teilnehmer und Organisatioren diesen Inhalt sehen können."
 
 #: fahrt/templates/fahrt/transportation/management_only/add_participant_to_transport.html
 msgid "Add unassigned participant to"
@@ -931,18 +943,6 @@ msgstr "Teilnehmer %(participant)s austauschen"
 #: fahrt/templates/fahrt/transportation/management_only/edit_participant_transport.html
 msgid "Exchange Participants"
 msgstr "Teilnehmer austauschen"
-
-#: fahrt/templates/fahrt/transportation/transport_chat.html
-msgid "Chat for Transport-Option"
-msgstr "Chat für Transportmittel-Option"
-
-#: fahrt/templates/fahrt/transportation/transport_chat.html
-msgid ""
-"By submitting your comment here I acknowledge, that other participants and "
-"the organisers can see this content."
-msgstr ""
-"Mit dem Absenden deines Kommentars hier erkenne ich an, dass andere "
-"Teilnehmer und Organisatioren diesen Inhalt sehen können."
 
 #: fahrt/views/finanz_views.py
 msgid "Saved changed payment status"

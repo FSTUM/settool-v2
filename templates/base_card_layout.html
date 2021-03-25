@@ -3,8 +3,9 @@
 {% load bootstrap4 %}
 
 {% block content %}
+
+{% block navigation-override-1 %}
 <div class="row">
-    {% block navigation %}
     <div class="col-lg-3 col-xl-2 mb-4">
         <div class="card">
             <div class="card-header">
@@ -17,8 +18,8 @@
             </div>
         </div>
     </div>
-    {% endblock %}
     <div class="col-lg-9 col-xl-10">
+        {% endblock %}
         <div class="card">
             <div class="card-header">
                 {% block set_common_headercontent %}{% endblock %}
@@ -27,6 +28,8 @@
                 {% block set_common_content %}{% endblock %}
             </div>
         </div>
+        {% block navigation-override-2 %}
     </div>
 </div>
+{% endblock %}
 {% endblock %}
