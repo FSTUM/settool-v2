@@ -8,6 +8,7 @@ import qrcode
 from django.core.files import File
 from django.core.mail import EmailMessage, send_mail
 from django.db import models
+from django.dispatch import receiver
 from django.http import HttpRequest, HttpResponse
 from django.template import Context, Template
 from django.utils import timezone
@@ -269,6 +270,17 @@ class QRCode(models.Model):
             canvas.save(buffer, "PNG")
             self.qr_code.save(f"qr_code_{f_cleaned_content}.png", File(buffer), save=False)
             super().save(*args, **kwargs)
+
+
+@receiver(models.signals.post_delete, sender=QRCode)
+def auto_delete_qr_code_on_delete(sender, instance, **_kwargs):
+    """
+    Deletes file from filesystem
+    when corresponding `QRCode` object is deleted.
+    """
+    _ = sender  # sender is needed, for api. it cannot be renamed, but is unused here.
+    if instance.qr_code and os.path.isfile(instance.qr_code.path):
+        os.remove(instance.qr_code.path)
 
 
 class AnonymisationLog(models.Model):

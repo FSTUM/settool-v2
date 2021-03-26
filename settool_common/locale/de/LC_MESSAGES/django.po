@@ -159,6 +159,19 @@ msgstr "Studiengänge"
 msgid "Manage Study-Subjects"
 msgstr "Studiengänge managen"
 
+#: settool_common/templates/settool_common/settings/base_settings.html
+msgid "QR-Codes"
+msgstr "QR-Codes"
+
+#: settool_common/templates/settool_common/settings/base_settings.html
+msgid "All QR-Codes"
+msgstr "Alle QR-Codes"
+
+#: settool_common/templates/settool_common/settings/base_settings.html
+#: settool_common/templates/settool_common/settings/qr-codes/add_qr_code.html
+msgid "Add QR-Code"
+msgstr "QR-Code hinzufügen"
+
 #: settool_common/templates/settool_common/settings/mail/add_email.html
 msgid "Add email"
 msgstr "E-Mail hinzufügen"
@@ -167,6 +180,8 @@ msgstr "E-Mail hinzufügen"
 #: settool_common/templates/settool_common/settings/mail/delete_email.html
 #: settool_common/templates/settool_common/settings/mail/import_email.html
 #: settool_common/templates/settool_common/settings/mail/send_email_confirmation.html
+#: settool_common/templates/settool_common/settings/qr-codes/add_qr_code.html
+#: settool_common/templates/settool_common/settings/qr-codes/del_qr_code.html
 #: settool_common/templates/settool_common/settings/subjects/course_bundle/add_course_bundle.html
 #: settool_common/templates/settool_common/settings/subjects/course_bundle/del_course_bundle.html
 #: settool_common/templates/settool_common/settings/subjects/course_bundle/edit_course_bundle.html
@@ -291,6 +306,27 @@ msgstr ""
 "Feld leer war. Nachfolgend finden Sie eine Liste aller fehlgeschlagenen "
 "Teilnehmer."
 
+#: settool_common/templates/settool_common/settings/qr-codes/del_qr_code.html
+#: settool_common/templates/settool_common/settings/qr-codes/list_qr_codes.html
+msgid "Delete QR-Code"
+msgstr "QR-Code löschen"
+
+#: settool_common/templates/settool_common/settings/qr-codes/list_qr_codes.html
+msgid "List of all QR-Codes"
+msgstr "Alle QR-Codes auflisten"
+
+#: settool_common/templates/settool_common/settings/qr-codes/list_qr_codes.html
+msgid "Link to"
+msgstr "Link nach"
+
+#: settool_common/templates/settool_common/settings/qr-codes/list_qr_codes.html
+msgid "QR-Code"
+msgstr "QR-Code"
+
+#: settool_common/templates/settool_common/settings/qr-codes/list_qr_codes.html
+msgid "QR-Code stored at"
+msgstr "QR-Code gespeichert unter"
+
 #: settool_common/templates/settool_common/settings/settings_dashboard.html
 msgid "Settings dashboard"
 msgstr "Einstellungsdashboard"
@@ -392,6 +428,26 @@ msgid "List all Course-bundles"
 msgstr "Alle Studiengangsbündel auflisten"
 
 #: settool_common/views.py
+msgid "The QRCode was successfully deleted"
+msgstr "Der QR-Code wurde erfolgreich gelöscht"
+
+#: settool_common/views.py
+msgid ""
+"Be aware that deleting this deletes the actual file from the server. This "
+"means that if an other user has included this image via a hardlink, this "
+"image will not be loaded anymore."
+msgstr ""
+"Sei dir bewusst, das dies zu löschen eine tatsächliche Datei vom Server "
+"löscht. Das heißt, das falls ein anderer Nutzer dieses Bild via hardlink "
+"eingebunden hat dies nicht mehr funktionieren wird, da die Datei gelöscht "
+"wurde."
+
+#: settool_common/views.py
+msgid "Be aware that deleting this affects all semesters. There be dragons."
+msgstr ""
+"Sei dir bewusst das diese Löschung alle Semester betrifft. There be dragons."
+
+#: settool_common/views.py
 msgid "The File was successfully uploaded"
 msgstr "Diese Datei wurde erfolgreich ge-uploaded"
 
@@ -417,11 +473,6 @@ msgstr ""
 "Studenfach von dieesem Studenfachbündel abhängig ist, das es ebenfalls "
 "gelöscht wird. Das heißt auch das Teilnehmer die diesem Studenfachbündel "
 "angehören ebenfalls mögl. gelöscht werden."
-
-#: settool_common/views.py
-msgid "Be aware that deleting this affects all semesters. There be dragons."
-msgstr ""
-"Sei dir bewusst das diese Löschung alle Semester betrifft. There be dragons."
 
 #: settool_common/views.py
 msgid "The Subject was successfully deleted"

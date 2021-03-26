@@ -20,8 +20,8 @@ from bags.models import BagMail
 from fahrt.models import FahrtMail
 from guidedtours.models import TourMail
 from settool_common import utils
-from settool_common.forms import CourseBundleForm, MailForm, SubjectForm
-from settool_common.models import AnonymisationLog, CourseBundle, get_semester, Mail, Semester, Subject
+from settool_common.forms import CourseBundleForm, MailForm, QRCodeForm, SubjectForm
+from settool_common.models import AnonymisationLog, CourseBundle, get_semester, Mail, QRCode, Semester, Subject
 from tutors.models import TutorMail
 
 from .forms import CSVFileUploadForm
@@ -51,6 +51,45 @@ def set_semester(request: WSGIRequest) -> HttpResponse:
 def list_mail(request: WSGIRequest) -> HttpResponse:
     context = {"mails": Mail.objects.all()}
     return render(request, "settool_common/settings/mail/list_email_templates.html", context)
+
+
+@login_required
+def list_qr_codes(request: WSGIRequest) -> HttpResponse:
+    context = {"qr_codes": QRCode.objects.all()}
+    return render(request, "settool_common/settings/qr-codes/list_qr_codes.html", context)
+
+
+@login_required
+def add_qr_code(request: WSGIRequest) -> HttpResponse:
+    form = QRCodeForm(request.POST or None)
+    if form.is_valid():
+        form.save()
+        return redirect("list_qr_codes")
+
+    context = {
+        "form": form,
+    }
+    return render(request, "settool_common/settings/qr-codes/add_qr_code.html", context)
+
+
+@permission_required("set.mail")
+def del_qr_code(request: WSGIRequest, qr_code_pk: int) -> HttpResponse:
+    qr_code: QRCode = get_object_or_404(QRCode, id=qr_code_pk)
+    form = forms.Form(request.POST or None)
+    if form.is_valid():
+        qr_code.delete()
+        messages.success(request, _("The QRCode was successfully deleted"))
+        return redirect("list_qr_codes")
+    messages.warning(
+        request,
+        _(
+            "Be aware that deleting this deletes the actual file from the server. This means that if an other user "
+            "has included this image via a hardlink, this image will not be loaded anymore.",
+        ),
+    )
+    messages.warning(request, _("Be aware that deleting this affects all semesters. There be dragons."))
+    context = {"form": form, "qr_code": qr_code}
+    return render(request, "settool_common/settings/qr-codes/del_qr_code.html", context)
 
 
 @permission_required("set.mail")
