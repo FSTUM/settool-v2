@@ -415,11 +415,8 @@ def dashboard(request: WSGIRequest) -> HttpResponse:
             "group_count": giveaways.filter(group__isnull=True).count(),
         },
     )
-    g_by_every_x_bags = (
-        giveaways.values("every_x_bags").annotate(every_x_bags_count=Count("every_x_bags")).order_by("every_x_bags")
-    )
-    g_by_per_bag_count = (
-        giveaways.values("per_bag_count").annotate(per_bag_count_count=Count("per_bag_count")).order_by("per_bag_count")
+    g_by_item_count = (
+        giveaways.values("item_count").annotate(item_count_count=Count("item_count")).order_by("item_count")
     )
 
     context = {
@@ -470,10 +467,8 @@ def dashboard(request: WSGIRequest) -> HttpResponse:
             for group in g_by_group
         ],
         "g_by_group_data": [group["group_count"] for group in g_by_group],
-        "g_by_every_x_bags_labels": [str(every_x_bags["every_x_bags"]) for every_x_bags in g_by_every_x_bags],
-        "g_by_every_x_bags_data": [every_x_bags["every_x_bags_count"] for every_x_bags in g_by_every_x_bags],
-        "g_by_per_bag_count_labels": [str(per_bag_count["per_bag_count"]) for per_bag_count in g_by_per_bag_count],
-        "g_by_per_bag_count_data": [per_bag_count["per_bag_count_count"] for per_bag_count in g_by_per_bag_count],
+        "g_by_item_count_labels": [str(item_count["item_count"]) for item_count in g_by_item_count],
+        "g_by_item_count_data": [item_count["item_count_count"] for item_count in g_by_item_count],
     }
     return render(request, "bags/bags_dashboard.html", context=context)
 
