@@ -20,10 +20,6 @@
 
 <h4 class="navbar-text">{% trans "Giveaways" %}</h4>
 <a
-    class="nav-link {% active_link "bags:list_giveaways_arrivals" %}"
-    href="{% url "bags:list_giveaways_arrivals" %}"
->{% trans "Giveaway checkin" %}</a>
-<a
     class="nav-link {% active_link "bags:list_grouped_giveaways" %}"
     href="{% url "bags:list_grouped_giveaways" %}"
 >{% trans "Grouped Giveaways" %}</a>
@@ -31,6 +27,10 @@
     class="nav-link {% active_link "bags:list_giveaway_distribution" %}"
     href="{% url "bags:list_giveaway_distribution" %}"
 >{% trans "Giveaway-Bag-Distribution" %}</a>
+<a
+    class="nav-link {% active_link "bags:list_giveaways_arrivals" %}"
+    href="{% url "bags:list_giveaways_arrivals" %}"
+>{% trans "Giveaway Check-In" %}</a>
 <a
     class="nav-link {% active_link "bags:add_giveaway" %}"
     href="{% url "bags:add_giveaway" %}"
