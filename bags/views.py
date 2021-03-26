@@ -488,7 +488,20 @@ def list_grouped_giveaways(request: WSGIRequest) -> HttpResponse:
         ],
         "ungrouped_giveaways": Giveaway.objects.filter(Q(group=None) & Q(company__semester=semester)),
     }
-    return render(request, "bags/giveaways/giveaway/list_grouped_giveaways.html", context=context)
+    return render(request, "bags/giveaways/giveaway/list/list_grouped_giveaways.html", context=context)
+
+
+@permission_required("bags.view_companies")
+def list_giveaway_distribution(request: WSGIRequest) -> HttpResponse:
+    semester: Semester = get_object_or_404(Semester, pk=get_semester(request))
+    context = {
+        "giveaway_groups": [
+            (ggroup, ggroup.giveaway_set.filter(company__semester=semester).all())
+            for ggroup in semester.giveawaygroup_set.all()
+        ],
+        "ungrouped_giveaways": Giveaway.objects.filter(Q(group=None) & Q(company__semester=semester)),
+    }
+    return render(request, "bags/giveaways/giveaway/list/distribution/list_giveaway_distribution.html", context=context)
 
 
 @permission_required("bags.view_companies")
@@ -618,7 +631,7 @@ def giveaway_data_ungrouped(request):
         ungrouped_giveaways = Giveaway.objects.filter(Q(group=None) & Q(company__semester=semester))
         data = {
             "giveaway_data_ungrouped": render_to_string(
-                "bags/giveaways/giveaway/_ungrouped_giveaways.html",
+                "bags/giveaways/giveaway/list/distribution/_ungrouped_giveaways.html",
                 {"ungrouped_giveaways": ungrouped_giveaways},
                 request=request,
             ),
@@ -637,7 +650,7 @@ def giveaway_data_grouped(request):
         ]
         data = {
             "giveaway_data_grouped": render_to_string(
-                "bags/giveaways/giveaway/_grouped_giveaways.html",
+                "bags/giveaways/giveaway/list/distribution/_grouped_giveaways.html",
                 {"giveaway_groups": giveaway_groups},
                 request=request,
             ),

@@ -11,8 +11,7 @@
                 <th>{% trans "Company" %}</th>
                 <th>{% trans "Giveaway-title" %}</th>
                 <th>{% trans "Distribution over bags" %}</th>
-                <th>{% trans "Arrival time" %}</th>
-                <th>{% trans "Arrived" %}</th>
+                <th>{% trans "Arrival time (green=arrived)" %}</th>
                 <th>{% trans "Actions" %}</th>
             </tr>
         </thead>
@@ -20,7 +19,7 @@
             {% for giveaway in ungrouped_giveaways %}
             <tr>
                 <td><a href="{% url "bags:view_company" giveaway.company.id %}">{{ giveaway.company }}</a></td>
-                <td>{{ giveaway.name }}</td>
+                <td><a href="{% url "bags:view_giveaway" giveaway.id %}">{{ giveaway.name }}</a></td>
                 <td>
                     <a
                         type="button"
@@ -30,8 +29,10 @@
                         {{ giveaway.custom_per_bag_message }}
                     </a>
                 </td>
-                <td>{{ giveaway.arrival_time|default:"-" }}</td>
-                <td>{% include "snippets/true_false_span.html" with value=giveaway.arrived %}</td>
+                <td
+                    {% if giveaway.arrived %}class='table-success'
+                    {% endif %}
+                >{{ giveaway.arrival_time|default:"-" }}</td>
                 <td>
                     <a href="{% url "bags:edit_giveaway" giveaway.id %}"><span class="bi bi-pencil-square"></span></a>
                     <a href="{% url "bags:del_giveaway" giveaway.id %}"><span class="bi bi-trash-fill"></span></a>
