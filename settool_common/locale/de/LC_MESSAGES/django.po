@@ -349,6 +349,10 @@ msgid "Settings have been created"
 msgstr "Einstellungen wurden erstellt"
 
 #: settool_common/templates/settool_common/settings/settings_dashboard.html
+msgid "Settings have been changed"
+msgstr "Einstellungen wurden verändert"
+
+#: settool_common/templates/settool_common/settings/settings_dashboard.html
 msgid "GDPR-relevant data has been anonimsed"
 msgstr "DSGVO relevante Daten wurden anonymisiert"
 

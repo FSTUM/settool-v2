@@ -13,6 +13,7 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.utils.http import is_safe_url
 from django.utils.translation import ugettext_lazy as _
 
+import bags
 import fahrt
 import guidedtours
 import tutors
@@ -177,6 +178,8 @@ def dashboard(request: WSGIRequest) -> HttpResponse:
         "mail_template_count": [sender["sender_count"] for sender in mail_templates_by_sender],
         "fahrt_exists": object_does_exists(fahrt.models.Fahrt, semester),
         "fahrt_privatised": object_does_exists(AnonymisationLog, semester, anon_log_str="guidedtours"),
+        "bags_exists": object_does_exists(bags.models.BagSettings, semester),
+        "bags_privatised": object_does_exists(AnonymisationLog, semester, anon_log_str="bags"),
         "tutors_general_exists": object_does_exists(tutors.models.Settings, semester),
         "tutors_privatised": object_does_exists(AnonymisationLog, semester, anon_log_str="guidedtours"),
         "guidedtours_exists": object_does_exists(guidedtours.models.Setting, semester),
