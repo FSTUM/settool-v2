@@ -1,0 +1,57 @@
+{% extends "settool_common/settings/base_settings.html" %}
+{% load i18n %}
+
+{% block head %}
+<script>
+        $(document).ready(() => {
+            $('#QRCodeTable').DataTable({});
+        });
+    </script>
+{% endblock %}
+
+{% block set_common_headercontent %}{% trans "List of all QR-Codes" %}{% endblock %}
+
+{% block set_common_content %}
+<div class="table-responsive">
+    <table
+        id="QRCodeTable"
+        class="table dataTable"
+    >
+        <thead>
+            <tr>
+                <th>{% trans "Link to" %}</th>
+                <th>{% trans "QR-Code" %}</th>
+                <th>{% trans "QR-Code stored at" %}</th>
+                {% if perms.set %}
+                <th>{% trans "Delete QR-Code" %}</th>
+                {% endif %}
+            </tr>
+        </thead>
+        <tbody>
+            {% for qr_code in qr_codes %}
+            <tr>
+                <td><a href='{{ qr_code.content }}'>{{ qr_code.content }}</a></td>
+                <td>
+                    <a href='{{ qr_code.content }}'>
+                        <img
+                            style='width: 10rem'
+                            src='{{ qr_code.qr_code.url }}'
+                            alt='QR-Code linking to {{ qr_code.content }}'
+                        >
+                    </a>
+                </td>
+                <td><a href='{{ qr_code.qr_code.url }}'>{{ request.scheme }}://set.mpi.fs.tum.de{{ qr_code.qr_code.url }}</a></td>
+
+                {% if perms.set %}
+                <td><a
+                        class='btn btn-block btn-warning'
+                        href='{% url "del_qr_code" qr_code.id %}'
+                    >{% trans "Delete QR-Code" %}</a></td>
+
+                {% endif %}
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

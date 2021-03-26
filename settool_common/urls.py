@@ -75,6 +75,16 @@ urlpatterns = [
                         ],
                     ),
                 ),
+                path(
+                    "qr-codes/",
+                    include(
+                        [
+                            path("list/", views.list_qr_codes, name="list_qr_codes"),
+                            path("add/", views.add_qr_code, name="add_qr_code"),
+                            path("del/<int:qr_code_pk>/", views.del_qr_code, name="del_qr_code"),
+                        ],
+                    ),
+                ),
             ],
         ),
     ),

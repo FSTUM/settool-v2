@@ -96,7 +96,7 @@
                         href="{% url "guidedtours:main_index" %}"
                     >{% trans "Guided tours of the institutes" %}</a>
                     {% endif %}
-                    {% if 'set.perms.set' in perms %}
+                    {% if user.is_authenticated %}
                     <a
                         class="nav-link {% active_link 'settings_main_index' %}"
                         href="{% url "settings_main_index" %}"

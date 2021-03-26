@@ -8,7 +8,7 @@ from fahrt.models import FahrtMail
 from guidedtours.models import TourMail
 from tutors.models import TutorMail
 
-from .models import CourseBundle, Mail, Semester, Subject
+from .models import CourseBundle, Mail, QRCode, Semester, Subject
 
 
 class SemesterBasedForm(forms.Form):
@@ -108,6 +108,12 @@ class CourseBundleForm(forms.ModelForm):
     class Meta:
         model = CourseBundle
         exclude: List[str] = ["name"]
+
+
+class QRCodeForm(forms.ModelForm):
+    class Meta:
+        model = QRCode
+        exclude: List[str] = []
 
 
 class SubjectForm(forms.ModelForm):

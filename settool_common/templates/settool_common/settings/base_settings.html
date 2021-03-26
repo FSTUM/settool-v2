@@ -23,7 +23,6 @@
     href="{% url "add_mail" %}"
 >{% trans "Add template" %}</a>
 
-
 <h4 class="navbar-text">{% trans "Study-Subjects" %}</h4>
 <a
     class="nav-link {% active_link "list_subjects" %}"
@@ -32,5 +31,18 @@
 
 {% else %}
 Sorry, but you have no Settings
+{% endif %}
+
+
+{% if user.is_authenticated %}
+<h4 class="navbar-text">{% trans "QR-Codes" %}</h4>
+<a
+    class="nav-link {% active_link "list_qr_codes" %}"
+    href="{% url "list_qr_codes" %}"
+>{% trans "All QR-Codes" %}</a>
+<a
+    class="nav-link {% active_link "add_qr_code" %}"
+    href="{% url "add_qr_code" %}"
+>{% trans "Add QR-Code" %}</a>
 {% endif %}
 {% endblock %}
