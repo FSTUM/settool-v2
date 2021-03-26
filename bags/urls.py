@@ -84,8 +84,17 @@ urlpatterns = [
                 path("view/<int:giveaway_pk>/", views.view_giveaway, name="view_giveaway"),
                 path("edit/<int:giveaway_pk>/", views.edit_giveaway, name="edit_giveaway"),
                 path("delete/<int:giveaway_pk>/", views.del_giveaway, name="del_giveaway"),
-                path("grouped/", views.list_grouped_giveaways, name="list_grouped_giveaways"),
-                path("list/", views.list_giveaways, name="list_giveaways"),
+                path(
+                    "list/",
+                    include(
+                        [
+                            path("grouped/", views.list_grouped_giveaways, name="list_grouped_giveaways"),
+                            path("distribution/", views.list_giveaway_distribution, name="list_giveaway_distribution"),
+                            path("arrivals/", views.list_giveaways_arrivals, name="list_giveaways_arrivals"),
+                            path("confirm/", views.confirm_giveaways_arrivals, name="confirm_giveaways_arrivals"),
+                        ],
+                    ),
+                ),
             ],
         ),
     ),

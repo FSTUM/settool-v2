@@ -20,22 +20,8 @@
         <div class="modal-content"></div>
     </div>
 </div>
-<div class='row'>
-    <div class='col-sm p-1'>
-        <a
-            class='btn btn-secondary btn-block'
-            href="{% url "bags:add_giveaway_group" %}"
-        >{% trans "Add a giveaway-group" %}</a>
-    </div>
-    <div class='col-sm p-1'>
-        <a
-            class='btn btn-secondary btn-block'
-            href="{% url "bags:list_giveaway_group" %}"
-        >{% trans "List all giveaway-groups" %}</a>
-    </div>
-</div>
-<div id='replacement_target_grouped'>{% include "bags/giveaways/giveaway/_grouped_giveaways.html" %}</div>
-<div id='replacement_target_ungrouped'>{% include "bags/giveaways/giveaway/_ungrouped_giveaways.html" %}</div>
+<div id='replacement_target_grouped'>{% include "bags/giveaways/giveaway/list/distribution/_grouped_giveaways.html" %}</div>
+<div id='replacement_target_ungrouped'>{% include "bags/giveaways/giveaway/list/distribution/_ungrouped_giveaways.html" %}</div>
 {% endblock %}
 
 {% block defered_script %}

@@ -120,3 +120,20 @@ class CSVFileUploadForm(forms.Form):
         "email_sent, email_sent_success, promise, giveaways, giveaways_last_year, "
         "arrival_time, comment, last_year, arrived, contact_again",
     )
+
+
+class SelectGiveawaySwitchForm(forms.Form):
+    id = forms.IntegerField()
+    selected = forms.BooleanField(
+        widget=forms.widgets.CheckboxInput(
+            attrs={
+                "class": "bootstrap-select",
+                "data-toggle": "switch",
+                "data-on-color": "primary",
+                "data-on-text": _("Arrived"),
+                "data-off-color": "default",
+                "data-off-text": _("NOT Arrived"),
+            },
+        ),
+        required=False,
+    )
