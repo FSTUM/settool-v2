@@ -1,6 +1,7 @@
 from typing import List, Tuple
 
 from django.db import models
+from django.db.models.aggregates import Sum
 from django.utils.translation import ugettext_lazy as _
 
 import settool_common.models as common_models
@@ -40,6 +41,20 @@ class BagMail(common_models.Mail):
             "formale_anrede": "<Sehr geehrte/r Herr/Frau XYZ>",
         }
         return self.get_mail(context)
+
+
+class BagSettings(models.Model):
+    semester = models.OneToOneField(
+        Semester,
+        on_delete=models.CASCADE,
+    )
+    bag_count = models.PositiveSmallIntegerField(
+        verbose_name=_("Total amount of Bags"),
+        default=0,
+    )
+
+    def __str__(self):
+        return f"Bag-Settings for {self.semester}"
 
 
 class Company(models.Model):
@@ -155,6 +170,24 @@ class GiveawayGroup(models.Model):
     def __str__(self):
         return self.name
 
+    @property
+    def total_items(self) -> int:
+        return self.giveaway_set.aggregate(Sum("item_count"))["item_count__sum"] or 0
+
+    @property
+    def custom_per_group_message(self):
+        total_items = self.total_items
+        if total_items == 0:
+            return _("Does not exist")
+        total_bags = self.semester.bagsettings.bag_count
+        if total_items == total_bags:
+            return _("Every bag")
+        if total_items < total_bags:
+            return _("Every {every_x_bags}th bag").format(
+                every_x_bags=round(total_bags / total_items, 1),
+            )
+        return _("{per_bag_count} every bag").format(per_bag_count=round(total_items / total_bags, 1))
+
 
 class Giveaway(models.Model):
     company = models.ForeignKey(
@@ -171,14 +204,12 @@ class Giveaway(models.Model):
         _("Giveaway-title"),
         max_length=200,
     )
-    every_x_bags = models.FloatField(
-        verbose_name=_("Insert every x bags"),
-        default=1.0,
+
+    item_count = models.PositiveSmallIntegerField(
+        verbose_name=_("Item Count"),
+        default=0,
     )
-    per_bag_count = models.PositiveSmallIntegerField(
-        verbose_name=_("Capacity per Bag"),
-        default=1,
-    )
+
     arrival_time = models.CharField(
         _("Arrival time"),
         max_length=200,
@@ -192,14 +223,16 @@ class Giveaway(models.Model):
 
     @property
     def custom_per_bag_message(self):
-        if self.per_bag_count == 0 or self.every_x_bags == 0.0:
-            return _("Wont be included in any bags")
-        if self.per_bag_count == 1:
-            return _("{per_bag_count} per bag").format(per_bag_count=self.per_bag_count)
-        return _("{per_bag_count} every {every_x_bags} bags").format(
-            per_bag_count=self.per_bag_count,
-            every_x_bags=self.every_x_bags,
-        )
+        if self.item_count == 0:
+            return _("Does not exist")
+        total_bags = self.company.semester.bagsettings.bag_count
+        if self.item_count == total_bags:
+            return _("Every bag")
+        if self.item_count < total_bags:
+            return _("Every {every_x_bags}th bag").format(
+                every_x_bags=round(total_bags / self.item_count, 1),
+            )
+        return _("{per_bag_count} every bag").format(per_bag_count=round(self.item_count / total_bags, 1))
 
     def __str__(self):
         if self.group:

@@ -15,7 +15,8 @@ msgstr "E-Mail Vorlage:"
 msgid "Search pattern"
 msgstr "Suchwort"
 
-#: guidedtours/forms.py guidedtours/templates/guidedtours/mail/send_mail.html
+#: guidedtours/forms.py
+#: guidedtours/templates/guidedtours/maintenance/mail/send_mail.html
 #: guidedtours/templates/guidedtours/participants/filtered_participants.html
 msgid "Status"
 msgstr "Status"
@@ -87,13 +88,15 @@ msgstr "Anmeldungsstart"
 msgid "Close registration"
 msgstr "Anmeldungsschluss"
 
-#: guidedtours/models.py guidedtours/templates/guidedtours/mail/send_mail.html
+#: guidedtours/models.py
+#: guidedtours/templates/guidedtours/maintenance/mail/send_mail.html
 #: guidedtours/templates/guidedtours/participants/filtered_participants.html
 #: guidedtours/templates/guidedtours/participants/list_tour-participants.html
 msgid "First name"
 msgstr "Vorname"
 
-#: guidedtours/models.py guidedtours/templates/guidedtours/mail/send_mail.html
+#: guidedtours/models.py
+#: guidedtours/templates/guidedtours/maintenance/mail/send_mail.html
 #: guidedtours/templates/guidedtours/participants/filtered_participants.html
 msgid "Surname"
 msgstr "Nachname"
@@ -107,9 +110,10 @@ msgstr "E-Mail"
 msgid "Mobile phone"
 msgstr "Handynummer"
 
-#: guidedtours/models.py guidedtours/templates/guidedtours/mail/del_mail.html
-#: guidedtours/templates/guidedtours/mail/list_mails.html
-#: guidedtours/templates/guidedtours/mail/send_mail.html
+#: guidedtours/models.py
+#: guidedtours/templates/guidedtours/maintenance/mail/del_mail.html
+#: guidedtours/templates/guidedtours/maintenance/mail/list_mails.html
+#: guidedtours/templates/guidedtours/maintenance/mail/send_mail.html
 #: guidedtours/templates/guidedtours/participants/filtered_participants.html
 #: guidedtours/templates/guidedtours/participants/list_tour-participants.html
 msgid "Subject"
@@ -175,7 +179,7 @@ msgid "Mails"
 msgstr "E-Mails"
 
 #: guidedtours/templates/guidedtours/base_guidedtours.html
-#: guidedtours/templates/guidedtours/mail/list_mails.html
+#: guidedtours/templates/guidedtours/maintenance/mail/list_mails.html
 msgid "List email templates"
 msgstr "Liste der E-Mail-Vorlagen"
 
@@ -192,19 +196,19 @@ msgid "Settings"
 msgstr "Einstellungen"
 
 #: guidedtours/templates/guidedtours/base_guidedtours.html
-#: guidedtours/templates/guidedtours/settings/general.html
+#: guidedtours/templates/guidedtours/maintenance/settings/general.html
 msgid "General settings"
 msgstr "Allgemeine Einstellungen"
 
-#: guidedtours/templates/guidedtours/mail/add_mail.html
+#: guidedtours/templates/guidedtours/maintenance/mail/add_mail.html
 msgid "Add email"
 msgstr "E-Mail-Vorlage hinzufügen"
 
-#: guidedtours/templates/guidedtours/mail/add_mail.html
-#: guidedtours/templates/guidedtours/mail/del_mail.html
-#: guidedtours/templates/guidedtours/mail/edit_mail.html
-#: guidedtours/templates/guidedtours/mail/send_mail.html
-#: guidedtours/templates/guidedtours/settings/general.html
+#: guidedtours/templates/guidedtours/maintenance/mail/add_mail.html
+#: guidedtours/templates/guidedtours/maintenance/mail/del_mail.html
+#: guidedtours/templates/guidedtours/maintenance/mail/edit_mail.html
+#: guidedtours/templates/guidedtours/maintenance/mail/send_mail.html
+#: guidedtours/templates/guidedtours/maintenance/settings/general.html
 #: guidedtours/templates/guidedtours/signup/signup_internal.html
 #: guidedtours/templates/guidedtours/tours/add_tour.html
 #: guidedtours/templates/guidedtours/tours/del_tour.html
@@ -212,56 +216,60 @@ msgstr "E-Mail-Vorlage hinzufügen"
 msgid "Cancel"
 msgstr "Abbrechen"
 
-#: guidedtours/templates/guidedtours/mail/del_mail.html
+#: guidedtours/templates/guidedtours/maintenance/mail/del_mail.html
 msgid "Delete email template"
 msgstr "E-Mail-Vorlage löschen"
 
-#: guidedtours/templates/guidedtours/mail/del_mail.html
+#: guidedtours/templates/guidedtours/maintenance/mail/del_mail.html
 msgid "Do you really want to delete the following email template?"
 msgstr "Soll die folgende E-Mail-Vorlage wirklich gelöscht werden?"
 
-#: guidedtours/templates/guidedtours/mail/del_mail.html
-#: guidedtours/templates/guidedtours/mail/list_mails.html
-#: guidedtours/templates/guidedtours/mail/send_mail.html
+#: guidedtours/templates/guidedtours/maintenance/mail/del_mail.html
+#: guidedtours/templates/guidedtours/maintenance/mail/list_mails.html
+#: guidedtours/templates/guidedtours/maintenance/mail/send_mail.html
 msgid "Text"
 msgstr "Text"
 
-#: guidedtours/templates/guidedtours/mail/del_mail.html
-#: guidedtours/templates/guidedtours/mail/list_mails.html
+#: guidedtours/templates/guidedtours/maintenance/mail/del_mail.html
+#: guidedtours/templates/guidedtours/maintenance/mail/list_mails.html
 msgid "Comment"
 msgstr "Kommentar"
 
-#: guidedtours/templates/guidedtours/mail/edit_mail.html
+#: guidedtours/templates/guidedtours/maintenance/mail/edit_mail.html
 msgid "Edit email"
 msgstr "E-Mail-Vorlage bearbeiten"
 
-#: guidedtours/templates/guidedtours/mail/list_mails.html
+#: guidedtours/templates/guidedtours/maintenance/mail/list_mails.html
 #: guidedtours/templates/guidedtours/tours/list_tours.html
 msgid "Actions"
 msgstr "Aktionen"
 
-#: guidedtours/templates/guidedtours/mail/send_mail.html
+#: guidedtours/templates/guidedtours/maintenance/mail/send_mail.html
 msgid "Send email"
 msgstr "E-Mail senden"
 
-#: guidedtours/templates/guidedtours/mail/send_mail.html
+#: guidedtours/templates/guidedtours/maintenance/mail/send_mail.html
 msgid ""
 "Do you really want to send the following email to the participants below?"
 msgstr ""
 "Soll die folgende E-Mail wirklich an die untenstehenden Teilnehmer geschickt "
 "werden?"
 
-#: guidedtours/templates/guidedtours/mail/send_mail.html
+#: guidedtours/templates/guidedtours/maintenance/mail/send_mail.html
 msgid "From"
 msgstr "Von"
 
-#: guidedtours/templates/guidedtours/mail/send_mail.html
+#: guidedtours/templates/guidedtours/maintenance/mail/send_mail.html
 msgid "To"
 msgstr "An"
 
-#: guidedtours/templates/guidedtours/mail/send_mail.html
+#: guidedtours/templates/guidedtours/maintenance/mail/send_mail.html
 msgid "see table below"
 msgstr "siehe Tabelle unten"
+
+#: guidedtours/templates/guidedtours/maintenance/settings/general.html
+msgid "Save settings"
+msgstr "Einstellungen speichern"
 
 #: guidedtours/templates/guidedtours/participants/filter_participants.html
 msgid "Filter participants"
@@ -310,10 +318,6 @@ msgstr "Institutsführung bearbeiten"
 #: guidedtours/templates/guidedtours/tours/del_tour.html
 msgid "Delete tour"
 msgstr "Institutsführung löschen"
-
-#: guidedtours/templates/guidedtours/settings/general.html
-msgid "Save settings"
-msgstr "Einstellungen speichern"
 
 #: guidedtours/templates/guidedtours/signup/blocked.html
 msgid "Sign up failed"

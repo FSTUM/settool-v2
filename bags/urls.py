@@ -61,6 +61,7 @@ urlpatterns = [
                     ),
                 ),
                 path("add/", views.add_giveaway, name="add_giveaway"),
+                path("add/<int:company_pk>/", views.add_giveaway_for_company, name="add_giveaway_for_company"),
                 path(
                     "update/",
                     include(
@@ -73,11 +74,23 @@ urlpatterns = [
                                 name="update_giveaway",
                             ),
                             path(
-                                "giveaway_data/ungrouped/",
-                                views.giveaway_data_ungrouped,
-                                name="giveaway_data_ungrouped",
+                                "giveaway_data/",
+                                include(
+                                    [
+                                        path(
+                                            "ungrouped/",
+                                            views.giveaway_data_ungrouped,
+                                            name="giveaway_data_ungrouped",
+                                        ),
+                                        path("grouped/", views.giveaway_data_grouped, name="giveaway_data_grouped"),
+                                        path(
+                                            "condensed/",
+                                            views.giveaway_data_condensed_grouped,
+                                            name="giveaway_data_condensed_grouped",
+                                        ),
+                                    ],
+                                ),
                             ),
-                            path("giveaway_data/grouped/", views.giveaway_data_grouped, name="giveaway_data_grouped"),
                         ],
                     ),
                 ),
@@ -127,4 +140,5 @@ urlpatterns = [
             ],
         ),
     ),
+    path("settings/", views.settings, name="settings"),
 ]

@@ -11,6 +11,7 @@
                 <th>{% trans "Company" %}</th>
                 <th>{% trans "Giveaway-title" %}</th>
                 <th>{% trans "Distribution over bags" %}</th>
+                <th>{% trans "Item Count" %}</th>
                 <th>{% trans "Arrival time (green=arrived)" %}</th>
                 <th>{% trans "Actions" %}</th>
             </tr>
@@ -18,15 +19,28 @@
         <tbody>
             {% for giveaway in ungrouped_giveaways %}
             <tr>
-                <td><a href="{% url "bags:view_company" giveaway.company.id %}">{{ giveaway.company }}</a></td>
-                <td><a href="{% url "bags:view_giveaway" giveaway.id %}">{{ giveaway.name }}</a></td>
+                <td>
+                    {{ giveaway.company }}
+                    <a
+                        class='bi bi-info'
+                        href="{% url "bags:view_company" giveaway.company.id %}"
+                    ></a>
+                </td>
+                <td>
+                    {{ giveaway.name }}
+                    <a
+                        class='bi bi-info'
+                        href="{% url "bags:view_giveaway" giveaway.id %}"
+                    ></a>
+                </td>
+                <td>{{ giveaway.custom_per_bag_message }}</td>
                 <td>
                     <a
                         type="button"
-                        class="update-giveaway_ungrouped"
+                        class="update_giveaway_ungrouped"
                         data-form-url="{% url 'bags:update_giveaway' giveaway.pk %}"
                     >
-                        {{ giveaway.custom_per_bag_message }}
+                        {{ giveaway.item_count }}
                     </a>
                 </td>
                 <td

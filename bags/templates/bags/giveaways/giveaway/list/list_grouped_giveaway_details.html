@@ -20,8 +20,8 @@
         <div class="modal-content"></div>
     </div>
 </div>
-<div id='replacement_target_grouped'>{% include "bags/giveaways/giveaway/list/distribution/_grouped_giveaways.html" %}</div>
-<div id='replacement_target_ungrouped'>{% include "bags/giveaways/giveaway/list/distribution/_ungrouped_giveaways.html" %}</div>
+<div id='replacement_target_grouped'>{% include "bags/giveaways/giveaway/list/prefabs/grouped_giveaways.html" %}</div>
+<div id='replacement_target_ungrouped'>{% include "bags/giveaways/giveaway/list/prefabs/ungrouped_giveaways.html" %}</div>
 {% endblock %}
 
 {% block defered_script %}
@@ -46,7 +46,7 @@
 
         // modal form
         function updateGiveawayModalFormUngrouped() {
-            $('.update-giveaway_ungrouped').each(function () {
+            $('.update_giveaway_ungrouped').each(function () {
                 $(this).modalForm({
                     formURL: $(this).data('form-url'),
                     asyncUpdate: true,
@@ -55,7 +55,7 @@
                         successMessage: asyncSuccessMessageUpdate,
                         dataUrl: '{% url "bags:giveaway_data_ungrouped" %}',
                         dataElementId: '#replacement_target_ungrouped',
-                        dataKey: 'giveaway_data_ungrouped',
+                        dataKey: 'giveaways',
                         addModalFormFunction: updateGiveawayModalFormUngrouped,
                     },
                 });
@@ -71,7 +71,7 @@
 
         // modal form
         function updateGiveawayModalFormGrouped() {
-            $('.update-giveaway_grouped').each(function () {
+            $('.update_giveaway_grouped').each(function () {
                 $(this).modalForm({
                     formURL: $(this).data('form-url'),
                     asyncUpdate: true,
@@ -80,13 +80,12 @@
                         successMessage: asyncSuccessMessageUpdate,
                         dataUrl: '{% url "bags:giveaway_data_grouped" %}',
                         dataElementId: '#replacement_target_grouped',
-                        dataKey: 'giveaway_data_grouped',
+                        dataKey: 'giveaways',
                         addModalFormFunction: updateGiveawayModalFormGrouped,
                     },
                 });
             });
             $('.dataTableGrouped').DataTable({
-                columnDefs: [{ targets: 5, orderable: false }],
                 paging: false,
                 searching: false,
             });

@@ -17,7 +17,7 @@ from .models import Fahrt, FahrtMail, Participant, Transportation, Transportatio
 class FahrtForm(forms.ModelForm):
     class Meta:
         model = Fahrt
-        exclude: List[str] = []
+        exclude: List[str] = ["semester"]
         widgets = {
             "date": DatePickerInput(format="%Y-%m-%d"),
             "open_registration": DateTimePickerInput(format="%Y-%m-%d %H:%M"),

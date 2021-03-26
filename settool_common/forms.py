@@ -113,7 +113,7 @@ class CourseBundleForm(forms.ModelForm):
 class QRCodeForm(forms.ModelForm):
     class Meta:
         model = QRCode
-        exclude: List[str] = []
+        exclude: List[str] = ["qr_code"]
 
 
 class SubjectForm(forms.ModelForm):

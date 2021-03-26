@@ -114,21 +114,12 @@
         </div>
     </div>
     <div class='col col-md'>
-        <h5>{% trans "Grouped by Insert every x bags" %}</h5>
+        <h5>{% trans "Grouped by Givaway-amount" %}</h5>
         <div
             class='container-md'
             style='max-width: 20rem;min-width: 10rem;min-height: 30rem;'
         >
-            <canvas id='g_by_every_x_bags'></canvas>
-        </div>
-    </div>
-    <div class='col col-md'>
-        <h5>{% trans "Grouped by per-bag-capacity" %}</h5>
-        <div
-            class='container-md'
-            style='max-width: 20rem;min-width: 10rem;min-height: 30rem;'
-        >
-            <canvas id='g_by_per_bag_count'></canvas>
+            <canvas id='g_by_item_count'></canvas>
         </div>
     </div>
 </div>
@@ -328,49 +319,13 @@
         options: chartOptions,
     });
     /* eslint no-new: off */
-    new Chart(document.getElementById('g_by_every_x_bags').getContext('2d'), {
+    new Chart(document.getElementById('g_by_item_count').getContext('2d'), {
         type: 'doughnut',
         data: {
-            labels: {{ g_by_every_x_bags_labels|safe }},
+            labels: {{ g_by_item_count_labels|safe }},
             datasets: [
                 {
-                    data: {{ g_by_every_x_bags_data }},
-                    backgroundColor: [
-                        '#1dd1a1',
-                        '#48dbfb',
-                        '#feca57',
-                        '#70a1ff',
-                        '#ff6b6b',
-                        '#badc58',
-                        '#ff9ff3',
-                        '#c8d6e5',
-                        '#f6e58d',
-                        '#00d2d3',
-                        '#54a0ff',
-                        '#ff7979',
-                        '#ffbe76',
-                        '#7ed6df',
-                        '#95afc0',
-                        '#ff7f50',
-                        '#eccc68',
-                        '#7bed9f',
-                        '#2ed573',
-                        '#a4b0be',
-                        '#f1f2f6',
-                    ],
-                },
-            ],
-        },
-        options: chartOptions,
-    });
-    /* eslint no-new: off */
-    new Chart(document.getElementById('g_by_per_bag_count').getContext('2d'), {
-        type: 'doughnut',
-        data: {
-            labels: {{ g_by_per_bag_count_labels|safe }},
-            datasets: [
-                {
-                    data: {{ g_by_per_bag_count_data }},
+                    data: {{ g_by_item_count_data }},
                     backgroundColor: [
                         '#1dd1a1',
                         '#48dbfb',

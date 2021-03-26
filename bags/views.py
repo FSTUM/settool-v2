@@ -22,10 +22,12 @@ from settool_common.models import get_semester, Semester
 from settool_common.utils import get_or_none
 
 from .forms import (
+    BagSettingsForm,
     CompanyForm,
     CSVFileUploadForm,
     FilterCompaniesForm,
     GiveawayDistributionModelForm,
+    GiveawayForCompanyForm,
     GiveawayForm,
     GiveawayGroupForm,
     GiveawayToGiveawayGroupForm,
@@ -36,7 +38,7 @@ from .forms import (
     SelectMailForm,
     UpdateFieldForm,
 )
-from .models import BagMail, Company, Giveaway, GiveawayGroup
+from .models import BagMail, BagSettings, Company, Giveaway, GiveawayGroup
 
 
 def get_possibly_filtered_companies(filterform, semester):
@@ -210,7 +212,7 @@ def del_company(request: WSGIRequest, company_pk: int) -> HttpResponse:
 @permission_required("bags.view_companies")
 def list_mails(request: WSGIRequest) -> HttpResponse:
     context = {"mails": BagMail.objects.all()}
-    return render(request, "bags/mail/list_mails.html", context)
+    return render(request, "bags/maintenance/mail/list_mails.html", context)
 
 
 @permission_required("bags.view_companies")
@@ -222,7 +224,7 @@ def add_mail(request: WSGIRequest) -> HttpResponse:
         return redirect("bags:list_mails")
 
     context = {"form": form, "mail": BagMail}
-    return render(request, "bags/mail/add_mail.html", context)
+    return render(request, "bags/maintenance/mail/add_mail.html", context)
 
 
 @permission_required("bags.view_companies")
@@ -238,7 +240,7 @@ def edit_mail(request: WSGIRequest, mail_pk: int) -> HttpResponse:
         "form": form,
         "mail": mail,
     }
-    return render(request, "bags/mail/edit_mail.html", context)
+    return render(request, "bags/maintenance/mail/edit_mail.html", context)
 
 
 @permission_required("bags.view_companies")
@@ -255,7 +257,7 @@ def delete_mail(request: WSGIRequest, mail_pk: int) -> HttpResponse:
         "mail": mail,
         "form": form,
     }
-    return render(request, "bags/mail/del_mail.html", context)
+    return render(request, "bags/maintenance/mail/del_mail.html", context)
 
 
 @permission_required("bags.view_companies")
@@ -286,7 +288,7 @@ def send_mail(request: WSGIRequest, mail_pk: int) -> HttpResponse:
         "form": form,
     }
 
-    return render(request, "bags/mail/send_mail.html", context)
+    return render(request, "bags/maintenance/mail/send_mail.html", context)
 
 
 def import_company_csv_to_db(csv_file, semester):
@@ -415,11 +417,8 @@ def dashboard(request: WSGIRequest) -> HttpResponse:
             "group_count": giveaways.filter(group__isnull=True).count(),
         },
     )
-    g_by_every_x_bags = (
-        giveaways.values("every_x_bags").annotate(every_x_bags_count=Count("every_x_bags")).order_by("every_x_bags")
-    )
-    g_by_per_bag_count = (
-        giveaways.values("per_bag_count").annotate(per_bag_count_count=Count("per_bag_count")).order_by("per_bag_count")
+    g_by_item_count = (
+        giveaways.values("item_count").annotate(item_count_count=Count("item_count")).order_by("item_count")
     )
 
     context = {
@@ -470,10 +469,8 @@ def dashboard(request: WSGIRequest) -> HttpResponse:
             for group in g_by_group
         ],
         "g_by_group_data": [group["group_count"] for group in g_by_group],
-        "g_by_every_x_bags_labels": [str(every_x_bags["every_x_bags"]) for every_x_bags in g_by_every_x_bags],
-        "g_by_every_x_bags_data": [every_x_bags["every_x_bags_count"] for every_x_bags in g_by_every_x_bags],
-        "g_by_per_bag_count_labels": [str(per_bag_count["per_bag_count"]) for per_bag_count in g_by_per_bag_count],
-        "g_by_per_bag_count_data": [per_bag_count["per_bag_count_count"] for per_bag_count in g_by_per_bag_count],
+        "g_by_item_count_labels": [str(item_count["item_count"]) for item_count in g_by_item_count],
+        "g_by_item_count_data": [item_count["item_count_count"] for item_count in g_by_item_count],
     }
     return render(request, "bags/bags_dashboard.html", context=context)
 
@@ -501,7 +498,11 @@ def list_giveaway_distribution(request: WSGIRequest) -> HttpResponse:
         ],
         "ungrouped_giveaways": Giveaway.objects.filter(Q(group=None) & Q(company__semester=semester)),
     }
-    return render(request, "bags/giveaways/giveaway/list/distribution/list_giveaway_distribution.html", context=context)
+    return render(
+        request,
+        "bags/giveaways/giveaway/list/list_grouped_giveaway_details.html",
+        context=context,
+    )
 
 
 @permission_required("bags.view_companies")
@@ -584,7 +585,22 @@ def add_giveaway(request: WSGIRequest) -> HttpResponse:
     form = GiveawayForm(request.POST or None, semester=semester)
     if form.is_valid():
         form.save()
-        return redirect("bags:list_giveaways")
+        return redirect("bags:list_grouped_giveaways")
+
+    context = {
+        "form": form,
+    }
+    return render(request, "bags/giveaways/giveaway/add_giveaway.html", context=context)
+
+
+@permission_required("bags.view_companies")
+def add_giveaway_for_company(request: WSGIRequest, company_pk: int) -> HttpResponse:
+    semester: Semester = get_object_or_404(Semester, pk=get_semester(request))
+    company: Company = get_object_or_404(Company, id=company_pk)
+    form = GiveawayForCompanyForm(request.POST or None, semester=semester, company=company)
+    if form.is_valid():
+        form.save()
+        return redirect("bags:list_grouped_giveaways")
 
     context = {
         "form": form,
@@ -607,7 +623,7 @@ def edit_giveaway(request: WSGIRequest, giveaway_pk: int) -> HttpResponse:
     form = GiveawayForm(request.POST or None, instance=giveaway, semester=semester)
     if form.is_valid():
         form.save()
-        return redirect("bags:list_giveaways")
+        return redirect("bags:list_grouped_giveaways")
 
     context = {
         "giveaway": giveaway,
@@ -631,8 +647,8 @@ def giveaway_data_ungrouped(request):
         ungrouped_giveaways = Giveaway.objects.filter(Q(group=None) & Q(company__semester=semester))
         data = {
             "giveaway_data_ungrouped": render_to_string(
-                "bags/giveaways/giveaway/list/distribution/_ungrouped_giveaways.html",
-                {"ungrouped_giveaways": ungrouped_giveaways},
+                "bags/giveaways/giveaway/list/prefabs/ungrouped_giveaways.html",
+                {"giveaways": ungrouped_giveaways},
                 request=request,
             ),
         }
@@ -650,8 +666,27 @@ def giveaway_data_grouped(request):
         ]
         data = {
             "giveaway_data_grouped": render_to_string(
-                "bags/giveaways/giveaway/list/distribution/_grouped_giveaways.html",
-                {"giveaway_groups": giveaway_groups},
+                "bags/giveaways/giveaway/list/prefabs/grouped_giveaways.html",
+                {"giveaways": giveaway_groups},
+                request=request,
+            ),
+        }
+        return JsonResponse(data)
+    raise Http404()
+
+
+@permission_required("bags.view_companies")
+def giveaway_data_condensed_grouped(request):
+    semester: Semester = get_object_or_404(Semester, pk=get_semester(request))
+    if request.method == "GET":
+        giveaway_groups = [
+            (ggroup, ggroup.giveaway_set.filter(company__semester=semester).all())
+            for ggroup in semester.giveawaygroup_set.all()
+        ]
+        data = {
+            "giveaway_data_condensed": render_to_string(
+                "bags/giveaways/giveaway/list/prefabs/condensed_grouped_giveaways.html",
+                {"giveaways": giveaway_groups},
                 request=request,
             ),
         }
@@ -675,7 +710,7 @@ def del_giveaway(request: WSGIRequest, giveaway_pk: int) -> HttpResponse:
     form = forms.Form(request.POST or None)
     if form.is_valid():
         giveaway.delete()
-        return redirect("bags:list_giveaways")
+        return redirect("bags:list_grouped_giveaways")
 
     context = {
         "giveaway": giveaway,
@@ -690,7 +725,7 @@ def add_giveaway_group(request: WSGIRequest) -> HttpResponse:
     form = GiveawayGroupForm(request.POST or None, semester=semester)
     if form.is_valid():
         form.save()
-        return redirect("bags:list_giveaways")
+        return redirect("bags:list_grouped_giveaways")
 
     context = {
         "form": form,
@@ -707,7 +742,7 @@ def add_giveaway_to_giveaway_group(request: WSGIRequest, giveaway_group_pk: int)
         giveaway = form.cleaned_data["giveaway"]
         giveaway.group = giveaway_group
         giveaway.save()
-        return redirect("bags:list_giveaways")
+        return redirect("bags:list_grouped_giveaways")
 
     context = {
         "giveaway_group": giveaway_group,
@@ -724,7 +759,7 @@ def edit_giveaway_group(request: WSGIRequest, giveaway_group_pk: int) -> HttpRes
     form = GiveawayGroupForm(request.POST or None, instance=giveaway_group, semester=semester)
     if form.is_valid():
         form.save()
-        return redirect("bags:list_giveaways")
+        return redirect("bags:list_grouped_giveaways")
 
     context = {
         "giveaway_group": giveaway_group,
@@ -740,7 +775,7 @@ def del_giveaway_group(request: WSGIRequest, giveaway_group_pk: int) -> HttpResp
     form = forms.Form(request.POST or None)
     if form.is_valid():
         giveaway_group.delete()
-        return redirect("bags:list_giveaways")
+        return redirect("bags:list_grouped_giveaways")
 
     context = {
         "giveaway_group": giveaway_group,
@@ -750,9 +785,28 @@ def del_giveaway_group(request: WSGIRequest, giveaway_group_pk: int) -> HttpResp
 
 
 @permission_required("bags.view_companies")
-def list_giveaway_group(request):
+def list_giveaway_group(request: WSGIRequest) -> HttpResponse:
     semester: Semester = get_object_or_404(Semester, pk=get_semester(request))
     context = {
         "giveaway_groups": semester.giveawaygroup_set.all(),
     }
     return render(request, "bags/giveaways/giveaway_group/list_giveaways_group.html", context=context)
+
+
+@permission_required("bags.view_companies")
+def settings(request: WSGIRequest) -> HttpResponse:
+    semester: Semester = get_object_or_404(Semester, pk=get_semester(request))
+
+    setting: BagSettings = BagSettings.objects.get_or_create(
+        semester=semester,
+    )[0]
+
+    form = BagSettingsForm(request.POST or None, instance=setting)
+    if form.is_valid():
+        form.save()
+        return redirect("bags:main_index")
+
+    context = {
+        "form": form,
+    }
+    return render(request, "bags/maintenance/settings.html", context)

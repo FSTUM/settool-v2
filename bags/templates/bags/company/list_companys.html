@@ -254,11 +254,28 @@
                             >{% include "snippets/true_false_none_span.html" with value=company.contact_again %}</a>
                         </td>
                         <td>
-                            <div>
-                                {% for giveaway in company.giveaway_set.all %}
-                                <a href='{% url "bags:view_giveaway" giveaway.id %}'>{{ giveaway }}</a><br>
-                                {% endfor %}
-                            </div>
+                            {% with giveaways=company.giveaway_set.all %}
+                            {% if giveaways %}
+                            <table class='table table-borderless'>
+                                <tbody>
+                                    {% for giveaway in giveaways %}
+                                    <tr>
+                                        <td>
+                                            <a href='{% url "bags:view_giveaway" giveaway.id %}'>{{ giveaway.name }}</a>
+                                        </td>
+                                        <td>{{ giveaway.item_count }}</td>
+                                        <td>{{ giveaway.group|default:"-" }}</td>
+                                    </tr>
+                                    {% endfor %}
+                                    <tr>
+                                        <td><a href='{% url "bags:add_giveaway_for_company" company.id  %}'><span class='bi bi-plus-circle'></span></a></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            {% else %}
+                            <a href='{% url "bags:add_giveaway_for_company" company.id  %}'><span class='bi bi-plus-circle'></span></a>
+                            {% endif %}
+                            {% endwith %}
                         </td>
                         <td>
                             <a href="{% url "bags:edit_company" company.id %}"><span class="bi bi-pencil-square"></span></a>

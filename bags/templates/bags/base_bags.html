@@ -26,7 +26,7 @@
 <a
     class="nav-link {% active_link "bags:list_giveaway_distribution" %}"
     href="{% url "bags:list_giveaway_distribution" %}"
->{% trans "Giveaway-Bag-Distribution" %}</a>
+>{% trans "Detailed Grouped Giveaways" %}</a>
 <a
     class="nav-link {% active_link "bags:list_giveaways_arrivals" %}"
     href="{% url "bags:list_giveaways_arrivals" %}"
@@ -71,4 +71,10 @@
     href="{% url "bags:export_csv" %}"
 >{% trans "Export CSV" %}</a>
 {% endif %}
+
+<h4 class="navbar-text">{% trans "Settings" %}</h4>
+<a
+    class="nav-link {% active_link "bags:settings" %}"
+    href="{% url "bags:settings" %}"
+>{% trans "General settings" %}</a>
 {% endblock %}

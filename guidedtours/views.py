@@ -231,7 +231,7 @@ def filtered_list(request: WSGIRequest) -> HttpResponse:
 @permission_required("guidedtours.view_participants")
 def list_mails(request: WSGIRequest) -> HttpResponse:
     context = {"mails": TourMail.objects.all()}
-    return render(request, "guidedtours/mail/list_mails.html", context)
+    return render(request, "guidedtours/maintenance/mail/list_mails.html", context)
 
 
 @permission_required("guidedtours.view_participants")
@@ -243,7 +243,7 @@ def add_mail(request: WSGIRequest) -> HttpResponse:
         return redirect("guidedtours:list_mails")
 
     context = {"form": form, "mail": TourMail}
-    return render(request, "guidedtours/mail/add_mail.html", context)
+    return render(request, "guidedtours/maintenance/mail/add_mail.html", context)
 
 
 @permission_required("guidedtours.view_participants")
@@ -260,7 +260,7 @@ def edit_mail(request: WSGIRequest, mail_pk: int) -> HttpResponse:
         "form": form,
         "mail": mail,
     }
-    return render(request, "guidedtours/mail/edit_mail.html", context)
+    return render(request, "guidedtours/maintenance/mail/edit_mail.html", context)
 
 
 @permission_required("guidedtours.view_participants")
@@ -277,7 +277,7 @@ def delete_mail(request: WSGIRequest, mail_pk: int) -> HttpResponse:
         "mail": mail,
         "form": form,
     }
-    return render(request, "guidedtours/mail/del_mail.html", context)
+    return render(request, "guidedtours/maintenance/mail/del_mail.html", context)
 
 
 @permission_required("guidedtours.view_participants")
@@ -304,7 +304,7 @@ def send_mail(request: WSGIRequest, mail_pk: int) -> HttpResponse:
         "form": form,
     }
 
-    return render(request, "guidedtours/mail/send_mail.html", context)
+    return render(request, "guidedtours/maintenance/mail/send_mail.html", context)
 
 
 def signup(request: WSGIRequest) -> HttpResponse:
@@ -422,7 +422,7 @@ def settings(request: WSGIRequest) -> HttpResponse:
 
     return render(
         request,
-        "guidedtours/settings/general.html",
+        "guidedtours/maintenance/settings/general.html",
         {
             "form": form,
         },

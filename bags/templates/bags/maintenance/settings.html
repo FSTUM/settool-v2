@@ -1,8 +1,8 @@
-{% extends "fahrt/base_fahrt.html" %}
+{% extends "bags/base_bags.html" %}
 {% load i18n %}
 {% load bootstrap4 %}
 
-{% block  set_common_headercontent %}{% trans "General settings" %}{% endblock %}
+{% block set_common_headercontent %}{% trans "Edit Settings" %}{% endblock %}
 
 {% block set_common_content %}
 <form
@@ -17,9 +17,13 @@
         </div>
     </div>
 
+    <a
+        class="btn btn-secondary"
+        href="{% url "bags:main_index" %}"
+    >{% trans "Cancel" %}</a>
     <button
         class="btn btn-warning"
         type="submit"
-    >{% trans "Save settings" %}</button>
+    >{% trans "Edit Settings" %}</button>
 </form>
 {% endblock %}

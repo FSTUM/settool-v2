@@ -15,7 +15,7 @@
             <tr>
                 <th>{% trans "Company" %}</th>
                 <th>{% trans "Giveaway-title" %}</th>
-                <th>{% trans "Distribution over bags" %}</th>
+                <th>{% trans "Item Count" %}</th>
                 <th>{% trans "Arrival time (green=arrived)" %}</th>
             </tr>
         </thead>
@@ -24,7 +24,7 @@
             <tr>
                 <td><a href="{% url "bags:view_company" giveaway.company.id %}">{{ giveaway.company }}</a></td>
                 <td><a href="{% url "bags:view_giveaway" giveaway.id %}">{{ giveaway.name }}</a></td>
-                <td>{{ giveaway.custom_per_bag_message }}</td>
+                <td>{{ giveaway.item_count }}</td>
                 <td
                     {% if giveaway.arrived %}class='table-success'
                     {% endif %}
@@ -46,7 +46,7 @@
             <tr>
                 <th>{% trans "Company" %}</th>
                 <th>{% trans "Giveaway-title" %}</th>
-                <th>{% trans "Distribution over bags" %}</th>
+                <th>{% trans "Item Count" %}</th>
                 <th>{% trans "Arrival time" %}</th>
             </tr>
         </thead>
@@ -55,7 +55,7 @@
             <tr>
                 <td><a href="{% url "bags:view_company" giveaway.company.id %}">{{ giveaway.company }}</a></td>
                 <td><a href="{% url "bags:view_giveaway" giveaway.id %}">{{ giveaway.name }}</a></td>
-                <td>{{ giveaway.custom_per_bag_message }}</td>
+                <td>{{ giveaway.item_count }}</td>
                 <td>{{ giveaway.arrival_time|default:"-" }}</td>
             </tr>
             {% endfor %}

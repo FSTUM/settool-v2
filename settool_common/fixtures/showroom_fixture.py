@@ -39,6 +39,7 @@ def showroom_fixture_state_no_confirmation():  # nosec: this is only used in a f
     _generate_bags_mails()
     bags_companies = _generate_companies(common_semesters)
     _generate_giveaways(common_semesters, bags_companies)
+    _generate_bags_settings(common_semesters)
 
     # app fahrt
     _generate_fahrt_mails()
@@ -60,23 +61,34 @@ def showroom_fixture_state_no_confirmation():  # nosec: this is only used in a f
     _generate_answers(tutors_questions, tutors_list)
     tutors_events = _generate_events(common_semesters, common_subjects)
     _generate_tasks_tutorasignemt(tutors_events, tutors_list, tutors_questions)
-    _generate_tutor_setting()
+    _generate_tutor_settings(common_semesters)
     # TODO tutors_mailtutortask
     # TODO tutors_subjecttutorcountassignment
 
 
-def _generate_tutor_setting():  # nosec: this is only used in a fixture
+def _generate_tutor_settings(common_semesters):  # nosec: this is only used in a fixture
     all_mail_by_set_tutor = tutors.models.TutorMail.objects.all()
-    return tutors.models.Settings.objects.create(
-        semester=settool_common.models.current_semester(),
-        open_registration=django.utils.timezone.make_aware(datetime.today() - timedelta(days=20)),
-        close_registration=django.utils.timezone.make_aware(datetime.today() + timedelta(days=20)),
-        mail_registration=all_mail_by_set_tutor[0],
-        mail_confirmed_place=all_mail_by_set_tutor[1],
-        mail_waiting_list=all_mail_by_set_tutor[2],
-        mail_declined_place=all_mail_by_set_tutor[3],
-        mail_task=all_mail_by_set_tutor[4],
-    )
+    for semester in common_semesters:
+        if random.choice((True, True, False)):
+            tutors.models.Settings.objects.create(
+                semester=semester,
+                open_registration=django.utils.timezone.make_aware(datetime.today() - timedelta(days=20)),
+                close_registration=django.utils.timezone.make_aware(datetime.today() + timedelta(days=20)),
+                mail_registration=all_mail_by_set_tutor[0],
+                mail_confirmed_place=all_mail_by_set_tutor[1],
+                mail_waiting_list=all_mail_by_set_tutor[2],
+                mail_declined_place=all_mail_by_set_tutor[3],
+                mail_task=all_mail_by_set_tutor[4],
+            )
+
+
+def _generate_bags_settings(common_semesters):  # nosec: this is only used in a fixture
+    for semester in common_semesters:
+        if random.choice((True, True, False)):
+            bags.models.BagSettings.objects.create(
+                semester=semester,
+                bag_count=random.randint(1000, 1500),
+            )
 
 
 def generate_random_birthday():  # nosec: this is only used in a fixture
@@ -340,8 +352,7 @@ def _generate_giveaways(  # nosec: this is only used in a fixture
             company=company,
             group=group,
             name=lorem.sentence()[:50],
-            every_x_bags=random.choice((0.2, 0.3, 0.9, 1.0, 1.0, 1.0, 2.0, 2.0, 2.5, 3, 4, 5, 9)),
-            per_bag_count=random.randint(0, 10),
+            item_count=round(random.randint(0, 2500), -1),
             arrival_time=random.choice(
                 (
                     random.choice(
