@@ -1,6 +1,7 @@
 import csv
 import os
 import time
+from typing import List
 
 from bootstrap_modal_forms.generic import BSModalCreateView, BSModalUpdateView
 from django import forms
@@ -31,6 +32,7 @@ from .forms import (
     ImportForm,
     MailForm,
     SelectCompanyForm,
+    SelectGiveawaySwitchForm,
     SelectMailForm,
     UpdateFieldForm,
 )
@@ -375,7 +377,7 @@ def import_previous_semester(request: WSGIRequest) -> HttpResponse:
     return render(request, "bags/import-export/import_companies.html", context)
 
 
-@permission_required("guidedtours.view_participants")
+@permission_required("bags.view_companies")
 def export_csv(request: WSGIRequest) -> HttpResponse:
     semester: Semester = get_object_or_404(Semester, pk=get_semester(request))
     companies = semester.company_set.order_by("name")
@@ -492,10 +494,75 @@ def list_grouped_giveaways(request: WSGIRequest) -> HttpResponse:
 @permission_required("bags.view_companies")
 def list_giveaways_arrivals(request: WSGIRequest) -> HttpResponse:
     semester: Semester = get_object_or_404(Semester, pk=get_semester(request))
+    giveaways: List[Giveaway] = list(Giveaway.objects.filter(company__semester=semester).all())
+
+    select_giveaway_form_set = formset_factory(SelectGiveawaySwitchForm, extra=0)
+    giveawayforms = select_giveaway_form_set(
+        request.POST or None,
+        initial=[{"id": g.id, "selected": g.arrived} for g in giveaways],
+    )
+
+    if giveawayforms.is_valid():
+        new_arrived_giveaways: List[int] = []
+        new_unarrived_giveaways: List[int] = []
+        for giveaway in giveawayforms:
+            try:
+                giveaway_id = giveaway.cleaned_data["id"]
+            except KeyError:
+                continue
+            try:
+                selected = giveaway.cleaned_data["selected"]
+            except KeyError:
+                selected = False
+            if selected:
+                if Giveaway.objects.filter(id=giveaway_id, arrived=False).exists():
+                    new_arrived_giveaways.append(giveaway_id)
+            else:
+                if Giveaway.objects.filter(id=giveaway_id, arrived=True).exists():
+                    new_unarrived_giveaways.append(giveaway_id)
+        if new_arrived_giveaways or new_unarrived_giveaways:
+            request.session["new_arrived_giveaways"] = new_arrived_giveaways
+            request.session["new_unarrived_giveaways"] = new_unarrived_giveaways
+            return redirect("bags:confirm_giveaways_arrivals")
+
+    giveaways_and_select = []
+    for giveaway in giveaways:
+        for giveaway_form in giveawayforms:
+            if giveaway_form.initial["id"] == giveaway.id:
+                giveaways_and_select.append((giveaway, giveaway_form))
+                break
     context = {
-        "giveaways": Giveaway.objects.filter(company__semester=semester),
+        "giveaways_and_select": giveaways_and_select,
+        "giveawayforms": giveawayforms,
     }
-    return render(request, "bags/giveaways/giveaway/list_giveaways.html", context=context)
+    return render(request, "bags/giveaways/giveaway/list/arrival/list_giveaways_arrivals.html", context)
+
+
+@permission_required("bags.view_companies")
+def confirm_giveaways_arrivals(request: WSGIRequest) -> HttpResponse:
+    new_arrived_giveaways: List[Giveaway] = [
+        Giveaway.objects.get(id=part_id) for part_id in request.session["new_arrived_giveaways"]
+    ]
+    new_unarrived_giveaways: List[Giveaway] = [
+        Giveaway.objects.get(id=part_id) for part_id in request.session["new_unarrived_giveaways"]
+    ]
+    form = forms.Form(request.POST or None)
+    if form.is_valid():
+        for new_arrived_giveaway in new_arrived_giveaways:
+            new_arrived_giveaway.arrived = True
+            new_arrived_giveaway.save()
+        for new_unarrived_giveaway in new_unarrived_giveaways:
+            new_unarrived_giveaway.arrived = False
+            new_unarrived_giveaway.save()
+        messages.success(request, _("Saved changed arrival status"))
+        return redirect("bags:finanz_simple")
+
+    context = {
+        "form": form,
+        "new_arrived_giveaways": new_arrived_giveaways,
+        "new_unarrived_giveaways": new_unarrived_giveaways,
+    }
+    return render(request, "bags/giveaways/giveaway/list/arrival/confirm_giveaways_arrivals.html", context)
 
 
 @permission_required("bags.view_companies")

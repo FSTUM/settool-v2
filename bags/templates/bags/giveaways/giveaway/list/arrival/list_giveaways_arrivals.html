@@ -45,7 +45,6 @@
                     <td><a href="{% url "bags:view_company" giveaway.company.id %}">{{ giveaway.company }}</a></td>
                     <td><a href="{% url "bags:view_giveaway" giveaway.id %}">{{ giveaway.name }}</a></td>
                     <td>{{ giveaway.custom_per_bag_message }}</td>
-
                     <td
                         {% if giveaway.arrived %}class='table-success'
                         {% endif %}
