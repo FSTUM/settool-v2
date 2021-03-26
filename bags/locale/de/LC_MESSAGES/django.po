@@ -241,12 +241,8 @@ msgid "Grouped by giveaway-group"
 msgstr "Gruppiert nach Werbegeschenk-Gruppe"
 
 #: bags/templates/bags/bags_dashboard.html
-msgid "Grouped by Insert every x bags"
-msgstr "Gruppiert nach jede x Tüten beilegen"
-
-#: bags/templates/bags/bags_dashboard.html
-msgid "Grouped by per-bag-capacity"
-msgstr "Gruppiert nach Kapazität pro Tüte"
+msgid "Grouped by Givaway-amount"
+msgstr "Gruppiert nach Werbegeschenk-Artikelanzahl"
 
 #: bags/templates/bags/bags_dashboard.html
 msgid "E-Mail failiure"
@@ -316,8 +312,8 @@ msgid "Grouped Giveaways"
 msgstr "Gruppierte Werbegeschenke"
 
 #: bags/templates/bags/base_bags.html
-msgid "Giveaway-Bag-Distribution"
-msgstr "Werbegeschenk-Taschen-Verteilung"
+msgid "Detailed Grouped Giveaways"
+msgstr "Detailierte Werbegeschenkgruppierungen"
 
 #: bags/templates/bags/base_bags.html
 msgid "Giveaway Check-In"
@@ -684,11 +680,14 @@ msgstr "NICHT einer Werbegeschenk-Gruppe zugewiesen"
 msgid "Saved changed arrival status"
 msgstr "Veränderter Ankunfts-Status wurde gespeichert"
 
-#~ msgid "Grouped by Givaway-amount"
-#~ msgstr "Gruppiert nach Werbegeschenk-Artikelanzahl"
+#~ msgid "Grouped by Insert every x bags"
+#~ msgstr "Gruppiert nach jede x Tüten beilegen"
 
-#~ msgid "Detailed Grouped Giveaways"
-#~ msgstr "Detailierte Werbegeschenkgruppierungen"
+#~ msgid "Grouped by per-bag-capacity"
+#~ msgstr "Gruppiert nach Kapazität pro Tüte"
+
+#~ msgid "Giveaway-Bag-Distribution"
+#~ msgstr "Werbegeschenk-Taschen-Verteilung"
 
 #~ msgid "Insert every x bags"
 #~ msgstr "Einen jede x Tüten beilegen"
