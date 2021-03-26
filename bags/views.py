@@ -501,7 +501,11 @@ def list_giveaway_distribution(request: WSGIRequest) -> HttpResponse:
         ],
         "ungrouped_giveaways": Giveaway.objects.filter(Q(group=None) & Q(company__semester=semester)),
     }
-    return render(request, "bags/giveaways/giveaway/list/distribution/list_giveaway_distribution.html", context=context)
+    return render(
+        request,
+        "bags/giveaways/giveaway/list/list_grouped_giveaway_details.html",
+        context=context,
+    )
 
 
 @permission_required("bags.view_companies")
@@ -631,8 +635,8 @@ def giveaway_data_ungrouped(request):
         ungrouped_giveaways = Giveaway.objects.filter(Q(group=None) & Q(company__semester=semester))
         data = {
             "giveaway_data_ungrouped": render_to_string(
-                "bags/giveaways/giveaway/list/distribution/_ungrouped_giveaways.html",
-                {"ungrouped_giveaways": ungrouped_giveaways},
+                "bags/giveaways/giveaway/list/prefabs/ungrouped_giveaways.html",
+                {"giveaways": ungrouped_giveaways},
                 request=request,
             ),
         }
@@ -650,8 +654,27 @@ def giveaway_data_grouped(request):
         ]
         data = {
             "giveaway_data_grouped": render_to_string(
-                "bags/giveaways/giveaway/list/distribution/_grouped_giveaways.html",
-                {"giveaway_groups": giveaway_groups},
+                "bags/giveaways/giveaway/list/prefabs/grouped_giveaways.html",
+                {"giveaways": giveaway_groups},
+                request=request,
+            ),
+        }
+        return JsonResponse(data)
+    raise Http404()
+
+
+@permission_required("bags.view_companies")
+def giveaway_data_condensed_grouped(request):
+    semester: Semester = get_object_or_404(Semester, pk=get_semester(request))
+    if request.method == "GET":
+        giveaway_groups = [
+            (ggroup, ggroup.giveaway_set.filter(company__semester=semester).all())
+            for ggroup in semester.giveawaygroup_set.all()
+        ]
+        data = {
+            "giveaway_data_condensed": render_to_string(
+                "bags/giveaways/giveaway/list/prefabs/condensed_grouped_giveaways.html",
+                {"giveaways": giveaway_groups},
                 request=request,
             ),
         }

@@ -31,7 +31,7 @@ class GiveawayForm(SemesterBasedForm, forms.ModelForm):
 class GiveawayDistributionModelForm(BSModalModelForm):
     class Meta:
         model = Giveaway
-        fields = ["per_bag_count", "every_x_bags"]
+        fields = ["name", "item_count", "arrival_time"]
 
 
 class GiveawayGroupForm(SemesterBasedModelForm):

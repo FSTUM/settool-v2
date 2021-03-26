@@ -6,63 +6,99 @@
 
 {% block set_common_headercontent %}{% trans "List all giveaways" %}{% endblock %}
 
-{% block head %}
-<script>
-    $(document).ready(() => {
-        $('.dataTable').DataTable({
-            paging: false,
-            searching: false,
-        });
-    });
-</script>
+{% block set_common_content %}
+<div
+    class="modal fade"
+    tabindex="-1"
+    role="dialog"
+    id="modal"
+>
+    <div
+        class="modal-dialog"
+        role="document"
+    >
+        <div class="modal-content"></div>
+    </div>
+</div>
+<div id='replacement_target_condensed'>{% include "bags/giveaways/giveaway/list/prefabs/condensed_grouped_giveaways.html" %}</div>
+<div id='replacement_target_ungrouped'>{% include "bags/giveaways/giveaway/list/prefabs/ungrouped_giveaways.html" %}</div>
 {% endblock %}
 
-{% block set_common_content %}
-{% if giveaway_groups %}
-<h1 class='card-title'>{% trans "Grouped Giveaways" %}</h1>
-<div class='row'>
-    {% for giveaway_group, giveaway_set in giveaway_groups %}
-    <div class='col-xl-3 p-1'>
-        <div class='card'>
-            <div class='card-header'>
-                {{ giveaway_group.name }}
-                <a href="{% url "bags:add_giveaway_to_giveaway_group" giveaway_group.id %}"><span class="bi bi-bag-plus-fill"></span></a>
-                <a href="{% url "bags:edit_giveaway_group" giveaway_group.id %}"><span class="bi bi-pencil-square"></span></a>
-                <a href="{% url "bags:del_giveaway_group" giveaway_group.id %}"><span class="bi bi-trash-fill"></span></a>
+{% block defered_script %}
+<script src="{% static 'js/jquery.bootstrap.modal.forms.min.js' %}"></script>
+<script>
+    $(document).ready(() => {
+        // Update giveaway asynchronous button
+        /* eslint no-useless-escape: off */
+        const asyncSuccessMessageUpdate = `
+            <div
+                style='position:fixed;top:0;z-index:10000;width:100%;border-radius:0;'
+                class='alert alert-icon alert-success alert-dismissible fade show mb-0' role='alert'
+            >
+                {% trans "Success: Giveaway-Distribution was updated." %}
+                <button type='button' class='close' data-dismiss='alert' aria-label='Close'>
+                    <span aria-hidden='true'>&times;</span>
+                </button>
             </div>
-            <div class='card-body'>
-                <div class="table-responsive">
-                    <table
-                        id="giveawayTable"
-                        class="table dataTable dataTableGrouped"
-                    >
-                        <thead>
-                            <tr>
-                                <th>{% trans "Giveaway-title" %}</th>
-                                <th>{% trans "Distribution over bags" %}</th>
-                                <th>{% trans "Arrival time (green=arrived)" %}</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for giveaway in giveaway_set.all %}
-                            <tr>
-                                <td><a href="{% url "bags:view_giveaway" giveaway.id %}">{{ giveaway.name }}</a></td>
-                                <td>{{ giveaway.custom_per_bag_message }}</td>
-                                <td
-                                    {% if giveaway.arrived %}class='table-success'
-                                    {% endif %}
-                                >{{ giveaway.arrival_time|default:"-" }}</td>
-                            </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-    </div>
-    {% endfor %}
-</div>
-{% endif %}
+            <script>
+                $('.alert').fadeTo(2000, 500).slideUp(500, function () {$('.alert').slideUp(500).remove();});
+            <\/script>`;
 
-{% include "bags/giveaways/giveaway/list/distribution/_ungrouped_giveaways.html" %}
+        // modal form
+        function updateGiveawayModalFormUngrouped() {
+            $('.update_giveaway_ungrouped').each(function () {
+                $(this).modalForm({
+                    formURL: $(this).data('form-url'),
+                    asyncUpdate: true,
+                    asyncSettings: {
+                        closeOnSubmit: true,
+                        successMessage: asyncSuccessMessageUpdate,
+                        dataUrl: '{% url "bags:giveaway_data_ungrouped" %}',
+                        dataElementId: '#replacement_target_ungrouped',
+                        dataKey: 'giveaways',
+                        addModalFormFunction: updateGiveawayModalFormUngrouped,
+                    },
+                });
+            });
+            $('.dataTableUngrouped').DataTable({
+                columnDefs: [{ targets: 5, orderable: false }],
+                paging: false,
+                searching: false,
+            });
+        }
+
+        updateGiveawayModalFormUngrouped();
+
+        // modal form
+        function updateGiveawayModalFormCondensed() {
+            $('.update_giveaway_condensed').each(function () {
+                $(this).modalForm({
+                    formURL: $(this).data('form-url'),
+                    asyncUpdate: true,
+                    asyncSettings: {
+                        closeOnSubmit: true,
+                        successMessage: asyncSuccessMessageUpdate,
+                        dataUrl: '{% url "bags:giveaway_data_condensed_grouped" %}',
+                        dataElementId: '#replacement_target_condensed',
+                        dataKey: 'giveaways',
+                        addModalFormFunction: updateGiveawayModalFormCondensed,
+                    },
+                });
+            });
+            $('.dataTableCondensed').DataTable({
+                paging: false,
+                searching: false,
+            });
+        }
+
+        updateGiveawayModalFormCondensed();
+
+        // Hide message
+        $('.alert')
+            .fadeTo(2000, 500)
+            .slideUp(500, function () {
+                $('.alert').slideUp(500);
+            });
+    });
+</script>
 {% endblock %}

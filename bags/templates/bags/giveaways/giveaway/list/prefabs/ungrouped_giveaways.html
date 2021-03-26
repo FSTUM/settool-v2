@@ -11,6 +11,7 @@
                 <th>{% trans "Company" %}</th>
                 <th>{% trans "Giveaway-title" %}</th>
                 <th>{% trans "Distribution over bags" %}</th>
+                <th>{% trans "Item Count" %}</th>
                 <th>{% trans "Arrival time (green=arrived)" %}</th>
                 <th>{% trans "Actions" %}</th>
             </tr>
@@ -23,10 +24,19 @@
                 <td>
                     <a
                         type="button"
-                        class="update-giveaway_ungrouped"
+                        class="update_giveaway_ungrouped"
                         data-form-url="{% url 'bags:update_giveaway' giveaway.pk %}"
                     >
                         {{ giveaway.custom_per_bag_message }}
+                    </a>
+                </td>
+                <td>
+                    <a
+                        type="button"
+                        class="update_giveaway_ungrouped"
+                        data-form-url="{% url 'bags:update_giveaway' giveaway.pk %}"
+                    >
+                        {{ giveaway.item_count }}
                     </a>
                 </td>
                 <td

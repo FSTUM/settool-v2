@@ -73,11 +73,23 @@ urlpatterns = [
                                 name="update_giveaway",
                             ),
                             path(
-                                "giveaway_data/ungrouped/",
-                                views.giveaway_data_ungrouped,
-                                name="giveaway_data_ungrouped",
+                                "giveaway_data/",
+                                include(
+                                    [
+                                        path(
+                                            "ungrouped/",
+                                            views.giveaway_data_ungrouped,
+                                            name="giveaway_data_ungrouped",
+                                        ),
+                                        path("grouped/", views.giveaway_data_grouped, name="giveaway_data_grouped"),
+                                        path(
+                                            "condensed/",
+                                            views.giveaway_data_condensed_grouped,
+                                            name="giveaway_data_condensed_grouped",
+                                        ),
+                                    ],
+                                ),
                             ),
-                            path("giveaway_data/grouped/", views.giveaway_data_grouped, name="giveaway_data_grouped"),
                         ],
                     ),
                 ),

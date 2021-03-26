@@ -3,7 +3,7 @@
 <h1 class='card-title'>{% trans "Grouped Giveaways" %}</h1>
 <div class='row'>
     {% for giveaway_group, giveaway_set in giveaway_groups %}
-    <div class='col-xl-4 p-1'>
+    <div class='col-xl-3 p-1'>
         <div class='card'>
             <div class='card-header'>
                 {{ giveaway_group.name }}
@@ -11,40 +11,47 @@
                 <a href="{% url "bags:edit_giveaway_group" giveaway_group.id %}"><span class="bi bi-pencil-square"></span></a>
                 <a href="{% url "bags:del_giveaway_group" giveaway_group.id %}"><span class="bi bi-trash-fill"></span></a>
             </div>
-            <div class='card-body'>
+            <div class='card-body p-0'>
                 <div class="table-responsive">
                     <table
                         id="giveawayTable"
-                        class="table dataTable dataTableGrouped"
+                        class="table dataTable dataTableCondensed"
+                        style='margin-top: 0 !important;'
                     >
                         <thead>
                             <tr>
                                 <th>{% trans "Giveaway-title" %}</th>
-                                <th>{% trans "Distribution over bags" %}</th>
+                                <th>{% trans "Item Count" %}</th>
                                 <th>{% trans "Arrival time (green=arrived)" %}</th>
-                                <th>{% trans "Actions" %}</th>
                             </tr>
                         </thead>
                         <tbody>
                             {% for giveaway in giveaway_set.all %}
                             <tr>
-                                <td><a href="{% url "bags:view_giveaway" giveaway.id %}">{{ giveaway.name }}</a></td>
+                                <td>{{ giveaway.name }}<a
+                                        class='bi bi-info'
+                                        href="{% url "bags:view_giveaway" giveaway.id %}"
+                                    ></a></td>
                                 <td>
                                     <a
                                         type="button"
-                                        class="update-giveaway_grouped"
+                                        class="update_giveaway_condensed"
                                         data-form-url="{% url 'bags:update_giveaway' giveaway.pk %}"
                                     >
-                                        {{ giveaway.custom_per_bag_message }}
+                                        {{ giveaway.item_count }}
                                     </a>
                                 </td>
                                 <td
                                     {% if giveaway.arrived %}class='table-success'
                                     {% endif %}
-                                >{{ giveaway.arrival_time|default:"-" }}</td>
-                                <td>
-                                    <a href="{% url "bags:edit_giveaway" giveaway.id %}"><span class="bi bi-pencil-square"></span></a>
-                                    <a href="{% url "bags:del_giveaway" giveaway.id %}"><span class="bi bi-trash-fill"></span></a>
+                                >
+                                    <a
+                                        type="button"
+                                        class="update_giveaway_condensed"
+                                        data-form-url="{% url 'bags:update_giveaway' giveaway.pk %}"
+                                    >
+                                        {{ giveaway.arrival_time|default:"-" }}
+                                    </a>
                                 </td>
                             </tr>
                             {% endfor %}
