@@ -584,7 +584,7 @@ def add_giveaway(request: WSGIRequest) -> HttpResponse:
     form = GiveawayForm(request.POST or None, semester=semester)
     if form.is_valid():
         form.save()
-        return redirect("bags:list_giveaways")
+        return redirect("bags:list_grouped_giveaways")
 
     context = {
         "form": form,
@@ -607,7 +607,7 @@ def edit_giveaway(request: WSGIRequest, giveaway_pk: int) -> HttpResponse:
     form = GiveawayForm(request.POST or None, instance=giveaway, semester=semester)
     if form.is_valid():
         form.save()
-        return redirect("bags:list_giveaways")
+        return redirect("bags:list_grouped_giveaways")
 
     context = {
         "giveaway": giveaway,
@@ -694,7 +694,7 @@ def del_giveaway(request: WSGIRequest, giveaway_pk: int) -> HttpResponse:
     form = forms.Form(request.POST or None)
     if form.is_valid():
         giveaway.delete()
-        return redirect("bags:list_giveaways")
+        return redirect("bags:list_grouped_giveaways")
 
     context = {
         "giveaway": giveaway,
@@ -709,7 +709,7 @@ def add_giveaway_group(request: WSGIRequest) -> HttpResponse:
     form = GiveawayGroupForm(request.POST or None, semester=semester)
     if form.is_valid():
         form.save()
-        return redirect("bags:list_giveaways")
+        return redirect("bags:list_grouped_giveaways")
 
     context = {
         "form": form,
@@ -726,7 +726,7 @@ def add_giveaway_to_giveaway_group(request: WSGIRequest, giveaway_group_pk: int)
         giveaway = form.cleaned_data["giveaway"]
         giveaway.group = giveaway_group
         giveaway.save()
-        return redirect("bags:list_giveaways")
+        return redirect("bags:list_grouped_giveaways")
 
     context = {
         "giveaway_group": giveaway_group,
@@ -743,7 +743,7 @@ def edit_giveaway_group(request: WSGIRequest, giveaway_group_pk: int) -> HttpRes
     form = GiveawayGroupForm(request.POST or None, instance=giveaway_group, semester=semester)
     if form.is_valid():
         form.save()
-        return redirect("bags:list_giveaways")
+        return redirect("bags:list_grouped_giveaways")
 
     context = {
         "giveaway_group": giveaway_group,
@@ -759,7 +759,7 @@ def del_giveaway_group(request: WSGIRequest, giveaway_group_pk: int) -> HttpResp
     form = forms.Form(request.POST or None)
     if form.is_valid():
         giveaway_group.delete()
-        return redirect("bags:list_giveaways")
+        return redirect("bags:list_grouped_giveaways")
 
     context = {
         "giveaway_group": giveaway_group,

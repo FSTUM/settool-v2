@@ -19,17 +19,21 @@
         <tbody>
             {% for giveaway in ungrouped_giveaways %}
             <tr>
-                <td><a href="{% url "bags:view_company" giveaway.company.id %}">{{ giveaway.company }}</a></td>
-                <td><a href="{% url "bags:view_giveaway" giveaway.id %}">{{ giveaway.name }}</a></td>
                 <td>
+                    {{ giveaway.company }}
                     <a
-                        type="button"
-                        class="update_giveaway_ungrouped"
-                        data-form-url="{% url 'bags:update_giveaway' giveaway.pk %}"
-                    >
-                        {{ giveaway.custom_per_bag_message }}
-                    </a>
+                        class='bi bi-info'
+                        href="{% url "bags:view_company" giveaway.company.id %}"
+                    ></a>
                 </td>
+                <td>
+                    {{ giveaway.name }}
+                    <a
+                        class='bi bi-info'
+                        href="{% url "bags:view_giveaway" giveaway.id %}"
+                    ></a>
+                </td>
+                <td>{{ giveaway.custom_per_bag_message }}</td>
                 <td>
                     <a
                         type="button"

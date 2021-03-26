@@ -56,6 +56,16 @@
                             </tr>
                             {% endfor %}
                         </tbody>
+                        <tfoot>
+                            <tr>
+                                <th></th>
+                                <th>
+                                    {% trans "Total" %}: {{ giveaway_group.total_items }}<br>
+                                    {{ giveaway_group.custom_per_group_message }}
+                                </th>
+                                <th></th>
+                            </tr>
+                        </tfoot>
                     </table>
                 </div>
             </div>

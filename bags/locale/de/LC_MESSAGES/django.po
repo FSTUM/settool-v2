@@ -157,6 +157,24 @@ msgid "Giveaway-groups' name"
 msgstr "Name der Giveaway-Gruppe"
 
 #: bags/models.py
+msgid "Does not exist"
+msgstr "Exsistiert nicht"
+
+#: bags/models.py
+msgid "Every bag"
+msgstr "Jede Tüte"
+
+#: bags/models.py
+#, python-brace-format
+msgid "Every {every_x_bags}th bag"
+msgstr "Jede {every_x_bags}te Tüte"
+
+#: bags/models.py
+#, python-brace-format
+msgid "{per_bag_count} every bag"
+msgstr "{per_bag_count} jede Tüte"
+
+#: bags/models.py
 #: bags/templates/bags/giveaways/giveaway/list/arrival/confirm_giveaways_arrivals.html
 #: bags/templates/bags/giveaways/giveaway/list/arrival/list_giveaways_arrivals.html
 #: bags/templates/bags/giveaways/giveaway/list/prefabs/condensed_grouped_giveaways.html
@@ -182,24 +200,6 @@ msgstr "Artikelanzahl"
 #: bags/templates/bags/maintenance/mail/send_mail.html
 msgid "Arrival time"
 msgstr "Ankunftszeit"
-
-#: bags/models.py
-msgid "Does not exist"
-msgstr "Exsistiert nicht"
-
-#: bags/models.py
-msgid "Every bag"
-msgstr "Jede Tüte"
-
-#: bags/models.py
-#, python-brace-format
-msgid "Every {every_x_bags}th bag"
-msgstr "Jede {every_x_bags}te Tüte"
-
-#: bags/models.py
-#, python-brace-format
-msgid "{per_bag_count} every bag"
-msgstr "{per_bag_count} jede Tüte"
 
 #: bags/templates/bags/bags_dashboard.html bags/templates/bags/base_bags.html
 msgid "Dashboard"
@@ -561,6 +561,11 @@ msgstr "Alle Werbegeschenke auflisten"
 msgid "Success: Giveaway-Distribution was updated."
 msgstr "Erfolg: Werbegeschenk-Verteilung wurde geupdated"
 
+#: bags/templates/bags/giveaways/giveaway/list/prefabs/condensed_grouped_giveaways.html
+#: bags/templates/bags/giveaways/giveaway/list/prefabs/grouped_giveaways.html
+msgid "Total"
+msgstr "Gesammt"
+
 #: bags/templates/bags/giveaways/giveaway/list/prefabs/ungrouped_giveaways.html
 msgid "Ungrouped Giveaways"
 msgstr "Ungruppierte Werbegeschenke"
@@ -604,6 +609,14 @@ msgstr "Alle Werbegeschenke-Gruppen auflisten"
 #: bags/templates/bags/giveaways/giveaway_group/list_giveaways_group.html
 msgid "Giveaway-Groups' Title"
 msgstr "Werbegeschenk-Gruppentitel"
+
+#: bags/templates/bags/giveaways/giveaway_group/list_giveaways_group.html
+msgid "Total Item count"
+msgstr "Gesamtanzahl der Artikel"
+
+#: bags/templates/bags/giveaways/giveaway_group/list_giveaways_group.html
+msgid "Distribution per Bag"
+msgstr "Verteilung über die Tüten"
 
 #: bags/templates/bags/import-export/import_companies.html
 #: bags/templates/bags/import-export/import_csv.html

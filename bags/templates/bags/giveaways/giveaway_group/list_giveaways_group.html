@@ -23,6 +23,8 @@
         <thead>
             <tr>
                 <th>{% trans "Giveaway-Groups' Title" %}</th>
+                <th>{% trans "Total Item count" %}</th>
+                <th>{% trans "Distribution per Bag" %}</th>
                 <th>{% trans "Actions" %}</th>
             </tr>
         </thead>
@@ -30,6 +32,8 @@
             {% for giveaway_group in giveaway_groups %}
             <tr>
                 <td><a href="{% url "bags:edit_giveaway_group" giveaway_group.id %}">{{ giveaway_group.name }}</a></td>
+                <td>{{ giveaway_group.total_items }}</td>
+                <td>{{ giveaway_group.custom_per_group_message }}</td>
                 <td>
                     <a href="{% url "bags:edit_giveaway_group" giveaway_group.id %}"><span class="bi bi-pencil-square"></span></a>
                     <a href="{% url "bags:del_giveaway_group" giveaway_group.id %}"><span class="bi bi-trash-fill"></span></a>

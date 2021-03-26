@@ -1,6 +1,7 @@
 from typing import List, Tuple
 
 from django.db import models
+from django.db.models.aggregates import Sum
 from django.utils.translation import ugettext_lazy as _
 
 import settool_common.models as common_models
@@ -169,6 +170,24 @@ class GiveawayGroup(models.Model):
     def __str__(self):
         return self.name
 
+    @property
+    def total_items(self) -> int:
+        return self.giveaway_set.aggregate(Sum("item_count"))["item_count__sum"] or 0
+
+    @property
+    def custom_per_group_message(self):
+        total_items = self.total_items
+        if total_items == 0:
+            return _("Does not exist")
+        total_bags = self.semester.bagsettings.bag_count
+        if total_items == total_bags:
+            return _("Every bag")
+        if total_items < total_bags:
+            return _("Every {every_x_bags}th bag").format(
+                every_x_bags=round(total_bags / total_items, 1),
+            )
+        return _("{per_bag_count} every bag").format(per_bag_count=round(total_items / total_bags, 1))
+
 
 class Giveaway(models.Model):
     company = models.ForeignKey(
@@ -211,7 +230,7 @@ class Giveaway(models.Model):
             return _("Every bag")
         if self.item_count < total_bags:
             return _("Every {every_x_bags}th bag").format(
-                every_x_bags=round(self.item_count / total_bags, 1),
+                every_x_bags=round(total_bags / self.item_count, 1),
             )
         return _("{per_bag_count} every bag").format(per_bag_count=round(self.item_count / total_bags, 1))
 
