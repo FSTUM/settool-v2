@@ -8,7 +8,7 @@ from settool_common.forms import produce_csv_file_upload_field, SemesterBasedFor
 from settool_common.models import Semester
 from settool_common.utils import produce_field_with_autosubmit
 
-from .models import BagMail, Company, Giveaway, GiveawayGroup
+from .models import BagMail, BagSettings, Company, Giveaway, GiveawayGroup
 
 
 class CompanyForm(SemesterBasedModelForm):
@@ -137,3 +137,9 @@ class SelectGiveawaySwitchForm(forms.Form):
         ),
         required=False,
     )
+
+
+class BagSettingsForm(forms.ModelForm):
+    class Meta:
+        model = BagSettings
+        exclude: List[str] = ["semester"]

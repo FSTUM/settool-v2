@@ -22,7 +22,7 @@ msgstr "E-Mail wurde noch nicht (erfolgreich) versendet"
 #: bags/forms.py bags/models.py bags/templates/bags/bags_dashboard.html
 #: bags/templates/bags/company/list_companys.html
 #: bags/templates/bags/company/view_company.html
-#: bags/templates/bags/mail/send_mail.html
+#: bags/templates/bags/maintenance/mail/send_mail.html
 msgid "Participated last year"
 msgstr "Letztes Jahr teilgenommen"
 
@@ -70,7 +70,7 @@ msgstr ""
 #: bags/forms.py bags/models.py
 #: bags/templates/bags/giveaways/giveaway/list/arrival/list_giveaways_arrivals.html
 #: bags/templates/bags/giveaways/giveaway/view_giveaway.html
-#: bags/templates/bags/mail/send_mail.html
+#: bags/templates/bags/maintenance/mail/send_mail.html
 msgid "Arrived"
 msgstr "Angekommen"
 
@@ -133,22 +133,22 @@ msgstr "E-Mail erfolgreich gesendet"
 #: bags/models.py bags/templates/bags/bags_dashboard.html
 #: bags/templates/bags/company/list_companys.html
 #: bags/templates/bags/company/view_company.html
-#: bags/templates/bags/mail/send_mail.html
+#: bags/templates/bags/maintenance/mail/send_mail.html
 msgid "Promise"
 msgstr "Zusage"
 
 #: bags/models.py bags/templates/bags/company/list_companys.html
 #: bags/templates/bags/company/view_company.html
-#: bags/templates/bags/mail/del_mail.html
-#: bags/templates/bags/mail/list_mails.html
-#: bags/templates/bags/mail/send_mail.html
+#: bags/templates/bags/maintenance/mail/del_mail.html
+#: bags/templates/bags/maintenance/mail/list_mails.html
+#: bags/templates/bags/maintenance/mail/send_mail.html
 msgid "Comment"
 msgstr "Kommentar"
 
 #: bags/models.py bags/templates/bags/bags_dashboard.html
 #: bags/templates/bags/company/list_companys.html
 #: bags/templates/bags/company/view_company.html
-#: bags/templates/bags/mail/send_mail.html
+#: bags/templates/bags/maintenance/mail/send_mail.html
 msgid "Contact again"
 msgstr "Erneut kontaktieren"
 
@@ -179,7 +179,7 @@ msgstr "Artikelanzahl"
 #: bags/models.py
 #: bags/templates/bags/giveaways/giveaway/list/arrival/confirm_giveaways_arrivals.html
 #: bags/templates/bags/giveaways/giveaway/view_giveaway.html
-#: bags/templates/bags/mail/send_mail.html
+#: bags/templates/bags/maintenance/mail/send_mail.html
 msgid "Arrival time"
 msgstr "Ankunftszeit"
 
@@ -228,7 +228,7 @@ msgstr "Firmen mit Werbegeschenken"
 #: bags/templates/bags/bags_dashboard.html bags/templates/bags/base_bags.html
 #: bags/templates/bags/company/list_companys.html
 #: bags/templates/bags/company/view_company.html
-#: bags/templates/bags/mail/send_mail.html
+#: bags/templates/bags/maintenance/mail/send_mail.html
 msgid "Giveaways"
 msgstr "Werbegeschenke"
 
@@ -340,7 +340,8 @@ msgstr "Werbegeschenke-Gruppe hinzufügen"
 msgid "Mails"
 msgstr "E-Mails"
 
-#: bags/templates/bags/base_bags.html bags/templates/bags/mail/list_mails.html
+#: bags/templates/bags/base_bags.html
+#: bags/templates/bags/maintenance/mail/list_mails.html
 msgid "List email templates"
 msgstr "E-Mail-Vorlagen auflisten"
 
@@ -364,6 +365,16 @@ msgstr "CSV Importieren"
 msgid "Export CSV"
 msgstr "CSV Exportieren"
 
+#: bags/templates/bags/base_bags.html
+msgid "Settings"
+msgstr ""
+
+#: bags/templates/bags/base_bags.html
+#, fuzzy
+#| msgid "General"
+msgid "General settings"
+msgstr "Gereral"
+
 #: bags/templates/bags/company/add_company.html
 #: bags/templates/bags/company/del_company.html
 #: bags/templates/bags/company/edit_company.html
@@ -378,10 +389,11 @@ msgstr "CSV Exportieren"
 #: bags/templates/bags/giveaways/giveaway_group/edit_giveaway_group.html
 #: bags/templates/bags/import-export/import_companies.html
 #: bags/templates/bags/import-export/import_csv.html
-#: bags/templates/bags/mail/add_mail.html
-#: bags/templates/bags/mail/del_mail.html
-#: bags/templates/bags/mail/edit_mail.html
-#: bags/templates/bags/mail/send_mail.html
+#: bags/templates/bags/maintenance/mail/add_mail.html
+#: bags/templates/bags/maintenance/mail/del_mail.html
+#: bags/templates/bags/maintenance/mail/edit_mail.html
+#: bags/templates/bags/maintenance/mail/send_mail.html
+#: bags/templates/bags/maintenance/settings.html
 msgid "Cancel"
 msgstr "Abbrechen"
 
@@ -440,25 +452,25 @@ msgstr "Empfänger auswählen und E-Mail senden"
 #: bags/templates/bags/giveaways/giveaway/list/prefabs/grouped_giveaways.html
 #: bags/templates/bags/giveaways/giveaway/list/prefabs/ungrouped_giveaways.html
 #: bags/templates/bags/giveaways/giveaway/view_giveaway.html
-#: bags/templates/bags/mail/send_mail.html
+#: bags/templates/bags/maintenance/mail/send_mail.html
 msgid "Company"
 msgstr "Firma"
 
 #: bags/templates/bags/company/list_companys.html
 #: bags/templates/bags/company/view_company.html
-#: bags/templates/bags/mail/send_mail.html
+#: bags/templates/bags/maintenance/mail/send_mail.html
 msgid "Contact"
 msgstr "Kontakt"
 
 #: bags/templates/bags/company/list_companys.html
 #: bags/templates/bags/company/view_company.html
-#: bags/templates/bags/mail/send_mail.html
+#: bags/templates/bags/maintenance/mail/send_mail.html
 msgid "Email"
 msgstr "E-Mail"
 
 #: bags/templates/bags/company/list_companys.html
 #: bags/templates/bags/company/view_company.html
-#: bags/templates/bags/mail/send_mail.html
+#: bags/templates/bags/maintenance/mail/send_mail.html
 msgid "sent"
 msgstr "gesendet"
 
@@ -466,8 +478,8 @@ msgstr "gesendet"
 #: bags/templates/bags/giveaways/giveaway/list/arrival/list_giveaways_arrivals.html
 #: bags/templates/bags/giveaways/giveaway/list/prefabs/ungrouped_giveaways.html
 #: bags/templates/bags/giveaways/giveaway_group/list_giveaways_group.html
-#: bags/templates/bags/mail/list_mails.html
-#: bags/templates/bags/mail/send_mail.html
+#: bags/templates/bags/maintenance/mail/list_mails.html
+#: bags/templates/bags/maintenance/mail/send_mail.html
 msgid "Actions"
 msgstr "Actionen"
 
@@ -484,7 +496,7 @@ msgid "Company details"
 msgstr "Firmendetails"
 
 #: bags/templates/bags/company/view_company.html
-#: bags/templates/bags/mail/send_mail.html
+#: bags/templates/bags/maintenance/mail/send_mail.html
 msgid "successfully sent"
 msgstr "erfolgreich gesendet"
 
@@ -618,55 +630,61 @@ msgstr "Preview Firmen"
 msgid "Upload and update_or_create all Companies"
 msgstr "Upload und update_or_create alle Firmen"
 
-#: bags/templates/bags/mail/add_mail.html
+#: bags/templates/bags/maintenance/mail/add_mail.html
 msgid "Add email"
 msgstr "E-Mail-Vorlage hinzufügen"
 
-#: bags/templates/bags/mail/del_mail.html
+#: bags/templates/bags/maintenance/mail/del_mail.html
 msgid "Delete email template"
 msgstr "E-Mail-Vorlage löschen"
 
-#: bags/templates/bags/mail/del_mail.html
+#: bags/templates/bags/maintenance/mail/del_mail.html
 msgid "Do you really want to delete the following email template?"
 msgstr "Soll die folgende E-Mail-Vorlage wirklich gelöscht werden?"
 
-#: bags/templates/bags/mail/del_mail.html
-#: bags/templates/bags/mail/list_mails.html
-#: bags/templates/bags/mail/send_mail.html
+#: bags/templates/bags/maintenance/mail/del_mail.html
+#: bags/templates/bags/maintenance/mail/list_mails.html
+#: bags/templates/bags/maintenance/mail/send_mail.html
 msgid "Subject"
 msgstr "Betreff"
 
-#: bags/templates/bags/mail/del_mail.html
-#: bags/templates/bags/mail/list_mails.html
-#: bags/templates/bags/mail/send_mail.html
+#: bags/templates/bags/maintenance/mail/del_mail.html
+#: bags/templates/bags/maintenance/mail/list_mails.html
+#: bags/templates/bags/maintenance/mail/send_mail.html
 msgid "Text"
 msgstr "Text"
 
-#: bags/templates/bags/mail/edit_mail.html
+#: bags/templates/bags/maintenance/mail/edit_mail.html
 msgid "Edit email"
 msgstr "E-Mail-Vorlage bearbeiten"
 
-#: bags/templates/bags/mail/send_mail.html
+#: bags/templates/bags/maintenance/mail/send_mail.html
 msgid "Send email"
 msgstr "E-Mail senden"
 
-#: bags/templates/bags/mail/send_mail.html
+#: bags/templates/bags/maintenance/mail/send_mail.html
 msgid "Do you really want to send the following email to the companies below?"
 msgstr ""
 "Soll die folgende E-Mail wirklich an die untenstehenden Firmen geschickt "
 "werden?"
 
-#: bags/templates/bags/mail/send_mail.html
+#: bags/templates/bags/maintenance/mail/send_mail.html
 msgid "From"
 msgstr "Von"
 
-#: bags/templates/bags/mail/send_mail.html
+#: bags/templates/bags/maintenance/mail/send_mail.html
 msgid "To"
 msgstr "An"
 
-#: bags/templates/bags/mail/send_mail.html
+#: bags/templates/bags/maintenance/mail/send_mail.html
 msgid "see table below"
 msgstr "siehe Tabelle unten"
+
+#: bags/templates/bags/maintenance/settings.html
+#, fuzzy
+#| msgid "Edit email"
+msgid "Edit Settings"
+msgstr "E-Mail-Vorlage bearbeiten"
 
 #: bags/views.py
 msgid "The File was successfully uploaded"
@@ -706,9 +724,6 @@ msgstr "Veränderter Ankunfts-Status wurde gespeichert"
 
 #~ msgid "Giveaways last year"
 #~ msgstr "Werbegeschenke von letztem Jahr"
-
-#~ msgid "General"
-#~ msgstr "Gereral"
 
 #~ msgid "Edit email-templates"
 #~ msgstr "E-Mail-Vorlagen bearbeiten"

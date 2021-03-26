@@ -22,6 +22,7 @@ from settool_common.models import get_semester, Semester
 from settool_common.utils import get_or_none
 
 from .forms import (
+    BagSettingsForm,
     CompanyForm,
     CSVFileUploadForm,
     FilterCompaniesForm,
@@ -36,7 +37,7 @@ from .forms import (
     SelectMailForm,
     UpdateFieldForm,
 )
-from .models import BagMail, Company, Giveaway, GiveawayGroup
+from .models import BagMail, BagSettings, Company, Giveaway, GiveawayGroup
 
 
 def get_possibly_filtered_companies(filterform, semester):
@@ -210,7 +211,7 @@ def del_company(request: WSGIRequest, company_pk: int) -> HttpResponse:
 @permission_required("bags.view_companies")
 def list_mails(request: WSGIRequest) -> HttpResponse:
     context = {"mails": BagMail.objects.all()}
-    return render(request, "bags/mail/list_mails.html", context)
+    return render(request, "bags/maintenance/mail/list_mails.html", context)
 
 
 @permission_required("bags.view_companies")
@@ -222,7 +223,7 @@ def add_mail(request: WSGIRequest) -> HttpResponse:
         return redirect("bags:list_mails")
 
     context = {"form": form, "mail": BagMail}
-    return render(request, "bags/mail/add_mail.html", context)
+    return render(request, "bags/maintenance/mail/add_mail.html", context)
 
 
 @permission_required("bags.view_companies")
@@ -238,7 +239,7 @@ def edit_mail(request: WSGIRequest, mail_pk: int) -> HttpResponse:
         "form": form,
         "mail": mail,
     }
-    return render(request, "bags/mail/edit_mail.html", context)
+    return render(request, "bags/maintenance/mail/edit_mail.html", context)
 
 
 @permission_required("bags.view_companies")
@@ -255,7 +256,7 @@ def delete_mail(request: WSGIRequest, mail_pk: int) -> HttpResponse:
         "mail": mail,
         "form": form,
     }
-    return render(request, "bags/mail/del_mail.html", context)
+    return render(request, "bags/maintenance/mail/del_mail.html", context)
 
 
 @permission_required("bags.view_companies")
@@ -286,7 +287,7 @@ def send_mail(request: WSGIRequest, mail_pk: int) -> HttpResponse:
         "form": form,
     }
 
-    return render(request, "bags/mail/send_mail.html", context)
+    return render(request, "bags/maintenance/mail/send_mail.html", context)
 
 
 def import_company_csv_to_db(csv_file, semester):
@@ -768,9 +769,28 @@ def del_giveaway_group(request: WSGIRequest, giveaway_group_pk: int) -> HttpResp
 
 
 @permission_required("bags.view_companies")
-def list_giveaway_group(request):
+def list_giveaway_group(request: WSGIRequest) -> HttpResponse:
     semester: Semester = get_object_or_404(Semester, pk=get_semester(request))
     context = {
         "giveaway_groups": semester.giveawaygroup_set.all(),
     }
     return render(request, "bags/giveaways/giveaway_group/list_giveaways_group.html", context=context)
+
+
+@permission_required("bags.view_companies")
+def settings(request: WSGIRequest) -> HttpResponse:
+    semester: Semester = get_object_or_404(Semester, pk=get_semester(request))
+
+    setting: BagSettings = BagSettings.objects.get_or_create(
+        semester=semester,
+    )[0]
+
+    form = BagSettingsForm(request.POST or None, instance=setting)
+    if form.is_valid():
+        form.save()
+        return redirect("bags:main_index")
+
+    context = {
+        "form": form,
+    }
+    return render(request, "bags/maintenance/settings.html", context)
