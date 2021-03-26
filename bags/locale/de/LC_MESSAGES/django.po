@@ -277,20 +277,16 @@ msgid "Giveaway does NOT exists"
 msgstr "KEIN Werbegeschenk existiert"
 
 #: bags/templates/bags/bags_dashboard.html
-#, fuzzy
-#| msgid "NO Promise"
 msgid "No Promise"
-msgstr "KEINE Zusage"
+msgstr "Keine Zusage"
 
 #: bags/templates/bags/bags_dashboard.html
 msgid "Giveaway did arrive"
 msgstr "Werbegeschenke sind angekommen"
 
 #: bags/templates/bags/bags_dashboard.html
-#, fuzzy
-#| msgid "Giveaways already arrived"
 msgid "Giveaway did NOT arrive"
-msgstr "Werbegeschenke sind NICHT angekommen"
+msgstr "Werbegeschenk ist NICHT angekommen"
 
 #: bags/templates/bags/base_bags.html
 msgid "Companys"
@@ -367,13 +363,11 @@ msgstr "CSV Exportieren"
 
 #: bags/templates/bags/base_bags.html
 msgid "Settings"
-msgstr ""
+msgstr "Einstellungen"
 
 #: bags/templates/bags/base_bags.html
-#, fuzzy
-#| msgid "General"
 msgid "General settings"
-msgstr "Gereral"
+msgstr "Allgemeine Einstellungen"
 
 #: bags/templates/bags/company/add_company.html
 #: bags/templates/bags/company/del_company.html
@@ -694,10 +688,8 @@ msgid "see table below"
 msgstr "siehe Tabelle unten"
 
 #: bags/templates/bags/maintenance/settings.html
-#, fuzzy
-#| msgid "Edit email"
 msgid "Edit Settings"
-msgstr "E-Mail-Vorlage bearbeiten"
+msgstr "Einstellungen bearbeiten"
 
 #: bags/views.py
 msgid "The File was successfully uploaded"
