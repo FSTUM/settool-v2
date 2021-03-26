@@ -61,6 +61,7 @@ urlpatterns = [
                     ),
                 ),
                 path("add/", views.add_giveaway, name="add_giveaway"),
+                path("add/<int:company_pk>/", views.add_giveaway_for_company, name="add_giveaway_for_company"),
                 path(
                     "update/",
                     include(

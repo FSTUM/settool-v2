@@ -28,6 +28,22 @@ class GiveawayForm(SemesterBasedForm, forms.ModelForm):
         self.fields["group"].queryset = self.semester.giveawaygroup_set.all()
 
 
+class GiveawayForCompanyForm(SemesterBasedForm, forms.ModelForm):
+    class Meta:
+        model = Giveaway
+        exclude = ["company"]
+
+    def __init__(self, *args, **kwargs):
+        self.company = kwargs.pop("company")
+        super().__init__(*args, **kwargs)
+        self.fields["group"].queryset = self.semester.giveawaygroup_set.all()
+
+    def save(self, commit=True):
+        giveaway: Giveaway = super().save(commit=False)
+        giveaway.company = self.company
+        giveaway.save()
+
+
 class GiveawayDistributionModelForm(BSModalModelForm):
     class Meta:
         model = Giveaway

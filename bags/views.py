@@ -27,6 +27,7 @@ from .forms import (
     CSVFileUploadForm,
     FilterCompaniesForm,
     GiveawayDistributionModelForm,
+    GiveawayForCompanyForm,
     GiveawayForm,
     GiveawayGroupForm,
     GiveawayToGiveawayGroupForm,
@@ -582,6 +583,21 @@ def confirm_giveaways_arrivals(request: WSGIRequest) -> HttpResponse:
 def add_giveaway(request: WSGIRequest) -> HttpResponse:
     semester: Semester = get_object_or_404(Semester, pk=get_semester(request))
     form = GiveawayForm(request.POST or None, semester=semester)
+    if form.is_valid():
+        form.save()
+        return redirect("bags:list_grouped_giveaways")
+
+    context = {
+        "form": form,
+    }
+    return render(request, "bags/giveaways/giveaway/add_giveaway.html", context=context)
+
+
+@permission_required("bags.view_companies")
+def add_giveaway_for_company(request: WSGIRequest, company_pk: int) -> HttpResponse:
+    semester: Semester = get_object_or_404(Semester, pk=get_semester(request))
+    company: Company = get_object_or_404(Company, id=company_pk)
+    form = GiveawayForCompanyForm(request.POST or None, semester=semester, company=company)
     if form.is_valid():
         form.save()
         return redirect("bags:list_grouped_giveaways")
