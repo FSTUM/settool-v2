@@ -1,5 +1,6 @@
 from typing import List, Tuple
 
+from django.core.exceptions import ObjectDoesNotExist
 from django.db import models
 from django.db.models.aggregates import Sum
 from django.utils.translation import ugettext_lazy as _
@@ -179,7 +180,12 @@ class GiveawayGroup(models.Model):
         total_items = self.total_items
         if total_items == 0:
             return _("Does not exist")
-        total_bags = self.semester.bagsettings.bag_count
+        try:
+            total_bags = self.semester.bagsettings.bag_count
+        except ObjectDoesNotExist:
+            return _("Total amount of Bags is not specified")
+        if total_bags == 0:
+            return _("Total amount of Bags is zero")
         if total_items == total_bags:
             return _("Every bag")
         if total_items < total_bags:
@@ -225,7 +231,12 @@ class Giveaway(models.Model):
     def custom_per_bag_message(self):
         if self.item_count == 0:
             return _("Does not exist")
-        total_bags = self.company.semester.bagsettings.bag_count
+        try:
+            total_bags = self.company.semester.bagsettings.bag_count
+        except ObjectDoesNotExist:
+            return _("Total amount of Bags is not specified")
+        if total_bags == 0:
+            return _("Total amount of Bags is zero")
         if self.item_count == total_bags:
             return _("Every bag")
         if self.item_count < total_bags:

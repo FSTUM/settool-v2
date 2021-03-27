@@ -161,6 +161,14 @@ msgid "Does not exist"
 msgstr "Exsistiert nicht"
 
 #: bags/models.py
+msgid "Total amount of Bags is not specified"
+msgstr "Totale nummer an Tüten ist nicht festgelegt"
+
+#: bags/models.py
+msgid "Total amount of Bags is zero"
+msgstr "Totale nummer an Tüten ist Null (0)"
+
+#: bags/models.py
 msgid "Every bag"
 msgstr "Jede Tüte"
 
