@@ -32,7 +32,8 @@
             <thead>
                 <tr>
                     <th>{% trans "Company" %}</th>
-                    <th>{% trans "Giveaway-title" %}</th>
+                    <th>{% trans "Giveaway-title/group/tag" %}</th>
+                    <th>{% trans "Giveaway-discription/ comment" %}</th>
                     <th>{% trans "Item Count" %}</th>
                     <th>{% trans "Arrival time (green=arrived)" %}</th>
                     <th>{% trans "Arrived" %}</th>
@@ -40,10 +41,11 @@
                 </tr>
             </thead>
             <tbody>
-                {% for giveaway,select in giveaways_and_select %}
+                {% for giveaway, select in giveaways_and_select %}
                 <tr>
                     <td><a href="{% url "bags:view_company" giveaway.company.id %}">{{ giveaway.company }}</a></td>
-                    <td><a href="{% url "bags:view_giveaway" giveaway.id %}">{{ giveaway.name }}</a></td>
+                    <td><a href="{% url "bags:view_giveaway" giveaway.id %}">{{ giveaway.group }}</a></td>
+                    <td><a href="{% url "bags:view_giveaway" giveaway.id %}">{{ giveaway.comment }}</a></td>
                     <td>{{ giveaway.item_count }}</td>
                     <td
                         {% if giveaway.arrived %}class='table-success'

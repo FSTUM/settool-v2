@@ -13,12 +13,12 @@
                 <td><a href='{% url "bags:view_company" giveaway.company.id %}'>{{ giveaway.company }}</a></td>
             </tr>
             <tr>
-                <th>{% trans "Giveaway-groups" %}</th>
+                <th>{% trans "Giveaway-title/group/tag" %}</th>
                 <td>{{ giveaway.group }}</td>
             </tr>
             <tr>
-                <th>{% trans "Giveaway-title" %}</th>
-                <td>{{ giveaway.name }}</td>
+                <th>{% trans "Giveaway-discription/ comment" %}</th>
+                <td>{{ giveaway.comment }}</td>
             </tr>
             <tr>
                 <th>{% trans "Item Count" %}</th>

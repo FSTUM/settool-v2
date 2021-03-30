@@ -9,7 +9,7 @@
         <thead>
             <tr>
                 <th>{% trans "Company" %}</th>
-                <th>{% trans "Giveaway-title" %}</th>
+                <th>{% trans "Giveaway-discription/ comment" %}</th>
                 <th>{% trans "Distribution over bags" %}</th>
                 <th>{% trans "Item Count" %}</th>
                 <th>{% trans "Arrival time (green=arrived)" %}</th>
@@ -27,7 +27,7 @@
                     ></a>
                 </td>
                 <td>
-                    {{ giveaway.name }}
+                    {{ giveaway.comment }}
                     <a
                         class='bi bi-info'
                         href="{% url "bags:view_giveaway" giveaway.id %}"

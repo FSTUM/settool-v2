@@ -183,16 +183,16 @@ msgid "{per_bag_count} every bag"
 msgstr "{per_bag_count} jede Tüte"
 
 #: bags/models.py
-#: bags/templates/bags/giveaways/giveaway/list/arrival/confirm_giveaways_arrivals.html
 #: bags/templates/bags/giveaways/giveaway/list/arrival/list_giveaways_arrivals.html
-#: bags/templates/bags/giveaways/giveaway/list/prefabs/condensed_grouped_giveaways.html
-#: bags/templates/bags/giveaways/giveaway/list/prefabs/grouped_giveaways.html
-#: bags/templates/bags/giveaways/giveaway/list/prefabs/ungrouped_giveaways.html
 #: bags/templates/bags/giveaways/giveaway/view_giveaway.html
-msgid "Giveaway-title"
-msgstr "Giveaway-Titel"
+msgid "Giveaway-title/group/tag"
+msgstr "Giveaway-Titel/Gruppe/Tag"
 
 #: bags/models.py
+msgid "Giveaway-description/comment"
+msgstr "Werbegeschenk-Beschreibung/Kommentar"
+
+#: bags/models.py bags/templates/bags/bags_dashboard.html
 #: bags/templates/bags/giveaways/giveaway/list/arrival/confirm_giveaways_arrivals.html
 #: bags/templates/bags/giveaways/giveaway/list/arrival/list_giveaways_arrivals.html
 #: bags/templates/bags/giveaways/giveaway/list/prefabs/condensed_grouped_giveaways.html
@@ -270,7 +270,7 @@ msgstr "KEINE Zusage"
 
 #: bags/templates/bags/bags_dashboard.html
 msgid "NOT Participated last year"
-msgstr "Letztes Jahr NICHT teilgenommen"
+msgstr "Letztes Jahr NICHT existiert"
 
 #: bags/templates/bags/bags_dashboard.html
 msgid "Do NOT Contact again"
@@ -530,6 +530,10 @@ msgid "Giveways who will GET the 'Arrived' Status"
 msgstr "Werbegeschenke die den 'Angekommen' Status BEKOMMEN werden"
 
 #: bags/templates/bags/giveaways/giveaway/list/arrival/confirm_giveaways_arrivals.html
+msgid "Giveaway-title"
+msgstr "Giveaway-Titel"
+
+#: bags/templates/bags/giveaways/giveaway/list/arrival/confirm_giveaways_arrivals.html
 #: bags/templates/bags/giveaways/giveaway/list/arrival/list_giveaways_arrivals.html
 #: bags/templates/bags/giveaways/giveaway/list/prefabs/condensed_grouped_giveaways.html
 #: bags/templates/bags/giveaways/giveaway/list/prefabs/grouped_giveaways.html
@@ -548,6 +552,16 @@ msgstr "Veränderte Aknunfts-Statuse speichern"
 #: bags/templates/bags/giveaways/giveaway/list/arrival/list_giveaways_arrivals.html
 msgid "Manage Giveaway-arrival Status"
 msgstr "Werbegeschenk-Aknunfts-Status managen"
+
+#: bags/templates/bags/giveaways/giveaway/list/arrival/list_giveaways_arrivals.html
+#: bags/templates/bags/giveaways/giveaway/list/prefabs/condensed_grouped_giveaways.html
+#: bags/templates/bags/giveaways/giveaway/list/prefabs/grouped_giveaways.html
+#: bags/templates/bags/giveaways/giveaway/list/prefabs/ungrouped_giveaways.html
+#: bags/templates/bags/giveaways/giveaway/view_giveaway.html
+#, fuzzy
+#| msgid "Giveaway-description/comment"
+msgid "Giveaway-discription/ comment"
+msgstr "Werbegeschenk-Beschreibung/Kommentar"
 
 #: bags/templates/bags/giveaways/giveaway/list/arrival/list_giveaways_arrivals.html
 msgid "Save changed arrival status"
@@ -575,10 +589,6 @@ msgstr "Ungruppierte Werbegeschenke"
 #: bags/templates/bags/giveaways/giveaway/list/prefabs/ungrouped_giveaways.html
 msgid "Distribution over bags"
 msgstr "Verteilung über die Tüten"
-
-#: bags/templates/bags/giveaways/giveaway/view_giveaway.html
-msgid "Giveaway-groups"
-msgstr "Werbegeschenk-Gruppen"
 
 #: bags/templates/bags/giveaways/giveaway_group/add_giveaway_group.html
 msgid "Add a giveaway-group"
@@ -711,14 +721,14 @@ msgstr "NICHT einer Werbegeschenk-Gruppe zugewiesen"
 msgid "Saved changed arrival status"
 msgstr "Veränderter Ankunfts-Status wurde gespeichert"
 
+#~ msgid "Giveaway-groups"
+#~ msgstr "Werbegeschenk-Gruppen"
+
 #~ msgid "Grouped by Insert every x bags"
 #~ msgstr "Gruppiert nach jede x Tüten beilegen"
 
 #~ msgid "Grouped by per-bag-capacity"
 #~ msgstr "Gruppiert nach Kapazität pro Tüte"
-
-#~ msgid "Giveaway-Bag-Distribution"
-#~ msgstr "Werbegeschenk-Taschen-Verteilung"
 
 #~ msgid "Insert every x bags"
 #~ msgstr "Einen jede x Tüten beilegen"

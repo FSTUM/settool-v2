@@ -351,7 +351,7 @@ def _generate_giveaways(  # nosec: this is only used in a fixture
         bags.models.Giveaway.objects.create(
             company=company,
             group=group,
-            name=lorem.sentence()[:50],
+            comment=lorem.sentence()[:50],
             item_count=round(random.randint(0, 2500), -1),
             arrival_time=random.choice(
                 (

@@ -47,7 +47,7 @@ class GiveawayForCompanyForm(SemesterBasedForm, forms.ModelForm):
 class GiveawayDistributionModelForm(BSModalModelForm):
     class Meta:
         model = Giveaway
-        fields = ["name", "item_count", "arrival_time"]
+        fields = ["item_count", "arrival_time", "comment"]
 
 
 class GiveawayGroupForm(SemesterBasedModelForm):

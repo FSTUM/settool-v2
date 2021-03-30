@@ -261,10 +261,10 @@
                                     {% for giveaway in giveaways %}
                                     <tr>
                                         <td>
-                                            <a href='{% url "bags:view_giveaway" giveaway.id %}'>{{ giveaway.name }}</a>
+                                            <a href='{% url "bags:view_giveaway" giveaway.id %}'>{{ giveaway.group|default:"-" }}</a>
                                         </td>
                                         <td>{{ giveaway.item_count }}</td>
-                                        <td>{{ giveaway.group|default:"-" }}</td>
+                                        <td>{{ giveaway.comment|default:"-" }}</td>
                                     </tr>
                                     {% endfor %}
                                     <tr>

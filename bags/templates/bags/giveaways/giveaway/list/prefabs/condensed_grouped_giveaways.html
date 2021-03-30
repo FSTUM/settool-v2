@@ -20,7 +20,7 @@
                     >
                         <thead>
                             <tr>
-                                <th>{% trans "Giveaway-title" %}</th>
+                                <th>{% trans "Giveaway-discription/ comment" %}</th>
                                 <th>{% trans "Item Count" %}</th>
                                 <th>{% trans "Arrival time (green=arrived)" %}</th>
                             </tr>
@@ -28,7 +28,7 @@
                         <tbody>
                             {% for giveaway in giveaway_set.all %}
                             <tr>
-                                <td>{{ giveaway.name }}<a
+                                <td>{{ giveaway.comment }}<a
                                         class='bi bi-info'
                                         href="{% url "bags:view_giveaway" giveaway.id %}"
                                     ></a></td>

@@ -41,28 +41,28 @@ from .forms import (
 from .models import BagMail, BagSettings, Company, Giveaway, GiveawayGroup
 
 
-def get_possibly_filtered_companies(filterform, semester):
-    companies = semester.company_set.order_by("name")
-    if filterform.is_valid():
-        if filterform.cleaned_data["no_email_sent"]:
+def get_possibly_filtered_companies(filter_form, semester):
+    companies = semester.company_set
+    if filter_form.is_valid():
+        if filter_form.cleaned_data["no_email_sent"]:
             companies = companies.filter(email_sent_success=False)
-        if filterform.cleaned_data["last_year"]:
+        if filter_form.cleaned_data["last_year"]:
             companies = companies.filter(last_year=True)
-        if filterform.cleaned_data["not_last_year"]:
+        if filter_form.cleaned_data["not_last_year"]:
             companies = companies.filter(last_year=False)
-        if filterform.cleaned_data["contact_again"]:
+        if filter_form.cleaned_data["contact_again"]:
             companies = companies.filter(contact_again=True)
-        if filterform.cleaned_data["promise"]:
+        if filter_form.cleaned_data["promise"]:
             companies = companies.filter(promise=True)
-        if filterform.cleaned_data["no_promise"]:
+        if filter_form.cleaned_data["no_promise"]:
             companies = companies.exclude(promise=True)
-        if filterform.cleaned_data["giveaways"]:
+        if filter_form.cleaned_data["giveaways"]:
             companies = companies.exclude(giveaway__isnull=True)
-        if filterform.cleaned_data["no_giveaway"]:
+        if filter_form.cleaned_data["no_giveaway"]:
             companies = companies.filter(giveaway__isnull=True)
-        if filterform.cleaned_data["arrived"]:
+        if filter_form.cleaned_data["arrived"]:
             companies = companies.filter(giveaway__arrived=True)
-    return companies  # noqa: R504
+    return companies.order_by("name").all()
 
 
 @permission_required("bags.view_companies")
@@ -569,7 +569,7 @@ def confirm_giveaways_arrivals(request: WSGIRequest) -> HttpResponse:
             new_unarrived_giveaway.arrived = False
             new_unarrived_giveaway.save()
         messages.success(request, _("Saved changed arrival status"))
-        return redirect("bags:finanz_simple")
+        return redirect("bags:list_giveaways_arrivals")
 
     context = {
         "form": form,
@@ -600,10 +600,11 @@ def add_giveaway_for_company(request: WSGIRequest, company_pk: int) -> HttpRespo
     form = GiveawayForCompanyForm(request.POST or None, semester=semester, company=company)
     if form.is_valid():
         form.save()
-        return redirect("bags:list_grouped_giveaways")
+        return redirect("bags:list_companys")
 
     context = {
         "form": form,
+        "for_company": True,
     }
     return render(request, "bags/giveaways/giveaway/add_giveaway.html", context=context)
 

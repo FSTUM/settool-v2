@@ -19,7 +19,11 @@
 
     <a
         class="btn btn-secondary"
+        {% if not for_company %}
         href="{% url "bags:list_giveaways_arrivals" %}"
+        {% else %}
+        href="{% url "bags:list_companys" %}"
+        {% endif %}
     >{% trans "Cancel" %}</a>
     <button
         class="btn btn-primary"

@@ -202,12 +202,14 @@ class Giveaway(models.Model):
     )
     group = models.ForeignKey(
         GiveawayGroup,
+        verbose_name=_("Giveaway-title/group/tag"),
         on_delete=models.SET_NULL,
         null=True,
-        blank=True,
     )
-    name = models.CharField(
-        _("Giveaway-title"),
+
+    comment = models.CharField(
+        _("Giveaway-description/comment"),
+        blank=True,
         max_length=200,
     )
 
