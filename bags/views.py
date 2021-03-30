@@ -28,6 +28,7 @@ from .forms import (
     CSVFileUploadForm,
     FilterCompaniesForm,
     GiveawayDistributionModelForm,
+    GiveawayEditForm,
     GiveawayForCompanyForm,
     GiveawayForm,
     GiveawayGroupForm,
@@ -597,6 +598,7 @@ def add_giveaway(request: WSGIRequest) -> HttpResponse:
 
     context = {
         "form": form,
+        "groups": semester.giveawaygroup_set.all(),
     }
     return render(request, "bags/giveaways/giveaway/add_giveaway.html", context=context)
 
@@ -612,6 +614,7 @@ def add_giveaway_for_company(request: WSGIRequest, company_pk: int) -> HttpRespo
 
     context = {
         "form": form,
+        "groups": semester.giveawaygroup_set.all(),
         "for_company": True,
     }
     return render(request, "bags/giveaways/giveaway/add_giveaway.html", context=context)
@@ -629,7 +632,7 @@ def edit_giveaway(request: WSGIRequest, giveaway_pk: int) -> HttpResponse:
     semester: Semester = get_object_or_404(Semester, pk=get_semester(request))
     giveaway: Giveaway = get_object_or_404(Giveaway, id=giveaway_pk)
 
-    form = GiveawayForm(request.POST or None, instance=giveaway, semester=semester)
+    form = GiveawayEditForm(request.POST or None, instance=giveaway, semester=semester)
     if form.is_valid():
         form.save()
         return redirect("bags:list_grouped_giveaways")

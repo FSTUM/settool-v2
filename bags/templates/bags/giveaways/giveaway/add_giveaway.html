@@ -14,6 +14,13 @@
     <div class="row">
         <div class="col-xs-12 col-lg-5">
             {% bootstrap_form form %}
+            {% if groups %}
+            <datalist id="groupDatalist">
+                {% for group in groups %}
+                <option value="{{ group.name }}">{{ group.custom_per_group_message }}</option>
+                {% endfor %}
+            </datalist>
+            {% endif %}
         </div>
     </div>
 
