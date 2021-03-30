@@ -596,6 +596,13 @@ def add_giveaway(request: WSGIRequest) -> HttpResponse:
         form.save()
         return redirect("bags:list_grouped_giveaways")
 
+    messages.warning(
+        request,
+        _(
+            "The Giveaway-title/group/tag Input does create a new title/group/tag if you choose not to choose one of "
+            "the suggested choices.",
+        ),
+    )
     context = {
         "form": form,
         "groups": semester.giveawaygroup_set.all(),
@@ -612,6 +619,13 @@ def add_giveaway_for_company(request: WSGIRequest, company_pk: int) -> HttpRespo
         form.save()
         return redirect("bags:list_companys")
 
+    messages.warning(
+        request,
+        _(
+            "The Giveaway-title/group/tag Input does create a new title/group/tag if you choose not to choose one of "
+            "the suggested choices.",
+        ),
+    )
     context = {
         "form": form,
         "groups": semester.giveawaygroup_set.all(),

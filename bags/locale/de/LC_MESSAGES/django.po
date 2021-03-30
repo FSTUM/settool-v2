@@ -718,6 +718,14 @@ msgstr "NICHT einer Werbegeschenk-Gruppe zugewiesen"
 msgid "Saved changed arrival status"
 msgstr "Veränderter Ankunfts-Status wurde gespeichert"
 
+#: bags/views.py
+msgid ""
+"The Giveaway-title/group/tag Input does create a new title/group/tag if you "
+"choose not to choose one of the suggested choices."
+msgstr ""
+"Der Giveaway-Titel/Gruppe/Tag Input erzeugt einen neuen Titel/Gruppe/Tag "
+"falls du keinen der vorgeschlagenen Auswahlmöglichkeiten auswählst."
+
 #~ msgid "Giveaway-groups"
 #~ msgstr "Werbegeschenk-Gruppen"
 
