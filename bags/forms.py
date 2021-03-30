@@ -17,7 +17,7 @@ class CompanyForm(SemesterBasedModelForm):
         exclude = ["semester"]
 
 
-class GiveawayForm(SemesterBasedForm, forms.ModelForm):
+class GiveawayEditForm(SemesterBasedForm, forms.ModelForm):
     class Meta:
         model = Giveaway
         exclude: List[str] = []
@@ -28,20 +28,53 @@ class GiveawayForm(SemesterBasedForm, forms.ModelForm):
         self.fields["group"].queryset = self.semester.giveawaygroup_set.all()
 
 
-class GiveawayForCompanyForm(SemesterBasedForm, forms.ModelForm):
+class GiveawayForm(forms.ModelForm):
+    group_input = forms.CharField(
+        label=_("Giveaway-title/group/tag"),
+        widget=forms.TextInput(attrs={"list": "groupDatalist"}),
+    )
+
     class Meta:
         model = Giveaway
-        exclude = ["company"]
+        exclude: List[str] = ["group"]
+        fields = ["company", "group_input", "comment", "item_count", "arrival_time", "arrived"]
+
+    def clean(self):
+        cleaned_data = super().clean()  # pylint: disable=attribute-defined-outside-init
+        if self.data is not None and "group_imput" in self.data and self.data["group_imput"]:
+            self.group = GiveawayGroup.objects.get_or_create(semester=self.semester, name=self.data["group_imput"])[0]
+        return cleaned_data  # noqa: R504
+
+    def __init__(self, *args, **kwargs):
+        self.semester: Semester = kwargs.pop("semester")
+        self.group = None
+        super().__init__(*args, **kwargs)
+        if "company" in self.fields:
+            self.fields["company"].queryset = self.semester.company_set.all()
+
+    def save(self, commit=True):
+        giveaway: Giveaway = super().save(commit=False)
+        giveaway.group = self.group
+        if commit:
+            giveaway.save()
+        return giveaway
+
+
+class GiveawayForCompanyForm(GiveawayForm):
+    class Meta:
+        model = Giveaway
+        exclude = ["company", "group"]
+        fields = ["group_input", "comment", "item_count", "arrival_time", "arrived"]
 
     def __init__(self, *args, **kwargs):
         self.company = kwargs.pop("company")
         super().__init__(*args, **kwargs)
-        self.fields["group"].queryset = self.semester.giveawaygroup_set.all()
 
     def save(self, commit=True):
         giveaway: Giveaway = super().save(commit=False)
         giveaway.company = self.company
         giveaway.save()
+        return giveaway
 
 
 class GiveawayDistributionModelForm(BSModalModelForm):

@@ -7,6 +7,12 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
+#: bags/forms.py bags/models.py
+#: bags/templates/bags/giveaways/giveaway/list/arrival/list_giveaways_arrivals.html
+#: bags/templates/bags/giveaways/giveaway/view_giveaway.html
+msgid "Giveaway-title/group/tag"
+msgstr "Giveaway-Titel/Gruppe/Tag"
+
 #: bags/forms.py bags/templates/bags/giveaways/giveaway/view_giveaway.html
 msgid "Giveaway"
 msgstr "Werbegeschenk"
@@ -181,12 +187,6 @@ msgstr "Jede {every_x_bags}te Tüte"
 #, python-brace-format
 msgid "{per_bag_count} every bag"
 msgstr "{per_bag_count} jede Tüte"
-
-#: bags/models.py
-#: bags/templates/bags/giveaways/giveaway/list/arrival/list_giveaways_arrivals.html
-#: bags/templates/bags/giveaways/giveaway/view_giveaway.html
-msgid "Giveaway-title/group/tag"
-msgstr "Giveaway-Titel/Gruppe/Tag"
 
 #: bags/models.py
 msgid "Giveaway-description/comment"

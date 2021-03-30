@@ -158,6 +158,9 @@ class Company(models.Model):
 
 
 class GiveawayGroup(models.Model):
+    class Meta:
+        unique_together = (("semester", "name"),)
+
     semester = models.ForeignKey(
         Semester,
         on_delete=models.CASCADE,
@@ -248,6 +251,6 @@ class Giveaway(models.Model):
         return _("{per_bag_count} every bag").format(per_bag_count=round(self.item_count / total_bags, 1))
 
     def __str__(self):
-        if self.group:
-            return f"{self.name} ({self.group}; {self.custom_per_bag_message})"
-        return f"{self.name} ({self.custom_per_bag_message})"
+        if self.comment:
+            return f"{self.group or '-'} ({self.comment or '-'}; {self.custom_per_bag_message})"
+        return f"{self.group or '-'} ({self.custom_per_bag_message})"
