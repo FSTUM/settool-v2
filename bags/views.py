@@ -1,4 +1,5 @@
 import csv
+import math
 import os
 import time
 from typing import List
@@ -417,10 +418,17 @@ def dashboard(request: WSGIRequest) -> HttpResponse:
             "group_count": giveaways.filter(group__isnull=True).count(),
         },
     )
-    g_by_item_count = (
-        giveaways.values("item_count").annotate(item_count_count=Count("item_count")).order_by("item_count")
-    )
 
+    g_by_item_count_labels: List[str] = []
+    g_by_item_count_data: List[int] = []
+    g_item_count_max = giveaways.order_by("-item_count").first()
+    g_item_count_min = giveaways.order_by("item_count").first()
+    if g_item_count_max and g_item_count_min:  # do giveaways exist?
+        item_count_max_range = math.ceil(g_item_count_max.item_count / 100) * 100
+        item_count_min_range = math.floor(g_item_count_min.item_count / 100) * 100
+        for i in range(item_count_min_range, item_count_max_range, 100):
+            g_by_item_count_labels.append(f"{i} - {i + 99}")
+            g_by_item_count_data.append(giveaways.filter(item_count__gte=i, item_count__lte=i + 99).count())
     context = {
         "c_by_giveaway_data": [
             companies.filter(giveaway__isnull=False).count(),
@@ -469,8 +477,8 @@ def dashboard(request: WSGIRequest) -> HttpResponse:
             for group in g_by_group
         ],
         "g_by_group_data": [group["group_count"] for group in g_by_group],
-        "g_by_item_count_labels": [str(item_count["item_count"]) for item_count in g_by_item_count],
-        "g_by_item_count_data": [item_count["item_count_count"] for item_count in g_by_item_count],
+        "g_by_item_count_labels": g_by_item_count_labels,
+        "g_by_item_count_data": g_by_item_count_data,
     }
     return render(request, "bags/bags_dashboard.html", context=context)
 

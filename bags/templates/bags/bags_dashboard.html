@@ -320,11 +320,12 @@
     });
     /* eslint no-new: off */
     new Chart(document.getElementById('g_by_item_count').getContext('2d'), {
-        type: 'doughnut',
+        type: 'bar',
         data: {
             labels: {{ g_by_item_count_labels|safe }},
             datasets: [
                 {
+                    label: '{% trans "Item Count" %}',
                     data: {{ g_by_item_count_data }},
                     backgroundColor: [
                         '#1dd1a1',
