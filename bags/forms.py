@@ -41,8 +41,8 @@ class GiveawayForm(forms.ModelForm):
 
     def clean(self):
         cleaned_data = super().clean()  # pylint: disable=attribute-defined-outside-init
-        if self.data is not None and "group_imput" in self.data and self.data["group_imput"]:
-            self.group = GiveawayGroup.objects.get_or_create(semester=self.semester, name=self.data["group_imput"])[0]
+        if self.data is not None and "group_input" in self.data and self.data["group_input"]:
+            self.group = GiveawayGroup.objects.get_or_create(semester=self.semester, name=self.data["group_input"])[0]
         return cleaned_data  # noqa: R504
 
     def __init__(self, *args, **kwargs):
