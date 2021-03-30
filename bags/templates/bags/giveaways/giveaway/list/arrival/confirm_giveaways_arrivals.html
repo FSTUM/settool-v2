@@ -16,7 +16,7 @@
                 <th>{% trans "Company" %}</th>
                 <th>{% trans "Giveaway-title" %}</th>
                 <th>{% trans "Item Count" %}</th>
-                <th>{% trans "Arrival time (green=arrived)" %}</th>
+                <th>{% trans "Arrival time" %}</th>
             </tr>
         </thead>
         <tbody>
@@ -25,10 +25,7 @@
                 <td><a href="{% url "bags:view_company" giveaway.company.id %}">{{ giveaway.company }}</a></td>
                 <td><a href="{% url "bags:view_giveaway" giveaway.id %}">{{ giveaway.name }}</a></td>
                 <td>{{ giveaway.item_count }}</td>
-                <td
-                    {% if giveaway.arrived %}class='table-success'
-                    {% endif %}
-                >{{ giveaway.arrival_time|default:"-" }}</td>
+                <td>{{ giveaway.arrival_time|default:"-" }}</td>
             </tr>
             {% endfor %}
         </tbody>

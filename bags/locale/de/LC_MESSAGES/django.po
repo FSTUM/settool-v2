@@ -534,14 +534,6 @@ msgid "Giveaway-title"
 msgstr "Giveaway-Titel"
 
 #: bags/templates/bags/giveaways/giveaway/list/arrival/confirm_giveaways_arrivals.html
-#: bags/templates/bags/giveaways/giveaway/list/arrival/list_giveaways_arrivals.html
-#: bags/templates/bags/giveaways/giveaway/list/prefabs/condensed_grouped_giveaways.html
-#: bags/templates/bags/giveaways/giveaway/list/prefabs/grouped_giveaways.html
-#: bags/templates/bags/giveaways/giveaway/list/prefabs/ungrouped_giveaways.html
-msgid "Arrival time (green=arrived)"
-msgstr "Ankunftszeit (grün=angekommen)"
-
-#: bags/templates/bags/giveaways/giveaway/list/arrival/confirm_giveaways_arrivals.html
 msgid "Giveways who will LOOSE the 'Arrived' Status"
 msgstr "Werbegeschenke die den 'Angekommen' Status VERLIEREN werden"
 
@@ -558,10 +550,15 @@ msgstr "Werbegeschenk-Aknunfts-Status managen"
 #: bags/templates/bags/giveaways/giveaway/list/prefabs/grouped_giveaways.html
 #: bags/templates/bags/giveaways/giveaway/list/prefabs/ungrouped_giveaways.html
 #: bags/templates/bags/giveaways/giveaway/view_giveaway.html
-#, fuzzy
-#| msgid "Giveaway-description/comment"
 msgid "Giveaway-discription/ comment"
-msgstr "Werbegeschenk-Beschreibung/Kommentar"
+msgstr "Werbegeschenk-Beschreibung/ Kommentar"
+
+#: bags/templates/bags/giveaways/giveaway/list/arrival/list_giveaways_arrivals.html
+#: bags/templates/bags/giveaways/giveaway/list/prefabs/condensed_grouped_giveaways.html
+#: bags/templates/bags/giveaways/giveaway/list/prefabs/grouped_giveaways.html
+#: bags/templates/bags/giveaways/giveaway/list/prefabs/ungrouped_giveaways.html
+msgid "Arrival time (green=arrived)"
+msgstr "Ankunftszeit (grün=angekommen)"
 
 #: bags/templates/bags/giveaways/giveaway/list/arrival/list_giveaways_arrivals.html
 msgid "Save changed arrival status"
