@@ -121,7 +121,7 @@
                             />
 
                             <select
-                                class="form-control"
+                                class="form-control no-automatic-choicejs"
                                 name="semester"
                                 id="semester_selection_form"
                                 onchange="this.form.submit()"
@@ -255,7 +255,7 @@
         /* eslint no-new: off */
         const elemnts = document.getElementsByTagName('select');
         for (let i = 0; i < elemnts.length; i += 1) {
-            if (elemnts[i].id !== 'semester_selection_form') new Choices(elemnts[i], { removeItemButton: true });
+            if ('no-automatic-choicejs' in elemnts[i].classList) new Choices(elemnts[i], { removeItemButton: true });
         }
     </script>
     {% block defered_script %} {% endblock %}
