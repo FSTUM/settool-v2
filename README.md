@@ -1,30 +1,36 @@
 # Scope:
- - [x] manage SET-Fahrt
- - [x] manage SET-Bags
- - [x] manage SET-Guidedtours
- - [x] manage SET-Tutors/Collaborators
- - [ ] manage tasks and dates
- - IO
-   - [x] manage and send tremplated Mails
-   - [x] send reminders
-   - [x] generate (pretty) PDF-Documents
-   - [x] export to CSV
+
+-   [x] manage SET-Fahrt
+-   [x] manage SET-Bags
+-   [x] manage SET-Guidedtours
+-   [x] manage SET-Tutors/Collaborators
+-   [ ] manage tasks and dates
+-   IO
+    -   [x] manage and send tremplated Mails
+    -   [x] send reminders
+    -   [x] generate (pretty) PDF-Documents
+    -   [x] export to CSV
 
 # UI-Samples:
-## Base-page for logged in users
-![output](https://user-images.githubusercontent.com/26258709/113455027-e2770700-9409-11eb-8627-e6e0979bffe4.gif)
+
+## Base-page for logged-in users
+
+![Base-page](https://user-images.githubusercontent.com/26258709/113455027-e2770700-9409-11eb-8627-e6e0979bffe4.gif)
 
 ## Dashboards
-![Screenshot from 2021-04-02 23-07-24](https://user-images.githubusercontent.com/26258709/113454429-8069d200-9408-11eb-88fa-9e83151ef449.png)
-![Screenshot from 2021-04-02 23-08-26](https://user-images.githubusercontent.com/26258709/113454431-819aff00-9408-11eb-8b0b-04841c629323.png)
-![Screenshot from 2021-04-02 23-09-01](https://user-images.githubusercontent.com/26258709/113454434-82339580-9408-11eb-9205-55e0f53335e4.png)
+
+![Dashboard 1](https://user-images.githubusercontent.com/26258709/113454429-8069d200-9408-11eb-88fa-9e83151ef449.png)
+![Dashboard 2](https://user-images.githubusercontent.com/26258709/113454431-819aff00-9408-11eb-8b0b-04841c629323.png)
+![Dashboard 3](https://user-images.githubusercontent.com/26258709/113454434-82339580-9408-11eb-9205-55e0f53335e4.png)
 
 ## Management views
-![Screenshot from 2021-04-02 23-21-52](https://user-images.githubusercontent.com/26258709/113455288-895ba300-940a-11eb-9a48-4c613eda2276.png)
-![Screenshot from 2021-04-02 23-23-38](https://user-images.githubusercontent.com/26258709/113455290-89f43980-940a-11eb-8f1a-4bcd8f6ba2be.png)
+
+![Management view 1](https://user-images.githubusercontent.com/26258709/113455288-895ba300-940a-11eb-9a48-4c613eda2276.png)
+![Management view 2](https://user-images.githubusercontent.com/26258709/113455290-89f43980-940a-11eb-8f1a-4bcd8f6ba2be.png)
 
 ## Sign up
-![Screenshot from 2021-04-02 23-26-38](https://user-images.githubusercontent.com/26258709/113455502-13a40700-940b-11eb-8e31-ba6eab56cba4.png)
+
+![Sign-up 1](https://user-images.githubusercontent.com/26258709/113455502-13a40700-940b-11eb-8e31-ba6eab56cba4.png)
 
 # Installation
 
