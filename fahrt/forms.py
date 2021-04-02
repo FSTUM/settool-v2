@@ -68,11 +68,12 @@ class ParticipantForm(ParticipantAdminForm):
         }
 
     car = forms.BooleanField(
-        label=_("I drive by car"),
+        label=_("I habe access to a car and could drive it"),
+        required=False,
     )
 
     car_places = forms.IntegerField(
-        label=_("Number of people I can take along additionally"),
+        label=_("Maximum number of people I could take along additionally"),
         required=False,
         min_value=0,
     )
@@ -201,7 +202,7 @@ def produce_nullboolean_field_with_autosubmit(label):
 class FilterRegisteredParticipantsForm(SemesterBasedForm):
     non_liability = produce_nullboolean_field_with_autosubmit(_("Non-liability submitted"))
     u18 = produce_nullboolean_field_with_autosubmit(_("Under 18"))
-    car = produce_nullboolean_field_with_autosubmit(_("With car"))
+    car = produce_nullboolean_field_with_autosubmit(_("Driver of Car"))
     paid = produce_nullboolean_field_with_autosubmit(_("Paid"))
     payment_deadline = produce_nullboolean_field_with_autosubmit(_("Payment deadline over"))
     mailinglist = produce_nullboolean_field_with_autosubmit(_("On mailinglist"))
@@ -225,7 +226,7 @@ class FilterParticipantsForm(forms.Form):
     search = forms.CharField(label=_("Search pattern:"), required=False)
     non_liability = forms.NullBooleanField(label=_("Non-liability submitted"))
     u18 = forms.NullBooleanField(label=_("Under 18"))
-    car = forms.NullBooleanField(label=_("With car"))
+    car = forms.NullBooleanField(label=_("Driver of car"))
     paid = forms.NullBooleanField(label=_("Paid"))
     payment_deadline = forms.NullBooleanField(label=_("Payment deadline over"))
     mailinglist = forms.NullBooleanField(label=_("On mailinglist"))

@@ -16,12 +16,12 @@ msgid "You cant be born in the future."
 msgstr "Du kannst nicht in der Zukunft geboren worden sein."
 
 #: fahrt/forms.py
-msgid "I drive by car"
-msgstr "Ich Fahre mit dem Auto"
+msgid "I habe access to a car and could drive it"
+msgstr "Ich habe Zugriff auf ein Auto und könnte es fahren"
 
 #: fahrt/forms.py
-msgid "Number of people I can take along additionally"
-msgstr "Anzahl an Leuten, die ich zusätzlich mitnehmen kann"
+msgid "Maximum number of people I could take along additionally"
+msgstr "Maximale Anzahl an Leuten, die ich zusätzlich mitnehmen könnte"
 
 #: fahrt/forms.py
 msgid "I accept the terms and conditions of the following privacy policy:"
@@ -54,8 +54,8 @@ msgid "Under 18"
 msgstr "Unter 18"
 
 #: fahrt/forms.py
-msgid "With car"
-msgstr "Mit Auto"
+msgid "Driver of Car"
+msgstr "Fahrer*in eines Autos"
 
 #: fahrt/forms.py fahrt/models.py
 #: fahrt/templates/fahrt/finanz/simple_finanz.html
@@ -84,6 +84,12 @@ msgstr "Betreff"
 #: fahrt/forms.py
 msgid "Search pattern:"
 msgstr "Schlagwort:"
+
+#: fahrt/forms.py
+#, fuzzy
+#| msgid "I drive by car"
+msgid "Driver of car"
+msgstr "Ich Fahre mit dem Auto"
 
 #: fahrt/forms.py fahrt/models.py
 #: fahrt/templates/fahrt/maintinance/mail/list_filtered_participants_send_mail.html
@@ -1103,6 +1109,9 @@ msgid ""
 msgstr ""
 "Derzeit ist dies nur eine Chatwall und kein Live-Chat. Das bedeutet, dass du "
 "die Seite aktualisieren musst, um neue Nachrichten zu erhalten."
+
+#~ msgid "With car"
+#~ msgstr "Mit Auto"
 
 #~ msgid "Add participant to the SET-Fahrt"
 #~ msgstr "Teilnehmer zur SET-Fahrt hinzufügen"
