@@ -22,6 +22,6 @@ jobs:
                   sudo apt-get update
                   sudo apt-get -qq install -y gettext texlive-base texlive-lang-german texlive-fonts-recommended texlive-latex-extra latexmk
             - name: Run pre-commit
-              uses: pre-commit/action@v2.0.0
+              uses: pre-commit/action@v2.0.1
               with:
                   token: ${{ secrets.GITHUB_TOKEN }}
