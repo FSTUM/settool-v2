@@ -912,9 +912,7 @@ def batch_decline(request: WSGIRequest) -> HttpResponse:
             subject=assignment_wish_counter.subject,
         ).count()
 
-        keep: int = assignment_wish_counter.wanted - accepted_count + assignment_wish_counter.waitlist
-        if keep < 0:
-            keep = 0
+        keep: int = max(assignment_wish_counter.wanted - accepted_count + assignment_wish_counter.waitlist, 0)
 
         for tutor in active_tutors.order_by("registration_time")[keep:]:
             tutor_ids.append(tutor.id)
