@@ -26,8 +26,11 @@ def get_mocked_logged_in_client():
         is_superuser=True,
     )
     client.force_login(user)
-    client.session[SEMESTER_SESSION_KEY] = 2  # pk=2 ^= SS 21
-    client.session.save()
+    # reason the sesson has to be put into a variable:
+    # https://stackoverflow.com/questions/7502116/how-to-use-session-in-testcase-in-django/37307406#37307406
+    session = client.session
+    session[SEMESTER_SESSION_KEY] = 2  # pk=2 ^= SS 21
+    session.save()
     return client
 
 
