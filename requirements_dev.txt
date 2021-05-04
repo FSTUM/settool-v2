@@ -4,4 +4,4 @@ lorem~=0.1.1
 mypy~=0.812
 pre-commit~=2.12.1
 pylint~=2.8.1
-pylint-django~=2.4.3
+pylint-django~=2.4.4
