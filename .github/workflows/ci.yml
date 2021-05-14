@@ -42,12 +42,18 @@ jobs:
                   sudo apt-get -qq install -y npm
             - name: Install npm packages
               run: npm install
+            - name: Linelint
+              uses: actions/linelint@master
+              id: linelint
             - name: Commit npm packages
               uses: stefanzweifel/git-auto-commit-action@v4
               with:
                   commit_message: 'Automated Change: updated npm requirements'
             - name: install update pre-commit
               run: pre-commit autoupdate
+            - name: Linelint
+              uses: actions/linelint@master
+              id: linelint
             - name: Commit pre-commit file if changed
               uses: stefanzweifel/git-auto-commit-action@v4
               with:
