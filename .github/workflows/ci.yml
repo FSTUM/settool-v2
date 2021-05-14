@@ -31,8 +31,7 @@ jobs:
             max-parallel: 4
         steps:
             - uses: actions/checkout@v2
-            - name: Setup Python
-              uses: actions/setup-python@v2.2.2
+            - uses: actions/setup-python@v2.2.2
               with:
                   python-version: 3.7
             - name: Install Dependencies
@@ -41,12 +40,25 @@ jobs:
                   pip install -r requirements.txt -r requirements_dev.txt
                   sudo apt-get update
                   sudo apt-get -qq install -y npm
-            - name: Run Tests
-              run: |
-                  npm install
-                  git config user.name github-actions
-                  git config user.email github-actions@github.com
-                  git commit -m "updated npm requirements"
-                  pre-commit autoupdate
-                  git commit -m "updated pre-commit file"
-                  git push
+            - name: Install npm packages
+              run: npm install
+            - name: Commit npm packages
+              uses: stefanzweifel/git-auto-commit-action@v4
+              with:
+                  commit_message: 'Automated Change: updated npm requirements'
+                  commit_options: '--no-verify --signoff'
+                  add_options: '-u'
+                  skip_dirty_check: true
+                  skip_fetch: true
+                  disable_globbing: true
+            - name: install update pre-commit
+              run: pre-commit autoupdate
+            - name: Commit pre-commit file if changed
+              uses: stefanzweifel/git-auto-commit-action@v4
+              with:
+                  commit_message: 'Automated Change: updated npm requirements'
+                  commit_options: '--no-verify --signoff'
+                  add_options: '-u'
+                  skip_dirty_check: true
+                  skip_fetch: true
+                  disable_globbing: true
