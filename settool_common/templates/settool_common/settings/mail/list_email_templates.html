@@ -22,15 +22,15 @@
 {% block set_common_content %}
 {% if not mail_filter %}
 <div class='row'>
-    <div class='col-sm p-1'>
+    <div class='col-sm p-1 d-grid'>
         <a
-            class="btn btn-secondary btn-block"
+            class="btn btn-secondary"
             href="{% url "export_mail" %}"
-        >{% trans "Export e-mails as CSV" %}
-            <span class="bi bi-file-spreadsheet"></span></a>
+        >{% trans "Export e-mails as CSV" %} <span class="bi bi-file-spreadsheet"></span></a>
     </div>
     {% if user.is_superuser %}
-    <div class='col-sm p-1'><a
+    <div class='col-sm p-1 d-grid'>
+        <a
             class="btn btn-danger btn-block"
             href="{% url "import_mail" %}"
         >{% trans "Override e-mails from CSV" %} <span class="bi bi-file-spreadsheet"></span></a>

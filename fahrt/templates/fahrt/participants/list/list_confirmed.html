@@ -1,6 +1,6 @@
 {% extends "fahrt/base_fahrt.html" %}
 {% load i18n %}
-{% load bootstrap4 %}
+{% load bootstrap5 %}
 
 {% block head %}
 <script>
@@ -49,9 +49,9 @@
     </table>
 </div>
 <div class='row'>
-    <div class='col-sm p-1'>
+    <div class='col-sm p-1 d-grid'>
         <button
-            class="btn btn-secondary btn-block"
+            class="btn btn-secondary"
             type="button"
             data-toggle="collapse"
             data-target="#collapseFilters"
@@ -60,15 +60,15 @@
         >{% trans "Availible Filters" %}
         </button>
     </div>
-    <div class='col-sm p-1'>
+    <div class='col-sm p-1 d-grid'>
         <a
-            class='btn btn-secondary btn-block'
+            class='btn btn-secondary'
             href="{% url "fahrt:export" "csv" %}"
         >{% trans "Export confired participants as CSV" %} <span class="bi bi-file-spreadsheet"></span></a>
     </div>
-    <div class='col-sm p-1'>
+    <div class='col-sm p-1 d-grid'>
         <a
-            class='btn btn-secondary btn-block'
+            class='btn btn-secondary'
             href="{% url "fahrt:export" "pdf" %}"
         >{% trans "Export confired participants as PDF" %} <span class="bi bi-file-earmark-person-fill"></span></a>
     </div>

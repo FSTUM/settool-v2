@@ -50,172 +50,178 @@
     {% endblock %} {# Extra Resources End #}
 </head>
 
-<body>
+<body class="bg-body">
     <header>
         <nav class="navbar navbar-expand-xl navbar-dark bg-dark mb-4">
-            <a
-                class="navbar-brand"
-                href={% url "main-view" %}
-            >{% fslogo %}</a>
-            <button
-                class="navbar-toggler"
-                type="button"
-                data-toggle="collapse"
-                data-target="#navbarNavDropdown"
-                aria-controls="navbarNavDropdown"
-                aria-expanded="false"
-                aria-label="Toggle navigation"
-            >{# button to show menu on small devices#}<span class="navbar-toggler-icon"></span></button>
-            <div
-                class="collapse navbar-collapse"
-                id="navbarNavDropdown"
-            >
-                {# links to the apps' index pages #}
-                <nav class="navbar-nav">
-                    {% if 'fahrt.view_participants' in perms or 'finanz' in perms %}
-                    <a
-                        class="nav-link {% active_link 'fahrt:main_index' %}"
-                        href="{% url "fahrt:main_index" %}"
-                    >{% trans "SET-Fahrt" %}</a>
-                    {% endif %}
-                    {% if 'bags.view_companies' in perms %}
-                    <a
-                        class="nav-link {% active_link 'bags:main_index' %}"
-                        href="{% url "bags:main_index" %}"
-                    >{% trans "SET-Bags" %}</a>
-                    {% endif %}
-                    {% if 'tutors.edit_tutors' in perms %}
-                    <a
-                        class="nav-link {% active_link 'tutors:main_index' %}"
-                        href="{% url "tutors:main_index" %}"
-                    >{% trans "SET-Tutor" %}</a>
-                    {% endif %}
-                    {% if 'guidedtours.view_participants' in perms %}
-                    <a
-                        class="nav-link {% active_link 'guidedtours:main_index' %}"
-                        href="{% url "guidedtours:main_index" %}"
-                    >{% trans "Guided tours of the institutes" %}</a>
-                    {% endif %}
-                    {% if user.is_authenticated %}
-                    <a
-                        class="nav-link {% active_link 'settings_main_index' %}"
-                        href="{% url "settings_main_index" %}"
-                    >{% trans "Settings" %}</a>
-                    {% endif %}
-                </nav>
-                <nav class="navbar-nav ml-auto">
-                    {# choose semester #}
-                    {% if user.is_authenticated %}
-                    <form
-                        action="{% url 'set_semester' %}"
-                        method="post"
-                        class="form-inline"
-                        role="form"
-                    >
-                        <div class="form-group">
-                            {% csrf_token %}
-                            <input
-                                name="next"
-                                type="hidden"
-                                value=""
-                            />
-
-                            <select
-                                class="form-control no-automatic-choicejs"
-                                name="semester"
-                                id="semester_selection_form"
-                                onchange="this.form.submit()"
-                            >
-                                {% get_semester as SEMESTER_PK %}
-                                {% get_available_semesters as semesters %}
-                                {% for semester in semesters %}
-                                <option
-                                    value="{{ semester.pk }}"
-                                    {% if semester.pk == SEMESTER_PK %}selected="selected"
-                                    {% endif %}
-                                >
-                                    {{ semester }}
-                                </option>
-                                {% endfor %}
-                            </select>
-                            <label
-                                for="semester_selection_form"
-                                style="display: none;"
-                            >{% trans "Select your semester" %}</label>
-                        </div>
-                        <noscript>
-                            <button
-                                type="submit"
-                                class="btn btn-secondary"
-                            >{% trans "Switch" %}</button>
-                        </noscript>
-                    </form>
-                    {% endif %}
-                    {# end choose semester #}
-                    {# login #}
-                    {% if user.is_authenticated %}
-                    <li class="nav-item">
+            <div class="container-fluid">
+                <a
+                    class="navbar-brand"
+                    href={% url "main-view" %}
+                >{% fslogo %}</a>
+                {# button to show menu on small devices#}
+                <button
+                    class="navbar-toggler"
+                    type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#navbarNav"
+                    aria-controls="navbarNav"
+                    aria-expanded="false"
+                    aria-label="Toggle navigation"
+                >
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div
+                    class="collapse navbar-collapse"
+                    id="navbarNav"
+                >
+                    {# links to the apps' index pages #}
+                    <nav class="navbar-nav me-auto mb-2 mb-lg-0">
+                        {% if 'fahrt.view_participants' in perms or 'finanz' in perms %}
                         <a
-                            class="nav-link"
-                            href="{% url "logout" %}"
-                        >
-                            {# provide a Useful name, even if the User has not specified his first name #}
-                            {% if user.first_name %}
-                            {% blocktranslate trimmed with username=user.first_name|capfirst %}
-                            Log out {{ username }}
-                            {% endblocktranslate %}
-                            {% else %}
-                            {% blocktranslate trimmed with username=user.username|capfirst %}
-                            Log out {{ username }}
-                            {% endblocktranslate %}
+                            class="nav-link {% active_link 'fahrt:main_index' %}"
+                            href="{% url "fahrt:main_index" %}"
+                        >{% trans "SET-Fahrt" %}</a>
+                        {% endif %}
+                        {% if 'bags.view_companies' in perms %}
+                        <a
+                            class="nav-link {% active_link 'bags:main_index' %}"
+                            href="{% url "bags:main_index" %}"
+                        >{% trans "SET-Bags" %}</a>
+                        {% endif %}
+                        {% if 'tutors.edit_tutors' in perms %}
+                        <a
+                            class="nav-link {% active_link 'tutors:main_index' %}"
+                            href="{% url "tutors:main_index" %}"
+                        >{% trans "SET-Tutor" %}</a>
+                        {% endif %}
+                        {% if 'guidedtours.view_participants' in perms %}
+                        <a
+                            class="nav-link {% active_link 'guidedtours:main_index' %}"
+                            href="{% url "guidedtours:main_index" %}"
+                        >{% trans "Guided tours of the institutes" %}</a>
+                        {% endif %}
+                        {% if user.is_authenticated %}
+                        <a
+                            class="nav-link {% active_link 'settings_main_index' %}"
+                            href="{% url "settings_main_index" %}"
+                        >{% trans "Settings" %}</a>
+                        {% endif %}
+                    </nav>
+                    <div class="d-flex">
+
+                        <nav class="navbar-nav me-2">
+                            {# choose semester #}
+                            {% if user.is_authenticated %}
+                            <form
+                                action="{% url 'set_semester' %}"
+                                method="post"
+                                role="form"
+                            >
+                                <div>
+                                    {% csrf_token %}
+                                    <input
+                                        name="next"
+                                        type="hidden"
+                                        value=""
+                                    />
+
+                                    <select
+                                        class="form-control no-automatic-choicejs"
+                                        name="semester"
+                                        id="semester_selection_form"
+                                        onchange="this.form.submit()"
+                                    >
+                                        {% get_semester as SEMESTER_PK %}
+                                        {% get_available_semesters as semesters %}
+                                        {% for semester in semesters %}
+                                        <option
+                                            value="{{ semester.pk }}"
+                                            {% if semester.pk == SEMESTER_PK %}selected="selected"
+                                            {% endif %}
+                                        >
+                                            {{ semester }}
+                                        </option>
+                                        {% endfor %}
+                                    </select>
+                                    <label
+                                        for="semester_selection_form"
+                                        style="display: none;"
+                                    >{% trans "Select your semester" %}</label>
+                                </div>
+                                <noscript>
+                                    <button
+                                        type="submit"
+                                        class="btn btn-secondary"
+                                    >{% trans "Switch" %}</button>
+                                </noscript>
+                            </form>
                             {% endif %}
-                        </a>
-                    </li>
-                    {% else %}
-                    <li class="nav-item">
-                        <a
-                            class="nav-link"
-                            href="{% url "login" %}"
-                        >{% trans "Login" %}</a>
-                    </li>
-                    {% endif %}
-                    {# end login #}
-                    {# language chooser #}
-                    <li class="nav-item dropdown">
-                        <a
-                            class="nav-link dropdown-toggle"
-                            href="#"
-                            id="languageDropdown"
-                            role="button"
-                            data-toggle="dropdown"
-                            aria-haspopup="true"
-                            aria-expanded="false"
-                        ><span class="bi bi-globe"></span></a>
-                        <form
-                            action="{% url 'set_language' %}"
-                            method="post"
-                            class="dropdown-menu dropdown-menu-right"
-                            aria-labelledby="languageDropdown"
-                        >
-                            {% csrf_token %}
-                            {% get_current_language as LANGUAGE_CODE %}
-                            {% get_available_languages as LANGUAGES %}
-                            {% get_language_info_list for LANGUAGES as languages %}
+                            {# end choose semester #}
+                            {# login #}
+                            {% if user.is_authenticated %}
+                            <li class="nav-item">
+                                <a
+                                    class="nav-link"
+                                    href="{% url "logout" %}"
+                                >
+                                    {# provide a Useful name, even if the User has not specified his first name #}
+                                    {% if user.first_name %}
+                                    {% blocktranslate trimmed with username=user.first_name|capfirst %}
+                                    Log out {{ username }}
+                                    {% endblocktranslate %}
+                                    {% else %}
+                                    {% blocktranslate trimmed with username=user.username|capfirst %}
+                                    Log out {{ username }}
+                                    {% endblocktranslate %}
+                                    {% endif %}
+                                </a>
+                            </li>
+                            {% else %}
+                            <li class="nav-item">
+                                <a
+                                    class="nav-link"
+                                    href="{% url "login" %}"
+                                >{% trans "Login" %}</a>
+                            </li>
+                            {% endif %}
+                            {# end login #}
+                            {# language chooser #}
+                            <li class="nav-item dropdown">
+                                <a
+                                    aria-expanded="false"
+                                    class="dropdown-toggle nav-link"
+                                    data-bs-toggle="dropdown"
+                                    type="button"
+                                >
+                                    <span class="bi bi-globe"></span>
+                                </a>
+                                <form
+                                    action="{% url 'set_language' %}"
+                                    aria-labelledby="languageDropdown"
+                                    class="dropdown-menu dropdown-menu-end"
+                                    method="post"
+                                >
+                                    {% csrf_token %}
+                                    {% get_current_language as LANGUAGE_CODE %}
+                                    {% get_available_languages as LANGUAGES %}
+                                    {% get_language_info_list for LANGUAGES as languages %}
 
-                            {% for language in languages %}
-                            <button
-                                name="language"
-                                class="dropdown-item {% if language.code == LANGUAGE_CODE %} active{% endif %}"
-                                type="submit"
-                                value="{{ language.code }}"
-                            >
-                                {{ language.name_local }}
-                            </button>
-                            {% endfor %}
-                        </form>
-                    </li>
-                    {# end language chooser #}
-                </nav>
+                                    {% for language in languages %}
+                                    <button
+                                        name="language"
+                                        class="dropdown-item {% if language.code == LANGUAGE_CODE %} active{% endif %}"
+                                        type="submit"
+                                        value="{{ language.code }}"
+                                    >
+                                        {{ language.name_local }}
+                                    </button>
+                                    {% endfor %}
+                                </form>
+                            </li>
+                            {# end language chooser #}
+                        </nav>
+                    </div>
+                </div>
             </div>
         </nav>
     </header>
@@ -251,13 +257,13 @@
     </footer>
 
     <script type="text/javascript">
-        /* global Choices */
-        /* eslint no-new: off */
-        const elemnts = document.getElementsByTagName('select');
-        for (let i = 0; i < elemnts.length; i += 1) {
-            if ('no-automatic-choicejs' in elemnts[i].classList) new Choices(elemnts[i], { removeItemButton: true });
-        }
-    </script>
+    /* global Choices */
+    /* eslint no-new: off */
+    const elemnts = document.getElementsByTagName('select');
+    for (let i = 0; i < elemnts.length; i += 1) {
+        if ('no-automatic-choicejs' in elemnts[i].classList) new Choices(elemnts[i], { removeItemButton: true });
+    }
+</script>
     {% block defered_script %} {% endblock %}
 </body>
 
