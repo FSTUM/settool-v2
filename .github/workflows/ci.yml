@@ -46,19 +46,9 @@ jobs:
               uses: stefanzweifel/git-auto-commit-action@v4
               with:
                   commit_message: 'Automated Change: updated npm requirements'
-                  commit_options: '--no-verify --signoff'
-                  add_options: '-u'
-                  skip_dirty_check: true
-                  skip_fetch: true
-                  disable_globbing: true
             - name: install update pre-commit
               run: pre-commit autoupdate
             - name: Commit pre-commit file if changed
               uses: stefanzweifel/git-auto-commit-action@v4
               with:
                   commit_message: 'Automated Change: updated npm requirements'
-                  commit_options: '--no-verify --signoff'
-                  add_options: '-u'
-                  skip_dirty_check: true
-                  skip_fetch: true
-                  disable_globbing: true
