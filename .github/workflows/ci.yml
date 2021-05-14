@@ -24,8 +24,54 @@ jobs:
             - name: Run Tests
               run: |
                   python manage.py test
+    update_pre-commit:
+        runs-on: ubuntu-latest
+        strategy:
+            max-parallel: 4
+        steps:
+            - uses: actions/checkout@v2
+            - uses: actions/setup-python@v2.2.2
+              with:
+                  python-version: 3.7
+            - name: Install Dependencies
+              run: |
+                  python -m pip install --upgrade pip
+                  pip install -r requirements.txt -r requirements_dev.txt
+                  sudo apt-get update
+                  sudo apt-get -qq install -y npm
+            - name: install update pre-commit
+              run: |
+                  pre-commit autoupdate
+                  pre-commit autoupdate --config .pre-commit-only-line-endings-config.yaml
+                  pre-commit run --config .pre-commit-only-line-endings-config.yaml
+            - name: Commit pre-commit file if changed
+              uses: stefanzweifel/git-auto-commit-action@v4
+              with:
+                  commit_message: 'Automated Change: updated pre-commit requirements'
+    pre-commit:
+        needs: update_pre-commit
+        runs-on: ubuntu-latest
+        strategy:
+            max-parallel: 4
 
-    build:
+        steps:
+            - uses: actions/checkout@v2
+            - name: Setup Python
+              uses: actions/setup-python@v2.2.2
+              with:
+                  python-version: 3.7
+            - name: Install Dependencies
+              run: |
+                  python -m pip install --upgrade pip
+                  pip install -r requirements.txt -r requirements_dev.txt
+                  sudo apt-get update
+                  sudo apt-get -qq install -y gettext texlive-base texlive-lang-german texlive-fonts-recommended texlive-latex-extra latexmk
+            - name: Run pre-commit
+              uses: pre-commit/action@v2.0.3
+              with:
+                  token: ${{ secrets.GITHUB_TOKEN }}
+    update_npm:
+        needs: update_pre-commit
         runs-on: ubuntu-latest
         strategy:
             max-parallel: 4
@@ -41,18 +87,10 @@ jobs:
                   sudo apt-get update
                   sudo apt-get -qq install -y npm
             - name: Install npm packages
-              run: npm install
-            - name: Linelint
-              uses: fernandrone/linelint@0.0.6
+              run: |
+                  npm install
+                  pre-commit run --config .pre-commit-only-line-endings-config.yaml
             - name: Commit npm packages
-              uses: stefanzweifel/git-auto-commit-action@v4
-              with:
-                  commit_message: 'Automated Change: updated npm requirements'
-            - name: install update pre-commit
-              run: pre-commit autoupdate
-            - name: Linelint
-              uses: fernandrone/linelint@0.0.6
-            - name: Commit pre-commit file if changed
               uses: stefanzweifel/git-auto-commit-action@v4
               with:
                   commit_message: 'Automated Change: updated npm requirements'
