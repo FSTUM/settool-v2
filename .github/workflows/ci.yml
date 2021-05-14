@@ -44,7 +44,7 @@ jobs:
               run: npm install
             - name: Linelint
               uses: actions/linelint@master
-              id: linelint
+              id: linelint1
             - name: Commit npm packages
               uses: stefanzweifel/git-auto-commit-action@v4
               with:
@@ -53,7 +53,7 @@ jobs:
               run: pre-commit autoupdate
             - name: Linelint
               uses: actions/linelint@master
-              id: linelint
+              id: linelint2
             - name: Commit pre-commit file if changed
               uses: stefanzweifel/git-auto-commit-action@v4
               with:
