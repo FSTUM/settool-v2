@@ -18,9 +18,9 @@ jobs:
             - name: Install Dependencies
               run: |
                   python -m pip install --upgrade pip
-                  pip install -r requirements.txt -r requirements_dev.txt
+                  pip install -r requirements.txt
                   sudo apt-get update
-                  sudo apt-get -qq install -y gettext texlive-base texlive-lang-german texlive-fonts-recommended texlive-latex-extra latexmk
+                  sudo apt-get -qq install -y texlive-base texlive-lang-german texlive-fonts-recommended texlive-latex-extra latexmk
             - name: Run Tests
               run: |
                   python manage.py test
@@ -36,14 +36,11 @@ jobs:
             - name: Install Dependencies
               run: |
                   python -m pip install --upgrade pip
-                  pip install -r requirements.txt -r requirements_dev.txt
-                  sudo apt-get update
-                  sudo apt-get -qq install -y npm
+                  pip install pre-commit
             - name: install update pre-commit
               run: |
                   pre-commit autoupdate
                   pre-commit autoupdate --config .pre-commit-only-line-endings-config.yaml
-                  pre-commit run --config .pre-commit-only-line-endings-config.yaml
             - name: Commit pre-commit file if changed
               uses: stefanzweifel/git-auto-commit-action@v4
               with:
@@ -65,7 +62,7 @@ jobs:
                   python -m pip install --upgrade pip
                   pip install -r requirements.txt -r requirements_dev.txt
                   sudo apt-get update
-                  sudo apt-get -qq install -y gettext texlive-base texlive-lang-german texlive-fonts-recommended texlive-latex-extra latexmk
+                  sudo apt-get -qq install -y gettext
             - name: Run pre-commit
               uses: pre-commit/action@v2.0.3
               with:
@@ -83,7 +80,7 @@ jobs:
             - name: Install Dependencies
               run: |
                   python -m pip install --upgrade pip
-                  pip install -r requirements.txt -r requirements_dev.txt
+                  pip install pre-commit
                   sudo apt-get update
                   sudo apt-get -qq install -y npm
             - name: Install npm packages
