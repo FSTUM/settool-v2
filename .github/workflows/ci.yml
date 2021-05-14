@@ -86,7 +86,7 @@ jobs:
             - name: Install npm packages
               run: |
                   npm install
-                  pre-commit run --config .pre-commit-only-line-endings-config.yaml
+                  pre-commit run -a --config .pre-commit-only-line-endings-config.yaml
             - name: Commit npm packages
               uses: stefanzweifel/git-auto-commit-action@v4
               with:
