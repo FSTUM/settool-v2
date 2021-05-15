@@ -16,15 +16,15 @@
 {% block set_common_content %}
 
 <div class='row'>
-    <div class='col-sm p-1'>
+    <div class='col-sm p-1 d-grid'>
         <a
-            class='btn btn-secondary btn-block'
+            class='btn btn-secondary'
             href="{% url "add_subject" %}"
         >{% trans "Add new subject" %}</a>
     </div>
-    <div class='col-sm p-1'>
+    <div class='col-sm p-1 d-grid'>
         <a
-            class='btn btn-secondary btn-block'
+            class='btn btn-secondary'
             href="{% url "list_course_bundles" %}"
         >{% trans "List all Course-bundles" %}</a>
     </div>

@@ -1,6 +1,6 @@
 {% extends "tutors/base_tutors.html" %}
 {% load i18n %}
-{% load bootstrap4 %}
+{% load bootstrap5 %}
 {% load task_extras %}
 
 {% block set_common_headercontent %}{% trans "Task details" %}{% endblock %}
@@ -100,7 +100,7 @@
             href="{% url "tutors:del_task" task.id %}"
         >{% trans "Delete task" %}</a>
     </div>
-    <div class="form-group">
+    <div>
         <h2 class="card-title mt-3">{% trans "Assigned Tutors" %}:</h2>
         <table
             class="table tutorTable"

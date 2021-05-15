@@ -1,6 +1,6 @@
 {% extends "tutors/base_tutors.html" %}
 {% load i18n %}
-{% load bootstrap4 %}
+{% load bootstrap5 %}
 {% load task_extras %}
 
 {% block head %}
@@ -15,44 +15,44 @@
 
 {% block set_common_content %}
 <div class="row">
-    <div class="col-sm p-1">
+    <div class="col-sm p-1 d-grid">
         <a
-            class="btn btn-secondary btn-block"
+            class="btn btn-secondary"
             href="{% if status == "all" %}{% url "tutors:export_tutors" "pdf" %}{% else %}{% url "tutors:export_tutors_by_status" "pdf" status %}{% endif %}"
         >{% trans "Export PDF" %} <span class="bi bi-file-earmark-person-fill"></span></a>
     </div>
-    <div class="col-sm p-1">
+    <div class="col-sm p-1 d-grid">
         <a
-            class="btn btn-secondary btn-block"
+            class="btn btn-secondary"
             href="{% if status == "all" %}{% url "tutors:export_tutors" "csv" %}{% else %}{% url "tutors:export_tutors_by_status" "csv" status %}{% endif %}"
         >{% trans "Export CSV" %} <span class="bi bi-file-spreadsheet"></span></a>
     </div>
     {% if status == "accepted" or status == "employee" %}
-    <div class="col-sm p-1">
+    <div class="col-sm p-1 d-grid">
         <a
-            class="btn btn-secondary btn-block"
+            class="btn btn-secondary"
             href="{% url "tutors:export_tutors_by_status" "tshirt" status %}"
         >{% trans "T-Shirt List" %} <span class="bi bi-person-lines-fill"></span></a>
     </div>
     {% endif %}
     {% if status != "all" %}
-    <div class="col-sm p-1">
+    <div class="col-sm p-1 d-grid">
         <a
-            class="btn btn-warning btn-block"
+            class="btn btn-warning"
             href="{% url "tutors:mail_status" status %}"
         >{% trans "Send email" %}</a>
     </div>
     {% endif %}
     {% if status == "active" %}
-    <div class="col-sm p-1">
+    <div class="col-sm p-1 d-grid">
         <a
-            class="btn btn-danger btn-block"
+            class="btn btn-danger"
             href="{% url "tutors:batch_accept" %}"
         >{% trans "Batch Accept" %}</a>
     </div>
-    <div class="col-sm p-1">
+    <div class="col-sm p-1 d-grid">
         <a
-            class="btn btn-danger btn-block"
+            class="btn btn-danger"
             href="{% url "tutors:batch_decline" %}"
         >{% trans "Batch Decline" %}</a>
     </div>

@@ -1,6 +1,6 @@
 {% extends "bags/base_bags.html" %}
 {% load i18n %}
-{% load bootstrap4 %}
+{% load bootstrap5 %}
 
 {% block head %}
 <script
@@ -55,7 +55,7 @@
                                     </button>`;
         $.fn.editableform.loading = `<div>
                                         <span aria-hidden='true' class='spinner-border spinner-border-sm' role='status'></span>
-                                        <span class='sr-only'>Loading...</span>
+                                        <span class='visually-hidden'>Loading...</span>
                                      </div>`;
         $.fn.editable.defaults.mode = 'inline';
         $.fn.editable.defaults.emptytext = '-';
@@ -64,8 +64,7 @@
         $('#company_{{ company.id }}_email').editable({});
         $('#company_{{ company.id }}_email_sent').editable({
             escape: false,
-            value:
-                '{% if not company.email_sent_success and company.email_sent %}Failure{% else %}{{ company.email_sent }}{% endif %}',
+            value: '{% if not company.email_sent_success and company.email_sent %}Failure{% else %}{{ company.email_sent }}{% endif %}',
             source: [
                 { value: 'True', text: '{% trans "Yes" %}' },
                 { value: 'False', text: '{% trans "No" %}' },
@@ -147,7 +146,7 @@
         style="width: 3rem; height: 3rem;"
         role="status"
     >
-        <span class="sr-only">Loading...</span>
+        <span class="visually-hidden">Loading...</span>
     </div>
 </div>
 <div

@@ -1,12 +1,12 @@
 {% extends "fahrt/base_fahrt.html" %}
 {% load i18n %}
-{% load bootstrap4 %}
+{% load bootstrap5 %}
 
 {% block  set_common_headercontent %}{% trans "Participant details" %}{% endblock %}
 
 {% block set_common_content %}
 <div class="row">
-    <div class="col-sm-6">
+    <div class="col-md-6">
         <table class="table table-hover">
             <tr>
                 <th>{% trans "Gender" %}</th>
@@ -57,21 +57,18 @@
             </tr>
         </table>
     </div>
-    <div class="col-sm-6">
+    <div class="col-md-6">
         <table class="table table-hover">
             <tr>
                 <th>{% trans "Non-liability submitted" %}</th>
                 <td>
-                    <div class='row'>
-                        {{ participant.non_liability }}
-                        <a href="{% url "fahrt:set_nonliability" participant.id %}"><span class="bi bi-person-check-fill"></span></a>
+                    <div class='row-cols-1'>
+                        {{ participant.non_liability }}<a href="{% url "fahrt:set_nonliability" participant.id %}"><span class="bi bi-person-check-fill"></span></a>
                     </div>
-                    <div class='row'>
-                        <a
-                            class='btn btn-secondary'
-                            href="{% url "fahrt:non_liability_form" participant.id %}"
-                        >{% trans "Personalised Form" %} <span class="bi-file-earmark-person-fill"></span></a>
-                    </div>
+                    <a
+                        class='btn btn-secondary btn-sm'
+                        href="{% url "fahrt:non_liability_form" participant.id %}"
+                    >{% trans "Personalised Form" %} <span class="bi-file-earmark-person-fill"></span></a>
                 </td>
             </tr>
             <tr>
@@ -84,67 +81,59 @@
             <tr>
                 <th>{% trans "Payment deadline" %}</th>
                 <td>
-                    <div class='col'>
-                        <div class='row'>
-                            {{ participant.payment_deadline }}
-                        </div>
-                        <div class='row mt-1'>
-                            <div class='btn-group btn-block btn-group-sm'>
-                                <a
-                                    class="btn btn-secondary"
-                                    href="{% url "fahrt:set_payment_deadline" participant.id 1 %}"
-                                >{% trans "1 week" %}</a>
-                                <a
-                                    class="btn btn-secondary"
-                                    href="{% url "fahrt:set_payment_deadline" participant.id 2 %}"
-                                >{% trans "2 weeks" %}</a>
-                                <a
-                                    class="btn btn-secondary"
-                                    href="{% url "fahrt:set_payment_deadline" participant.id 3 %}"
-                                >{% trans "3 weeks" %}</a>
-                            </div>
-                        </div>
+                    <div class='row-cols-1'>
+                        {{ participant.payment_deadline }}
+                    </div>
+                    <div class='btn-group btn-group-sm'>
+                        <a
+                            class="btn btn-secondary"
+                            href="{% url "fahrt:set_payment_deadline" participant.id 1 %}"
+                        >{% trans "1 week" %}</a>
+                        <a
+                            class="btn btn-secondary"
+                            href="{% url "fahrt:set_payment_deadline" participant.id 2 %}"
+                        >{% trans "2 weeks" %}</a>
+                        <a
+                            class="btn btn-secondary"
+                            href="{% url "fahrt:set_payment_deadline" participant.id 3 %}"
+                        >{% trans "3 weeks" %}</a>
                     </div>
                 </td>
             </tr>
             <tr>
                 <th>{% trans "Status" %}</th>
                 <td>
-                    <div class='col'>
-                        <div class='row'>
-                            {{ participant.status }}
-                        </div>
-                        <div class='row mt-1'>
-                            {% if participant.status == "registered" %}
-                            <div class='btn-group btn-block btn-group-sm'>
-                                <a
-                                    class="btn btn-secondary"
-                                    href="{% url "fahrt:set_status_confirmed" participant.id %}"
-                                >{% trans "Confirm participant" %}</a>
-                                <a
-                                    class="btn btn-secondary"
-                                    href="{% url "fahrt:set_status_waitinglist" participant.id %}"
-                                >{% trans "Add participant to waitinglist" %}</a>
-                            </div>
-                            {% elif participant.status == "confirmed" %}
-                            <a
-                                class="btn btn-secondary btn-block btn-sm"
-                                href="{% url "fahrt:set_status_canceled" participant.id %}"
-                            >{% trans "Cancel" %}</a>
-                            {% elif participant.status == "waitinglist" %}
-                            <div class='btn-group btn-block btn-group-sm'>
-                                <a
-                                    class="btn btn-secondary"
-                                    href="{% url "fahrt:set_status_confirmed" participant.id %}"
-                                >{% trans "Confirm participant" %}</a>
-                                <a
-                                    class="btn btn-secondary"
-                                    href="{% url "fahrt:set_status_canceled" participant.id %}"
-                                >{% trans "Cancel" %}</a>
-                            </div>
-                            {% endif %}
-                        </div>
+                    <div class='row-cols-1'>
+                        {{ participant.status }}
                     </div>
+                    {% if participant.status == "registered" %}
+                    <div class='btn-group btn-group-sm'>
+                        <a
+                            class="btn btn-secondary"
+                            href="{% url "fahrt:set_status_confirmed" participant.id %}"
+                        >{% trans "Confirm participant" %}</a>
+                        <a
+                            class="btn btn-secondary"
+                            href="{% url "fahrt:set_status_waitinglist" participant.id %}"
+                        >{% trans "Add participant to waitinglist" %}</a>
+                    </div>
+                    {% elif participant.status == "confirmed" %}
+                    <a
+                        class="btn btn-secondary btn-sm"
+                        href="{% url "fahrt:set_status_canceled" participant.id %}"
+                    >{% trans "Cancel" %}</a>
+                    {% elif participant.status == "waitinglist" %}
+                    <div class='btn-group btn-group-sm'>
+                        <a
+                            class="btn btn-secondary"
+                            href="{% url "fahrt:set_status_confirmed" participant.id %}"
+                        >{% trans "Confirm participant" %}</a>
+                        <a
+                            class="btn btn-secondary"
+                            href="{% url "fahrt:set_status_canceled" participant.id %}"
+                        >{% trans "Cancel" %}</a>
+                    </div>
+                    {% endif %}
                 </td>
             </tr>
             <tr>

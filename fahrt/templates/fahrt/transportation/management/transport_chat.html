@@ -1,11 +1,11 @@
 {% extends "fahrt/base_fahrt.html" %}
 {% load i18n %}
-{% load bootstrap4 %}
+{% load bootstrap5 %}
 
 {% block  set_common_headercontent %}{% trans "Chat for Transport-Option" %} {{ transport }}{% endblock %}
 
 {% block set_common_content %}
-<div class='ml-3'>
+<div class='ms-3'>
     {% for comment in transport.transportationcomment_set.all %}
     <div class='row'>
         <p class='overflow-auto'>
@@ -38,7 +38,7 @@
     action=""
 >
     {% csrf_token %}
-    <div class='row mr-3'>
+    <div class='row me-3'>
         <div class='col-md-2 mb-3'>
             <a
                 class="btn btn-secondary btn-block"

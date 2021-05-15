@@ -1,7 +1,7 @@
 {% extends "base_single_card_layout.html" %}
 {% load static %}
 {% load i18n %}
-{% load bootstrap4 %}
+{% load bootstrap5 %}
 
 {% block set_common_headercontent %}{% trans "Sign up for a guided tour" %}{% endblock %}
 
@@ -23,17 +23,20 @@
     </div>
     <div class="col-xs-12 col-lg-5">
         <h2 class='h4'>{% trans "All availible Guided guidedtours:" %}</h2>
-        <div id="accordion">
+        <div
+            class="accordion"
+            id="accordion"
+        >
             {% for tour in tours %}
-            <div class="card">
-                <div
-                    class="card-header"
+            <div class="accordion-item">
+                <h2
+                    class="accordion-header"
                     id="heading{{ forloop.counter }}"
                 >
                     <button
-                        class="btn btn-link"
-                        data-toggle="collapse"
-                        data-target="#collapse{{ forloop.counter }}"
+                        class="accordion-button {% if not forloop.first %}collapsed{% endif %}"
+                        data-bs-toggle="collapse"
+                        data-bs-target="#collapse{{ forloop.counter }}"
                         aria-expanded="{% if forloop.first %}true{% else %}false{% endif %}"
                         aria-controls="collapse{{ forloop.counter }}"
                         onclick='assignTour("{{ tour.id }}")'
@@ -42,15 +45,14 @@
                         {{ name }} on {{ date }}
                         {% endblocktranslate %}
                     </button>
-                </div>
-
+                </h2>
                 <div
                     id="collapse{{ forloop.counter }}"
-                    class="{% if forloop.first %}show{% else %}collapse{% endif %}"
+                    class="accordion-collapse collapse {% if forloop.first %}show{% endif %}"
                     aria-labelledby="heading{{ forloop.counter }}"
-                    data-parent="#accordion"
+                    data-bs-parent="#accordion"
                 >
-                    <div class="card-body">
+                    <div class="accordion-body">
                         <table class='table table-hover'>
                             <tbody>
                                 <tr>
@@ -59,8 +61,8 @@
                                         {{ tour.length }} {% trans "minutes" %}
                                         <span
                                             class='bi bi-info-circle-fill'
-                                            data-toggle='tooltip'
-                                            data-html="true"
+                                            data-bs-toggle='tooltip'
+                                            data-bs-html="true"
                                             title='{% trans "Please note that tours sometimes take longer than this time.<br> Plan <b>at least with a 30 minutes buffer</b> between Guidedtours.<br><br>Time-travel is impossible.<br>Your probably can not teleport.<br>If you apply for two confilicting tours we will cancel your registration, to be fair for everyone." %}'
                                         ></span>
                                     </td>
