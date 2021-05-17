@@ -14,7 +14,7 @@
     "license": "AGPL-3.0-or-later",
     "dependencies": {
         "bootstrap": "^5.0.0",
-        "bootstrap-icons": "^1.4.1",
+        "bootstrap-icons": "^1.5.0",
         "choices.js": "^9.0.1",
         "datatables.net": "^1.10.23",
         "datatables.net-bs4": "^1.10.24",
