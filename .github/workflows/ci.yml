@@ -2,6 +2,9 @@ name: Main CI
 
 on:
     push:
+        branches:
+            - "main"
+    pull_request:
     workflow_dispatch:
 
 jobs:
@@ -12,6 +15,8 @@ jobs:
 
         steps:
             - uses: actions/checkout@v2
+              with:
+                    ref: ${{ github.head_ref }}
             - name: Setup Python
               uses: actions/setup-python@v2.2.2
               with:
@@ -31,6 +36,8 @@ jobs:
             max-parallel: 4
         steps:
             - uses: actions/checkout@v2
+              with:
+                    ref: ${{ github.head_ref }}
             - uses: actions/setup-python@v2.2.2
               with:
                   python-version: 3.7
@@ -54,6 +61,8 @@ jobs:
 
         steps:
             - uses: actions/checkout@v2
+              with:
+                    ref: ${{ github.head_ref }}
             - name: Setup Python
               uses: actions/setup-python@v2.2.2
               with:
@@ -71,10 +80,13 @@ jobs:
     update_npm:
         needs: update_pre-commit
         runs-on: ubuntu-latest
+        if: github.ref == 'refs/heads/master'
         strategy:
             max-parallel: 4
         steps:
             - uses: actions/checkout@v2
+              with:
+                    ref: ${{ github.head_ref }}
             - uses: actions/setup-python@v2.2.2
               with:
                   python-version: 3.7
