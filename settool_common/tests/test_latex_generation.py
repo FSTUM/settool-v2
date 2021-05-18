@@ -9,14 +9,14 @@ class LatexAuxTest(unittest.TestCase):
 
     def test_escape_latex_replacements(self):
         replacements = [
-            (" ", "\\ "),
-            ("&", "\\&"),
-            ("%", "\\%"),
-            ("$", "\\$"),
-            ("#", "\\#"),
-            ("_", "\\_"),
-            ("{", "\\{"),
-            ("}", "\\}"),
+            ("\n", "\\newline "),
+            ("&", "\\& "),
+            ("%", "\\% "),
+            ("$", "\\$ "),
+            ("#", "\\# "),
+            ("_", "\\_ "),
+            ("{", "\\{ "),
+            ("}", "\\} "),
             ("\\", "\\textbackslash "),
             ("~", "\\textasciitilde "),
             ("^", "\\textasciicircum "),

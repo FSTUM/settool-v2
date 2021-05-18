@@ -3,7 +3,7 @@ name: Main CI
 on:
     push:
         branches:
-            - "main"
+            - 'main'
     pull_request:
     workflow_dispatch:
 
@@ -16,7 +16,7 @@ jobs:
         steps:
             - uses: actions/checkout@v2
               with:
-                    ref: ${{ github.head_ref }}
+                  ref: ${{ github.head_ref }}
             - name: Setup Python
               uses: actions/setup-python@v2.2.2
               with:
@@ -37,7 +37,7 @@ jobs:
         steps:
             - uses: actions/checkout@v2
               with:
-                    ref: ${{ github.head_ref }}
+                  ref: ${{ github.head_ref }}
             - uses: actions/setup-python@v2.2.2
               with:
                   python-version: 3.7
@@ -62,7 +62,7 @@ jobs:
         steps:
             - uses: actions/checkout@v2
               with:
-                    ref: ${{ github.head_ref }}
+                  ref: ${{ github.head_ref }}
             - name: Setup Python
               uses: actions/setup-python@v2.2.2
               with:
@@ -86,7 +86,7 @@ jobs:
         steps:
             - uses: actions/checkout@v2
               with:
-                    ref: ${{ github.head_ref }}
+                  ref: ${{ github.head_ref }}
             - uses: actions/setup-python@v2.2.2
               with:
                   python-version: 3.7
