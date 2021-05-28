@@ -84,7 +84,7 @@
 
 {% block defered_script %}
 <script type="text/javascript">
-    /* global Choices */
+    /* global Choices bootstrap */
     /* eslint no-new: off */
     const tour = new Choices(document.getElementById('id_tour'));
     /* eslint-disable no-unused-vars */
@@ -92,6 +92,10 @@
         tour.setChoiceByValue(id);
     }
 
-    $('[data-toggle="tooltip"]').tooltip({ boundary: 'window' });
+    const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+    /* eslint-disable no-unused-vars */
+    const tooltipList = tooltipTriggerList.map((tooltipTriggerEl) => {
+        return new bootstrap.Tooltip(tooltipTriggerEl);
+    });
 </script>
 {% endblock %}
