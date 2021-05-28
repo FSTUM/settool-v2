@@ -261,7 +261,7 @@
     /* eslint no-new: off */
     const elemnts = document.getElementsByTagName('select');
     for (let i = 0; i < elemnts.length; i += 1) {
-        if ('no-automatic-choicejs' in elemnts[i].classList) new Choices(elemnts[i], { removeItemButton: true });
+        if (!elemnts[i].classList.contains('no-automatic-choicejs')) new Choices(elemnts[i], { removeItemButton: true });
     }
 </script>
     {% block defered_script %} {% endblock %}
