@@ -80,7 +80,7 @@ function isCsvFileType(s) {
                 alert(`The file-format is invalid. Expected 'text/csv', but was '${csvFile.type}'.`);
             } else {
                 const reader = new FileReader();
-                reader.onload = function (e) {
+                reader.onload = (e) => {
                     const fields = e.target.result.split(/,|\r\n|\n\r/);
                     let text = '';
                     for (let i = 5; i < fields.length; i += 1) {

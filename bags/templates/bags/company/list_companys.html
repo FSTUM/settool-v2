@@ -64,8 +64,7 @@
         $('#company_{{ company.id }}_email').editable({});
         $('#company_{{ company.id }}_email_sent').editable({
             escape: false,
-            value:
-                '{% if not company.email_sent_success and company.email_sent %}Failure{% else %}{{ company.email_sent }}{% endif %}',
+            value: '{% if not company.email_sent_success and company.email_sent %}Failure{% else %}{{ company.email_sent }}{% endif %}',
             source: [
                 { value: 'True', text: '{% trans "Yes" %}' },
                 { value: 'False', text: '{% trans "No" %}' },
