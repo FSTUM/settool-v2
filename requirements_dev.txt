@@ -3,5 +3,5 @@ django-stubs~=1.8.0
 lorem~=0.1.1
 mypy~=0.812
 pre-commit~=2.13.0
-pylint~=2.8.2
+pylint~=2.8.3
 pylint-django~=2.4.4

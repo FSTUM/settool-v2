@@ -40,7 +40,7 @@ $(document).ready(() => {
     selExpl.html(mails[$('#id_sender option[selected]').val()]);
 });
 
-$(document).on('change', '#id_sender', function (e) {
+$(document).on('change', '#id_sender', (e) => {
     const selectedValue = this.options[e.target.selectedIndex].value;
     selExpl.html(mails[selectedValue]);
     $('#id_sender option[selected]').removeAttr('selected');

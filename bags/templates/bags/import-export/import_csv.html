@@ -72,7 +72,7 @@
         if (s === undefined) return '';
         return s;
     }
-function isCsvFileType(s) {
+    function isCsvFileType(s) {
         if (s === 'text/csv') return true;
         if (s === 'application/vnd.ms-excel') return true;
         if (s === 'text/x-csv') return true;
@@ -90,7 +90,7 @@ function isCsvFileType(s) {
                 alert(`The file-format is invalid. Expected 'text/csv', but was '${csvFile.type}'.`);
             } else {
                 const reader = new FileReader();
-                reader.onload = function (e) {
+                reader.onload = (e) => {
                     const fields = e.target.result.split(/,|\r\n|\n\r/);
                     let text = '';
                     for (let i = 15; i < fields.length; i += 1) {

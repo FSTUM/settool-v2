@@ -41,12 +41,12 @@
                 </button>
             </div>
             <script>
-                $('.alert').fadeTo(2000, 500).slideUp(500, function () {$('.alert').slideUp(500).remove();});
+                $('.alert').fadeTo(2000, 500).slideUp(500, () => {$('.alert').slideUp(500).remove();});
             <\/script>`;
 
         // modal form
         function updateGiveawayModalFormUngrouped() {
-            $('.update_giveaway_ungrouped').each(function () {
+            $('.update_giveaway_ungrouped').each(() => {
                 $(this).modalForm({
                     formURL: $(this).data('form-url'),
                     asyncUpdate: true,
@@ -71,7 +71,7 @@
 
         // modal form
         function updateGiveawayModalFormGrouped() {
-            $('.update_giveaway_grouped').each(function () {
+            $('.update_giveaway_grouped').each(() => {
                 $(this).modalForm({
                     formURL: $(this).data('form-url'),
                     asyncUpdate: true,
@@ -96,7 +96,7 @@
         // Hide message
         $('.alert')
             .fadeTo(2000, 500)
-            .slideUp(500, function () {
+            .slideUp(500, () => {
                 $('.alert').slideUp(500);
             });
     });
