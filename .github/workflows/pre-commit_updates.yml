@@ -1,9 +1,10 @@
-name: Main CI
+name: dependabot for pre-commit
 
 on:
-    push:
-        branches:
-            - 'main'
+    schedule:
+        # * is a special character in YAML so you have to quote this string
+        - cron: '0 19 * * 5' # monthly
+
     workflow_dispatch:
 
 jobs:
