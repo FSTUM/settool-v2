@@ -73,16 +73,13 @@ msgstr ""
 "alle Unternehmen außer denen, die angeblich nicht mehr Kontakt aufnehmen) "
 "verwendet)"
 
-#: bags/forms.py bags/models.py
-#: bags/templates/bags/giveaways/giveaway/list/arrival/list_giveaways_arrivals.html
-#: bags/templates/bags/giveaways/giveaway/view_giveaway.html
-#: bags/templates/bags/maintenance/mail/send_mail.html
-msgid "Arrived"
-msgstr "Angekommen"
+#: bags/forms.py
+msgid "Has<br>Arrived"
+msgstr "Ist<br>Angekommen"
 
 #: bags/forms.py
-msgid "NOT Arrived"
-msgstr "NICHT Angekommen"
+msgid "NOT<br>Arrived"
+msgstr "NICHT<br>Angekommen"
 
 #: bags/models.py
 msgid "The company name"
@@ -209,6 +206,13 @@ msgstr "Artikelanzahl"
 msgid "Arrival time"
 msgstr "Ankunftszeit"
 
+#: bags/models.py
+#: bags/templates/bags/giveaways/giveaway/list/arrival/list_giveaways_arrivals.html
+#: bags/templates/bags/giveaways/giveaway/view_giveaway.html
+#: bags/templates/bags/maintenance/mail/send_mail.html
+msgid "Arrived"
+msgstr "Angekommen"
+
 #: bags/templates/bags/bags_dashboard.html bags/templates/bags/base_bags.html
 msgid "Dashboard"
 msgstr "Dashboard"
@@ -242,7 +246,7 @@ msgstr "Werbegeschenke"
 
 #: bags/templates/bags/bags_dashboard.html
 msgid "Giveaway-arrival status"
-msgstr "Werbegeschenk-Aknunfts-Status"
+msgstr "Werbegeschenk-Ankunfts-Status"
 
 #: bags/templates/bags/bags_dashboard.html
 msgid "Grouped by giveaway-group"
@@ -523,7 +527,7 @@ msgstr "Werbegeschenk bearbeiten"
 
 #: bags/templates/bags/giveaways/giveaway/list/arrival/confirm_giveaways_arrivals.html
 msgid "Confirm Giveaway-arrival-status changes"
-msgstr "Werbegeschenk-Aknunfts-Statusänderungen bestätigen"
+msgstr "Werbegeschenk-Ankunfts-Statusänderungen bestätigen"
 
 #: bags/templates/bags/giveaways/giveaway/list/arrival/confirm_giveaways_arrivals.html
 msgid "Giveways who will GET the 'Arrived' Status"
@@ -539,11 +543,11 @@ msgstr "Werbegeschenke die den 'Angekommen' Status VERLIEREN werden"
 
 #: bags/templates/bags/giveaways/giveaway/list/arrival/confirm_giveaways_arrivals.html
 msgid "Save changed arival status"
-msgstr "Veränderte Aknunfts-Statuse speichern"
+msgstr "Veränderte Ankunfts-Statuse speichern"
 
 #: bags/templates/bags/giveaways/giveaway/list/arrival/list_giveaways_arrivals.html
 msgid "Manage Giveaway-arrival Status"
-msgstr "Werbegeschenk-Aknunfts-Status managen"
+msgstr "Werbegeschenk-Ankunfts-Status managen"
 
 #: bags/templates/bags/giveaways/giveaway/list/arrival/list_giveaways_arrivals.html
 #: bags/templates/bags/giveaways/giveaway/list/prefabs/condensed_grouped_giveaways.html
@@ -562,7 +566,7 @@ msgstr "Ankunftszeit (grün=angekommen)"
 
 #: bags/templates/bags/giveaways/giveaway/list/arrival/list_giveaways_arrivals.html
 msgid "Save changed arrival status"
-msgstr "Verändeten Werbegeschenk-Aknunfts-Status speichern"
+msgstr "Verändeten Werbegeschenk-Ankunfts-Status speichern"
 
 #: bags/templates/bags/giveaways/giveaway/list/list_grouped_giveaway_details.html
 #: bags/templates/bags/giveaways/giveaway/list/list_grouped_giveaways.html

@@ -116,8 +116,12 @@ msgid "cancelled"
 msgstr "abgesagt"
 
 #: fahrt/forms.py
-msgid "NOT Paid"
-msgstr "NICHT bezahlt"
+msgid "Is<br>Paid"
+msgstr "Ist<br>bezahlt"
+
+#: fahrt/forms.py
+msgid "NOT<br>Paid"
+msgstr "NICHT<br>bezahlt"
 
 #: fahrt/forms.py
 #, python-brace-format

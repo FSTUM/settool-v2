@@ -176,12 +176,10 @@ class SelectGiveawaySwitchForm(forms.Form):
     selected = forms.BooleanField(
         widget=forms.widgets.CheckboxInput(
             attrs={
-                "class": "bootstrap-select",
-                "data-toggle": "switch",
-                "data-on-color": "primary",
-                "data-on-text": _("Arrived"),
-                "data-off-color": "default",
-                "data-off-text": _("NOT Arrived"),
+                "data-toggle": "switchbutton",
+                "data-offstyle": "secondary",
+                "data-onlabel": _("Has<br>Arrived"),
+                "data-offlabel": _("NOT<br>Arrived"),
             },
         ),
         required=False,

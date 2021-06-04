@@ -257,12 +257,10 @@ class SelectParticipantSwitchForm(forms.Form):
     selected = forms.BooleanField(
         widget=forms.widgets.CheckboxInput(
             attrs={
-                "class": "bootstrap-select",
-                "data-toggle": "switch",
-                "data-on-color": "primary",
-                "data-on-text": _("Paid"),
-                "data-off-color": "default",
-                "data-off-text": _("NOT Paid"),
+                "data-toggle": "switchbutton",
+                "data-offstyle": "secondary",
+                "data-onlabel": _("Is<br>Paid"),
+                "data-offlabel": _("NOT<br>Paid"),
             },
         ),
         required=False,
