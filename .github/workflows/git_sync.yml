@@ -16,8 +16,8 @@ jobs:
             - name: git-sync
               uses: wei/git-sync@v3
               with:
-                  source_repo: 'CommanderStorm/finanztool-v2'
+                  source_repo: 'CommanderStorm/settool-v2'
                   source_branch: 'main'
-                  destination_repo: 'git@git.fs.tum.de:elsinga/finanz.git'
+                  destination_repo: 'git@git.fs.tum.de:elsinga/set-tool.git'
                   destination_branch: 'main'
                   ssh_private_key: ${{ secrets.SSH_PRIVATE_KEY }}
