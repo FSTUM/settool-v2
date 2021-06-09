@@ -33,9 +33,9 @@ TODO.*
 coverage.xml
 
 #project
-/staticfiles/
 /venv/
 *.csv
 /node_modules/
-/mediafiles/qr_codes/qr_code*.png
+/media/
 /settool/staging_*
+/static/
