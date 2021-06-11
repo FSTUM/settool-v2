@@ -32,12 +32,12 @@ repos:
       hooks:
           - id: add-trailing-comma
     - repo: https://github.com/psf/black
-      rev: 21.5b2
+      rev: 21.6b0
       hooks:
           - id: black
             language_version: python3
     - repo: https://github.com/pre-commit/pygrep-hooks
-      rev: v1.8.0
+      rev: v1.9.0
       hooks:
           - id: python-check-blanket-noqa
           - id: python-use-type-annotations
