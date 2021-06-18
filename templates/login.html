@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load bootstrap5 %}
+{% load django_bootstrap5 %}
 {% load i18n %}
 
 {% block content %}
@@ -14,7 +14,7 @@
     >
         {% csrf_token %}
 
-        {% bootstrap_form form %}
+        {% bootstrap_form form layout="floating" %}
 
         <input
             type="hidden"
