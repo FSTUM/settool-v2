@@ -13,14 +13,12 @@ class ParticipantForm(CommonParticipantForm):
     class Meta:
         model = Participant
         exclude = ["time"]
-        widgets = {
-            "tours": forms.widgets.ChoiceWidget(attrs={"class": "no-automatic-choicejs"}),
-        }
 
     def __init__(self, *args, **kwargs):
         tours = kwargs.pop("tours")
         super().__init__(*args, **kwargs)
         self.fields["tour"].queryset = tours
+        self.fields["tour"].widget.attrs = {"class": "no-automatic-choicejs"}
 
 
 class TourForm(SemesterBasedModelForm):
