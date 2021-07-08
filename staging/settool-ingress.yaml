@@ -22,4 +22,4 @@ spec:
               - name: settool-svc
                 port: 8000
     tls:
-        - secretName: set.frank.elsinga.de
+        secretName: set.frank.elsinga.de
