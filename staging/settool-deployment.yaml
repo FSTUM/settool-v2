@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: settool-app
+    labels:
+        app: settool
+    namespace: settool
+spec:
+    replicas: 1
+    selector:
+        matchLabels:
+            app: settool
+    template:
+        metadata:
+            labels:
+                app: settool
+        spec:
+            volumes:
+                - name: shared-mediafiles
+                  persistentVolumeClaim:
+                      claimName: settool-mediafiles-pvc
+            containers:
+                - name: nginx-container
+                  image: nginx
+                  ports:
+                      - containerPort: 80
+                        name: mediafiles-srv
+                  volumeMounts:
+                      - name: shared-mediafiles
+                        mountPath: /usr/share/nginx/html/media
+                - name: settool
+                  image: ghcr.io/fstum/settool-v2-staging:main
+                  imagePullPolicy: Always
+                  envFrom:
+                      - secretRef:
+                            name: settool-secret
+                      - configMapRef:
+                            name: settool-config
+                  ports:
+                      - containerPort: 8000
+                        name: gunicorn
+                  volumeMounts:
+                      - name: shared-mediafiles
+                        mountPath: /code/media

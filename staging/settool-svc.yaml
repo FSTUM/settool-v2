@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Service
+metadata:
+    name: settool-svc
+    labels:
+        app: settool
+spec:
+    type: ClusterIP
+    selector:
+        app: settool
+    ports:
+        - name: mediafiles-srv
+          port: 7000
+          targetPort: 80
+        - name: gunicorn
+          port: 8000
+          targetPort: 8000

@@ -1,0 +1,25 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+    name: settool-ingress
+    labels:
+        app: settool
+    namespace: settool
+spec:
+    entryPoints:
+        - websecure
+        - web
+    routes:
+        - match: Host(`set.frank.elsinga.de`) && PathPrefix(`/media/`)
+          priority: 11
+          services:
+              - name: settool-svc
+                port: 7000
+        - kind: Rule
+          match: Host(`set.frank.elsinga.de`)
+          priority: 10
+          services:
+              - name: settool-svc
+                port: 8000
+    tls:
+        - secretName: set.frank.elsinga.de

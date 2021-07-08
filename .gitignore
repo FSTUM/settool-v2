@@ -39,3 +39,4 @@ coverage.xml
 /media/
 /settool/staging_*
 /static/
+/staging/.env

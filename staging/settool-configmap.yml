@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+    name: settool-config
+    labels:
+        app: settool
+    namespace: settool
+data:
+    DJANGO_ALLOWED_HOSTS: 'set.frank.elsinga.de'
+    DEBUG: 'False'
