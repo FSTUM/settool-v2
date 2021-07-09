@@ -10,7 +10,8 @@ spec:
         - websecure
         - web
     routes:
-        - match: Host(`set.frank.elsinga.de`) && PathPrefix(`/media/`)
+        - kind: Rule
+          match: Host(`set.frank.elsinga.de`) && PathPrefix(`/media/`)
           priority: 11
           services:
               - name: settool-svc
