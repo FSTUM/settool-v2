@@ -15,11 +15,15 @@ spec:
           services:
               - name: settool-svc
                 port: 7000
+          middlewares:
+              - name: https
         - kind: Rule
           match: Host(`set.frank.elsinga.de`)
           priority: 10
           services:
               - name: settool-svc
                 port: 8000
+          middlewares:
+              - name: https
     tls:
         secretName: set.frank.elsinga.de
