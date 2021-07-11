@@ -8,7 +8,6 @@ metadata:
 spec:
     entryPoints:
         - websecure
-        - web
     routes:
         - kind: Rule
           match: Host(`set.frank.elsinga.de`) && PathPrefix(`/media/`)
@@ -16,15 +15,30 @@ spec:
           services:
               - name: settool-svc
                 port: 7000
-          middlewares:
-              - name: https
         - kind: Rule
           match: Host(`set.frank.elsinga.de`)
           priority: 10
           services:
               - name: settool-svc
                 port: 8000
-          middlewares:
-              - name: https
     tls:
         secretName: set.frank.elsinga.de
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+    name: settool-ingress-https
+    labels:
+        app: settool
+    namespace: settool
+spec:
+    entryPoints:
+        - web
+    routes:
+        - kind: Rule
+          match: Host(`set.frank.elsinga.de`)
+          services:
+              - name: noop@internal
+                kind: TraefikService
+          middlewares:
+              - name: https
