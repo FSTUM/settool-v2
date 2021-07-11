@@ -151,7 +151,6 @@ python manage.py makemessages -a
 
 Note that `pre-commit` will automatically compile the translations for you.
 
-
 # Staging
 
 A staging environment is offered at `set.frank.elsinga.de`  

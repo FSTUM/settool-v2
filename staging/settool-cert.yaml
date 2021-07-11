@@ -1,13 +1,13 @@
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
-  name: set.frank.elsinga.de
-  namespace: settool
+    name: set.frank.elsinga.de
+    namespace: settool
 spec:
-  commonName: set.frank.elsinga.de
-  dnsNames:
-    - set.frank.elsinga.de
-  secretName: set.frank.elsinga.de
-  issuerRef:
-    name: letsencrypt-production
-    kind: ClusterIssuer
+    commonName: set.frank.elsinga.de
+    dnsNames:
+        - set.frank.elsinga.de
+    secretName: set.frank.elsinga.de
+    issuerRef:
+        name: letsencrypt-production
+        kind: ClusterIssuer
