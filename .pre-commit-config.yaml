@@ -17,7 +17,7 @@ repos:
             args: [--fix=lf]
           - id: requirements-txt-fixer
     - repo: https://github.com/paulhfischer/pre-commit-hooks
-      rev: v1.2.0
+      rev: v1.2.2
       hooks:
           - id: format-general
           - id: format-web
@@ -32,7 +32,7 @@ repos:
       hooks:
           - id: add-trailing-comma
     - repo: https://github.com/psf/black
-      rev: 21.6b0
+      rev: 21.7b0
       hooks:
           - id: black
             language_version: python3
