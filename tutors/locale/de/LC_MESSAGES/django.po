@@ -96,8 +96,38 @@ msgstr ""
 "(0=gleicher Tag)"
 
 #: tutors/models.py
+msgid "short/simplified Address"
+msgstr "vereinfachte Ardesse"
+
+#: tutors/models.py
+msgid "(Street)map-address"
+msgstr "Straßenkarten-Addresse"
+
+#: tutors/models.py
+msgid "Room"
+msgstr "Raum"
+
+#: tutors/models.py tutors/templates/tutors/tutor/view.html
+msgid "Comment"
+msgstr "Kommentar"
+
+#: tutors/models.py
+msgid "Date and Time"
+msgstr "Tag und Zeit"
+
+#: tutors/models.py
+msgid "probable length in minutes"
+msgstr "warscheinliche Länge in minuten"
+
+#: tutors/models.py
 msgid "Semester"
 msgstr "Semester"
+
+#: tutors/models.py tutors/templates/tutors/dashboard.html
+#: tutors/templates/tutors/tutor/list.html
+#: tutors/templates/tutors/tutor/view.html
+msgid "Status"
+msgstr "Status"
 
 #: tutors/models.py tutors/templates/tutors/task/view.html
 #: tutors/templates/tutors/tutor/delete.html
@@ -151,12 +181,6 @@ msgid "Tshirt as Girls cut"
 msgstr "T-Shirt als Girls cut"
 
 #: tutors/models.py tutors/templates/tutors/dashboard.html
-#: tutors/templates/tutors/tutor/list.html
-#: tutors/templates/tutors/tutor/view.html
-msgid "Status"
-msgstr "Status"
-
-#: tutors/models.py tutors/templates/tutors/dashboard.html
 #: tutors/templates/tutors/event/delete.html
 #: tutors/templates/tutors/event/view.html
 #: tutors/templates/tutors/task/delete.html
@@ -166,10 +190,6 @@ msgstr "Status"
 #: tutors/templates/tutors/tutor/view.html
 msgid "Subject"
 msgstr "Studienfach"
-
-#: tutors/models.py tutors/templates/tutors/tutor/view.html
-msgid "Comment"
-msgstr "Kommentar"
 
 #: tutors/models.py
 msgid "Tutor Answers"
@@ -217,16 +237,9 @@ msgstr "Start"
 msgid "End"
 msgstr "Ende"
 
-#: tutors/models.py tutors/templates/tutors/event/delete.html
-#: tutors/templates/tutors/event/list.html
-#: tutors/templates/tutors/event/view.html
-#: tutors/templates/tutors/task/delete.html
-#: tutors/templates/tutors/task/list.html
-#: tutors/templates/tutors/task/view.html
-#: tutors/templates/tutors/tutor/delete.html
-#: tutors/templates/tutors/tutor/view.html
-msgid "Meeting Point"
-msgstr "Treffpunkt"
+#: tutors/models.py
+msgid "Associated Meetings"
+msgstr "Assoziierte Meetings"
 
 #: tutors/models.py tutors/templates/tutors/dashboard.html
 #: tutors/templates/tutors/event/delete.html
@@ -235,19 +248,15 @@ msgstr "Treffpunkt"
 msgid "Subjects"
 msgstr "Studiengänge"
 
-#: tutors/models.py
-msgid "Task name"
-msgstr "Taskname"
-
-#: tutors/models.py
-msgid "Meeting point"
-msgstr "Treffpunkt"
-
 #: tutors/models.py tutors/templates/tutors/task/delete.html
 #: tutors/templates/tutors/task/list.html
 #: tutors/templates/tutors/task/view.html
 msgid "Event"
 msgstr "Event"
+
+#: tutors/models.py
+msgid "Task name"
+msgstr "Taskname"
 
 #: tutors/models.py
 msgid "Allowed Subjects"
@@ -260,16 +269,16 @@ msgid "Requirements"
 msgstr "Voraussetzungen"
 
 #: tutors/models.py
+msgid "Assigned tutors"
+msgstr "Eingeteilte Tutoren"
+
+#: tutors/models.py
 msgid "Tutors (min)"
 msgstr "Tutoren (min)"
 
 #: tutors/models.py
 msgid "Tutors (max)"
 msgstr "Tutoren (max)"
-
-#: tutors/models.py
-msgid "Assigned tutors"
-msgstr "Eingeteilte Tutoren"
 
 #: tutors/models.py
 msgid "absent"
@@ -431,6 +440,28 @@ msgstr "Event hinzufügen"
 #: tutors/templates/tutors/event/view.html
 msgid "Delete event"
 msgstr "Event löschen"
+
+#: tutors/templates/tutors/event/delete.html
+#: tutors/templates/tutors/event/list.html
+#: tutors/templates/tutors/event/view.html
+#: tutors/templates/tutors/task/delete.html
+#: tutors/templates/tutors/task/list.html
+#: tutors/templates/tutors/task/view.html
+#: tutors/templates/tutors/tutor/delete.html
+#: tutors/templates/tutors/tutor/view.html
+msgid "Meeting Point"
+msgstr "Treffpunkt"
+
+#: tutors/templates/tutors/event/delete.html
+#: tutors/templates/tutors/event/list.html
+#: tutors/templates/tutors/event/view.html
+#: tutors/templates/tutors/task/delete.html
+#: tutors/templates/tutors/task/list.html
+#: tutors/templates/tutors/task/view.html
+#: tutors/templates/tutors/tutor/delete.html
+#: tutors/templates/tutors/tutor/view.html
+msgid "no meeting point specified"
+msgstr "kein Treffpunkt angegeben"
 
 #: tutors/templates/tutors/event/delete.html
 #: tutors/templates/tutors/event/view.html

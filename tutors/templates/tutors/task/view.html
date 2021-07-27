@@ -26,7 +26,8 @@
         </tr>
         <tr>
             <th>{% trans "Meeting Point" %}</th>
-            <td>{{ task.meeting_point }}</td>
+            {% trans "no meeting point specified" as no_meeting_point %}
+            <td>{{ task.associated_meetings.location|default: no_meeting_point }}</td>
         </tr>
         <tr>
             <th>{% trans "Event" %}</th>

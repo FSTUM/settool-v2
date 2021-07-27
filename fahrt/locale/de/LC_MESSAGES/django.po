@@ -86,10 +86,8 @@ msgid "Search pattern:"
 msgstr "Schlagwort:"
 
 #: fahrt/forms.py
-#, fuzzy
-#| msgid "I drive by car"
 msgid "Driver of car"
-msgstr "Ich Fahre mit dem Auto"
+msgstr "Ich fahre ein Auto"
 
 #: fahrt/forms.py fahrt/models.py
 #: fahrt/templates/fahrt/maintinance/mail/list_filtered_participants_send_mail.html

@@ -163,7 +163,8 @@
             </td>
             <td>{{ assignment.task.begin }}</td>
             <td>{{ assignment.task.end }}</td>
-            <td>{{ assignment.task.meeting_point }}</td>
+            {% trans "no meeting point specified" as no_meeting_point %}
+            <td>{{ assignment.task.associated_meetings.location|default: no_meeting_point }}</td>
         </tr>
         {% endfor %}
     </tbody>

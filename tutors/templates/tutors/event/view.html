@@ -26,7 +26,8 @@
             </tr>
             <tr>
                 <th>{% trans "Meeting Point" %}</th>
-                <td>{{ event.meeting_point }}</td>
+                {% trans "no meeting point specified" as no_meeting_point %}
+                <td>{{ event.associated_meetings.location|default: no_meeting_point }}</td>
             </tr>
             <tr>
                 <th>{% trans "Subjects" %}</th>
@@ -78,13 +79,14 @@
                 </tr>
             </thead>
             <tbody>
+                {% trans "no meeting point specified" as no_meeting_point %}
                 {% for task in event.task_set.all %}
                 <tr>
                     <td>{{ forloop.counter }}</td>
                     <td><a href="{% url "tutors:view_task" task.id %}">{{ task.name }}</a></td>
                     <td>{{ task.begin }}</td>
                     <td>{{ task.end }}</td>
-                    <td>{{ task.meeting_point }}</td>
+                    <td>{{ task.associated_meetings.location|default: no_meeting_point }}</td>
                 </tr>
                 {% endfor %}
             </tbody>
