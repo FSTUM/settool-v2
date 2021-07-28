@@ -971,9 +971,10 @@ def dashboard(request: WSGIRequest) -> HttpResponse:
     )
 
     missing_mails = 0
+    task: Task
     for task in Task.objects.filter(semester=semester):
         missing_mails += (
-            Tutor.objects.filter(task=task)
+            Tutor.objects.filter(tutors_task_tutors=task)
             .exclude(id__in=MailTutorTask.objects.filter(task=task).values("tutor_id"))
             .count()
         )

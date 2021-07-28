@@ -187,9 +187,23 @@ class Date(BaseModel):
     group = models.ForeignKey(DateGroup, on_delete=models.CASCADE)
     date = models.DateTimeField(_("Date and Time"))
     probable_length = models.IntegerField(_("probable length in minutes"), default=60)
+    meeting_subscribers = models.ManyToManyField(
+        "Tutor",
+        verbose_name=_("Subscribers to one meeting"),
+        through="DateSubscriber",
+        blank=True,
+    )
 
     def __str__(self) -> str:
         return str(self.date)
+
+
+class DateSubscriber(BaseModel):
+    tutor = models.ForeignKey("Tutor", on_delete=models.CASCADE)
+    date = models.ForeignKey("Date", on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f"{self.tutor}"
 
 
 class Tutor(BaseModel):
@@ -284,6 +298,12 @@ class Event(BaseModel):
         default=create_new_date_group,
         on_delete=models.SET_DEFAULT,
     )
+    meeting_subscribers = models.ManyToManyField(
+        Tutor,
+        verbose_name=_("Subscribers to all meetings"),
+        through="EventSubscriber",
+        blank=True,
+    )
     meeting_chairperson = models.ForeignKey(
         Tutor,
         related_name="tutors_event_meeting_chairperson",
@@ -330,6 +350,13 @@ class Task(BaseModel):
         default=create_new_date_group,
         on_delete=models.SET_DEFAULT,
     )
+    meeting_subscribers = models.ManyToManyField(
+        Tutor,
+        related_name="tutors_task_meeting_subscribers",
+        verbose_name=_("Subscribers to all meetings"),
+        through="TaskSubscriber",
+        blank=True,
+    )
     meeting_chairperson = models.ForeignKey(
         Tutor,
         related_name="tutors_task_meeting_chairperson",
@@ -349,7 +376,13 @@ class Task(BaseModel):
     allowed_subjects = models.ManyToManyField(Subject, verbose_name=_("Allowed Subjects"), blank=True)
     requirements = models.ManyToManyField("Question", verbose_name=_("Requirements"), blank=True)
 
-    tutors = models.ManyToManyField(Tutor, verbose_name=_("Assigned tutors"), through="TutorAssignment", blank=True)
+    tutors = models.ManyToManyField(
+        Tutor,
+        related_name="tutors_task_tutors",
+        verbose_name=_("Assigned tutors"),
+        through="TutorAssignment",
+        blank=True,
+    )
     min_tutors = models.IntegerField(_("Tutors (min)"), blank=True, null=True)
     max_tutors = models.IntegerField(_("Tutors (max)"), blank=True, null=True)
 
@@ -363,6 +396,22 @@ class Task(BaseModel):
         #     text=text,
         # )
         pass
+
+
+class EventSubscriber(BaseModel):
+    tutor = models.ForeignKey(Tutor, on_delete=models.CASCADE)
+    event = models.ForeignKey(Event, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f"{self.tutor}"
+
+
+class TaskSubscriber(BaseModel):
+    tutor = models.ForeignKey(Tutor, on_delete=models.CASCADE)
+    task = models.ForeignKey(Task, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f"{self.tutor}"
 
 
 class TutorAssignment(BaseModel):

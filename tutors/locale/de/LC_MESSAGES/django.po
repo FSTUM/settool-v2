@@ -120,6 +120,10 @@ msgid "probable length in minutes"
 msgstr "warscheinliche Länge in minuten"
 
 #: tutors/models.py
+msgid "Subscribers to one meeting"
+msgstr "Abonnenten einer Sitzung"
+
+#: tutors/models.py
 msgid "Semester"
 msgstr "Semester"
 
@@ -240,6 +244,10 @@ msgstr "Ende"
 #: tutors/models.py
 msgid "Associated Meetings"
 msgstr "Assoziierte Meetings"
+
+#: tutors/models.py
+msgid "Subscribers to all meetings"
+msgstr "Abonnenten aller Sitzungen"
 
 #: tutors/models.py tutors/templates/tutors/dashboard.html
 #: tutors/templates/tutors/event/delete.html
