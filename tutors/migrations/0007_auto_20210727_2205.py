@@ -14,34 +14,30 @@ def migrate_locations(apps, _):
     # get all tuples of (id,en,de)
     locations = set()
     for task in Task.objects.all():
-        locations.add((task.meeting_point or "", task.meeting_point_en or "", task.meeting_point_de or ""))
+        l_tuple = (task.meeting_point or "", task.meeting_point_en or "", task.meeting_point_de or "")
+        locations.add(l_tuple)
     for event in Event.objects.all():
-        locations.add((event.meeting_point or "", event.meeting_point_en or "", event.meeting_point_de or ""))
+        l_tuple = (event.meeting_point or "", event.meeting_point_en or "", event.meeting_point_de or "")
+        locations.add(l_tuple)
 
     # convert tuples to Locations
     l_map = {}
     for shortname, shortname_en, shortname_de in locations:
-        location_id = Location.objects.create(
+        location = Location.objects.create(
             shortname=shortname,
             shortname_en=shortname_en,
             shortname_de=shortname_de,
-        ).id
-        l_map[(shortname, shortname_en, shortname_de)] = location_id
+        )
+        l_map[(shortname, shortname_en, shortname_de)] = location
 
     # save new Locations to the DateGroups
     for task in Task.objects.all():
-        task.associated_meetings.location = l_map[
-            task.meeting_point or "",
-            task.meeting_point_en or "",
-            task.meeting_point_de or "",
-        ]
+        l_tuple = (task.meeting_point or "", task.meeting_point_en or "", task.meeting_point_de or "")
+        task.associated_meetings.location = l_map[l_tuple]
         task.associated_meetings.save()
     for event in Event.objects.all():
-        event.associated_meetings.location = l_map[
-            event.meeting_point or "",
-            event.meeting_point_en or "",
-            event.meeting_point_de or "",
-        ]
+        l_tuple = (event.meeting_point or "", event.meeting_point_en or "", event.meeting_point_de or "")
+        event.associated_meetings.location = l_map[l_tuple]
         event.associated_meetings.save()
 
 
