@@ -5,6 +5,8 @@ repos:
           - id: check-ast
           - id: check-toml
           - id: check-yaml
+            args:
+                - --allow-multiple-documents
           - id: check-executables-have-shebangs
           - id: check-merge-conflict
           - id: check-case-conflict
