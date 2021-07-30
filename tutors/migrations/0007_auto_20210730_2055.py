@@ -42,7 +42,7 @@ class Migration(migrations.Migration):
             model_name="event",
             name="associated_meetings",
             field=models.ForeignKey(
-                default=kalendar.models.create_new_date_group,
+                default=kalendar.models.DateGroup.create_new_date_group,
                 on_delete=django.db.models.deletion.SET_DEFAULT,
                 to="kalendar.dategroup",
                 verbose_name="Associated Meetings",
@@ -74,7 +74,7 @@ class Migration(migrations.Migration):
             model_name="task",
             name="associated_meetings",
             field=models.ForeignKey(
-                default=kalendar.models.create_new_date_group,
+                default=kalendar.models.DateGroup.create_new_date_group,
                 on_delete=django.db.models.deletion.SET_DEFAULT,
                 to="kalendar.dategroup",
                 verbose_name="Associated Meetings",

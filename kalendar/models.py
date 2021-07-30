@@ -30,12 +30,20 @@ class DateGroup(models.Model):
     def dates(self) -> List[datetime.datetime]:
         return [date.date for date in Date.objects.filter(group=self.id).all()]
 
+    @classmethod
+    def create_new_date_group(cls):
+        return DateGroup.objects.create().id
+
     def __str__(self) -> str:
         return f"{self.location}: {self.dates}"
 
 
-def create_new_date_group():
-    return DateGroup.objects.create().id
+class DateGroupSubscriber(models.Model):
+    tutor = models.ForeignKey("tutors.Tutor", on_delete=models.CASCADE)
+    date = models.ForeignKey(DateGroup, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f"{self.tutor}"
 
 
 class Date(models.Model):

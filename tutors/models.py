@@ -7,7 +7,7 @@ from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 
 import settool_common.models as common_models
-from kalendar.models import create_new_date_group, DateGroup
+from kalendar.models import DateGroup
 from settool_common.models import Semester, Subject
 
 
@@ -239,14 +239,8 @@ class Event(BaseModel):
     associated_meetings = models.ForeignKey(
         DateGroup,
         verbose_name=_("Associated Meetings"),
-        default=create_new_date_group,
+        default=DateGroup.create_new_date_group,
         on_delete=models.SET_DEFAULT,
-    )
-    meeting_subscribers = models.ManyToManyField(
-        Tutor,
-        verbose_name=_("Subscribers to all meetings"),
-        through="EventSubscriber",
-        blank=True,
     )
     meeting_chairperson = models.ForeignKey(
         Tutor,
@@ -291,15 +285,8 @@ class Task(BaseModel):
     associated_meetings = models.ForeignKey(
         DateGroup,
         verbose_name=_("Associated Meetings"),
-        default=create_new_date_group,
+        default=DateGroup.create_new_date_group,
         on_delete=models.SET_DEFAULT,
-    )
-    meeting_subscribers = models.ManyToManyField(
-        Tutor,
-        related_name="tutors_task_meeting_subscribers",
-        verbose_name=_("Subscribers to all meetings"),
-        through="TaskSubscriber",
-        blank=True,
     )
     meeting_chairperson = models.ForeignKey(
         Tutor,
@@ -340,22 +327,6 @@ class Task(BaseModel):
         #     text=text,
         # )
         pass
-
-
-class EventSubscriber(BaseModel):
-    tutor = models.ForeignKey(Tutor, on_delete=models.CASCADE)
-    event = models.ForeignKey(Event, on_delete=models.CASCADE)
-
-    def __str__(self):
-        return f"{self.tutor}"
-
-
-class TaskSubscriber(BaseModel):
-    tutor = models.ForeignKey(Tutor, on_delete=models.CASCADE)
-    task = models.ForeignKey(Task, on_delete=models.CASCADE)
-
-    def __str__(self):
-        return f"{self.tutor}"
 
 
 class TutorAssignment(BaseModel):
