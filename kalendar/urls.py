@@ -28,7 +28,7 @@ urlpatterns = [
                         ],
                     ),
                 ),
-                path("add/<uuid:event_pk>/", views.add_date, name="add_dates_for_event"),
+                path("add/<uuid:date_group_pk>/", views.add_date, name="add_date"),
                 path("edit/<uuid:date_pk>/", views.edit_date, name="edit_dates"),
                 path("delete/<uuid:date_pk>/", views.del_date, name="del_dates"),
                 path("view/<uuid:date_pk>/", views.view_date, name="view_dates"),
