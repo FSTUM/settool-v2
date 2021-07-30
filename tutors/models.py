@@ -1,4 +1,3 @@
-import datetime
 import uuid
 from typing import List, Tuple
 
@@ -8,6 +7,7 @@ from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 
 import settool_common.models as common_models
+from kalendar.models import create_new_date_group, DateGroup
 from settool_common.models import Semester, Subject
 
 
@@ -148,62 +148,6 @@ class Settings(BaseModel):
         #     text=text,
         # )
         pass
-
-
-class Location(BaseModel):
-    shortname = models.CharField(_("short/simplified Address"), max_length=100)
-
-    address = models.CharField(_("(Street)map-address"), blank=True, max_length=100)
-    room = models.CharField(_("Room"), blank=True, max_length=50)
-
-    comment = models.CharField(_("Comment"), blank=True, max_length=200)
-
-    def __str__(self) -> str:
-        message = self.shortname
-        if self.address:
-            message += f"at {self.address}"
-        if self.room:
-            message += f" ({self.room})"
-        return message
-
-
-class DateGroup(BaseModel):
-    location = models.ForeignKey(Location, null=True, blank=True, on_delete=models.SET_NULL)
-    comment = models.CharField(_("Comment"), blank=True, max_length=200)
-
-    @property
-    def dates(self) -> List[datetime.datetime]:
-        return [date.date for date in Date.objects.filter(group=self.id).all()]
-
-    def __str__(self) -> str:
-        return f"{self.location}: {self.dates}"
-
-
-def create_new_date_group():
-    return DateGroup.objects.create().id
-
-
-class Date(BaseModel):
-    group = models.ForeignKey(DateGroup, on_delete=models.CASCADE)
-    date = models.DateTimeField(_("Date and Time"))
-    probable_length = models.IntegerField(_("probable length in minutes"), default=60)
-    meeting_subscribers = models.ManyToManyField(
-        "Tutor",
-        verbose_name=_("Subscribers to one meeting"),
-        through="DateSubscriber",
-        blank=True,
-    )
-
-    def __str__(self) -> str:
-        return str(self.date)
-
-
-class DateSubscriber(BaseModel):
-    tutor = models.ForeignKey("Tutor", on_delete=models.CASCADE)
-    date = models.ForeignKey("Date", on_delete=models.CASCADE)
-
-    def __str__(self):
-        return f"{self.tutor}"
 
 
 class Tutor(BaseModel):

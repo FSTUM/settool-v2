@@ -26,7 +26,9 @@ urlpatterns = [
     # SET-Fahrt
     path("fahrt/", include("fahrt.urls")),
     path("f/", RedirectView.as_view(pattern_name="fahrt:signup"), name="short_fahrt_signup"),
-    # Tutoren
+    # calendars
+    path("calendar/", include("kalendar.urls")),
+    # tutors
     path("tutors/", include("tutors.urls")),
     path("c/", RedirectView.as_view(pattern_name="tutors:collaborator_signup"), name="short_collaborator_signup"),
     path("t/", RedirectView.as_view(pattern_name="tutors:tutor_signup"), name="short_tutor_signup"),

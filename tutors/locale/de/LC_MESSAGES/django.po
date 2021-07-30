@@ -96,34 +96,6 @@ msgstr ""
 "(0=gleicher Tag)"
 
 #: tutors/models.py
-msgid "short/simplified Address"
-msgstr "vereinfachte Ardesse"
-
-#: tutors/models.py
-msgid "(Street)map-address"
-msgstr "Straßenkarten-Addresse"
-
-#: tutors/models.py
-msgid "Room"
-msgstr "Raum"
-
-#: tutors/models.py tutors/templates/tutors/tutor/view.html
-msgid "Comment"
-msgstr "Kommentar"
-
-#: tutors/models.py
-msgid "Date and Time"
-msgstr "Tag und Zeit"
-
-#: tutors/models.py
-msgid "probable length in minutes"
-msgstr "warscheinliche Länge in minuten"
-
-#: tutors/models.py
-msgid "Subscribers to one meeting"
-msgstr "Abonnenten einer Sitzung"
-
-#: tutors/models.py
 msgid "Semester"
 msgstr "Semester"
 
@@ -194,6 +166,10 @@ msgstr "T-Shirt als Girls cut"
 #: tutors/templates/tutors/tutor/view.html
 msgid "Subject"
 msgstr "Studienfach"
+
+#: tutors/models.py tutors/templates/tutors/tutor/view.html
+msgid "Comment"
+msgstr "Kommentar"
 
 #: tutors/models.py
 msgid "Tutor Answers"
@@ -944,6 +920,24 @@ msgstr ""
 #, python-brace-format
 msgid "Could not send email to {first_name} {last_name} ({email})."
 msgstr "Konnte keine email an {first_name} {last_name} ({email}) senden."
+
+#~ msgid "short/simplified Address"
+#~ msgstr "vereinfachte Ardesse"
+
+#~ msgid "(Street)map-address"
+#~ msgstr "Straßenkarten-Addresse"
+
+#~ msgid "Room"
+#~ msgstr "Raum"
+
+#~ msgid "Date and Time"
+#~ msgstr "Tag und Zeit"
+
+#~ msgid "probable length in minutes"
+#~ msgstr "warscheinliche Länge in minuten"
+
+#~ msgid "Subscribers to one meeting"
+#~ msgstr "Abonnenten einer Sitzung"
 
 #~ msgid "I accept the terms and conditions of the following privacy policy:"
 #~ msgstr "Ich stimme der folgenden Datenschutzerklärung zu:"

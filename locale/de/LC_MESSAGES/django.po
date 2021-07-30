@@ -7,6 +7,50 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
+#: kalendar/models.py
+msgid "short/simplified Address"
+msgstr "verkürtzte/vereinfachte Adresse"
+
+#: kalendar/models.py
+msgid "(Street)map-address"
+msgstr "Straßenkarten-Adresse"
+
+#: kalendar/models.py
+msgid "Room"
+msgstr "Raum"
+
+#: kalendar/models.py
+msgid "Comment"
+msgstr "Kommentar"
+
+#: kalendar/models.py
+msgid "Date and Time"
+msgstr "Datum und Zeit"
+
+#: kalendar/models.py
+msgid "probable length in minutes"
+msgstr "warscheinliche länge in Minuten"
+
+#: kalendar/models.py
+msgid "Subscribers to one meeting"
+msgstr "Abonnenten einer Sitzung"
+
+#: kalendar/templates/kalendar/base_kalendar.html
+msgid "Management"
+msgstr "Management"
+
+#: kalendar/templates/kalendar/base_kalendar.html
+msgid "List dates chronologically"
+msgstr "Daten chronologisch auflisten"
+
+#: kalendar/templates/kalendar/base_kalendar.html
+msgid "List dates by event"
+msgstr "Daten nach envent auflisten"
+
+#: kalendar/templates/kalendar/dashboard.html
+msgid "Dashboard"
+msgstr "Dashboard"
+
 #: settool/settings.py
 msgid "German"
 msgstr "Deutsch"
@@ -30,6 +74,10 @@ msgstr "SET-Tutoren"
 #: templates/base.html
 msgid "Guided tours of the institutes"
 msgstr "Institutsführungen"
+
+#: templates/base.html
+msgid "SET-Calendar"
+msgstr "SET-Kalender"
 
 #: templates/base.html
 msgid "Settings"

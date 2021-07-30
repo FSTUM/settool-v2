@@ -1,0 +1,19 @@
+{% extends "base_card_layout.html" %}
+{% load active_link_tags %}
+{% load i18n %}
+{% load django_bootstrap5 %}
+
+{% block set_common_navigation %}
+
+{% if perms.tutors.edit_tutors %}
+<h4 class="navbar-text">{% trans "Management" %}</h4>
+<a
+    class="nav-link {% active_link "tutors:list_event" %}"
+    href="{% url "tutors:list_event" %}"
+>{% trans "List dates chronologically" %}</a>
+<a
+    class="nav-link {% active_link "tutors:list_event" %}"
+    href="{% url "tutors:list_event" %}"
+>{% trans "List dates by event" %}</a>
+{% endif %}
+{% endblock %}
