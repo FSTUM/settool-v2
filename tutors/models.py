@@ -236,7 +236,7 @@ class Event(BaseModel):
     begin = models.DateTimeField(_("Begin"))
     end = models.DateTimeField(_("End"))
 
-    associated_meetings = models.ForeignKey(
+    associated_meetings = models.OneToOneField(
         DateGroup,
         verbose_name=_("Associated Meetings"),
         default=DateGroup.create_new_date_group,
@@ -282,7 +282,7 @@ class Task(BaseModel):
     begin = models.DateTimeField(_("Begin"))
     end = models.DateTimeField(_("End"))
 
-    associated_meetings = models.ForeignKey(
+    associated_meetings = models.OneToOneField(
         DateGroup,
         verbose_name=_("Associated Meetings"),
         default=DateGroup.create_new_date_group,
