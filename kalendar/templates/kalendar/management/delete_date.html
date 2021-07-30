@@ -1,0 +1,42 @@
+{% extends "kalendar/base_kalendar.html" %}
+{% load i18n %}
+
+{% block set_common_headercontent %}{% trans "Delete date" %}: {{ date }}{% endblock %}
+
+{% block set_common_content %}
+<div class="row">
+    <div class="col-sm-12">
+        <table class="table table-hover">
+            <tr>
+                <th>{% trans "Date" %}</th>
+                <td>{{ date.date }}</td>
+            </tr>
+            <tr>
+                <th>{% trans "probable length in minutes" %}</th>
+                <td>{{ date.probable_length }}</td>
+            </tr>
+            <tr>
+                <th>{% trans "Location" %}</th>
+                {% trans "no meeting point specified" as no_meeting_point %}
+                <td>{{ date.group.location|default: no_meeting_point }}</td>
+            </tr>
+        </table>
+    </div>
+</div>
+
+<form
+    method="post"
+    action=""
+>
+    {% csrf_token %}
+
+    <a
+        class="btn btn-secondary"
+        href="{% url "kalendar:main_index" %}"
+    >{% trans "Cancel" %}</a>
+    <button
+        class="btn btn-danger"
+        type="submit"
+    >{% trans "Delete date" %}</button>
+</form>
+{% endblock %}

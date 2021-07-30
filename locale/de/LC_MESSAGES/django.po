@@ -27,7 +27,8 @@ msgstr "Kommentar"
 msgid "Date and Time"
 msgstr "Datum und Zeit"
 
-#: kalendar/models.py
+#: kalendar/models.py kalendar/templates/kalendar/management/delete_date.html
+#: kalendar/templates/kalendar/management/view_date.html
 msgid "probable length in minutes"
 msgstr "warscheinliche länge in Minuten"
 
@@ -50,6 +51,89 @@ msgstr "Daten nach envent auflisten"
 #: kalendar/templates/kalendar/dashboard.html
 msgid "Dashboard"
 msgstr "Dashboard"
+
+#: kalendar/templates/kalendar/management/add_date.html
+msgid "Add date"
+msgstr "Datum hinzufügen"
+
+#: kalendar/templates/kalendar/management/delete_date.html
+#: kalendar/templates/kalendar/management/view_date.html
+msgid "Delete date"
+msgstr "Datum löschen"
+
+#: kalendar/templates/kalendar/management/delete_date.html
+#: kalendar/templates/kalendar/management/view_date.html
+msgid "Date"
+msgstr "Datum"
+
+#: kalendar/templates/kalendar/management/delete_date.html
+#: kalendar/templates/kalendar/management/view_date.html
+msgid "Location"
+msgstr "Standort"
+
+#: kalendar/templates/kalendar/management/delete_date.html
+#: kalendar/templates/kalendar/management/list/chronological.html
+#: kalendar/templates/kalendar/management/list/grouped.html
+#: kalendar/templates/kalendar/management/view_date.html
+msgid "no meeting point specified"
+msgstr "kein Treffpunkt angegeben"
+
+#: kalendar/templates/kalendar/management/delete_date.html
+#: kalendar/templates/kalendar/management/edit_date.html
+msgid "Cancel"
+msgstr "Abbrechen"
+
+#: kalendar/templates/kalendar/management/edit_date.html
+#: kalendar/templates/kalendar/management/view_date.html
+msgid "Edit date"
+msgstr "Datum bearbeiten"
+
+#: kalendar/templates/kalendar/management/list/chronological.html
+#: kalendar/templates/kalendar/management/list/grouped.html
+msgid "List of dates"
+msgstr "Liste der Daten"
+
+#: kalendar/templates/kalendar/management/list/chronological.html
+#: kalendar/templates/kalendar/management/list/grouped.html
+msgid "Date/Time"
+msgstr "Datum/Zeit"
+
+#: kalendar/templates/kalendar/management/list/chronological.html
+#: kalendar/templates/kalendar/management/list/grouped.html
+msgid "Place"
+msgstr "Ort"
+
+#: kalendar/templates/kalendar/management/list/chronological.html
+#: kalendar/templates/kalendar/management/list/grouped.html
+msgid "Type"
+msgstr "Typ"
+
+#: kalendar/templates/kalendar/management/list/chronological.html
+#: kalendar/templates/kalendar/management/list/grouped.html
+msgid "Actions"
+msgstr "Aktionen"
+
+#: kalendar/templates/kalendar/management/view_date.html
+msgid "Date details"
+msgstr "Datumsdetails"
+
+#: kalendar/templates/kalendar/management/view_date.html
+msgid "Back"
+msgstr "Zurück"
+
+#: kalendar/templates/kalendar/management/view_date.html
+msgid "Add date to the same group"
+msgstr "Datum zur selben Datumsgruppe hinzufügen"
+
+#: kalendar/views.py
+#, python-format
+msgid "Successfully added date %s."
+msgstr "Datm %s wurde erfolgreich hinzugefügt"
+
+#: kalendar/views.py
+#, python-format
+msgid "Deleted date %s."
+msgstr "Datum %s wurde gelöscht"
 
 #: settool/settings.py
 msgid "German"

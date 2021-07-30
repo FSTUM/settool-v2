@@ -1,0 +1,43 @@
+{% extends "kalendar/base_kalendar.html" %}
+{% load i18n %}
+{% load django_bootstrap5 %}
+
+{% block set_common_headercontent %}{% trans "Date details" %}{% endblock %}
+
+{% block set_common_content %}
+<div class="row">
+    <div class="col-sm-12">
+        <table class="table table-hover">
+            <tr>
+                <th>{% trans "Date" %}</th>
+                <td>{{ date.date }}</td>
+            </tr>
+            <tr>
+                <th>{% trans "probable length in minutes" %}</th>
+                <td>{{ date.probable_length }}</td>
+            </tr>
+            <tr>
+                <th>{% trans "Location" %}</th>
+                {% trans "no meeting point specified" as no_meeting_point %}
+                <td>{{ date.group.location|default: no_meeting_point }}</td>
+            </tr>
+        </table>
+    </div>
+</div>
+<a
+    class="btn btn-secondary"
+    href="{% url "kalendar:list_dates_grouped" %}"
+>{% trans "Back" %}</a>
+<a
+    class="btn btn-primary"
+    href="{% url "kalendar:edit_date" date.pk %}"
+>{% trans "Edit date" %}</a>
+<a
+    class="btn btn-danger"
+    href="{% url "kalendar:del_date" date.pk %}"
+>{% trans "Delete date" %}</a>
+<a
+    class="btn btn-danger"
+    href="{% url "kalendar:add_date" date.group.pk %}"
+>{% trans "Add date to the same group" %}</a>
+{% endblock %}

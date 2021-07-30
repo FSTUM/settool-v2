@@ -1,0 +1,52 @@
+{% extends "kalendar/base_kalendar.html" %}
+{% load i18n %}
+{% load django_bootstrap5 %}
+
+{% block head %}
+<script>
+    $(document).ready(() => {
+        $('#dateTable').DataTable({
+            columnDefs: [{ targets: 5, orderable: false }],
+        });
+    });
+</script>
+{% endblock %}
+
+{% block set_common_headercontent %}{% trans "List of dates" %}{% endblock %}
+
+{% block set_common_content %}
+<div class="table-responsive">
+    <table
+        id="dateTable"
+        class="table dataTable"
+    >
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>{% trans "Date/Time" %}</th>
+                <th>{% trans "Place" %}</th>
+                <th>{% trans "Type" %}</th>
+                <th>{% trans "Actions" %}</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% trans "no meeting point specified" as no_meeting_point %}
+            {% for date in dates %}
+            <tr>
+                <td>{{ forloop.counter }}</td>
+                <td>
+                    <a href="{% url "kalendar:view_date" date.pk %}">{{ date.name }}</a>
+                </td>
+                <td data-text="{{ date.begin|date:"Y-m-d H:i" }}">{{ date.begin }}</td>
+                <td data-text="{{ date.end|date:"Y-m-d H:i" }}">{{ date.end }}</td>
+                <td>{{ date.associated_meetings.location|default: no_meeting_point }}</td>
+                <td>
+                    <a href="{% url "kalendar:edit_date" date.pk %}"><span class="bi bi-pencil-square"></span></a>
+                    <a href="{% url "kalendar:del_date" date.pk %}"><span class="bi bi-trash-fill"></span></a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
