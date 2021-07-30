@@ -221,10 +221,6 @@ msgstr "Ende"
 msgid "Associated Meetings"
 msgstr "Assoziierte Meetings"
 
-#: tutors/models.py
-msgid "Subscribers to all meetings"
-msgstr "Abonnenten aller Sitzungen"
-
 #: tutors/models.py tutors/templates/tutors/dashboard.html
 #: tutors/templates/tutors/event/delete.html
 #: tutors/templates/tutors/event/view.html
@@ -915,6 +911,11 @@ msgid "Could not send email. If this error persists send a mail to {mail}"
 msgstr ""
 "Konnte Email nicht senden. Falls dieser Fehler weiterhin besteht sende bitte "
 "eine Email an {mail}"
+
+#: tutors/views.py
+#, python-format
+msgid "Deleted Tutor %s."
+msgstr "Tutor %s wurde gelöscht"
 
 #: tutors/views.py
 #, python-brace-format

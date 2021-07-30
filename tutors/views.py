@@ -246,7 +246,7 @@ def del_tutor(request: WSGIRequest, uid: UUID) -> HttpResponse:
     form = forms.Form(request.POST or None)
     if form.is_valid():
         tutor.delete()
-        messages.success(request, f"Deleted Tutor {tutor}.")
+        messages.success(request, _("Deleted Tutor %s.").format(tutor))
         return redirect("tutors:tutor_list_status_all")
 
     context = {
