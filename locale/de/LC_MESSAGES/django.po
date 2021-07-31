@@ -8,20 +8,27 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: kalendar/models.py
+#: kalendar/templates/kalendar/management/list/chronological.html
 msgid "short/simplified Address"
 msgstr "verkürtzte/vereinfachte Adresse"
 
 #: kalendar/models.py
+#: kalendar/templates/kalendar/management/list/chronological.html
 msgid "(Street)map-address"
 msgstr "Straßenkarten-Adresse"
 
 #: kalendar/models.py
+#: kalendar/templates/kalendar/management/list/chronological.html
 msgid "Room"
 msgstr "Raum"
 
 #: kalendar/models.py
 msgid "Comment"
 msgstr "Kommentar"
+
+#: kalendar/models.py
+msgid "Subscribers to a date_group"
+msgstr "Abonnenten einer date_group"
 
 #: kalendar/models.py
 msgid "Date and Time"
@@ -72,7 +79,6 @@ msgid "Location"
 msgstr "Standort"
 
 #: kalendar/templates/kalendar/management/delete_date.html
-#: kalendar/templates/kalendar/management/list/chronological.html
 #: kalendar/templates/kalendar/management/list/grouped.html
 #: kalendar/templates/kalendar/management/view_date.html
 msgid "no meeting point specified"
@@ -94,24 +100,38 @@ msgid "List of dates"
 msgstr "Liste der Daten"
 
 #: kalendar/templates/kalendar/management/list/chronological.html
+msgid "Event"
+msgstr "Event"
+
+#: kalendar/templates/kalendar/management/list/chronological.html
+msgid "Task"
+msgstr "Aufgabe"
+
+#: kalendar/templates/kalendar/management/list/chronological.html
+msgid "Name"
+msgstr "Name"
+
+#: kalendar/templates/kalendar/management/list/chronological.html
 #: kalendar/templates/kalendar/management/list/grouped.html
 msgid "Date/Time"
 msgstr "Datum/Zeit"
 
 #: kalendar/templates/kalendar/management/list/chronological.html
-#: kalendar/templates/kalendar/management/list/grouped.html
-msgid "Place"
-msgstr "Ort"
-
-#: kalendar/templates/kalendar/management/list/chronological.html
-#: kalendar/templates/kalendar/management/list/grouped.html
-msgid "Type"
-msgstr "Typ"
+msgid "Probable length"
+msgstr "Warscheinliche länge"
 
 #: kalendar/templates/kalendar/management/list/chronological.html
 #: kalendar/templates/kalendar/management/list/grouped.html
 msgid "Actions"
 msgstr "Aktionen"
+
+#: kalendar/templates/kalendar/management/list/grouped.html
+msgid "Place"
+msgstr "Ort"
+
+#: kalendar/templates/kalendar/management/list/grouped.html
+msgid "Type"
+msgstr "Typ"
 
 #: kalendar/templates/kalendar/management/view_date.html
 msgid "Date details"
