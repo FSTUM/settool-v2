@@ -33,6 +33,16 @@ class DateGroup(models.Model):
     )
 
     @property
+    def super_group(self):
+        if hasattr(self, "event"):
+            return self.event
+        return self.task
+
+    @property
+    def is_event(self):
+        return hasattr(self, "event")
+
+    @property
     def dates(self) -> List[datetime.datetime]:
         return [date.date for date in Date.objects.filter(group=self.id).all()]
 

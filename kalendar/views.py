@@ -1,9 +1,11 @@
+import datetime
 from typing import Any, Dict
 
 from django import forms
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required, permission_required
 from django.core.handlers.wsgi import WSGIRequest
+from django.db.models import QuerySet
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.utils.translation import ugettext_lazy as _
@@ -22,9 +24,8 @@ def dashboard(request: WSGIRequest) -> HttpResponse:
 
 @permission_required("tutors.edit_tutors")
 def list_dates_chronologically(request: WSGIRequest) -> HttpResponse:
-    semester: Semester = get_object_or_404(Semester, pk=get_semester(request))
-    events = Event.objects.filter(semester=semester).all()
-    context = {"events": events}
+    dates: QuerySet[Date] = Date.objects.filter(date__date__gte=datetime.datetime.today()).order_by("date").all()
+    context = {"dates": dates}
     return render(request, "kalendar/management/list/chronological.html", context)
 
 

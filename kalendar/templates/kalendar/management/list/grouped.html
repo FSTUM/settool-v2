@@ -39,7 +39,7 @@
                 </td>
                 <td data-text="{{ date.begin|date:"Y-m-d H:i" }}">{{ date.begin }}</td>
                 <td data-text="{{ date.end|date:"Y-m-d H:i" }}">{{ date.end }}</td>
-                <td>{{ date.associated_meetings.location|default: no_meeting_point }}</td>
+                <td>{{ date.associated_meetings.location|default:no_meeting_point }}</td>
                 <td>
                     <a href="{% url "kalendar:edit_date" date.pk %}"><span class="bi bi-pencil-square"></span></a>
                     <a href="{% url "kalendar:del_date" date.pk %}"><span class="bi bi-trash-fill"></span></a>

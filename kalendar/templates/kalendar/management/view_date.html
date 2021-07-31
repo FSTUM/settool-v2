@@ -19,7 +19,7 @@
             <tr>
                 <th>{% trans "Location" %}</th>
                 {% trans "no meeting point specified" as no_meeting_point %}
-                <td>{{ date.group.location|default: no_meeting_point }}</td>
+                <td>{{ date.group.location|default:no_meeting_point }}</td>
             </tr>
         </table>
     </div>

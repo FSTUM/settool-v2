@@ -8,12 +8,12 @@
 {% if perms.tutors.edit_tutors %}
 <h4 class="navbar-text">{% trans "Management" %}</h4>
 <a
-    class="nav-link {% active_link "tutors:list_event" %}"
-    href="{% url "tutors:list_event" %}"
+    class="nav-link {% active_link "kalendar:list_dates_chronologically" %}"
+    href="{% url "kalendar:list_dates_chronologically" %}"
 >{% trans "List dates chronologically" %}</a>
 <a
-    class="nav-link {% active_link "tutors:list_event" %}"
-    href="{% url "tutors:list_event" %}"
+    class="nav-link {% active_link "kalendar:list_dates_grouped" %}"
+    href="{% url "kalendar:list_dates_grouped" %}"
 >{% trans "List dates by event" %}</a>
 {% endif %}
 {% endblock %}
