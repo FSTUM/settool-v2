@@ -237,7 +237,7 @@ class Event(BaseModel):
     end = models.DateTimeField(_("End"))
 
     associated_meetings = models.OneToOneField(
-        DateGroup,
+        "kalendar.DateGroup",
         verbose_name=_("Associated Meetings"),
         default=DateGroup.create_new_date_group,
         on_delete=models.SET_DEFAULT,
@@ -283,7 +283,7 @@ class Task(BaseModel):
     end = models.DateTimeField(_("End"))
 
     associated_meetings = models.OneToOneField(
-        DateGroup,
+        "kalendar.DateGroup",
         verbose_name=_("Associated Meetings"),
         default=DateGroup.create_new_date_group,
         on_delete=models.SET_DEFAULT,
