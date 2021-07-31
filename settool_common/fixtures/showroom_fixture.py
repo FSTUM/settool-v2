@@ -69,7 +69,7 @@ def showroom_fixture_state_no_confirmation():  # nosec: this is only used in a f
     # app kalendar
     _generate_kalendar_locations()
     _generate_kalendar_date_groups()
-    # TODO kalendar_dates
+    _generate_kalendar_dates()
     # TODO kalendar_subscriptions
 
 
@@ -93,6 +93,26 @@ def _generate_kalendar_date_groups():  # nosec: this is only used in a fixture
         if random.choice((True, False, False, False)):
             date_group.comment = lorem.sentence()[:200]
         date_group.save()
+
+
+def _generate_kalendar_dates():  # nosec: this is only used in a fixture
+    date_groups: List[kalendar.models.DateGroup] = list(kalendar.models.DateGroup.objects.all())
+    for date_group in date_groups:
+        if random.choice((True, True, False)):
+            for _ in range(random.choice((1, 1, 2, 2, 4, 4, 7, 7))):
+                kalendar.models.Date.objects.create(
+                    group=date_group,
+                    date=django.utils.timezone.make_aware(
+                        datetime.today()
+                        + timedelta(days=random.randint(1, 60))
+                        + timedelta(
+                            hours=random.randint(0, 24),
+                            minutes=random.randint(0, 60),
+                        )
+                        - timedelta(days=random.randint(1, 30)),
+                    ),
+                    probable_length=random.choice((60, 60, 60, 120, 240, 0, 1, 20)),
+                )
 
 
 def _generate_tutor_settings(common_semesters):  # nosec: this is only used in a fixture
