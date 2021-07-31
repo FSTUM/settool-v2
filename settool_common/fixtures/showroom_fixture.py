@@ -36,13 +36,13 @@ def showroom_fixture_state_no_confirmation():  # nosec: this is only used in a f
     common_subjects = _generate_subjects()
 
     # app bags
-    _generate_bags_mails()
+    _generate_mails(bags.models.BagMail, "bags")
     bags_companies = _generate_companies(common_semesters)
     _generate_giveaways(common_semesters, bags_companies)
     _generate_bags_settings(common_semesters)
 
     # app fahrt
-    _generate_fahrt_mails()
+    _generate_mails(fahrt.models.FahrtMail, "fahrt")
     fahrt_data = _generate_fahrt_data()
     fahrt_participants = _generate_fahrt_participants(common_subjects, fahrt_data)
     _generate_log_entries(fahrt_participants, superuser_frank)
@@ -50,12 +50,12 @@ def showroom_fixture_state_no_confirmation():  # nosec: this is only used in a f
     _generate_transportation_comment()
 
     # app guidedtours:
-    _generate_guidedtours_mails()
+    _generate_mails(guidedtours.models.TourMail, "guidedtours")
     guidedtours_tours = _generate_guidedtours_tours(common_semesters)
     _generate_guidedtours_participants(common_subjects, guidedtours_tours)
 
     # app tutors
-    _generate_tutor_mails()
+    _generate_mails(tutors.models.TutorMail, "tutor")
     tutors_list = _generate_tutors(common_semesters, common_subjects)
     tutors_questions = _generate_questions(common_semesters)
     _generate_answers(tutors_questions, tutors_list)
@@ -489,40 +489,20 @@ def _generate_questions(semesters):  # nosec: this is only used in a fixture
     return questions
 
 
-def _generate_bags_mails() -> None:  # nosec: this is only used in a fixture
+def _generate_mails(cls, app_id):  # nosec: this is only used in a fixture
     for _ in range(random.randint(10, 20)):
-        bags.models.BagMail.objects.create(
-            subject=f"bags {lorem.sentence()}"[:100],
+        cls.objects.create(
+            subject=f"{app_id} {lorem.sentence()}"[:100],
             text=lorem.text(),
             comment=lorem.sentence(),
         )
 
 
-def _generate_guidedtours_mails() -> None:  # nosec: this is only used in a fixture
-    for _ in range(random.randint(10, 20)):
-        guidedtours.models.TourMail.objects.create(
-            subject=f"guidedtours {lorem.sentence()}"[:100],
-            text=lorem.text(),
-            comment=lorem.sentence(),
-        )
-
-
-def _generate_fahrt_mails() -> None:  # nosec: this is only used in a fixture
-    for _ in range(random.randint(10, 20)):
-        fahrt.models.FahrtMail.objects.create(
-            subject=f"fahrt {lorem.sentence()}"[:100],
-            text=lorem.text(),
-            comment=lorem.sentence(),
-        )
-
-
-def _generate_tutor_mails() -> None:  # nosec: this is only used in a fixture
-    for _ in range(random.randint(10, 20)):
-        tutors.models.TutorMail.objects.create(
-            subject=f"tutor {lorem.sentence()}"[:100],
-            text=lorem.text(),
-            comment=lorem.sentence(),
-        )
+def generate_common_mails():
+    _generate_mails(bags.models.BagMail, "bags")
+    _generate_mails(fahrt.models.FahrtMail, "fahrt")
+    _generate_mails(tutors.models.TutorMail, "tutor")
+    _generate_mails(guidedtours.models.TourMail, "guidedtours")
 
 
 def _generate_subjects():  # nosec: this is only used in a fixture
@@ -608,10 +588,3 @@ def _generate_tutors(semesters, subjects):  # nosec: this is only used in a fixt
         tutors_ret.append(tutor)
         tutor.save()
     return tutors_ret
-
-
-def generate_common_mails():
-    _generate_bags_mails()
-    _generate_fahrt_mails()
-    _generate_tutor_mails()
-    _generate_guidedtours_mails()
