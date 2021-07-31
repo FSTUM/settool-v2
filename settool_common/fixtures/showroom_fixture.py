@@ -11,6 +11,7 @@ from django.utils.datetime_safe import datetime
 import bags.models
 import fahrt.models
 import guidedtours.models
+import kalendar.models
 import settool_common.models
 import tutors.models
 from settool_common.fixtures.test_fixture import generate_semesters
@@ -65,6 +66,34 @@ def showroom_fixture_state_no_confirmation():  # nosec: this is only used in a f
     # TODO tutors_mailtutortask
     # TODO tutors_subjecttutorcountassignment
 
+    # app kalendar
+    _generate_kalendar_locations()
+    _generate_kalendar_date_groups()
+    # TODO kalendar_dates
+    # TODO kalendar_subscriptions
+
+
+def _generate_kalendar_locations():  # nosec: this is only used in a fixture
+    locations = ["Fachschaftsbüro", "Serverraum", "LRZ", "Chemie-gebäude", "Interrims-Höhrsaal", "MI-Magistrale"]
+    for shortname in locations:
+        kalendar.models.Location.objects.create(
+            shortname=shortname,
+            address=random.choice((f"{lorem.sentence()[:60]} 85748 Garching bei München", "")),
+            room=random.choice(("Magistrale", "FS-Büro", "MW0001", "MW2001", "007", "")),
+            comment=lorem.sentence()[:200] if random.choice((True, False, False, False)) else "",
+        )
+
+
+def _generate_kalendar_date_groups():  # nosec: this is only used in a fixture
+    locations: List[kalendar.models.Location] = list(kalendar.models.Location.objects.all())
+    date_groups: List[kalendar.models.DateGroup] = list(kalendar.models.DateGroup.objects.all())
+    for date_group in date_groups:
+        if random.choice((True, False)):
+            date_group.location = random.choice(locations)
+        if random.choice((True, False, False, False)):
+            date_group.comment = lorem.sentence()[:200]
+        date_group.save()
+
 
 def _generate_tutor_settings(common_semesters):  # nosec: this is only used in a fixture
     all_mail_by_set_tutor = tutors.models.TutorMail.objects.all()
@@ -95,10 +124,7 @@ def generate_random_birthday():  # nosec: this is only used in a fixture
     """
     :return: valid birthday that is 10..40 years in the past
     """
-    random_number_of_days = random.randint(
-        356 * 10,
-        365 * 40,
-    )
+    random_number_of_days = random.randint(356 * 10, 365 * 40)
     return django.utils.timezone.make_aware(
         datetime.today() - timedelta(days=random_number_of_days),
     )
@@ -381,6 +407,7 @@ def _generate_tasks_tutorasignemt(  # nosec: this is only used in a fixture
     questions,
 ):
     tasks = []
+    all_tutors = list(tutors.models.Tutor.objects.all())
     for event in events:
         tutors_current_semester = [tutor for tutor in tutors_list if tutor.semester == event.semester]
         number1 = random.randint(0, len(tutors_current_semester))
@@ -388,6 +415,9 @@ def _generate_tasks_tutorasignemt(  # nosec: this is only used in a fixture
         filtered_questions = [question for question in questions if question.semester == event.semester]
         event_subjects = list(event.subjects.all())
         for i in range(0, random.randint(0, 4)):
+            person_1, person_2 = random.sample(all_tutors, 2)
+            person_1 = random.choice((None, person_1, person_1, person_2, event.meeting_chairperson))
+            person_2 = random.choice((None, person_2, person_2, event.event_leader))
             task = tutors.models.Task.objects.create(
                 semester=event.semester,
                 name_en=f"Task {i}",
@@ -400,8 +430,8 @@ def _generate_tasks_tutorasignemt(  # nosec: this is only used in a fixture
                 end=django.utils.timezone.make_aware(
                     datetime.today().replace(day=1, month=12),
                 ),
-                meeting_point_en=lorem.sentence()[: random.randint(0, 49)],
-                meeting_point_de=lorem.sentence()[: random.randint(0, 49)],
+                meeting_chairperson=person_1,
+                task_leader=person_2,
                 event=event,
                 min_tutors=min(number1, number2),
                 max_tutors=max(number1, number2),
@@ -428,8 +458,12 @@ def _generate_tasks_tutorasignemt(  # nosec: this is only used in a fixture
 
 
 def _generate_events(semesters, subjects):  # nosec: this is only used in a fixture
+    all_tutors = list(tutors.models.Tutor.objects.all())
     events = []
     for i in range(random.randint(10, 20)):
+        person_1, person_2 = random.sample(all_tutors, 2)
+        person_1 = random.choice((None, person_1))
+        person_2 = random.choice((None, person_2))
         event = tutors.models.Event.objects.create(
             semester=random.choice(semesters),
             name=f"Event {i}",
@@ -437,12 +471,12 @@ def _generate_events(semesters, subjects):  # nosec: this is only used in a fixt
             name_de=f"Event {i}",
             description_en=lorem.paragraph(),
             description_de=lorem.paragraph(),
+            meeting_chairperson=person_1,
+            event_leader=person_2,
             begin=django.utils.timezone.make_aware(
                 datetime.today().replace(day=1, month=1),
             ),
             end=django.utils.timezone.make_aware(datetime.today().replace(day=1, month=1)),
-            meeting_point_en=lorem.sentence(),
-            meeting_point_de=lorem.sentence(),
         )
         filtered_subjects = random.sample(subjects, random.randint(0, len(subjects)))
         event.subjects.set(filtered_subjects)
