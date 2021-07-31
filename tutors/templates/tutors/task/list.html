@@ -47,7 +47,7 @@
                 </td>
                 <td data-text="{{ task.begin|date:"Y-m-d H:i" }}">{{ task.begin }}</td>
                 <td data-text="{{ task.end|date:"Y-m-d H:i" }}">{{ task.end }}</td>
-                <td>{{ task.associated_meetings.location|default: no_meeting_point }}</td>
+                <td>{{ task.associated_meetings.location|default:no_meeting_point }}</td>
                 <td>{% mail_task_count task %}</td>
                 <td>{{ task.tutors.count }}/{{ task.min_tutors|default_if_none:0 }}-{{ task.max_tutors|default_if_none:0 }}</td>
                 <td>
