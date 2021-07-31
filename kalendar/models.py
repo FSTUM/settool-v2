@@ -25,6 +25,12 @@ class Location(models.Model):
 class DateGroup(models.Model):
     location = models.ForeignKey(Location, null=True, blank=True, on_delete=models.SET_NULL)
     comment = models.CharField(_("Comment"), blank=True, max_length=200)
+    subscribers = models.ManyToManyField(
+        "tutors.Tutor",
+        verbose_name=_("Subscribers to a date_group"),
+        through="DateGroupSubscriber",
+        blank=True,
+    )
 
     @property
     def dates(self) -> List[datetime.datetime]:
