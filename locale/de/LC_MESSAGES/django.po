@@ -9,20 +9,23 @@ msgstr ""
 
 #: kalendar/models.py
 #: kalendar/templates/kalendar/management/list/chronological.html
+#: kalendar/templates/kalendar/management/list/grouped.html
 msgid "short/simplified Address"
 msgstr "verkürtzte/vereinfachte Adresse"
 
 #: kalendar/models.py
 #: kalendar/templates/kalendar/management/list/chronological.html
+#: kalendar/templates/kalendar/management/list/grouped.html
 msgid "(Street)map-address"
 msgstr "Straßenkarten-Adresse"
 
 #: kalendar/models.py
 #: kalendar/templates/kalendar/management/list/chronological.html
+#: kalendar/templates/kalendar/management/list/grouped.html
 msgid "Room"
 msgstr "Raum"
 
-#: kalendar/models.py
+#: kalendar/models.py kalendar/templates/kalendar/management/list/grouped.html
 msgid "Comment"
 msgstr "Kommentar"
 
@@ -95,7 +98,6 @@ msgid "Edit date"
 msgstr "Datum bearbeiten"
 
 #: kalendar/templates/kalendar/management/list/chronological.html
-#: kalendar/templates/kalendar/management/list/grouped.html
 msgid "List of dates"
 msgstr "Liste der Daten"
 
@@ -112,7 +114,6 @@ msgid "Name"
 msgstr "Name"
 
 #: kalendar/templates/kalendar/management/list/chronological.html
-#: kalendar/templates/kalendar/management/list/grouped.html
 msgid "Date/Time"
 msgstr "Datum/Zeit"
 
@@ -121,17 +122,40 @@ msgid "Probable length"
 msgstr "Warscheinliche länge"
 
 #: kalendar/templates/kalendar/management/list/chronological.html
-#: kalendar/templates/kalendar/management/list/grouped.html
 msgid "Actions"
 msgstr "Aktionen"
 
 #: kalendar/templates/kalendar/management/list/grouped.html
-msgid "Place"
-msgstr "Ort"
+msgid "List of events"
+msgstr "Liste der Events"
 
 #: kalendar/templates/kalendar/management/list/grouped.html
-msgid "Type"
-msgstr "Typ"
+msgid "No Events exist"
+msgstr "Keine Events existieren"
+
+#: kalendar/templates/kalendar/management/list/grouped.html
+msgid "Event Data"
+msgstr "Eventdaten"
+
+#: kalendar/templates/kalendar/management/list/grouped.html
+msgid "Description:"
+msgstr "Beschreibung:"
+
+#: kalendar/templates/kalendar/management/list/grouped.html
+msgid "Location:"
+msgstr "Standort:"
+
+#: kalendar/templates/kalendar/management/list/grouped.html
+msgid "Dates:"
+msgstr "Daten:"
+
+#: kalendar/templates/kalendar/management/list/grouped.html
+msgid "Associated Tasks"
+msgstr "Zugeordnete Aufgaben"
+
+#: kalendar/templates/kalendar/management/list/grouped.html
+msgid "no Tasks exist"
+msgstr "keine Aufgaben existeren"
 
 #: kalendar/templates/kalendar/management/view_date.html
 msgid "Date details"
@@ -416,6 +440,12 @@ msgstr "Nein"
 #: templates/snippets/true_false_none_span.html
 msgid "Unknown"
 msgstr "Unbekannt"
+
+#~ msgid "Place"
+#~ msgstr "Ort"
+
+#~ msgid "Type"
+#~ msgstr "Typ"
 
 #~ msgid "May the SET be ever in yor favour"
 #~ msgstr "May the SET be ever in yor favour"
