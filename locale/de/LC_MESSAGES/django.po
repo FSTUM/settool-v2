@@ -34,6 +34,16 @@ msgid "Subscribers to a date_group"
 msgstr "Abonnenten einer date_group"
 
 #: kalendar/models.py
+#: kalendar/templates/kalendar/management/list/chronological.html
+msgid "Event"
+msgstr "Event"
+
+#: kalendar/models.py
+#: kalendar/templates/kalendar/management/list/chronological.html
+msgid "Task"
+msgstr "Aufgabe"
+
+#: kalendar/models.py
 msgid "Date and Time"
 msgstr "Datum und Zeit"
 
@@ -102,14 +112,7 @@ msgid "List of dates"
 msgstr "Liste der Daten"
 
 #: kalendar/templates/kalendar/management/list/chronological.html
-msgid "Event"
-msgstr "Event"
-
-#: kalendar/templates/kalendar/management/list/chronological.html
-msgid "Task"
-msgstr "Aufgabe"
-
-#: kalendar/templates/kalendar/management/list/chronological.html
+#: kalendar/templates/kalendar/management/view_date.html
 msgid "Name"
 msgstr "Name"
 
@@ -160,6 +163,27 @@ msgstr "keine Aufgaben existeren"
 #: kalendar/templates/kalendar/management/view_date.html
 msgid "Date details"
 msgstr "Datumsdetails"
+
+#: kalendar/templates/kalendar/management/view_date.html
+msgid "Date-information"
+msgstr "Datum-informationen"
+
+#: kalendar/templates/kalendar/management/view_date.html
+msgid "Location-information"
+msgstr "Standort-informationen"
+
+#: kalendar/templates/kalendar/management/view_date.html
+msgid "Event-information"
+msgstr "Event-informationen"
+
+#: kalendar/templates/kalendar/management/view_date.html
+msgid "Task-information"
+msgstr "Aufgaben-informationen"
+
+#: kalendar/templates/kalendar/management/view_date.html
+#: templates/snippets/mail_template_table.html
+msgid "Description"
+msgstr "Beschreibung"
 
 #: kalendar/templates/kalendar/management/view_date.html
 msgid "Back"
@@ -406,10 +430,6 @@ msgstr "Nutzbare generelle Template-tags"
 #: templates/snippets/mail_template_table.html
 msgid "Tag"
 msgstr "Tag"
-
-#: templates/snippets/mail_template_table.html
-msgid "Description"
-msgstr "Beschreibung"
 
 #: templates/snippets/mail_template_table.html
 msgid "Usable Conditional Template-tags"

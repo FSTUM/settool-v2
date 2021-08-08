@@ -6,7 +6,8 @@
 
 {% block set_common_content %}
 <div class="row">
-    <div class="col-sm-12">
+    <div class="col-sm-4">
+        <h2>{% trans "Date-information" %}</h2>
         <table class="table table-hover">
             <tr>
                 <th>{% trans "Date" %}</th>
@@ -16,10 +17,32 @@
                 <th>{% trans "probable length in minutes" %}</th>
                 <td>{{ date.probable_length }}</td>
             </tr>
+        </table>
+    </div>
+    <div class="col-sm-4">
+        <h2>{% trans "Location-information" %}</h2>
+        <table class="table table-hover">
             <tr>
                 <th>{% trans "Location" %}</th>
                 {% trans "no meeting point specified" as no_meeting_point %}
                 <td>{{ date.group.location|default:no_meeting_point }}</td>
+            </tr>
+        </table>
+    </div>
+    <div class="col-sm-4">
+        <h2>
+            {% if date.group.is_group %}{% trans "Event-information" %}
+            {% else %}{% trans "Task-information" %}
+            {% endif %}
+        </h2>
+        <table class="table table-hover">
+            <tr>
+                <th>{% trans "Name" %}</th>
+                <td>{{ date.group.super_group.name }}</td>
+            </tr>
+            <tr>
+                <th>{% trans "Description" %}</th>
+                <td>{{ date.group.super_group.description }}</td>
             </tr>
         </table>
     </div>
