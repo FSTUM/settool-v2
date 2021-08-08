@@ -179,45 +179,4 @@
     </div>
     {% endfor %}
 </div>
-
-
-{% comment %}
-<div class="table-responsive">
-    <table
-        id="dateTable"
-        class="table dataTable"
-    >
-        <thead>
-            <tr>
-                <th>{% trans "Name" %}</th>
-                <th>{% trans "Date/Time" %}</th>
-                <th>{% trans "Probable length" %}</th>
-                <th>{% trans "short/simplified Address" %}</th>
-                <th>{% trans "(Street)map-address" %}</th>
-                <th>{% trans "Room" %}</th>
-                <th>{% trans "Actions" %}</th>
-            </tr>
-            </tr>
-        </thead>
-        <tbody>
-
-
-            <tr>
-                <td>{{ forloop.counter }}</td>
-                <td>
-                    <a href="{% url "kalendar:view_date" date.pk %}">{{ date.name }}</a>
-                </td>
-                <td data-text="{{ date.begin|date:"Y-m-d H:i" }}">{{ date.begin }}</td>
-                <td data-text="{{ date.end|date:"Y-m-d H:i" }}">{{ date.end }}</td>
-                <td>{{ date.associated_meetings.location|default:no_meeting_point }}</td>
-                <td>
-                    <a href="{% url "kalendar:edit_date" date.pk %}"><span class="bi bi-pencil-square"></span></a>
-                    <a href="{% url "kalendar:del_date" date.pk %}"><span class="bi bi-trash-fill"></span></a>
-                </td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-</div>
-{% endcomment %}
 {% endblock %}
