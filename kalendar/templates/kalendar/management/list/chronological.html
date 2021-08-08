@@ -6,7 +6,7 @@
 <script>
     $(document).ready(() => {
         $('#dateTable').DataTable({
-            columnDefs: [{ targets: 4, orderable: false }],
+            columnDefs: [{ targets: 7, orderable: false }],
         });
     });
 </script>
@@ -54,12 +54,13 @@
 {% if date.group.is_event %}{% url "tutors:view_event" date.group.super_group.pk %}
 {% else %}{% url "tutors:view_task" date.group.super_group.pk %}
 {% endif %}">
-                        {{ date.group.super_group.name }}</a>
+                        {{ date.group.super_group.name }}
+                    </a>
                 </td>
-                <td data-text="{{ date.date|date:"Y-m-d H:i" }}">
+                <td data-sort="{{ date.date|date:"c" }}">
                     <a href="{% url "kalendar:view_date" date.pk %}">{{ date.date }}</a>
                 </td>
-                <td>{{ date.probable_length }}m</td>
+                <td data-sort="{{ date.probable_length }}">{{ date.probable_length }}m</td>
                 {% if date.group.location %}
                 <td>{{ date.group.location.shortname|default:"-" }}</td>
                 <td>{{ date.group.location.address|default:"-" }}</td>
