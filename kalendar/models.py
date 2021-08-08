@@ -16,10 +16,10 @@ class Location(models.Model):
     def __str__(self) -> str:
         message = self.shortname
         if self.address:
-            message += f"at {self.address}"
+            message += f"<br/>{_('Adress')}: {self.address}"
         if self.room:
-            message += f" ({self.room})"
-        return message
+            message += f"<br/>{_('Room')}: {self.room}"
+        return mark_safe(message)  # nosec: fully defined
 
 
 class DateGroup(models.Model):
@@ -51,7 +51,11 @@ class DateGroup(models.Model):
         return DateGroup.objects.create().id
 
     def __str__(self) -> str:
-        return f"{self.location}: {self.dates}"
+        name = self.super_group.name
+        group_type = _("Event") if self.is_event else _("Task")
+        if self.location:
+            return f"[{group_type}] {name} at {self.location}"
+        return f"[{group_type}] {name} ({_('no meeting point specified')})"
 
 
 class DateGroupSubscriber(models.Model):
@@ -74,7 +78,7 @@ class Date(models.Model):
     )
 
     def __str__(self) -> str:
-        return str(self.date)
+        return self.date.strftime("%x %X")
 
 
 class DateSubscriber(models.Model):
