@@ -70,7 +70,30 @@ def showroom_fixture_state_no_confirmation():  # nosec: this is only used in a f
     _generate_kalendar_locations()
     _generate_kalendar_date_groups()
     _generate_kalendar_dates()
-    # TODO kalendar_subscriptions
+    _generate_kalendar_subscriptions()
+
+
+def _generate_kalendar_subscriptions():  # nosec: this is only used in a fixture
+    actual_tutors = list(tutors.models.Tutor.objects.filter(status=tutors.models.Tutor.STATUS_ACCEPTED).all())
+    collaborators = list(tutors.models.Tutor.objects.filter(status=tutors.models.Tutor.STATUS_EMPLOYEE).all())
+    dates = list(kalendar.models.Date.objects.all())
+    date_groups = list(kalendar.models.DateGroup.objects.all())
+    for tutor in actual_tutors:
+        if random.choice((True, True, True, False)):
+            dates_for_tutor = random.randint(1, len(dates) // len(actual_tutors) + 1)
+            selected_dates = random.sample(dates, dates_for_tutor)
+            for date in selected_dates:
+                kalendar.models.DateSubscriber.objects.create(date=date, tutor=tutor)
+    for collaborator in collaborators:
+        # 90% get a normal amount, 5% get nothing, 5% get all
+        if random.randint(1, 100) > 10:
+            date_groups_for_collaborator = random.randint(1, len(dates) // len(collaborators) + 1)
+            selected_date_groups = random.sample(date_groups, date_groups_for_collaborator)
+            for date_group in selected_date_groups:
+                kalendar.models.DateGroupSubscriber.objects.create(date=date_group, tutor=collaborator)
+        elif random.choice((True, False)):
+            for date_group in date_groups:
+                kalendar.models.DateGroupSubscriber.objects.create(date=date_group, tutor=collaborator)
 
 
 def _generate_kalendar_locations():  # nosec: this is only used in a fixture
