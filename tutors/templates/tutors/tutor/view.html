@@ -117,6 +117,10 @@
         class="btn btn-danger"
         href="{% url "tutors:del_tutor" tutor.id %}"
     >{% trans "Delete tutor" %}</a>
+    <a
+        class="btn btn-danger"
+        href="{% url "kalendar:ical_personal" tutor.id %}"
+    >{% trans "Download tutors ical" %}</a>
 </div>
 {% endif %}
 <h2 class="card-title mt-3">{% trans "Questions" %}</h2>

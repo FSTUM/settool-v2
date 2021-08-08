@@ -884,6 +884,10 @@ msgid "Send email to tutor"
 msgstr "Sende Email an Tutoren"
 
 #: tutors/templates/tutors/tutor/view.html
+msgid "Download tutors ical"
+msgstr "ical des Tutors herunterladen"
+
+#: tutors/templates/tutors/tutor/view.html
 msgid "Assigned Tasks"
 msgstr "Zugewiesene Tasks"
 

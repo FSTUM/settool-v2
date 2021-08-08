@@ -2,14 +2,24 @@ from django.urls import include, path
 from django.views.generic import RedirectView
 
 from . import views
+from .feeds import PersonalMeetingFeed
 
 app_name = "kalendar"
 urlpatterns = [
     path("", RedirectView.as_view(pattern_name="kalendar:dashboard"), name="main_index"),
     path("dashboard/", views.dashboard, name="dashboard"),
     path(
-        "matching/",
-        include([]),
+        "user/",
+        include(
+            [
+                path(
+                    "matching/",
+                    include([]),
+                ),
+                path("<uuid:tutor_uuid>/ical/", PersonalMeetingFeed(), name="ical_personal"),
+                path("<uuid:tutor_uuid>/view/<int:date_pk>/", views.view_date_public, name="view_date_public"),
+            ],
+        ),
     ),
     path(
         "management/",

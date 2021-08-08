@@ -49,6 +49,7 @@ msgstr "Datum und Zeit"
 
 #: kalendar/models.py kalendar/templates/kalendar/management/delete_date.html
 #: kalendar/templates/kalendar/management/view_date.html
+#: kalendar/templates/kalendar/user/view_date_public.html
 msgid "probable length in minutes"
 msgstr "warscheinliche länge in Minuten"
 
@@ -83,17 +84,20 @@ msgstr "Datum löschen"
 
 #: kalendar/templates/kalendar/management/delete_date.html
 #: kalendar/templates/kalendar/management/view_date.html
+#: kalendar/templates/kalendar/user/view_date_public.html
 msgid "Date"
 msgstr "Datum"
 
 #: kalendar/templates/kalendar/management/delete_date.html
 #: kalendar/templates/kalendar/management/view_date.html
+#: kalendar/templates/kalendar/user/view_date_public.html
 msgid "Location"
 msgstr "Standort"
 
 #: kalendar/templates/kalendar/management/delete_date.html
 #: kalendar/templates/kalendar/management/list/grouped.html
 #: kalendar/templates/kalendar/management/view_date.html
+#: kalendar/templates/kalendar/user/view_date_public.html
 msgid "no meeting point specified"
 msgstr "kein Treffpunkt angegeben"
 
@@ -113,6 +117,7 @@ msgstr "Liste der Daten"
 
 #: kalendar/templates/kalendar/management/list/chronological.html
 #: kalendar/templates/kalendar/management/view_date.html
+#: kalendar/templates/kalendar/user/view_date_public.html
 msgid "Name"
 msgstr "Name"
 
@@ -161,31 +166,38 @@ msgid "no Tasks exist"
 msgstr "keine Aufgaben existeren"
 
 #: kalendar/templates/kalendar/management/view_date.html
+#: kalendar/templates/kalendar/user/view_date_public.html
 msgid "Date details"
 msgstr "Datumsdetails"
 
 #: kalendar/templates/kalendar/management/view_date.html
+#: kalendar/templates/kalendar/user/view_date_public.html
 msgid "Date-information"
 msgstr "Datum-informationen"
 
 #: kalendar/templates/kalendar/management/view_date.html
+#: kalendar/templates/kalendar/user/view_date_public.html
 msgid "Location-information"
 msgstr "Standort-informationen"
 
 #: kalendar/templates/kalendar/management/view_date.html
+#: kalendar/templates/kalendar/user/view_date_public.html
 msgid "Event-information"
 msgstr "Event-informationen"
 
 #: kalendar/templates/kalendar/management/view_date.html
+#: kalendar/templates/kalendar/user/view_date_public.html
 msgid "Task-information"
 msgstr "Aufgaben-informationen"
 
 #: kalendar/templates/kalendar/management/view_date.html
+#: kalendar/templates/kalendar/user/view_date_public.html
 #: templates/snippets/mail_template_table.html
 msgid "Description"
 msgstr "Beschreibung"
 
 #: kalendar/templates/kalendar/management/view_date.html
+#: kalendar/templates/kalendar/user/view_date_public.html
 msgid "Back"
 msgstr "Zurück"
 

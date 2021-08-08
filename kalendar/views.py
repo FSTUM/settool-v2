@@ -1,19 +1,20 @@
 import datetime
 from typing import Any, Dict
+from uuid import UUID
 
 from django import forms
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required, permission_required
 from django.core.handlers.wsgi import WSGIRequest
 from django.db.models import QuerySet
-from django.http import HttpResponse
+from django.http import Http404, HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.utils.translation import ugettext_lazy as _
 
 from kalendar.forms import DateForm
-from kalendar.models import Date, DateGroup
+from kalendar.models import Date, DateGroup, DateGroupSubscriber, DateSubscriber
 from settool_common.models import get_semester, Semester
-from tutors.models import Event
+from tutors.models import Event, Tutor
 
 
 @login_required
@@ -85,3 +86,19 @@ def view_date(request: WSGIRequest, date_pk: int) -> HttpResponse:
 
     context = {"date": date}
     return render(request, "kalendar/management/view_date.html", context)
+
+
+def view_date_public(request: WSGIRequest, tutor_uuid: UUID, date_pk: int) -> HttpResponse:
+    tutor: Tutor = get_object_or_404(Tutor, pk=tutor_uuid)
+    date: Date = get_object_or_404(Date, pk=date_pk)
+    if (
+        not DateSubscriber.objects.filter(tutor=tutor, date=date).exists()
+        and not DateGroupSubscriber.objects.filter(tutor=tutor, date=date.group).exists()
+    ):
+        raise Http404()
+
+    context = {
+        "date": date,
+        "tutor": tutor,
+    }
+    return render(request, "kalendar/user/view_date_public.html", context)

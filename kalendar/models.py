@@ -1,7 +1,10 @@
 import datetime
 from typing import List
+from uuid import UUID
 
 from django.db import models
+from django.db.models import Q, QuerySet
+from django.utils.safestring import mark_safe
 from django.utils.translation import ugettext_lazy as _
 
 
@@ -79,6 +82,18 @@ class Date(models.Model):
 
     def __str__(self) -> str:
         return self.date.strftime("%x %X")
+
+    @classmethod
+    def get_dates_for_tutor(cls, tutor_uuid: UUID, reference_time: datetime.datetime) -> QuerySet["Date"]:
+        subbed_date_groups = DateGroupSubscriber.objects.filter(tutor=tutor_uuid).values("date")
+        subbed_dates = DateSubscriber.objects.filter(tutor=tutor_uuid).values("date")
+        return (
+            cls.objects.filter(date__gte=reference_time)
+            .filter(Q(group__in=subbed_date_groups) | Q(pk__in=subbed_dates))
+            .order_by("-date")
+            .distinct()
+            .all()
+        )
 
 
 class DateSubscriber(models.Model):
