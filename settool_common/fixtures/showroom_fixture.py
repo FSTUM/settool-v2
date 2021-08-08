@@ -97,11 +97,33 @@ def _generate_kalendar_subscriptions():  # nosec: this is only used in a fixture
 
 
 def _generate_kalendar_locations():  # nosec: this is only used in a fixture
-    locations = ["Fachschaftsbüro", "Serverraum", "LRZ", "Chemie-gebäude", "Interrims-Höhrsaal", "MI-Magistrale"]
+    locations = [
+        "Fachschaftsbüro",
+        "Serverraum",
+        "LRZ",
+        "Chemie-gebäude",
+        "Interrims-Höhrsaal",
+        "MI-Magistrale",
+        "MI-Vorplazt",
+        "Grillareal",
+        "Galileo",
+        "MW2001",
+        "MW0001",
+    ]
     for shortname in locations:
+        address = random.choice(
+            (
+                f"Boltzmannstr. {random.randint(1, 30)}, 85748 Garching",
+                random.choice(("Arcisstraße 17, 80333 München", "")),
+            ),
+        )
         kalendar.models.Location.objects.create(
             shortname=shortname,
-            address=random.choice((f"{lorem.sentence()[:60]} 85748 Garching bei München", "")),
+            shortname_de=shortname,
+            shortname_en=shortname,
+            address=address,
+            address_de=address,
+            address_en=address,
             room=random.choice(("Magistrale", "FS-Büro", "MW0001", "MW2001", "007", "")),
             comment=lorem.sentence()[:200] if random.choice((True, False, False, False)) else "",
         )
@@ -111,7 +133,7 @@ def _generate_kalendar_date_groups():  # nosec: this is only used in a fixture
     locations: List[kalendar.models.Location] = list(kalendar.models.Location.objects.all())
     date_groups: List[kalendar.models.DateGroup] = list(kalendar.models.DateGroup.objects.all())
     for date_group in date_groups:
-        if random.choice((True, False)):
+        if random.choice((True, True, True, False)):
             date_group.location = random.choice(locations)
         if random.choice((True, False, False, False)):
             date_group.comment = lorem.sentence()[:200]
