@@ -66,18 +66,11 @@ class BaseModel(models.Model):
 
 
 class Settings(BaseModel):
-    semester = models.OneToOneField(
-        Semester,
-        on_delete=models.CASCADE,
-    )
+    semester = models.OneToOneField(Semester, on_delete=models.CASCADE, )
 
-    open_registration = models.DateTimeField(
-        _("Open registration"),
-    )
+    open_registration = models.DateTimeField(_("Open registration"), )
 
-    close_registration = models.DateTimeField(
-        _("Close registration"),
-    )
+    close_registration = models.DateTimeField(_("Close registration"), )
 
     mail_registration = models.ForeignKey(
         TutorMail,
@@ -86,7 +79,6 @@ class Settings(BaseModel):
         on_delete=models.SET_NULL,  # can be deleted, but can not be ignored in the Settings :)
         null=True,
     )
-
     mail_confirmed_place = models.ForeignKey(
         TutorMail,
         verbose_name=_("Mail Confirmed Place"),
@@ -95,7 +87,6 @@ class Settings(BaseModel):
         null=True,
         blank=True,
     )
-
     mail_waiting_list = models.ForeignKey(
         TutorMail,
         verbose_name=_("Mail Waiting List"),
@@ -104,7 +95,6 @@ class Settings(BaseModel):
         null=True,
         blank=True,
     )
-
     mail_declined_place = models.ForeignKey(
         TutorMail,
         verbose_name=_("Mail Declined Place"),
@@ -113,7 +103,6 @@ class Settings(BaseModel):
         null=True,
         blank=True,
     )
-
     mail_task = models.ForeignKey(
         TutorMail,
         verbose_name=_("Mail Task"),
@@ -122,7 +111,6 @@ class Settings(BaseModel):
         null=True,
         blank=True,
     )
-
     mail_reminder = models.ForeignKey(
         TutorMail,
         verbose_name=_("Mail Reminder"),
@@ -131,6 +119,7 @@ class Settings(BaseModel):
         null=True,
         blank=True,
     )
+
     reminder_tour_days_count = models.IntegerField(
         verbose_name=_(
             "Send the reminder-mail automatically this amount of days before the beginn of the Task (0=same day)",
@@ -138,7 +127,8 @@ class Settings(BaseModel):
         default=0,
     )
 
-    def registration_open(self):
+    @property
+    def registration_open(self) -> bool:
         return self.open_registration < timezone.now() < self.close_registration
 
     def log(self, user, text):
@@ -269,7 +259,7 @@ class Event(BaseModel):
         pass
 
     def __str__(self):
-        return f"{self.name} {self.begin.date()}"
+        return f"{self.name}"
 
 
 class Task(BaseModel):
@@ -330,42 +320,19 @@ class Task(BaseModel):
 
 
 class TutorAssignment(BaseModel):
-    tutor = models.ForeignKey(
-        Tutor,
-        on_delete=models.CASCADE,
-    )
-
-    task = models.ForeignKey(
-        Task,
-        on_delete=models.CASCADE,
-    )
-
-    absent = models.BooleanField(
-        _("absent"),
-        default=False,
-    )
+    tutor = models.ForeignKey(Tutor, on_delete=models.CASCADE, )
+    task = models.ForeignKey(Task, on_delete=models.CASCADE, )
+    absent = models.BooleanField(_("absent"), default=False, )
 
     def __str__(self):
         return f"{self.tutor}"
 
 
 class Question(BaseModel):
-    id = models.UUIDField(
-        primary_key=True,
-        default=uuid.uuid4,
-        editable=False,
-    )
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False, )
+    semester = models.ForeignKey(Semester, verbose_name=_("Semester"), on_delete=models.CASCADE, )
 
-    semester = models.ForeignKey(
-        Semester,
-        verbose_name=_("Semester"),
-        on_delete=models.CASCADE,
-    )
-
-    question = models.CharField(
-        _("Question"),
-        max_length=100,
-    )
+    question = models.CharField(_("Question"), max_length=100, )
 
     def __str__(self):
         return str(self.question)
