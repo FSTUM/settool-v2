@@ -83,6 +83,13 @@ class Date(models.Model):
     def __str__(self) -> str:
         return self.date.strftime("%x %X")
 
+    def intersects(self, other_date: "Date") -> bool:
+        latest_start = max(self.date, other_date.date)
+        end_self = self.date + datetime.timedelta(minutes=self.probable_length)
+        end_other = other_date.date + datetime.timedelta(minutes=other_date.probable_length)
+        earliest_end = min(end_self, end_other)
+        return latest_start <= earliest_end
+
     @classmethod
     def get_dates_for_tutor(cls, tutor_uuid: UUID, reference_time: datetime.datetime) -> QuerySet["Date"]:
         subbed_date_groups = DateGroupSubscriber.objects.filter(tutor=tutor_uuid).values("date")

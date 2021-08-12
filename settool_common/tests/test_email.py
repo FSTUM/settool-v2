@@ -199,15 +199,12 @@ class CronTutor(TestCase):
             lookup_day = self.today + timedelta(days=days_until)
 
             task: tutor_models.Task
-            for task in tutor_models.Task.objects.filter(
-                Q(semester=common_models.current_semester())
-                & Q(begin__day=lookup_day.day)  # begin is datetime
-                & Q(begin__month=lookup_day.month)
-                & Q(begin__year=lookup_day.year),
-            ):
-                tutor: tutor_models.Tutor
-                for tutor in list(task.tutors.all()):
-                    self.setting.mail_reminder.send_mail_task(tutor, task)
+            for task in tutor_models.Task.objects.filter(semester=common_models.current_semester()):
+                first_datetime = task.first_datetime
+                if first_datetime.date() == lookup_day:
+                    tutor: tutor_models.Tutor
+                    for tutor in list(task.tutors.all()):
+                        self.setting.mail_reminder.send_mail_task(tutor, task)
             expected = serialise_outbox()
             cron.tutor_reminder(common_models.current_semester(), self.today)
             curr = serialise_outbox()

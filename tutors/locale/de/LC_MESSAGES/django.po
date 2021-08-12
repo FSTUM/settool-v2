@@ -194,29 +194,6 @@ msgstr "Name"
 msgid "Description"
 msgstr "Beschreibung"
 
-#: tutors/models.py tutors/templates/tutors/event/delete.html
-#: tutors/templates/tutors/event/list.html
-#: tutors/templates/tutors/event/view.html
-#: tutors/templates/tutors/task/delete.html
-#: tutors/templates/tutors/task/list.html
-#: tutors/templates/tutors/task/view.html
-#: tutors/templates/tutors/tutor/delete.html
-#: tutors/templates/tutors/tutor/view.html
-msgid "Begin"
-msgstr "Start"
-
-#: tutors/models.py tutors/templates/tutors/dashboard.html
-#: tutors/templates/tutors/event/delete.html
-#: tutors/templates/tutors/event/list.html
-#: tutors/templates/tutors/event/view.html
-#: tutors/templates/tutors/task/delete.html
-#: tutors/templates/tutors/task/list.html
-#: tutors/templates/tutors/task/view.html
-#: tutors/templates/tutors/tutor/delete.html
-#: tutors/templates/tutors/tutor/view.html
-msgid "End"
-msgstr "Ende"
-
 #: tutors/models.py
 msgid "Associated Meetings"
 msgstr "Assoziierte Meetings"
@@ -233,10 +210,6 @@ msgstr "Studiengänge"
 #: tutors/templates/tutors/task/view.html
 msgid "Event"
 msgstr "Event"
-
-#: tutors/models.py
-msgid "Task name"
-msgstr "Taskname"
 
 #: tutors/models.py
 msgid "Allowed Subjects"
@@ -388,6 +361,18 @@ msgid "Start"
 msgstr "Start"
 
 #: tutors/templates/tutors/dashboard.html
+#: tutors/templates/tutors/event/delete.html
+#: tutors/templates/tutors/event/list.html
+#: tutors/templates/tutors/event/view.html
+#: tutors/templates/tutors/task/delete.html
+#: tutors/templates/tutors/task/list.html
+#: tutors/templates/tutors/task/view.html
+#: tutors/templates/tutors/tutor/delete.html
+#: tutors/templates/tutors/tutor/view.html
+msgid "End"
+msgstr "Ende"
+
+#: tutors/templates/tutors/dashboard.html
 msgid "Next upcoming 5 tasks"
 msgstr "Nächste 5 anstehende Tasks"
 
@@ -420,6 +405,17 @@ msgstr "Event hinzufügen"
 #: tutors/templates/tutors/event/view.html
 msgid "Delete event"
 msgstr "Event löschen"
+
+#: tutors/templates/tutors/event/delete.html
+#: tutors/templates/tutors/event/list.html
+#: tutors/templates/tutors/event/view.html
+#: tutors/templates/tutors/task/delete.html
+#: tutors/templates/tutors/task/list.html
+#: tutors/templates/tutors/task/view.html
+#: tutors/templates/tutors/tutor/delete.html
+#: tutors/templates/tutors/tutor/view.html
+msgid "Begin"
+msgstr "Start"
 
 #: tutors/templates/tutors/event/delete.html
 #: tutors/templates/tutors/event/list.html

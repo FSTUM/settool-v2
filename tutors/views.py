@@ -1,12 +1,13 @@
+import datetime
 import time
-from typing import Any, Dict, List, Optional, Union
+from typing import Any, Dict, List, Optional, Set, Tuple, Union
 from uuid import UUID
 
 from django import http
 from django.contrib import messages
 from django.contrib.auth.decorators import permission_required
 from django.core.handlers.wsgi import WSGIRequest
-from django.db.models import Count, Manager, Q, QuerySet
+from django.db.models import Count, Manager, QuerySet
 from django.forms import forms, modelformset_factory
 from django.http import Http404, HttpResponse, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, redirect, render
@@ -19,6 +20,7 @@ from django.utils.translation import ugettext_lazy as _
 from django_tex.response import PDFResponse
 from django_tex.shortcuts import render_to_pdf
 
+from kalendar.models import Date
 from settool_common import utils
 from settool_common.models import get_semester, Semester, Subject
 from tutors.forms import (
@@ -339,7 +341,7 @@ def edit_event(request: WSGIRequest, uid: UUID) -> HttpResponse:
 @permission_required("tutors.edit_tutors")
 def list_event(request: WSGIRequest) -> HttpResponse:
     semester: Semester = get_object_or_404(Semester, pk=get_semester(request))
-    events = Event.objects.filter(semester=semester).order_by("begin")
+    events = Event.sorted_by_semester(semester.id)
     return render(request, "tutors/event/list.html", {"events": events})
 
 
@@ -408,7 +410,8 @@ def edit_task(request: WSGIRequest, uid: UUID) -> HttpResponse:
 
 @permission_required("tutors.edit_tutors")
 def list_task(request: WSGIRequest) -> HttpResponse:
-    tasks = Task.objects.filter(semester=get_semester(request)).order_by("begin")
+    tasks: List[Task] = Task.sorted_by_semester(get_semester(request))
+
     return render(request, "tutors/task/list.html", {"tasks": tasks})
 
 
@@ -462,11 +465,14 @@ def view_task(request: WSGIRequest, uid: UUID) -> HttpResponse:
         messages.success(request, f"Saved Task Assignment {task.name}.")
 
     assigned_tutors = task.tutors.all().order_by("last_name")
-    parallel_task_tutors = Tutor.objects.filter(
-        Q(task__begin__gte=task.begin) | Q(task__end__lte=task.end),
-        Q(task__end__gt=task.begin),
-        Q(task__begin__lt=task.end),
-    )
+
+    paralel_dates: Set[Date] = set()
+    for test_date in Date.objects.all():
+        for orig_date in task.associated_meetings.date_set.all():
+            if not orig_date.intersects(test_date):
+                paralel_dates.add(test_date)
+    paralel_tasks = Task.objects.filter(associated_meetings__date__in=paralel_dates)
+    parallel_task_tutors = Tutor.objects.filter(tutorassignment__task__in=paralel_tasks)
     unassigned_tutors = (
         Tutor.objects.filter(semester=semester, status=Tutor.STATUS_ACCEPTED)
         .exclude(id__in=assigned_tutors.values("id"))
@@ -941,6 +947,16 @@ def batch_decline(request: WSGIRequest) -> HttpResponse:
     return render(request, "tutors/tutor/batch_decline.html", context)
 
 
+def get_first_five(cls, semester):
+    all_items: QuerySet[cls] = cls.objects.filter(semester=semester).all()
+    sorted_cls: List[Tuple[datetime.datetime, cls]] = [
+        (item.first_datetime, item) for item in all_items if item.last_datetime > timezone.now()
+    ]
+    sorted_cls = sorted(sorted_cls, key=lambda e: e[0])[:5]
+
+    return [event for (_, event) in sorted_cls]
+
+
 @permission_required("tutors.edit_tutors")
 def dashboard(request: WSGIRequest) -> HttpResponse:
     semester: Semester = get_object_or_404(Semester, pk=get_semester(request))
@@ -959,16 +975,8 @@ def dashboard(request: WSGIRequest) -> HttpResponse:
             assignment_wish_counter.wanted,
         )
 
-    events = (
-        Event.objects.filter(semester=semester)
-        .filter(Q(begin__gt=timezone.now()) | Q(end__gt=timezone.now()))
-        .order_by("begin")[:5]
-    )
-    tasks = (
-        Task.objects.filter(semester=semester)
-        .filter(Q(begin__gt=timezone.now()) | Q(end__gt=timezone.now()))
-        .order_by("begin")[:5]
-    )
+    events: List[Event] = Event.sorted_by_semester(semester.id)[:5]
+    tasks: List[Task] = Task.sorted_by_semester(semester.id)[:5]
 
     missing_mails = 0
     task: Task

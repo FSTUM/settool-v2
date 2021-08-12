@@ -1,13 +1,15 @@
+import datetime
 import uuid
-from typing import List, Tuple
+from typing import List, Optional, Tuple
 
 from django.core.validators import RegexValidator
 from django.db import models
+from django.db.models import QuerySet
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 
 import settool_common.models as common_models
-from kalendar.models import DateGroup
+from kalendar.models import Date, DateGroup
 from settool_common.models import Semester, Subject
 
 
@@ -66,11 +68,10 @@ class BaseModel(models.Model):
 
 
 class Settings(BaseModel):
-    semester = models.OneToOneField(Semester, on_delete=models.CASCADE, )
+    semester = models.OneToOneField(Semester, on_delete=models.CASCADE)
 
-    open_registration = models.DateTimeField(_("Open registration"), )
-
-    close_registration = models.DateTimeField(_("Close registration"), )
+    open_registration = models.DateTimeField(_("Open registration"))
+    close_registration = models.DateTimeField(_("Close registration"))
 
     mail_registration = models.ForeignKey(
         TutorMail,
@@ -216,15 +217,15 @@ class Tutor(BaseModel):
         pass
 
 
-class Event(BaseModel):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+class BaseTask(BaseModel):
+    class Meta:
+        abstract = True
 
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     semester = models.ForeignKey(Semester, verbose_name=_("Semester"), on_delete=models.CASCADE)
 
     name = models.CharField(_("Name"), max_length=250)
     description = models.TextField(_("Description"), blank=True)
-    begin = models.DateTimeField(_("Begin"))
-    end = models.DateTimeField(_("End"))
 
     associated_meetings = models.OneToOneField(
         "kalendar.DateGroup",
@@ -232,6 +233,23 @@ class Event(BaseModel):
         default=DateGroup.create_new_date_group,
         on_delete=models.SET_DEFAULT,
     )
+
+    @property
+    def first_datetime(self) -> Optional[datetime.datetime]:
+        date: Optional[Date] = self.associated_meetings.date_set.order_by("date").first()
+        if not date:
+            return None
+        return date.date
+
+    @property
+    def last_datetime(self) -> Optional[datetime.datetime]:
+        date: Optional[Date] = self.associated_meetings.date_set.order_by("-date").first()
+        if not date:
+            return None
+        return date.date + datetime.timedelta(minutes=date.probable_length)
+
+
+class Event(BaseTask):
     meeting_chairperson = models.ForeignKey(
         Tutor,
         related_name="tutors_event_meeting_chairperson",
@@ -261,23 +279,18 @@ class Event(BaseModel):
     def __str__(self):
         return f"{self.name}"
 
+    @classmethod
+    def sorted_by_semester(cls, semester: int) -> List["Event"]:
+        all_events: QuerySet[Event] = cls.objects.filter(semester=semester).all()
+        events_sorting: List[Tuple[datetime.datetime, Event]] = [
+            (event.first_datetime, event) for event in all_events if event.first_datetime
+        ]
+        return [event for (_, event) in sorted(events_sorting, key=lambda t: t[0])]
 
-class Task(BaseModel):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    semester = models.ForeignKey(Semester, verbose_name=_("Semester"), on_delete=models.CASCADE)
+
+class Task(BaseTask):
     event = models.ForeignKey(Event, verbose_name=_("Event"), on_delete=models.CASCADE)
 
-    name = models.CharField(_("Task name"), max_length=250)
-    description = models.TextField(_("Description"), blank=True)
-    begin = models.DateTimeField(_("Begin"))
-    end = models.DateTimeField(_("End"))
-
-    associated_meetings = models.OneToOneField(
-        "kalendar.DateGroup",
-        verbose_name=_("Associated Meetings"),
-        default=DateGroup.create_new_date_group,
-        on_delete=models.SET_DEFAULT,
-    )
     meeting_chairperson = models.ForeignKey(
         Tutor,
         related_name="tutors_task_meeting_chairperson",
@@ -318,21 +331,29 @@ class Task(BaseModel):
         # )
         pass
 
+    @classmethod
+    def sorted_by_semester(cls, semester: int) -> List["Task"]:
+        all_tasks: QuerySet[Task] = cls.objects.filter(semester=semester).all()
+        tasks_sorting: List[Tuple[datetime.datetime, Task]] = [
+            (task.first_datetime, task) for task in all_tasks if task.first_datetime
+        ]
+        return [task for (_, task) in sorted(tasks_sorting, key=lambda t: t[0])]
+
 
 class TutorAssignment(BaseModel):
-    tutor = models.ForeignKey(Tutor, on_delete=models.CASCADE, )
-    task = models.ForeignKey(Task, on_delete=models.CASCADE, )
-    absent = models.BooleanField(_("absent"), default=False, )
+    tutor = models.ForeignKey(Tutor, on_delete=models.CASCADE)
+    task = models.ForeignKey(Task, on_delete=models.CASCADE)
+    absent = models.BooleanField(_("absent"), default=False)
 
     def __str__(self):
         return f"{self.tutor}"
 
 
 class Question(BaseModel):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False, )
-    semester = models.ForeignKey(Semester, verbose_name=_("Semester"), on_delete=models.CASCADE, )
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    semester = models.ForeignKey(Semester, verbose_name=_("Semester"), on_delete=models.CASCADE)
 
-    question = models.CharField(_("Question"), max_length=100, )
+    question = models.CharField(_("Question"), max_length=100)
 
     def __str__(self):
         return str(self.question)

@@ -13,11 +13,11 @@
             </tr>
             <tr>
                 <th>{% trans "Begin" %}</th>
-                <td>{{ event.begin }}</td>
+                <td>{{ event.first_datetime }}</td>
             </tr>
             <tr>
                 <th>{% trans "End" %}</th>
-                <td>{{ event.end }}</td>
+                <td>{{ event.last_datetime }}</td>
             </tr>
             <tr>
                 <th>{% trans "Description" %}</th>
@@ -64,8 +64,8 @@
                 {% for task in event.task_set.all %}
                 <tr>
                     <td><a href="{% url "tutors:view_task" task.id %}">{{ task.name }}</a></td>
-                    <td>{{ task.begin }}</td>
-                    <td>{{ task.end }}</td>
+                    <td>{{ task.first_datetime }}</td>
+                    <td>{{ task.last_datetime }}</td>
                     <td>{{ task.associated_meetings.location|default:no_meeting_point }}</td>
                 </tr>
                 {% endfor %}

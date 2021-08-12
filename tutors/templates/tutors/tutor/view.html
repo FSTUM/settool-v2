@@ -165,8 +165,8 @@
             <td>{{ forloop.counter }}</td>
             <td><a href="{% url "tutors:view_task" assignment.task.id %}">{{ assignment.task.name }}</a>
             </td>
-            <td>{{ assignment.task.begin }}</td>
-            <td>{{ assignment.task.end }}</td>
+            <td>{{ assignment.task.first_datetime }}</td>
+            <td>{{ assignment.task.last_datetime }}</td>
             {% trans "no meeting point specified" as no_meeting_point %}
             <td>{{ assignment.task.associated_meetings.location|default:no_meeting_point }}</td>
         </tr>

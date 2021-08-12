@@ -1,6 +1,6 @@
 import datetime as real_datetime
 from datetime import timedelta
-from typing import Any, Optional, Union
+from typing import Any, List, Optional, Tuple, Union
 
 from dateutil.relativedelta import relativedelta
 from django.db.models.query_utils import Q
@@ -35,15 +35,12 @@ def tutor_reminder(semester: Semester, today: date) -> None:
     if settings and settings.mail_reminder:
         lookup_day = today + timedelta(days=max(settings.reminder_tour_days_count, 0))
         task: Task
-        for task in Task.objects.filter(
-            Q(semester=semester)
-            & Q(begin__day=lookup_day.day)  # begin is datetime
-            & Q(begin__month=lookup_day.month)
-            & Q(begin__year=lookup_day.year),
-        ):
-            tutor: Tutor
-            for tutor in list(task.tutors.all()):
-                settings.mail_reminder.send_mail_task(tutor, task)
+        for task in Task.objects.filter(semester=semester):
+            first_datetime = task.first_datetime
+            if first_datetime and first_datetime.date() == lookup_day:
+                tutor: Tutor
+                for tutor in list(task.tutors.all()):
+                    settings.mail_reminder.send_mail_task(tutor, task)
 
 
 def fahrt_date_reminder(semester: Semester, today: date) -> None:
@@ -97,10 +94,13 @@ def anonymise_guidedtours(semester: Semester, today: date) -> None:
 
 
 def anonymise_tutors(semester: Semester, today: date) -> None:
-    most_recent_task: Optional[Task] = Task.objects.filter(semester=semester).order_by("end").last()
-    if most_recent_task and date_is_too_old(today, most_recent_task.end):
-        # guidedtours is save to be anonymised for this semester
-        pass  # TODO check what privacy statement says has to be anonimised
+    tasks = Task.objects.filter(semester=semester).all()
+    tasks_tuples: List[Tuple[datetime, Task]] = [(task.last_datetime, task) for task in tasks if task.last_datetime]
+    if tasks_tuples:
+        most_recent_task: Task = max(tasks_tuples, key=lambda t: t[0])[1]
+        if most_recent_task.last_datetime and date_is_too_old(today, most_recent_task.last_datetime):
+            # guidedtours is save to be anonymised for this semester
+            pass  # TODO check what privacy statement says has to be anonimised
 
 
 def privacy_helper(semester: Semester, today: date, anonymisation_method: Any, log_name: str) -> None:
