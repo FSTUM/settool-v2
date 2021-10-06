@@ -64,7 +64,7 @@ class MailForm(forms.ModelForm):
         if self.instance:
             mail.delete()  # we possibly edited the sender
         if mail.sender == Mail.SET_TUTOR:
-            cls = TourMail
+            cls = TutorMail
         elif mail.sender == Mail.SET_BAGS:
             cls = BagMail
         elif mail.sender == Mail.SET:

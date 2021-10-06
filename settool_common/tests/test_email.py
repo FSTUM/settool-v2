@@ -13,10 +13,10 @@ from django.utils.datetime_safe import date, datetime
 
 import fahrt.models as fahrt_models
 import guidedtours.models as tour_models
-import settool_common.cron as cron
 import settool_common.fixtures.showroom_fixture
 import settool_common.models as common_models
 import tutors.models as tutor_models
+from settool_common import cron
 
 
 def serialise_outbox() -> Set[Tuple[str, str, str]]:
