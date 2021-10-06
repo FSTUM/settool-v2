@@ -3,7 +3,7 @@ from django import forms
 from django.utils.translation import ugettext_lazy as _
 
 from settool_common.forms import CommonParticipantForm, SemesterBasedForm, SemesterBasedModelForm
-from settool_common.models import Mail, Subject
+from settool_common.models import Subject
 from tutors.models import (
     Answer,
     Event,
@@ -14,6 +14,7 @@ from tutors.models import (
     Task,
     Tutor,
     TutorAssignment,
+    TutorMail,
 )
 
 
@@ -259,11 +260,7 @@ class SettingsAdminForm(SemesterBasedModelForm):
 
 
 class TutorMailAdminForm(SemesterBasedForm):
-    mail_template = forms.ModelChoiceField(
-        label="Mail Template",
-        queryset=Mail.objects.filter(sender=Mail.SET_TUTOR),
-        required=True,
-    )
+    mail_template = forms.ModelChoiceField(label="Mail Template", queryset=TutorMail.objects.all(), required=True)
 
     tutors = forms.ModelMultipleChoiceField(
         label=_("Tutors (selected have not yet received this email)"),
