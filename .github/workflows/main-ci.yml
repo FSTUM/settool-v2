@@ -27,6 +27,7 @@ jobs:
                   pip install -r requirements.txt -r requirements_dev.txt
                   sudo apt-get update
                   sudo apt-get -qq install -y texlive-base texlive-lang-german texlive-fonts-recommended texlive-latex-extra latexmk
+                  python manage.py collectstatic
             - name: Run Tests
               run: |
                   python manage.py test
