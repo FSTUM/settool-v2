@@ -37,8 +37,8 @@
                 <td>
                     <a href="{% url "tutors:view_event" event.id %}">{{ event.name }}</a>
                 </td>
-                <td data-text="{{ event.begin|date:"Y-m-d H:i" }}">{{ event.begin }}</td>
-                <td data-text="{{ event.end|date:"Y-m-d H:i" }}">{{ event.end }}</td>
+                <td data-sort="{{ event.begin|date:"c" }}">{{ event.begin }}</td>
+                <td data-sort="{{ event.end|date:"c" }}">{{ event.end }}</td>
                 <td>{{ event.meeting_point }}</td>
                 <td>
                     <a href="{% url "tutors:edit_event" event.id %}"><span class="bi bi-pencil-square"></span></a>

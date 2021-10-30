@@ -44,8 +44,8 @@
                 <td>
                     <a href="{% url "tutors:view_task" task.id %}">{{ task.name }}</a>
                 </td>
-                <td data-text="{{ task.begin|date:"Y-m-d H:i" }}">{{ task.begin }}</td>
-                <td data-text="{{ task.end|date:"Y-m-d H:i" }}">{{ task.end }}</td>
+                <td data-sort="{{ task.begin|date:"c" }}">{{ task.begin }}</td>
+                <td data-sort="{{ task.end|date:"c" }}">{{ task.end }}</td>
                 <td>{{ task.meeting_point }}</td>
                 <td>{% mail_task_count task %}</td>
                 <td>{{ task.tutors.count }}/{{ task.min_tutors|default_if_none:0 }}-{{ task.max_tutors|default_if_none:0 }}</td>

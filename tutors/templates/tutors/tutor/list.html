@@ -131,7 +131,7 @@
                 {% else %}<td>?</td>
                 {% endif %}
                 {% endif %}
-                <td data-text="{{ tutor.registration_time|date:"Y-m-d H:i" }}">{{ tutor.registration_time }}</td>
+                <td data-sort="{{ tutor.registration_time|date:"c" }}">{{ tutor.registration_time }}</td>
                 {% if status == "active" %}
                 {% with q_c=questions|length tutor_answers=tutor.answer_set.all %}
                 {% with tutor_answers_c=tutor_answers.count %}
