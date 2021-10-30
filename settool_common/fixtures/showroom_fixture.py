@@ -395,10 +395,12 @@ def _generate_tasks_tutorasignemt(  # nosec: this is only used in a fixture
                 description_en=lorem.paragraph(),
                 description_de=lorem.paragraph(),
                 begin=django.utils.timezone.make_aware(
-                    datetime.today().replace(day=1, month=1),
+                    datetime.today().replace(day=1, month=1)
+                    + timedelta(days=random.randint(0, 30), minutes=random.randint(1, 1000)),
                 ),
                 end=django.utils.timezone.make_aware(
-                    datetime.today().replace(day=1, month=12),
+                    datetime.today().replace(day=1, month=12)
+                    - timedelta(days=random.randint(0, 30), minutes=random.randint(1, 1000)),
                 ),
                 meeting_point_en=lorem.sentence()[: random.randint(0, 49)],
                 meeting_point_de=lorem.sentence()[: random.randint(0, 49)],
@@ -438,9 +440,13 @@ def _generate_events(semesters, subjects):  # nosec: this is only used in a fixt
             description_en=lorem.paragraph(),
             description_de=lorem.paragraph(),
             begin=django.utils.timezone.make_aware(
-                datetime.today().replace(day=1, month=1),
+                datetime.today().replace(day=1, month=1)
+                + timedelta(days=random.randint(0, 30), minutes=random.randint(1, 1000)),
             ),
-            end=django.utils.timezone.make_aware(datetime.today().replace(day=1, month=1)),
+            end=django.utils.timezone.make_aware(
+                datetime.today().replace(day=1, month=12)
+                - timedelta(days=random.randint(0, 30), minutes=random.randint(1, 1000)),
+            ),
             meeting_point_en=lorem.sentence(),
             meeting_point_de=lorem.sentence(),
         )
