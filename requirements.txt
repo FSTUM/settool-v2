@@ -6,6 +6,6 @@ django-bootstrap5~=21.1
 django-crontab~=0.7.1
 django-modeltranslation~=0.17.3
 django-tex~= 1.1.9
-Pillow~=8.3.2
+Pillow~=8.4.0
 python-dateutil~=2.8.2
 qrcode~=7.3
