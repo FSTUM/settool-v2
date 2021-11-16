@@ -76,43 +76,59 @@ def reminder_cronjob():
     guidedtour_reminder(semester, today)
 
 
-def date_is_too_old(today: date, date_obj: Union[datetime, date, real_datetime.datetime, real_datetime.date]) -> bool:
+def date_is_too_old(
+    today: date,
+    date_obj: Union[datetime, date, real_datetime.datetime, real_datetime.date],
+    log_name: str,
+) -> bool:
     if isinstance(date_obj, (datetime, real_datetime.datetime)):
         date_obj = date_obj.date()
-    return today + relativedelta(months=3) <= date_obj
+    if log_name not in ["fahrt", "guidedtours", "tutors"]:
+        raise ValueError(f"log_name={log_name}")
+    if log_name in ["fahrt", "guidedtours"]:
+        weeks = 6  # 1.5months
+    else:  # log_name == "tutors"
+        weeks = 12  # 3months
+    return today + relativedelta(weeks=weeks) <= date_obj
 
 
-def anonymise_fahrt(semester: Semester, today: date) -> None:
+def anonymise_fahrt(semester: Semester, today: date, log_name: str) -> bool:
     current_fahrt: Optional[Fahrt] = get_or_none(Fahrt, semester=semester)
-    if current_fahrt and date_is_too_old(today, current_fahrt.date):
+    if current_fahrt and date_is_too_old(today, current_fahrt.date, log_name):
         # fahrt is save to be anonymised for this semester
-        pass  # TODO check what privacy statement says has to be anonimised
+        # TODO
+        return True
+    return False
 
 
-def anonymise_guidedtours(semester: Semester, today: date) -> None:
+def anonymise_guidedtours(semester: Semester, today: date, log_name: str) -> bool:
     most_recent_tour: Optional[Tour] = Tour.objects.filter(semester=semester).order_by("date").last()
-    if most_recent_tour and date_is_too_old(today, most_recent_tour.date):
+    if most_recent_tour and date_is_too_old(today, most_recent_tour.date, log_name):
         # guidedtours is save to be anonymised for this semester
-        pass  # TODO check what privacy statement says has to be anonimised
+        # TODO
+        return True
+    return False
 
 
-def anonymise_tutors(semester: Semester, today: date) -> None:
+def anonymise_tutors(semester: Semester, today: date, log_name: str) -> bool:
     most_recent_task: Optional[Task] = Task.objects.filter(semester=semester).order_by("end").last()
-    if most_recent_task and date_is_too_old(today, most_recent_task.end):
+    if most_recent_task and date_is_too_old(today, most_recent_task.end, log_name):
         # guidedtours is save to be anonymised for this semester
-        pass  # TODO check what privacy statement says has to be anonimised
+        # TODO
+        return True
+    return False
 
 
 def privacy_helper(semester: Semester, today: date, anonymisation_method: Any, log_name: str) -> None:
-    if not semester.anonymisationlog_set.filter(anon_log_str=log_name).exists():
-        anonymisation_method(semester, today)
+    should_anonimise = not semester.anonymisationlog_set.filter(anon_log_str=log_name).exists()
+    if should_anonimise and anonymisation_method(semester, today, log_name):
         AnonymisationLog.objects.create(semester=semester, anon_log_str=log_name)
 
 
 def privacy_cronjob():
     today = date.today()
     for semester in Semester.objects.all():
-        privacy_helper(semester, today, anonymise_fahrt, "fahrt")
         # anonymise_bags is not nessesary, as this does not have any personal data
+        privacy_helper(semester, today, anonymise_fahrt, "fahrt")
         privacy_helper(semester, today, anonymise_guidedtours, "guidedtours")
         privacy_helper(semester, today, anonymise_tutors, "tutors")
