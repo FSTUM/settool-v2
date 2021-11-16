@@ -6,7 +6,7 @@ from django import http
 from django.contrib import messages
 from django.contrib.auth.decorators import permission_required
 from django.core.handlers.wsgi import WSGIRequest
-from django.db.models import Count, Manager, Q, QuerySet
+from django.db.models import Count, Q, QuerySet
 from django.forms import forms, modelformset_factory
 from django.http import Http404, HttpResponse, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, redirect, render
@@ -744,7 +744,7 @@ def send_mail(
 
     if uid is None:
         if status == "all":
-            tutors: Manager[Tutor] = Tutor.objects.filter(semester=semester)
+            tutors: QuerySet[Tutor] = Tutor.objects.filter(semester=semester)
         else:
             tutors = Tutor.objects.filter(semester=semester, status=status)
         tutor_data = extract_tutor_data()
@@ -770,9 +770,10 @@ def send_mail(
     )
     if form.is_valid():
         tutors = form.cleaned_data["tutors"]
+        listed_tutors = list(tutors)
         mail_template = form.cleaned_data["mail_template"]
 
-        send_email_to_all_tutors(mail_template, list(tutors), request)
+        send_email_to_all_tutors(mail_template, listed_tutors, request)
 
         return redirect(f"tutor_list_status_{status}")
 

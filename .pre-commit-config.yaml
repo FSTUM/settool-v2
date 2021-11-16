@@ -21,7 +21,7 @@ repos:
       hooks:
           - id: format-general
           - id: format-web
-          - id: lint-css
+          #- id: lint-css
           #- id: lint-javascript
     - repo: https://github.com/PyCQA/isort
       rev: 5.10.1
