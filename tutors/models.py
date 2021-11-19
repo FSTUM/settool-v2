@@ -65,19 +65,10 @@ class BaseModel(models.Model):
 
 
 class Settings(BaseModel):
-    semester = models.OneToOneField(
-        Semester,
-        on_delete=models.CASCADE,
-    )
+    semester = models.OneToOneField(Semester, on_delete=models.CASCADE)
 
-    open_registration = models.DateTimeField(
-        _("Open registration"),
-    )
-
-    close_registration = models.DateTimeField(
-        _("Close registration"),
-    )
-
+    open_registration = models.DateTimeField(_("Open registration"))
+    close_registration = models.DateTimeField(_("Close registration"))
     mail_registration = models.ForeignKey(
         TutorMail,
         verbose_name=_("Mail Registration"),
@@ -85,7 +76,6 @@ class Settings(BaseModel):
         on_delete=models.SET_NULL,  # can be deleted, but can not be ignored in the Settings :)
         null=True,
     )
-
     mail_confirmed_place = models.ForeignKey(
         TutorMail,
         verbose_name=_("Mail Confirmed Place"),
@@ -94,7 +84,6 @@ class Settings(BaseModel):
         null=True,
         blank=True,
     )
-
     mail_waiting_list = models.ForeignKey(
         TutorMail,
         verbose_name=_("Mail Waiting List"),
@@ -103,7 +92,6 @@ class Settings(BaseModel):
         null=True,
         blank=True,
     )
-
     mail_declined_place = models.ForeignKey(
         TutorMail,
         verbose_name=_("Mail Declined Place"),
@@ -112,7 +100,6 @@ class Settings(BaseModel):
         null=True,
         blank=True,
     )
-
     mail_task = models.ForeignKey(
         TutorMail,
         verbose_name=_("Mail Task"),
@@ -121,7 +108,6 @@ class Settings(BaseModel):
         null=True,
         blank=True,
     )
-
     mail_reminder = models.ForeignKey(
         TutorMail,
         verbose_name=_("Mail Reminder"),
@@ -153,6 +139,32 @@ class Tutor(BaseModel):
     class Meta:
         unique_together = ("semester", "email")
 
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    semester = models.ForeignKey(Semester, verbose_name=_("Semester"), on_delete=models.CASCADE)
+
+    first_name = models.CharField(_("First name"), max_length=30)
+    last_name = models.CharField(_("Last name"), max_length=50)
+    email = models.EmailField(_("Email address"))
+    birthday = models.DateField(_("Birthday"), null=True, blank=True)
+    subject = models.ForeignKey(Subject, verbose_name=_("Subject"), on_delete=models.CASCADE)
+    matriculation_number = models.CharField(
+        _("Matriculation number"),
+        max_length=8,
+        validators=[
+            RegexValidator(
+                r"^[0-9]{8,8}$",  # noqa: FS003
+                message=_("The matriculation number has to be of the form 01234567."),
+            ),
+        ],
+        null=True,
+        blank=True,
+    )
+    ects = models.BooleanField(
+        _("I want to receive ECTS for my work as a SET tutor."),
+        help_text=_("tutors_ects_agreement"),
+        default=False,
+    )
+
     TSHIRT_SIZES = (
         ("S", "S"),
         ("M", "M"),
@@ -160,6 +172,13 @@ class Tutor(BaseModel):
         ("XL", "XL"),
         ("XXL", "XXL"),
     )
+
+    tshirt_size = models.CharField(_("Tshirt size"), max_length=5, choices=TSHIRT_SIZES)
+    tshirt_girls_cut = models.BooleanField(_("Tshirt as Girls cut"))
+
+    registration_time = models.DateTimeField(_("Registration Time"), auto_now_add=True)
+
+    answers = models.ManyToManyField("Question", verbose_name=_("Tutor Answers"), through="Answer", blank=True)
 
     STATUS_DECLINED = "declined"
     STATUS_ACCEPTED = "accepted"
@@ -174,97 +193,9 @@ class Tutor(BaseModel):
         (STATUS_EMPLOYEE, _(STATUS_EMPLOYEE)),
     )
 
-    id = models.UUIDField(
-        primary_key=True,
-        default=uuid.uuid4,
-        editable=False,
-    )
+    status = models.CharField(verbose_name=_("Status"), default=STATUS_INACTIVE, choices=STATUS_OPTIONS, max_length=100)
 
-    semester = models.ForeignKey(
-        Semester,
-        verbose_name=_("Semester"),
-        on_delete=models.CASCADE,
-    )
-
-    first_name = models.CharField(
-        _("First name"),
-        max_length=30,
-    )
-
-    last_name = models.CharField(
-        _("Last name"),
-        max_length=50,
-    )
-
-    email = models.EmailField(
-        _("Email address"),
-    )
-
-    registration_time = models.DateTimeField(
-        _("Registration Time"),
-        auto_now_add=True,
-    )
-
-    ects = models.BooleanField(
-        _("I want to receive ECTS for my work as a SET tutor."),
-        help_text=_("tutors_ects_agreement"),
-        default=False,
-    )
-
-    birthday = models.DateField(
-        _("Birthday"),
-        null=True,
-        blank=True,
-    )
-
-    matriculation_number = models.CharField(
-        _("Matriculation number"),
-        max_length=8,
-        validators=[
-            RegexValidator(
-                r"^[0-9]{8,8}$",  # noqa: FS003
-                message=_("The matriculation number has to be of the form 01234567."),
-            ),
-        ],
-        null=True,
-        blank=True,
-    )
-
-    tshirt_size = models.CharField(
-        _("Tshirt size"),
-        max_length=5,
-        choices=TSHIRT_SIZES,
-    )
-
-    tshirt_girls_cut = models.BooleanField(
-        _("Tshirt as Girls cut"),
-    )
-
-    status = models.CharField(
-        verbose_name=_("Status"),
-        default=STATUS_INACTIVE,
-        choices=STATUS_OPTIONS,
-        max_length=100,
-    )
-
-    subject = models.ForeignKey(
-        Subject,
-        verbose_name=_("Subject"),
-        on_delete=models.CASCADE,
-    )
-
-    comment = models.TextField(
-        _("Comment"),
-        max_length=500,
-        blank=True,
-    )
-
-    answers = models.ManyToManyField(
-        "Question",
-        verbose_name=_("Tutor Answers"),
-        through="Answer",
-        blank=True,
-    )
+    comment = models.TextField(_("Comment"), max_length=500, blank=True)
 
     def __str__(self):
         return f"{self.first_name} {self.last_name}"
@@ -279,45 +210,16 @@ class Tutor(BaseModel):
 
 
 class Event(BaseModel):
-    id = models.UUIDField(
-        primary_key=True,
-        default=uuid.uuid4,
-        editable=False,
-    )
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    semester = models.ForeignKey(Semester, verbose_name=_("Semester"), on_delete=models.CASCADE)
 
-    semester = models.ForeignKey(
-        Semester,
-        verbose_name=_("Semester"),
-        on_delete=models.CASCADE,
-    )
+    name = models.CharField(_("Name"), max_length=250)
+    description = models.TextField(_("Description"), blank=True)
+    begin = models.DateTimeField(_("Begin"))
+    end = models.DateTimeField(_("End"))
+    meeting_point = models.CharField(_("Meeting Point"), max_length=200)
 
-    name = models.CharField(
-        _("Name"),
-        max_length=250,
-    )
-
-    description = models.TextField(
-        _("Description"),
-        blank=True,
-    )
-
-    begin = models.DateTimeField(
-        _("Begin"),
-    )
-    end = models.DateTimeField(
-        _("End"),
-    )
-
-    meeting_point = models.CharField(
-        _("Meeting Point"),
-        max_length=200,
-    )
-
-    subjects = models.ManyToManyField(
-        Subject,
-        verbose_name=_("Subjects"),
-        blank=True,
-    )
+    subjects = models.ManyToManyField(Subject, verbose_name=_("Subjects"), blank=True)
 
     def log(self, user, text):
         # LogEntry.objects.create(
@@ -332,77 +234,22 @@ class Event(BaseModel):
 
 
 class Task(BaseModel):
-    id = models.UUIDField(
-        primary_key=True,
-        default=uuid.uuid4,
-        editable=False,
-    )
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    semester = models.ForeignKey(Semester, verbose_name=_("Semester"), on_delete=models.CASCADE)
 
-    semester = models.ForeignKey(
-        Semester,
-        verbose_name=_("Semester"),
-        on_delete=models.CASCADE,
-    )
+    name = models.CharField(_("Task name"), max_length=250)
+    description = models.TextField(_("Description"), blank=True)
+    begin = models.DateTimeField(_("Begin"))
+    end = models.DateTimeField(_("End"))
+    meeting_point = models.CharField(_("Meeting point"), max_length=50)
 
-    name = models.CharField(
-        _("Task name"),
-        max_length=250,
-    )
+    event = models.ForeignKey(Event, verbose_name=_("Event"), on_delete=models.CASCADE)
+    allowed_subjects = models.ManyToManyField(Subject, verbose_name=_("Allowed Subjects"), blank=True)
+    requirements = models.ManyToManyField("Question", verbose_name=_("Requirements"), blank=True)
+    min_tutors = models.IntegerField(_("Tutors (min)"), blank=True, null=True)
+    max_tutors = models.IntegerField(_("Tutors (max)"), blank=True, null=True)
 
-    description = models.TextField(
-        _("Description"),
-        blank=True,
-    )
-
-    begin = models.DateTimeField(
-        _("Begin"),
-    )
-
-    end = models.DateTimeField(
-        _("End"),
-    )
-
-    meeting_point = models.CharField(
-        _("Meeting point"),
-        max_length=50,
-    )
-
-    event = models.ForeignKey(
-        Event,
-        verbose_name=_("Event"),
-        on_delete=models.CASCADE,
-    )
-
-    allowed_subjects = models.ManyToManyField(
-        Subject,
-        verbose_name=_("Allowed Subjects"),
-        blank=True,
-    )
-
-    requirements = models.ManyToManyField(
-        "Question",
-        verbose_name=_("Requirements"),
-        blank=True,
-    )
-
-    min_tutors = models.IntegerField(
-        _("Tutors (min)"),
-        blank=True,
-        null=True,
-    )
-
-    max_tutors = models.IntegerField(
-        _("Tutors (max)"),
-        blank=True,
-        null=True,
-    )
-
-    tutors = models.ManyToManyField(
-        Tutor,
-        verbose_name=_("Assigned tutors"),
-        through="TutorAssignment",
-        blank=True,
-    )
+    tutors = models.ManyToManyField(Tutor, verbose_name=_("Assigned tutors"), through="TutorAssignment", blank=True)
 
     def __str__(self):
         return str(self.name)
@@ -417,42 +264,19 @@ class Task(BaseModel):
 
 
 class TutorAssignment(BaseModel):
-    tutor = models.ForeignKey(
-        Tutor,
-        on_delete=models.CASCADE,
-    )
-
-    task = models.ForeignKey(
-        Task,
-        on_delete=models.CASCADE,
-    )
-
-    absent = models.BooleanField(
-        _("absent"),
-        default=False,
-    )
+    tutor = models.ForeignKey(Tutor, on_delete=models.CASCADE)
+    task = models.ForeignKey(Task, on_delete=models.CASCADE)
+    absent = models.BooleanField(_("absent"), default=False)
 
     def __str__(self):
         return f"{self.tutor}"
 
 
 class Question(BaseModel):
-    id = models.UUIDField(
-        primary_key=True,
-        default=uuid.uuid4,
-        editable=False,
-    )
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    semester = models.ForeignKey(Semester, verbose_name=_("Semester"), on_delete=models.CASCADE)
 
-    semester = models.ForeignKey(
-        Semester,
-        verbose_name=_("Semester"),
-        on_delete=models.CASCADE,
-    )
-
-    question = models.CharField(
-        _("Question"),
-        max_length=100,
-    )
+    question = models.CharField(_("Question"), max_length=100)
 
     def __str__(self):
         return str(self.question)
@@ -470,6 +294,9 @@ class Answer(BaseModel):
     class Meta:
         unique_together = ("tutor", "question")
 
+    tutor = models.ForeignKey(Tutor, on_delete=models.CASCADE)
+    question = models.ForeignKey(Question, on_delete=models.CASCADE)
+
     YES = "YES"
     NO = "NO"
     MAYBE = "MAYBE"
@@ -478,73 +305,26 @@ class Answer(BaseModel):
         (MAYBE, _(MAYBE)),
         (NO, _(NO)),
     )
-
-    tutor = models.ForeignKey(
-        Tutor,
-        on_delete=models.CASCADE,
-    )
-
-    question = models.ForeignKey(
-        Question,
-        on_delete=models.CASCADE,
-    )
-
-    answer = models.CharField(
-        _("Answer"),
-        max_length=10,
-        null=True,
-        blank=False,
-        choices=ANSWERS,
-    )
+    answer = models.CharField(_("Answer"), max_length=10, null=True, blank=False, choices=ANSWERS)
 
     def __str__(self):
         return f"{self.tutor}: {self.question} -> {self.answer}"
 
 
 class MailTutorTask(BaseModel):
-    mail = models.ForeignKey(
-        TutorMail,
-        on_delete=models.CASCADE,
-    )
-
-    tutor = models.ForeignKey(
-        Tutor,
-        on_delete=models.CASCADE,
-    )
-
-    task = models.ForeignKey(
-        Task,
-        on_delete=models.CASCADE,
-        blank=True,
-        null=True,
-    )
+    mail = models.ForeignKey(TutorMail, on_delete=models.CASCADE)
+    tutor = models.ForeignKey(Tutor, on_delete=models.CASCADE)
+    task = models.ForeignKey(Task, on_delete=models.CASCADE, blank=True, null=True)
 
     def __str__(self):
         return f"{self.created_at}: {self.tutor} -> {self.mail} - {self.task}"
 
 
 class SubjectTutorCountAssignment(BaseModel):
-    semester = models.ForeignKey(
-        Semester,
-        on_delete=models.CASCADE,
-    )
-
-    subject = models.ForeignKey(
-        Subject,
-        on_delete=models.CASCADE,
-    )
-
-    wanted = models.PositiveIntegerField(
-        default=0,
-        null=True,
-        blank=True,
-    )
-
-    waitlist = models.PositiveIntegerField(
-        default=0,
-        null=True,
-        blank=True,
-    )
+    semester = models.ForeignKey(Semester, on_delete=models.CASCADE)
+    subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
+    wanted = models.PositiveIntegerField(default=0, null=True, blank=True)
+    waitlist = models.PositiveIntegerField(default=0, null=True, blank=True)
 
     def log(self, user, text):
         # LogEntry.objects.create(

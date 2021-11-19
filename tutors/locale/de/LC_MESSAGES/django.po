@@ -116,8 +116,27 @@ msgid "Email address"
 msgstr "Email Adresse"
 
 #: tutors/models.py
-msgid "Registration Time"
-msgstr "Zeitpunkt der Registrierung"
+msgid "Birthday"
+msgstr "Geburtstag"
+
+#: tutors/models.py tutors/templates/tutors/dashboard.html
+#: tutors/templates/tutors/event/delete.html
+#: tutors/templates/tutors/event/view.html
+#: tutors/templates/tutors/task/delete.html
+#: tutors/templates/tutors/task/view.html
+#: tutors/templates/tutors/tutor/delete.html
+#: tutors/templates/tutors/tutor/list.html
+#: tutors/templates/tutors/tutor/view.html
+msgid "Subject"
+msgstr "Studienfach"
+
+#: tutors/models.py
+msgid "Matriculation number"
+msgstr "Matrikelnummer"
+
+#: tutors/models.py
+msgid "The matriculation number has to be of the form 01234567."
+msgstr "Die Matrikelnummer muss die Form 01234567 haben."
 
 #: tutors/models.py
 msgid "I want to receive ECTS for my work as a SET tutor."
@@ -131,18 +150,6 @@ msgstr ""
 "wird."
 
 #: tutors/models.py
-msgid "Birthday"
-msgstr "Geburtstag"
-
-#: tutors/models.py
-msgid "Matriculation number"
-msgstr "Matrikelnummer"
-
-#: tutors/models.py
-msgid "The matriculation number has to be of the form 01234567."
-msgstr "Die Matrikelnummer muss die Form 01234567 haben."
-
-#: tutors/models.py
 msgid "Tshirt size"
 msgstr "T-Shirt Größe"
 
@@ -150,30 +157,23 @@ msgstr "T-Shirt Größe"
 msgid "Tshirt as Girls cut"
 msgstr "T-Shirt als Girls cut"
 
+#: tutors/models.py
+msgid "Registration Time"
+msgstr "Zeitpunkt der Registrierung"
+
+#: tutors/models.py
+msgid "Tutor Answers"
+msgstr "Antworten des Tutors"
+
 #: tutors/models.py tutors/templates/tutors/dashboard.html
 #: tutors/templates/tutors/tutor/list.html
 #: tutors/templates/tutors/tutor/view.html
 msgid "Status"
 msgstr "Status"
 
-#: tutors/models.py tutors/templates/tutors/dashboard.html
-#: tutors/templates/tutors/event/delete.html
-#: tutors/templates/tutors/event/view.html
-#: tutors/templates/tutors/task/delete.html
-#: tutors/templates/tutors/task/view.html
-#: tutors/templates/tutors/tutor/delete.html
-#: tutors/templates/tutors/tutor/list.html
-#: tutors/templates/tutors/tutor/view.html
-msgid "Subject"
-msgstr "Studienfach"
-
 #: tutors/models.py tutors/templates/tutors/tutor/view.html
 msgid "Comment"
 msgstr "Kommentar"
-
-#: tutors/models.py
-msgid "Tutor Answers"
-msgstr "Antworten des Tutors"
 
 #: tutors/models.py tutors/templates/tutors/dashboard.html
 #: tutors/templates/tutors/event/delete.html

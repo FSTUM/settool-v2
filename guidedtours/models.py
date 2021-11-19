@@ -110,41 +110,13 @@ class Participant(models.Model):
     class Meta:
         unique_together = ("tour", "email")
 
-    tour = models.ForeignKey(
-        Tour,
-        on_delete=models.CASCADE,
-        verbose_name=_("Tour"),
-    )
-
-    firstname = models.CharField(
-        max_length=200,
-        verbose_name=_("First name"),
-    )
-
-    surname = models.CharField(
-        max_length=200,
-        verbose_name=_("Surname"),
-    )
-
-    email = models.EmailField(
-        verbose_name=_("E-Mail"),
-    )
-
-    phone = models.CharField(
-        max_length=200,
-        verbose_name=_("Mobile phone"),
-    )
-
-    subject = models.ForeignKey(
-        Subject,
-        on_delete=models.CASCADE,
-        verbose_name=_("Subject"),
-    )
-
-    time = models.DateTimeField(
-        auto_now_add=True,
-        verbose_name=_("Registration Time"),
-    )
+    tour = models.ForeignKey(Tour, on_delete=models.CASCADE, verbose_name=_("Tour"))
+    firstname = models.CharField(max_length=200, verbose_name=_("First name"))
+    surname = models.CharField(max_length=200, verbose_name=_("Surname"))
+    email = models.EmailField(verbose_name=_("E-Mail"))
+    phone = models.CharField(max_length=200, verbose_name=_("Mobile phone"))
+    subject = models.ForeignKey(Subject, on_delete=models.CASCADE, verbose_name=_("Subject"))
+    time = models.DateTimeField(auto_now_add=True, verbose_name=_("Registration Time"))
 
     def __str__(self):
         return f"{self.firstname} {self.surname}"
