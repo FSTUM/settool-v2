@@ -2,24 +2,23 @@ import datetime as real_datetime
 from datetime import timedelta
 from typing import Any, Optional, Union
 
-from dateutil.relativedelta import relativedelta
 from django.db.models.query_utils import Q
 from django.utils.datetime_safe import date, datetime
 
 import fahrt
+import fahrt.models as m_fahrt
 import guidedtours
-from fahrt.models import Fahrt
-from guidedtours.models import Setting, Tour
+import guidedtours.models as m_guidedtours
+import tutors.models as m_tutors
 from settool_common.models import AnonymisationLog, current_semester, Semester
 from settool_common.utils import get_or_none
-from tutors.models import Settings, Task, Tutor
 
 
 def guidedtour_reminder(semester: Semester, today: date) -> None:
-    setting: Setting = get_or_none(Setting, semester=semester)
+    setting: m_guidedtours.Setting = get_or_none(m_guidedtours.Setting, semester=semester)
     if setting and setting.mail_reminder:
         lookup_day = today + timedelta(days=max(setting.reminder_tour_days_count, 0))
-        tour: Tour
+        tour: m_guidedtours.Tour
         for tour in semester.tour_set.filter(
             Q(date__day=lookup_day.day)  # date is datetime
             & Q(date__month=lookup_day.month)
@@ -31,23 +30,23 @@ def guidedtour_reminder(semester: Semester, today: date) -> None:
 
 
 def tutor_reminder(semester: Semester, today: date) -> None:
-    settings: Settings = get_or_none(Settings, semester=semester)
+    settings: m_tutors.Settings = get_or_none(m_tutors.Settings, semester=semester)
     if settings and settings.mail_reminder:
         lookup_day = today + timedelta(days=max(settings.reminder_tour_days_count, 0))
-        task: Task
-        for task in Task.objects.filter(
+        task: m_tutors.Task
+        for task in m_tutors.Task.objects.filter(
             Q(semester=semester)
             & Q(begin__day=lookup_day.day)  # begin is datetime
             & Q(begin__month=lookup_day.month)
             & Q(begin__year=lookup_day.year),
         ):
-            tutor: Tutor
+            tutor: m_tutors.Tutor
             for tutor in list(task.tutors.all()):
                 settings.mail_reminder.send_mail_task(tutor, task)
 
 
 def fahrt_date_reminder(semester: Semester, today: date) -> None:
-    current_fahrt: Fahrt = get_or_none(Fahrt, semester=semester)
+    current_fahrt: m_fahrt.Fahrt = get_or_none(m_fahrt.Fahrt, semester=semester)
     if current_fahrt and current_fahrt.mail_reminder:
         lookup_day = today + timedelta(days=max(current_fahrt.reminder_tour_days_count, 0))
         if current_fahrt.date == lookup_day:
@@ -57,7 +56,7 @@ def fahrt_date_reminder(semester: Semester, today: date) -> None:
 
 
 def fahrt_payment_reminder(semester: Semester, today: date) -> None:
-    current_fahrt: Fahrt = get_or_none(Fahrt, semester=semester)
+    current_fahrt: m_fahrt.Fahrt = get_or_none(m_fahrt.Fahrt, semester=semester)
     if current_fahrt and current_fahrt.mail_payment_deadline:
         lookup_day = today + timedelta(days=max(current_fahrt.reminder_payment_deadline_days_count, 0))
         participant: fahrt.models.Participant
@@ -117,16 +116,15 @@ def anonymise_tutors(semester: Semester, today: date, log_name: str) -> bool:
     return False
 
 
-def privacy_helper(semester: Semester, today: date, anonymisation_method: Any, log_name: str) -> None:
+def privacy_helper(semester: Semester, anonymisation_method: Any, log_name: str) -> None:
     should_anonimise = not semester.anonymisationlog_set.filter(anon_log_str=log_name).exists()
-    if should_anonimise and anonymisation_method(semester, today, log_name):
+    if should_anonimise and anonymisation_method(semester, log_name):
         AnonymisationLog.objects.create(semester=semester, anon_log_str=log_name)
 
 
 def privacy_cronjob():
-    today = date.today()
     for semester in Semester.objects.all():
-        # anonymise_bags is not nessesary, as this does not have any personal data
-        privacy_helper(semester, today, anonymise_fahrt, "fahrt")
-        privacy_helper(semester, today, anonymise_guidedtours, "guidedtours")
-        privacy_helper(semester, today, anonymise_tutors, "tutors")
+        # anonymize_bags is not necessary, as this does not have any personal data
+        privacy_helper(semester, anonymize_fahrt, "fahrt")
+        privacy_helper(semester, anonymize_guidedtours, "guidedtours")
+        privacy_helper(semester, anonymize_tutors, "tutors")
