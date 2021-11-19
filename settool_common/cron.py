@@ -1,15 +1,16 @@
 import datetime as real_datetime
+import logging
+import warnings
 from datetime import timedelta
 from typing import Any, Optional, Union
 
+from django.conf import settings
 from django.core.mail import send_mail
 from django.db.models.query_utils import Q
 from django.utils import timezone
 from django.utils.datetime_safe import date, datetime
 
-import fahrt
 import fahrt.models as m_fahrt
-import guidedtours
 import guidedtours.models as m_guidedtours
 import settool_common.models as m_common
 import tutors.models as m_tutors
@@ -27,7 +28,7 @@ def guidedtour_reminder(semester: Semester, today: date) -> None:
             & Q(date__month=lookup_day.month)
             & Q(date__year=lookup_day.year),
         ):
-            participant: guidedtours.models.Participant
+            participant: m_guidedtours.Participant
             for participant in [participant for participant in tour.participant_set.all() if participant.on_the_tour]:
                 setting.mail_reminder.send_mail_participant(participant)
 
@@ -53,7 +54,7 @@ def fahrt_date_reminder(semester: Semester, today: date) -> None:
     if current_fahrt and current_fahrt.mail_reminder:
         lookup_day = today + timedelta(days=max(current_fahrt.reminder_tour_days_count, 0))
         if current_fahrt.date == lookup_day:
-            participant: fahrt.models.Participant
+            participant: m_fahrt.Participant
             for participant in semester.fahrt_participant.filter(Q(semester=semester) & Q(status="confirmed")):
                 current_fahrt.mail_reminder.send_mail_participant(participant)
 
@@ -62,7 +63,7 @@ def fahrt_payment_reminder(semester: Semester, today: date) -> None:
     current_fahrt: m_fahrt.Fahrt = get_or_none(m_fahrt.Fahrt, semester=semester)
     if current_fahrt and current_fahrt.mail_payment_deadline:
         lookup_day = today + timedelta(days=max(current_fahrt.reminder_payment_deadline_days_count, 0))
-        participant: fahrt.models.Participant
+        participant: m_fahrt.Participant
         for participant in semester.fahrt_participant.filter(
             Q(status="confirmed") & Q(payment_deadline=lookup_day),
         ):
@@ -170,13 +171,18 @@ def privacy_helper(semester: Semester, anonymisation_method: Any, log_name: str)
             AnonymisationLog.objects.create(semester=semester, anon_log_str=log_name)
             subject = f"[SUCCESS] Anonymisation of {log_name} for {semester}"
             text = f"Anonymization of {log_name} was successfully executed for {semester}"
-
+            if settings.DEBUG:
+                logging.info(subject)
+                logging.info(text)
     # pylint: disable=broad-except
     except Exception as exception:
         subject = f"[ERROR] Anonymisation of {log_name} for {semester}"
-        text = f"Anonymization of {log_name} failed for {semester}. The root-cause was {exception.with_traceback()}"
+        text = f"Anonymization of {log_name} failed for {semester}. The root-cause was {exception}"
+        if settings.DEBUG:
+            warnings.warn(subject)
+            warnings.warn(text)
     # pylint: enable=broad-except
-    if subject and text:
+    if subject and text and not settings.DEBUG:
         send_mail(subject, text, m_common.Mail.SET, [m_common.Mail.SET_TUTOR], fail_silently=False)
 
 
