@@ -2,6 +2,7 @@ import datetime as real_datetime
 from datetime import timedelta
 from typing import Any, Optional, Union
 
+from django.core.mail import send_mail
 from django.db.models.query_utils import Q
 from django.utils import timezone
 from django.utils.datetime_safe import date, datetime
@@ -10,6 +11,7 @@ import fahrt
 import fahrt.models as m_fahrt
 import guidedtours
 import guidedtours.models as m_guidedtours
+import settool_common.models as m_common
 import tutors.models as m_tutors
 from settool_common.models import AnonymisationLog, current_semester, Semester
 from settool_common.utils import get_or_none
@@ -162,8 +164,20 @@ def anonymize_tutors(semester: Semester, log_name: str) -> bool:
 
 def privacy_helper(semester: Semester, anonymisation_method: Any, log_name: str) -> None:
     should_anonimise = not semester.anonymisationlog_set.filter(anon_log_str=log_name).exists()
-    if should_anonimise and anonymisation_method(semester, log_name):
-        AnonymisationLog.objects.create(semester=semester, anon_log_str=log_name)
+    subject = text = ""
+    try:
+        if should_anonimise and anonymisation_method(semester, log_name):
+            AnonymisationLog.objects.create(semester=semester, anon_log_str=log_name)
+            subject = f"[SUCCESS] Anonymisation of {log_name} for {semester}"
+            text = f"Anonymization of {log_name} was successfully executed for {semester}"
+
+    # pylint: disable=broad-except
+    except Exception as exception:
+        subject = f"[ERROR] Anonymisation of {log_name} for {semester}"
+        text = f"Anonymization of {log_name} failed for {semester}. The root-cause was {exception.with_traceback()}"
+    # pylint: enable=broad-except
+    if subject and text:
+        send_mail(subject, text, m_common.Mail.SET, [m_common.Mail.SET_TUTOR], fail_silently=False)
 
 
 def privacy_cronjob():
