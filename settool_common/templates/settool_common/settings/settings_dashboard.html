@@ -22,33 +22,19 @@
                         <th>{% trans "Settings have been created" %}</th>
                         <th>{% trans "Settings have been changed" %}</th>
                         <th>{% trans "GDPR-relevant data has been anonimsed" %}</th>
+                        <th>{% trans "Graceperiod before anonimisation" %}</th>
                     </tr>
                 </thead>
                 <tbody>
+                    {% for table_entry in settings_table %}
                     <tr>
-                        <td>{% trans "SET-Fahrt" %}</td>
-                        <td><a href='{% url "fahrt:settings" %}'>{% include "snippets/true_false_span.html" with value=fahrt_exists %}</a></td>
+                        <td>{{table_entry.name}}</td>
+                        <td><a href='{% url table_entry.url %}'>{% include "snippets/true_false_none_span.html" with value=table_entry.exists %}</a></td>
                         <td><span class='bi bi-question-circle-fill'></span></td>
-                        <td>{% include "snippets/true_false_span.html" with value=fahrt_privatised %}</td>
+                        <td>{% include "snippets/true_false_none_span.html" with value=table_entry.privatised %}</td>
+                        <td>{{ table_entry.anon_graceperiod }}</td>
                     </tr>
-                    <tr>
-                        <td>{% trans "SET-Bags" %}</td>
-                        <td><a href='{% url "bags:settings" %}'>{% include "snippets/true_false_span.html" with value=bags_exists %}</a></td>
-                        <td><span class='bi bi-question-circle-fill'></span></td>
-                        <td>{% include "snippets/true_false_span.html" with value=bags_privatised %}</td>
-                    </tr>
-                    <tr>
-                        <td>{% trans "SET-Tutor" %}</td>
-                        <td><a href='{% url "tutors:general_settings" %}'>{% include "snippets/true_false_span.html" with value=tutors_general_exists %}</a></td>
-                        <td><span class='bi bi-question-circle-fill'></span></td>
-                        <td>{% include "snippets/true_false_span.html" with value=tutors_privatised %}</td>
-                    </tr>
-                    <tr>
-                        <td>{% trans "Guided tours of the institutes" %}</td>
-                        <td><a href='{% url "guidedtours:settings" %}'>{% include "snippets/true_false_span.html" with value=guidedtours_exists %}</a></td>
-                        <td><span class='bi bi-question-circle-fill'></span></td>
-                        <td>{% include "snippets/true_false_span.html" with value=guidedtours_privatised %}</td>
-                    </tr>
+                    {% endfor %}
                 </tbody>
             </table>
         </div>

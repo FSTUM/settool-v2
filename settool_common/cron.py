@@ -76,20 +76,18 @@ def reminder_cronjob():
     guidedtour_reminder(semester, today)
 
 
-def date_is_too_old(
-    today: date,
-    date_obj: Union[datetime, date, real_datetime.datetime, real_datetime.date],
-    log_name: str,
-) -> bool:
+def date_is_too_old(date_obj: Union[datetime, date, real_datetime.datetime, real_datetime.date], log_name: str) -> bool:
     if isinstance(date_obj, (datetime, real_datetime.datetime)):
         date_obj = date_obj.date()
-    if log_name not in ["fahrt", "guidedtours", "tutors"]:
+    graceperiod_lut = {
+        "fahrt": m_fahrt.ANNONIMISATION_GRACEPERIOD_AFTER_FAHRT,
+        "guidedtours": m_guidedtours.ANNONIMISATION_GRACEPERIOD_AFTER_LAST_TOUR,
+        "tutors": m_tutors.ANNONIMISATION_GRACEPERIOD_AFTER_LAST_TASK,
+    }
+    if log_name not in graceperiod_lut:
         raise ValueError(f"log_name={log_name}")
-    if log_name in ["fahrt", "guidedtours"]:
-        weeks = 6  # 1.5months
-    else:  # log_name == "tutors"
-        weeks = 12  # 3months
-    return today + relativedelta(weeks=weeks) <= date_obj
+    graceperiod = graceperiod_lut[log_name]
+    return date.today() + graceperiod <= date_obj
 
 
 def anonymise_fahrt(semester: Semester, today: date, log_name: str) -> bool:

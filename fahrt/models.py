@@ -11,6 +11,8 @@ from django.utils.translation import ugettext_lazy as _
 import settool_common.models as common_models
 from settool_common.models import Semester, Subject
 
+ANNONIMISATION_GRACEPERIOD_AFTER_FAHRT = relativedelta(weeks=6)
+
 
 class FahrtMail(common_models.Mail):
     # ["{{template}}", "description"]
