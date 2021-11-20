@@ -11,6 +11,8 @@ from django.utils.translation import ugettext_lazy as _
 import settool_common.models as common_models
 from settool_common.models import Semester, Subject
 
+ANNONIMISATION_GRACEPERIOD_AFTER_FAHRT = relativedelta(weeks=6)
+
 
 class FahrtMail(common_models.Mail):
     # ["{{template}}", "description"]
@@ -233,14 +235,18 @@ class Participant(models.Model):
     paid = models.DateField(_("Paid"), blank=True, null=True)
     payment_deadline = models.DateField(_("Payment deadline"), blank=True, null=True)
 
+    STATUS_REGISTERED = "registered"
+    STATUS_CONFIRMED = "confirmed"
+    STATUS_WAITINGLIST = "waitinglist"
+    STATUS_CANCELED = "cancelled"
     status = models.CharField(
         _("Status"),
         max_length=200,
         choices=(
-            ("registered", _("registered")),
-            ("confirmed", _("confirmed")),
-            ("waitinglist", _("waitinglist")),
-            ("cancelled", _("cancelled")),
+            (STATUS_REGISTERED, _("registered")),
+            (STATUS_CONFIRMED, _("confirmed")),
+            (STATUS_WAITINGLIST, _("waitinglist")),
+            (STATUS_CANCELED, _("cancelled")),
         ),
         default="registered",
     )

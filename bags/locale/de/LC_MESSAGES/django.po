@@ -445,7 +445,7 @@ msgid "List companies"
 msgstr "Firmenliste"
 
 #: bags/templates/bags/company/list_companys.html
-msgid "Availible Filters"
+msgid "Availible filters"
 msgstr "Zur Verfügung stehende Filter"
 
 #: bags/templates/bags/company/list_companys.html

@@ -1,8 +1,10 @@
 import csv
 import os
 import time
+from collections import namedtuple
 from typing import Any, Dict, List, Optional, Tuple, Union
 
+from dateutil.relativedelta import relativedelta
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required, permission_required, user_passes_test
 from django.core.handlers.wsgi import WSGIRequest
@@ -167,25 +169,62 @@ def del_mail(request: WSGIRequest, mail_pk: int) -> HttpResponse:
     return render(request, "settool_common/settings/mail/delete_email.html", context)
 
 
+SettingsTableEntry = namedtuple("SettingsTableEntry", ["name", "url", "exists", "privatised", "anon_graceperiod"])
+
+
+def repr_rdelta(delta: relativedelta) -> str:
+    delta = delta.normalized()
+
+    msg = f"ca. {delta.weeks} weeks"
+    return msg or "n.A."
+
+
 @permission_required("set.mail")
 def dashboard(request: WSGIRequest) -> HttpResponse:
     semester: Semester = get_object_or_404(Semester, pk=get_semester(request))
     mail_templates_by_sender = (
         Mail.objects.values("sender").annotate(sender_count=Count("sender")).order_by("-sender_count")
     )
+
     context = {
         "mail_template_sender": [sender["sender"] for sender in mail_templates_by_sender],
         "mail_template_count": [sender["sender_count"] for sender in mail_templates_by_sender],
-        "fahrt_exists": object_does_exists(fahrt.models.Fahrt, semester),
-        "fahrt_privatised": object_does_exists(AnonymisationLog, semester, anon_log_str="guidedtours"),
-        "bags_exists": object_does_exists(bags.models.BagSettings, semester),
-        "bags_privatised": object_does_exists(AnonymisationLog, semester, anon_log_str="bags"),
-        "tutors_general_exists": object_does_exists(tutors.models.Settings, semester),
-        "tutors_privatised": object_does_exists(AnonymisationLog, semester, anon_log_str="guidedtours"),
-        "guidedtours_exists": object_does_exists(guidedtours.models.Setting, semester),
-        "guidedtours_privatised": object_does_exists(AnonymisationLog, semester, anon_log_str="guidedtours"),
+        "settings_table": _gen_settings_table(semester),
     }
     return render(request, "settool_common/settings/settings_dashboard.html", context)
+
+
+def _gen_settings_table(semester):
+    return [
+        SettingsTableEntry(
+            _("SET-Fahrt"),
+            url="fahrt:settings",
+            exists=object_does_exists(fahrt.models.Fahrt, semester),
+            privatised=object_does_exists(AnonymisationLog, semester, anon_log_str="fahrt"),
+            anon_graceperiod=repr_rdelta(fahrt.models.ANNONIMISATION_GRACEPERIOD_AFTER_FAHRT),
+        ),
+        SettingsTableEntry(
+            _("SET-Bags"),
+            url="bags:settings",
+            exists=object_does_exists(bags.models.BagSettings, semester),
+            privatised=None,
+            anon_graceperiod="n.A.",
+        ),
+        SettingsTableEntry(
+            _("SET-Tutor"),
+            url="tutors:general_settings",
+            exists=object_does_exists(tutors.models.Settings, semester),
+            privatised=object_does_exists(AnonymisationLog, semester, anon_log_str="tutors"),
+            anon_graceperiod=repr_rdelta(tutors.models.ANNONIMISATION_GRACEPERIOD_AFTER_LAST_TASK),
+        ),
+        SettingsTableEntry(
+            _("Guided tours of the institutes"),
+            url="guidedtours:settings",
+            exists=object_does_exists(guidedtours.models.Setting, semester),
+            privatised=object_does_exists(AnonymisationLog, semester, anon_log_str="guidedtours"),
+            anon_graceperiod=repr_rdelta(guidedtours.models.ANNONIMISATION_GRACEPERIOD_AFTER_LAST_TOUR),
+        ),
+    ]
 
 
 def import_mail_csv_to_db(csv_file):

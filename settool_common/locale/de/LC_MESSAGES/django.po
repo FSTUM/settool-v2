@@ -357,20 +357,8 @@ msgid "GDPR-relevant data has been anonimsed"
 msgstr "DSGVO relevante Daten wurden anonymisiert"
 
 #: settool_common/templates/settool_common/settings/settings_dashboard.html
-msgid "SET-Fahrt"
-msgstr "SET-Fahrt"
-
-#: settool_common/templates/settool_common/settings/settings_dashboard.html
-msgid "SET-Bags"
-msgstr "SET-Tüten"
-
-#: settool_common/templates/settool_common/settings/settings_dashboard.html
-msgid "SET-Tutor"
-msgstr "SET-Tutoren"
-
-#: settool_common/templates/settool_common/settings/settings_dashboard.html
-msgid "Guided tours of the institutes"
-msgstr "Institutsführungen"
+msgid "Graceperiod before anonimisation"
+msgstr "Wartezeit vor der Anonymisierung"
 
 #: settool_common/templates/settool_common/settings/settings_dashboard.html
 msgid "Fahrt-Signup"
@@ -450,6 +438,22 @@ msgstr ""
 msgid "Be aware that deleting this affects all semesters. There be dragons."
 msgstr ""
 "Sei dir bewusst das diese Löschung alle Semester betrifft. There be dragons."
+
+#: settool_common/views.py
+msgid "SET-Fahrt"
+msgstr "SET-Fahrt"
+
+#: settool_common/views.py
+msgid "SET-Bags"
+msgstr "SET-Tüten"
+
+#: settool_common/views.py
+msgid "SET-Tutor"
+msgstr "SET-Tutoren"
+
+#: settool_common/views.py
+msgid "Guided tours of the institutes"
+msgstr "Institutsführungen"
 
 #: settool_common/views.py
 msgid "The File was successfully uploaded"

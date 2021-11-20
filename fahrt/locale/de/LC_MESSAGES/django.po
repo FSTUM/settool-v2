@@ -86,10 +86,8 @@ msgid "Search pattern:"
 msgstr "Schlagwort:"
 
 #: fahrt/forms.py
-#, fuzzy
-#| msgid "I drive by car"
 msgid "Driver of car"
-msgstr "Ich Fahre mit dem Auto"
+msgstr "Fahrer*in eines Autos"
 
 #: fahrt/forms.py fahrt/models.py
 #: fahrt/templates/fahrt/maintinance/mail/list_filtered_participants_send_mail.html
@@ -225,7 +223,7 @@ msgstr ""
 
 #: fahrt/models.py
 msgid "The place we will start our trip"
-msgstr "Der Ort, wo wir starten"
+msgstr "Startpunkt, des Trips"
 
 #: fahrt/models.py
 msgid "Number of people (totally) for this mode of transport"
@@ -740,7 +738,7 @@ msgid "Count"
 msgstr "Anzahl"
 
 #: fahrt/templates/fahrt/participants/list/list_confirmed.html
-msgid "Availible Filters"
+msgid "Availible filters"
 msgstr "Zur verfügung stehenden Filter"
 
 #: fahrt/templates/fahrt/participants/list/list_confirmed.html
@@ -783,7 +781,7 @@ msgstr "Angemeldete Teilnehmer auflisten"
 
 #: fahrt/templates/fahrt/participants/list/list_waitinglist.html
 msgid "List participants on waitinglist"
-msgstr "Warteliste"
+msgstr "Teilnehmer auf der Warteliste auflisten"
 
 #: fahrt/templates/fahrt/participants/signup/signup_internal.html
 #: fahrt/templates/fahrt/standalone/registration_closed.html
@@ -804,7 +802,7 @@ msgstr "E-Mail"
 
 #: fahrt/templates/fahrt/participants/view_participant_details.html
 msgid "Personalised Form"
-msgstr "Persolalisiertes Formular"
+msgstr "Personalisiertes Formular"
 
 #: fahrt/templates/fahrt/participants/view_participant_details.html
 msgid "1 week"

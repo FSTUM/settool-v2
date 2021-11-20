@@ -262,6 +262,10 @@ msgid "No"
 msgstr "Nein"
 
 #: templates/snippets/true_false_none_span.html
+msgid "None"
+msgstr "Keine"
+
+#: templates/snippets/true_false_none_span.html
 msgid "Unknown"
 msgstr "Unbekannt"
 

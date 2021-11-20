@@ -2,9 +2,8 @@ import os
 from collections import OrderedDict
 
 from django import template
+from django.conf import settings
 from django.template.defaultfilters import stringfilter
-
-from settool.settings import BASE_DIR
 
 register = template.Library()
 
@@ -42,4 +41,4 @@ def latex_escape(value: str) -> str:
 
 @register.simple_tag
 def fslogo_path():
-    return f'{{{os.path.join(BASE_DIR, "static", "eule_original.png")}}}'
+    return f'{{{os.path.join(settings.STATIC_ROOT, "logo", "eule_original.pdf")}}}'
