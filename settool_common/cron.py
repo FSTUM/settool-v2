@@ -34,9 +34,9 @@ def guidedtour_reminder(semester: Semester, today: date) -> None:
 
 
 def tutor_reminder(semester: Semester, today: date) -> None:
-    settings: m_tutors.Settings = get_or_none(m_tutors.Settings, semester=semester)
-    if settings and settings.mail_reminder:
-        lookup_day = today + timedelta(days=max(settings.reminder_tour_days_count, 0))
+    tutor_settings: m_tutors.Settings = get_or_none(m_tutors.Settings, semester=semester)
+    if tutor_settings and tutor_settings.mail_reminder:
+        lookup_day = today + timedelta(days=max(tutor_settings.reminder_tour_days_count, 0))
         task: m_tutors.Task
         for task in m_tutors.Task.objects.filter(
             Q(semester=semester)
@@ -46,7 +46,7 @@ def tutor_reminder(semester: Semester, today: date) -> None:
         ):
             tutor: m_tutors.Tutor
             for tutor in list(task.tutors.all()):
-                settings.mail_reminder.send_mail_task(tutor, task)
+                tutor_settings.mail_reminder.send_mail_task(tutor, task)
 
 
 def fahrt_date_reminder(semester: Semester, today: date) -> None:
