@@ -2,7 +2,7 @@ from typing import List
 
 from bootstrap_datepicker_plus import DateTimePickerInput
 from django import forms
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext as _
 
 from settool_common.forms import CommonParticipantForm, SemesterBasedForm, SemesterBasedModelForm
 

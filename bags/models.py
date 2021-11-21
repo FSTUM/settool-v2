@@ -3,7 +3,7 @@ from typing import List, Tuple
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import models
 from django.db.models.aggregates import Sum
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 
 import settool_common.models as common_models
 from settool_common.models import Semester

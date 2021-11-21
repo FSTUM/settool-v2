@@ -5,7 +5,7 @@ from bootstrap_datepicker_plus import DatePickerInput, DateTimePickerInput
 from django import forms
 from django.core.exceptions import ValidationError
 from django.db.models import QuerySet
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext as _
 
 from settool_common.forms import SemesterBasedForm, SemesterBasedModelForm
 from settool_common.models import Subject

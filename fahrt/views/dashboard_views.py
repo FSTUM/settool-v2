@@ -5,7 +5,7 @@ from django.core.handlers.wsgi import WSGIRequest
 from django.db.models import Count, Q, QuerySet
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, render
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 
 from settool_common.models import get_semester, Semester, Subject
 

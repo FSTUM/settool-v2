@@ -13,7 +13,7 @@ from django.http import HttpRequest, HttpResponse
 from django.template import Context, Template
 from django.utils import timezone
 from django.utils.deconstruct import deconstructible
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 from PIL import Image
 
 import settool.settings as main_settings
