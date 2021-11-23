@@ -26,7 +26,7 @@ def showroom_fixture_state():
     showroom_fixture_state_no_confirmation()
 
 
-def showroom_fixture_state_no_confirmation():  # nosec: this is only used in a fixture
+def showroom_fixture_state_no_confirmation():
     run(["python3", "manage.py", "flush", "--noinput"], check=True)
 
     # user
@@ -67,7 +67,7 @@ def showroom_fixture_state_no_confirmation():  # nosec: this is only used in a f
     # TODO tutors_subjecttutorcountassignment
 
 
-def _generate_tutor_settings(common_semesters):  # nosec: this is only used in a fixture
+def _generate_tutor_settings(common_semesters):
     all_mail_by_set_tutor = tutors.models.TutorMail.objects.all()
     for semester in common_semesters:
         if random.choice((True, True, False)):
@@ -83,7 +83,7 @@ def _generate_tutor_settings(common_semesters):  # nosec: this is only used in a
             )
 
 
-def _generate_bags_settings(common_semesters):  # nosec: this is only used in a fixture
+def _generate_bags_settings(common_semesters):
     for semester in common_semesters:
         if random.choice((True, True, False)):
             bags.models.BagSettings.objects.create(
@@ -92,7 +92,7 @@ def _generate_bags_settings(common_semesters):  # nosec: this is only used in a 
             )
 
 
-def generate_random_birthday():  # nosec: this is only used in a fixture
+def generate_random_birthday():
     """
     :return: valid birthday that is 10..40 years in the past
     """
@@ -105,7 +105,7 @@ def generate_random_birthday():  # nosec: this is only used in a fixture
     )
 
 
-def _generate_log_entries(fahrt_participants):  # nosec: this is only used in a fixture
+def _generate_log_entries(fahrt_participants):
     users = list(get_user_model().objects.all())
     for participant in fahrt_participants:
         participant.log(
@@ -150,7 +150,7 @@ def _generate_superusers() -> None:
         )
 
 
-def _generate_fahrt_data():  # nosec: this is only used in a fixture
+def _generate_fahrt_data():
     return fahrt.models.Fahrt.objects.create(
         semester=settool_common.models.current_semester(),
         date=django.utils.timezone.make_aware(datetime.today() + timedelta(days=20)),
@@ -159,7 +159,7 @@ def _generate_fahrt_data():  # nosec: this is only used in a fixture
     )
 
 
-def _generate_transportation_comment():  # nosec: this is only used in a fixture
+def _generate_transportation_comment():
     transports = fahrt.models.Transportation.objects.all()
     for trans in transports:
         for _ in range(random.choice((0, 0, 1, 3))):
@@ -171,7 +171,7 @@ def _generate_transportation_comment():  # nosec: this is only used in a fixture
                 )
 
 
-def _generate_transportation(fahrt_participants):  # nosec: this is only used in a fixture
+def _generate_transportation(fahrt_participants):
     transportation: List[fahrt.models.Transportation] = []
     participant: fahrt.models.Participant
     counter = 0
@@ -212,9 +212,9 @@ def _generate_transportation(fahrt_participants):  # nosec: this is only used in
                 transportation.remove(trans)
 
 
-def _generate_fahrt_participants(  # nosec: this is only used in a fixture
-        common_subjects,
-        fahrt_data,
+def _generate_fahrt_participants(
+    common_subjects,
+    fahrt_data,
 ):
     fahrt_participants = []
     for i in range(60):
@@ -266,9 +266,9 @@ def _generate_fahrt_participants(  # nosec: this is only used in a fixture
     return fahrt_participants
 
 
-def _generate_guidedtours_participants(  # nosec: this is only used in a fixture
-        common_subjects,
-        guidedtours_tours,
+def _generate_guidedtours_participants(
+    common_subjects,
+    guidedtours_tours,
 ):
     guidedtours_participants = []
     for tour in guidedtours_tours:
@@ -286,7 +286,7 @@ def _generate_guidedtours_participants(  # nosec: this is only used in a fixture
     return guidedtours_participants
 
 
-def _generate_guidedtours_tours(common_semesters):  # nosec: this is only used in a fixture
+def _generate_guidedtours_tours(common_semesters):
     guidedtours_tours = []
     for i in range(50):
         guidedtours_tours.append(
@@ -309,7 +309,7 @@ def _generate_guidedtours_tours(common_semesters):  # nosec: this is only used i
     return guidedtours_tours
 
 
-def _generate_companies(common_semesters):  # nosec: this is only used in a fixture
+def _generate_companies(common_semesters):
     bags_companies = []
     for i in range(300):
         bags_companies.append(
@@ -331,9 +331,9 @@ def _generate_companies(common_semesters):  # nosec: this is only used in a fixt
     return bags_companies
 
 
-def _generate_giveaways(  # nosec: this is only used in a fixture
-        semesters: List[settool_common.models.Semester],
-        bags_companies: List[bags.models.Company],
+def _generate_giveaways(
+    semesters: List[settool_common.models.Semester],
+    bags_companies: List[bags.models.Company],
 ) -> None:
     giveaway_groups: Dict[int, List[bags.models.GiveawayGroup]] = {}
     for i in range(10):
@@ -376,10 +376,10 @@ def _generate_giveaways(  # nosec: this is only used in a fixture
         )
 
 
-def _generate_tasks_tutorasignemt(  # nosec: this is only used in a fixture
-        events,
-        tutors_list,
-        questions,
+def _generate_tasks_tutorasignemt(
+    events,
+    tutors_list,
+    questions,
 ):
     tasks = []
     for event in events:
@@ -430,7 +430,7 @@ def _generate_tasks_tutorasignemt(  # nosec: this is only used in a fixture
     return tasks
 
 
-def _generate_events(semesters, subjects):  # nosec: this is only used in a fixture
+def _generate_events(semesters, subjects):
     events = []
     for i in range(random.randint(10, 20)):
         event = tutors.models.Event.objects.create(
@@ -459,7 +459,7 @@ def _generate_events(semesters, subjects):  # nosec: this is only used in a fixt
     return events
 
 
-def _generate_answers(questions, tutors_list):  # nosec: this is only used in a fixture
+def _generate_answers(questions, tutors_list):
     answers = []
     for tutor in tutors_list:
         questions_tutor_semester = [question for question in questions if question.semester == tutor.semester]
@@ -482,7 +482,7 @@ def _generate_answers(questions, tutors_list):  # nosec: this is only used in a 
     return answers
 
 
-def _generate_questions(semesters):  # nosec: this is only used in a fixture
+def _generate_questions(semesters):
     questions = []
     for semester in semesters:
         for _ in range(random.choice((2, 3))):
@@ -496,7 +496,7 @@ def _generate_questions(semesters):  # nosec: this is only used in a fixture
     return questions
 
 
-def _generate_bags_mails() -> None:  # nosec: this is only used in a fixture
+def _generate_bags_mails() -> None:
     for _ in range(random.randint(10, 20)):
         bags.models.BagMail.objects.create(
             subject=f"bags {lorem.sentence()}"[:100],
@@ -505,7 +505,7 @@ def _generate_bags_mails() -> None:  # nosec: this is only used in a fixture
         )
 
 
-def _generate_guidedtours_mails() -> None:  # nosec: this is only used in a fixture
+def _generate_guidedtours_mails() -> None:
     for _ in range(random.randint(10, 20)):
         guidedtours.models.TourMail.objects.create(
             subject=f"guidedtours {lorem.sentence()}"[:100],
@@ -514,7 +514,7 @@ def _generate_guidedtours_mails() -> None:  # nosec: this is only used in a fixt
         )
 
 
-def _generate_fahrt_mails() -> None:  # nosec: this is only used in a fixture
+def _generate_fahrt_mails() -> None:
     for _ in range(random.randint(10, 20)):
         fahrt.models.FahrtMail.objects.create(
             subject=f"fahrt {lorem.sentence()}"[:100],
@@ -523,7 +523,7 @@ def _generate_fahrt_mails() -> None:  # nosec: this is only used in a fixture
         )
 
 
-def _generate_tutor_mails() -> None:  # nosec: this is only used in a fixture
+def _generate_tutor_mails() -> None:
     for _ in range(random.randint(10, 20)):
         tutors.models.TutorMail.objects.create(
             subject=f"tutor {lorem.sentence()}"[:100],
@@ -532,7 +532,7 @@ def _generate_tutor_mails() -> None:  # nosec: this is only used in a fixture
         )
 
 
-def _generate_subjects():  # nosec: this is only used in a fixture
+def _generate_subjects():
     subjects = []
 
     course_bundle_mathe = settool_common.models.CourseBundle.objects.create(
@@ -597,7 +597,7 @@ def _generate_subjects():  # nosec: this is only used in a fixture
     return subjects
 
 
-def _generate_tutors(semesters, subjects):  # nosec: this is only used in a fixture
+def _generate_tutors(semesters, subjects):
     tutors_ret = []
     for i in range(100):
         tutor = tutors.models.Tutor(

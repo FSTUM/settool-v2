@@ -95,6 +95,7 @@ repos:
       rev: 1.7.1
       hooks:
           - id: bandit
+            exclude: (fixtures|tests)
     - repo: local
       hooks:
           - id: pylint
