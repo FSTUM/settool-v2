@@ -6,6 +6,7 @@ from typing import Dict, List
 import django.utils.timezone
 import lorem
 from django.contrib.auth import get_user_model
+from django.contrib.auth.hashers import make_password
 from django.utils.datetime_safe import datetime
 
 import bags.models
@@ -29,7 +30,7 @@ def showroom_fixture_state_no_confirmation():  # nosec: this is only used in a f
     run(["python3", "manage.py", "flush", "--noinput"], check=True)
 
     # user
-    superuser_frank = _generate_superuser_frank()
+    _generate_superusers()
 
     # app settool-common
     common_semesters = generate_semesters()
@@ -45,7 +46,7 @@ def showroom_fixture_state_no_confirmation():  # nosec: this is only used in a f
     _generate_fahrt_mails()
     fahrt_data = _generate_fahrt_data()
     fahrt_participants = _generate_fahrt_participants(common_subjects, fahrt_data)
-    _generate_log_entries(fahrt_participants, superuser_frank)
+    _generate_log_entries(fahrt_participants)
     _generate_transportation(fahrt_participants)
     _generate_transportation_comment()
 
@@ -104,49 +105,49 @@ def generate_random_birthday():  # nosec: this is only used in a fixture
     )
 
 
-def _generate_log_entries(  # nosec: this is only used in a fixture
-    fahrt_participants,
-    superuser_frank,
-):
+def _generate_log_entries(fahrt_participants):  # nosec: this is only used in a fixture
+    users = list(get_user_model().objects.all())
     for participant in fahrt_participants:
         participant.log(
-            superuser_frank if random.choice((True, False, False)) else None,
+            random.choice(users) if random.choice((True, False, False)) else None,
             "Signed up",
         )
         if participant.status != "registered":
             fahrt.models.LogEntry.objects.create(
                 participant=participant,
-                user=superuser_frank,
+                user=random.choice(users),
                 text=participant.status,
             )
         if participant.payment_deadline:
-            participant.log(
-                superuser_frank,
-                f"Set payment deadline to {participant.payment_deadline}",
-            )
+            participant.log(random.choice(users), f"Set payment deadline to {participant.payment_deadline}")
         if participant.non_liability:
             fahrt.models.LogEntry.objects.create(
                 participant=participant,
-                user=superuser_frank,
+                user=random.choice(users),
                 text="Set non-liability",
                 time=participant.non_liability,
             )
         if participant.mailinglist:
-            participant.log(superuser_frank, "Toggle Mailinglist")
+            participant.log(random.choice(users), "Toggle Mailinglist")
 
 
-def _generate_superuser_frank():  # nosec: this is only used in a fixture
-    return get_user_model().objects.create(
-        username="frank",
-        password="pbkdf2_sha256$216000$DHqZuXE7LQwJ$i8iIEB3qQN+NXMUTuRxKKFgYYC5XqlOYdSz/0om1FmE=",
-        first_name="Frank",
-        last_name="Elsinga",
-        is_superuser=True,
-        is_staff=True,
-        is_active=True,
-        email="elsinga@fs.tum.de",
-        date_joined=django.utils.timezone.make_aware(datetime.today()),
-    )
+def _generate_superusers() -> None:
+    users = [
+        ("frank", "130120", "Frank", "Elsinga", "elsinga@example.com"),
+        ("password", "username", "Nelson 'Big Head'", "Bighetti", "bighetti@example.com"),
+    ]
+    for username, password, first_name, last_name, email in users:
+        get_user_model().objects.create(
+            username=username,
+            password=make_password(password),
+            first_name=first_name,
+            last_name=last_name,
+            is_superuser=True,
+            is_staff=True,
+            is_active=True,
+            email=email,
+            date_joined=django.utils.timezone.make_aware(datetime.today()),
+        )
 
 
 def _generate_fahrt_data():  # nosec: this is only used in a fixture
@@ -212,8 +213,8 @@ def _generate_transportation(fahrt_participants):  # nosec: this is only used in
 
 
 def _generate_fahrt_participants(  # nosec: this is only used in a fixture
-    common_subjects,
-    fahrt_data,
+        common_subjects,
+        fahrt_data,
 ):
     fahrt_participants = []
     for i in range(60):
@@ -266,8 +267,8 @@ def _generate_fahrt_participants(  # nosec: this is only used in a fixture
 
 
 def _generate_guidedtours_participants(  # nosec: this is only used in a fixture
-    common_subjects,
-    guidedtours_tours,
+        common_subjects,
+        guidedtours_tours,
 ):
     guidedtours_participants = []
     for tour in guidedtours_tours:
@@ -331,8 +332,8 @@ def _generate_companies(common_semesters):  # nosec: this is only used in a fixt
 
 
 def _generate_giveaways(  # nosec: this is only used in a fixture
-    semesters: List[settool_common.models.Semester],
-    bags_companies: List[bags.models.Company],
+        semesters: List[settool_common.models.Semester],
+        bags_companies: List[bags.models.Company],
 ) -> None:
     giveaway_groups: Dict[int, List[bags.models.GiveawayGroup]] = {}
     for i in range(10):
@@ -376,9 +377,9 @@ def _generate_giveaways(  # nosec: this is only used in a fixture
 
 
 def _generate_tasks_tutorasignemt(  # nosec: this is only used in a fixture
-    events,
-    tutors_list,
-    questions,
+        events,
+        tutors_list,
+        questions,
 ):
     tasks = []
     for event in events:
