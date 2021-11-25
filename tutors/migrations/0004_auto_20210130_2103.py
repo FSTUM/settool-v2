@@ -44,7 +44,6 @@ class Migration(migrations.Migration):
             ],
             bases=("settool_common.mail",),
         ),
-        migrations.RunPython(migrate_mail_tutormail),
         migrations.AlterField(
             model_name="mailtutortask",
             name="mail",
@@ -111,4 +110,5 @@ class Migration(migrations.Migration):
                 verbose_name="Mail Waiting List",
             ),
         ),
+        migrations.RunPython(migrate_mail_tutormail),
     ]
