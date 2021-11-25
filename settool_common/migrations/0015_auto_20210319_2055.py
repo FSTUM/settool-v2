@@ -4,6 +4,18 @@ import django.db.models.deletion
 from django.db import migrations, models
 
 
+def add_default_course_bundle(apps, _):
+    CourseBundle = apps.get_model("settool_common", "CourseBundle")
+    CourseBundle.objects.get_or_create(
+        id=0,
+        defaults={
+            "name_en": "n.A.",
+            "name": "n.A.",
+            "name_de": "n.A.",
+        },
+    )
+
+
 def course_bundle_creation(apps, _):
     CourseBundle = apps.get_model("settool_common", "CourseBundle")
     Subject = apps.get_model("settool_common", "subject")
@@ -24,21 +36,20 @@ def course_bundle_creation(apps, _):
         "Mathe Bio": ("Mathematics in Bioscience", "Mathematics in Bioscience"),
     }
 
-    if not CourseBundle.objects.exists():
-        tmp_c_b = CourseBundle.objects.get_or_create(
-            id=0,
-            defaults={
-                "name_en": "n.A.",
-                "name": "n.A.",
-                "name_de": "n.A.",
-            },
-        )
-        for subject in Subject.objects.all():
-            subject.course_bundle = tmp_c_b
-            sub_transl = previous_translations.get(subject.subject, default=("n.A.", "n.A."))
-            subject.subject_de = sub_transl[0]
-            subject.subject_en = sub_transl[1]
-            subject.save()
+    tmp_c_b = CourseBundle.objects.get_or_create(
+        id=0,
+        defaults={
+            "name_en": "n.A.",
+            "name": "n.A.",
+            "name_de": "n.A.",
+        },
+    )
+    for subject in Subject.objects.all():
+        subject.course_bundle = tmp_c_b
+        sub_transl = previous_translations.get(subject.subject, default=("n.A.", "n.A."))
+        subject.subject_de = sub_transl[0]
+        subject.subject_en = sub_transl[1]
+        subject.save()
 
 
 class Migration(migrations.Migration):
@@ -56,6 +67,7 @@ class Migration(migrations.Migration):
                 ("name_en", models.CharField(max_length=10, null=True, verbose_name="Course-bundles' name")),
             ],
         ),
+        migrations.RunPython(add_default_course_bundle),
         migrations.AddField(
             model_name="subject",
             name="subject_de",
