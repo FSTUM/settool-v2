@@ -160,7 +160,7 @@ class Semester(models.Model):
 
 class CourseBundle(models.Model):
     name = models.CharField(
-        max_length=10,
+        max_length=100,
         verbose_name=_("Course-bundles' name"),
     )
 
@@ -193,7 +193,7 @@ class Subject(models.Model):
     )
 
     subject = models.CharField(
-        max_length=20,
+        max_length=100,
         verbose_name=_("Subject"),
     )
 

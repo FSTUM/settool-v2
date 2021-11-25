@@ -63,26 +63,26 @@ class Migration(migrations.Migration):
             name="CourseBundle",
             fields=[
                 ("id", models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID")),
-                ("name", models.CharField(max_length=10, verbose_name="Course-bundles' name")),
-                ("name_de", models.CharField(max_length=10, null=True, verbose_name="Course-bundles' name")),
-                ("name_en", models.CharField(max_length=10, null=True, verbose_name="Course-bundles' name")),
+                ("name", models.CharField(max_length=100, verbose_name="Course-bundles' name")),
+                ("name_de", models.CharField(max_length=100, null=True, verbose_name="Course-bundles' name")),
+                ("name_en", models.CharField(max_length=100, null=True, verbose_name="Course-bundles' name")),
             ],
         ),
         migrations.RunPython(add_default_course_bundle),
         migrations.AddField(
             model_name="subject",
             name="subject_de",
-            field=models.CharField(max_length=20, null=True, verbose_name="Subject"),
+            field=models.CharField(max_length=100, null=True, verbose_name="Subject"),
         ),
         migrations.AddField(
             model_name="subject",
             name="subject_en",
-            field=models.CharField(max_length=20, null=True, verbose_name="Subject"),
+            field=models.CharField(max_length=100, null=True, verbose_name="Subject"),
         ),
         migrations.AlterField(
             model_name="subject",
             name="subject",
-            field=models.CharField(max_length=20, verbose_name="Subject"),
+            field=models.CharField(max_length=100, verbose_name="Subject"),
         ),
         migrations.AddField(
             model_name="subject",
