@@ -46,7 +46,8 @@ def course_bundle_creation(apps, _):
     )
     for subject in Subject.objects.all():
         subject.course_bundle = tmp_c_b
-        sub_transl = previous_translations.get(subject.subject, default=("n.A.", "n.A."))
+        default_transl = ("n.A.", "n.A.")
+        sub_transl = previous_translations.get(subject.subject, default_transl)
         subject.subject_de = sub_transl[0]
         subject.subject_en = sub_transl[1]
         subject.save()
