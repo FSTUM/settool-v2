@@ -25,7 +25,14 @@ def course_bundle_creation(apps, _):
     }
 
     if not CourseBundle.objects.exists():
-        tmp_c_b = CourseBundle.objects.create(name_en="n.A.", name_de="n.A.")
+        tmp_c_b = CourseBundle.objects.get_or_create(
+            id=0,
+            defaults={
+                "name_en": "n.A.",
+                "name": "n.A.",
+                "name_de": "n.A.",
+            },
+        )
         for subject in Subject.objects.all():
             subject.course_bundle = tmp_c_b
             sub_transl = previous_translations.get(subject.subject, default=("n.A.", "n.A."))
