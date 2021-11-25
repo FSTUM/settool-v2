@@ -12,6 +12,7 @@ def keep_giveaway_data(apps, _):
             name=company.giveaways,
             arrival_time=company.arrival_time,
             arrived=company.arrived,
+            company=company,
         )
 
 
@@ -55,20 +56,8 @@ class Migration(migrations.Migration):
             ],
         ),
         migrations.RunPython(keep_giveaway_data),
-        migrations.RemoveField(
-            model_name="company",
-            name="arrival_time",
-        ),
-        migrations.RemoveField(
-            model_name="company",
-            name="arrived",
-        ),
-        migrations.RemoveField(
-            model_name="company",
-            name="giveaways",
-        ),
-        migrations.RemoveField(
-            model_name="company",
-            name="giveaways_last_year",
-        ),
+        migrations.RemoveField(model_name="company", name="arrival_time"),
+        migrations.RemoveField(model_name="company", name="arrived"),
+        migrations.RemoveField(model_name="company", name="giveaways"),
+        migrations.RemoveField(model_name="company", name="giveaways_last_year"),
     ]
