@@ -12,12 +12,20 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.AlterField(
+            model_name="mailtutortask",
+            name="mail",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                to="tutors.tutormail",
+            ),
+        ),
+        migrations.AlterField(
             model_name="settings",
             name="mail_confirmed_place",
             field=models.ForeignKey(
                 blank=True,
                 null=True,
-                on_delete=django.db.models.deletion.SET_NULL,
+                on_delete=django.db.models.deletion.CASCADE,
                 related_name="tutors_mail_confirmed_place",
                 to="tutors.tutormail",
                 verbose_name="Mail Confirmed Place",
@@ -29,7 +37,7 @@ class Migration(migrations.Migration):
             field=models.ForeignKey(
                 blank=True,
                 null=True,
-                on_delete=django.db.models.deletion.SET_NULL,
+                on_delete=django.db.models.deletion.CASCADE,
                 related_name="tutors_mail_declined_place",
                 to="tutors.tutormail",
                 verbose_name="Mail Declined Place",
@@ -39,8 +47,7 @@ class Migration(migrations.Migration):
             model_name="settings",
             name="mail_registration",
             field=models.ForeignKey(
-                null=True,
-                on_delete=django.db.models.deletion.SET_NULL,
+                on_delete=django.db.models.deletion.CASCADE,
                 related_name="tutors_mail_registration",
                 to="tutors.tutormail",
                 verbose_name="Mail Registration",
@@ -52,7 +59,7 @@ class Migration(migrations.Migration):
             field=models.ForeignKey(
                 blank=True,
                 null=True,
-                on_delete=django.db.models.deletion.SET_NULL,
+                on_delete=django.db.models.deletion.CASCADE,
                 related_name="tutors_mail_task",
                 to="tutors.tutormail",
                 verbose_name="Mail Task",
@@ -64,7 +71,7 @@ class Migration(migrations.Migration):
             field=models.ForeignKey(
                 blank=True,
                 null=True,
-                on_delete=django.db.models.deletion.SET_NULL,
+                on_delete=django.db.models.deletion.CASCADE,
                 related_name="tutors_mail_waiting_list",
                 to="tutors.tutormail",
                 verbose_name="Mail Waiting List",

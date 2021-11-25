@@ -11,25 +11,63 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.AddField(
+        migrations.AlterField(
             model_name="settings",
-            name="mail_reminder",
+            name="mail_confirmed_place",
             field=models.ForeignKey(
                 blank=True,
                 null=True,
                 on_delete=django.db.models.deletion.SET_NULL,
-                related_name="tutors_mail_reminder",
+                related_name="tutors_mail_confirmed_place",
                 to="tutors.tutormail",
-                verbose_name="Mail Reminder",
+                verbose_name="Mail Confirmed Place",
             ),
         ),
-        migrations.AddField(
+        migrations.AlterField(
             model_name="settings",
-            name="reminder_tour_days_count",
-            field=models.IntegerField(
-                default=0,
-                verbose_name="Send the reminder-mail automatically this amount of days before the beginn of the Task "
-                "(0=same day)",
+            name="mail_declined_place",
+            field=models.ForeignKey(
+                blank=True,
+                null=True,
+                on_delete=django.db.models.deletion.SET_NULL,
+                related_name="tutors_mail_declined_place",
+                to="tutors.tutormail",
+                verbose_name="Mail Declined Place",
+            ),
+        ),
+        migrations.AlterField(
+            model_name="settings",
+            name="mail_registration",
+            field=models.ForeignKey(
+                null=True,
+                on_delete=django.db.models.deletion.SET_NULL,
+                related_name="tutors_mail_registration",
+                to="tutors.tutormail",
+                verbose_name="Mail Registration",
+            ),
+        ),
+        migrations.AlterField(
+            model_name="settings",
+            name="mail_task",
+            field=models.ForeignKey(
+                blank=True,
+                null=True,
+                on_delete=django.db.models.deletion.SET_NULL,
+                related_name="tutors_mail_task",
+                to="tutors.tutormail",
+                verbose_name="Mail Task",
+            ),
+        ),
+        migrations.AlterField(
+            model_name="settings",
+            name="mail_waiting_list",
+            field=models.ForeignKey(
+                blank=True,
+                null=True,
+                on_delete=django.db.models.deletion.SET_NULL,
+                related_name="tutors_mail_waiting_list",
+                to="tutors.tutormail",
+                verbose_name="Mail Waiting List",
             ),
         ),
     ]
