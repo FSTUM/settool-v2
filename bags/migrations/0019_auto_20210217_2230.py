@@ -15,7 +15,7 @@ def rename_duplicates(apps, _):
             ).count()
             > 1
         ):
-            company.name = company.name + index
+            company.name = f"{company.name}-{index}"
             company.save()
             index += 1
 
