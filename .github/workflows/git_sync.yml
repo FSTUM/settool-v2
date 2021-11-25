@@ -16,8 +16,8 @@ jobs:
             - name: git-sync
               uses: wei/git-sync@v3
               with:
-                  source_repo: 'CommanderStorm/settool-v2'
+                  source_repo: 'FSTUM/settool-v2'
                   source_branch: 'main'
-                  destination_repo: 'git@git.fs.tum.de:elsinga/set-tool.git'
-                  destination_branch: 'main'
+                  destination_repo: 'git@git.fs.tum.de:fsmpi/set-tool.git'
+                  destination_branch: 'dev'
                   ssh_private_key: ${{ secrets.SSH_PRIVATE_KEY }}
