@@ -36,7 +36,7 @@ def course_bundle_creation(apps, _):
         "Mathe Bio": ("Mathematics in Bioscience", "Mathematics in Bioscience"),
     }
 
-    tmp_c_b = CourseBundle.objects.get_or_create(
+    tmp_c_b, _ = CourseBundle.objects.get_or_create(
         id=0,
         defaults={
             "name_en": "n.A.",
