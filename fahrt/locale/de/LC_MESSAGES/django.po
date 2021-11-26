@@ -982,6 +982,10 @@ msgstr ""
 "UUIDs {p_uuid} ist in mehreren Transaktionen (transaction_list) enhalten. "
 "Dies ist nicht erlaubt."
 
+#: fahrt/views/participants_views.py fahrt/views/transport_views.py
+msgid "You have to create Fahrt Settings to manage the fahrt"
+msgstr "Du musst Fahrt-Einstellungen erstellen, um die Fart managen zu können"
+
 #: fahrt/views/participants_views.py
 #, python-brace-format
 msgid ""
@@ -1012,6 +1016,14 @@ msgstr "Autos"
 #: fahrt/views/transport_views.py
 msgid "Trains"
 msgstr "Züge"
+
+#: fahrt/views/transport_views.py
+msgid ""
+"The Admins have not created a Fahrt for the Semester you are in. Please "
+"contact them with this error message."
+msgstr ""
+"Die Organisatioren haben keine Fahrt-Einstellungen für das Semeser in dem du "
+"bist erstellt. Bitte kontaktiere sie mit dieser Error-Message."
 
 #: fahrt/views/transport_views.py
 msgid "You can not create a new Transport-option of the same type"

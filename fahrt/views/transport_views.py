@@ -4,6 +4,7 @@ from uuid import UUID
 from django import forms
 from django.contrib import messages
 from django.contrib.auth.decorators import permission_required
+from django.core.exceptions import ObjectDoesNotExist
 from django.core.handlers.wsgi import WSGIRequest
 from django.http import Http404, HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
@@ -50,6 +51,19 @@ def transport_participant(request: WSGIRequest, participant_uuid: UUID) -> HttpR
 
 def add_transport_option(request: WSGIRequest, participant_uuid: UUID, transport_type: int) -> HttpResponse:
     semester: Semester = get_object_or_404(Semester, pk=get_semester(request))
+
+    try:
+        fahrt: Fahrt = semester.fahrt
+    except ObjectDoesNotExist:
+        messages.error(
+            request,
+            _(
+                "The Admins have not created a Fahrt for the Semester you are in. "
+                "Please contact them with this error message.",
+            ),
+        )
+        return redirect("fahrt:transport_participant", participant_uuid)
+
     participant: Participant = get_object_or_404(Participant, uuid=participant_uuid, status="confirmed")
     if transport_type not in [Transportation.CAR, Transportation.TRAIN]:
         raise Http404()
@@ -69,7 +83,7 @@ def add_transport_option(request: WSGIRequest, participant_uuid: UUID, transport
         request.POST or None,
         transport_type=transport_type,
         creator=participant,
-        semester=semester,
+        fahrt=fahrt,
     )
     if form.is_valid():
         if transport and transport.creator == participant:
@@ -116,7 +130,12 @@ def add_transport_participant(request: WSGIRequest, participant_uuid: UUID, tran
 @permission_required("fahrt.view_participants")
 def transport_mangagement(request: WSGIRequest) -> HttpResponse:
     semester: Semester = get_object_or_404(Semester, pk=get_semester(request))
-    context = {"transport_types": get_transport_types(semester.fahrt)}
+    try:
+        fahrt: Fahrt = semester.fahrt
+    except ObjectDoesNotExist:
+        messages.error(request, _("You have to create Fahrt Settings to manage the fahrt"))
+        return redirect("fahrt:settings")
+    context = {"transport_types": get_transport_types(fahrt)}
     return render(
         request,
         "fahrt/transportation/management/list_transports.html",
@@ -129,8 +148,13 @@ def add_transport_option_by_management(request: WSGIRequest, transport_type: int
     semester: Semester = get_object_or_404(Semester, pk=get_semester(request))
     if transport_type not in [Transportation.CAR, Transportation.TRAIN]:
         raise Http404()
+    try:
+        fahrt: Fahrt = semester.fahrt
+    except ObjectDoesNotExist:
+        messages.error(request, _("You have to create Fahrt Settings to manage the fahrt"))
+        return redirect("fahrt:settings")
 
-    form = TransportAdminOptionForm(request.POST or None, transport_type=transport_type, semester=semester)
+    form = TransportAdminOptionForm(request.POST or None, transport_type=transport_type, fahrt=fahrt)
     if form.is_valid():
         transport: Transportation = form.save(commit=True)
         if transport.creator:  # for mypy

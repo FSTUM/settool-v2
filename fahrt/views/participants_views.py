@@ -23,7 +23,7 @@ from ..forms import (
     SelectMailForm,
     SelectParticipantForm,
 )
-from ..models import FahrtMail, Participant, Transportation
+from ..models import Fahrt, FahrtMail, Participant, Transportation
 from .tex_views import get_non_liability
 
 
@@ -101,6 +101,13 @@ def get_possibly_filtered_participants(filterform, semester):
 @permission_required("fahrt.view_participants")
 def list_confirmed(request: WSGIRequest) -> HttpResponse:
     semester: Semester = get_object_or_404(Semester, pk=get_semester(request))
+
+    try:
+        fahrt: Fahrt = semester.fahrt
+    except ObjectDoesNotExist:
+        messages.error(request, _("You have to create Fahrt Settings to manage the fahrt"))
+        return redirect("fahrt:settings")
+
     filterform = FilterRegisteredParticipantsForm(request.POST or None, semester=semester)
     participants = get_possibly_filtered_participants(filterform, semester)
 
@@ -111,7 +118,7 @@ def list_confirmed(request: WSGIRequest) -> HttpResponse:
     num_women = participants.filter(gender="female").count()
     proportion_of_women = int(num_women * 1.0 / number * 100) if number != 0 else 0
 
-    cars = semester.fahrt.transportation_set.filter(transport_type=Transportation.CAR)
+    cars = fahrt.transportation_set.filter(transport_type=Transportation.CAR)
 
     context = {
         "filterform": filterform,
@@ -377,12 +384,16 @@ def signup_success(request: WSGIRequest) -> HttpResponse:
 @permission_required("fahrt.view_participants")
 def filter_participants(request: WSGIRequest) -> HttpResponse:
     semester: Semester = get_object_or_404(Semester, pk=get_semester(request))
-
+    try:
+        fahrt: Fahrt = semester.fahrt
+    except ObjectDoesNotExist:
+        messages.error(request, _("You have to create Fahrt Settings to manage the fahrt"))
+        return redirect("fahrt:settings")
     participants = semester.fahrt_participant.order_by("surname")
 
     filterform = FilterParticipantsForm(request.POST or None)
     if filterform.is_valid():
-        set_request_session_filtered_participants(filterform, participants, request, semester)
+        set_request_session_filtered_participants(filterform, participants, request, fahrt)
         return redirect("fahrt:filtered_participants")
 
     context = {
@@ -392,8 +403,13 @@ def filter_participants(request: WSGIRequest) -> HttpResponse:
     return render(request, "fahrt/maintinance/mail/filter_participants_send_mail.html", context)
 
 
-def set_request_session_filtered_participants(filterform, participants, request, semester):
-    search = filterform.cleaned_data["search"]
+def set_request_session_filtered_participants(
+    filterform: FilterParticipantsForm,
+    participants: QuerySet[Participant],
+    request: WSGIRequest,
+    fahrt: Fahrt,
+) -> None:
+    search: str = filterform.cleaned_data["search"]
     if search:
         participants = participants.filter(
             Q(firstname__icontains=search) | Q(surname__icontains=search) | Q(comment__icontains=search),
@@ -405,9 +421,9 @@ def set_request_session_filtered_participants(filterform, participants, request,
     elif non_liability is False:
         participants = participants.filter(non_liability__isnull=True)
 
-    car = filterform.cleaned_data["car"]
-    if car is not None:
-        car_creators = semester.fahrt.transportation_set.filter(transport_type=Transportation.CAR).values("creator")
+    car: Optional[bool] = filterform.cleaned_data["car"]
+    car_creators = fahrt.transportation_set.filter(transport_type=Transportation.CAR).values("creator")
+    if car:
         participants = participants.filter(id__in=car_creators)
 
     paid = filterform.cleaned_data["paid"]
