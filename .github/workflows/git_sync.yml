@@ -19,5 +19,5 @@ jobs:
                   source_repo: 'FSTUM/settool-v2'
                   source_branch: 'main'
                   destination_repo: 'git@git.fs.tum.de:fsmpi/set-tool.git'
-                  destination_branch: 'dev'
+                  destination_branch: 'master'
                   ssh_private_key: ${{ secrets.SSH_PRIVATE_KEY }}
