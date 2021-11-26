@@ -423,6 +423,8 @@ def set_request_session_filtered_participants(
     car_creators = fahrt.transportation_set.filter(transport_type=Transportation.CAR).values("creator")
     if car:
         participants = participants.filter(id__in=car_creators)
+    elif car is False:
+        participants = participants.exclude(id__in=car_creators)
 
     paid: Optional[bool] = filterform.cleaned_data["paid"]
     if paid:
