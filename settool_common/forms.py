@@ -1,4 +1,4 @@
-from typing import List
+from typing import Dict, List, Tuple, Type
 
 from django import forms
 from django.utils.translation import gettext as _
@@ -38,10 +38,10 @@ class MailForm(forms.ModelForm):
         self.fields["sender"].choices = new_choices
         self.fields["sender"].initial = new_choices[0]
 
-    def get_mails(self):
+    def get_mails(self) -> Dict[Tuple[str, str], Type[Mail]]:
         full_choices = dict(Mail.FROM_CHOICES)
 
-        mails = {}
+        mails: Dict[Tuple[str, str], Type[Mail]] = {}
         if TutorMail.check_perm(self.user):
             mails[(Mail.SET_TUTOR, full_choices[Mail.SET_TUTOR])] = TutorMail
         if BagMail.check_perm(self.user):
@@ -52,25 +52,20 @@ class MailForm(forms.ModelForm):
             mails[(Mail.SET_FAHRT, full_choices[Mail.SET_FAHRT])] = FahrtMail
         return mails
 
-    def _get_choices_for_user(self):
+    def _get_choices_for_user(self) -> List[Tuple[str, str]]:
         mails = self.get_mails()
         return list(mails.keys())
 
-    def save(self, commit=True):
+    def save(self, commit: bool = True) -> Mail:
         mail: Mail = super().save(commit=False)
-        list_of_poss_senders_for_user = [sender for (sender, _), _ in self.get_mails().items()]
-        if mail.sender not in list_of_poss_senders_for_user:
+        poss_senders_for_user: Dict[str, Type[Mail]] = {
+            sender: klass for (sender, _), klass in self.get_mails().items()
+        }
+        if mail.sender not in poss_senders_for_user:
             raise PermissionError("user does not have the Permisson to save this kind of mail")
+        cls: Type[Mail] = poss_senders_for_user[mail.sender]
         if self.instance:
             mail.delete()  # we possibly edited the sender
-        if mail.sender == Mail.SET_TUTOR:
-            cls = TutorMail
-        elif mail.sender == Mail.SET_BAGS:
-            cls = BagMail
-        elif mail.sender == Mail.SET:
-            cls = TourMail
-        else:
-            cls = FahrtMail
         return cls.objects.create(
             pk=mail.pk,
             sender=mail.sender,
