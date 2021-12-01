@@ -64,7 +64,7 @@ class MailForm(forms.ModelForm):
         if mail.sender not in poss_senders_for_user:
             raise PermissionError("user does not have the Permisson to save this kind of mail")
         cls: Type[Mail] = poss_senders_for_user[mail.sender]
-        if self.instance:
+        if self.instance and mail.id:
             mail.delete()  # we possibly edited the sender
         return cls.objects.create(
             pk=mail.pk,
