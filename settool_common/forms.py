@@ -58,7 +58,7 @@ class MailForm(forms.ModelForm):
 
     def save(self, commit=True):
         mail: Mail = super().save(commit=False)
-        list_of_poss_senders_for_user = [sender for (sender, _), _ in self.get_mails()]
+        list_of_poss_senders_for_user = [sender for (sender, _), _ in self.get_mails().items()]
         if mail.sender not in list_of_poss_senders_for_user:
             raise PermissionError("user does not have the Permisson to save this kind of mail")
         if self.instance:
