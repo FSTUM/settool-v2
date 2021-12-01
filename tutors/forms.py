@@ -1,4 +1,4 @@
-from bootstrap_datepicker_plus import DatePickerInput, DateTimePickerInput
+from bootstrap_datepicker_plus.widgets import DatePickerInput, DateTimePickerInput
 from django import forms
 from django.utils.translation import gettext as _
 

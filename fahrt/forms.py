@@ -1,7 +1,7 @@
 from datetime import date
 from typing import List
 
-from bootstrap_datepicker_plus import DatePickerInput, DateTimePickerInput
+from bootstrap_datepicker_plus.widgets import DatePickerInput, DateTimePickerInput
 from django import forms
 from django.core.exceptions import ValidationError
 from django.db.models import QuerySet
