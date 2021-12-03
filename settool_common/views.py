@@ -103,7 +103,7 @@ def list_filtered_mail(request: WSGIRequest, mail_filter: str) -> HttpResponse:
         # "guidedtours": (TourMail.objects.all(), "guidedtours.view_participants"),
         "tutors": (TutorMail.objects.all(), "set.mail"),
     }
-    if mail_filter not in mail_lut.keys():
+    if mail_filter not in mail_lut:
         raise Http404
     mail_qs, _ = mail_lut[mail_filter]
     # if not request.user.has_perm(mail_object["required_perm"]):

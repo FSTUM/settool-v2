@@ -2,10 +2,11 @@ import datetime as real_datetime
 import logging
 import warnings
 from datetime import timedelta
-from typing import Any, Optional, Union
+from typing import Any, List, Optional, Union
 
 from django.conf import settings
 from django.core.mail import send_mail
+from django.db.models import QuerySet
 from django.db.models.query_utils import Q
 from django.utils import timezone
 from django.utils.datetime_safe import date, datetime
@@ -28,8 +29,8 @@ def guidedtour_reminder(semester: Semester, today: date) -> None:
             & Q(date__month=lookup_day.month)
             & Q(date__year=lookup_day.year),
         ):
-            participant: m_guidedtours.Participant
-            for participant in [participant for participant in tour.participant_set.all() if participant.on_the_tour]:
+            tour_participants: List[m_guidedtours.Participant] = list(tour.participant_set.all())
+            for participant in [participant for participant in tour_participants if participant.on_the_tour]:
                 setting.mail_reminder.send_mail_participant(participant)
 
 
@@ -120,13 +121,8 @@ def anonymize_fahrt(semester: Semester, log_name: str) -> bool:
 
 
 def anonymize_guidedtours(semester: Semester, log_name: str) -> bool:
-    most_recent_tour: Optional[m_guidedtours.Tour] = (
-        m_guidedtours.Tour.objects.filter(semester=semester)
-        .order_by(
-            "date",
-        )
-        .last()
-    )
+    semester_tours: QuerySet[m_guidedtours.Tour] = m_guidedtours.Tour.objects.filter(semester=semester)
+    most_recent_tour: Optional[m_guidedtours.Tour] = semester_tours.order_by("date").last()
     if most_recent_tour and date_is_too_old(most_recent_tour.date, log_name):
         # guidedtours is save to anonymize for this semester
         participant: m_guidedtours.Participant
