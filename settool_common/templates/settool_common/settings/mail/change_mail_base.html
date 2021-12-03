@@ -41,7 +41,7 @@ $(document).ready(() => {
 });
 
 $(document).on('change', '#id_sender', (e) => {
-    const selectedValue = this.options[e.target.selectedIndex].value;
+    const selectedValue = e.target[e.target.selectedIndex].value;
     selExpl.html(mails[selectedValue]);
     $('#id_sender option[selected]').removeAttr('selected');
     $(`#id_sender option[value='${selectedValue}']`).attr('selected', true);
