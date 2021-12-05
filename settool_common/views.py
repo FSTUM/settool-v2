@@ -402,3 +402,8 @@ def del_subject(request: WSGIRequest, subject_pk: int) -> HttpResponse:
     messages.warning(request, _("Be aware that deleting this affects all semesters. There be dragons."))
     context = {"form": form, "subject": subject}
     return render(request, "settool_common/settings/subjects/subject/del_subject.html", context)
+
+
+def login_failed(request: WSGIRequest) -> HttpResponse:
+    messages.error(request, _("You are not allowed to login to the application."))
+    return redirect("main-view")

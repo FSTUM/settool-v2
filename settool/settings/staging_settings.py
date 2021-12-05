@@ -3,8 +3,16 @@
 # type: ignore
 
 import logging.config
+import os
 
-from settool.settings import *
+USE_KEYCLOAK = os.getenv("USE_KEYCLOAK", "False") == "True"
+if USE_KEYCLOAK:
+    from settool.settings.keycloak_settings import *
+
+    OIDC_RP_CLIENT_ID = os.environ["OIDC_RP_CLIENT_ID"]
+    OIDC_RP_CLIENT_SECRET = os.environ["OIDC_RP_CLIENT_SECRET"]
+else:
+    from settool.settings.dev_settings import *
 
 DEBUG = os.getenv("DJANGO_DEBUG", "False") == "True"
 ALLOWED_HOSTS = os.getenv("DJANGO_ALLOWED_HOSTS", "").split(",")

@@ -7,11 +7,11 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: settool/settings.py
+#: settool/settings/base_settings.py
 msgid "German"
 msgstr "Deutsch"
 
-#: settool/settings.py
+#: settool/settings/base_settings.py
 msgid "English"
 msgstr "Englisch"
 

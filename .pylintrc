@@ -1,8 +1,8 @@
 [MASTER]
-ignore=migrations,node_modules
+ignore=migrations,node_modules,settool.settings
 jobs=1
 load-plugins=pylint_django
-django-settings-module=settool.settings
+django-settings-module=settool.settings.dev_settings
 
 [MESSAGES CONTROL]
 disable=print-statement,
