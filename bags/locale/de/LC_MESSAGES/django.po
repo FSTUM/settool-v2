@@ -1,6 +1,6 @@
 msgid ""
 msgstr ""
-"Report-Msgid-Bugs-To: \n"
+"Report-Msgid-Bugs-To: elsinga <at> fs.tum.de\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"

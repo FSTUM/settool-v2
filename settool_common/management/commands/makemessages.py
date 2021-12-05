@@ -16,6 +16,8 @@ class Command(makemessages.Command):
 
         with open(path, "rb") as file:
             for line in file:
+                if line.startswith(b'"Report-Msgid-Bugs-To:'):
+                    modified_lines.append(b'"Report-Msgid-Bugs-To: elsinga <at> fs.tum.de\\n"')
                 if not line.startswith(b'"POT-Creation-Date: '):
                     modified_lines.append(line)
 
