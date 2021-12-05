@@ -5,6 +5,7 @@ from io import BytesIO
 from typing import Any, Dict, List, Optional, Tuple, Union
 
 import qrcode
+from django.conf import settings
 from django.core.files import File
 from django.core.mail import EmailMessage, send_mail
 from django.db import models
@@ -15,8 +16,6 @@ from django.utils import timezone
 from django.utils.deconstruct import deconstructible
 from django.utils.translation import gettext_lazy as _
 from PIL import Image
-
-import settool.settings as main_settings
 
 from .settings import SEMESTER_SESSION_KEY
 
@@ -245,7 +244,7 @@ class QRCode(models.Model):
         with Image.new("RGB", (qr_image.pixel_size, qr_image.pixel_size), "white") as canvas:
             canvas.paste(qr_image)
 
-            logo_path = os.path.join(main_settings.STATIC_ROOT, "logo", "eule_squared.png")
+            logo_path = os.path.join(settings.STATIC_ROOT, "logo", "eule_squared.png")
             with Image.open(logo_path) as logo:
                 total_usable_height = qr_image.pixel_size - qr_image.box_size * qr_image.border * 2
                 usable_height = total_usable_height * 0.3
