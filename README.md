@@ -67,7 +67,7 @@ python3 -m pip install -r requirements_dev.txt
 python3 manage.py migrate
 ```
 
-3. Create an admin-account by running the following command inside the project directory:
+4. (Optional step, a user can be created using the [fixture](#sample-data-fixtures) below) Create an admin-account by running the following command inside the project directory:
 
 ```bash
 python3 manage.py createsuperuser
@@ -153,16 +153,22 @@ python manage.py makemessages -a
 
 Note that `pre-commit` will automatically compile the translations for you.
 
+## Adding Dependencies
+
+If you want to add a dependency that is in `pip` add it to the appropriate `requirements`-file.  
+If you want to add a dependency that is in `npm` run `npm i DEPENDENCY`.
+**Make sure that you do only commit the necessary npm-files to git.**
+
 ## Staging
 
-A staging environment is offered at `set.frank.elsinga.de`  
+A staging environment is offered at [`set.frank.elsinga.de`](https://set.frank.elsinga.de)  
 The username is `password`  
 The password is `username`
 
-### Building and running the dockerfile for local developement
+### Building and running the dockerfile for local development
 
-1. you need to save your enveronmment variables in an `.env`-file.
-   The further guide assumes content simmilar to the following in `staging/.env`.
+1. you need to save your environment variables in an `.env`-file.
+   The further guide assumes content similar to the following in `staging/.env`.
 
 ```
 DJANGO_DEBUG="True"
