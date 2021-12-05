@@ -483,6 +483,10 @@ msgstr ""
 "Sei dir bewusst das diese Löschung Caskadiert. Das heißt das Teilnehmer die "
 "diesem Studenfach angehören ebenfalls mögl. gelöscht werden."
 
+#: settool_common/views.py
+msgid "You are not allowed to login to the application."
+msgstr "Dir ist nicht erlaubt dich in diese Applikation einzuloggen."
+
 #~ msgid "Bag mail templates"
 #~ msgstr "E-Mail-Vorlagen auflisten"
 
@@ -518,6 +522,3 @@ msgstr ""
 
 #~ msgid "Impressum"
 #~ msgstr "Impressum"
-
-#~ msgid "You are not allowed to login to the application."
-#~ msgstr "Dir ist nicht erlaubt dich in diese Applikation einzuloggen."

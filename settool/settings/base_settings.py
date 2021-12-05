@@ -11,12 +11,13 @@ https://docs.djangoproject.com/en/1.9/ref/settings/
 """
 
 import os
-from typing import List
+from pathlib import Path
+from typing import List, Optional
 
 from django.utils.translation import gettext_lazy as _
 
-# Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+# Build paths inside the project like this: BASE_DIR / 'subdir'.
+BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.9/howto/deployment/checklist/
@@ -28,11 +29,6 @@ SECRET_KEY = "CHANGE_ME_CHANGE_ME_CHANGE_ME_CHANGE_ME"  # nosec: this is changed
 DEBUG = True
 
 ALLOWED_HOSTS: List[str] = []
-
-# Login URLs
-LOGIN_URL = "/login/"
-LOGOUT_URL = "/logout/"
-LOGIN_REDIRECT_URL = "/"
 
 # Application definition
 
@@ -107,8 +103,12 @@ DATABASES = {
 }
 DEFAULT_AUTO_FIELD = "django.db.models.AutoField"
 
-# Password validation
-# https://docs.djangoproject.com/en/1.9/ref/settings/#auth-password-validators
+# Auth
+LOGIN_URL = "/login/"
+LOGOUT_URL = "/logout/"
+LOGIN_REDIRECT_URL = "/"
+LOGOUT_REDIRECT_URL = "login"
+LOGIN_REDIRECT_URL_FAILURE = "/login/failed"
 
 AUTH_PASSWORD_VALIDATORS = [
     {"NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator"},
@@ -116,6 +116,8 @@ AUTH_PASSWORD_VALIDATORS = [
     {"NAME": "django.contrib.auth.password_validation.CommonPasswordValidator"},
     {"NAME": "django.contrib.auth.password_validation.NumericPasswordValidator"},
 ]
+
+USE_KEYCLOAK: Optional[bool] = None
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.9/topics/i18n/

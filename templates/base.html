@@ -1,3 +1,4 @@
+{% load auth_methods %}
 {% load titles %}
 {% load active_link_tags %}
 {% load static %}
@@ -178,9 +179,10 @@
                             </li>
                             {% else %}
                             <li class="nav-item">
+                                {% get_keycloak_status as keycloak_status %}
                                 <a
                                     class="nav-link"
-                                    href="{% url "login" %}"
+                                    href="{% if keycloak_status %}{% url "oidc_authentication_init" %}{% else %}{% url "login" %}{% endif %}"
                                 >{% trans "Login" %}</a>
                             </li>
                             {% endif %}
