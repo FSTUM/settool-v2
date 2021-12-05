@@ -31,16 +31,16 @@ OIDC_USERNAME_ALGO = "django_compref_keycloak.backend.generate_username"
 COMPREF_KEYCLOAK_FEDERATED_IDP = {
     "fs.tum.de-internal": {
         "enabled": True,
-        "active_groups": [],
-        "staff_groups": [],
-        "superuser_groups": [],
+        "active_groups": ["compref", "set", "set-admins"],
+        "staff_groups": ["compref", "set-admins"],
+        "superuser_groups": ["compref", "set-admins"],
         "sync_groups": True,
     },
     "fs.tum.de": {
-        "enabled": True,
-        "active_groups": ["users"],
-        "staff_groups": ["compref", "set-admins", "set", "set-tueten"],
-        "superuser_groups": ["compref", "set-admins"],
+        "enabled": False,
+        "active_groups": [],
+        "staff_groups": [],
+        "superuser_groups": [],
         "sync_groups": True,
     },
     "shibboleth.tum.de": {
