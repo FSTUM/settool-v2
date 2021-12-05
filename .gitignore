@@ -37,6 +37,5 @@ coverage.xml
 *.csv
 /node_modules/
 /media/
-/settool/staging_*
 /static/
 /staging/.env
