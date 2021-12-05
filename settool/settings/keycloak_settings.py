@@ -11,7 +11,7 @@ INSTALLED_APPS = INSTALLED_APPS[:ins_index] + apps_to_install + INSTALLED_APPS[i
 
 AUTHENTICATION_BACKENDS = ("django_compref_keycloak.backend.CompRefKeycloakAuthenticationBackend",)
 
-OIDC_REALM = "federated-tum.de"  # realm is either federated-tum.de or fs.tum.de - provided by CompRef
+OIDC_REALM = "fs.tum.de"  # realm is either federated-tum.de or fs.tum.de - provided by CompRef
 OIDC_PREFIX = f"https://auth.fs.tum.de/auth/realms/{OIDC_REALM}/protocol/openid-connect/"
 OIDC_OP_AUTHORIZATION_ENDPOINT = OIDC_PREFIX + "auth"  # nosec: not secret
 OIDC_OP_TOKEN_ENDPOINT = OIDC_PREFIX + "token"  # nosec: not secret
