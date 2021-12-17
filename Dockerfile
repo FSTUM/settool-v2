@@ -34,8 +34,6 @@ RUN python manage.py collectstatic --noinput --force-color \
     && echo "import settool_common.fixtures.showroom_fixture as fixture;fixture.showroom_fixture_state_no_confirmation()"|python manage.py shell
 ENV DJANGO_SECRET_KEY=
 
-ENV DJANGO_SETTINGS_MODULE=staging.staging_settings
-
 EXPOSE 8000
 
 CMD ["gunicorn", "--bind", ":8000", "--workers", "3", "settool.staging_wsgi:application"]
