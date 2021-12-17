@@ -17,6 +17,8 @@ else:
 DEBUG = os.getenv("DJANGO_DEBUG", "False") == "True"
 ALLOWED_HOSTS = os.getenv("DJANGO_ALLOWED_HOSTS", "").split(",")
 
+WSGI_APPLICATION = "settool.staging_wsgi.application"
+
 SECRET_KEY = os.environ["DJANGO_SECRET_KEY"]
 # generate your own secret key using
 # import random, string
