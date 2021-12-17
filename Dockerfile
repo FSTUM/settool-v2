@@ -38,4 +38,4 @@ ENV DJANGO_SETTINGS_MODULE=staging.staging_settings
 
 EXPOSE 8000
 
-CMD ["gunicorn", "--bind", ":8000", "--workers", "3", "staging.staging_wsgi:application"]
+CMD ["gunicorn", "--bind", ":8000", "--workers", "3", "settool.staging_wsgi:application"]
