@@ -26,7 +26,7 @@ SECRET_KEY = os.environ["DJANGO_SECRET_KEY"]
 
 # staticfiles
 MIDDLEWARE.insert(1, "whitenoise.middleware.WhiteNoiseMiddleware")
-# STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 # logging
 LOGGING_CONFIG = None
