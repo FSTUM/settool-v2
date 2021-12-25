@@ -25,7 +25,9 @@ OIDC_RP_CLIENT_ID = "..."  # nosec: provided by CompRef and overwritten for prod
 OIDC_RP_CLIENT_SECRET = "..."  # nosec: provided by CompRef and overwritten for prod
 
 OIDC_RP_SIGN_ALGO = "RS256"
+ALLOW_LOGOUT_GET_METHOD = True
 OIDC_USERNAME_ALGO = "django_compref_keycloak.backend.generate_username"
+OIDC_OP_LOGOUT_URL_METHOD = "django_compref_keycloak.backend.logout_url"
 
 # Allowed federated identity providers
 COMPREF_KEYCLOAK_FEDERATED_IDP = {

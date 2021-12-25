@@ -159,11 +159,12 @@
                             {% endif %}
                             {# end choose semester #}
                             {# login #}
+                            {% get_keycloak_status as keycloak_status %}
                             {% if user.is_authenticated %}
                             <li class="nav-item">
                                 <a
                                     class="nav-link"
-                                    href="{% url "logout" %}"
+                                    href="{% if keycloak_status %}{% url "oidc_logout" %}{% else %}{% url "logout" %}{% endif %}"
                                 >
                                     {# provide a Useful name, even if the User has not specified his first name #}
                                     {% if user.first_name %}
@@ -179,7 +180,6 @@
                             </li>
                             {% else %}
                             <li class="nav-item">
-                                {% get_keycloak_status as keycloak_status %}
                                 <a
                                     class="nav-link"
                                     href="{% if keycloak_status %}{% url "oidc_authentication_init" %}{% else %}{% url "login" %}{% endif %}"
