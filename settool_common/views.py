@@ -12,7 +12,7 @@ from django.db.models import Count, QuerySet
 from django.forms import forms
 from django.http import Http404, HttpResponse, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, redirect, render
-from django.utils.http import is_safe_url
+from django.utils.http import url_has_allowed_host_and_scheme
 from django.utils.translation import gettext as _
 
 import bags
@@ -35,9 +35,9 @@ from .utils import object_does_exists
 @login_required
 def set_semester(request: WSGIRequest) -> HttpResponse:
     redirect_url: Optional[str] = request.POST.get("next") or request.GET.get("next")
-    if not is_safe_url(url=redirect_url, allowed_hosts=request.get_host()):
+    if not url_has_allowed_host_and_scheme(url=redirect_url, allowed_hosts=request.get_host(), require_https=True):
         redirect_url = request.META.get("HTTP_REFERER")
-        if not is_safe_url(url=redirect_url, allowed_hosts=request.get_host()):
+        if not url_has_allowed_host_and_scheme(url=redirect_url, allowed_hosts=request.get_host(), require_https=True):
             redirect_url = "/"  # should not happen :)
     if request.method == "POST":
         semester_pk = int(request.POST.get("semester") or -1)  # semester is always present
