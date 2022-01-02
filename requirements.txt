@@ -1,5 +1,5 @@
 --extra-index-url https://git.fs.tum.de/api/v4/groups/django/-/packages/pypi/simple
-Django~=3.2.9
+Django~=4.0
 django-active-link~=0.1.8
 django-bootstrap-datepicker-plus~=3.0.6
 django-bootstrap-modal-forms~=2.2.0
