@@ -1,6 +1,6 @@
 import time
 from datetime import timedelta
-from typing import Any, Dict, Optional, Union
+from typing import Any, Optional, Union
 
 from django import forms
 from django.contrib import messages
@@ -316,7 +316,7 @@ def signup(request: WSGIRequest) -> HttpResponse:
     ).order_by("date")
 
     if not tours:
-        context: Dict[str, Any] = {"semester": semester}
+        context: dict[str, Any] = {"semester": semester}
         return render(request, "guidedtours/signup/signup_notour.html", context)
 
     form = ParticipantForm(request.POST or None, tours=tours, semester=semester)

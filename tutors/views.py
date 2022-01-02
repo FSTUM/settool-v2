@@ -1,5 +1,5 @@
 import time
-from typing import Any, Dict, List, Optional, Union
+from typing import Any, Optional, Union
 from uuid import UUID
 
 from django import http
@@ -777,7 +777,7 @@ def send_mail(
 
         return redirect(f"tutor_list_status_{status}")
 
-    context: Dict[str, Any] = {
+    context: dict[str, Any] = {
         "from": template.sender,
         "subject": subject,
         "body": body,
@@ -789,7 +789,7 @@ def send_mail(
     return render(request, "tutors/tutor/mail.html", context)
 
 
-def extract_tutor_data() -> Dict[str, str]:
+def extract_tutor_data() -> dict[str, str]:
     tutor_data = {}
     for field in Tutor._meta.fields:
         if field.name not in ["semester", "subject"]:
@@ -802,7 +802,7 @@ def extract_tutor_data() -> Dict[str, str]:
 
 def send_email_to_all_tutors(
     mail_template: TutorMail,
-    tutors: List[Tutor],
+    tutors: list[Tutor],
     request: WSGIRequest,
 ) -> None:
     for tutor in tutors:
@@ -849,8 +849,8 @@ def batch_accept(request: WSGIRequest) -> HttpResponse:
     tutors_accepted = Tutor.objects.filter(semester=semester, status=Tutor.STATUS_ACCEPTED)
     assignments_wish_counter = SubjectTutorCountAssignment.objects.filter(semester=semester)
 
-    tutor_ids: List[UUID] = []
-    to_be_accepted: Dict[Subject, List[Tutor]] = {}
+    tutor_ids: list[UUID] = []
+    to_be_accepted: dict[Subject, list[Tutor]] = {}
 
     for assignment_wish_counter in assignments_wish_counter:
         if not (
@@ -878,7 +878,7 @@ def batch_accept(request: WSGIRequest) -> HttpResponse:
         semester=semester,
     )
     if form.is_valid():
-        tutors: List[Tutor] = form.cleaned_data["tutors"]
+        tutors: list[Tutor] = form.cleaned_data["tutors"]
         accepted_tutor: Tutor
         for accepted_tutor in tutors:
             accepted_tutor.status = Tutor.STATUS_ACCEPTED
@@ -900,8 +900,8 @@ def batch_decline(request: WSGIRequest) -> HttpResponse:
     tutors_accepted = Tutor.objects.filter(semester=semester, status=Tutor.STATUS_ACCEPTED)
     assignments_wish_counter = SubjectTutorCountAssignment.objects.filter(semester=semester)
 
-    tutor_ids: List[UUID] = []
-    to_be_declined: Dict[Subject, List[Tutor]] = {}
+    tutor_ids: list[UUID] = []
+    to_be_declined: dict[Subject, list[Tutor]] = {}
 
     for assignment_wish_counter in assignments_wish_counter:
         if not (
@@ -950,7 +950,7 @@ def dashboard(request: WSGIRequest) -> HttpResponse:
     assignments_wish_counter = SubjectTutorCountAssignment.objects.filter(semester=semester)
     count_results = {}
     for assignment_wish_counter in assignments_wish_counter:
-        counts_tutors: Dict[str, int] = Tutor.objects.filter(
+        counts_tutors: dict[str, int] = Tutor.objects.filter(
             semester=semester,
             subject=assignment_wish_counter.subject,
             status=Tutor.STATUS_ACCEPTED,

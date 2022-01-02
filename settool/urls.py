@@ -5,6 +5,7 @@ from django.contrib import admin
 from django.contrib.auth import views as auth_views
 from django.urls import path
 from django.views.generic import RedirectView, TemplateView
+
 import settool_common.views
 
 urlpatterns = [
@@ -30,8 +31,8 @@ urlpatterns = [
     path("t/", RedirectView.as_view(pattern_name="tutors:tutor_signup"), name="short_tutor_signup"),
 ]
 
-urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)  # type: ignore
-urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)  # type: ignore
+urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 if settings.USE_KEYCLOAK:
     urlpatterns += [
         # Auth

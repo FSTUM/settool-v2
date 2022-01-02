@@ -1,5 +1,4 @@
 from datetime import date
-from typing import List
 
 from bootstrap_datepicker_plus.widgets import DatePickerInput, DateTimePickerInput
 from django import forms
@@ -17,7 +16,7 @@ from .models import Fahrt, FahrtMail, Participant, Transportation, Transportatio
 class FahrtForm(forms.ModelForm):
     class Meta:
         model = Fahrt
-        exclude: List[str] = ["semester"]
+        exclude: list[str] = ["semester"]
         widgets = {
             "date": DatePickerInput(format="%Y-%m-%d"),
             "open_registration": DateTimePickerInput(format="%Y-%m-%d %H:%M"),
@@ -119,7 +118,7 @@ class AddParticipantToTransportForm(SemesterBasedForm):
 class TransportForm(forms.ModelForm):
     class Meta:
         model = Transportation
-        exclude: List[str] = ["fahrt"]
+        exclude: list[str] = ["fahrt"]
         widgets = {
             "deparure_time": DateTimePickerInput(format="%Y-%m-%d %H:%M"),
             "return_departure_time": DateTimePickerInput(format="%Y-%m-%d %H:%M"),
@@ -147,7 +146,7 @@ class TransportForm(forms.ModelForm):
 
 class TransportOptionForm(TransportForm):
     class Meta(TransportForm.Meta):
-        exclude: List[str] = ["fahrt", "creator", "transport_type"]
+        exclude: list[str] = ["fahrt", "creator", "transport_type"]
 
     def __init__(self, *args, **kwargs):
         self.creator = kwargs.pop("creator")
@@ -166,7 +165,7 @@ class TransportOptionForm(TransportForm):
 
 class TransportAdminOptionForm(TransportForm):
     class Meta(TransportForm.Meta):
-        exclude: List[str] = ["fahrt", "transport_type"]
+        exclude: list[str] = ["fahrt", "transport_type"]
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -186,7 +185,7 @@ class TransportAdminOptionForm(TransportForm):
 class MailForm(forms.ModelForm):
     class Meta:
         model = FahrtMail
-        exclude: List[str] = ["sender"]
+        exclude: list[str] = ["sender"]
 
 
 class SelectMailForm(forms.Form):
@@ -298,7 +297,7 @@ class CSVFileUploadForm(forms.Form):
 class TransportationCommentForm(forms.ModelForm):
     class Meta:
         model = TransportationComment
-        exclude: List[str] = ["sender", "commented_on"]
+        exclude: list[str] = ["sender", "commented_on"]
 
     def __init__(self, *args, **kwargs):
         self.transport = kwargs.pop("transport")

@@ -1,5 +1,3 @@
-from typing import List, Tuple
-
 from dateutil.relativedelta import relativedelta
 from django.db import models
 from django.utils import timezone
@@ -21,7 +19,7 @@ class TourMail(common_models.Mail):
         ("{{tour_status}}", _("'Tour' or 'Waitinglist' depending on on_the_tour status")),
     ]
     # ["{{template}}", "description", "contition"]
-    conditional_placeholders: List[Tuple[str, str, str]] = []
+    conditional_placeholders: list[tuple[str, str, str]] = []
     notes = ""
 
     required_perm = common_models.Mail.required_perm + ["guidedtours.view_participants"]

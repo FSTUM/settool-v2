@@ -2,7 +2,7 @@ import datetime
 import os
 import re
 from io import BytesIO
-from typing import Any, Dict, List, Optional, Tuple, Union
+from typing import Any, List, Optional, Union
 
 import qrcode
 from django.conf import settings
@@ -32,9 +32,9 @@ class Mail(models.Model):
         (SET_BAGS, _("SET_BAGS")),
     )
     # ["{{template}}", "description"]
-    general_placeholders: List[Tuple[str, str]] = []
+    general_placeholders: list[tuple[str, str]] = []
     # ["{{template}}", "description", "contition"]
-    conditional_placeholders: List[Tuple[str, str, str]] = []
+    conditional_placeholders: list[tuple[str, str, str]] = []
     notes: str = ""
 
     # perms are or-connected-permissions (you need one of them instead of all of them)
@@ -74,7 +74,7 @@ class Mail(models.Model):
             return f"{self.subject} ({self.comment})"
         return str(self.subject)
 
-    def get_mail(self, context: Union[Context, Dict[str, Any], None]) -> Tuple[str, str, str]:
+    def get_mail(self, context: Union[Context, dict[str, Any], None]) -> tuple[str, str, str]:
         if not isinstance(context, Context):
             context = Context(context or {})
 
@@ -88,9 +88,9 @@ class Mail(models.Model):
 
     def send_mail(
         self,
-        context: Union[Context, Dict[str, Any], None],
+        context: Union[Context, dict[str, Any], None],
         recipients: Union[List[str], str],
-        attachments: Optional[Union[HttpResponse, List[Tuple[str, Any, str]]]] = None,
+        attachments: Optional[Union[HttpResponse, list[tuple[str, Any, str]]]] = None,
     ) -> bool:
         if isinstance(recipients, str):
             recipients = [recipients]
@@ -118,7 +118,7 @@ class Mail(models.Model):
         return True
 
 
-def clean_attachable(response: Union[HttpResponse, Tuple[str, Any, str]]) -> Tuple[str, Any, str]:
+def clean_attachable(response: Union[HttpResponse, tuple[str, Any, str]]) -> tuple[str, Any, str]:
     if not isinstance(response, HttpResponse):
         return response
     content_type = response.get("Content-Type", "text/text")

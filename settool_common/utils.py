@@ -1,6 +1,6 @@
 import csv
 import os
-from typing import Any, Dict, List, Union
+from typing import Any, Union
 
 from django.core.exceptions import ObjectDoesNotExist
 from django.db.models import QuerySet
@@ -8,9 +8,9 @@ from django.http import HttpResponse
 
 
 def download_csv(
-    fields: List[str],
+    fields: list[str],
     dest: str,
-    context: Union[QuerySet[Any], Dict[Any, Any], List[Any]],
+    context: Union[QuerySet[Any], dict[Any, Any], list[Any]],
 ) -> HttpResponse:
     response = HttpResponse(content_type="text/csv")
     response["Content-Disposition"] = f"inline; filename={os.path.basename(dest)}"

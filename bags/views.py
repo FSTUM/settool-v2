@@ -2,7 +2,6 @@ import csv
 import math
 import os
 import time
-from typing import List
 
 from bootstrap_modal_forms.generic import BSModalCreateView, BSModalUpdateView
 from django import forms
@@ -420,8 +419,8 @@ def dashboard(request: WSGIRequest) -> HttpResponse:
         },
     )
 
-    g_by_item_count_labels: List[str] = []
-    g_by_item_count_data: List[int] = []
+    g_by_item_count_labels: list[str] = []
+    g_by_item_count_data: list[int] = []
     g_item_count_max = giveaways.order_by("-item_count").first()
     g_item_count_min = giveaways.order_by("item_count").first()
     if g_item_count_max and g_item_count_min:  # do giveaways exist?
@@ -517,7 +516,7 @@ def list_giveaway_distribution(request: WSGIRequest) -> HttpResponse:
 @permission_required("bags.view_companies")
 def list_giveaways_arrivals(request: WSGIRequest) -> HttpResponse:
     semester: Semester = get_object_or_404(Semester, pk=get_semester(request))
-    giveaways: List[Giveaway] = list(Giveaway.objects.filter(company__semester=semester).all())
+    giveaways: list[Giveaway] = list(Giveaway.objects.filter(company__semester=semester).all())
 
     select_giveaway_form_set = formset_factory(SelectGiveawaySwitchForm, extra=0)
     giveawayforms = select_giveaway_form_set(
@@ -526,8 +525,8 @@ def list_giveaways_arrivals(request: WSGIRequest) -> HttpResponse:
     )
 
     if giveawayforms.is_valid():
-        new_arrived_giveaways: List[int] = []
-        new_unarrived_giveaways: List[int] = []
+        new_arrived_giveaways: list[int] = []
+        new_unarrived_giveaways: list[int] = []
         for giveaway in giveawayforms:
             try:
                 giveaway_id = giveaway.cleaned_data["id"]
@@ -563,10 +562,10 @@ def list_giveaways_arrivals(request: WSGIRequest) -> HttpResponse:
 
 @permission_required("bags.view_companies")
 def confirm_giveaways_arrivals(request: WSGIRequest) -> HttpResponse:
-    new_arrived_giveaways: List[Giveaway] = [
+    new_arrived_giveaways: list[Giveaway] = [
         Giveaway.objects.get(id=part_id) for part_id in request.session["new_arrived_giveaways"]
     ]
-    new_unarrived_giveaways: List[Giveaway] = [
+    new_unarrived_giveaways: list[Giveaway] = [
         Giveaway.objects.get(id=part_id) for part_id in request.session["new_unarrived_giveaways"]
     ]
     form = forms.Form(request.POST or None)

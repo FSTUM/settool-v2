@@ -1,4 +1,4 @@
-from typing import Any, List, Optional, Tuple
+from typing import Any, Optional
 from uuid import UUID
 
 from django import forms
@@ -22,7 +22,7 @@ from ..forms import (
 from ..models import Fahrt, Participant, Transportation
 
 
-def get_transport_types(fahrt: Fahrt) -> List[Tuple[str, str, int, Any]]:
+def get_transport_types(fahrt: Fahrt) -> list[tuple[str, str, int, Any]]:
     return [
         (
             _("Cars"),

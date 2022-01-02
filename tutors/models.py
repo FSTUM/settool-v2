@@ -1,5 +1,4 @@
 import uuid
-from typing import List, Tuple
 
 from dateutil.relativedelta import relativedelta
 from django.core.validators import RegexValidator
@@ -19,7 +18,7 @@ class TutorMail(common_models.Mail):
         ("{{tutor}}", "The Tutor"),
     ]
     # ["{{template}}", "description", "contition"]
-    conditional_placeholders: List[Tuple[str, str, str]] = [
+    conditional_placeholders: list[tuple[str, str, str]] = [
         ("{{activation_url}}", _("The Activation-Link"), _("Configured as the registration mail")),
         ("{{task}}", _("The Task"), _("Configured as the task mail or the reminder")),
     ]

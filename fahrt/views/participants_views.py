@@ -1,5 +1,5 @@
 from datetime import date, timedelta
-from typing import Dict, List, Optional
+from typing import Optional
 
 from django import forms
 from django.contrib import messages
@@ -138,7 +138,7 @@ def list_confirmed(request: WSGIRequest) -> HttpResponse:
 def get_nutritunal_information(
     participants: QuerySet[Participant],
     semester: Semester,
-) -> List[Dict[str, object]]:
+) -> list[dict[str, object]]:
     nutritions = semester.fahrt_participant.filter(status="confirmed").values("nutrition").distinct()
     nutrition_choices = [choice["nutrition"] for choice in nutritions]
     return [
@@ -448,7 +448,7 @@ def set_request_session_filtered_participants(
 
     u18 = filterform.cleaned_data["u18"]
     should_not_filter = u18 is None
-    filtered_participants: List[int] = [p.id for p in participants if should_not_filter or p.u18 is u18]
+    filtered_participants: list[int] = [p.id for p in participants if should_not_filter or p.u18 is u18]
     request.session["filtered_participants"] = filtered_participants
 
 

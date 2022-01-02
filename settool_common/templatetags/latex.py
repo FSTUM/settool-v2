@@ -8,7 +8,7 @@ from django.template.defaultfilters import stringfilter
 register = template.Library()
 
 
-LATEX_ESCAPES = OrderedDict(
+LATEX_ESCAPES: OrderedDict[str, str] = OrderedDict(
     [
         ("\\", "\\textbackslash "),  # \ -> \textbackslash
         ("\n", "\\newline "),

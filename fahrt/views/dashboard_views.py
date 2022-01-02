@@ -1,5 +1,3 @@
-from typing import List
-
 from django.contrib.auth.decorators import permission_required
 from django.core.handlers.wsgi import WSGIRequest
 from django.db.models import Count, Q, QuerySet
@@ -12,26 +10,26 @@ from settool_common.models import get_semester, Semester, Subject
 from ..models import Participant, Transportation
 
 
-def _get_cp_u18_counts(c_p: QuerySet[Participant]) -> List[int]:
+def _get_cp_u18_counts(c_p: QuerySet[Participant]) -> list[int]:
     part_u18 = [participant.u18 for participant in c_p.all()]
     u18_count = len([participant for participant in part_u18 if participant])
     non_u18_count = len(part_u18) - u18_count
     return [u18_count, non_u18_count]
 
 
-def _get_cp_paid_counts(c_p: QuerySet[Participant]) -> List[int]:
+def _get_cp_paid_counts(c_p: QuerySet[Participant]) -> list[int]:
     paid_participants_count: int = c_p.exclude(paid=None).count()
     unpaid_participants_count: int = c_p.filter(paid=None).count()
     return [paid_participants_count, unpaid_participants_count]
 
 
-def _get_cp_non_liability_counts(c_p: QuerySet[Participant]) -> List[int]:
+def _get_cp_non_liability_counts(c_p: QuerySet[Participant]) -> list[int]:
     submitted_non_liability_count: int = c_p.exclude(non_liability=None).count()
     not_submitted_non_liability_count: int = c_p.filter(non_liability=None).count()
     return [submitted_non_liability_count, not_submitted_non_liability_count]
 
 
-def _get_cp_bachlor_master_counts(c_p: QuerySet[Participant]) -> List[int]:
+def _get_cp_bachlor_master_counts(c_p: QuerySet[Participant]) -> list[int]:
     master_count: int = c_p.filter(subject__degree=Subject.MASTER).count()
     bachlor_count: int = c_p.filter(subject__degree=Subject.BACHELOR).count()
     return [bachlor_count, master_count]

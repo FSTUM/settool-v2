@@ -1,6 +1,6 @@
 import random
 from datetime import timedelta
-from typing import Any, List, Optional, Set, Tuple
+from typing import Any, Optional, Set
 
 from django.core import mail
 from django.core.mail import EmailMessage
@@ -19,8 +19,8 @@ import tutors.models as tutor_models
 from settool_common import cron
 
 
-def serialise_outbox() -> Set[Tuple[str, str, str]]:
-    outbox: List[EmailMessage] = mail.outbox
+def serialise_outbox() -> Set[tuple[str, str, str]]:
+    outbox: list[EmailMessage] = mail.outbox
     res = set()
     for email in outbox:
         res.add((email.subject.strip(), email.body.strip(), email.from_email.strip()))

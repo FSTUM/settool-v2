@@ -1,6 +1,6 @@
 from datetime import date
 from io import TextIOWrapper
-from typing import Dict, List, Optional, Tuple
+from typing import Optional
 from uuid import UUID
 
 from django import forms
@@ -25,7 +25,7 @@ from ..parser import Entry, parse_camt_csv
 def finanz_simple(request: WSGIRequest) -> HttpResponse:
     semester: Semester = get_object_or_404(Semester, pk=get_semester(request))
     fahrt: Fahrt = get_object_or_404(Fahrt, semester=semester)
-    participants: List[Participant] = list(Participant.objects.filter(semester=semester, status="confirmed").all())
+    participants: list[Participant] = list(Participant.objects.filter(semester=semester, status="confirmed").all())
 
     select_participant_form_set = formset_factory(SelectParticipantSwitchForm, extra=0)
     participantforms = select_participant_form_set(
@@ -34,8 +34,8 @@ def finanz_simple(request: WSGIRequest) -> HttpResponse:
     )
 
     if participantforms.is_valid():
-        new_paid_participants: List[int] = []
-        new_unpaid_participants: List[int] = []
+        new_paid_participants: list[int] = []
+        new_unpaid_participants: list[int] = []
         for participant in participantforms:
             try:
                 participant_id = participant.cleaned_data["id"]
@@ -72,10 +72,10 @@ def finanz_simple(request: WSGIRequest) -> HttpResponse:
 
 @permission_required("finanz")
 def finanz_confirm(request: WSGIRequest) -> HttpResponse:
-    new_paid_participants: List[Participant] = [
+    new_paid_participants: list[Participant] = [
         Participant.objects.get(id=part_id) for part_id in request.session["new_paid_participants"]
     ]
-    new_unpaid_participants: List[Participant] = [
+    new_unpaid_participants: list[Participant] = [
         Participant.objects.get(id=part_id) for part_id in request.session["new_unpaid_participants"]
     ]
     form = forms.Form(request.POST or None)
@@ -127,10 +127,10 @@ def finanz_auto_matching(request: WSGIRequest) -> HttpResponse:
     participants: QuerySet[Participant] = Participant.objects.filter(semester=semester, status="confirmed")
 
     # mypy is weird for this one. equivalent [but not Typechecking]:  participants.values_list("uuid", flat=True)
-    participants_ids_pre_mypy: List[Optional[UUID]] = [element["uuid"] for element in participants.values("uuid")]
-    participants_ids: List[UUID] = [uuid for uuid in participants_ids_pre_mypy if uuid]
+    participants_ids_pre_mypy: list[Optional[UUID]] = [element["uuid"] for element in participants.values("uuid")]
+    participants_ids: list[UUID] = [uuid for uuid in participants_ids_pre_mypy if uuid]
 
-    transactions: List[Entry] = [Entry.from_json(entry) for entry in request.session["results"]]
+    transactions: list[Entry] = [Entry.from_json(entry) for entry in request.session["results"]]
 
     error, matched_transactions, unmatched_transactions = match_transactions_participant_ids(
         participants_ids,
@@ -189,18 +189,18 @@ def finanz_auto_matching(request: WSGIRequest) -> HttpResponse:
 
 
 def match_transactions_participant_ids(
-    participants_ids: List[UUID],
+    participants_ids: list[UUID],
     request: WSGIRequest,
-    transactions: List[Entry],
-) -> Tuple[bool, List[Tuple[UUID, Entry]], List[Entry]]:
-    participant_matches: Dict[UUID, List[Entry]] = {p_uuid: [] for p_uuid in participants_ids}
-    matched_transactions: List[Tuple[UUID, Entry]] = []
-    unmatched_transactions: List[Entry] = []
+    transactions: list[Entry],
+) -> tuple[bool, list[tuple[UUID, Entry]], list[Entry]]:
+    participant_matches: dict[UUID, list[Entry]] = {p_uuid: [] for p_uuid in participants_ids}
+    matched_transactions: list[tuple[UUID, Entry]] = []
+    unmatched_transactions: list[Entry] = []
     error = False
 
     transaction: Entry
     for transaction in transactions:
-        matches: List[UUID] = [p_uuid for p_uuid in participants_ids if str(p_uuid) in transaction.verwendungszweck]
+        matches: list[UUID] = [p_uuid for p_uuid in participants_ids if str(p_uuid) in transaction.verwendungszweck]
         if matches:
             for match in matches:
                 matched_transactions.append((match, transaction))

@@ -2,7 +2,7 @@ import datetime as real_datetime
 import logging
 import warnings
 from datetime import timedelta
-from typing import Any, List, Optional, Union
+from typing import Any, Optional, Union
 
 from django.conf import settings
 from django.core.mail import send_mail
@@ -29,7 +29,7 @@ def guidedtour_reminder(semester: Semester, today: date) -> None:
             & Q(date__month=lookup_day.month)
             & Q(date__year=lookup_day.year),
         ):
-            tour_participants: List[m_guidedtours.Participant] = list(tour.participant_set.all())
+            tour_participants: list[m_guidedtours.Participant] = list(tour.participant_set.all())
             for participant in [participant for participant in tour_participants if participant.on_the_tour]:
                 setting.mail_reminder.send_mail_participant(participant)
 

@@ -1,5 +1,3 @@
-from typing import List
-
 from bootstrap_datepicker_plus.widgets import DateTimePickerInput
 from django import forms
 from django.utils.translation import gettext as _
@@ -35,7 +33,7 @@ class TourForm(SemesterBasedModelForm):
 class MailForm(forms.ModelForm):
     class Meta:
         model = TourMail
-        exclude: List[str] = ["sender"]
+        exclude: list[str] = ["sender"]
 
 
 class SelectMailForm(forms.Form):

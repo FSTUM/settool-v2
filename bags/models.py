@@ -1,5 +1,3 @@
-from typing import List, Tuple
-
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import models
 from django.db.models.aggregates import Sum
@@ -17,7 +15,7 @@ class BagMail(common_models.Mail):
         ("{{formale_anrede}}", _("The formal greeting 'Sehr geehrte/r " "Herr/Frau XYZ'")),
     ]
     # ["{{template}}", "description", "contition"]
-    conditional_placeholders: List[Tuple[str, str, str]] = []
+    conditional_placeholders: list[tuple[str, str, str]] = []
     notes = ""
 
     required_perm = common_models.Mail.required_perm + ["bags.view_companies"]

@@ -12,7 +12,7 @@ https://docs.djangoproject.com/en/1.9/ref/settings/
 
 import os
 from pathlib import Path
-from typing import List, Optional
+from typing import Optional
 
 from django.utils.translation import gettext_lazy as _
 
@@ -28,7 +28,7 @@ SECRET_KEY = "CHANGE_ME_CHANGE_ME_CHANGE_ME_CHANGE_ME"  # nosec: this is changed
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS: List[str] = []
+ALLOWED_HOSTS: list[str] = []
 
 # Application definition
 

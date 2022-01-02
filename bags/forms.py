@@ -1,5 +1,3 @@
-from typing import List
-
 from bootstrap_modal_forms.forms import BSModalModelForm
 from django import forms
 from django.utils.translation import gettext as _
@@ -20,7 +18,7 @@ class CompanyForm(SemesterBasedModelForm):
 class GiveawayEditForm(SemesterBasedForm, forms.ModelForm):
     class Meta:
         model = Giveaway
-        exclude: List[str] = []
+        exclude: list[str] = []
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -36,7 +34,7 @@ class GiveawayForm(forms.ModelForm):
 
     class Meta:
         model = Giveaway
-        exclude: List[str] = ["group"]
+        exclude: list[str] = ["group"]
         fields = ["company", "group_input", "comment", "item_count", "arrival_time", "arrived"]
 
     def clean(self):
@@ -86,7 +84,7 @@ class GiveawayDistributionModelForm(BSModalModelForm):
 class GiveawayGroupForm(SemesterBasedModelForm):
     class Meta:
         model = GiveawayGroup
-        exclude: List[str] = ["semester"]
+        exclude: list[str] = ["semester"]
 
 
 class GiveawayToGiveawayGroupForm(SemesterBasedForm):
@@ -104,7 +102,7 @@ class GiveawayToGiveawayGroupForm(SemesterBasedForm):
 class MailForm(forms.ModelForm):
     class Meta:
         model = BagMail
-        exclude: List[str] = ["sender"]
+        exclude: list[str] = ["sender"]
 
 
 class SelectMailForm(forms.Form):
@@ -189,4 +187,4 @@ class SelectGiveawaySwitchForm(forms.Form):
 class BagSettingsForm(forms.ModelForm):
     class Meta:
         model = BagSettings
-        exclude: List[str] = ["semester"]
+        exclude: list[str] = ["semester"]

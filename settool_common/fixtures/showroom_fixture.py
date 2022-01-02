@@ -1,7 +1,6 @@
 import random
 from datetime import timedelta
 from subprocess import run  # nosec: used for flushing the db
-from typing import Dict, List
 
 import django.utils.timezone
 import lorem
@@ -172,7 +171,7 @@ def _generate_transportation_comment():
 
 
 def _generate_transportation(fahrt_participants):
-    transportation: List[fahrt.models.Transportation] = []
+    transportation: list[fahrt.models.Transportation] = []
     participant: fahrt.models.Participant
     counter = 0
     for participant in fahrt_participants:
@@ -332,10 +331,10 @@ def _generate_companies(common_semesters):
 
 
 def _generate_giveaways(
-    semesters: List[settool_common.models.Semester],
-    bags_companies: List[bags.models.Company],
+    semesters: list[settool_common.models.Semester],
+    bags_companies: list[bags.models.Company],
 ) -> None:
-    giveaway_groups: Dict[int, List[bags.models.GiveawayGroup]] = {}
+    giveaway_groups: dict[int, list[bags.models.GiveawayGroup]] = {}
     for i in range(10):
         giveaway_group = bags.models.GiveawayGroup.objects.create(
             semester=random.choice(semesters),

@@ -1,8 +1,8 @@
 import csv
 import os
 import time
-from collections import namedtuple
-from typing import Any, Dict, List, Optional, Tuple, Union
+from dataclasses import dataclass
+from typing import Any, Optional, Union
 
 from dateutil.relativedelta import relativedelta
 from django.contrib import messages
@@ -97,7 +97,7 @@ def del_qr_code(request: WSGIRequest, qr_code_pk: int) -> HttpResponse:
 
 @permission_required("set.mail")
 def list_filtered_mail(request: WSGIRequest, mail_filter: str) -> HttpResponse:
-    mail_lut: Dict[str, Tuple[QuerySet[Any], str]] = {
+    mail_lut: dict[str, tuple[QuerySet[Any], str]] = {
         # "bags": (BagMail.objects.all(), "bags.view_companies"),
         # "fahrt": (FahrtMail.objects.all(), "fahrt.view_participants"),
         # "guidedtours": (TourMail.objects.all(), "guidedtours.view_participants"),
@@ -169,7 +169,13 @@ def del_mail(request: WSGIRequest, mail_pk: int) -> HttpResponse:
     return render(request, "settool_common/settings/mail/delete_email.html", context)
 
 
-SettingsTableEntry = namedtuple("SettingsTableEntry", ["name", "url", "exists", "privatised", "anon_graceperiod"])
+@dataclass
+class SettingsTableEntry:
+    name: str
+    url: str
+    exists: bool
+    privatised: bool
+    anon_graceperiod: str
 
 
 def repr_rdelta(delta: relativedelta) -> str:
@@ -284,7 +290,7 @@ def export_mail(request: WSGIRequest) -> HttpResponse:
         "settool_common": Mail,
         "tutors": TutorMail,
     }
-    mails: List[Dict[str, str]] = []
+    mails: list[dict[str, str]] = []
     for source, klass in mail_klass_lut.items():
         mails += [_clean_mail(mail, source) for mail in klass.objects.all()]
 
@@ -292,7 +298,7 @@ def export_mail(request: WSGIRequest) -> HttpResponse:
     return utils.download_csv(["source", "sender", "subject", "text", "comment"], filename, mails)
 
 
-def _clean_mail(mail: Union[BagMail, FahrtMail, TourMail, Mail, TutorMail], source: str) -> Dict[str, str]:
+def _clean_mail(mail: Union[BagMail, FahrtMail, TourMail, Mail, TutorMail], source: str) -> dict[str, str]:
     return {
         "source": source,
         "sender": mail.sender or "",

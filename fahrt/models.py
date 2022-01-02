@@ -1,6 +1,5 @@
 import datetime
 import uuid
-from typing import List, Tuple
 
 from dateutil.relativedelta import relativedelta
 from django.contrib.auth import get_user_model
@@ -22,7 +21,7 @@ class FahrtMail(common_models.Mail):
         ("{{participant}}", _("The participant")),
     ]
     # ["{{template}}", "description", "contition"]
-    conditional_placeholders: List[Tuple[str, str, str]] = []
+    conditional_placeholders: list[tuple[str, str, str]] = []
     notes = _(
         "If the Email is configured as the fahrt's registration mail, the participants' personalised non-liability "
         "form is automatically attached. Please notify the Participant to atach his ID "

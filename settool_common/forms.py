@@ -1,5 +1,3 @@
-from typing import Dict, List, Tuple, Type
-
 from django import forms
 from django.utils.translation import gettext as _
 
@@ -29,7 +27,7 @@ class SemesterBasedModelForm(SemesterBasedForm, forms.ModelForm):
 class MailForm(forms.ModelForm):
     class Meta:
         model = Mail
-        exclude: List[str] = []
+        exclude: list[str] = []
 
     def __init__(self, *args, **kwargs):
         self.user = kwargs.pop("user")
@@ -38,10 +36,10 @@ class MailForm(forms.ModelForm):
         self.fields["sender"].choices = new_choices
         self.fields["sender"].initial = new_choices[0]
 
-    def get_mails(self) -> Dict[Tuple[str, str], Type[Mail]]:
+    def get_mails(self) -> dict[tuple[str, str], type[Mail]]:
         full_choices = dict(Mail.FROM_CHOICES)
 
-        mails: Dict[Tuple[str, str], Type[Mail]] = {}
+        mails: dict[tuple[str, str], type[Mail]] = {}
         if TutorMail.check_perm(self.user):
             mails[(Mail.SET_TUTOR, full_choices[Mail.SET_TUTOR])] = TutorMail
         if BagMail.check_perm(self.user):
@@ -52,18 +50,18 @@ class MailForm(forms.ModelForm):
             mails[(Mail.SET_FAHRT, full_choices[Mail.SET_FAHRT])] = FahrtMail
         return mails
 
-    def _get_choices_for_user(self) -> List[Tuple[str, str]]:
+    def _get_choices_for_user(self) -> list[tuple[str, str]]:
         mails = self.get_mails()
         return list(mails.keys())
 
     def save(self, commit: bool = True) -> Mail:
         mail: Mail = super().save(commit=False)
-        poss_senders_for_user: Dict[str, Type[Mail]] = {
+        poss_senders_for_user: dict[str, type[Mail]] = {
             sender: klass for (sender, _), klass in self.get_mails().items()
         }
         if mail.sender not in poss_senders_for_user:
             raise PermissionError("user does not have the Permisson to save this kind of mail")
-        cls: Type[Mail] = poss_senders_for_user[mail.sender]
+        cls: type[Mail] = poss_senders_for_user[mail.sender]
         if self.instance and mail.id:
             mail.delete()  # we possibly edited the sender
         return cls.objects.create(
@@ -102,16 +100,16 @@ class CommonParticipantForm(SemesterBasedModelForm):
 class CourseBundleForm(forms.ModelForm):
     class Meta:
         model = CourseBundle
-        exclude: List[str] = ["name"]
+        exclude: list[str] = ["name"]
 
 
 class QRCodeForm(forms.ModelForm):
     class Meta:
         model = QRCode
-        exclude: List[str] = ["qr_code"]
+        exclude: list[str] = ["qr_code"]
 
 
 class SubjectForm(forms.ModelForm):
     class Meta:
         model = Subject
-        exclude: List[str] = ["subject"]
+        exclude: list[str] = ["subject"]
