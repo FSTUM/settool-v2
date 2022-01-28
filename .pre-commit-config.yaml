@@ -17,7 +17,7 @@ repos:
             args: [--fix=lf]
           - id: requirements-txt-fixer
     - repo: https://github.com/paulhfischer/pre-commit-hooks
-      rev: v1.2.30
+      rev: v1.2.31
       hooks:
           - id: format-general
           - id: format-web
@@ -92,7 +92,7 @@ repos:
             language: system
             pass_filenames: false
     - repo: https://github.com/PyCQA/bandit
-      rev: 1.7.1
+      rev: 1.7.2
       hooks:
           - id: bandit
             exclude: (fixtures|tests)
