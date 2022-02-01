@@ -19,7 +19,7 @@
         "bootstrap-switch-button": "^1.1.0",
         "choices.js": "^9.1.0",
         "datatables.net": "^1.11.3",
-        "datatables.net-bs5": "^1.11.3",
+        "datatables.net-bs5": "^1.11.4",
         "jquery": "^3.5.1"
     }
 }
