@@ -884,8 +884,8 @@ msgstr "E-Mail Log"
 #, python-brace-format
 msgid ""
 "We did not configure a mail to send to you in case you registered. Please "
-"Contact {mail} and tell us about this error. We are verry sorry about this "
-"inconvinience. To make up for it cute cat-images: https://imgur.com/"
+"Contact {mail} and tell us about this error. We are very sorry about this "
+"inconvenience. To make up for it cute cat-images: https://imgur.com/"
 "gallery/3OMii"
 msgstr ""
 "Es tut uns leid, aber wir haben keine Mail konfiguriert, die wir dir senden "
@@ -893,6 +893,18 @@ msgstr ""
 "erzähle uns von diesem Error. Wir entschuldigen uns für diese "
 "Unannehmlichkeiten. Als Ausgleich sind hier ein paar süße Katzenbilder: "
 "https://imgur.com/gallery/3OMii"
+
+#: tutors/views.py
+#, python-brace-format
+msgid ""
+"The email {tutor_mail_address} does already exist for the {semester}. Did "
+"you already sign up, or is the email invalid? Please write us a mail at "
+"{set_mail_address} instead of trying again."
+msgstr ""
+"Die E-Mail-Adresse {tutor_mail_address} existiert bereits für das "
+"{semester}. Hast du dich bereits angemeldet, oder ist die E-Mail ungültig? "
+"Bitte schreib uns eine Mail an {set_mail_address}, anstatt es erneut zu "
+"versuchen."
 
 #: tutors/views.py
 #, python-brace-format

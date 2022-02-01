@@ -6,6 +6,7 @@ from django import http
 from django.contrib import messages
 from django.contrib.auth.decorators import permission_required
 from django.core.handlers.wsgi import WSGIRequest
+from django.db import IntegrityError
 from django.db.models import Count, Q, QuerySet
 from django.forms import forms, modelformset_factory
 from django.http import Http404, HttpResponse, HttpResponseRedirect
@@ -71,12 +72,28 @@ def tutor_signup(request: WSGIRequest) -> HttpResponse:
                 request,
                 _(
                     "We did not configure a mail to send to you in case you registered. Please Contact {mail} and "
-                    "tell us about this error. We are verry sorry about this inconvinience. To make up for it cute "
+                    "tell us about this error. We are very sorry about this inconvenience. To make up for it cute "
                     "cat-images: https://imgur.com/gallery/3OMii",
                 ).format(mail=TutorMail.SET_TUTOR),
             )
             return redirect("tutors:tutor_signup")
-        tutor = form.save()
+        try:
+            tutor: Tutor = form.save()
+        except IntegrityError:
+            messages.error(
+                request,
+                _(
+                    "The email {tutor_mail_address} does already exist for the {semester}. "
+                    "Did you already sign up, or is the email invalid? "
+                    "Please write us a mail at {set_mail_address} instead of trying again.",
+                ).format(
+                    semester=str(semester),
+                    tutor_mail_address=form.cleaned_data["email"],
+                    set_mail_address=TutorMail.SET_TUTOR,
+                ),
+            )
+            return redirect("tutors:tutor_signup")
+
         tutor.log(None, "Signed up")
         save_answer_formset(answer_formset, tutor.id)
 
@@ -85,7 +102,7 @@ def tutor_signup(request: WSGIRequest) -> HttpResponse:
                 "tutors:tutor_signup_confirm",
                 kwargs={
                     "uidb64": urlsafe_base64_encode(force_bytes(tutor.pk)),
-                    "token": account_activation_token.make_token(tutor),
+                    "token": account_activation_token.make_token(tutor),  # type: ignore
                 },
             ),
         )
@@ -131,7 +148,23 @@ def collaborator_signup(request: WSGIRequest) -> HttpResponse:
     answer_formset = generate_answer_formset(request, semester)
     form = CollaboratorForm(request.POST or None, semester=semester)
     if form.is_valid() and answer_formset.is_valid():
-        collaborator: Tutor = form.save(commit=False)
+        try:
+            collaborator: Tutor = form.save(commit=False)
+        except IntegrityError:
+            messages.error(
+                request,
+                _(
+                    "The email {tutor_mail_address} does already exist for the {semester}. "
+                    "Did you already sign up, or is the email invalid? "
+                    "Please write us a mail at {set_mail_address} instead of trying again.",
+                ).format(
+                    semester=str(semester),
+                    tutor_mail_address=form.cleaned_data["email"],
+                    set_mail_address=TutorMail.SET_TUTOR,
+                ),
+            )
+            return redirect("tutors:collaborator_signup")
+
         collaborator.status = Tutor.STATUS_EMPLOYEE
         collaborator.save()
         collaborator.log(None, "Signed up")
