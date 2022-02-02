@@ -280,7 +280,7 @@ def del_tutor(request: WSGIRequest, uid: UUID) -> HttpResponse:
     if form.is_valid():
         tutor.delete()
         messages.success(request, f"Deleted Tutor {tutor}.")
-        return redirect("tutors:tutor_list_status_all")
+        return redirect("tutors:list_status_all")
 
     context = {
         "tutor": tutor,
@@ -808,7 +808,7 @@ def send_mail(
 
         send_email_to_all_tutors(mail_template, listed_tutors, request)
 
-        return redirect(f"tutor_list_status_{status}")
+        return redirect(f"tutors:list_status_{status}")
 
     context: dict[str, Any] = {
         "from": template.sender,
@@ -917,7 +917,7 @@ def batch_accept(request: WSGIRequest) -> HttpResponse:
             accepted_tutor.status = Tutor.STATUS_ACCEPTED
             accepted_tutor.save()
 
-        return redirect("tutors:tutor_list_status_active")
+        return redirect("tutors:list_status_active")
 
     context = {
         "to_be_accepted": to_be_accepted,
@@ -966,7 +966,7 @@ def batch_decline(request: WSGIRequest) -> HttpResponse:
             tutor.status = Tutor.STATUS_DECLINED
             tutor.save()
 
-        return redirect("tutors:tutor_list_status_active")
+        return redirect("tutors:list_status_active")
 
     context = {
         "to_be_declined": to_be_declined,
