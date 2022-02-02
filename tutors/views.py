@@ -334,7 +334,7 @@ def edit_tutor(request: WSGIRequest, uid: UUID) -> HttpResponse:
         tutor.log(request.user, "Tutor edited")
         messages.success(request, f"Saved Tutor {tutor}.")
 
-        return redirect("tutors:tutor_view", tutor.id)
+        return redirect("tutors:view_tutor", tutor.id)
 
     return render(
         request,
