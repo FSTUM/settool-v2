@@ -104,10 +104,10 @@ DATABASES = {
 DEFAULT_AUTO_FIELD = "django.db.models.AutoField"
 
 # Auth
-LOGIN_URL = "/login/"
-LOGOUT_URL = "/logout/"
+LOGIN_URL = "/login"
+LOGOUT_URL = "/logout"
 LOGIN_REDIRECT_URL = "/"
-LOGOUT_REDIRECT_URL = "login"
+LOGOUT_REDIRECT_URL = "/login"
 LOGIN_REDIRECT_URL_FAILURE = "/login/failed"
 
 AUTH_PASSWORD_VALIDATORS = [
