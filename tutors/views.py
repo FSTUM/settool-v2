@@ -902,7 +902,7 @@ def _gen_messages_assignments_wish_counter(
         wanted, waitlist = assignment_wish_counter.wanted, assignment_wish_counter.waitlist
 
         active_cnt: int = tutors_active.filter(subject=subject).count()
-        accepted_cnt: int = tutors_accepted_cnt[subject.pk]
+        accepted_cnt: int = tutors_accepted_cnt.get(subject.pk, 0)
         # low tier error
         if wanted < accepted_cnt:
             warnings.append(
@@ -966,7 +966,7 @@ def batch_accept(request: WSGIRequest) -> HttpResponse:
     for assignment_wish in assignment_wishes:
         subject, wanted, _ = assignment_wish.save_unpack()
         active_tutors: QuerySet[Tutor] = tutors_active.filter(subject=subject)
-        accepted_count: int = tutors_accepted_cnt[subject.pk]
+        accepted_count: int = tutors_accepted_cnt.get(subject.pk, 0)
 
         if wanted > accepted_count:
             need: int = wanted - accepted_count
@@ -1013,7 +1013,7 @@ def batch_decline(request: WSGIRequest) -> HttpResponse:
         subject, wanted, waitlist = assignment_wish.save_unpack()
 
         active_tutors: QuerySet[Tutor] = tutors_active.filter(subject=subject)
-        accepted_count: int = tutors_accepted_cnt[subject.pk]
+        accepted_count: int = tutors_accepted_cnt.get(subject.pk, 0)
 
         keep: int = max(wanted - accepted_count + waitlist, 0)
 
