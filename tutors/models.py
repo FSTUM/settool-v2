@@ -335,3 +335,10 @@ class SubjectTutorCountAssignment(BaseModel):
         #     text=text,
         # )
         pass
+
+    def save_unpack(self) -> tuple[Subject, int, int]:
+        if self.wanted is None or self.waitlist is None:
+            raise RuntimeError(
+                f"{self.subject} " f"wanted={self.wanted}, wait-list={self.waitlist} is impossible.",
+            )
+        return self.subject, self.wanted, self.waitlist

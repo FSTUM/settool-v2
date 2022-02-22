@@ -16,6 +16,7 @@ from django.urls import reverse
 from django.utils import timezone
 from django.utils.encoding import force_bytes
 from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
+from django.utils.safestring import mark_safe
 from django.utils.translation import gettext as _
 from django_tex.response import PDFResponse
 from django_tex.shortcuts import render_to_pdf
@@ -875,35 +876,107 @@ def default_tutor_mail(
     return get_object_or_404(TutorMail, pk=mail_pk, sender=TutorMail.SET_TUTOR)
 
 
+def _gen_messages_assignments_wish_counter(
+    request: WSGIRequest,
+    assignment_wishes: QuerySet[SubjectTutorCountAssignment],
+    tutors_active: QuerySet[Tutor],
+    tutors_accepted_cnt: dict[int, int],
+) -> bool:
+    warnings: list[str] = []
+    set_subjects: set[int] = {
+        assignment_wish.subject.pk
+        for assignment_wish in assignment_wishes
+        if assignment_wish.wanted is not None and assignment_wish.waitlist is not None
+    }
+    subjects: set[int] = {subject.pk for subject in Subject.objects.all()}
+    unset_subjects: set[int] = subjects.difference(set_subjects)
+    assignment_wish_counter: SubjectTutorCountAssignment
+    for assignment_wish_counter in assignment_wishes:
+        subject: Subject = assignment_wish_counter.subject
+        if (
+            subject.pk in unset_subjects
+            or assignment_wish_counter.wanted is None  # only for mypy
+            or assignment_wish_counter.waitlist is None  # only for mypy
+        ):
+            continue
+        wanted, waitlist = assignment_wish_counter.wanted, assignment_wish_counter.waitlist
+
+        active_cnt: int = tutors_active.filter(subject=subject).count()
+        accepted_cnt: int = tutors_accepted_cnt[subject.pk]
+        # low tier error
+        if wanted < accepted_cnt:
+            warnings.append(
+                _(
+                    "The subject '{subject}' has more people already accepted then are specified in the wanted-list.",
+                ).format(subject=subject),
+            )
+            # case that wanted or wait-list are zero
+        if wanted == 0 and active_cnt:
+            warnings.append(
+                _(
+                    "The subject '{subject}' wanted-list is zero. "
+                    "This is subject will not be accepted, even though Tutors for this subject exist..",
+                ).format(
+                    subject=subject,
+                ),
+            )
+        if waitlist == 0 and wanted < active_cnt + accepted_cnt:
+            warnings.append(
+                _(
+                    "The subject '{subject}' wait-list is zero and there are more tutors that could fit on this "
+                    "wait-list.",
+                ).format(
+                    subject=subject,
+                ),
+            )
+    if warnings:
+        warnings.append(_("Please make sure that all warnings above are intentional"))
+        warnings_string = mark_safe("</br>".join(warnings))  # nosec: fully defined
+        messages.warning(request, warnings_string)
+    if unset_subjects:
+        unset_subjects_list: list[Subject] = [Subject.objects.get(pk=pk) for pk in unset_subjects]
+        unset_subjects_str: list[str] = [
+            _("The subject '{subject}' has unset fields").format(subject=subject) for subject in unset_subjects_list
+        ]
+        unset_subjects_str.append(_("Make sure, that all these Subjects have all values configured"))
+
+        errors_string = mark_safe("</br>".join(unset_subjects_str))  # nosec: fully defined
+        messages.error(request, errors_string)
+        messages.error(
+            request,
+            _(
+                "Having errors is unacceptable. "
+                "You have been redirected to the settings to fix them. "
+                "Non-batch operations dont need as explicit configuration.",
+            ),
+        )
+    return bool(unset_subjects)
+
+
 @permission_required("tutors.edit_tutors")
 def batch_accept(request: WSGIRequest) -> HttpResponse:
-    semester: Semester = get_object_or_404(Semester, pk=get_semester(request))
-    tutors_active = Tutor.objects.filter(semester=semester, status=Tutor.STATUS_ACTIVE)
-    tutors_accepted = Tutor.objects.filter(semester=semester, status=Tutor.STATUS_ACCEPTED)
-    assignments_wish_counter = SubjectTutorCountAssignment.objects.filter(semester=semester)
+    semester, tutors_active, tutors_accepted_cnt, assignment_wishes, errors = _gather_batch_parameters(request)
+    if errors:
+        return redirect("tutors:general_settings")
 
     tutor_ids: list[UUID] = []
     to_be_accepted: dict[Subject, list[Tutor]] = {}
 
-    for assignment_wish_counter in assignments_wish_counter:
-        if not (
-            assignment_wish_counter.subject and assignment_wish_counter.wanted and assignment_wish_counter.waitlist
-        ):
-            return redirect("tutors:general_settings")
-        active_tutors = tutors_active.filter(subject=assignment_wish_counter.subject)
-        accepted_count: int = tutors_accepted.filter(
-            subject=assignment_wish_counter.subject,
-        ).count()
+    assignment_wish: SubjectTutorCountAssignment
+    for assignment_wish in assignment_wishes:
+        subject, wanted, _ = assignment_wish.save_unpack()
+        active_tutors: QuerySet[Tutor] = tutors_active.filter(subject=subject)
+        accepted_count: int = tutors_accepted_cnt[subject.pk]
 
-        if assignment_wish_counter.wanted > accepted_count:
-            need: int = assignment_wish_counter.wanted - accepted_count
+        if wanted > accepted_count:
+            need: int = wanted - accepted_count
             tutor: Tutor
             for tutor in active_tutors.order_by("registration_time")[:need]:
                 tutor_ids.append(tutor.id)
 
-                if assignment_wish_counter.subject not in to_be_accepted:
-                    to_be_accepted[assignment_wish_counter.subject] = []
-                to_be_accepted[assignment_wish_counter.subject].append(tutor)
+                if subject not in to_be_accepted:
+                    to_be_accepted[subject] = []
+                to_be_accepted[subject].append(tutor)
 
     form = TutorAcceptAdminForm(
         request.POST or None,
@@ -928,32 +1001,28 @@ def batch_accept(request: WSGIRequest) -> HttpResponse:
 
 @permission_required("tutors.edit_tutors")
 def batch_decline(request: WSGIRequest) -> HttpResponse:
-    semester: Semester = get_object_or_404(Semester, pk=get_semester(request))
-    tutors_active = Tutor.objects.filter(semester=semester, status=Tutor.STATUS_ACTIVE)
-    tutors_accepted = Tutor.objects.filter(semester=semester, status=Tutor.STATUS_ACCEPTED)
-    assignments_wish_counter = SubjectTutorCountAssignment.objects.filter(semester=semester)
+    semester, tutors_active, tutors_accepted_cnt, assignment_wishes, errors = _gather_batch_parameters(request)
+    if errors:
+        return redirect("tutors:general_settings")
 
     tutor_ids: list[UUID] = []
     to_be_declined: dict[Subject, list[Tutor]] = {}
 
-    for assignment_wish_counter in assignments_wish_counter:
-        if not (
-            assignment_wish_counter.subject and assignment_wish_counter.wanted and assignment_wish_counter.waitlist
-        ):
-            return redirect("tutors:general_settings")
-        active_tutors = tutors_active.filter(subject=assignment_wish_counter.subject)
-        accepted_count: int = tutors_accepted.filter(
-            subject=assignment_wish_counter.subject,
-        ).count()
+    assignment_wish: SubjectTutorCountAssignment
+    for assignment_wish in assignment_wishes:
+        subject, wanted, waitlist = assignment_wish.save_unpack()
 
-        keep: int = max(assignment_wish_counter.wanted - accepted_count + assignment_wish_counter.waitlist, 0)
+        active_tutors: QuerySet[Tutor] = tutors_active.filter(subject=subject)
+        accepted_count: int = tutors_accepted_cnt[subject.pk]
+
+        keep: int = max(wanted - accepted_count + waitlist, 0)
 
         for tutor in active_tutors.order_by("registration_time")[keep:]:
             tutor_ids.append(tutor.id)
 
-            if assignment_wish_counter.subject not in to_be_declined:
-                to_be_declined[assignment_wish_counter.subject] = []
-            to_be_declined[assignment_wish_counter.subject].append(tutor)
+            if subject not in to_be_declined:
+                to_be_declined[subject] = []
+            to_be_declined[subject].append(tutor)
 
     form = TutorAcceptAdminForm(
         request.POST or None,
@@ -973,6 +1042,34 @@ def batch_decline(request: WSGIRequest) -> HttpResponse:
         "form": form,
     }
     return render(request, "tutors/tutor/batch_decline.html", context)
+
+
+def _gather_batch_parameters(
+    request: WSGIRequest,
+) -> tuple[Semester, QuerySet[Tutor], dict[int, int], QuerySet[SubjectTutorCountAssignment], bool]:
+    semester: Semester = get_object_or_404(Semester, pk=get_semester(request))
+    # tutor specific parameters
+    all_tutors: QuerySet[Tutor] = Tutor.objects.filter(semester=semester)
+    tutors_active: QuerySet[Tutor] = all_tutors.filter(status=Tutor.STATUS_ACTIVE)
+    tutors_accepted_cnt: dict[int, int] = {
+        tutor_acc_count["subject"]: tutor_acc_count["subject_count"]
+        for tutor_acc_count in all_tutors.filter(status=Tutor.STATUS_ACCEPTED)
+        .values("subject")
+        .annotate(subject_count=Count("subject"))
+        .all()
+    }
+    # preferences
+    assignment_wishes: QuerySet[SubjectTutorCountAssignment] = SubjectTutorCountAssignment.objects.filter(
+        semester=semester,
+    )
+    # check if assignment_wishes is valid. shows warnings and errors
+    errors: bool = _gen_messages_assignments_wish_counter(
+        request,
+        assignment_wishes,
+        tutors_active,
+        tutors_accepted_cnt,
+    )
+    return semester, tutors_active, tutors_accepted_cnt, assignment_wishes, errors
 
 
 @permission_required("tutors.edit_tutors")

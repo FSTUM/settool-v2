@@ -918,6 +918,55 @@ msgstr ""
 msgid "Could not send email to {first_name} {last_name} ({email})."
 msgstr "Konnte keine email an {first_name} {last_name} ({email}) senden."
 
+#: tutors/views.py
+#, python-brace-format
+msgid ""
+"The subject '{subject}' has more people already accepted then are specified "
+"in the wanted-list."
+msgstr ""
+"Der Studiengang '{subject}' hat mehr angenommene Tutoren als nach gewollt-"
+"liste existieren sollten."
+
+#: tutors/views.py
+#, python-brace-format
+msgid ""
+"The subject '{subject}' wanted-list is zero. This is subject will not be "
+"accepted, even though Tutors for this subject exist.."
+msgstr ""
+"Der Studiengang '{subject}' will keine Tutoren. Dieser Studiengang wird "
+"nicht angenommen, obwohl Tutoren sich beworben haben..."
+
+#: tutors/views.py
+#, python-brace-format
+msgid ""
+"The subject '{subject}' wait-list is zero and there are more tutors that "
+"could fit on this wait-list."
+msgstr ""
+"Der Studiengang '{subject}' hat keine Warteliste und da sind mehr Tutoren "
+"als auf die Warteliste passen."
+
+#: tutors/views.py
+msgid "Please make sure that all warnings above are intentional"
+msgstr "Bitte gehe sicher das die Warnungen alle beabsichtigt sind"
+
+#: tutors/views.py
+#, python-brace-format
+msgid "The subject '{subject}' has unset fields"
+msgstr "Der Studiengang '{subject}' hat ungesetzte Werte"
+
+#: tutors/views.py
+msgid "Make sure, that all these Subjects have all values configured"
+msgstr "Bitte gehe sicher, dass bei allen Studiengängen Werte gesetzt sind"
+
+#: tutors/views.py
+msgid ""
+"Having errors is unacceptable. You have been redirected to the settings to "
+"fix them. Non-batch operations dont need as explicit configuration."
+msgstr ""
+"Das Auftreten von Fehlern ist inakzeptabel. Du wurdest zu den Einstellungen "
+"weitergeleitet um sie zu beheben. Nicht-Batch-Operationen müssen nicht so "
+"explizit konfiguriert werden."
+
 #~ msgid "I accept the terms and conditions of the following privacy policy:"
 #~ msgstr "Ich stimme der folgenden Datenschutzerklärung zu:"
 
