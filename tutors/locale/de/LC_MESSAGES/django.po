@@ -761,9 +761,7 @@ msgstr "Alle Tutoren ablehnen"
 
 #: tutors/templates/tutors/tutor/batch_decline.html
 msgid "Do you really want to decline the following tutors?"
-msgstr ""
-"Möchtest du wirklich die folgende E-Mail an die unten stehenden Tutoren "
-"senden?"
+msgstr "Möchtest du wirklich die folgenden Tutoren ablehnen?"
 
 #: tutors/templates/tutors/tutor/batch_decline.html
 msgid "Decline all selected tutors"
