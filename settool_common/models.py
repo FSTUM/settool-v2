@@ -158,9 +158,13 @@ class Semester(models.Model):
 
 
 class CourseBundle(models.Model):
+    class Meta:
+        ordering = ["name"]
+
     name = models.CharField(
         max_length=100,
         verbose_name=_("Course-bundles' name"),
+        unique=True,
     )
 
     def __str__(self):
@@ -170,7 +174,7 @@ class CourseBundle(models.Model):
 class Subject(models.Model):
     class Meta:
         unique_together = (("degree", "subject"),)
-        ordering = ["degree", "subject"]
+        ordering = ["degree", "course_bundle", "subject"]
 
     BACHELOR = "BA"
     MASTER = "MA"

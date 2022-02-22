@@ -1,6 +1,6 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="Run set-tool" type="Python.DjangoServer" factoryName="Django server">
-    <module name="settool-v2" />
+    <module name="settool" />
     <option name="INTERPRETER_OPTIONS" value="" />
     <option name="PARENT_ENVS" value="true" />
     <envs>
