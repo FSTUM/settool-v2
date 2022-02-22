@@ -965,6 +965,13 @@ msgstr ""
 "weitergeleitet um sie zu beheben. Nicht-Batch-Operationen müssen nicht so "
 "explizit konfiguriert werden."
 
+#: tutors/views.py
+msgid ""
+"Batch actions do not send mails. They only change the status of the students."
+msgstr ""
+"Batch-Aktionen versenden keine elektronischen Fernbriefe (eMails). Sie "
+"verändern lediglich den Status der StudentInnen."
+
 #~ msgid "I accept the terms and conditions of the following privacy policy:"
 #~ msgstr "Ich stimme der folgenden Datenschutzerklärung zu:"
 

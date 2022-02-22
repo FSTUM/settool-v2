@@ -1069,6 +1069,7 @@ def _gather_batch_parameters(
         tutors_active,
         tutors_accepted_cnt,
     )
+    messages.info(request, _("Batch actions do not send mails. They only change the status of the students."))
     return semester, tutors_active, tutors_accepted_cnt, assignment_wishes, errors
 
 
