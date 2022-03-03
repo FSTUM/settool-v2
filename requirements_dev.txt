@@ -1,4 +1,4 @@
-coverage~=6.2
+coverage~=6.3
 django-stubs~=1.9.0
 lorem~=0.1.1
 mypy~=0.931
