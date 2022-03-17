@@ -65,7 +65,7 @@ def tutor_signup(request: WSGIRequest) -> HttpResponse:
             },
         )
 
-    answer_formset = generate_answer_formset(request, semester)
+    answer_formset, questions_exist = generate_answer_formset(request, semester)
     form = TutorForm(request.POST or None, semester=semester)
     if form.is_valid() and answer_formset.is_valid():
         if settings.mail_registration is None:
@@ -119,6 +119,7 @@ def tutor_signup(request: WSGIRequest) -> HttpResponse:
     context = {
         "semester": semester,
         "answer_formset": answer_formset,
+        "questions_exist":questions_exist,
         "form": form,
     }
     return render(request, "tutors/standalone/tutor_signup/signup.html", context)
@@ -146,7 +147,7 @@ def collaborator_signup(request: WSGIRequest) -> HttpResponse:
             },
         )
 
-    answer_formset = generate_answer_formset(request, semester)
+    answer_formset, questions_exist = generate_answer_formset(request, semester)
     form = CollaboratorForm(request.POST or None, semester=semester)
     if form.is_valid() and answer_formset.is_valid():
         try:
@@ -175,12 +176,13 @@ def collaborator_signup(request: WSGIRequest) -> HttpResponse:
     context = {
         "semester": semester,
         "answer_formset": answer_formset,
+        "questions_exist": questions_exist,
         "form": form,
     }
     return render(request, "tutors/standalone/collaborator_signup/signup.html", context)
 
 
-def generate_answer_formset(request: WSGIRequest, semester: Semester) -> Any:
+def generate_answer_formset(request: WSGIRequest, semester: Semester) -> tuple[Any, bool]:
     questions = Question.objects.filter(semester=semester)
     question_count = questions.count()
     answers_new = []
@@ -205,8 +207,8 @@ def generate_answer_formset(request: WSGIRequest, semester: Semester) -> Any:
             request.FILES,
             queryset=Answer.objects.none(),
             initial=initial_data,
-        )
-    return AnswerFormSet(queryset=Answer.objects.none(), initial=initial_data)
+        ), question_count>0
+    return AnswerFormSet(queryset=Answer.objects.none(), initial=initial_data), question_count>0
 
 
 def collaborator_signup_success(request: WSGIRequest) -> HttpResponse:
