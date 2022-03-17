@@ -1,6 +1,6 @@
 from bootstrap_datepicker_plus.widgets import DatePickerInput, DateTimePickerInput
 from django import forms
-from django.utils.translation import gettext as _
+from django.utils.translation import gettext_lazy as _
 
 from settool_common.forms import CommonParticipantForm, SemesterBasedForm, SemesterBasedModelForm
 from settool_common.models import Subject
@@ -77,7 +77,9 @@ class TutorForm(CommonParticipantForm):
 
         return self.cleaned_data
 
-    def validate_required_field(self, cleaned_data, field_name, message="This field is required"):
+    def validate_required_field(self, cleaned_data, field_name, message=""):
+        if not message:
+            message = _("This field is required")
         if field_name in cleaned_data and cleaned_data[field_name] is None:
             self._errors[field_name] = self.error_class([message])
             del cleaned_data[field_name]

@@ -1,6 +1,6 @@
 from bootstrap_datepicker_plus.widgets import DateTimePickerInput
 from django import forms
-from django.utils.translation import gettext as _
+from django.utils.translation import gettext_lazy as _
 
 from settool_common.forms import CommonParticipantForm, SemesterBasedForm, SemesterBasedModelForm
 

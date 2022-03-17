@@ -119,7 +119,7 @@ def tutor_signup(request: WSGIRequest) -> HttpResponse:
     context = {
         "semester": semester,
         "answer_formset": answer_formset,
-        "questions_exist":questions_exist,
+        "questions_exist": questions_exist,
         "form": form,
     }
     return render(request, "tutors/standalone/tutor_signup/signup.html", context)
@@ -202,13 +202,16 @@ def generate_answer_formset(request: WSGIRequest, semester: Semester) -> tuple[A
     )
     initial_data = [{"question": a.question.id, "answer": a.answer} for a in answers_new]
     if request.method == "POST":
-        return AnswerFormSet(
-            request.POST,
-            request.FILES,
-            queryset=Answer.objects.none(),
-            initial=initial_data,
-        ), question_count>0
-    return AnswerFormSet(queryset=Answer.objects.none(), initial=initial_data), question_count>0
+        return (
+            AnswerFormSet(
+                request.POST,
+                request.FILES,
+                queryset=Answer.objects.none(),
+                initial=initial_data,
+            ),
+            question_count > 0,
+        )
+    return AnswerFormSet(queryset=Answer.objects.none(), initial=initial_data), question_count > 0
 
 
 def collaborator_signup_success(request: WSGIRequest) -> HttpResponse:

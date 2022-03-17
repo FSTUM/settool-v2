@@ -16,6 +16,10 @@ msgid "The matriculation number is already in use."
 msgstr "Die Matrikelnummer ist bereits in Verwendung."
 
 #: tutors/forms.py
+msgid "This field is required"
+msgstr "Dieses Feld ist notwendig"
+
+#: tutors/forms.py
 msgid "I want to receive ECTS for my work as a SET-Colaborator."
 msgstr "Ich möchte ECTS für meine Arbeit als SET-Mitarbeiter erhalten."
 

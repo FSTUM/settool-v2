@@ -1,6 +1,6 @@
 from bootstrap_modal_forms.forms import BSModalModelForm
 from django import forms
-from django.utils.translation import gettext as _
+from django.utils.translation import gettext_lazy as _
 
 from settool_common.forms import produce_csv_file_upload_field, SemesterBasedForm, SemesterBasedModelForm
 from settool_common.models import Semester
