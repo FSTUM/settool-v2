@@ -3,16 +3,16 @@
 import django.db.models.deletion
 from django.db import migrations, models
 
-import settool_common.models as common_models
+import settool_common.models
 
 
 def migrate_mail_tutormail(apps, _):
     Mail = apps.get_model("settool_common", "Mail")
     TutorMail = apps.get_model("tutors", "TutorMail")
-    for mail in Mail.objects.filter(sender=common_models.Mail.SET_TUTOR):
+    for mail in Mail.objects.filter(sender=settool_common.models.Mail.SET_TUTOR):
         TutorMail.objects.create(
             pk=mail.pk,
-            sender=common_models.Mail.SET_TUTOR,
+            sender=settool_common.models.Mail.SET_TUTOR,
             subject=mail.subject,
             text=mail.text,
             comment=mail.comment,

@@ -2,23 +2,27 @@
 
 from django.db import migrations
 
+import settool_common.models
+
+
 def migrate_mail_tutormail(apps, _):
     Mail = apps.get_model("settool_common", "Mail")
     TutorMail = apps.get_model("tutors", "TutorMail")
-    for mail in Mail.objects.filter(sender=Mail.SET_TUTOR):
+    for mail in Mail.objects.filter(sender=settool_common.models.Mail.SET_TUTOR):
         TutorMail.objects.create(
-            sender=Mail.SET_TUTOR,
+            sender=settool_common.models.Mail.SET_TUTOR,
             subject=mail.subject,
             text=mail.text,
             comment=mail.comment,
         )
         mail.delete()
 
+
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('settool_common', "0016_alter_coursebundle_options_alter_subject_options_and_more"),
-        ('tutors', '0007_auto_20211125_2116'),
+        ("settool_common", "0016_alter_coursebundle_options_alter_subject_options_and_more"),
+        ("tutors", "0007_auto_20211125_2116"),
     ]
     operations = [
         migrations.RunPython(migrate_mail_tutormail),

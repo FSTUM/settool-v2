@@ -2,13 +2,15 @@
 
 from django.db import migrations
 
+import settool_common.models
+
 
 def migrate_mail_bagmail(apps, _):
     Mail = apps.get_model("settool_common", "Mail")
     BagMail = apps.get_model("bags", "BagMail")
-    for mail in Mail.objects.filter(sender=Mail.SET_BAGS):
+    for mail in Mail.objects.filter(sender=settool_common.models.Mail.SET_BAGS):
         BagMail.objects.create(
-            sender=Mail.SET_BAGS,
+            sender=settool_common.models.Mail.SET_BAGS,
             subject=mail.subject,
             text=mail.text,
             comment=mail.comment,
@@ -18,8 +20,8 @@ def migrate_mail_bagmail(apps, _):
 
 class Migration(migrations.Migration):
     dependencies = [
-        ('settool_common', "0016_alter_coursebundle_options_alter_subject_options_and_more"),
-        ('bags', '0024_auto_20210330_2045'),
+        ("settool_common", "0016_alter_coursebundle_options_alter_subject_options_and_more"),
+        ("bags", "0024_auto_20210330_2045"),
     ]
 
     operations = [

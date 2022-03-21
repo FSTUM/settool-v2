@@ -2,23 +2,27 @@
 
 from django.db import migrations
 
+import settool_common.models
+
+
 def migrate_mail_fahrtmail(apps, _):
     Mail = apps.get_model("settool_common", "Mail")
     FahrtMail = apps.get_model("fahrt", "FahrtMail")
-    for mail in Mail.objects.filter(sender=Mail.SET_FAHRT):
+    for mail in Mail.objects.filter(sender=settool_common.models.Mail.SET_FAHRT):
         FahrtMail.objects.create(
-            sender=Mail.SET_FAHRT,
+            sender=settool_common.models.Mail.SET_FAHRT,
             subject=mail.subject,
             text=mail.text,
             comment=mail.comment,
         )
         mail.delete()
 
+
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('settool_common', "0016_alter_coursebundle_options_alter_subject_options_and_more"),
-        ('fahrt', '0029_auto_20210221_0017'),
+        ("settool_common", "0016_alter_coursebundle_options_alter_subject_options_and_more"),
+        ("fahrt", "0029_auto_20210221_0017"),
     ]
 
     operations = [
