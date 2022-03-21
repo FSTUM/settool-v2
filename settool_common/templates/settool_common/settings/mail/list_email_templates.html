@@ -5,7 +5,11 @@
 <script>
     $(document).ready(() => {
         $('#emailTable').DataTable({
-            columnDefs: [{ targets: 2, orderable: false }],
+            order: [
+                [0, 'asc'],
+                [1, 'asc'],
+            ],
+            columnDefs: [{ targets: 4, orderable: false }],
         });
     });
 </script>
