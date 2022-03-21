@@ -152,6 +152,8 @@ def collaborator_signup(request: WSGIRequest) -> HttpResponse:
     if form.is_valid() and (not questions_exist or answer_formset.is_valid()):
         try:
             collaborator: Tutor = form.save(commit=False)
+            collaborator.status = Tutor.STATUS_EMPLOYEE
+            collaborator.save()
         except IntegrityError:
             messages.error(
                 request,
@@ -167,8 +169,6 @@ def collaborator_signup(request: WSGIRequest) -> HttpResponse:
             )
             return redirect("tutors:collaborator_signup")
 
-        collaborator.status = Tutor.STATUS_EMPLOYEE
-        collaborator.save()
         collaborator.log(None, "Signed up")
         save_answer_formset(answer_formset, collaborator.id)
         return redirect("tutors:collaborator_signup_success")
