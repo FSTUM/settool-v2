@@ -104,7 +104,7 @@
         <h2 class="card-title mt-3">{% trans "Assigned Tutors" %}:</h2>
         <table
             class="table tutorTable"
-            id='assigned_tutors'
+            id='assigned_tutors_tr'
         >
             <thead>
                 <tr>
@@ -149,7 +149,7 @@
                         <button
                             class="btn btn-secondary"
                             data-id="{{ tutor.id }}"
-                            id='tutor_{{ tutor.id }}'
+                            id='tutor_{{ tutor.id }}_tr'
                             onclick='unassignTutor("{{ tutor.id }}")'
                         >{% trans "Unassign" %}</button>
                     </td>
@@ -160,7 +160,7 @@
         <h2>{% trans "Unassigned Tutors:" %}</h2>
         <table
             class="table tutorTable"
-            id='unassigned_tutors'
+            id='unassigned_tutors_tr'
         >
             <thead>
                 <tr>
@@ -203,8 +203,10 @@
                     {% endwith %}
                     <td>
                         <button
-                            class="btn btn-secondary assign_button"
+                            class="btn btn-secondary"
                             data-id="{{ tutor.id }}"
+                            id='tutor_{{ tutor.id }}_tr'
+                            onclick='assignTutor("{{ tutor.id }}")'
                         >{% trans "Assign" %}</button>
                     </td>
                 </tr>
@@ -220,16 +222,20 @@
             <select
                 name="tutors"
                 multiple
-                style="display: none;"
+                class="d-none no-automatic-choicejs"
             >
                 {% for tutor in assigned_tutors %}
                 <option
+                    id="tutor_{{ tutor.id }}"
                     value="{{ tutor.id }}"
                     selected
                 >{{ tutor }}</option>
                 {% endfor %}
                 {% for tutor in unassigned_tutors %}
-                <option value="{{ tutor.id }}">{{ tutor }}</option>
+                <option
+                    id="tutor_{{ tutor.id }}"
+                    value="{{ tutor.id }}"
+                >{{ tutor }}</option>
                 {% endfor %}
             </select>
             <button
@@ -250,18 +256,17 @@
 {% block defered_script %}
 {% if perms.tutor.edit_tutors %}
 <script type="text/javascript">
-    let initialValues = $('select[multiple][name="tutors"]').val();
-    if (initialValues === null) {
-        initialValues = '';
-    }
+    const initialValues = new Set([{% for tutor in assigned_tutors %}
+            '{{ tutor.id }}',{% endfor %}
+    ]);
 
     /* eslint-disable no-unused-vars */
     const assignTutor = (id) => {
         // form, to be submitted to django; selected will be kept.
-        $(`select[multiple][name="tutors"] option[value="${id}"]`).attr('selected', true);
+        $(`#tutor_${id}`).prop("selected", true);
 
         // tutor-ssignent-button
-        const src = $(`#tutor_${id}`);
+        const src = $(`#tutor_${id}_tr`);
 
         // change text and callback
         src.text('{% trans "Unassign" %}');
@@ -269,21 +274,20 @@
 
         // move to assigned tutors and change the table row to red
         const row = src.closest('tr');
-        if (!initialValues.includes(id)) {
+        if (!initialValues.has(id)) {
             $(row).addClass('table-success');
         } else {
             $(row).removeClass('table-danger');
         }
-        $('#assigned_tutors').append(row);
+        $('#assigned_tutors_tr').append(row);
     };
 
     /* eslint-disable no-unused-vars */
     const unassignTutor = (id) => {
         // form, to be submitted to django; selected will be kept.
-        $(`select[multiple][name="tutors"] option[value="${id}"]`).removeAttr('selected');
-
+        $(`#tutor_${id}`).prop("selected", false);
         // tutor-unassignent-button
-        const src = $(`#tutor_${id}`);
+        const src = $(`#tutor_${id}_tr`);
 
         // change text and callback
         src.text('{% trans "Assign" %}');
@@ -291,12 +295,12 @@
 
         // move to assigned tutors and remove the tables red row-collor
         const row = src.closest('tr');
-        if (initialValues.includes(id)) {
+        if (initialValues.has(id)) {
             $(row).addClass('table-danger');
         } else {
             $(row).removeClass('table-success');
         }
-        $('#unassigned_tutors').append(row);
+        $('#unassigned_tutors_tr').append(row);
     };
 </script>
 {% endif %}
