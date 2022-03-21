@@ -39,3 +39,4 @@ coverage.xml
 /media/
 /static/
 /staging/.env
+/.mypy_cache/
