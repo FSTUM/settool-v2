@@ -67,7 +67,7 @@ def tutor_signup(request: WSGIRequest) -> HttpResponse:
 
     answer_formset, questions_exist = generate_answer_formset(request, semester)
     form = TutorForm(request.POST or None, semester=semester)
-    if form.is_valid() and answer_formset.is_valid():
+    if form.is_valid() and (not questions_exist or answer_formset.is_valid()):
         if settings.mail_registration is None:
             messages.error(
                 request,
@@ -149,7 +149,7 @@ def collaborator_signup(request: WSGIRequest) -> HttpResponse:
 
     answer_formset, questions_exist = generate_answer_formset(request, semester)
     form = CollaboratorForm(request.POST or None, semester=semester)
-    if form.is_valid() and answer_formset.is_valid():
+    if form.is_valid() and (not questions_exist or answer_formset.is_valid()):
         try:
             collaborator: Tutor = form.save(commit=False)
         except IntegrityError:
