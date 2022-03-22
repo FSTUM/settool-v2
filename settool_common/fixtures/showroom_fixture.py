@@ -497,17 +497,9 @@ def _generate_questions(semesters):
 def _generate_subjects():
     subjects = []
 
-    course_bundle_mathe = settool_common.models.CourseBundle.objects.create(
-        name="Mathe",
-        name_de="Mathematics",
-        name_en="Mathematik",
-    )
-    course_bundle_physik = settool_common.models.CourseBundle.objects.create(
-        name="Physik",
-        name_de="Physics",
-        name_en="Physik",
-    )
-    course_bundle_info = settool_common.models.CourseBundle.objects.create(
+    cb_mathe = settool_common.models.CourseBundle.objects.create(name="Mathe", name_de="Maths", name_en="Mathematik")
+    cb_physik = settool_common.models.CourseBundle.objects.create(name="Physik", name_de="Physics", name_en="Physik")
+    cb_info = settool_common.models.CourseBundle.objects.create(
         name="Info",
         name_de="Informatics",
         name_en="Informatik",
@@ -519,31 +511,37 @@ def _generate_subjects():
         name_en="Electrical Engeneering",
     )
 
-    sub_trans = [
-        ("Mathe", "Mathematics", "Mathematik", course_bundle_mathe),
-        ("Physik", "Physics", "Physik", course_bundle_physik),
-        ("Info", "Informatics", "Informatik", course_bundle_info),
-        ("Games", "Informatics: Games Engineering", "Informatik: Games Engineering", course_bundle_info),
-        ("Winfo", "Information Systems", "Wirtschaftsinformatik", course_bundle_info),
-        ("ASE", "Automotive Software Engineering", "Automotive Software Engineering", course_bundle_info),
-        ("CSE", "Computational Science and Engineering", "Computational Science and Engineering", course_bundle_info),
-        ("BMC", "Biomedical Computing", "Biomedical Computing", course_bundle_info),
-        ("Robotics", "Robotics, Cognition, Intelligence", "Robotics, Cognition, Intelligence", course_bundle_info),
-        ("Mathe OR", "Mathematics in Operatios Research", "Mathematics in Operatios Research", course_bundle_mathe),
-        (
-            "Mathe SE",
-            "Mathematics in Science and Engineering",
-            "Mathematics in Science and Engineering",
-            course_bundle_mathe,
-        ),
-        (
-            "Mathe Finance",
-            "Mathematics in Finance and Acturial Science",
-            "Mathematics in Finance and Acturial Science",
-            course_bundle_mathe,
-        ),
-        ("Mathe Bio", "Mathematics in Bioscience", "Mathematics in Bioscience", course_bundle_mathe),
-    ]
+    sub_trans = (
+        [
+            ("Physik", "Physics", "Physik", cb_physik),
+        ]
+        + [
+            ("Info", "Informatics", "Informatik", cb_info),
+            ("Games", "Informatics: Games Engineering", "Informatik: Games Engineering", cb_info),
+            ("Winfo", "Information Systems", "Wirtschaftsinformatik", cb_info),
+            ("ASE", "Automotive Software Engineering", "Automotive Software Engineering", cb_info),
+            ("CSE", "Computational Science and Engineering", "Computational Science and Engineering", cb_info),
+            ("BMC", "Biomedical Computing", "Biomedical Computing", cb_info),
+            ("Robotics", "Robotics, Cognition, Intelligence", "Robotics, Cognition, Intelligence", cb_info),
+        ]
+        + [
+            ("Mathe", "Mathematics", "Mathematik", cb_mathe),
+            ("Mathe OR", "Mathematics in Operations Research", "Mathematics in Operations Research", cb_mathe),
+            ("Mathe Bio", "Mathematics in Bioscience", "Mathematics in Bioscience", cb_mathe),
+            (
+                "Mathe SE",
+                "Mathematics in Science and Engineering",
+                "Mathematics in Science and Engineering",
+                cb_mathe,
+            ),
+            (
+                "Mathe Finance",
+                "Mathematics in Finance and Acturial Science",
+                "Mathematics in Finance and Acturial Science",
+                cb_mathe,
+            ),
+        ]
+    )
 
     for subject_choice, subject_choice_en, subject_choice_de, course_bundle in sub_trans:
         for degree in [settool_common.models.Subject.MASTER, settool_common.models.Subject.BACHELOR]:
