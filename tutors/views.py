@@ -601,7 +601,8 @@ def task_mail(request: WSGIRequest, uid: UUID, mail_pk: Optional[int] = None) ->
     if mail_pk is None:
         mail = settings.mail_task
         if mail is None:
-            raise Http404
+            messages.error(request, _("The mail_task is not set in the settings. Please choose one option to continue"))
+            return redirect("tutors:general_settings")
     else:
         mail = get_object_or_404(TutorMail, pk=mail_pk)
 

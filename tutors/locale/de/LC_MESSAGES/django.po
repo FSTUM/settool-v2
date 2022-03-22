@@ -916,6 +916,14 @@ msgstr ""
 "eine Email an {mail}"
 
 #: tutors/views.py
+msgid ""
+"The mail_task is not set in the settings. Please choose one option to "
+"continue"
+msgstr ""
+"Die mail_task wurde in den Einstellungen nicht gesetzt. Bitte wähle eine "
+"Option aus um weiterzumachen."
+
+#: tutors/views.py
 #, python-brace-format
 msgid "Could not send email to {first_name} {last_name} ({email})."
 msgstr "Konnte keine email an {first_name} {last_name} ({email}) senden."
