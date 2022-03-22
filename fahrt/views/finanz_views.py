@@ -218,17 +218,16 @@ def match_transactions_participant_ids(
         else:
             unmatched_transactions.append(transaction)
     # Transaction:Person = 1:1
-    for (p_uuid, transaction_list) in [
-        (p_uuid, transaction_list)
-        for (p_uuid, transaction_list) in participant_matches.items()
-        if len(transaction_list) > 1
-    ]:
-        messages.error(
-            request,
-            _("UUIDs {p_uuid} is contained in multiple Transactions {transaction_list}. This is not allowed.").format(
-                p_uuid=p_uuid,
-                transaction_list=transaction_list,
-            ),
-        )
-        error = True
+    for (p_uuid, transaction_list) in participant_matches.items():
+        if len(transaction_list) >= 2:
+            messages.error(
+                request,
+                _(
+                    "UUIDs {p_uuid} is contained in multiple Transactions {transaction_list}. This is not allowed.",
+                ).format(
+                    p_uuid=p_uuid,
+                    transaction_list=transaction_list,
+                ),
+            )
+            error = True
     return error, matched_transactions, unmatched_transactions

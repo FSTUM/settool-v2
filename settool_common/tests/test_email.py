@@ -274,10 +274,9 @@ class CronGuidedtour(TestCase):
                 & Q(date__year=lookup_day.year),
             ):
                 participant: tour_models.Participant
-                for participant in [
-                    participant for participant in tour.participant_set.all() if participant.on_the_tour
-                ]:
-                    self.setting.mail_reminder.send_mail_participant(participant)
+                for participant in tour.participant_set.all():
+                    if participant.on_the_tour:
+                        self.setting.mail_reminder.send_mail_participant(participant)
             expected = serialise_outbox()
             mail.outbox.clear()
             cron.guidedtour_reminder(self.setting.semester, self.today)

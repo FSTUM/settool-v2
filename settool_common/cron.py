@@ -30,8 +30,9 @@ def guidedtour_reminder(semester: Semester, today: date) -> None:
             & Q(date__year=lookup_day.year),
         ):
             tour_participants: list[m_guidedtours.Participant] = list(tour.participant_set.all())
-            for participant in [participant for participant in tour_participants if participant.on_the_tour]:
-                setting.mail_reminder.send_mail_participant(participant)
+            for participant in tour_participants:
+                if participant.on_the_tour:
+                    setting.mail_reminder.send_mail_participant(participant)
 
 
 def tutor_reminder(semester: Semester, today: date) -> None:
