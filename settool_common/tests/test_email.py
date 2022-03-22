@@ -329,7 +329,7 @@ class SendEmailTemplated(TestCase):
 class SendEmailNoTemplate(TestCase):
     @classmethod
     def setUpTestData(cls) -> None:
-        settool_common.fixtures.showroom_fixture.generate_common_mails()
+        settool_common.fixtures.showroom_fixture.generate_all_mails()
 
     def test_get_mail(self):
         """check if the Mail.get_mail method works correctly with an empty template"""
