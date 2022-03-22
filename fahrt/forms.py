@@ -202,7 +202,7 @@ def produce_nullboolean_field_with_autosubmit(label):
 class FilterRegisteredParticipantsForm(SemesterBasedForm):
     non_liability = produce_nullboolean_field_with_autosubmit(_("Non-liability submitted"))
     u18 = produce_nullboolean_field_with_autosubmit(_("Under 18"))
-    car = produce_nullboolean_field_with_autosubmit(_("Driver of Car"))
+    car = produce_nullboolean_field_with_autosubmit(_("Driver of car"))
     paid = produce_nullboolean_field_with_autosubmit(_("Paid"))
     payment_deadline = produce_nullboolean_field_with_autosubmit(_("Payment deadline over"))
     mailinglist = produce_nullboolean_field_with_autosubmit(_("On mailinglist"))

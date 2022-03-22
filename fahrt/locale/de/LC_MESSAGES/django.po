@@ -54,7 +54,7 @@ msgid "Under 18"
 msgstr "Unter 18"
 
 #: fahrt/forms.py
-msgid "Driver of Car"
+msgid "Driver of car"
 msgstr "Fahrer*in eines Autos"
 
 #: fahrt/forms.py fahrt/models.py
@@ -84,10 +84,6 @@ msgstr "Betreff"
 #: fahrt/forms.py
 msgid "Search pattern:"
 msgstr "Schlagwort:"
-
-#: fahrt/forms.py
-msgid "Driver of car"
-msgstr "Fahrer*in eines Autos"
 
 #: fahrt/forms.py fahrt/models.py
 #: fahrt/templates/fahrt/maintinance/mail/list_filtered_participants_send_mail.html
