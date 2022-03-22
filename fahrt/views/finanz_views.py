@@ -104,7 +104,7 @@ def finanz_automated(request: WSGIRequest) -> HttpResponse:
     if file_upload_form.is_valid():
         csv_file: Optional[UploadedFile] = request.FILES.get("file")
         if csv_file is None:
-            raise Http404
+            raise Http404()  # cannot happen, as file_upload_form would not be valid
         csv_file_text = TextIOWrapper(csv_file.file, encoding="iso-8859-1")
         results, errors = parse_camt_csv(csv_file_text)
         if errors:
