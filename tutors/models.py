@@ -125,6 +125,7 @@ class Settings(BaseModel):
         default=0,
     )
 
+    @property
     def registration_open(self):
         return self.open_registration < timezone.now() < self.close_registration
 
