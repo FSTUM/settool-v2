@@ -99,7 +99,7 @@ class Tour(models.Model):
         _("Close registration"),
     )
 
-    def __str__(self):
+    def __str__(self) -> str:
         return self.name
 
     @property
@@ -119,7 +119,7 @@ class Participant(models.Model):
     subject = models.ForeignKey(Subject, on_delete=models.CASCADE, verbose_name=_("Subject"))
     time = models.DateTimeField(auto_now_add=True, verbose_name=_("Registration Time"))
 
-    def __str__(self):
+    def __str__(self) -> str:
         return f"{self.firstname} {self.surname}"
 
     @property
@@ -163,5 +163,5 @@ class Setting(models.Model):
         default=0,
     )
 
-    def __str__(self):
+    def __str__(self) -> str:
         return f"Tour-Settings for {self.semester}"

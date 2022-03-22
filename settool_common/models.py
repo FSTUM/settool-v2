@@ -69,7 +69,7 @@ class Mail(models.Model):
         blank=True,
     )
 
-    def __str__(self):
+    def __str__(self) -> str:
         if self.comment:
             return f"{self.subject} ({self.comment})"
         return str(self.subject)
@@ -153,7 +153,7 @@ class Semester(models.Model):
     def short_form(self) -> str:
         return f"{self.semester}{str(self.year)[2:]}"
 
-    def __str__(self):
+    def __str__(self) -> str:
         return f"{self.get_semester_display()} {self.year:4}"
 
 
@@ -167,7 +167,7 @@ class CourseBundle(models.Model):
         unique=True,
     )
 
-    def __str__(self):
+    def __str__(self) -> str:
         return self.name
 
 
@@ -200,7 +200,7 @@ class Subject(models.Model):
         verbose_name=_("Subject"),
     )
 
-    def __str__(self):
+    def __str__(self) -> str:
         return f"{self.get_degree_display()} {self.subject} ({self.course_bundle})"
 
 
@@ -231,7 +231,7 @@ class QRCode(models.Model):
     content = models.CharField(max_length=200, unique=True)
     qr_code = models.ImageField(upload_to="qr_codes", blank=True)
 
-    def __str__(self):
+    def __str__(self) -> str:
         return self.content
 
     # pylint: disable=signature-differs
@@ -290,5 +290,5 @@ class AnonymisationLog(models.Model):
     semester = models.ForeignKey(Semester, on_delete=models.CASCADE)
     anon_log_str = models.CharField(max_length=10)
 
-    def __str__(self):
+    def __str__(self) -> str:
         return f"{self.semester}-{self.anon_log_str}"

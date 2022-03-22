@@ -52,7 +52,7 @@ class BagSettings(models.Model):
         default=0,
     )
 
-    def __str__(self):
+    def __str__(self) -> str:
         return f"Bag-Settings for {self.semester}"
 
 
@@ -127,7 +127,7 @@ class Company(models.Model):
         null=True,
     )
 
-    def __str__(self):
+    def __str__(self) -> str:
         return str(self.name)
 
     @property
@@ -169,7 +169,7 @@ class GiveawayGroup(models.Model):
         max_length=200,
     )
 
-    def __str__(self):
+    def __str__(self) -> str:
         return self.name
 
     @property
@@ -248,7 +248,7 @@ class Giveaway(models.Model):
             )
         return _("{per_bag_count} every bag").format(per_bag_count=round(self.item_count / total_bags, 1))
 
-    def __str__(self):
+    def __str__(self) -> str:
         if self.comment:
             return f"{self.group or '-'} ({self.comment or '-'}; {self.custom_per_bag_message})"
         return f"{self.group or '-'} ({self.custom_per_bag_message})"

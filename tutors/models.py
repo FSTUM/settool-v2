@@ -199,7 +199,7 @@ class Tutor(BaseModel):
 
     comment = models.TextField(_("Comment"), max_length=500, blank=True)
 
-    def __str__(self):
+    def __str__(self) -> str:
         return f"{self.first_name} {self.last_name}"
 
     def log(self, user, text):
@@ -231,7 +231,7 @@ class Event(BaseModel):
         # )
         pass
 
-    def __str__(self):
+    def __str__(self) -> str:
         return f"{self.name} {self.begin.date()}"
 
 
@@ -253,7 +253,7 @@ class Task(BaseModel):
 
     tutors = models.ManyToManyField(Tutor, verbose_name=_("Assigned tutors"), through="TutorAssignment", blank=True)
 
-    def __str__(self):
+    def __str__(self) -> str:
         return str(self.name)
 
     def log(self, user, text):
@@ -270,7 +270,7 @@ class TutorAssignment(BaseModel):
     task = models.ForeignKey(Task, on_delete=models.CASCADE)
     absent = models.BooleanField(_("absent"), default=False)
 
-    def __str__(self):
+    def __str__(self) -> str:
         return f"{self.tutor}"
 
 
@@ -280,7 +280,7 @@ class Question(BaseModel):
 
     question = models.CharField(_("Question"), max_length=100)
 
-    def __str__(self):
+    def __str__(self) -> str:
         return str(self.question)
 
     def log(self, user, text):
@@ -309,7 +309,7 @@ class Answer(BaseModel):
     )
     answer = models.CharField(_("Answer"), max_length=10, null=True, blank=False, choices=ANSWERS)
 
-    def __str__(self):
+    def __str__(self) -> str:
         return f"{self.tutor}: {self.question} -> {self.answer}"
 
 
@@ -318,7 +318,7 @@ class MailTutorTask(BaseModel):
     tutor = models.ForeignKey(Tutor, on_delete=models.CASCADE)
     task = models.ForeignKey(Task, on_delete=models.CASCADE, blank=True, null=True)
 
-    def __str__(self):
+    def __str__(self) -> str:
         return f"{self.created_at}: {self.tutor} -> {self.mail} - {self.task}"
 
 

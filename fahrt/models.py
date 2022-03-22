@@ -117,7 +117,7 @@ class Fahrt(models.Model):
         default=0,
     )
 
-    def __str__(self):
+    def __str__(self) -> str:
         return f"Fahrt {self.semester} at {self.date}"
 
     @property
@@ -169,7 +169,7 @@ class Transportation(models.Model):
         default=1,
     )
 
-    def __str__(self):
+    def __str__(self) -> str:
         free_places = self.places - self.participant_set.count()
         if self.transport_type:
             return _("Train ({free_places} free)").format(free_places=free_places)
@@ -254,7 +254,7 @@ class Participant(models.Model):
 
     comment = models.CharField(_("Comment"), max_length=400, blank=True)
 
-    def __str__(self):
+    def __str__(self) -> str:
         return f"{self.firstname} {self.surname}"
 
     def log(self, user, text):
@@ -296,7 +296,7 @@ class TransportationComment(models.Model):
     commented_on = models.ForeignKey(Transportation, on_delete=models.CASCADE)
     comment_content = models.CharField(_("Text"), max_length=200)
 
-    def __str__(self):
+    def __str__(self) -> str:
         if len(self.comment_content) > 30:
             comment_content = self.comment_content[:30] + "..."
         else:
@@ -320,5 +320,5 @@ class LogEntry(models.Model):
         null=True,
     )
 
-    def __str__(self):
+    def __str__(self) -> str:
         return f"{self.time}, {self.user}: {self.text}"
