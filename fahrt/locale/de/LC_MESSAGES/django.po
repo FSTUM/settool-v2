@@ -972,10 +972,10 @@ msgstr ""
 #: fahrt/views/finanz_views.py
 #, python-brace-format
 msgid ""
-"UUIDs {p_uuid} is contained in multiple Transactions (transaction_list). "
+"UUIDs {p_uuid} is contained in multiple Transactions {transaction_list}. "
 "This is not allowed."
 msgstr ""
-"UUIDs {p_uuid} ist in mehreren Transaktionen (transaction_list) enhalten. "
+"UUIDs {p_uuid} ist in mehreren Transaktionen {transaction_list} enthalten. "
 "Dies ist nicht erlaubt."
 
 #: fahrt/views/participants_views.py fahrt/views/transport_views.py

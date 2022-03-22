@@ -225,7 +225,7 @@ def match_transactions_participant_ids(
     ]:
         messages.error(
             request,
-            _("UUIDs {p_uuid} is contained in multiple Transactions (transaction_list). This is not allowed.").format(
+            _("UUIDs {p_uuid} is contained in multiple Transactions {transaction_list}. This is not allowed.").format(
                 p_uuid=p_uuid,
                 transaction_list=transaction_list,
             ),
