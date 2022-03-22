@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     "bags",
     "fahrt",
     "tutors",
+    "kalendar",
 ]
 
 MIDDLEWARE = [

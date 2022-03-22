@@ -107,7 +107,8 @@ def anonymize_fahrt(semester: Semester, log_name: str) -> bool:
         semester_participants.exclude(status=m_fahrt.Participant.STATUS_CONFIRMED).delete()
         participant: m_fahrt.Participant
         for participant in semester_participants.all():
-            participant.registration_time = timezone.now()
+            participant.created_at = timezone.now()
+            participant.updated_at = timezone.now()
             participant.firstname = f"f {participant.pk}"
             participant.surname = f"l {participant.pk}"
             participant.birthday = timezone.now().date()
@@ -126,18 +127,23 @@ def anonymize_fahrt(semester: Semester, log_name: str) -> bool:
 def anonymize_guidedtours(semester: Semester, log_name: str) -> bool:
     semester_tours: QuerySet[m_guidedtours.Tour] = m_guidedtours.Tour.objects.filter(semester=semester)
     most_recent_tour: Optional[m_guidedtours.Tour] = semester_tours.order_by("date").last()
-    if most_recent_tour and date_is_too_old(most_recent_tour.date, log_name):
-        # guidedtours is save to anonymize for this semester
-        participant: m_guidedtours.Participant
-        for participant in m_guidedtours.Participant.objects.filter(tour__semester=semester).all():
-            participant.firstname = f"f {participant.pk}"
-            participant.surname = f"l {participant.pk}"
-            participant.email = f"{participant.pk}@example.com"
-            participant.phone = f"-1 000 {participant.pk}"
-            participant.time = timezone.now()
-            participant.save()
-        return True
-    return False
+    if not most_recent_tour or not most_recent_tour.associated_meetings:
+        return False
+    successfully_anonimised = False
+    for date_obj in most_recent_tour.associated_meetings.dates:
+        if date_obj and date_is_too_old(date_obj, log_name):
+            # guidedtours is save to anonymize for this semester
+            participant: m_guidedtours.Participant
+            for participant in m_guidedtours.Participant.objects.filter(tour__semester=semester).all():
+                participant.firstname = f"f {participant.pk}"
+                participant.surname = f"l {participant.pk}"
+                participant.email = f"{participant.pk}@example.com"
+                participant.phone = f"-1 000 {participant.pk}"
+                participant.updated_at = timezone.now()
+                participant.created_at = timezone.now()
+                participant.save()
+            successfully_anonimised = True
+    return successfully_anonimised  # noqa: R504
 
 
 def anonymize_tutors(semester: Semester, log_name: str) -> bool:
@@ -153,7 +159,8 @@ def anonymize_tutors(semester: Semester, log_name: str) -> bool:
             tutor.first_name = f"f {tutor.pk}"
             tutor.last_name = f"l {tutor.pk}"
             tutor.email = f"{tutor.pk}@example.com"
-            tutor.registration_time = timezone.now()
+            tutor.created_at = timezone.now()
+            tutor.updated_at = timezone.now()
             tutor.birthday = timezone.now()
             tutor.matriculation_number = str(tutor.pk).zfill(8)[:8]
             tutor.comment = ""

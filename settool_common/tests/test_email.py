@@ -244,13 +244,20 @@ class CronGuidedtour(TestCase):
             course_bundle=course_bundle_info,
         )
         for i in range(4):
-            tour_models.Tour.objects.create(
+            tour = tour_models.Tour.objects.create(
                 semester=common_models.current_semester(),
-                name="tour today",
-                date=cls.today + timedelta(days=i),
+                name=f"tour {i}",
                 capacity=10,
                 open_registration=cls.todatetime,
                 close_registration=cls.todatetime,
+            )
+            meeting = tour.associated_meetings
+            if not meeting:
+                raise ValueError("No associated_meeting for Tour")
+            kalendar_m.Date.objects.create(
+                group=meeting,
+                date=cls.today + timedelta(days=i),
+                probable_length=60,
             )
         for tour in tour_models.Tour.objects.all():
             for i in range(10):

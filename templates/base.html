@@ -103,6 +103,10 @@
                         {% endif %}
                         {% if user.is_authenticated %}
                         <a
+                            class="nav-link {% active_link 'kalendar:main_index' %}"
+                            href="{% url "kalendar:main_index" %}"
+                        >{% trans "SET-Calendar" %}</a>
+                        <a
                             class="nav-link {% active_link 'settings_main_index' %}"
                             href="{% url "settings_main_index" %}"
                         >{% trans "Settings" %}</a>

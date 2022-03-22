@@ -1,0 +1,86 @@
+{% extends "kalendar/base_kalendar.html" %}
+{% load i18n %}
+{% load django_bootstrap5 %}
+
+{% block head %}
+<script>
+    $(document).ready(() => {
+        $('#dateTable').DataTable({
+            columnDefs: [{ targets: 7, orderable: false }],
+        });
+    });
+</script>
+{% endblock %}
+
+{% block set_common_headercontent %}{% trans "List of dates" %}{% endblock %}
+
+{% block set_common_content %}
+<div class="table-responsive">
+    <table class="table table-sm">
+        <thead>
+            <tr>
+                <td class='table-warning w-25'>{% trans "Event" %}</td>
+                {% if show_past %}<td class='table-success w-25'>{% trans "Event lies in the past" %}</td>{% endif %}
+                <td class='table-secondary w-25'>{% trans "Task" %}</td>
+                {% if show_past %}<td class='table-light w-25'>{% trans "Task lies in the past" %}</td>{% endif %}
+            </tr>
+            <tr>
+                <td colspan="2" class='table-primary w-50'>{% trans "Guidedtour" %}</td>
+                {% if show_past %}<td colspan="2" class='table-info w-50'>{% trans "Guidedtour lies in the past" %}</td>{% endif %}
+            </tr>
+        </thead>
+    </table>
+</div>
+<div class="table-responsive">
+    <table
+        id="dateTable"
+        class="table dataTable"
+    >
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>{% trans "Name" %}</th>
+                <th>{% trans "Date/Time" %}</th>
+                <th>{% trans "Probable length" %}</th>
+                <th>{% trans "short/simplified Address" %}</th>
+                <th>{% trans "(Street)map-address" %}</th>
+                <th>{% trans "Room" %}</th>
+                <th>{% trans "Actions" %}</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for date in dates %}
+            <tr class="table-">
+                <td>{{ forloop.counter }}</td>
+                <td>
+                    <a href="
+{% if date.group.group_type == "event" %}{% url "tutors:view_event" date.group.super_group.pk %}
+{% elif date.group.group_type == "task" %}{% url "tutors:view_task" date.group.super_group.pk %}
+{% else %}{% url "guidedtours:view_tour" date.group.super_group.pk %}
+{% endif %}">
+                        {{ date.group.super_group.name }}
+                    </a>
+                </td>
+                <td data-sort="{{ date.date|date:"c" }}">
+                    <a href="{% url "kalendar:view_date" date.pk %}">{{ date.date }}</a>
+                </td>
+                <td data-sort="{{ date.probable_length }}">{{ date.probable_length }}m</td>
+                {% if date.group.location %}
+                <td>{{ date.group.location.shortname|default:"-" }}</td>
+                <td>{{ date.group.location.address|default:"-" }}</td>
+                <td>{{ date.group.location.room|default:"-" }}</td>
+                {% else %}
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+                {% endif %}
+                <td>
+                    <a href="{% url "kalendar:edit_date" date.pk %}"><span class="bi bi-pencil-square"></span></a>
+                    <a href="{% url "kalendar:del_date" date.pk %}"><span class="bi bi-trash-fill"></span></a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

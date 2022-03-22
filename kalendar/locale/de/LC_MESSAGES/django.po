@@ -1,0 +1,233 @@
+msgid ""
+msgstr ""
+"Report-Msgid-Bugs-To: elsinga <at> fs.tum.de\n"
+"Language: de\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: kalendar/models.py
+#: kalendar/templates/kalendar/management/list/chronological.html
+#: kalendar/templates/kalendar/management/list/grouped.html
+msgid "short/simplified Address"
+msgstr "verkürtzte/vereinfachte Adresse"
+
+#: kalendar/models.py
+#: kalendar/templates/kalendar/management/list/chronological.html
+#: kalendar/templates/kalendar/management/list/grouped.html
+msgid "(Street)map-address"
+msgstr "Straßenkarten-Adresse"
+
+#: kalendar/models.py
+#: kalendar/templates/kalendar/management/list/chronological.html
+#: kalendar/templates/kalendar/management/list/grouped.html
+msgid "Room"
+msgstr "Raum"
+
+#: kalendar/models.py kalendar/templates/kalendar/management/list/grouped.html
+msgid "Comment"
+msgstr "Kommentar"
+
+#: kalendar/models.py
+msgid "Subscribers to a date_group"
+msgstr "Abonnenten einer date_group"
+
+#: kalendar/models.py
+#: kalendar/templates/kalendar/management/list/chronological.html
+msgid "Event"
+msgstr "Event"
+
+#: kalendar/models.py
+#: kalendar/templates/kalendar/management/list/chronological.html
+msgid "Task"
+msgstr "Aufgabe"
+
+#: kalendar/models.py
+msgid "Date and Time"
+msgstr "Datum und Zeit"
+
+#: kalendar/models.py kalendar/templates/kalendar/management/delete_date.html
+#: kalendar/templates/kalendar/management/view_date.html
+#: kalendar/templates/kalendar/management/view_date_public.html
+msgid "probable length in minutes"
+msgstr "warscheinliche länge in Minuten"
+
+#: kalendar/models.py
+msgid "Subscribers to one meeting"
+msgstr "Abonnenten einer Sitzung"
+
+#: kalendar/templates/kalendar/base_kalendar.html
+#: kalendar/templates/kalendar/dashboard.html
+msgid "Dashboard"
+msgstr "Dashboard"
+
+#: kalendar/templates/kalendar/base_kalendar.html
+msgid "Management"
+msgstr "Management"
+
+#: kalendar/templates/kalendar/base_kalendar.html
+msgid "List all dates"
+msgstr "Liste aller Daten"
+
+#: kalendar/templates/kalendar/base_kalendar.html
+msgid "List future dates"
+msgstr "Liste zukünftigen Daten"
+
+#: kalendar/templates/kalendar/base_kalendar.html
+msgid "List dates by event"
+msgstr "Daten nach Event auflisten"
+
+#: kalendar/templates/kalendar/management/add_date.html
+msgid "Add date"
+msgstr "Datum hinzufügen"
+
+#: kalendar/templates/kalendar/management/delete_date.html
+#: kalendar/templates/kalendar/management/view_date.html
+msgid "Delete date"
+msgstr "Datum löschen"
+
+#: kalendar/templates/kalendar/management/delete_date.html
+#: kalendar/templates/kalendar/management/view_date.html
+#: kalendar/templates/kalendar/management/view_date_public.html
+msgid "Date"
+msgstr "Datum"
+
+#: kalendar/templates/kalendar/management/delete_date.html
+#: kalendar/templates/kalendar/management/view_date.html
+#: kalendar/templates/kalendar/management/view_date_public.html
+msgid "Location"
+msgstr "Standort"
+
+#: kalendar/templates/kalendar/management/delete_date.html
+#: kalendar/templates/kalendar/management/list/grouped.html
+#: kalendar/templates/kalendar/management/view_date.html
+#: kalendar/templates/kalendar/management/view_date_public.html
+msgid "no meeting point specified"
+msgstr "kein Treffpunkt angegeben"
+
+#: kalendar/templates/kalendar/management/delete_date.html
+#: kalendar/templates/kalendar/management/edit_date.html
+msgid "Cancel"
+msgstr "Abbrechen"
+
+#: kalendar/templates/kalendar/management/edit_date.html
+#: kalendar/templates/kalendar/management/view_date.html
+msgid "Edit date"
+msgstr "Datum bearbeiten"
+
+#: kalendar/templates/kalendar/management/list/chronological.html
+msgid "List of dates"
+msgstr "Liste der Daten"
+
+#: kalendar/templates/kalendar/management/list/chronological.html
+msgid "Event lies in the past"
+msgstr "Event liegt in der vergangenheit"
+
+#: kalendar/templates/kalendar/management/list/chronological.html
+msgid "Task lies in the past"
+msgstr "Aufgabe liegt in der vergangenheit"
+
+#: kalendar/templates/kalendar/management/list/chronological.html
+#: kalendar/templates/kalendar/management/view_date.html
+#: kalendar/templates/kalendar/management/view_date_public.html
+msgid "Name"
+msgstr "Name"
+
+#: kalendar/templates/kalendar/management/list/chronological.html
+msgid "Date/Time"
+msgstr "Datum/Zeit"
+
+#: kalendar/templates/kalendar/management/list/chronological.html
+msgid "Probable length"
+msgstr "Warscheinliche länge"
+
+#: kalendar/templates/kalendar/management/list/chronological.html
+msgid "Actions"
+msgstr "Aktionen"
+
+#: kalendar/templates/kalendar/management/list/grouped.html
+msgid "List of events"
+msgstr "Liste der Events"
+
+#: kalendar/templates/kalendar/management/list/grouped.html
+msgid "No Events exist"
+msgstr "Keine Events existieren"
+
+#: kalendar/templates/kalendar/management/list/grouped.html
+msgid "Event Data"
+msgstr "Eventdaten"
+
+#: kalendar/templates/kalendar/management/list/grouped.html
+msgid "Description:"
+msgstr "Beschreibung:"
+
+#: kalendar/templates/kalendar/management/list/grouped.html
+msgid "Location:"
+msgstr "Standort:"
+
+#: kalendar/templates/kalendar/management/list/grouped.html
+msgid "Dates:"
+msgstr "Daten:"
+
+#: kalendar/templates/kalendar/management/list/grouped.html
+msgid "Associated Tasks"
+msgstr "Zugeordnete Aufgaben"
+
+#: kalendar/templates/kalendar/management/list/grouped.html
+msgid "no Tasks exist"
+msgstr "keine Aufgaben existeren"
+
+#: kalendar/templates/kalendar/management/view_date.html
+#: kalendar/templates/kalendar/management/view_date_public.html
+msgid "Date details"
+msgstr "Datumsdetails"
+
+#: kalendar/templates/kalendar/management/view_date.html
+#: kalendar/templates/kalendar/management/view_date_public.html
+msgid "Event-information"
+msgstr "Event-informationen"
+
+#: kalendar/templates/kalendar/management/view_date.html
+#: kalendar/templates/kalendar/management/view_date_public.html
+msgid "Task-information"
+msgstr "Aufgaben-informationen"
+
+#: kalendar/templates/kalendar/management/view_date.html
+#: kalendar/templates/kalendar/management/view_date_public.html
+msgid "Description"
+msgstr "Beschreibung"
+
+#: kalendar/templates/kalendar/management/view_date.html
+#: kalendar/templates/kalendar/management/view_date_public.html
+msgid "Date-information"
+msgstr "Datum-informationen"
+
+#: kalendar/templates/kalendar/management/view_date.html
+#: kalendar/templates/kalendar/management/view_date_public.html
+msgid "Location-information"
+msgstr "Standort-informationen"
+
+#: kalendar/templates/kalendar/management/view_date.html
+#: kalendar/templates/kalendar/management/view_date_public.html
+msgid "Back"
+msgstr "Zurück"
+
+#: kalendar/templates/kalendar/management/view_date.html
+msgid "Add date to the same group"
+msgstr "Datum zur selben Datumsgruppe hinzufügen"
+
+#: kalendar/views.py
+#, python-brace-format
+msgid "Successfully added date {date}."
+msgstr "Datum {date} wurde erfolgreich hinzugefügt"
+
+#: kalendar/views.py
+#, python-brace-format
+msgid "Successfully edited date {date}."
+msgstr "Datum {date} wurde erfolgreich hinzugefügt"
+
+#: kalendar/views.py
+#, python-brace-format
+msgid "Deleted date {date}."
+msgstr "Datum {date} wurde gelöscht"

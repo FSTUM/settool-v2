@@ -1,0 +1,172 @@
+{% extends "kalendar/base_kalendar.html" %}
+{% load i18n %}
+{% load django_bootstrap5 %}
+
+{% block set_common_headercontent %}{% trans "List of events" %}{% endblock %}
+
+{% block set_common_content_overide %}
+{% if not events %}{% trans "No Events exist" %}{% endif %}
+<div
+    class="accordion"
+    id="accordion"
+>
+    {% trans "no meeting point specified" as no_meeting_point %}
+    {% for event in events %}
+    <div class="accordion-item">
+        <h2
+            class="accordion-header"
+            id="heading{{ forloop.counter }}"
+        >
+            <button
+                class="accordion-button {% if not forloop.first %}collapsed{% endif %}"
+                data-bs-toggle="collapse"
+                data-bs-target="#collapse{{ forloop.counter }}"
+                aria-expanded="{% if forloop.first %}true{% else %}false{% endif %}"
+                aria-controls="collapse{{ forloop.counter }}"
+            >{{ event.name }}</button>
+        </h2>
+        <div
+            id="collapse{{ forloop.counter }}"
+            class="accordion-collapse collapse {% if forloop.first %}show{% endif %}"
+            aria-labelledby="heading{{ forloop.counter }}"
+            data-bs-parent="#accordion"
+        >
+            <div class="accordion-body">
+                <h2>{% trans "Event Data" %}</h2>
+                <table class='table table-hover'>
+                    <thead>
+                        <tr>
+                            <th>{% trans "Description:" %}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>{{ event.description }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <table class='table table-hover'>
+                    <thead>
+                        <tr>
+                            <th colspan="4">{% trans "Location:" %}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            {% if event.associated_meetings.location %}
+                            <td>{% trans "short/simplified Address" %}: {{ event.associated_meetings.location.shortname|default:"-" }}</td>
+                            <td>{% trans "(Street)map-address" %}: {{ event.associated_meetings.location.address|default:"-" }}</td>
+                            <td>{% trans "Room" %}: {{ event.associated_meetings.location.room|default:"-" }}</td>
+                            <td>{% trans "Comment" %}: {{ event.associated_meetings.location.comment|default:"-" }}</td>
+                            {% else %}
+                            <td>{{ no_meeting_point }}</td>
+                            {% endif %}
+                        </tr>
+                    </tbody>
+                </table>
+                {% if event.associated_meetings.date_set.exists %}
+                <table class='table table-hover'>
+                    <thead>
+                        <tr>
+                            <th colspan="4">{% trans "Dates:" %}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for date in event.associated_meetings.date_set.all %}
+                        <tr>
+                            <td>{{ date.date }} ({{ date.probable_length }} minutes)</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                {% endif %}
+
+                <h2>{% trans "Associated Tasks" %}</h2>
+                {% if event.task_set.all %}
+                <div
+                    class="accordion"
+                    id="accordion{{ event.id }}"
+                >
+                    {% trans "no meeting point specified" as no_meeting_point %}
+                    {% for task in event.task_set.all %}
+                    <div class="accordion-item">
+                        <h2
+                            class="accordion-header"
+                            id="heading{{ event.id }}-{{ forloop.counter }}"
+                        >
+                            <button
+                                class="accordion-button collapsed"
+                                data-bs-toggle="collapse"
+                                data-bs-target="#collapse{{ event.id }}-{{ forloop.counter }}"
+                                aria-expanded="false"
+                                aria-controls="collapse{{ event.id }}-{{ forloop.counter }}"
+                            >{{ task.name }}</button>
+                        </h2>
+                        <div
+                            id="collapse{{ event.id }}-{{ forloop.counter }}"
+                            class="accordion-collapse collapse"
+                            aria-labelledby="heading{{ event.id }}-{{ forloop.counter }}"
+                            data-bs-parent="#accordion{{ event.id }}"
+                        >
+                            <div class="accordion-body">
+                                <table class='table table-hover'>
+                                    <thead>
+                                        <tr>
+                                            <th>{% trans "Description:" %}</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>{{ task.description }}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <table class='table table-hover'>
+                                    <thead>
+                                        <tr>
+                                            <th colspan="4">{% trans "Location:" %}</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            {% if task.associated_meetings.location %}
+                                            <td>{% trans "short/simplified Address" %}: {{ task.associated_meetings.location.shortname|default:"-" }}</td>
+                                            <td>{% trans "(Street)map-address" %}: {{ task.associated_meetings.location.address|default:"-" }}</td>
+                                            <td>{% trans "Room" %}: {{ task.associated_meetings.location.room|default:"-" }}</td>
+                                            <td>{% trans "Comment" %}: {{ task.associated_meetings.location.comment|default:"-" }}</td>
+                                            {% else %}
+                                            <td>{{ no_meeting_point }}</td>
+                                            {% endif %}
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                {% if task.associated_meetings.date_set.exists %}
+                                <table class='table table-hover'>
+                                    <thead>
+                                        <tr>
+                                            <th colspan="4">{% trans "Dates:" %}</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for date in task.associated_meetings.date_set.all %}
+                                        <tr>
+                                            <td>{{ date.date }} ({{ date.probable_length }} minutes)</td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% else %}
+                {% trans "no Tasks exist" %}
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

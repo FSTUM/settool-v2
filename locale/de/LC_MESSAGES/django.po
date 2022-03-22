@@ -32,6 +32,10 @@ msgid "Guided tours of the institutes"
 msgstr "Institutsführungen"
 
 #: templates/base.html
+msgid "SET-Calendar"
+msgstr "SET-Kalender"
+
+#: templates/base.html
 msgid "Settings"
 msgstr "Einstellungen"
 
@@ -268,6 +272,9 @@ msgstr "Keine"
 #: templates/snippets/true_false_none_span.html
 msgid "Unknown"
 msgstr "Unbekannt"
+
+#~ msgid "Description:"
+#~ msgstr "Beschreibung"
 
 #~ msgid "May the SET be ever in yor favour"
 #~ msgstr "May the SET be ever in yor favour"

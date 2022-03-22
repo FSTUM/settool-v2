@@ -1,0 +1,27 @@
+{% extends "base_card_layout.html" %}
+{% load active_link_tags %}
+{% load i18n %}
+{% load django_bootstrap5 %}
+
+{% block set_common_navigation %}
+
+{% if perms.tutors.edit_tutors %}
+<a
+    class="nav-link {% active_link "kalendar:dashboard" %}"
+    href="{% url "kalendar:dashboard" %}"
+>{% trans "Dashboard" %}</a>
+<h4 class="navbar-text">{% trans "Management" %}</h4>
+<a
+    class="nav-link {% active_link "kalendar:list_dates" %}"
+    href="{% url "kalendar:list_dates" %}"
+>{% trans "List all dates" %}</a>
+<a
+    class="nav-link {% active_link "kalendar:list_future_dates" %}"
+    href="{% url "kalendar:list_future_dates" %}"
+>{% trans "List future dates" %}</a>
+<a
+    class="nav-link {% active_link "kalendar:list_dates_grouped" %}"
+    href="{% url "kalendar:list_dates_grouped" %}"
+>{% trans "List dates by event" %}</a>
+{% endif %}
+{% endblock %}

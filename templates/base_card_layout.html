@@ -20,6 +20,7 @@
     </div>
     <div class="col-lg-9 col-xl-10">
         {% endblock %}
+        {% block set_common_content_overide %}
         <div class="card">
             <div class="card-header">
                 {% block set_common_headercontent %}{% endblock %}
@@ -28,6 +29,7 @@
                 {% block set_common_content %}{% endblock %}
             </div>
         </div>
+        {% endblock %}
         {% block navigation-override-2 %}
     </div>
 </div>
