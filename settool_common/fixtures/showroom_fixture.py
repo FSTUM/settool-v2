@@ -11,6 +11,7 @@ from django.utils.datetime_safe import datetime
 import bags.models
 import fahrt.models
 import guidedtours.models
+import kalendar.models
 import settool_common.models
 import tutors.models
 from settool_common.fixtures.test_fixture import generate_semesters
@@ -59,10 +60,103 @@ def showroom_fixture_state_no_confirmation():
     tutors_questions = _generate_questions(common_semesters)
     _generate_answers(tutors_questions, tutors_list)
     tutors_events = _generate_events(common_semesters, common_subjects)
-    _generate_tasks_tutorasignemt(tutors_events, tutors_list, tutors_questions)
+    _generate_tasks_tutorasignent(tutors_events, tutors_list, tutors_questions)
     _generate_tutor_settings(common_semesters)
     # TODO tutors_mailtutortask
     # TODO tutors_subjecttutorcountassignment
+
+    # app kalendar
+    _generate_kalendar_locations()
+    _generate_kalendar_date_groups()
+    _generate_kalendar_dates()
+    _generate_kalendar_subscriptions()
+
+
+def _generate_kalendar_subscriptions():  # nosec: this is only used in a fixture
+    actual_tutors = list(tutors.models.Tutor.objects.filter(status=tutors.models.Tutor.STATUS_ACCEPTED).all())
+    collaborators = list(tutors.models.Tutor.objects.filter(status=tutors.models.Tutor.STATUS_EMPLOYEE).all())
+    dates = list(kalendar.models.Date.objects.all())
+    date_groups = list(kalendar.models.DateGroup.objects.all())
+    for tutor in actual_tutors:
+        if random.choice((True, True, True, False)):
+            dates_for_tutor = random.randint(1, len(dates) // len(actual_tutors) + 1)
+            selected_dates = random.sample(dates, dates_for_tutor)
+            for date in selected_dates:
+                kalendar.models.DateSubscriber.objects.create(date=date, tutor=tutor)
+    for collaborator in collaborators:
+        # 90% get a normal amount, 5% get nothing, 5% get all
+        if random.randint(1, 100) > 10:
+            date_groups_for_collaborator = random.randint(1, len(dates) // len(collaborators) + 1)
+            selected_date_groups = random.sample(date_groups, date_groups_for_collaborator)
+            for date_group in selected_date_groups:
+                kalendar.models.DateGroupSubscriber.objects.create(date=date_group, tutor=collaborator)
+        elif random.choice((True, False)):
+            for date_group in date_groups:
+                kalendar.models.DateGroupSubscriber.objects.create(date=date_group, tutor=collaborator)
+
+
+def _generate_kalendar_locations():
+    locations = [
+        "Fachschaftsbüro",
+        "Serverraum",
+        "LRZ",
+        "Chemie-gebäude",
+        "Interrims-Höhrsaal",
+        "MI-Magistrale",
+        "MI-Vorplazt",
+        "Grillareal",
+        "Galileo",
+        "MW2001",
+        "MW0001",
+    ]
+    for shortname in locations:
+        address = random.choice(
+            (
+                f"Boltzmannstr. {random.randint(1, 30)}, 85748 Garching",
+                random.choice(("Arcisstraße 17, 80333 München", "")),
+            ),
+        )
+        kalendar.models.Location.objects.create(
+            shortname=shortname,
+            shortname_de=shortname,
+            shortname_en=shortname,
+            address=address,
+            address_de=address,
+            address_en=address,
+            room=random.choice(("Magistrale", "FS-Büro", "MW0001", "MW2001", "007", "")),
+            comment=lorem.sentence()[:200] if random.choice((True, False, False, False)) else "",
+        )
+
+
+def _generate_kalendar_date_groups():
+    locations: list[kalendar.models.Location] = list(kalendar.models.Location.objects.all())
+    date_groups: list[kalendar.models.DateGroup] = list(kalendar.models.DateGroup.objects.all())
+    for date_group in date_groups:
+        if random.choice((True, True, True, False)):
+            date_group.location = random.choice(locations)
+        if random.choice((True, False, False, False)):
+            date_group.comment = lorem.sentence()[:200]
+        date_group.save()
+
+
+def _generate_kalendar_dates():
+    date_groups: list[kalendar.models.DateGroup] = list(kalendar.models.DateGroup.objects.all())
+    for date_group in date_groups:
+        if random.choice((True, True, False)):
+            for _ in range(random.choice((1, 1, 2, 2, 4, 4, 7, 7))):
+                kalendar.models.Date.objects.create(
+                    group=date_group,
+                    date=django.utils.timezone.make_aware(
+                        datetime.today()
+                        + timedelta(days=random.randint(1, 60))
+                        + timedelta(
+                            hours=random.randint(0, 24),
+                            minutes=random.randint(0, 60),
+                        )
+                        - timedelta(days=random.randint(1, 30)),
+                    ),
+                    probable_length=random.choice((60, 60, 60, 120, 240, 0, 1, 20)),
+                )
 
 
 def _generate_tutor_settings(common_semesters):
@@ -374,12 +468,13 @@ def _generate_giveaways(
         )
 
 
-def _generate_tasks_tutorasignemt(
+def _generate_tasks_tutorasignent(
     events,
     tutors_list,
     questions,
 ):
     tasks = []
+    all_tutors = list(tutors.models.Tutor.objects.all())
     for event in events:
         tutors_current_semester = [tutor for tutor in tutors_list if tutor.semester == event.semester]
         number1 = random.randint(0, len(tutors_current_semester))
@@ -387,22 +482,17 @@ def _generate_tasks_tutorasignemt(
         filtered_questions = [question for question in questions if question.semester == event.semester]
         event_subjects = list(event.subjects.all())
         for i in range(0, random.randint(0, 4)):
+            person_1, person_2 = random.sample(all_tutors, 2)
+            person_1 = random.choice((None, person_1, person_1, person_2, event.meeting_chairperson))
+            person_2 = random.choice((None, person_2, person_2, event.event_leader))
             task = tutors.models.Task.objects.create(
                 semester=event.semester,
                 name_en=f"Task {i}",
                 name_de=f"Task {i}",
                 description_en=lorem.paragraph(),
                 description_de=lorem.paragraph(),
-                begin=django.utils.timezone.make_aware(
-                    datetime.today().replace(day=1, month=1)
-                    + timedelta(days=random.randint(0, 30), minutes=random.randint(1, 1000)),
-                ),
-                end=django.utils.timezone.make_aware(
-                    datetime.today().replace(day=1, month=12)
-                    - timedelta(days=random.randint(0, 30), minutes=random.randint(1, 1000)),
-                ),
-                meeting_point_en=lorem.sentence()[: random.randint(0, 49)],
-                meeting_point_de=lorem.sentence()[: random.randint(0, 49)],
+                meeting_chairperson=person_1,
+                task_leader=person_2,
                 event=event,
                 min_tutors=min(number1, number2),
                 max_tutors=max(number1, number2),
@@ -430,7 +520,11 @@ def _generate_tasks_tutorasignemt(
 
 def _generate_events(semesters, subjects):
     events = []
+    all_tutors = list(tutors.models.Tutor.objects.all())
     for i in range(random.randint(10, 20)):
+        person_1, person_2 = random.sample(all_tutors, 2)
+        person_1 = random.choice((None, person_1))
+        person_2 = random.choice((None, person_2))
         event = tutors.models.Event.objects.create(
             semester=random.choice(semesters),
             name=f"Event {i}",
@@ -438,16 +532,8 @@ def _generate_events(semesters, subjects):
             name_de=f"Event {i}",
             description_en=lorem.paragraph(),
             description_de=lorem.paragraph(),
-            begin=django.utils.timezone.make_aware(
-                datetime.today().replace(day=1, month=1)
-                + timedelta(days=random.randint(0, 30), minutes=random.randint(1, 1000)),
-            ),
-            end=django.utils.timezone.make_aware(
-                datetime.today().replace(day=1, month=12)
-                - timedelta(days=random.randint(0, 30), minutes=random.randint(1, 1000)),
-            ),
-            meeting_point_en=lorem.sentence(),
-            meeting_point_de=lorem.sentence(),
+            meeting_chairperson=person_1,
+            event_leader=person_2,
         )
         filtered_subjects = random.sample(subjects, random.randint(0, len(subjects)))
         event.subjects.set(filtered_subjects)

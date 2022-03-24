@@ -13,6 +13,7 @@ from django.utils.datetime_safe import date, datetime
 
 import fahrt.models as fahrt_models
 import guidedtours.models as tour_models
+import kalendar.models as kalendar_m
 import settool_common.fixtures.showroom_fixture
 import settool_common.models as common_models
 import tutors.models as tutor_models
@@ -154,12 +155,16 @@ class CronTutor(TestCase):
             subject_en="Operatopms Recearch",
             course_bundle=course_bundle_info,
         )
+        date_group = kalendar_m.DateGroup.objects.create()
+        kalendar_m.Date.objects.create(
+            group=date_group,
+            date=cls.todatetime,
+            probable_length=60,
+        )
         event = tutor_models.Event.objects.create(
             semester=common_models.current_semester(),
             name="enent",
-            begin=cls.todatetime,
-            end=cls.todatetime,
-            meeting_point="-",
+            associated_meetings=date_group,
         )
         for i in range(2):
             tutor_models.Tutor.objects.create(
@@ -174,12 +179,16 @@ class CronTutor(TestCase):
             )
         tutors = list(tutor_models.Tutor.objects.all())
         for i in range(10):
+            date_group = kalendar_m.DateGroup.objects.create()
+            kalendar_m.Date.objects.create(
+                group=date_group,
+                date=cls.todatetime,
+                probable_length=60,
+            )
             task = tutor_models.Task.objects.create(
                 semester=common_models.current_semester(),
                 name=f"task {i}",
-                begin=cls.todatetime,
-                end=cls.todatetime,
-                meeting_point="-",
+                associated_meetings=date_group,
                 event=event,
             )
             for tutor in tutors:
@@ -199,15 +208,12 @@ class CronTutor(TestCase):
             lookup_day = self.today + timedelta(days=days_until)
 
             task: tutor_models.Task
-            for task in tutor_models.Task.objects.filter(
-                Q(semester=common_models.current_semester())
-                & Q(begin__day=lookup_day.day)  # begin is datetime
-                & Q(begin__month=lookup_day.month)
-                & Q(begin__year=lookup_day.year),
-            ):
-                tutor: tutor_models.Tutor
-                for tutor in list(task.tutors.all()):
-                    self.setting.mail_reminder.send_mail_task(tutor, task)
+            for task in tutor_models.Task.objects.filter(semester=common_models.current_semester()):
+                first_datetime = task.first_datetime
+                if first_datetime.date() == lookup_day:
+                    tutor: tutor_models.Tutor
+                    for tutor in list(task.tutors.all()):
+                        self.setting.mail_reminder.send_mail_task(tutor, task)
             expected = serialise_outbox()
             cron.tutor_reminder(common_models.current_semester(), self.today)
             curr = serialise_outbox()

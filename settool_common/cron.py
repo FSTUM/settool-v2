@@ -6,6 +6,7 @@ from typing import Any, Optional, Union
 
 from django.conf import settings
 from django.core.mail import send_mail
+from django.db import IntegrityError
 from django.db.models import QuerySet
 from django.db.models.query_utils import Q
 from django.utils import timezone
@@ -13,6 +14,7 @@ from django.utils.datetime_safe import date, datetime
 
 import fahrt.models as m_fahrt
 import guidedtours.models as m_guidedtours
+import kalendar.models as m_kalendar
 import settool_common.models as m_common
 import tutors.models as m_tutors
 from settool_common.models import AnonymisationLog, current_semester, Semester
@@ -40,15 +42,15 @@ def tutor_reminder(semester: Semester, today: date) -> None:
     if tutor_settings and tutor_settings.mail_reminder:
         lookup_day = today + timedelta(days=max(tutor_settings.reminder_tour_days_count, 0))
         task: m_tutors.Task
-        for task in m_tutors.Task.objects.filter(
-            Q(semester=semester)
-            & Q(begin__day=lookup_day.day)  # begin is datetime
-            & Q(begin__month=lookup_day.month)
-            & Q(begin__year=lookup_day.year),
-        ):
-            tutor: m_tutors.Tutor
-            for tutor in list(task.tutors.all()):
-                tutor_settings.mail_reminder.send_mail_task(tutor, task)
+        for task in m_tutors.Task.objects.filter(semester=semester):
+            if not task.associated_meetings:
+                raise IntegrityError(f"task {task.id} has no associated_meetings")
+            meeting_date: m_kalendar.Date
+            for meeting_date in task.associated_meetings.date_set.all():
+                if meeting_date.date.date() == lookup_day:
+                    tutor: m_tutors.Tutor
+                    for tutor in list(task.tutors.all()):
+                        tutor_settings.mail_reminder.send_mail_task(tutor, task)
 
 
 def fahrt_date_reminder(semester: Semester, today: date) -> None:
@@ -147,8 +149,10 @@ def anonymize_guidedtours(semester: Semester, log_name: str) -> bool:
 
 
 def anonymize_tutors(semester: Semester, log_name: str) -> bool:
-    most_recent_task: Optional[m_tutors.Task] = m_tutors.Task.objects.filter(semester=semester).order_by("end").last()
-    if most_recent_task and date_is_too_old(most_recent_task.end, log_name):
+    task_datetimes: list[real_datetime.datetime] = [
+        task.last_datetime for task in m_tutors.Task.objects.filter(semester=semester)
+    ]
+    if task_datetimes and date_is_too_old(max(task_datetimes), log_name):
         # guidedtours is save to anonymize for this semester
         m_tutors.Answer.objects.filter(tutor__semester=semester).delete()
         m_tutors.MailTutorTask.objects.filter(tutor__semester=semester).delete()
