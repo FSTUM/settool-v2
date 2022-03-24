@@ -12,12 +12,12 @@
                 <td>{{ task.name }}</td>
             </tr>
             <tr>
-                <th>{% trans "Begin" %}</th>
-                <td>{{ task.begin }}</td>
+                <th>{% trans "Begin of the first meeting" %}</th>
+                <td>{{ task.first_datetime }}</td>
             </tr>
             <tr>
-                <th>{% trans "End" %}</th>
-                <td>{{ task.end }}</td>
+                <th>{% trans "End of the last meeting" %}</th>
+                <td>{{ task.last_datetime }}</td>
             </tr>
             <tr>
                 <th>{% trans "Description" %}</th>
@@ -25,7 +25,7 @@
             </tr>
             <tr>
                 <th>{% trans "Meeting Point" %}</th>
-                <td>{{ task.meeting_point }}</td>
+                <td>{{ task.meeting_point_str }}</td>
             </tr>
             <tr>
                 <th>{% trans "Event" %}</th>

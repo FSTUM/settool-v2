@@ -24,8 +24,8 @@
             <tr>
                 <th>#</th>
                 <th>{% trans "Name" %}</th>
-                <th>{% trans "Begin" %}</th>
-                <th>{% trans "End" %}</th>
+                <th>{% trans "Begin of the first meeting" %}</th>
+                <th>{% trans "End of the last meeting" %}</th>
                 <th>{% trans "Meeting Point" %}</th>
                 <th>{% trans "Actions" %}</th>
             </tr>
@@ -37,9 +37,9 @@
                 <td>
                     <a href="{% url "tutors:view_event" event.id %}">{{ event.name }}</a>
                 </td>
-                <td data-sort="{{ event.begin|date:"c" }}">{{ event.begin }}</td>
-                <td data-sort="{{ event.end|date:"c" }}">{{ event.end }}</td>
-                <td>{{ event.meeting_point }}</td>
+                <td data-sort="{{ event.first_datetime|date:"c" }}">{{ event.first_datetime }}</td>
+                <td data-sort="{{ event.last_datetime|date:"c" }}">{{ event.last_datetime }}</td>
+                <td>{{ event.meeting_point_str }}</td>
                 <td>
                     <a href="{% url "tutors:edit_event" event.id %}"><span class="bi bi-pencil-square"></span></a>
                     <a href="{% url "tutors:del_event" event.id %}"><span class="bi bi-trash-fill"></span></a>

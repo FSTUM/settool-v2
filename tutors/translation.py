@@ -4,12 +4,12 @@ from tutors.models import Event, Question, Task
 
 
 class EventTranslationOptions(TranslationOptions):
-    fields = ("name", "description", "meeting_point")
+    fields = ("name", "description")
     required_languages = ("en", "de")
 
 
 class TaskTranslationOptions(TranslationOptions):
-    fields = ("name", "description", "meeting_point")
+    fields = ("name", "description")
     required_languages = ("en", "de")
 
 

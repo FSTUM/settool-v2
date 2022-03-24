@@ -91,11 +91,7 @@ class CollaboratorForm(TutorForm):
 class EventAdminForm(SemesterBasedModelForm):
     class Meta:
         model = Event
-        exclude = ["semester", "name", "description", "meeting_point"]
-        widgets = {
-            "begin": DateTimePickerInput(format="%Y-%m-%d %H:%M"),
-            "end": DateTimePickerInput(format="%Y-%m-%d %H:%M"),
-        }
+        exclude = ["semester", "name", "description", "associated_meetings"]
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -122,26 +118,11 @@ class EventAdminForm(SemesterBasedModelForm):
 
         return instance
 
-    def clean(self):
-        cleaned_data = super().clean()
-
-        begin = cleaned_data.get("begin")
-        end = cleaned_data.get("end")
-        if begin and end and end <= begin:
-            msg = _("Begin time must be before end time.")
-            self.add_error("begin", msg)
-            self.add_error("end", msg)
-        return cleaned_data
-
 
 class TaskAdminForm(SemesterBasedModelForm):
     class Meta:
         model = Task
-        exclude = ["semester", "name", "description", "meeting_point", "tutors"]
-        widgets = {
-            "begin": DateTimePickerInput(format="%Y-%m-%d %H:%M"),
-            "end": DateTimePickerInput(format="%Y-%m-%d %H:%M"),
-        }
+        exclude = ["semester", "name", "description", "tutors", "associated_meetings"]
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -181,17 +162,6 @@ class TaskAdminForm(SemesterBasedModelForm):
                     instance.requirements.remove(subject)
 
         return instance
-
-    def clean(self):
-        cleaned_data = super().clean()
-
-        begin = cleaned_data.get("begin")
-        end = cleaned_data.get("end")
-        if begin and end and end <= begin:
-            msg = _("Begin time must be before end time.")
-            self.add_error("begin", msg)
-            self.add_error("end", msg)
-        return cleaned_data
 
 
 class TaskAssignmentForm(SemesterBasedModelForm):
@@ -252,7 +222,7 @@ class SettingsAdminForm(SemesterBasedModelForm):
         begin = cleaned_data.get("open_registration")
         end = cleaned_data.get("close_registration")
         if begin and end and end <= begin:
-            msg = _("Begin time must be before end time.")
+            msg = _("open_registration time must be before close_registration time.")
             self.add_error("open_registration", msg)
             self.add_error("close_registration", msg)
         return cleaned_data

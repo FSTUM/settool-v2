@@ -24,8 +24,10 @@ msgid "I want to receive ECTS for my work as a SET-Colaborator."
 msgstr "Ich möchte ECTS für meine Arbeit als SET-Mitarbeiter erhalten."
 
 #: tutors/forms.py
-msgid "Begin time must be before end time."
-msgstr "Der Startzeitpunkt muss vor dem Endzeitpunkt liegen."
+msgid "open_registration time must be before close_registration time."
+msgstr ""
+"Der open_registration-Zeitpunkt muss vor dem close_registration-Zeitpunkt "
+"liegen."
 
 #: tutors/forms.py
 msgid "Tutors (selected have not yet received this email)"
@@ -158,10 +160,6 @@ msgid "Tshirt as Girls cut"
 msgstr "T-Shirt als Girls cut"
 
 #: tutors/models.py
-msgid "Registration Time"
-msgstr "Zeitpunkt der Registrierung"
-
-#: tutors/models.py
 msgid "Tutor Answers"
 msgstr "Antworten des Tutors"
 
@@ -194,39 +192,13 @@ msgstr "Name"
 msgid "Description"
 msgstr "Beschreibung"
 
-#: tutors/models.py tutors/templates/tutors/event/delete.html
-#: tutors/templates/tutors/event/list.html
-#: tutors/templates/tutors/event/view.html
-#: tutors/templates/tutors/task/delete.html
-#: tutors/templates/tutors/task/list.html
-#: tutors/templates/tutors/task/view.html
-#: tutors/templates/tutors/tutor/delete.html
-#: tutors/templates/tutors/tutor/view.html
-msgid "Begin"
-msgstr "Start"
+#: tutors/models.py
+msgid "no meeting point specified"
+msgstr "kein Treffpunkt festgelegt"
 
-#: tutors/models.py tutors/templates/tutors/dashboard.html
-#: tutors/templates/tutors/event/delete.html
-#: tutors/templates/tutors/event/list.html
-#: tutors/templates/tutors/event/view.html
-#: tutors/templates/tutors/task/delete.html
-#: tutors/templates/tutors/task/list.html
-#: tutors/templates/tutors/task/view.html
-#: tutors/templates/tutors/tutor/delete.html
-#: tutors/templates/tutors/tutor/view.html
-msgid "End"
-msgstr "Ende"
-
-#: tutors/models.py tutors/templates/tutors/event/delete.html
-#: tutors/templates/tutors/event/list.html
-#: tutors/templates/tutors/event/view.html
-#: tutors/templates/tutors/task/delete.html
-#: tutors/templates/tutors/task/list.html
-#: tutors/templates/tutors/task/view.html
-#: tutors/templates/tutors/tutor/delete.html
-#: tutors/templates/tutors/tutor/view.html
-msgid "Meeting Point"
-msgstr "Treffpunkt"
+#: tutors/models.py
+msgid "Associated Meetings"
+msgstr "Zugeordnete Meetings"
 
 #: tutors/models.py tutors/templates/tutors/dashboard.html
 #: tutors/templates/tutors/event/delete.html
@@ -234,14 +206,6 @@ msgstr "Treffpunkt"
 #: tutors/templates/tutors/task/view.html
 msgid "Subjects"
 msgstr "Studiengänge"
-
-#: tutors/models.py
-msgid "Task name"
-msgstr "Taskname"
-
-#: tutors/models.py
-msgid "Meeting point"
-msgstr "Treffpunkt"
 
 #: tutors/models.py tutors/templates/tutors/task/delete.html
 #: tutors/templates/tutors/task/list.html
@@ -260,16 +224,16 @@ msgid "Requirements"
 msgstr "Voraussetzungen"
 
 #: tutors/models.py
+msgid "Assigned tutors"
+msgstr "Eingeteilte Tutoren"
+
+#: tutors/models.py
 msgid "Tutors (min)"
 msgstr "Tutoren (min)"
 
 #: tutors/models.py
 msgid "Tutors (max)"
 msgstr "Tutoren (max)"
-
-#: tutors/models.py
-msgid "Assigned tutors"
-msgstr "Eingeteilte Tutoren"
 
 #: tutors/models.py
 msgid "absent"
@@ -395,8 +359,28 @@ msgid "Next upcoming 5 events"
 msgstr "Nächste 5 anstehende Veranstaltungen"
 
 #: tutors/templates/tutors/dashboard.html
-msgid "Start"
-msgstr "Start"
+#: tutors/templates/tutors/event/delete.html
+#: tutors/templates/tutors/event/list.html
+#: tutors/templates/tutors/event/view.html
+#: tutors/templates/tutors/task/delete.html
+#: tutors/templates/tutors/task/list.html
+#: tutors/templates/tutors/task/view.html
+#: tutors/templates/tutors/tutor/delete.html
+#: tutors/templates/tutors/tutor/view.html
+msgid "Begin of the first meeting"
+msgstr "Beginn des ersten meetings"
+
+#: tutors/templates/tutors/dashboard.html
+#: tutors/templates/tutors/event/delete.html
+#: tutors/templates/tutors/event/list.html
+#: tutors/templates/tutors/event/view.html
+#: tutors/templates/tutors/task/delete.html
+#: tutors/templates/tutors/task/list.html
+#: tutors/templates/tutors/task/view.html
+#: tutors/templates/tutors/tutor/delete.html
+#: tutors/templates/tutors/tutor/view.html
+msgid "End of the last meeting"
+msgstr "Ende des letzen meetings"
 
 #: tutors/templates/tutors/dashboard.html
 msgid "Next upcoming 5 tasks"
@@ -431,6 +415,17 @@ msgstr "Event hinzufügen"
 #: tutors/templates/tutors/event/view.html
 msgid "Delete event"
 msgstr "Event löschen"
+
+#: tutors/templates/tutors/event/delete.html
+#: tutors/templates/tutors/event/list.html
+#: tutors/templates/tutors/event/view.html
+#: tutors/templates/tutors/task/delete.html
+#: tutors/templates/tutors/task/list.html
+#: tutors/templates/tutors/task/view.html
+#: tutors/templates/tutors/tutor/delete.html
+#: tutors/templates/tutors/tutor/view.html
+msgid "Meeting Point"
+msgstr "Treffpunkt"
 
 #: tutors/templates/tutors/event/delete.html
 #: tutors/templates/tutors/event/view.html
@@ -879,6 +874,10 @@ msgid "Send email to tutor"
 msgstr "Sende Email an Tutoren"
 
 #: tutors/templates/tutors/tutor/view.html
+msgid "Download tutors ical"
+msgstr "ical vom Tutor downloaden"
+
+#: tutors/templates/tutors/tutor/view.html
 msgid "Assigned Tasks"
 msgstr "Zugewiesene Tasks"
 
@@ -992,6 +991,18 @@ msgid ""
 msgstr ""
 "Batch-Aktionen versenden keine elektronischen Fernbriefe (eMails). Sie "
 "verändern lediglich den Status der StudentInnen."
+
+#~ msgid "Registration Time"
+#~ msgstr "Zeitpunkt der Registrierung"
+
+#~ msgid "Start"
+#~ msgstr "Start"
+
+#~ msgid "End"
+#~ msgstr "Ende"
+
+#~ msgid "Begin"
+#~ msgstr "Start"
 
 #~ msgid "I accept the terms and conditions of the following privacy policy:"
 #~ msgstr "Ich stimme der folgenden Datenschutzerklärung zu:"

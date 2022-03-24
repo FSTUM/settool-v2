@@ -1,9 +1,17 @@
 from dateutil.relativedelta import relativedelta
+import datetime
+import uuid
+from typing import Optional, Type
+
 from django.core.validators import RegexValidator
-from django.db import models
+from django.db import IntegrityError, models
+from django.db.models import QuerySet
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 
+import kalendar.models
 import settool_common.models as common_models
 from settool_common.models import Semester, Subject
 
@@ -166,7 +174,9 @@ class Tutor(common_models.UUIDModelBase, common_models.LoggedModelBase, common_m
     tshirt_size = models.CharField(_("Tshirt size"), max_length=5, choices=TSHIRT_SIZES)
     tshirt_girls_cut = models.BooleanField(_("Tshirt as Girls cut"))
 
-    registration_time = models.DateTimeField(_("Registration Time"), auto_now_add=True)
+    @property
+    def registration_time(self):
+        return self.created_at
 
     answers = models.ManyToManyField("Question", verbose_name=_("Tutor Answers"), through="Answer", blank=True)
 
@@ -199,12 +209,71 @@ class Tutor(common_models.UUIDModelBase, common_models.LoggedModelBase, common_m
         pass
 
 
-class Event(common_models.UUIDModelBase, common_models.LoggedModelBase, common_models.SemesterModelBase):
+class BaseTaskEvent(common_models.UUIDModelBase, common_models.LoggedModelBase, common_models.SemesterModelBase):
+    class Meta:
+        abstract = True
+
     name = models.CharField(_("Name"), max_length=250)
     description = models.TextField(_("Description"), blank=True)
-    begin = models.DateTimeField(_("Begin"))
-    end = models.DateTimeField(_("End"))
-    meeting_point = models.CharField(_("Meeting Point"), max_length=200)
+
+    @property
+    def meeting_point_str(self) -> str:
+        if not self.associated_meetings:
+            raise IntegrityError(f"{self.__class__} {self.id} has no associated_meetings")
+        if not self.associated_meetings.location:
+            return _("no meeting point specified")
+        return str(self.associated_meetings.location)
+
+    associated_meetings = models.OneToOneField(
+        "kalendar.DateGroup",
+        verbose_name=_("Associated Meetings"),
+        null=True,
+        on_delete=models.SET_NULL,
+    )
+
+    @property
+    def first_datetime(self) -> Optional[datetime.datetime]:
+        if not self.associated_meetings:
+            raise IntegrityError(f"{self.__class__} {self.id} has no associated_meetings")
+        date: Optional[kalendar.models.Date] = self.associated_meetings.date_set.order_by("date").first()
+        if not date:
+            return None
+        return date.date
+
+    @property
+    def last_datetime(self) -> Optional[datetime.datetime]:
+        if not self.associated_meetings:
+            raise IntegrityError(f"{self.__class__} {self.id} has no associated_meetings")
+        date: Optional[kalendar.models.Date] = self.associated_meetings.date_set.order_by("-date").first()
+        if not date:
+            return None
+        return date.date + datetime.timedelta(minutes=date.probable_length)
+
+    @classmethod
+    def sorted_by_semester(cls, semester: int) -> list[type["BaseTaskEvent"]]:
+        all_instances: QuerySet[Type[BaseTaskEvent]] = cls.objects.filter(semester=semester).all()  # type: ignore
+        instances_sorting: list[tuple[datetime.datetime, Type[BaseTaskEvent]]] = [
+            (instance.first_datetime, instance) for instance in all_instances if instance.first_datetime  # type: ignore
+        ]
+        return [instance for (_, instance) in sorted(instances_sorting, key=lambda t: t[0])]
+
+
+class Event(BaseTaskEvent):
+    meeting_chairperson = models.ForeignKey(
+        Tutor,
+        related_name="tutors_event_meeting_chairperson",
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+    )
+
+    event_leader = models.ForeignKey(
+        Tutor,
+        related_name="tutors_event_event_leader",
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+    )
 
     subjects = models.ManyToManyField(Subject, verbose_name=_("Subjects"), blank=True)
 
@@ -217,23 +286,39 @@ class Event(common_models.UUIDModelBase, common_models.LoggedModelBase, common_m
         pass
 
     def __str__(self) -> str:
-        return f"{self.name} {self.begin.date()}"
+        return self.name
 
 
-class Task(common_models.UUIDModelBase, common_models.LoggedModelBase, common_models.SemesterModelBase):
-    name = models.CharField(_("Task name"), max_length=250)
-    description = models.TextField(_("Description"), blank=True)
-    begin = models.DateTimeField(_("Begin"))
-    end = models.DateTimeField(_("End"))
-    meeting_point = models.CharField(_("Meeting point"), max_length=50)
-
+class Task(BaseTaskEvent):
     event = models.ForeignKey(Event, verbose_name=_("Event"), on_delete=models.CASCADE)
+    meeting_chairperson = models.ForeignKey(
+        Tutor,
+        related_name="tutors_task_meeting_chairperson",
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+    )
+
+    task_leader = models.ForeignKey(
+        Tutor,
+        related_name="tutors_task_task_leader",
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+    )
+
     allowed_subjects = models.ManyToManyField(Subject, verbose_name=_("Allowed Subjects"), blank=True)
     requirements = models.ManyToManyField("Question", verbose_name=_("Requirements"), blank=True)
+
+    tutors = models.ManyToManyField(
+        Tutor,
+        related_name="tutors_task_tutors",
+        verbose_name=_("Assigned tutors"),
+        through="TutorAssignment",
+        blank=True,
+    )
     min_tutors = models.IntegerField(_("Tutors (min)"), blank=True, null=True)
     max_tutors = models.IntegerField(_("Tutors (max)"), blank=True, null=True)
-
-    tutors = models.ManyToManyField(Tutor, verbose_name=_("Assigned tutors"), through="TutorAssignment", blank=True)
 
     def __str__(self) -> str:
         return str(self.name)
@@ -245,6 +330,24 @@ class Task(common_models.UUIDModelBase, common_models.LoggedModelBase, common_mo
         #     text=text,
         # )
         pass
+
+
+# pylint: disable=unused-argument
+@receiver(post_save, sender=Event)
+def create_event_meetings(sender, instance, created, **kwargs):
+    if not instance.associated_meetings:
+        instance.associated_meetings = kalendar.models.create_associated_meetings()
+        instance.save()
+
+
+@receiver(post_save, sender=Task)
+def create_task_meetings(sender, instance, created, **kwargs):
+    if not instance.associated_meetings:
+        instance.associated_meetings = kalendar.models.create_associated_meetings()
+        instance.save()
+
+
+# pylint: enable=unused-argument
 
 
 class TutorAssignment(common_models.LoggedModelBase):

@@ -7,7 +7,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import permission_required
 from django.core.handlers.wsgi import WSGIRequest
 from django.db import IntegrityError
-from django.db.models import Count, Q, QuerySet
+from django.db.models import Count, QuerySet
 from django.forms import forms, modelformset_factory
 from django.http import Http404, HttpResponse, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, redirect, render
@@ -21,6 +21,7 @@ from django.utils.translation import gettext as _
 from django_tex.response import PDFResponse
 from django_tex.shortcuts import render_to_pdf
 
+from kalendar.models import Date
 from settool_common import utils
 from settool_common.models import get_semester, Semester, Subject
 from tutors.forms import (
@@ -39,6 +40,7 @@ from tutors.forms import (
 )
 from tutors.models import (
     Answer,
+    BaseTaskEvent,
     Event,
     MailTutorTask,
     Question,
@@ -254,7 +256,7 @@ def list_participants(request: WSGIRequest, status: str) -> HttpResponse:
         request,
         "tutors/tutor/list.html",
         {
-            "tutors": tutors.order_by("registration_time"),
+            "tutors": tutors.order_by("created_at"),
             "status": status,
             "questions": Question.objects.filter(semester=semester),
         },
@@ -381,7 +383,7 @@ def edit_event(request: WSGIRequest, uid: UUID) -> HttpResponse:
 @permission_required("tutors.edit_tutors")
 def list_event(request: WSGIRequest) -> HttpResponse:
     semester: Semester = get_object_or_404(Semester, pk=get_semester(request))
-    events = Event.objects.filter(semester=semester).order_by("begin")
+    events = Event.sorted_by_semester(semester.id)
     return render(request, "tutors/event/list.html", {"events": events})
 
 
@@ -450,7 +452,7 @@ def edit_task(request: WSGIRequest, uid: UUID) -> HttpResponse:
 
 @permission_required("tutors.edit_tutors")
 def list_task(request: WSGIRequest) -> HttpResponse:
-    tasks = Task.objects.filter(semester=get_semester(request)).order_by("begin")
+    tasks = Task.sorted_by_semester(get_semester(request))
     return render(request, "tutors/task/list.html", {"tasks": tasks})
 
 
@@ -504,11 +506,16 @@ def view_task(request: WSGIRequest, uid: UUID) -> HttpResponse:
         messages.success(request, f"Saved Task Assignment {task.name}.")
 
     assigned_tutors = task.tutors.all().order_by("last_name")
-    parallel_task_tutors = Tutor.objects.filter(
-        Q(task__begin__gte=task.begin) | Q(task__end__lte=task.end),
-        Q(task__end__gt=task.begin),
-        Q(task__begin__lt=task.end),
-    )
+
+    paralel_dates: set[Date] = set()
+    for test_date in Date.objects.all():
+        if not task.associated_meetings:
+            raise IntegrityError(f"task {task.id} has no associated_meetings")
+        for orig_date in task.associated_meetings.date_set.all():
+            if not orig_date.intersects(test_date):
+                paralel_dates.add(test_date)
+    paralel_tasks = Task.objects.filter(associated_meetings__date__in=paralel_dates)
+    parallel_task_tutors = Tutor.objects.filter(tutorassignment__task__in=paralel_tasks)
     unassigned_tutors = (
         Tutor.objects.filter(semester=semester, status=Tutor.STATUS_ACCEPTED)
         .exclude(id__in=assigned_tutors.values("id"))
@@ -980,7 +987,7 @@ def batch_accept(request: WSGIRequest) -> HttpResponse:
         if wanted > accepted_count:
             need: int = wanted - accepted_count
             tutor: Tutor
-            for tutor in active_tutors.order_by("registration_time")[:need]:
+            for tutor in active_tutors.order_by("created_at")[:need]:
                 tutor_ids.append(tutor.id)
 
                 if subject not in to_be_accepted:
@@ -1026,7 +1033,7 @@ def batch_decline(request: WSGIRequest) -> HttpResponse:
 
         keep: int = max(wanted - accepted_count + waitlist, 0)
 
-        for tutor in active_tutors.order_by("registration_time")[keep:]:
+        for tutor in active_tutors.order_by("created_at")[keep:]:
             tutor_ids.append(tutor.id)
 
             if subject not in to_be_declined:
@@ -1082,6 +1089,18 @@ def _gather_batch_parameters(
     return semester, tutors_active, tutors_accepted_cnt, assignment_wishes, errors
 
 
+def get_first_future_five(cls: type[BaseTaskEvent], semester_id: int) -> list[type[BaseTaskEvent]]:
+    sorted_instances: list[type[BaseTaskEvent]] = cls.sorted_by_semester(semester_id)
+
+    future_instances = []
+    for inst in sorted_instances:
+        if inst.last_datetime and inst.last_datetime < timezone.now():  # type:ignore
+            future_instances.append(inst)
+        if len(future_instances) == 5:
+            break
+    return future_instances
+
+
 @permission_required("tutors.edit_tutors")
 def dashboard(request: WSGIRequest) -> HttpResponse:
     semester: Semester = get_object_or_404(Semester, pk=get_semester(request))
@@ -1100,21 +1119,14 @@ def dashboard(request: WSGIRequest) -> HttpResponse:
             assignment_wish_counter.wanted,
         )
 
-    events = (
-        Event.objects.filter(semester=semester)
-        .filter(Q(begin__gt=timezone.now()) | Q(end__gt=timezone.now()))
-        .order_by("begin")[:5]
-    )
-    tasks = (
-        Task.objects.filter(semester=semester)
-        .filter(Q(begin__gt=timezone.now()) | Q(end__gt=timezone.now()))
-        .order_by("begin")[:5]
-    )
+    first_future_five_events: list[type[BaseTaskEvent]] = get_first_future_five(Event, semester.id)
+    first_future_five_tasks: list[type[BaseTaskEvent]] = get_first_future_five(Task, semester.id)
 
     missing_mails = 0
+    task: Task
     for task in Task.objects.filter(semester=semester):
         missing_mails += (
-            Tutor.objects.filter(task=task)
+            Tutor.objects.filter(tutorassignment__task=task)
             .exclude(id__in=MailTutorTask.objects.filter(task=task).values("tutor_id"))
             .count()
         )
@@ -1126,8 +1138,8 @@ def dashboard(request: WSGIRequest) -> HttpResponse:
         "tutors/dashboard.html",
         {
             "subject_counts": count_results,
-            "events": events,
-            "tasks": tasks,
+            "first_future_five_events": first_future_five_events,
+            "first_future_five_tasks": first_future_five_tasks,
             "missing_mails": missing_mails,
             "accepted_tutors": accepted_tutors,
             "waiting_tutors": waiting_tutors,
