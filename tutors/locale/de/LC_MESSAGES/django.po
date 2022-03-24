@@ -916,6 +916,11 @@ msgstr ""
 "eine Email an {mail}"
 
 #: tutors/views.py
+#, python-brace-format
+msgid "Deleted Tutor {tutor}."
+msgstr "Tutor {tutor} wurde gelöscht."
+
+#: tutors/views.py
 msgid ""
 "The mail_task is not set in the settings. Please choose one option to "
 "continue"
