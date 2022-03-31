@@ -119,7 +119,7 @@ msgstr "Nachname"
 msgid "Email address"
 msgstr "Email Adresse"
 
-#: tutors/models.py
+#: tutors/models.py tutors/templates/tutors/tutor/view.html
 msgid "Birthday"
 msgstr "Geburtstag"
 
@@ -134,7 +134,7 @@ msgstr "Geburtstag"
 msgid "Subject"
 msgstr "Studienfach"
 
-#: tutors/models.py
+#: tutors/models.py tutors/templates/tutors/tutor/view.html
 msgid "Matriculation number"
 msgstr "Matrikelnummer"
 
@@ -861,6 +861,14 @@ msgstr "Tutor Details"
 #: tutors/templates/tutors/tutor/view.html
 msgid "ECTS"
 msgstr "ECTS"
+
+#: tutors/templates/tutors/tutor/view.html
+msgid "You want to receive ECTS for your work as SET tutor"
+msgstr "Du möchtest ECTS für deine Arbeit als SET Tutor erhalten."
+
+#: tutors/templates/tutors/tutor/view.html
+msgid "You don't want to receive ECTS for your work as SET tutor"
+msgstr "Du möchtest keine ECTS für deine Arbeit als SET Tutor erhalten."
 
 #: tutors/templates/tutors/tutor/view.html
 msgid "Accept"

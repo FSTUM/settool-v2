@@ -24,8 +24,18 @@
     </tr>
     <tr>
         <th>{% trans "ECTS" %}</th>
-        <td>{% include "snippets/true_false_span.html" with value=tutor.ects %}</td>
+        <td>{% if tutor.ects %}{% trans "You want to receive ECTS for your work as SET tutor" %}{% else %}{% trans "You don't want to receive ECTS for your work as SET tutor" %}{% endif %}</td>
     </tr>
+    {% if tutor.ects %}
+    <tr>
+        <th>{% trans "Matriculation number" %}</th>
+        <td>{{ tutor.matriculation_number }}</td>
+    </tr>
+    <tr>
+        <th>{% trans "Birthday" %}</th>
+        <td>{{ tutor.birthday }}</td>
+    </tr>
+    {% endif %}
     <tr>
         <th>{% trans "T-Shirt Size" %}</th>
         <td>{{ tutor.tshirt_size }}</td>
