@@ -1,22 +1,18 @@
 import datetime
-import uuid
+from typing import Optional
 from uuid import UUID
 
-from django.db import models
+from django.db import models, IntegrityError
 from django.db.models import Q, QuerySet
 from django.utils import timezone
 from django.utils.safestring import mark_safe
 from django.utils.translation import gettext_lazy as _
 
-
-class BaseModel(models.Model):
-    class Meta:
-        abstract = True
-
-    id = models.UUIDField(unique=True, primary_key=True, default=uuid.uuid4)
+import kalendar
+from settool_common.models import UUIDModelBase, Semester, LoggedModelBase
 
 
-class Location(BaseModel):
+class Location(UUIDModelBase, LoggedModelBase):
     shortname = models.CharField(_("short/simplified Address"), max_length=200)
 
     address = models.CharField(_("(Street)map-address"), blank=True, max_length=100)
@@ -33,7 +29,7 @@ class Location(BaseModel):
         return mark_safe(message)  # nosec: fully defined
 
 
-class DateGroup(BaseModel):
+class DateGroup(UUIDModelBase, LoggedModelBase):
     location = models.ForeignKey(Location, null=True, blank=True, default=None, on_delete=models.SET_NULL)
     comment = models.CharField(_("Comment"), blank=True, default="", max_length=200)
     subscribers = models.ManyToManyField(
@@ -82,8 +78,53 @@ class DateGroup(BaseModel):
             return f"[{self.group_type_str}] {name} at {self.location}"
         return f"[{self.group_type_str}] {name} ({_('no meeting point specified')})"
 
+class BaseDateGroupInstance(UUIDModelBase, LoggedModelBase):
+    class Meta:
+        abstract = True
 
-class DateGroupSubscriber(BaseModel):
+    semester = models.ForeignKey(Semester, verbose_name=_("Semester"), on_delete=models.CASCADE)
+
+    name = models.CharField(_("Name"), max_length=250)
+    description = models.TextField(_("Description"), blank=True)
+
+    @property
+    def meeting_point_str(self) -> str:
+        if not self.associated_meetings:
+            raise IntegrityError(f"{self.__class__} {self.id} has no associated_meetings")
+        if not self.associated_meetings.location:
+            return _("no meeting point specified")
+        return str(self.associated_meetings.location)
+
+    associated_meetings = models.OneToOneField(DateGroup,verbose_name=_("Associated Meetings"),null=True,on_delete=models.SET_NULL)
+
+    @property
+    def first_datetime(self) -> Optional[datetime.datetime]:
+        if not self.associated_meetings:
+            raise IntegrityError(f"{self.__class__} {self.id} has no associated_meetings")
+        date: Optional[kalendar.models.Date] = self.associated_meetings.date_set.order_by("date").first()
+        if not date:
+            return None
+        return date.date
+
+    @property
+    def last_datetime(self) -> Optional[datetime.datetime]:
+        if not self.associated_meetings:
+            raise IntegrityError(f"{self.__class__} {self.id} has no associated_meetings")
+        date: Optional[kalendar.models.Date] = self.associated_meetings.date_set.order_by("-date").first()
+        if not date:
+            return None
+        return date.date + datetime.timedelta(minutes=date.probable_length)
+
+    @classmethod
+    def sorted_by_semester(cls, semester: int) -> list[type["BaseDateGroupInstance"]]:
+        all_instances: QuerySet[type[BaseDateGroupInstance]] = cls.objects.filter(
+            semester=semester).all()  # type: ignore
+        instances_sorting: list[tuple[datetime.datetime, type[BaseDateGroupInstance]]] = [
+            (instance.first_datetime, instance) for instance in all_instances if instance.first_datetime  # type: ignore
+        ]
+        return [instance for (_, instance) in sorted(instances_sorting, key=lambda t: t[0])]
+
+class DateGroupSubscriber(UUIDModelBase, LoggedModelBase):
     tutor = models.ForeignKey("tutors.Tutor", on_delete=models.CASCADE)
     date = models.ForeignKey(DateGroup, on_delete=models.CASCADE)
 
@@ -91,7 +132,7 @@ class DateGroupSubscriber(BaseModel):
         return f"{self.tutor}"
 
 
-class Date(BaseModel):
+class Date(UUIDModelBase, LoggedModelBase):
     group = models.ForeignKey(DateGroup, on_delete=models.CASCADE)
     date = models.DateTimeField(_("Date and Time"))
     probable_length = models.IntegerField(_("probable length in minutes"), default=60)
@@ -145,7 +186,7 @@ class Date(BaseModel):
         return self.probable_end > timezone.now()
 
 
-class DateSubscriber(BaseModel):
+class DateSubscriber(UUIDModelBase, LoggedModelBase):
     tutor = models.ForeignKey("tutors.Tutor", on_delete=models.CASCADE)
     date = models.ForeignKey(Date, on_delete=models.CASCADE)
 

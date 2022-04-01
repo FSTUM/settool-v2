@@ -209,56 +209,8 @@ class Tutor(common_models.UUIDModelBase, common_models.LoggedModelBase, common_m
         pass
 
 
-class BaseTaskEvent(common_models.UUIDModelBase, common_models.LoggedModelBase, common_models.SemesterModelBase):
-    class Meta:
-        abstract = True
 
-    name = models.CharField(_("Name"), max_length=250)
-    description = models.TextField(_("Description"), blank=True)
-
-    @property
-    def meeting_point_str(self) -> str:
-        if not self.associated_meetings:
-            raise IntegrityError(f"{self.__class__} {self.id} has no associated_meetings")
-        if not self.associated_meetings.location:
-            return _("no meeting point specified")
-        return str(self.associated_meetings.location)
-
-    associated_meetings = models.OneToOneField(
-        "kalendar.DateGroup",
-        verbose_name=_("Associated Meetings"),
-        null=True,
-        on_delete=models.SET_NULL,
-    )
-
-    @property
-    def first_datetime(self) -> Optional[datetime.datetime]:
-        if not self.associated_meetings:
-            raise IntegrityError(f"{self.__class__} {self.id} has no associated_meetings")
-        date: Optional[kalendar.models.Date] = self.associated_meetings.date_set.order_by("date").first()
-        if not date:
-            return None
-        return date.date
-
-    @property
-    def last_datetime(self) -> Optional[datetime.datetime]:
-        if not self.associated_meetings:
-            raise IntegrityError(f"{self.__class__} {self.id} has no associated_meetings")
-        date: Optional[kalendar.models.Date] = self.associated_meetings.date_set.order_by("-date").first()
-        if not date:
-            return None
-        return date.date + datetime.timedelta(minutes=date.probable_length)
-
-    @classmethod
-    def sorted_by_semester(cls, semester: int) -> list[type["BaseTaskEvent"]]:
-        all_instances: QuerySet[Type[BaseTaskEvent]] = cls.objects.filter(semester=semester).all()  # type: ignore
-        instances_sorting: list[tuple[datetime.datetime, Type[BaseTaskEvent]]] = [
-            (instance.first_datetime, instance) for instance in all_instances if instance.first_datetime  # type: ignore
-        ]
-        return [instance for (_, instance) in sorted(instances_sorting, key=lambda t: t[0])]
-
-
-class Event(BaseTaskEvent):
+class Event(kalendar.models.BaseDateGroupInstance):
     meeting_chairperson = models.ForeignKey(
         Tutor,
         related_name="tutors_event_meeting_chairperson",
@@ -289,7 +241,7 @@ class Event(BaseTaskEvent):
         return self.name
 
 
-class Task(BaseTaskEvent):
+class Task(kalendar.models.BaseDateGroupInstance):
     event = models.ForeignKey(Event, verbose_name=_("Event"), on_delete=models.CASCADE)
     meeting_chairperson = models.ForeignKey(
         Tutor,

@@ -21,7 +21,7 @@ from django.utils.translation import gettext as _
 from django_tex.response import PDFResponse
 from django_tex.shortcuts import render_to_pdf
 
-from kalendar.models import Date
+from kalendar.models import Date, BaseDateGroupInstance
 from settool_common import utils
 from settool_common.models import get_semester, Semester, Subject
 from tutors.forms import (
@@ -40,7 +40,6 @@ from tutors.forms import (
 )
 from tutors.models import (
     Answer,
-    BaseTaskEvent,
     Event,
     MailTutorTask,
     Question,
@@ -1089,8 +1088,8 @@ def _gather_batch_parameters(
     return semester, tutors_active, tutors_accepted_cnt, assignment_wishes, errors
 
 
-def get_first_future_five(cls: type[BaseTaskEvent], semester_id: int) -> list[type[BaseTaskEvent]]:
-    sorted_instances: list[type[BaseTaskEvent]] = cls.sorted_by_semester(semester_id)
+def get_first_future_five(cls: type[BaseDateGroupInstance], semester_id: int) -> list[type[BaseDateGroupInstance]]:
+    sorted_instances: list[type[BaseDateGroupInstance]] = cls.sorted_by_semester(semester_id)
 
     future_instances = []
     for inst in sorted_instances:
@@ -1119,8 +1118,8 @@ def dashboard(request: WSGIRequest) -> HttpResponse:
             assignment_wish_counter.wanted,
         )
 
-    first_future_five_events: list[type[BaseTaskEvent]] = get_first_future_five(Event, semester.id)
-    first_future_five_tasks: list[type[BaseTaskEvent]] = get_first_future_five(Task, semester.id)
+    first_future_five_events: list[type[BaseDateGroupInstance]] = get_first_future_five(Event, semester.id)
+    first_future_five_tasks: list[type[BaseDateGroupInstance]] = get_first_future_five(Task, semester.id)
 
     missing_mails = 0
     task: Task
