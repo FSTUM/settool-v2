@@ -3,6 +3,7 @@
 import datetime
 
 from django.db import migrations, models
+from django.utils import timezone
 
 
 class Migration(migrations.Migration):
@@ -16,7 +17,7 @@ class Migration(migrations.Migration):
             model_name="participant",
             name="time",
             field=models.DateTimeField(
-                default=datetime.datetime.now,
+                default=timezone.now,
                 verbose_name="Registration Time",
             ),
         ),
