@@ -50,7 +50,7 @@ class TourMail(common_models.Mail):
         return self.send_mail(context, participant.email)
 
 
-class Tour(models.Model):
+class Tour(common_models.LoggedModelBase):
     class Meta:
         permissions = (
             (
@@ -85,7 +85,7 @@ class Tour(models.Model):
         return self.open_registration < timezone.now() < self.close_registration
 
 
-class Participant(models.Model):
+class Participant(common_models.LoggedModelBase):
     class Meta:
         unique_together = ("tour", "email")
 
@@ -113,7 +113,7 @@ class Participant(models.Model):
         return _("On waitinglist")
 
 
-class Setting(models.Model):
+class Setting(common_models.LoggedModelBase):
     semester = models.OneToOneField(Semester, on_delete=models.CASCADE)
 
     mail_registration = models.ForeignKey(
