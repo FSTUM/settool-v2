@@ -1,5 +1,4 @@
 import datetime
-import uuid
 
 from dateutil.relativedelta import relativedelta
 from django.contrib.auth import get_user_model
@@ -26,7 +25,7 @@ class FahrtMail(common_models.Mail):
     notes = _(
         "If the Email is configured as the fahrt's registration mail, the participants' personalised non-liability "
         "form is automatically attached. Please notify the Participant to atach his ID "
-        "(THIS-->{{ participant.uuid }}<--THIS) in the Payment-Subject-Line.",
+        "(THIS-->{{ participant.id }}<--THIS) in the Payment-Subject-Line.",
     )
 
     required_perm = common_models.Mail.required_perm + ["fahrt.view_participants"]
@@ -162,7 +161,7 @@ class Transportation(common_models.LoggedModelBase):
         return _("Car ({free_places} free)").format(free_places=free_places)
 
 
-class Participant(common_models.LoggedModelBase, common_models.SemesterModelBase):
+class Participant(common_models.UUIDModelBase, common_models.LoggedModelBase, common_models.SemesterModelBase):
     class Meta:
         permissions = (
             (
@@ -171,7 +170,6 @@ class Participant(common_models.LoggedModelBase, common_models.SemesterModelBase
             ),
         )
 
-    uuid = models.UUIDField(unique=True, default=uuid.uuid4)
     registration_time = models.DateTimeField(_("Registration time"), auto_now_add=True)
 
     GENDER_CHOICES = (

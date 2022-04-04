@@ -126,8 +126,8 @@ def finanz_auto_matching(request: WSGIRequest) -> HttpResponse:
     semester: Semester = get_object_or_404(Semester, pk=get_semester(request))
     participants: QuerySet[Participant] = Participant.objects.filter(semester=semester, status="confirmed")
 
-    # mypy is weird for this one. equivalent [but not Typechecking]:  participants.values_list("uuid", flat=True)
-    participants_ids_pre_mypy: list[Optional[UUID]] = [element["uuid"] for element in participants.values("uuid")]
+    # mypy is weird for this one. equivalent [but not Typechecking]:  participants.values_list("id", flat=True)
+    participants_ids_pre_mypy: list[Optional[UUID]] = [element["id"] for element in participants.values("id")]
     participants_ids: list[UUID] = [uuid for uuid in participants_ids_pre_mypy if uuid]
 
     transactions: list[Entry] = [Entry.from_json(entry) for entry in request.session["results"]]

@@ -25,12 +25,12 @@ urlpatterns = [
                         ],
                     ),
                 ),
-                path("view/<int:participant_pk>/", participants_views.view_participant, name="view_participant"),
-                path("edit/<int:participant_pk>/", participants_views.edit_participant, name="edit_participant"),
-                path("delete/<int:participant_pk>/", participants_views.del_participant, name="del_participant"),
-                path("non_liability/<int:participant_pk>", tex_views.non_liability_form, name="non_liability_form"),
+                path("view/<uuid:participant_pk>/", participants_views.view_participant, name="view_participant"),
+                path("edit/<uuid:participant_pk>/", participants_views.edit_participant, name="edit_participant"),
+                path("delete/<uuid:participant_pk>/", participants_views.del_participant, name="del_participant"),
+                path("non_liability/<uuid:participant_pk>", tex_views.non_liability_form, name="non_liability_form"),
                 path(
-                    "togglemailinglist/<int:participant_pk>/",
+                    "togglemailinglist/<uuid:participant_pk>/",
                     participants_views.toggle_mailinglist,
                     name="toggle_mailinglist",
                 ),
@@ -38,14 +38,14 @@ urlpatterns = [
                     "set/",
                     include(
                         [
-                            path("paid/<int:participant_pk>/", participants_views.set_paid, name="set_paid"),
+                            path("paid/<uuid:participant_pk>/", participants_views.set_paid, name="set_paid"),
                             path(
-                                "nonliability/<int:participant_pk>/",
+                                "nonliability/<uuid:participant_pk>/",
                                 participants_views.set_nonliability,
                                 name="set_nonliability",
                             ),
                             path(
-                                "payment_deadline/<int:participant_pk>/<int:weeks>/",
+                                "payment_deadline/<uuid:participant_pk>/<int:weeks>/",
                                 participants_views.set_payment_deadline,
                                 name="set_payment_deadline",
                             ),
@@ -54,17 +54,17 @@ urlpatterns = [
                                 include(
                                     [
                                         path(
-                                            "confirm/<int:participant_pk>/",
+                                            "confirm/<uuid:participant_pk>/",
                                             participants_views.set_status_confirmed,
                                             name="set_status_confirmed",
                                         ),
                                         path(
-                                            "waitinglist/<int:participant_pk>/",
+                                            "waitinglist/<uuid:participant_pk>/",
                                             participants_views.set_status_waitinglist,
                                             name="set_status_waitinglist",
                                         ),
                                         path(
-                                            "cancel/<int:participant_pk>/",
+                                            "cancel/<uuid:participant_pk>/",
                                             participants_views.set_status_canceled,
                                             name="set_status_canceled",
                                         ),
