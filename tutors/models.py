@@ -58,15 +58,7 @@ class TutorMail(common_models.Mail):
         return self.get_mail(context)
 
 
-class BaseModel(models.Model):
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
-
-    class Meta:
-        abstract = True
-
-
-class Settings(BaseModel):
+class Settings(common_models.LoggedModelBase):
     semester = models.OneToOneField(Semester, on_delete=models.CASCADE)
 
     open_registration = models.DateTimeField(_("Open registration"))
@@ -138,7 +130,7 @@ class Settings(BaseModel):
         pass
 
 
-class Tutor(BaseModel):
+class Tutor(common_models.LoggedModelBase):
     class Meta:
         unique_together = ("semester", "email")
 
@@ -212,7 +204,7 @@ class Tutor(BaseModel):
         pass
 
 
-class Event(BaseModel):
+class Event(common_models.LoggedModelBase):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     semester = models.ForeignKey(Semester, verbose_name=_("Semester"), on_delete=models.CASCADE)
 
@@ -236,7 +228,7 @@ class Event(BaseModel):
         return f"{self.name} {self.begin.date()}"
 
 
-class Task(BaseModel):
+class Task(common_models.LoggedModelBase):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     semester = models.ForeignKey(Semester, verbose_name=_("Semester"), on_delete=models.CASCADE)
 
@@ -266,7 +258,7 @@ class Task(BaseModel):
         pass
 
 
-class TutorAssignment(BaseModel):
+class TutorAssignment(common_models.LoggedModelBase):
     tutor = models.ForeignKey(Tutor, on_delete=models.CASCADE)
     task = models.ForeignKey(Task, on_delete=models.CASCADE)
     absent = models.BooleanField(_("absent"), default=False)
@@ -275,7 +267,7 @@ class TutorAssignment(BaseModel):
         return f"{self.tutor}"
 
 
-class Question(BaseModel):
+class Question(common_models.LoggedModelBase):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     semester = models.ForeignKey(Semester, verbose_name=_("Semester"), on_delete=models.CASCADE)
 
@@ -293,7 +285,7 @@ class Question(BaseModel):
         pass
 
 
-class Answer(BaseModel):
+class Answer(common_models.LoggedModelBase):
     class Meta:
         unique_together = ("tutor", "question")
 
@@ -314,7 +306,7 @@ class Answer(BaseModel):
         return f"{self.tutor}: {self.question} -> {self.answer}"
 
 
-class MailTutorTask(BaseModel):
+class MailTutorTask(common_models.LoggedModelBase):
     mail = models.ForeignKey(TutorMail, on_delete=models.CASCADE)
     tutor = models.ForeignKey(Tutor, on_delete=models.CASCADE)
     task = models.ForeignKey(Task, on_delete=models.CASCADE, blank=True, null=True)
@@ -323,7 +315,7 @@ class MailTutorTask(BaseModel):
         return f"{self.created_at}: {self.tutor} -> {self.mail} - {self.task}"
 
 
-class SubjectTutorCountAssignment(BaseModel):
+class SubjectTutorCountAssignment(common_models.LoggedModelBase):
     semester = models.ForeignKey(Semester, on_delete=models.CASCADE)
     subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
     wanted = models.PositiveIntegerField(default=0, null=True, blank=True)

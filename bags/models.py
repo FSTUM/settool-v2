@@ -42,7 +42,7 @@ class BagMail(common_models.Mail):
         return self.get_mail(context)
 
 
-class BagSettings(models.Model):
+class BagSettings(common_models.LoggedModelBase):
     semester = models.OneToOneField(Semester, on_delete=models.CASCADE)
     bag_count = models.PositiveSmallIntegerField(verbose_name=_("Total amount of Bags"), default=0)
 
@@ -50,7 +50,7 @@ class BagSettings(models.Model):
         return f"Bag-Settings for {self.semester}"
 
 
-class Company(models.Model):
+class Company(common_models.LoggedModelBase):
     class Meta:
         unique_together = ("semester", "name")
         permissions = (("view_companies", "Can view and edit the companies"),)
@@ -106,7 +106,7 @@ class Company(models.Model):
         return f"{self.contact_firstname} {self.contact_lastname}"
 
 
-class GiveawayGroup(models.Model):
+class GiveawayGroup(common_models.LoggedModelBase):
     class Meta:
         unique_together = (("semester", "name"),)
 
@@ -147,7 +147,7 @@ class GiveawayGroup(models.Model):
         return _("{per_bag_count} every bag").format(per_bag_count=round(total_items / total_bags, 1))
 
 
-class Giveaway(models.Model):
+class Giveaway(common_models.LoggedModelBase):
     company = models.ForeignKey(Company, on_delete=models.CASCADE)
     group = models.ForeignKey(
         GiveawayGroup,
