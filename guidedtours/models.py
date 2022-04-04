@@ -58,6 +58,7 @@ class Tour(common_models.LoggedModelBase, common_models.SemesterModelBase):
                 "Can view and edit the list of participants",
             ),
         )
+
     name = models.CharField(max_length=200, verbose_name=_("Name"))
     description = models.TextField(null=True, blank=True, verbose_name=_("Description"))
 
