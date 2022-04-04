@@ -8,7 +8,7 @@ from django.utils import timezone
 from settool_common.models import get_semester, Semester
 
 from ..forms import FahrtForm, MailForm
-from ..models import Fahrt, FahrtMail
+from ..models import Fahrt, FahrtMail, Participant
 
 
 @permission_required("fahrt.view_participants")
@@ -68,7 +68,7 @@ def send_mail(request: WSGIRequest, mail_pk: int) -> HttpResponse:
     mail: FahrtMail = get_object_or_404(FahrtMail, pk=mail_pk)
     selected_participants = request.session["selected_participants"]
     semester: Semester = get_object_or_404(Semester, pk=get_semester(request))
-    participants = semester.fahrt_participant.filter(id__in=selected_participants).order_by("surname")
+    participants = Participant.objects.filter(semester=semester, id__in=selected_participants).order_by("surname")
 
     subject, text, from_email = mail.get_mail_participant()
 

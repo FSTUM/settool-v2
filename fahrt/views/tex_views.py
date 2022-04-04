@@ -25,7 +25,7 @@ def export(request: WSGIRequest, file_format: str = "csv") -> Union[HttpResponse
     except ObjectDoesNotExist:
         messages.error(request, _("Please setup the SETtings for the Fahrt"))
         return redirect("fahrt:settings")
-    participants = semester.fahrt_participant.order_by("surname", "firstname")
+    participants = Participant.objects.filter(semester=semester).order_by("surname", "firstname")
     filename = f"fahrt_participants_{fahrt.semester}_{fahrt.date}_{time.strftime('%Y%m%d-%H%M')}"
     context = {"participants": participants, "fahrt": fahrt}
     if file_format == "csv":

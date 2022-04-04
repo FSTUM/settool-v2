@@ -50,13 +50,10 @@ class BagSettings(common_models.LoggedModelBase):
         return f"Bag-Settings for {self.semester}"
 
 
-class Company(common_models.LoggedModelBase):
+class Company(common_models.LoggedModelBase, common_models.SemesterModelBase):
     class Meta:
         unique_together = ("semester", "name")
         permissions = (("view_companies", "Can view and edit the companies"),)
-
-    semester = models.ForeignKey(Semester,on_delete=models.CASCADE)
-
     name = models.CharField(_("Name"), max_length=200)
 
     contact_gender = models.CharField(
@@ -106,19 +103,10 @@ class Company(common_models.LoggedModelBase):
         return f"{self.contact_firstname} {self.contact_lastname}"
 
 
-class GiveawayGroup(common_models.LoggedModelBase):
+class GiveawayGroup(common_models.LoggedModelBase, common_models.SemesterModelBase):
     class Meta:
         unique_together = (("semester", "name"),)
-
-    semester = models.ForeignKey(
-        Semester,
-        on_delete=models.CASCADE,
-    )
-
-    name = models.CharField(
-        _("Giveaway-groups' name"),
-        max_length=200,
-    )
+    name = models.CharField(_("Giveaway-groups' name"), max_length=200)
 
     def __str__(self) -> str:
         return self.name
