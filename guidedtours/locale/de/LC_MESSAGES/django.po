@@ -67,6 +67,11 @@ msgstr "Beschreibung"
 msgid "Date"
 msgstr "Datum"
 
+#: guidedtours/models.py guidedtours/templates/guidedtours/tour_dashboard.html
+#: guidedtours/templates/guidedtours/tours/list_tours.html
+msgid "Capacity"
+msgstr "Kapazität"
+
 #: guidedtours/models.py
 msgid ""
 "How long (minutes) a Participant should be blocked after a Tour (additonal "
@@ -74,11 +79,6 @@ msgid ""
 msgstr ""
 "Wie lang (Minuten) ein Teilnehmer nach dem beginn einer Tour (zusätzlich zu "
 "der 30Minuten Leadup-Blacklist-Zeit) blockert wird"
-
-#: guidedtours/models.py guidedtours/templates/guidedtours/tour_dashboard.html
-#: guidedtours/templates/guidedtours/tours/list_tours.html
-msgid "Capacity"
-msgstr "Kapazität"
 
 #: guidedtours/models.py
 msgid "Open registration"

@@ -43,14 +43,8 @@ class BagMail(common_models.Mail):
 
 
 class BagSettings(models.Model):
-    semester = models.OneToOneField(
-        Semester,
-        on_delete=models.CASCADE,
-    )
-    bag_count = models.PositiveSmallIntegerField(
-        verbose_name=_("Total amount of Bags"),
-        default=0,
-    )
+    semester = models.OneToOneField(Semester, on_delete=models.CASCADE)
+    bag_count = models.PositiveSmallIntegerField(verbose_name=_("Total amount of Bags"), default=0)
 
     def __str__(self) -> str:
         return f"Bag-Settings for {self.semester}"
@@ -59,22 +53,11 @@ class BagSettings(models.Model):
 class Company(models.Model):
     class Meta:
         unique_together = ("semester", "name")
-        permissions = (
-            (
-                "view_companies",
-                "Can view and edit the companies",
-            ),
-        )
+        permissions = (("view_companies", "Can view and edit the companies"),)
 
-    semester = models.ForeignKey(
-        Semester,
-        on_delete=models.CASCADE,
-    )
+    semester = models.ForeignKey(Semester,on_delete=models.CASCADE)
 
-    name = models.CharField(
-        _("Name"),
-        max_length=200,
-    )
+    name = models.CharField(_("Name"), max_length=200)
 
     contact_gender = models.CharField(
         _("Contact person (Gender)"),
@@ -82,50 +65,18 @@ class Company(models.Model):
         choices=(("Herr", _("Herr")), ("Frau", _("Frau"))),
         blank=True,
     )
+    contact_firstname = models.CharField(_("Contact person (First Name)"), max_length=200, blank=True)
+    contact_lastname = models.CharField(_("Contact person (Last Name)"), max_length=200, blank=True)
 
-    contact_firstname = models.CharField(
-        _("Contact person (First Name)"),
-        max_length=200,
-        blank=True,
-    )
+    email = models.EmailField(_("Email address"))
+    email_sent = models.BooleanField(_("Email sent"))
+    email_sent_success = models.BooleanField(_("Email successfully sent"))
 
-    contact_lastname = models.CharField(
-        _("Contact person (Last Name)"),
-        max_length=200,
-        blank=True,
-    )
+    promise = models.BooleanField(_("Promise"), null=True)
+    last_year = models.BooleanField(_("Participated last year"))
+    contact_again = models.BooleanField(_("Contact again"), null=True)
 
-    email = models.EmailField(
-        _("Email address"),
-    )
-
-    email_sent = models.BooleanField(
-        _("Email sent"),
-    )
-
-    email_sent_success = models.BooleanField(
-        _("Email successfully sent"),
-    )
-
-    promise = models.BooleanField(
-        _("Promise"),
-        null=True,
-    )
-
-    comment = models.CharField(
-        _("Comment"),
-        max_length=200,
-        blank=True,
-    )
-
-    last_year = models.BooleanField(
-        _("Participated last year"),
-    )
-
-    contact_again = models.BooleanField(
-        _("Contact again"),
-        null=True,
-    )
+    comment = models.CharField(_("Comment"), max_length=200, blank=True)
 
     def __str__(self) -> str:
         return str(self.name)
@@ -197,10 +148,7 @@ class GiveawayGroup(models.Model):
 
 
 class Giveaway(models.Model):
-    company = models.ForeignKey(
-        Company,
-        on_delete=models.CASCADE,
-    )
+    company = models.ForeignKey(Company, on_delete=models.CASCADE)
     group = models.ForeignKey(
         GiveawayGroup,
         verbose_name=_("Giveaway-title/group/tag"),
@@ -208,27 +156,12 @@ class Giveaway(models.Model):
         null=True,
     )
 
-    comment = models.CharField(
-        _("Giveaway-description/comment"),
-        blank=True,
-        max_length=200,
-    )
+    item_count = models.PositiveSmallIntegerField(verbose_name=_("Item Count"), default=0)
 
-    item_count = models.PositiveSmallIntegerField(
-        verbose_name=_("Item Count"),
-        default=0,
-    )
+    arrival_time = models.CharField(_("Arrival time"), max_length=200, blank=True)
+    arrived = models.BooleanField(_("Arrived"), default=False)
 
-    arrival_time = models.CharField(
-        _("Arrival time"),
-        max_length=200,
-        blank=True,
-    )
-
-    arrived = models.BooleanField(
-        _("Arrived"),
-        default=False,
-    )
+    comment = models.CharField(_("Giveaway-description/comment"), blank=True, max_length=200)
 
     @property
     def custom_per_bag_message(self):

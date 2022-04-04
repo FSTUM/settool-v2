@@ -62,22 +62,11 @@ class FahrtMail(common_models.Mail):
 
 
 class Fahrt(models.Model):
-    semester = models.OneToOneField(
-        Semester,
-        on_delete=models.CASCADE,
-    )
+    semester = models.OneToOneField(Semester, on_delete=models.CASCADE)
 
-    date = models.DateField(
-        _("Date"),
-    )
-
-    open_registration = models.DateTimeField(
-        _("Open registration"),
-    )
-
-    close_registration = models.DateTimeField(
-        _("Close registration"),
-    )
+    date = models.DateField(_("Date"))
+    open_registration = models.DateTimeField(_("Open registration"))
+    close_registration = models.DateTimeField(_("Close registration"))
 
     mail_registration = models.ForeignKey(
         FahrtMail,
@@ -159,11 +148,7 @@ class Transportation(models.Model):
         blank=True,
     )
 
-    deparure_place = models.CharField(
-        _("The place we will start our trip"),
-        max_length=100,
-        blank=True,
-    )
+    departure_place = models.CharField(_("The place we will start our trip"), max_length=100, blank=True)
 
     places = models.PositiveSmallIntegerField(
         _("Number of people (totally) for this mode of transport"),
@@ -188,11 +173,7 @@ class Participant(models.Model):
 
     uuid = models.UUIDField(unique=True, default=uuid.uuid4)
     registration_time = models.DateTimeField(_("Registration time"), auto_now_add=True)
-    semester = models.ForeignKey(
-        Semester,
-        on_delete=models.CASCADE,
-        related_name="fahrt_participant",
-    )
+    semester = models.ForeignKey(Semester, on_delete=models.CASCADE, related_name="fahrt_participant")
 
     GENDER_CHOICES = (
         ("male", _("male")),
@@ -220,12 +201,7 @@ class Participant(models.Model):
     nutrition = models.CharField(_("Nutrition"), max_length=200, choices=NUTRITION_CHOICES)
     allergies = models.CharField(_("Allergies"), max_length=200, blank=True)
 
-    transportation = models.ForeignKey(
-        Transportation,
-        on_delete=models.SET_NULL,
-        blank=True,
-        null=True,
-    )
+    transportation = models.ForeignKey(Transportation, on_delete=models.SET_NULL, blank=True, null=True)
     publish_contact_to_other_paricipants = models.BooleanField(
         _("Publish your most relevant (mobile > phone > email), contact-info to other Fahrt-participants."),
         default=False,
