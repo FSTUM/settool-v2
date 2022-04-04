@@ -49,8 +49,8 @@
                                     {% endif %}
 
                                     {% if not calling_participant and transport.creator %}
-                                    <a href='{% url "fahrt:edit_transport_participant_by_management" transport.creator.uuid %}'><span class='bi bi-pencil'></span></a>
-                                    <a href='{% url "fahrt:del_transport_participant_by_management" transport.creator.uuid %}'><span class='bi bi-trash'></span></a>
+                                    <a href='{% url "fahrt:edit_transport_participant_by_management" transport.creator.id %}'><span class='bi bi-pencil'></span></a>
+                                    <a href='{% url "fahrt:del_transport_participant_by_management" transport.creator.id %}'><span class='bi bi-trash'></span></a>
                                     {% endif %}
                                 </td>
                             </tr>
@@ -101,7 +101,7 @@
                         </thead>
                         <tbody>
                             {% for participant in transport.participant_set.all %}
-                            {% if participant.uuid != transport.creator.uuid %}
+                            {% if participant.id != transport.creator.id %}
                             <tr
                                 {% if calling_participant == participant %}class="table-primary"
                                 {% endif %}
@@ -131,8 +131,8 @@
                                 </td>
                                 {% if not calling_participant %}
                                 <td>
-                                    <a href='{% url "fahrt:edit_transport_participant_by_management" participant.uuid %}'><span class='bi bi-pencil'></span></a>
-                                    <a href='{% url "fahrt:del_transport_participant_by_management" participant.uuid %}'><span class='bi bi-trash'></span></a>
+                                    <a href='{% url "fahrt:edit_transport_participant_by_management" participant.id %}'><span class='bi bi-pencil'></span></a>
+                                    <a href='{% url "fahrt:del_transport_participant_by_management" participant.id %}'><span class='bi bi-trash'></span></a>
                                 </td>
                                 {% endif %}
                             </tr>
@@ -146,8 +146,8 @@
                                 <td class='table-info'></td>
                                 {% else %}
                                 <td class='table-info'></td>
-                                <td class='table-info'><a href='{% url "fahrt:add_transport_participant" calling_participant.uuid transport.pk %}'><span class='bi bi-plus'></span></a></td>
-                                <td class='table-info'><a href='{% url "fahrt:add_transport_participant" calling_participant.uuid transport.pk %}'><span class='bi bi-plus'></span></a></td>
+                                <td class='table-info'><a href='{% url "fahrt:add_transport_participant" calling_participant.id transport.pk %}'><span class='bi bi-plus'></span></a></td>
+                                <td class='table-info'><a href='{% url "fahrt:add_transport_participant" calling_participant.id transport.pk %}'><span class='bi bi-plus'></span></a></td>
                                 {% endif %}
                             </tr>
                             {% endfor %}
@@ -164,7 +164,7 @@
             >
                 <a
                     class='btn {% if calling_participant.transportation == transport %}btn-primary{% else %}btn-secondary{% endif %}'
-                    href='{% if calling_participant %}{% url "fahrt:transport_chat" calling_participant.uuid transport.pk %}{% else %}{% url "fahrt:transport_chat_by_management" transport.pk %}{% endif %}'
+                    href='{% if calling_participant %}{% url "fahrt:transport_chat" calling_participant.id transport.pk %}{% else %}{% url "fahrt:transport_chat_by_management" transport.pk %}{% endif %}'
                 >
                     {% trans "Chatwall" %}
                     {% if transport.transportationcomment_set.count == 0 %}
@@ -188,7 +188,7 @@
                 Add {{ transport_name }}
                 {% endblocktrans %}
             </div>
-            <a href='{% if not calling_participant %}{% url "fahrt:add_transport_option_by_management" transport_type %}{% else %}{% url "fahrt:add_transport_option" calling_participant.uuid transport_type %}{% endif %}'>
+            <a href='{% if not calling_participant %}{% url "fahrt:add_transport_option_by_management" transport_type %}{% else %}{% url "fahrt:add_transport_option" calling_participant.id transport_type %}{% endif %}'>
                 <div class='card-body text-center flex align-content-center '>
                     <svg
                         xmlns="http://www.w3.org/2000/svg"

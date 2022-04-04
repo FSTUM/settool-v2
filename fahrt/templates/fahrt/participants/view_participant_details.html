@@ -169,7 +169,7 @@
 {% if participant.status == "confirmed" %}
 <a
     class='btn btn-danger'
-    href='{% url "fahrt:transport_participant" participant.uuid %}'
+    href='{% url "fahrt:transport_participant" participant.id %}'
 >{% trans "View transportation as participant" %}</a>
 {% endif %}
 

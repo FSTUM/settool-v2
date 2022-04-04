@@ -1,5 +1,6 @@
 from datetime import date, timedelta
 from typing import Optional
+from uuid import UUID
 
 from django import forms
 from django.contrib import messages
@@ -163,7 +164,7 @@ def list_cancelled(request: WSGIRequest) -> HttpResponse:
 
 
 @permission_required("fahrt.view_participants")
-def view_participant(request: WSGIRequest, participant_pk: int) -> HttpResponse:
+def view_participant(request: WSGIRequest, participant_pk: UUID) -> HttpResponse:
     participant = get_object_or_404(Participant, pk=participant_pk)
     log_entries = participant.logentry_set.order_by("time")
 
@@ -184,7 +185,7 @@ def view_participant(request: WSGIRequest, participant_pk: int) -> HttpResponse:
 
 
 @permission_required("fahrt.view_participants")
-def edit_participant(request: WSGIRequest, participant_pk: int) -> HttpResponse:
+def edit_participant(request: WSGIRequest, participant_pk: UUID) -> HttpResponse:
     participant = get_object_or_404(Participant, pk=participant_pk)
 
     form = ParticipantAdminForm(
@@ -206,7 +207,7 @@ def edit_participant(request: WSGIRequest, participant_pk: int) -> HttpResponse:
 
 
 @permission_required("fahrt.view_participants")
-def del_participant(request: WSGIRequest, participant_pk: int) -> HttpResponse:
+def del_participant(request: WSGIRequest, participant_pk: UUID) -> HttpResponse:
     participant = get_object_or_404(Participant, pk=participant_pk)
 
     form = forms.Form(request.POST or None)
@@ -223,7 +224,7 @@ def del_participant(request: WSGIRequest, participant_pk: int) -> HttpResponse:
 
 
 @permission_required("fahrt.view_participants")
-def toggle_mailinglist(request: WSGIRequest, participant_pk: int) -> HttpResponse:
+def toggle_mailinglist(request: WSGIRequest, participant_pk: UUID) -> HttpResponse:
     participant = get_object_or_404(Participant, pk=participant_pk)
     participant.toggle_mailinglist()
     participant.log(request.user, "Toggle mailinglist")
@@ -232,7 +233,7 @@ def toggle_mailinglist(request: WSGIRequest, participant_pk: int) -> HttpRespons
 
 
 @permission_required("fahrt.view_participants")
-def set_paid(request: WSGIRequest, participant_pk: int) -> HttpResponse:
+def set_paid(request: WSGIRequest, participant_pk: UUID) -> HttpResponse:
     participant = get_object_or_404(Participant, pk=participant_pk)
     Participant.objects.filter(pk=participant_pk).update(
         paid=timezone.now().date(),
@@ -243,7 +244,7 @@ def set_paid(request: WSGIRequest, participant_pk: int) -> HttpResponse:
 
 
 @permission_required("fahrt.view_participants")
-def set_nonliability(request: WSGIRequest, participant_pk: int) -> HttpResponse:
+def set_nonliability(request: WSGIRequest, participant_pk: UUID) -> HttpResponse:
     participant = get_object_or_404(Participant, pk=participant_pk)
     Participant.objects.filter(pk=participant_pk).update(
         non_liability=timezone.now().date(),
@@ -254,7 +255,7 @@ def set_nonliability(request: WSGIRequest, participant_pk: int) -> HttpResponse:
 
 
 @permission_required("fahrt.view_participants")
-def set_status_confirmed(request: WSGIRequest, participant_pk: int) -> HttpResponse:
+def set_status_confirmed(request: WSGIRequest, participant_pk: UUID) -> HttpResponse:
     participant = get_object_or_404(Participant, pk=participant_pk)
     Participant.objects.filter(pk=participant_pk).update(
         status="confirmed",
@@ -265,7 +266,7 @@ def set_status_confirmed(request: WSGIRequest, participant_pk: int) -> HttpRespo
 
 
 @permission_required("fahrt.view_participants")
-def set_status_waitinglist(request: WSGIRequest, participant_pk: int) -> HttpResponse:
+def set_status_waitinglist(request: WSGIRequest, participant_pk: UUID) -> HttpResponse:
     participant = get_object_or_404(Participant, pk=participant_pk)
     Participant.objects.filter(pk=participant_pk).update(
         status="waitinglist",
@@ -276,7 +277,7 @@ def set_status_waitinglist(request: WSGIRequest, participant_pk: int) -> HttpRes
 
 
 @permission_required("fahrt.view_participants")
-def set_payment_deadline(request: WSGIRequest, participant_pk: int, weeks: int) -> HttpResponse:
+def set_payment_deadline(request: WSGIRequest, participant_pk: UUID, weeks: int) -> HttpResponse:
     weeks = int(weeks)  # save due to regex in urls.py
     if weeks not in [1, 2, 3]:
         raise Http404("Invalid number of weeks")
@@ -291,7 +292,7 @@ def set_payment_deadline(request: WSGIRequest, participant_pk: int, weeks: int) 
 
 
 @permission_required("fahrt.view_participants")
-def set_status_canceled(request: WSGIRequest, participant_pk: int) -> HttpResponse:
+def set_status_canceled(request: WSGIRequest, participant_pk: UUID) -> HttpResponse:
     participant = get_object_or_404(Participant, pk=participant_pk)
     Participant.objects.filter(pk=participant_pk).update(
         status="cancelled",
@@ -448,7 +449,7 @@ def set_request_session_filtered_participants(
 
     u18 = filterform.cleaned_data["u18"]
     should_not_filter = u18 is None
-    filtered_participants: list[int] = [p.id for p in participants if should_not_filter or p.u18 is u18]
+    filtered_participants: list[UUID] = [p.id for p in participants if should_not_filter or p.u18 is u18]
     request.session["filtered_participants"] = filtered_participants
 
 
