@@ -174,7 +174,7 @@ class TaskExportTest(django.test.TestCase):
     fixtures = ["Tutors.json"]
 
     def setUp(self):
-        self.client = self.client = get_mocked_logged_in_client()
+        self.client = get_mocked_logged_in_client()
 
     def test_pdf_export_task_no_data(self):
         self.task_pdf_generation("3cd2b4b0-c36f-4348-8a93-b3bb72029f46")
