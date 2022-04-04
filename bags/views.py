@@ -408,7 +408,7 @@ def dashboard(request: WSGIRequest) -> HttpResponse:
     semester: Semester = get_object_or_404(Semester, pk=get_semester(request))
 
     companies: QuerySet[Company] = Company.objects.filter(semester=semester)
-    g_companies: QuerySet[Company] = Company.objects.filter(giveaway__isnull=False, semester=semester)
+    g_companies: QuerySet[Company] = companies.filter(giveaway__isnull=False)
     giveaways: QuerySet[Giveaway] = Giveaway.objects.filter(company__semester=semester)
 
     g_by_group = list(giveaways.filter(group__isnull=False).values("group").annotate(group_count=Count("group")))

@@ -59,26 +59,13 @@ class Tour(models.Model):
             ),
         )
 
-    semester = models.ForeignKey(
-        Semester,
-        on_delete=models.CASCADE,
-    )
+    semester = models.ForeignKey(Semester, on_delete=models.CASCADE)
+    name = models.CharField(max_length=200, verbose_name=_("Name"))
+    description = models.TextField(null=True, blank=True, verbose_name=_("Description"))
 
-    name = models.CharField(
-        max_length=200,
-        verbose_name=_("Name"),
-    )
+    date = models.DateTimeField(verbose_name=_("Date"))
 
-    description = models.TextField(
-        null=True,
-        blank=True,
-        verbose_name=_("Description"),
-    )
-
-    date = models.DateTimeField(
-        verbose_name=_("Date"),
-    )
-
+    capacity = models.PositiveIntegerField(verbose_name=_("Capacity"))
     length = models.IntegerField(
         verbose_name=_(
             "How long (minutes) a Participant should be blocked after a Tour (additonal to 30min "
@@ -87,17 +74,8 @@ class Tour(models.Model):
         default=0,
     )
 
-    capacity = models.PositiveIntegerField(
-        verbose_name=_("Capacity"),
-    )
-
-    open_registration = models.DateTimeField(
-        _("Open registration"),
-    )
-
-    close_registration = models.DateTimeField(
-        _("Close registration"),
-    )
+    open_registration = models.DateTimeField(_("Open registration"))
+    close_registration = models.DateTimeField(_("Close registration"))
 
     def __str__(self) -> str:
         return self.name
@@ -136,10 +114,7 @@ class Participant(models.Model):
 
 
 class Setting(models.Model):
-    semester = models.OneToOneField(
-        Semester,
-        on_delete=models.CASCADE,
-    )
+    semester = models.OneToOneField(Semester, on_delete=models.CASCADE)
 
     mail_registration = models.ForeignKey(
         TourMail,
