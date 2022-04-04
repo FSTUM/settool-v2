@@ -4,6 +4,7 @@ import uuid
 from dateutil.relativedelta import relativedelta
 from django.contrib.auth import get_user_model
 from django.db import models
+from django.http import HttpResponse
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 
@@ -35,7 +36,7 @@ class FahrtMail(common_models.Mail):
         self.sender = common_models.Mail.SET_FAHRT
         super().save(*args, **kwargs)
 
-    def send_mail_participant(self, participant):
+    def send_mail_participant(self, participant: "Participant") -> bool:
         context = {
             "vorname": participant.firstname,
             "frist": participant.payment_deadline,
@@ -43,7 +44,7 @@ class FahrtMail(common_models.Mail):
         }
         return self.send_mail(context, participant.email)
 
-    def send_mail_registration(self, participant, non_liability):
+    def send_mail_registration(self, participant: "Participant", non_liability: HttpResponse) -> bool:
         context = {
             "vorname": participant.firstname,
             "frist": participant.payment_deadline,
@@ -51,7 +52,7 @@ class FahrtMail(common_models.Mail):
         }
         return self.send_mail(context, participant.email, attachments=[non_liability])
 
-    def get_mail_participant(self):
+    def get_mail_participant(self) -> tuple[str, str, str]:
         context = {
             "vorname": "<Vorname>",
             "frist": "<Zahlungsfrist>",
