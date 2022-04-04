@@ -193,7 +193,7 @@ def _generate_transportation(fahrt_participants):
                 return_departure_time=random.choice(
                     [participant.semester.fahrt.date + timedelta(hours=random.randint(-5, 5)), None],
                 ),
-                deparure_place=random.choice([lorem.sentence(), "", ""]),
+                departure_place=random.choice([lorem.sentence(), "", ""]),
                 places=places_count,
             )
             participant.transportation = trans
