@@ -311,7 +311,7 @@ def transport_chat(request: WSGIRequest, participant_uuid: UUID, transport_pk: i
     form = TransportationCommentForm(request.POST or None, transport=transport, participant=participant)
     if form.is_valid():
         form.save()
-        return redirect("fahrt:transport_chat", participant.uuid, transport.pk)
+        return redirect("fahrt:transport_chat", participant.id, transport.pk)
 
     context = {
         "form": form,

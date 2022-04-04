@@ -22,7 +22,7 @@
     <a
         class="btn btn-secondary"
         {% if calling_participant %}
-        href="{% url "fahrt:transport_participant" calling_participant.uuid %}"
+        href="{% url "fahrt:transport_participant" calling_participant.id %}"
         {% else %}
         href="{% url "fahrt:transport_mangagement" %}"
         {% endif %}
