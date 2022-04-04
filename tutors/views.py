@@ -298,7 +298,7 @@ def del_tutor(request: WSGIRequest, uid: UUID) -> HttpResponse:
 @permission_required("tutors.edit_tutors")
 def edit_tutor(request: WSGIRequest, uid: UUID) -> HttpResponse:
     semester: Semester = get_object_or_404(Semester, pk=get_semester(request))
-    tutor = get_object_or_404(Tutor, pk=uid)
+    tutor: Tutor = get_object_or_404(Tutor, pk=uid)
 
     question_count = Question.objects.filter(semester=semester).count()
     answers_existing = Answer.objects.filter(tutor=tutor)
@@ -333,9 +333,12 @@ def edit_tutor(request: WSGIRequest, uid: UUID) -> HttpResponse:
         form.save()
         answer: AnswerForm
         for answer in answer_formset:
-            res = answer.save(commit=False)
+            res: Answer = answer.save(commit=False)
             res.tutor_id = tutor.id
-            res.question_id = answer.cleaned_data.get("question").id
+            res_question: Optional[Question] = answer.cleaned_data.get("question")
+            if res_question is None:
+                raise ValueError("Question should never be None")
+            res.question_id = res_question.id
             res.save()
         tutor.log(request.user, "Tutor edited")
         messages.success(request, f"Saved Tutor {tutor}.")
