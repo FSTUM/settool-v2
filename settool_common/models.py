@@ -1,6 +1,7 @@
 import datetime
 import os
 import re
+import uuid
 from io import BytesIO
 from typing import Any, List, Optional, Union
 
@@ -19,6 +20,19 @@ from PIL import Image
 
 from .settings import SEMESTER_SESSION_KEY
 
+
+class UUIDModelBase(models.Model):
+    class Meta:
+        abstract = True
+
+    id = models.UUIDField(unique=True, primary_key=True, default=uuid.uuid4)
+
+
+class SemesterModelBase(models.Model):
+    class Meta:
+        abstract = True
+
+    semester = models.ForeignKey("settool_common.Semester", verbose_name=_("Semester"), on_delete=models.CASCADE)
 
 
 class LoggedModelBase(models.Model):
@@ -274,8 +288,7 @@ def auto_delete_qr_code_on_delete(sender, instance, **_kwargs):
         os.remove(instance.qr_code.path)
 
 
-class AnonymisationLog(LoggedModelBase):
-    semester = models.ForeignKey(Semester, on_delete=models.CASCADE)
+class AnonymisationLog(LoggedModelBase, SemesterModelBase):
     anon_log_str = models.CharField(max_length=10)
 
     def __str__(self) -> str:

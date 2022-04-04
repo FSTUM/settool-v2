@@ -161,7 +161,7 @@ class Transportation(common_models.LoggedModelBase):
         return _("Car ({free_places} free)").format(free_places=free_places)
 
 
-class Participant(common_models.LoggedModelBase):
+class Participant(common_models.LoggedModelBase, common_models.SemesterModelBase):
     class Meta:
         permissions = (
             (
@@ -172,7 +172,6 @@ class Participant(common_models.LoggedModelBase):
 
     uuid = models.UUIDField(unique=True, default=uuid.uuid4)
     registration_time = models.DateTimeField(_("Registration time"), auto_now_add=True)
-    semester = models.ForeignKey(Semester, on_delete=models.CASCADE, related_name="fahrt_participant")
 
     GENDER_CHOICES = (
         ("male", _("male")),

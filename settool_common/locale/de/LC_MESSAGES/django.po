@@ -25,6 +25,10 @@ msgid "I accept the terms and conditions of the following privacy policy:"
 msgstr "Ich stimme der folgenden Datenschutzerklärung zu:"
 
 #: settool_common/models.py
+msgid "Semester"
+msgstr "Semester"
+
+#: settool_common/models.py
 msgid "SET"
 msgstr "SET"
 
@@ -83,10 +87,6 @@ msgstr "Wintersemester"
 #: settool_common/models.py
 msgid "Summer semester"
 msgstr "Sommersemester"
-
-#: settool_common/models.py
-msgid "Semester"
-msgstr "Semester"
 
 #: settool_common/models.py
 msgid "Year"

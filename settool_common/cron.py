@@ -57,7 +57,7 @@ def fahrt_date_reminder(semester: Semester, today: date) -> None:
         lookup_day = today + timedelta(days=max(current_fahrt.reminder_tour_days_count, 0))
         if current_fahrt.date == lookup_day:
             participant: m_fahrt.Participant
-            for participant in semester.fahrt_participant.filter(Q(semester=semester) & Q(status="confirmed")):
+            for participant in m_fahrt.Participant.objects.filter(semester=semester, status="confirmed"):
                 current_fahrt.mail_reminder.send_mail_participant(participant)
 
 
@@ -66,8 +66,10 @@ def fahrt_payment_reminder(semester: Semester, today: date) -> None:
     if current_fahrt and current_fahrt.mail_payment_deadline:
         lookup_day = today + timedelta(days=max(current_fahrt.reminder_payment_deadline_days_count, 0))
         participant: m_fahrt.Participant
-        for participant in semester.fahrt_participant.filter(
-            Q(status="confirmed") & Q(payment_deadline=lookup_day),
+        for participant in m_fahrt.Participant.objects.filter(
+            semester=semester,
+            status="confirmed",
+            payment_deadline=lookup_day,
         ):
             current_fahrt.mail_payment_deadline.send_mail_participant(participant)
 
