@@ -175,33 +175,6 @@ msgstr "Kommentar"
 
 #: tutors/models.py tutors/templates/tutors/dashboard.html
 #: tutors/templates/tutors/event/delete.html
-#: tutors/templates/tutors/event/list.html
-#: tutors/templates/tutors/event/view.html
-#: tutors/templates/tutors/task/delete.html
-#: tutors/templates/tutors/task/list.html
-#: tutors/templates/tutors/task/view.html
-#: tutors/templates/tutors/tutor/delete.html
-#: tutors/templates/tutors/tutor/view.html
-msgid "Name"
-msgstr "Name"
-
-#: tutors/models.py tutors/templates/tutors/event/delete.html
-#: tutors/templates/tutors/event/view.html
-#: tutors/templates/tutors/task/delete.html
-#: tutors/templates/tutors/task/view.html
-msgid "Description"
-msgstr "Beschreibung"
-
-#: tutors/models.py
-msgid "no meeting point specified"
-msgstr "kein Treffpunkt festgelegt"
-
-#: tutors/models.py
-msgid "Associated Meetings"
-msgstr "Zugeordnete Meetings"
-
-#: tutors/models.py tutors/templates/tutors/dashboard.html
-#: tutors/templates/tutors/event/delete.html
 #: tutors/templates/tutors/event/view.html
 #: tutors/templates/tutors/task/view.html
 msgid "Subjects"
@@ -367,6 +340,18 @@ msgstr "Nächste 5 anstehende Veranstaltungen"
 #: tutors/templates/tutors/task/view.html
 #: tutors/templates/tutors/tutor/delete.html
 #: tutors/templates/tutors/tutor/view.html
+msgid "Name"
+msgstr "Name"
+
+#: tutors/templates/tutors/dashboard.html
+#: tutors/templates/tutors/event/delete.html
+#: tutors/templates/tutors/event/list.html
+#: tutors/templates/tutors/event/view.html
+#: tutors/templates/tutors/task/delete.html
+#: tutors/templates/tutors/task/list.html
+#: tutors/templates/tutors/task/view.html
+#: tutors/templates/tutors/tutor/delete.html
+#: tutors/templates/tutors/tutor/view.html
 msgid "Begin of the first meeting"
 msgstr "Beginn des ersten meetings"
 
@@ -415,6 +400,13 @@ msgstr "Event hinzufügen"
 #: tutors/templates/tutors/event/view.html
 msgid "Delete event"
 msgstr "Event löschen"
+
+#: tutors/templates/tutors/event/delete.html
+#: tutors/templates/tutors/event/view.html
+#: tutors/templates/tutors/task/delete.html
+#: tutors/templates/tutors/task/view.html
+msgid "Description"
+msgstr "Beschreibung"
 
 #: tutors/templates/tutors/event/delete.html
 #: tutors/templates/tutors/event/list.html

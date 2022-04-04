@@ -214,7 +214,7 @@ class FilterRegisteredParticipantsForm(SemesterBasedForm):
 
     def get_choosable_subjects(self) -> QuerySet[Subject]:
         choosable_subjects_ids = (
-            self.semester.fahrt_participant.filter(status="confirmed")
+            Participant.objects.filter(semester=self.semester, status="confirmed")
             .values("subject")
             .distinct()
             .values_list("subject", flat=True)

@@ -20,7 +20,7 @@ def initialise_associated_meetings(apps, _):
 class Migration(migrations.Migration):
     dependencies = [
         ("kalendar", "0001_initial"),
-        ("tutors", "0008_auto_20220321_1851"),
+        ("tutors", "0010_alter_event_semester_alter_question_semester_and_more"),
     ]
 
     operations = [

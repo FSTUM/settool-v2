@@ -20,7 +20,7 @@ def migrate_start_end_to_dategroup(apps, _):
 class Migration(migrations.Migration):
     dependencies = [
         ("kalendar", "0001_initial"),
-        ("tutors", "0009_add_associated_meetings_and_more"),
+        ("tutors", "0011_add_associated_meetings_and_more"),
     ]
 
     operations = [

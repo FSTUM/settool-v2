@@ -21,7 +21,7 @@ from django.utils.translation import gettext as _
 from django_tex.response import PDFResponse
 from django_tex.shortcuts import render_to_pdf
 
-from kalendar.models import Date, BaseDateGroupInstance
+from kalendar.models import BaseDateGroupInstance, Date
 from settool_common import utils
 from settool_common.models import get_semester, Semester, Subject
 from tutors.forms import (

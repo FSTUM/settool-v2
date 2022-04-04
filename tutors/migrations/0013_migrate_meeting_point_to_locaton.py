@@ -28,7 +28,7 @@ def migrate_meeting_point_to_locaton(apps, _):
 class Migration(migrations.Migration):
     dependencies = [
         ("kalendar", "0001_initial"),
-        ("tutors", "0010_migrate_start_end_to_dategroup"),
+        ("tutors", "0012_migrate_start_end_to_dategroup"),
     ]
 
     operations = [

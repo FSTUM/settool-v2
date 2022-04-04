@@ -1,11 +1,6 @@
 from dateutil.relativedelta import relativedelta
-import datetime
-import uuid
-from typing import Optional, Type
-
 from django.core.validators import RegexValidator
-from django.db import IntegrityError, models
-from django.db.models import QuerySet
+from django.db import models
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.utils import timezone
@@ -207,7 +202,6 @@ class Tutor(common_models.UUIDModelBase, common_models.LoggedModelBase, common_m
         #     text=text,
         # )
         pass
-
 
 
 class Event(kalendar.models.BaseDateGroupInstance):

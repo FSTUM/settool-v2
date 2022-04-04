@@ -44,6 +44,29 @@ msgid "Task"
 msgstr "Aufgabe"
 
 #: kalendar/models.py
+#: kalendar/templates/kalendar/management/list/chronological.html
+#: kalendar/templates/kalendar/management/view_date.html
+#: kalendar/templates/kalendar/management/view_date_public.html
+msgid "Name"
+msgstr "Name"
+
+#: kalendar/models.py kalendar/templates/kalendar/management/view_date.html
+#: kalendar/templates/kalendar/management/view_date_public.html
+msgid "Description"
+msgstr "Beschreibung"
+
+#: kalendar/models.py kalendar/templates/kalendar/management/delete_date.html
+#: kalendar/templates/kalendar/management/list/grouped.html
+#: kalendar/templates/kalendar/management/view_date.html
+#: kalendar/templates/kalendar/management/view_date_public.html
+msgid "no meeting point specified"
+msgstr "kein Treffpunkt angegeben"
+
+#: kalendar/models.py
+msgid "Associated Meetings"
+msgstr "Zugeordnete Meetings"
+
+#: kalendar/models.py
 msgid "Date and Time"
 msgstr "Datum und Zeit"
 
@@ -100,13 +123,6 @@ msgid "Location"
 msgstr "Standort"
 
 #: kalendar/templates/kalendar/management/delete_date.html
-#: kalendar/templates/kalendar/management/list/grouped.html
-#: kalendar/templates/kalendar/management/view_date.html
-#: kalendar/templates/kalendar/management/view_date_public.html
-msgid "no meeting point specified"
-msgstr "kein Treffpunkt angegeben"
-
-#: kalendar/templates/kalendar/management/delete_date.html
 #: kalendar/templates/kalendar/management/edit_date.html
 msgid "Cancel"
 msgstr "Abbrechen"
@@ -127,12 +143,6 @@ msgstr "Event liegt in der vergangenheit"
 #: kalendar/templates/kalendar/management/list/chronological.html
 msgid "Task lies in the past"
 msgstr "Aufgabe liegt in der vergangenheit"
-
-#: kalendar/templates/kalendar/management/list/chronological.html
-#: kalendar/templates/kalendar/management/view_date.html
-#: kalendar/templates/kalendar/management/view_date_public.html
-msgid "Name"
-msgstr "Name"
 
 #: kalendar/templates/kalendar/management/list/chronological.html
 msgid "Date/Time"
@@ -192,11 +202,6 @@ msgstr "Event-informationen"
 #: kalendar/templates/kalendar/management/view_date_public.html
 msgid "Task-information"
 msgstr "Aufgaben-informationen"
-
-#: kalendar/templates/kalendar/management/view_date.html
-#: kalendar/templates/kalendar/management/view_date_public.html
-msgid "Description"
-msgstr "Beschreibung"
 
 #: kalendar/templates/kalendar/management/view_date.html
 #: kalendar/templates/kalendar/management/view_date_public.html
