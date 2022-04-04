@@ -2,7 +2,7 @@ import datetime
 import os
 import re
 from io import BytesIO
-from typing import Any, List, Optional, Union
+from typing import Any, Optional, Union
 
 import qrcode
 from django.conf import settings
@@ -89,8 +89,8 @@ class Mail(models.Model):
     def send_mail(
         self,
         context: Union[Context, dict[str, Any], None],
-        recipients: Union[List[str], str],
-        attachments: Optional[Union[HttpResponse, list[tuple[str, Any, str]]]] = None,
+        recipients: Union[list[str], str],
+        attachments: Optional[list[Union[HttpResponse, tuple[str, Any, str]]]] = None,
     ) -> bool:
         if isinstance(recipients, str):
             recipients = [recipients]
@@ -112,7 +112,9 @@ class Mail(models.Model):
             send_mail(subject, text, self.sender, recipients, fail_silently=False)
         else:
             mail = EmailMessage(subject, text, self.sender, recipients)
-            for (filename, content, mimetype) in [clean_attachable(attach) for attach in attachments]:
+            attach: Union[HttpResponse, tuple[str, Any, str]]
+            for attach in attachments:
+                (filename, content, mimetype) = clean_attachable(attach)
                 mail.attach(filename, content, mimetype)
             mail.send(fail_silently=False)
         return True
