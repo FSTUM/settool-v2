@@ -99,10 +99,6 @@ msgstr ""
 "Sende die Erinnerungs Email automatisch diese menge an Tagen vor dem Task "
 "(0=gleicher Tag)"
 
-#: tutors/models.py
-msgid "Semester"
-msgstr "Semester"
-
 #: tutors/models.py tutors/templates/tutors/task/view.html
 #: tutors/templates/tutors/tutor/delete.html
 #: tutors/templates/tutors/tutor/list.html

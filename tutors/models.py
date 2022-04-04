@@ -1,5 +1,3 @@
-import uuid
-
 from dateutil.relativedelta import relativedelta
 from django.core.validators import RegexValidator
 from django.db import models
@@ -130,13 +128,9 @@ class Settings(common_models.LoggedModelBase):
         pass
 
 
-class Tutor(common_models.LoggedModelBase):
+class Tutor(common_models.UUIDModelBase, common_models.LoggedModelBase, common_models.SemesterModelBase):
     class Meta:
         unique_together = ("semester", "email")
-
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    semester = models.ForeignKey(Semester, verbose_name=_("Semester"), on_delete=models.CASCADE)
-
     first_name = models.CharField(_("First name"), max_length=30)
     last_name = models.CharField(_("Last name"), max_length=50)
     email = models.EmailField(_("Email address"))
@@ -204,10 +198,7 @@ class Tutor(common_models.LoggedModelBase):
         pass
 
 
-class Event(common_models.LoggedModelBase):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    semester = models.ForeignKey(Semester, verbose_name=_("Semester"), on_delete=models.CASCADE)
-
+class Event(common_models.UUIDModelBase, common_models.LoggedModelBase, common_models.SemesterModelBase):
     name = models.CharField(_("Name"), max_length=250)
     description = models.TextField(_("Description"), blank=True)
     begin = models.DateTimeField(_("Begin"))
@@ -228,10 +219,7 @@ class Event(common_models.LoggedModelBase):
         return f"{self.name} {self.begin.date()}"
 
 
-class Task(common_models.LoggedModelBase):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    semester = models.ForeignKey(Semester, verbose_name=_("Semester"), on_delete=models.CASCADE)
-
+class Task(common_models.UUIDModelBase, common_models.LoggedModelBase, common_models.SemesterModelBase):
     name = models.CharField(_("Task name"), max_length=250)
     description = models.TextField(_("Description"), blank=True)
     begin = models.DateTimeField(_("Begin"))
@@ -267,10 +255,7 @@ class TutorAssignment(common_models.LoggedModelBase):
         return f"{self.tutor}"
 
 
-class Question(common_models.LoggedModelBase):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    semester = models.ForeignKey(Semester, verbose_name=_("Semester"), on_delete=models.CASCADE)
-
+class Question(common_models.UUIDModelBase, common_models.LoggedModelBase, common_models.SemesterModelBase):
     question = models.CharField(_("Question"), max_length=100)
 
     def __str__(self) -> str:
@@ -315,8 +300,7 @@ class MailTutorTask(common_models.LoggedModelBase):
         return f"{self.created_at}: {self.tutor} -> {self.mail} - {self.task}"
 
 
-class SubjectTutorCountAssignment(common_models.LoggedModelBase):
-    semester = models.ForeignKey(Semester, on_delete=models.CASCADE)
+class SubjectTutorCountAssignment(common_models.LoggedModelBase, common_models.SemesterModelBase):
     subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
     wanted = models.PositiveIntegerField(default=0, null=True, blank=True)
     waitlist = models.PositiveIntegerField(default=0, null=True, blank=True)

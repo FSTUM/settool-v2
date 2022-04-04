@@ -30,7 +30,7 @@ from .tex_views import get_non_liability
 @permission_required("fahrt.view_participants")
 def list_registered(request: WSGIRequest) -> HttpResponse:
     semester: Semester = get_object_or_404(Semester, pk=get_semester(request))
-    participants = semester.fahrt_participant.filter(status="registered").order_by(
+    participants = Participant.objects.filter(semester=semester, status="registered").order_by(
         "-registration_time",
     )
 
@@ -43,7 +43,7 @@ def list_registered(request: WSGIRequest) -> HttpResponse:
 @permission_required("fahrt.view_participants")
 def list_waitinglist(request: WSGIRequest) -> HttpResponse:
     semester: Semester = get_object_or_404(Semester, pk=get_semester(request))
-    participants = semester.fahrt_participant.filter(status="waitinglist").order_by("-registration_time")
+    participants = Participant.objects.filter(semester=semester, status="waitinglist").order_by("-registration_time")
 
     context = {
         "participants": participants,
@@ -52,7 +52,7 @@ def list_waitinglist(request: WSGIRequest) -> HttpResponse:
 
 
 def get_possibly_filtered_participants(filterform, semester):
-    participants = semester.fahrt_participant.filter(status="confirmed").order_by(
+    participants = Participant.objects.filter(semester=semester, status="confirmed").order_by(
         "payment_deadline",
         "surname",
         "firstname",
@@ -139,7 +139,7 @@ def get_nutritunal_information(
     participants: QuerySet[Participant],
     semester: Semester,
 ) -> list[dict[str, object]]:
-    nutritions = semester.fahrt_participant.filter(status="confirmed").values("nutrition").distinct()
+    nutritions = Participant.objects.filter(semester=semester, status="confirmed").values("nutrition").distinct()
     nutrition_choices = [choice["nutrition"] for choice in nutritions]
     return [
         {
@@ -154,7 +154,7 @@ def get_nutritunal_information(
 @permission_required("fahrt.view_participants")
 def list_cancelled(request: WSGIRequest) -> HttpResponse:
     semester: Semester = get_object_or_404(Semester, pk=get_semester(request))
-    participants = semester.fahrt_participant.filter(status="cancelled").order_by("surname")
+    participants = Participant.objects.filter(semester=semester, status="cancelled").order_by("surname")
 
     context = {
         "participants": participants,
@@ -387,7 +387,7 @@ def filter_participants(request: WSGIRequest) -> HttpResponse:
     except ObjectDoesNotExist:
         messages.error(request, _("You have to create Fahrt Settings to manage the fahrt"))
         return redirect("fahrt:settings")
-    participants = semester.fahrt_participant.order_by("surname")
+    participants = Participant.objects.filter(semester=semester).order_by("surname")
 
     filterform = FilterParticipantsForm(request.POST or None)
     if filterform.is_valid():
@@ -456,9 +456,7 @@ def set_request_session_filtered_participants(
 def filtered_list(request: WSGIRequest) -> HttpResponse:
     filtered_participants = request.session["filtered_participants"]
     semester: Semester = get_object_or_404(Semester, pk=get_semester(request))
-    participants = semester.fahrt_participant.filter(
-        id__in=filtered_participants,
-    ).order_by("surname")
+    participants = Participant.objects.filter(semester=semester, id__in=filtered_participants).order_by("surname")
 
     form = SelectMailForm(request.POST or None)
     select_participant_form_set = formset_factory(

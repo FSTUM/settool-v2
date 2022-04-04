@@ -50,7 +50,7 @@ class TourMail(common_models.Mail):
         return self.send_mail(context, participant.email)
 
 
-class Tour(common_models.LoggedModelBase):
+class Tour(common_models.LoggedModelBase, common_models.SemesterModelBase):
     class Meta:
         permissions = (
             (
@@ -58,8 +58,6 @@ class Tour(common_models.LoggedModelBase):
                 "Can view and edit the list of participants",
             ),
         )
-
-    semester = models.ForeignKey(Semester, on_delete=models.CASCADE)
     name = models.CharField(max_length=200, verbose_name=_("Name"))
     description = models.TextField(null=True, blank=True, verbose_name=_("Description"))
 

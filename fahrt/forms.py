@@ -276,7 +276,7 @@ class ParticipantSelectForm(SemesterBasedForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields["selected"].queryset = self.semester.fahrt_participant.filter(status="confirmed").all()
+        self.fields["selected"].queryset = Participant.objects.filter(semester=self.semester, status="confirmed").all()
 
 
 class CSVFileUploadForm(forms.Form):
