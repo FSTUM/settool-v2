@@ -32,16 +32,13 @@ class TutorAdminForm(SemesterBasedModelForm):
         super().clean()
         mail = self.cleaned_data.get("email")
         if mail:
-            tutors = Tutor.objects.filter(email=mail, semester=self.semester)
+            tutors = Tutor.objects.filter(semester=self.semester, email=mail)
             if tutors.count() > 0 and tutors.first().id != self.instance.id:
                 self.add_error("email", _("The email address is already in use."))
 
         matriculation_number = self.cleaned_data.get("matriculation_number")
         if matriculation_number:
-            tutors = Tutor.objects.filter(
-                matriculation_number=matriculation_number,
-                semester=self.semester,
-            )
+            tutors = Tutor.objects.filter(semester=self.semester, matriculation_number=matriculation_number)
             if tutors.count() > 0 and tutors.first().id != self.instance.id:
                 self.add_error(
                     "matriculation_number",

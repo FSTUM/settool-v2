@@ -140,6 +140,13 @@ msgstr "E-Mail erfolgreich gesendet"
 msgid "Promise"
 msgstr "Zusage"
 
+#: bags/models.py bags/templates/bags/bags_dashboard.html
+#: bags/templates/bags/company/list_companys.html
+#: bags/templates/bags/company/view_company.html
+#: bags/templates/bags/maintenance/mail/send_mail.html
+msgid "Contact again"
+msgstr "Erneut kontaktieren"
+
 #: bags/models.py bags/templates/bags/company/list_companys.html
 #: bags/templates/bags/company/view_company.html
 #: bags/templates/bags/maintenance/mail/del_mail.html
@@ -147,13 +154,6 @@ msgstr "Zusage"
 #: bags/templates/bags/maintenance/mail/send_mail.html
 msgid "Comment"
 msgstr "Kommentar"
-
-#: bags/models.py bags/templates/bags/bags_dashboard.html
-#: bags/templates/bags/company/list_companys.html
-#: bags/templates/bags/company/view_company.html
-#: bags/templates/bags/maintenance/mail/send_mail.html
-msgid "Contact again"
-msgstr "Erneut kontaktieren"
 
 #: bags/models.py
 msgid "Giveaway-groups' name"
@@ -185,10 +185,6 @@ msgstr "Jede {every_x_bags}te Tüte"
 msgid "{per_bag_count} every bag"
 msgstr "{per_bag_count} jede Tüte"
 
-#: bags/models.py
-msgid "Giveaway-description/comment"
-msgstr "Werbegeschenk-Beschreibung/Kommentar"
-
 #: bags/models.py bags/templates/bags/bags_dashboard.html
 #: bags/templates/bags/giveaways/giveaway/list/arrival/confirm_giveaways_arrivals.html
 #: bags/templates/bags/giveaways/giveaway/list/arrival/list_giveaways_arrivals.html
@@ -212,6 +208,10 @@ msgstr "Ankunftszeit"
 #: bags/templates/bags/maintenance/mail/send_mail.html
 msgid "Arrived"
 msgstr "Angekommen"
+
+#: bags/models.py
+msgid "Giveaway-description/comment"
+msgstr "Werbegeschenk-Beschreibung/Kommentar"
 
 #: bags/templates/bags/bags_dashboard.html bags/templates/bags/base_bags.html
 msgid "Dashboard"

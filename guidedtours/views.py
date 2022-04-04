@@ -77,10 +77,7 @@ def view_tour(request: WSGIRequest, tour_pk: int) -> HttpResponse:
 def add_tour(request: WSGIRequest) -> HttpResponse:
     semester: Semester = get_object_or_404(Semester, pk=get_semester(request))
 
-    form = TourForm(
-        request.POST or None,
-        semester=semester,
-    )
+    form = TourForm(request.POST or None, semester=semester)
 
     if form.is_valid():
         form.save()
@@ -134,14 +131,9 @@ def del_tour(request: WSGIRequest, tour_pk: int) -> HttpResponse:
 @permission_required("guidedtours.view_participants")
 def filter_participants(request: WSGIRequest) -> HttpResponse:
     semester: Semester = get_object_or_404(Semester, pk=get_semester(request))
-    participants: QuerySet[Participant] = Participant.objects.filter(
-        tour__semester=semester.id,
-    ).order_by("surname")
+    participants: QuerySet[Participant] = Participant.objects.filter(tour__semester=semester).order_by("surname")
 
-    filterform = FilterParticipantsForm(
-        request.POST or None,
-        semester=semester,
-    )
+    filterform = FilterParticipantsForm(request.POST or None, semester=semester)
 
     if filterform.is_valid():
         search: str = filterform.cleaned_data["search"]

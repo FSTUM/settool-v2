@@ -44,12 +44,7 @@ class Mail(models.Model):
     def check_perm(cls, user):
         return any(user.has_perm(perm) for perm in cls.required_perm)
 
-    sender = models.CharField(
-        max_length=100,
-        choices=FROM_CHOICES,
-        default=SET,
-        verbose_name=_("From"),
-    )
+    sender = models.CharField(max_length=100, choices=FROM_CHOICES, default=SET, verbose_name=_("From"))
 
     subject = models.CharField(
         _("Email subject"),
@@ -57,17 +52,9 @@ class Mail(models.Model):
         help_text=_("You may use placeholders for the subject."),
     )
 
-    text = models.TextField(
-        _("Text"),
-        help_text=_("You may use placeholders for the text."),
-    )
+    text = models.TextField(_("Text"), help_text=_("You may use placeholders for the text."))
 
-    comment = models.CharField(
-        _("Comment"),
-        max_length=200,
-        default="",
-        blank=True,
-    )
+    comment = models.CharField(_("Comment"), max_length=200, default="", blank=True)
 
     def __str__(self) -> str:
         if self.comment:
@@ -148,10 +135,9 @@ class Semester(models.Model):
         verbose_name=_("Semester"),
     )
 
-    year = models.PositiveIntegerField(
-        verbose_name=_("Year"),
-    )
+    year = models.PositiveIntegerField(verbose_name=_("Year"))
 
+    @property
     def short_form(self) -> str:
         return f"{self.semester}{str(self.year)[2:]}"
 
@@ -181,11 +167,7 @@ class Subject(models.Model):
     BACHELOR = "BA"
     MASTER = "MA"
 
-    course_bundle = models.ForeignKey(
-        CourseBundle,
-        on_delete=models.CASCADE,
-        verbose_name=_("Course-bundle"),
-    )
+    course_bundle = models.ForeignKey(CourseBundle, on_delete=models.CASCADE, verbose_name=_("Course-bundle"))
 
     degree = models.CharField(
         max_length=2,
@@ -197,10 +179,7 @@ class Subject(models.Model):
         verbose_name=_("Degree"),
     )
 
-    subject = models.CharField(
-        max_length=100,
-        verbose_name=_("Subject"),
-    )
+    subject = models.CharField(max_length=100, verbose_name=_("Subject"))
 
     def __str__(self) -> str:
         return f"{self.get_degree_display()} {self.subject} ({self.course_bundle})"
