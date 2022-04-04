@@ -61,7 +61,7 @@ class FahrtMail(common_models.Mail):
         return self.get_mail(context)
 
 
-class Fahrt(models.Model):
+class Fahrt(common_models.LoggedModelBase):
     semester = models.OneToOneField(Semester, on_delete=models.CASCADE)
 
     date = models.DateField(_("Date"))
@@ -115,7 +115,7 @@ class Fahrt(models.Model):
         return self.open_registration < timezone.now() < self.close_registration
 
 
-class Transportation(models.Model):
+class Transportation(common_models.LoggedModelBase):
     CAR = 0
     TRAIN = 1
 
@@ -162,7 +162,7 @@ class Transportation(models.Model):
         return _("Car ({free_places} free)").format(free_places=free_places)
 
 
-class Participant(models.Model):
+class Participant(common_models.LoggedModelBase):
     class Meta:
         permissions = (
             (
@@ -268,7 +268,7 @@ class Participant(models.Model):
     #    self.payment_deadline = deadline.strftime("%d.%m.%Y")
 
 
-class TransportationComment(models.Model):
+class TransportationComment(common_models.LoggedModelBase):
     sender = models.ForeignKey(Participant, on_delete=models.CASCADE)
     commented_on = models.ForeignKey(Transportation, on_delete=models.CASCADE)
     comment_content = models.CharField(_("Text"), max_length=200)
@@ -285,7 +285,7 @@ class TransportationComment(models.Model):
         )
 
 
-class LogEntry(models.Model):
+class LogEntry(common_models.LoggedModelBase):
     time = models.DateTimeField(_("Time"), auto_now_add=True)
     participant = models.ForeignKey(Participant, on_delete=models.CASCADE)
     text = models.CharField(_("Text"), max_length=200)

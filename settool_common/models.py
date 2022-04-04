@@ -20,7 +20,16 @@ from PIL import Image
 from .settings import SEMESTER_SESSION_KEY
 
 
-class Mail(models.Model):
+
+class LoggedModelBase(models.Model):
+    class Meta:
+        abstract = True
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+
+class Mail(LoggedModelBase):
     SET = "SET-Team <set@fs.tum.de>"
     SET_FAHRT = "SET-Fahrt-Team <setfahrt@fs.tum.de>"
     SET_TUTOR = "SET-Tutor-Team <set-tutoren@fs.tum.de>"
@@ -116,7 +125,7 @@ def clean_attachable(response: Union[HttpResponse, tuple[str, Any, str]]) -> tup
 
 
 @deconstructible
-class Semester(models.Model):
+class Semester(LoggedModelBase):
     class Meta:
         unique_together = (("semester", "year"),)
         ordering = ["year", "semester"]
@@ -145,7 +154,7 @@ class Semester(models.Model):
         return f"{self.get_semester_display()} {self.year:4}"
 
 
-class CourseBundle(models.Model):
+class CourseBundle(LoggedModelBase):
     class Meta:
         ordering = ["name"]
 
@@ -159,7 +168,7 @@ class CourseBundle(models.Model):
         return self.name
 
 
-class Subject(models.Model):
+class Subject(LoggedModelBase):
     class Meta:
         unique_together = (("degree", "subject"),)
         ordering = ["degree", "course_bundle", "subject"]
@@ -208,7 +217,7 @@ def get_semester(request: HttpRequest) -> int:
     return sem  # noqa: R504
 
 
-class QRCode(models.Model):
+class QRCode(LoggedModelBase):
     content = models.CharField(max_length=200, unique=True)
     qr_code = models.ImageField(upload_to="qr_codes", blank=True)
 
@@ -267,7 +276,7 @@ def auto_delete_qr_code_on_delete(sender, instance, **_kwargs):
         os.remove(instance.qr_code.path)
 
 
-class AnonymisationLog(models.Model):
+class AnonymisationLog(LoggedModelBase):
     semester = models.ForeignKey(Semester, on_delete=models.CASCADE)
     anon_log_str = models.CharField(max_length=10)
 
