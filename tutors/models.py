@@ -131,6 +131,7 @@ class Settings(common_models.LoggedModelBase):
 class Tutor(common_models.UUIDModelBase, common_models.LoggedModelBase, common_models.SemesterModelBase):
     class Meta:
         unique_together = ("semester", "email")
+
     first_name = models.CharField(_("First name"), max_length=30)
     last_name = models.CharField(_("Last name"), max_length=50)
     email = models.EmailField(_("Email address"))

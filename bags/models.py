@@ -54,6 +54,7 @@ class Company(common_models.LoggedModelBase, common_models.SemesterModelBase):
     class Meta:
         unique_together = ("semester", "name")
         permissions = (("view_companies", "Can view and edit the companies"),)
+
     name = models.CharField(_("Name"), max_length=200)
 
     contact_gender = models.CharField(
@@ -106,6 +107,7 @@ class Company(common_models.LoggedModelBase, common_models.SemesterModelBase):
 class GiveawayGroup(common_models.LoggedModelBase, common_models.SemesterModelBase):
     class Meta:
         unique_together = (("semester", "name"),)
+
     name = models.CharField(_("Giveaway-groups' name"), max_length=200)
 
     def __str__(self) -> str:
