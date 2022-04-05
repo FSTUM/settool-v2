@@ -196,12 +196,12 @@
             {% for entry in log_entries %}
             {% if entry.user %}
             {% if entry.user.full_name %}
-            <li> {{ entry.time }}, {{ entry.user.full_name }}: {{ entry.text }} </li>
+            <li> {{ entry.updated_at }}, {{ entry.user.full_name }}: {{ entry.text }} </li>
             {% else %}
-            <li> {{ entry.time }}, {{ entry.user }}: {{ entry.text }} </li>
+            <li> {{ entry.updated_at }}, {{ entry.user }}: {{ entry.text }} </li>
             {% endif %}
             {% else %}
-            <li> {{ entry.time }}, www: {{ entry.text }} </li>
+            <li> {{ entry.updated_at }}, www: {{ entry.text }} </li>
             {% endif %}
             {% endfor %}
         </ul>

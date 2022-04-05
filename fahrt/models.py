@@ -170,7 +170,9 @@ class Participant(common_models.UUIDModelBase, common_models.LoggedModelBase, co
             ),
         )
 
-    registration_time = models.DateTimeField(_("Registration time"), auto_now_add=True)
+    @property
+    def registration_time(self):
+        return self.created_at
 
     GENDER_CHOICES = (
         ("male", _("male")),
@@ -283,7 +285,6 @@ class TransportationComment(common_models.LoggedModelBase):
 
 
 class LogEntry(common_models.LoggedModelBase):
-    time = models.DateTimeField(_("Time"), auto_now_add=True)
     participant = models.ForeignKey(Participant, on_delete=models.CASCADE)
     text = models.CharField(_("Text"), max_length=200)
     user = models.ForeignKey(
@@ -295,4 +296,4 @@ class LogEntry(common_models.LoggedModelBase):
     )
 
     def __str__(self) -> str:
-        return f"{self.time}, {self.user}: {self.text}"
+        return f"{self.updated_at}, {self.user}: {self.text}"

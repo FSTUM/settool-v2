@@ -31,9 +31,7 @@ from .tex_views import get_non_liability
 @permission_required("fahrt.view_participants")
 def list_registered(request: WSGIRequest) -> HttpResponse:
     semester: Semester = get_object_or_404(Semester, pk=get_semester(request))
-    participants = Participant.objects.filter(semester=semester, status="registered").order_by(
-        "-registration_time",
-    )
+    participants = Participant.objects.filter(semester=semester, status="registered").order_by("-created_at")
 
     context = {
         "participants": participants,
@@ -44,7 +42,7 @@ def list_registered(request: WSGIRequest) -> HttpResponse:
 @permission_required("fahrt.view_participants")
 def list_waitinglist(request: WSGIRequest) -> HttpResponse:
     semester: Semester = get_object_or_404(Semester, pk=get_semester(request))
-    participants = Participant.objects.filter(semester=semester, status="waitinglist").order_by("-registration_time")
+    participants = Participant.objects.filter(semester=semester, status="waitinglist").order_by("-created_at")
 
     context = {
         "participants": participants,
@@ -166,7 +164,7 @@ def list_cancelled(request: WSGIRequest) -> HttpResponse:
 @permission_required("fahrt.view_participants")
 def view_participant(request: WSGIRequest, participant_pk: UUID) -> HttpResponse:
     participant = get_object_or_404(Participant, pk=participant_pk)
-    log_entries = participant.logentry_set.order_by("time")
+    log_entries = participant.logentry_set.order_by("created_at")
 
     form = SelectMailForm(request.POST or None)
 

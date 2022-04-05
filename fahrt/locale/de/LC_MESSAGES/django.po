@@ -235,12 +235,6 @@ msgstr "Bahn ({free_places} frei)"
 msgid "Car ({free_places} free)"
 msgstr "Auto ({free_places} frei)"
 
-#: fahrt/models.py fahrt/templates/fahrt/participants/list/list_registered.html
-#: fahrt/templates/fahrt/participants/list/list_waitinglist.html
-#: fahrt/templates/fahrt/participants/view_participant_details.html
-msgid "Registration time"
-msgstr "Anmeldezeitpunkt"
-
 #: fahrt/models.py
 msgid "male"
 msgstr "Männlich"
@@ -365,10 +359,6 @@ msgstr "Text"
 #, python-brace-format
 msgid "{sender} on {commented_on}: {comment_content}"
 msgstr "{sender} auf {commented_on}: {comment_content}"
-
-#: fahrt/models.py
-msgid "Time"
-msgstr "Zeit"
 
 #: fahrt/templates/fahrt/base_fahrt.html
 #: fahrt/templates/fahrt/fahrt_dashboard.html
@@ -775,6 +765,12 @@ msgstr "%(places)s Sitze in %(cars)s Autos"
 msgid "List registered participants"
 msgstr "Angemeldete Teilnehmer auflisten"
 
+#: fahrt/templates/fahrt/participants/list/list_registered.html
+#: fahrt/templates/fahrt/participants/list/list_waitinglist.html
+#: fahrt/templates/fahrt/participants/view_participant_details.html
+msgid "Registration time"
+msgstr "Anmeldezeitpunkt"
+
 #: fahrt/templates/fahrt/participants/list/list_waitinglist.html
 msgid "List participants on waitinglist"
 msgstr "Teilnehmer auf der Warteliste auflisten"
@@ -1119,6 +1115,9 @@ msgid ""
 msgstr ""
 "Derzeit ist dies nur eine Chatwall und kein Live-Chat. Das bedeutet, dass du "
 "die Seite aktualisieren musst, um neue Nachrichten zu erhalten."
+
+#~ msgid "Time"
+#~ msgstr "Zeit"
 
 #~ msgid "With car"
 #~ msgstr "Mit Auto"
