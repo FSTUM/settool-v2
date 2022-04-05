@@ -10,13 +10,17 @@ from .models import Participant, Setting, Tour, TourMail
 class ParticipantForm(CommonParticipantForm):
     class Meta:
         model = Participant
-        exclude = ["time"]
+        exclude = ["created_at", "updated_at"]
 
     def __init__(self, *args, **kwargs):
-        tours = kwargs.pop("tours")
+        self.tours_and_dates = kwargs.pop("tours_and_dates")
+        self.tours = kwargs.pop("tours")
+        self.dates = kwargs.pop("dates")
         super().__init__(*args, **kwargs)
-        self.fields["tour"].queryset = tours
+        self.fields["tour"].queryset = self.tours
         self.fields["tour"].widget.attrs = {"class": "no-automatic-choicejs"}
+        self.fields["date"].queryset = self.dates
+        self.fields["date"].widget.attrs = {"class": "no-automatic-choicejs"}
 
 
 class TourForm(SemesterBasedModelForm):

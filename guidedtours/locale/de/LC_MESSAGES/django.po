@@ -54,31 +54,10 @@ msgstr "Der Zeitpunkt der Tour"
 msgid "'Tour' or 'Waitinglist' depending on on_the_tour status"
 msgstr "'Tour' oder 'Waitinglist' (je nach on_the_tour Status)"
 
-#: guidedtours/models.py
-msgid "Name"
-msgstr "Name"
-
-#: guidedtours/models.py
-msgid "Description"
-msgstr "Beschreibung"
-
-#: guidedtours/models.py
-#: guidedtours/templates/guidedtours/tours/list_tours.html
-msgid "Date"
-msgstr "Datum"
-
 #: guidedtours/models.py guidedtours/templates/guidedtours/tour_dashboard.html
 #: guidedtours/templates/guidedtours/tours/list_tours.html
 msgid "Capacity"
 msgstr "Kapazität"
-
-#: guidedtours/models.py
-msgid ""
-"How long (minutes) a Participant should be blocked after a Tour (additonal "
-"to 30min leadup-blacklist-Time)"
-msgstr ""
-"Wie lang (Minuten) ein Teilnehmer nach dem beginn einer Tour (zusätzlich zu "
-"der 30Minuten Leadup-Blacklist-Zeit) blockert wird"
 
 #: guidedtours/models.py
 msgid "Open registration"
@@ -87,6 +66,11 @@ msgstr "Anmeldungsstart"
 #: guidedtours/models.py
 msgid "Close registration"
 msgstr "Anmeldungsschluss"
+
+#: guidedtours/models.py
+#: guidedtours/templates/guidedtours/tours/list_tours.html
+msgid "Date"
+msgstr "Datum"
 
 #: guidedtours/models.py
 #: guidedtours/templates/guidedtours/maintenance/mail/send_mail.html
@@ -118,10 +102,6 @@ msgstr "Handynummer"
 #: guidedtours/templates/guidedtours/participants/list_tour-participants.html
 msgid "Subject"
 msgstr "Studiengang"
-
-#: guidedtours/models.py
-msgid "Registration Time"
-msgstr "Registrierungszeit"
 
 #: guidedtours/models.py
 msgid "On the tour"
@@ -326,7 +306,7 @@ msgstr "Anmeldung Fehlgeschlagen"
 #: guidedtours/templates/guidedtours/signup/blocked.html
 #, python-format
 msgid ""
-"We are sorry, you can't participate in two guidedtours: at the same time. If "
+"We are sorry, you can't participate in two guidedtours at the same time. If "
 "you think there is an error, contact %(mail)s."
 msgstr ""
 "Wir sind Sorry, aber du kannst nicht an zwei Institutsführungen gleichzeitig "
@@ -341,11 +321,6 @@ msgstr "Institutsführungs-Anmeldung"
 #: guidedtours/templates/guidedtours/signup/signup.html
 msgid "All availible Guided guidedtours:"
 msgstr "Alle zur verfügung stehenden Institutsführungen:"
-
-#: guidedtours/templates/guidedtours/signup/signup.html
-#, python-format
-msgid "%(name)s on %(date)s"
-msgstr "%(name)s am %(date)s"
 
 #: guidedtours/templates/guidedtours/signup/signup.html
 msgid "Length:"
@@ -424,6 +399,10 @@ msgid "Export confired participants as PDF"
 msgstr "Bestätigte Teilnehmer als PDF ausgeben"
 
 #: guidedtours/views.py
+msgid "No dates"
+msgstr ""
+
+#: guidedtours/views.py
 #, python-brace-format
 msgid ""
 "Could not send you the registration email. You are registered, but you did "
@@ -442,6 +421,26 @@ msgid ""
 msgstr ""
 "Konnte die Registrierungs-Email nicht senden. Bitte vergewissere dich, das "
 "diese richtig konfiguirert ist."
+
+#, python-format
+#~ msgid "%(name)s on %(date)s"
+#~ msgstr "%(name)s am %(date)s"
+
+#~ msgid "Registration Time"
+#~ msgstr "Registrierungszeit"
+
+#~ msgid "Name"
+#~ msgstr "Name"
+
+#~ msgid "Description"
+#~ msgstr "Beschreibung"
+
+#~ msgid ""
+#~ "How long (minutes) a Participant should be blocked after a Tour "
+#~ "(additonal to 30min leadup-blacklist-Time)"
+#~ msgstr ""
+#~ "Wie lang (Minuten) ein Teilnehmer nach dem beginn einer Tour (zusätzlich "
+#~ "zu der 30Minuten Leadup-Blacklist-Zeit) blockert wird"
 
 #~ msgid "I accept the terms and conditions of the following privacy policy:"
 #~ msgstr "Ich stimme der folgenden Datenschutzerklärung zu:"

@@ -27,7 +27,7 @@
             class="accordion"
             id="accordion"
         >
-            {% for tour in tours %}
+            {% for tour,dates in tours_and_dates %}
             <div class="accordion-item">
                 <h2
                     class="accordion-header"
@@ -41,9 +41,12 @@
                         aria-controls="collapse{{ forloop.counter }}"
                         onclick='assignTour("{{ tour.id }}")'
                     >
-                        {% blocktranslate trimmed with name=tour.name date=tour.date lenth=tour.length %}
-                        {{ name }} on {{ date }}
-                        {% endblocktranslate %}
+                        {{ name }}
+                        {% for date in dates %}
+                        <div class="rounded-pill bg-light p-1 mb-2">
+                            {{ date.date }}-{{ date.probable_end }}
+                        </div>
+                        {% endfor %}
                     </button>
                 </h2>
                 <div

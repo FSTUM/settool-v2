@@ -1,5 +1,6 @@
+import dataclasses
+import datetime
 import time
-from datetime import timedelta
 from typing import Any, Optional, Union
 
 from django import forms
@@ -7,16 +8,16 @@ from django.contrib import messages
 from django.contrib.auth.decorators import permission_required
 from django.core.handlers.wsgi import WSGIRequest
 from django.db.models import Q, QuerySet
-from django.db.models.aggregates import Count
 from django.forms import formset_factory
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.utils import timezone
-from django.utils.datetime_safe import date
 from django.utils.translation import gettext as _
 from django_tex.response import PDFResponse
 from django_tex.shortcuts import render_to_pdf
+from uuid import UUID
 
+from kalendar.models import Date
 from settool_common import utils
 from settool_common.models import get_semester, Semester
 
@@ -41,27 +42,54 @@ def list_tours(request: WSGIRequest) -> HttpResponse:
     return render(request, "guidedtours/tours/list_tours.html", context)
 
 
+@dataclasses.dataclass
+class MinimalTour:
+    capacity: int
+    name: str
+    dates: list[datetime.datetime]
+    registered: int
+
+    @property
+    def label(self) -> str:
+        label = [self.name]
+        if self.dates:
+            for date in self.dates:
+                label.append(f"{date.strftime('%d.%m %H')}Uhr")
+        else:
+            label.append(_("No dates"))
+        return " ".join(label)
+
+
 @permission_required("guidedtours.view_participants")
 def dashboard(request: WSGIRequest) -> HttpResponse:
-    tours = (
-        Tour.objects.filter(Q(semester=get_semester(request)) & Q(date__gte=date.today()))
-        .values("capacity", "name", "date")
-        .annotate(registered=Count("participant"))
-        .order_by("date")
-    )
+    tours_current_semester: list[Tour] = Tour.sorted_by_semester(get_semester(request))  # type:ignore
+    tours: list[MinimalTour] = []
+    for tour in tours_current_semester:
+        registered = Participant.objects.filter(tour=tour).count()
+        meetings = tour.associated_meetings
+        if not meetings:
+            raise ValueError(f"Tour {tour} has no associated meetings")
+        tours.append(
+            MinimalTour(
+                capacity=tour.capacity,
+                name=tour.name,
+                dates=meetings.dates,
+                registered=registered,
+            ),
+        )
 
     context = {
-        "tour_labels": [f"{tour['name']} {tour['date'].strftime('%d.%m %H')}Uhr" for tour in tours],
-        "tour_registrations": [tour["registered"] for tour in tours],
-        "tour_capacity": [tour["capacity"] for tour in tours],
+        "tour_labels": [tour.label for tour in tours],
+        "tour_registrations": [tour.registered for tour in tours],
+        "tour_capacity": [tour.capacity for tour in tours],
     }
     return render(request, "guidedtours/tour_dashboard.html", context)
 
 
 @permission_required("guidedtours.view_participants")
-def view_tour(request: WSGIRequest, tour_pk: int) -> HttpResponse:
+def view_tour(request: WSGIRequest, tour_pk: UUID) -> HttpResponse:
     tour = get_object_or_404(Tour, pk=tour_pk)
-    participants = tour.participant_set.order_by("time")
+    participants = tour.participant_set.order_by("created_at")
     waitinglist = participants[tour.capacity :]
     participants = participants[: tour.capacity]
 
@@ -91,7 +119,7 @@ def add_tour(request: WSGIRequest) -> HttpResponse:
 
 
 @permission_required("guidedtours.view_participants")
-def edit_tour(request: WSGIRequest, tour_pk: int) -> HttpResponse:
+def edit_tour(request: WSGIRequest, tour_pk: UUID) -> HttpResponse:
     tour = get_object_or_404(Tour, pk=tour_pk)
 
     form = TourForm(
@@ -112,7 +140,7 @@ def edit_tour(request: WSGIRequest, tour_pk: int) -> HttpResponse:
 
 
 @permission_required("guidedtours.view_participants")
-def del_tour(request: WSGIRequest, tour_pk: int) -> HttpResponse:
+def del_tour(request: WSGIRequest, tour_pk: UUID) -> HttpResponse:
     tour = get_object_or_404(Tour, pk=tour_pk)
 
     form = forms.Form(request.POST or None)
@@ -299,28 +327,61 @@ def send_mail(request: WSGIRequest, mail_pk: int) -> HttpResponse:
     return render(request, "guidedtours/maintenance/mail/send_mail.html", context)
 
 
+def _get_tours_and_dates(semester: Semester) -> tuple[list[tuple[Tour, list[Date]]], list[Tour], list[Date]]:
+    tours: QuerySet[Tour] = Tour.objects.filter(
+        semester=semester,
+        open_registration__lt=timezone.now(),
+        close_registration__gt=timezone.now(),
+        associated_meetings__isnull=False,
+    ).all()
+    tmp_tours_and_dates = []
+    for tour in tours:
+        meeting = tour.associated_meetings
+        if not meeting:
+            raise ValueError("Tour without associated meeting")
+        first_datetime, dates = tour.first_datetime, meeting.date_objects
+        if first_datetime is not None and dates:
+            tmp_tours_and_dates.append((first_datetime, tour, dates))
+    tours_and_dates = [(tour, dates) for first_datetime, tour, dates in sorted(tmp_tours_and_dates)]
+    all_tours: list[Tour] = []
+    all_dates: list[Date] = []
+    for tour, dates in tours_and_dates:
+        all_tours.append(tour)
+        all_dates += dates
+    return tours_and_dates, all_tours, all_dates
+
+
 def signup(request: WSGIRequest) -> HttpResponse:
     semester: Semester = get_object_or_404(Semester, pk=get_semester(request))
     curr_settings: Setting = Setting.objects.get_or_create(semester=semester)[0]
-    tours = semester.tour_set.filter(
-        open_registration__lt=timezone.now(),
-        close_registration__gt=timezone.now(),
-    ).order_by("date")
 
-    if not tours:
+    tours_and_dates, all_tours, all_dates = _get_tours_and_dates(semester)
+
+    if not tours_and_dates:
         context: dict[str, Any] = {"semester": semester}
         return render(request, "guidedtours/signup/signup_notour.html", context)
 
-    form = ParticipantForm(request.POST or None, tours=tours, semester=semester)
+    form = ParticipantForm(
+        request.POST or None,
+        tours_and_dates=tours_and_dates,
+        tours=all_tours,
+        dates=all_dates,
+        semester=semester,
+    )
     if form.is_valid():
         participant: Participant = form.save(commit=False)
         # if there is a tour with a participant using the same mail in the blocked time-window
         # (15min for transitioning and 15min for meeting)
-        conflicting_tours = semester.tour_set.filter(
-            date__gt=participant.tour.date - timedelta(minutes=30),
-            date__lt=participant.tour.date + timedelta(minutes=participant.tour.length) + timedelta(minutes=30),
-        )
-        if Participant.objects.filter(Q(email=participant.email) & Q(tours__in=conflicting_tours)).exists():
+
+        conflicting_dates = []
+        for tour, dates in tours_and_dates:
+            if tour == participant.tour:
+                continue
+            for date_obj in dates:
+                if date_obj.intersects(participant.date):
+                    conflicting_dates.append(date_obj)
+
+        if Participant.objects.filter(Q(email=participant.email) & Q(date__in=conflicting_dates)).exists():
             return render(request, "guidedtours/signup/blocked.html", {"mail": TourMail.SET})
         participant.save()
         if curr_settings.mail_registration:
@@ -339,7 +400,7 @@ def signup(request: WSGIRequest) -> HttpResponse:
     context = {
         "semester": semester,
         "form": form,
-        "tours": tours,
+        "tours_and_dates": tours_and_dates,
     }
     return render(request, "guidedtours/signup/signup.html", context)
 
@@ -382,15 +443,16 @@ def signup_internal(request: WSGIRequest) -> HttpResponse:
 
 
 @permission_required("guidedtours.view_participants")
-def export_tour(request: WSGIRequest, file_format: str, tour_pk: int) -> Union[HttpResponse, PDFResponse]:
+def export_tour(request: WSGIRequest, file_format: str, tour_pk: UUID) -> Union[HttpResponse, PDFResponse]:
     tour = get_object_or_404(Tour, pk=tour_pk)
-    participants = tour.participant_set.order_by("time")
+    participants = tour.participant_set.order_by("created_at")
     confirmed_participants = participants[: tour.capacity]
-    filename = f"participants_{tour.name}_{tour.date}_{time.strftime('%Y%m%d-%H%M')}"
+    tour_date = tour.first_datetime or "No-Date"
+    filename = f"participants_{tour.name}_{tour_date}_{time.strftime('%Y%m%d-%H%M')}"
     context = {"participants": confirmed_participants, "tour": tour}
     if file_format == "csv":
         return utils.download_csv(
-            ["surname", "firstname", "time", "email", "phone", "subject"],
+            ["surname", "firstname", "created_at", "updated_at", "email", "phone", "subject"],
             f"{filename}.csv",
             confirmed_participants,
         )
