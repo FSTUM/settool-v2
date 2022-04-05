@@ -5,7 +5,6 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("settool_common", "0004_auto_20151220_2255"),
         ("fahrt", "0005_auto_20160906_1411"),
@@ -144,9 +143,7 @@ class Migration(migrations.Migration):
                 ),
                 (
                     "mailinglist",
-                    models.BooleanField(
-                        verbose_name="Mailing list",
-                    ),
+                    models.BooleanField(verbose_name="Mailing list"),
                 ),
                 (
                     "comment",
@@ -182,15 +179,7 @@ class Migration(migrations.Migration):
                 ),
             ],
         ),
-        migrations.RemoveField(
-            model_name="person",
-            name="semester",
-        ),
-        migrations.RemoveField(
-            model_name="person",
-            name="subject",
-        ),
-        migrations.DeleteModel(
-            name="Person",
-        ),
+        migrations.RemoveField(model_name="person", name="semester"),
+        migrations.RemoveField(model_name="person", name="subject"),
+        migrations.DeleteModel(name="Person"),
     ]

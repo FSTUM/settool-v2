@@ -16,10 +16,7 @@ class Migration(migrations.Migration):
                 "permissions": (("view_companies", "Can view and edit the companies"),),
             },
         ),
-        migrations.RemoveField(
-            model_name="company",
-            name="zusage",
-        ),
+        migrations.RemoveField(model_name="company", name="zusage"),
         migrations.AddField(
             model_name="company",
             name="promise",

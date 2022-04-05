@@ -14,10 +14,7 @@ class Migration(migrations.Migration):
 
     operations = [
         # uuid->id
-        migrations.RemoveField(
-            model_name="participant",
-            name="id",
-        ),
+        migrations.RemoveField(model_name="participant", name="id"),
         migrations.AlterField(
             model_name="participant",
             name="uuid",

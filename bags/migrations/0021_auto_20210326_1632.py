@@ -12,14 +12,8 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.RemoveField(
-            model_name="giveaway",
-            name="every_x_bags",
-        ),
-        migrations.RemoveField(
-            model_name="giveaway",
-            name="per_bag_count",
-        ),
+        migrations.RemoveField(model_name="giveaway", name="every_x_bags"),
+        migrations.RemoveField(model_name="giveaway", name="per_bag_count"),
         migrations.AddField(
             model_name="giveaway",
             name="item_count",

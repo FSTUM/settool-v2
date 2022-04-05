@@ -32,14 +32,8 @@ class Migration(migrations.Migration):
                 ),
             ],
         ),
-        migrations.RemoveField(
-            model_name="participant",
-            name="car",
-        ),
-        migrations.RemoveField(
-            model_name="participant",
-            name="car_places",
-        ),
+        migrations.RemoveField(model_name="participant", name="car"),
+        migrations.RemoveField(model_name="participant", name="car_places"),
         migrations.CreateModel(
             name="TransportationComment",
             fields=[

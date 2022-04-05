@@ -18,8 +18,5 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.RunPython(subject_includes_semester),
-        migrations.RemoveField(
-            model_name="mail",
-            name="semester",
-        ),
+        migrations.RemoveField(model_name="mail", name="semester"),
     ]

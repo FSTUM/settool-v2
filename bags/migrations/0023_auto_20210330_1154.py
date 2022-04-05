@@ -33,8 +33,5 @@ class Migration(migrations.Migration):
             ),
         ),
         migrations.RunPython(keep_giveaway_data),
-        migrations.RemoveField(
-            model_name="giveaway",
-            name="name",
-        ),
+        migrations.RemoveField(model_name="giveaway", name="name"),
     ]
