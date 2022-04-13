@@ -174,7 +174,10 @@
     new Chart(document.getElementById('cp_by_non_liability_chart').getContext('2d'), {
         type: 'pie',
         data: {
-            labels: ['{% trans "has submitted non-liability" %}', '{% trans "has NOT submitted non-liability" %}'],
+            labels: [
+                '{% trans "has submitted non-liability" %}',
+                '{% trans "has NOT submitted non-liability" %}',
+            ],
             datasets: [
                 {
                     data: {{ cp_non_liability }},

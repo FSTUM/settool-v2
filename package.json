@@ -10,6 +10,21 @@
         "type": "git",
         "url": "https://git.fs.tum.de/fsmpi/set-tool"
     },
+    "eslintConfig": {
+        "extends": [
+            "@paulhfischer/eslint-config-javascript"
+        ],
+        "env": {
+            "browser": true,
+            "jquery": true
+        }
+    },
+    "prettier": "@paulhfischer/prettier-config",
+    "stylelint": {
+        "extends": [
+            "@paulhfischer/stylelint-config"
+        ]
+    },
     "author": "SET-Referat FSMPI",
     "license": "AGPL-3.0-or-later",
     "dependencies": {

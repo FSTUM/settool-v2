@@ -1,7 +1,0 @@
-{
-    "extends": "stylelint-config-airbnb",
-    "rules": {
-        "indentation": 4
-    },
-    "ignoreFiles": ["node_nodules"]
-}

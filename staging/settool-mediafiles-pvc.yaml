@@ -1,15 +1,15 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-    name: settool-mediafiles-pvc
-    namespace: settool
-    labels:
-        app: settool
-        type: local
+  name: settool-mediafiles-pvc
+  namespace: settool
+  labels:
+    app: settool
+    type: local
 spec:
-    storageClassName: manual
-    accessModes:
-        - ReadWriteOnce
-    resources:
-        requests:
-            storage: 50Mi
+  storageClassName: manual
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 50Mi

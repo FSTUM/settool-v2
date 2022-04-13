@@ -1,19 +1,19 @@
 {% load i18n %}
 {% if value == "Failure" %}
 <span
-    style="color: darkorange"
+    style="color: darkorange;"
     class="bi bi-lightning-fill"
 ></span>
 <span style="display: none;">{% trans "Failure" %}</span>
 {% elif value %}
 <span
-    style="color: {% if inverted_colors %}red{% else %}green{% endif %}"
+    style="color: {% if inverted_colors %}red{% else %}green{% endif %};"
     class="bi bi-check-circle-fill"
 ></span>
 <span style="display: none;">{% trans "Yes" %}</span>
 {% elif value == False %}
 <span
-    style="color: {% if inverted_colors %}green{% else %}red{% endif %}"
+    style="color: {% if inverted_colors %}green{% else %}red{% endif %};"
     class="bi bi-x-circle-fill"
 ></span>
 <span style="display: none;">{% trans "No" %}</span>
@@ -22,7 +22,7 @@
 <span style="display: none;">{% trans "None" %}</span>
 {% else %}
 <span
-    style="color: orange"
+    style="color: orange;"
     class="bi bi-question-circle-fill"
 ></span>
 <span style="display: none;">{% trans "Unknown" %}</span>

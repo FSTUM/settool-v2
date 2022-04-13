@@ -30,9 +30,9 @@
         } else if (value === 'Failure') {
             $(response).html(`{% include "snippets/true_false_none_span.html" with value="Failure" %}`);
         } else if (value === 'True') {
-            $(response).html(`{% include "snippets/true_false_span.html" with value=True%}`);
+            $(response).html(`{% include "snippets/true_false_span.html" with value=True %}`);
         } else if (value === 'False') {
-            $(response).html(`{% include "snippets/true_false_span.html" with value=False%}`);
+            $(response).html(`{% include "snippets/true_false_span.html" with value=False %}`);
         } else {
             $(response).empty();
         }
@@ -140,7 +140,7 @@
 <div
     class="justify-content-center mt-3"
     id="table_spinner"
-    style="display: flex"
+    style="display: flex;"
 >
     <div
         class="spinner-border"
@@ -152,7 +152,7 @@
 </div>
 <div
     id="hidden_table"
-    style="visibility: hidden"
+    style="visibility: hidden;"
 >
     <form
         id="companyselectform"
