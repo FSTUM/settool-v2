@@ -1,13 +1,13 @@
 {% load i18n %}
 {% if value %}
 <span
-    style="color: {% if inverted_colors %}red{% else %}green{% endif %}"
+    style="color: {% if inverted_colors %}red{% else %}green{% endif %};"
     class="bi bi-check-circle-fill"
 ></span>
 <span style="display: none;">{% trans "Yes" %}</span>
 {% else %}
 <span
-    style="color: {% if inverted_colors %}green{% else %}red{% endif %}"
+    style="color: {% if inverted_colors %}green{% else %}red{% endif %};"
     class="bi bi-x-circle-fill"
 ></span>
 <span style="display: none;">{% trans "No" %}</span>

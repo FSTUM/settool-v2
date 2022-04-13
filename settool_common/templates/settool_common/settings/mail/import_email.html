@@ -16,7 +16,7 @@
     </div>
     <div
         id='preview-table'
-        style='display: none'
+        style='display: none;'
     >
         <h4>{% trans "Preview" %}</h4>
         <div class='table-responsive'>
@@ -62,7 +62,7 @@
         if (s === undefined) return '';
         return s;
     }
-function isCsvFileType(s) {
+    function isCsvFileType(s) {
         if (s === 'text/csv') return true;
         if (s === 'application/vnd.ms-excel') return true;
         if (s === 'text/x-csv') return true;

@@ -1,23 +1,23 @@
 name: Syncs this repo with the one hosted on private gitlab
 
 on:
-    push:
-        branches:
-            - 'main'
-    workflow_dispatch:
+  push:
+    branches:
+      - 'main'
+  workflow_dispatch:
 
 jobs:
-    git-sync:
-        runs-on: ubuntu-latest
-        steps:
-            - uses: actions/checkout@v3
-              with:
-                  persist-credentials: false
-            - name: git-sync
-              uses: wei/git-sync@v3
-              with:
-                  source_repo: 'FSTUM/settool-v2'
-                  source_branch: 'main'
-                  destination_repo: 'git@git.fs.tum.de:fsmpi/set-tool.git'
-                  destination_branch: 'master'
-                  ssh_private_key: ${{ secrets.SSH_PRIVATE_KEY }}
+  git-sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          persist-credentials: false
+      - name: git-sync
+        uses: wei/git-sync@v3
+        with:
+          source_repo: 'FSTUM/settool-v2'
+          source_branch: 'main'
+          destination_repo: 'git@git.fs.tum.de:fsmpi/set-tool.git'
+          destination_branch: 'master'
+          ssh_private_key: ${{ secrets.SSH_PRIVATE_KEY }}

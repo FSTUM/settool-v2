@@ -170,7 +170,10 @@
     new Chart(document.getElementById('c_by_last_year').getContext('2d'), {
         type: 'doughnut',
         data: {
-            labels: ['{% trans "Participated last year" %}', '{% trans "NOT Participated last year" %}'],
+            labels: [
+                '{% trans "Participated last year" %}',
+                '{% trans "NOT Participated last year" %}',
+            ],
             datasets: [
                 {
                     data: {{ c_by_last_year_data }},
@@ -244,7 +247,10 @@
     new Chart(document.getElementById('gc_by_last_year').getContext('2d'), {
         type: 'doughnut',
         data: {
-            labels: ['{% trans "Participated last year" %}', '{% trans "NOT Participated last year" %}'],
+            labels: [
+                '{% trans "Participated last year" %}',
+                '{% trans "NOT Participated last year" %}',
+            ],
             datasets: [
                 {
                     data: {{ gc_by_last_year_data }},

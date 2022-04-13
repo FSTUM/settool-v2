@@ -19,7 +19,7 @@
             <div class='card-header'>{{ transport_name }} {{ forloop.counter }}</div>
             <div
                 class='card-body'
-                style='padding: 1rem'
+                style='padding: 1rem;'
             >
                 <div class='table-responsive'>
                     <table class='table table-hover table-borderless'>
@@ -160,7 +160,7 @@
             </div>
             <div
                 class='card-footer'
-                style='padding: 1rem'
+                style='padding: 1rem;'
             >
                 <a
                     class='btn {% if calling_participant.transportation == transport %}btn-primary{% else %}btn-secondary{% endif %}'
@@ -170,9 +170,9 @@
                     {% if transport.transportationcomment_set.count == 0 %}
                     <span class='bi bi-chat-fill'></span>
                     {% else %}
-                    <span style='position: relative;padding-right: 10px'>
+                    <span style='position: relative;padding-right: 10px;'>
                         <span class='bi bi-chat-fill'></span>
-                        <span style='position: absolute;top: -4px;left: 11px;background-color: var(--primary);color: #fff;border-radius: 3px;padding: 1px 3px;font: 10px Verdana'>{{ transport.transportationcomment_set.count }}</span>
+                        <span style='position: absolute;top: -4px;left: 11px;background-color: var(--primary);color: #fff;border-radius: 3px;padding: 1px 3px;font: 10px Verdana, sans-serif;'>{{ transport.transportationcomment_set.count }}</span>
                     </span>
                     {% endif %}
                 </a>

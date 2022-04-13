@@ -2,15 +2,15 @@
 
 version: 2
 updates:
-    - package-ecosystem: 'github-actions'
-      directory: '/' # Location of package manifests
-      schedule:
-          interval: 'weekly'
-    - package-ecosystem: 'npm'
-      directory: '/' # Location of package manifests
-      schedule:
-          interval: 'monthly'
-    - package-ecosystem: 'pip'
-      directory: '/' # Location of package manifests
-      schedule:
-          interval: 'monthly'
+  - package-ecosystem: 'github-actions'
+    directory: '/' # Location of package manifests
+    schedule:
+      interval: 'weekly'
+  - package-ecosystem: 'npm'
+    directory: '/' # Location of package manifests
+    schedule:
+      interval: 'monthly'
+  - package-ecosystem: 'pip'
+    directory: '/' # Location of package manifests
+    schedule:
+      interval: 'monthly'

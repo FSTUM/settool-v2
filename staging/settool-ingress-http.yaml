@@ -1,18 +1,18 @@
 apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRoute
 metadata:
-    name: settool-ingress-https
-    labels:
-        app: settool
-    namespace: settool
+  name: settool-ingress-https
+  labels:
+    app: settool
+  namespace: settool
 spec:
-    entryPoints:
-        - web
-    routes:
-        - kind: Rule
-          match: Host(`set.frank.elsinga.de`)
-          services:
-              - name: noop@internal
-                kind: TraefikService
-          middlewares:
-              - name: https
+  entryPoints:
+    - web
+  routes:
+    - kind: Rule
+      match: Host(`set.frank.elsinga.de`)
+      services:
+        - name: noop@internal
+          kind: TraefikService
+      middlewares:
+        - name: https

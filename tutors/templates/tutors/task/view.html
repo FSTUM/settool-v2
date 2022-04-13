@@ -256,14 +256,12 @@
 {% block defered_script %}
 {% if perms.tutor.edit_tutors %}
 <script type="text/javascript">
-    const initialValues = new Set([{% for tutor in assigned_tutors %}
-            '{{ tutor.id }}',{% endfor %}
-    ]);
+    const initialValues = new Set([{% for tutor in assigned_tutors %} '{{ tutor.id }}' {% endfor %}]);
 
     /* eslint-disable no-unused-vars */
     const assignTutor = (id) => {
         // form, to be submitted to django; selected will be kept.
-        $(`#tutor_${id}`).prop("selected", true);
+        $(`#tutor_${id}`).prop('selected', true);
 
         // tutor-ssignent-button
         const src = $(`#tutor_${id}_tr`);
@@ -285,7 +283,7 @@
     /* eslint-disable no-unused-vars */
     const unassignTutor = (id) => {
         // form, to be submitted to django; selected will be kept.
-        $(`#tutor_${id}`).prop("selected", false);
+        $(`#tutor_${id}`).prop('selected', false);
         // tutor-unassignent-button
         const src = $(`#tutor_${id}_tr`);
 
