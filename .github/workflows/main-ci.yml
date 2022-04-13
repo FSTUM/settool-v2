@@ -15,8 +15,6 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
-        with:
-          ref: ${{ github.head_ref }}
       - name: Setup Python
         uses: actions/setup-python@v3
         with:
@@ -40,8 +38,6 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
-        with:
-          ref: ${{ github.head_ref }}
       - name: Setup Python
         uses: actions/setup-python@v3
         with:
