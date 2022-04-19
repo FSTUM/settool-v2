@@ -36,4 +36,4 @@ ENV DJANGO_SECRET_KEY=
 
 EXPOSE 8000
 
-CMD ["gunicorn", "--bind", ":8000", "--workers", "3", "settool.staging_wsgi:application"]
+CMD ["gunicorn", "--bind", ":8000", "--workers", "1", "settool.staging_wsgi:application"]
