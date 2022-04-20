@@ -400,7 +400,7 @@ msgstr "Bestätigte Teilnehmer als PDF ausgeben"
 
 #: guidedtours/views.py
 msgid "No dates"
-msgstr ""
+msgstr "Keine Daten"
 
 #: guidedtours/views.py
 #, python-brace-format

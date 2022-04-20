@@ -2,6 +2,7 @@ import dataclasses
 import datetime
 import time
 from typing import Any, Optional, Union
+from uuid import UUID
 
 from django import forms
 from django.contrib import messages
@@ -15,7 +16,6 @@ from django.utils import timezone
 from django.utils.translation import gettext as _
 from django_tex.response import PDFResponse
 from django_tex.shortcuts import render_to_pdf
-from uuid import UUID
 
 from kalendar.models import Date
 from settool_common import utils
