@@ -181,10 +181,10 @@ class Date(common_models.UUIDModelBase, common_models.LoggedModelBase):
         subbed_dates = DateSubscriber.objects.filter(tutor=tutor_uuid).values("date")
         return (
             cls.objects.filter(date__gte=reference_time)
-                .filter(Q(group__in=subbed_date_groups) | Q(pk__in=subbed_dates))
-                .order_by("-date")
-                .distinct()
-                .all()
+            .filter(Q(group__in=subbed_date_groups) | Q(pk__in=subbed_dates))
+            .order_by("-date")
+            .distinct()
+            .all()
         )
 
     @property

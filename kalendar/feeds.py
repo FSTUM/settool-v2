@@ -9,7 +9,7 @@ from django.http import Http404, HttpRequest
 from django.shortcuts import get_object_or_404
 from django.urls import reverse
 from django.utils.html import escape
-from django_ical.views import ICalFeed, ICAL_EXTRA_FIELDS
+from django_ical.views import ICAL_EXTRA_FIELDS, ICalFeed
 
 from tutors.models import Tutor
 
@@ -37,18 +37,22 @@ class PersonalMeetingFeed(ICalFeed):
         reference_time = django.utils.timezone.now() - datetime.timedelta(days=7 * 6)
         return Date.get_dates_for_tutor(tutor.pk, reference_time)
 
-    def item_title(self, item: Date) -> str:
+    @staticmethod
+    def item_title(item: Date) -> str:
         super_type = item.group.group_type.capitalize()
         # Titles should be double escaped by default
         return escape(f"[SET-{super_type}] {item.group.super_group.name}")
 
-    def item_updateddate(self, item: Date) -> datetime.datetime:
+    @staticmethod
+    def item_updateddate(item: Date) -> datetime.datetime:
         return item.updated_at
 
-    def item_created(self, item: Date) -> datetime.datetime:
+    @staticmethod
+    def item_created(item: Date) -> datetime.datetime:
         return item.created_at
 
-    def item_description(self, item: Date) -> str:
+    @staticmethod
+    def item_description(item: Date) -> str:
         return str(item.group.super_group.description)
 
     def item_link(self, item: Date) -> str:

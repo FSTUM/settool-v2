@@ -39,6 +39,10 @@ msgid "Event"
 msgstr "Event"
 
 #: kalendar/models.py
+msgid "Tour"
+msgstr "Institutsführung"
+
+#: kalendar/models.py
 #: kalendar/templates/kalendar/management/list/chronological.html
 msgid "Task"
 msgstr "Aufgabe"
@@ -143,6 +147,14 @@ msgstr "Event liegt in der vergangenheit"
 #: kalendar/templates/kalendar/management/list/chronological.html
 msgid "Task lies in the past"
 msgstr "Aufgabe liegt in der vergangenheit"
+
+#: kalendar/templates/kalendar/management/list/chronological.html
+msgid "Guidedtour"
+msgstr "Institutsführung"
+
+#: kalendar/templates/kalendar/management/list/chronological.html
+msgid "Guidedtour lies in the past"
+msgstr "Institutsführung liegt in der vergangenheit"
 
 #: kalendar/templates/kalendar/management/list/chronological.html
 msgid "Date/Time"
