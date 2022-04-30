@@ -1,5 +1,6 @@
 import time
 from typing import Union
+from uuid import UUID
 
 from django.contrib import messages
 from django.contrib.auth.decorators import permission_required
@@ -48,11 +49,11 @@ def export(request: WSGIRequest, file_format: str = "csv") -> Union[HttpResponse
 
 
 @permission_required("fahrt.view_participants")
-def non_liability_form(request: WSGIRequest, participant_pk: int) -> PDFResponse:
+def non_liability_form(request: WSGIRequest, participant_pk: UUID) -> PDFResponse:
     return get_non_liability(request, participant_pk)
 
 
-def get_non_liability(request: WSGIRequest, participant_pk: int) -> PDFResponse:
+def get_non_liability(request: WSGIRequest, participant_pk: UUID) -> PDFResponse:
     participant: Participant = get_object_or_404(Participant, pk=participant_pk)
     fahrt: Fahrt = get_object_or_404(Fahrt, semester=participant.semester)
     context = {
