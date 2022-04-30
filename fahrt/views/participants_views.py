@@ -278,7 +278,6 @@ def set_status_waitinglist(request: WSGIRequest, participant_pk: UUID) -> HttpRe
 
 @permission_required("fahrt.view_participants")
 def set_payment_deadline(request: WSGIRequest, participant_pk: UUID, weeks: int) -> HttpResponse:
-    weeks = int(weeks)  # save due to regex in urls.py
     if weeks not in [1, 2, 3]:
         raise Http404("Invalid number of weeks")
 
