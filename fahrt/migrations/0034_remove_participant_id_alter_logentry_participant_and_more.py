@@ -13,6 +13,17 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
+        # temporarily drop the fk constraint to allow for uuid->id migration
+        migrations.RunSQL(
+            "ALTER TABLE fahrt_logentry DROP CONSTRAINT fahrt_logentry_participant_id_d4f3998f_fk_fahrt_par;",
+        ),
+        migrations.RunSQL(
+            "ALTER TABLE fahrt_transportationcomment "
+            "DROP CONSTRAINT fahrt_transportation_sender_id_45b9c2e3_fk_fahrt_par;",
+        ),
+        migrations.RunSQL(
+            "ALTER TABLE fahrt_transportation DROP CONSTRAINT fahrt_transportation_creator_id_11176fde_fk_fahrt_par;",
+        ),
         # uuid->id
         migrations.RemoveField(
             model_name="participant",
@@ -48,5 +59,19 @@ class Migration(migrations.Migration):
                 related_name="fahrt_transportation_creator",
                 to="fahrt.participant",
             ),
+        ),
+        # re-enable the fk constraint, but to a different field
+        migrations.RunSQL(
+            "ALTER TABLE fahrt_logentry ADD CONSTRAINT fahrt_logentry_participant_id_d4f3998f_fk_fahrt_par "
+            "FOREIGN KEY (participant_id) REFERENCES fahrt_participant (id) deferrable initially deferred;",
+        ),
+        migrations.RunSQL(
+            "ALTER TABLE fahrt_transportationcomment ADD CONSTRAINT "
+            "fahrt_transportation_sender_id_45b9c2e3_fk_fahrt_par "
+            "FOREIGN KEY (sender_id) REFERENCES fahrt_participant (id) deferrable initially deferred;",
+        ),
+        migrations.RunSQL(
+            "ALTER TABLE fahrt_transportation ADD CONSTRAINT fahrt_transportation_creator_id_11176fde_fk_fahrt_par "
+            "FOREIGN KEY (creator_id) REFERENCES fahrt_participant (id) deferrable initially deferred;",
         ),
     ]
