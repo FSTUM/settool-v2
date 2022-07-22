@@ -345,7 +345,7 @@ def import_previous_semester(request: WSGIRequest) -> HttpResponse:
 
     form = ImportForm(request.POST or None, semester=new_semester)
     if form.is_valid():
-        old_semester = form.cleaned_data["semester"]
+        old_semester = form.cleaned_data["old_semester"]
         only_contact_again = form.cleaned_data["only_contact_again"]
 
         companies = old_semester.company_set.exclude(contact_again=False)
