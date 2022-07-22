@@ -73,9 +73,12 @@ The `klopapier.settings.staging_settings`-file is only used in the staging envir
 export DJANGO_SETTINGS_MODULE=klopapier.settings.dev_settings
 ```
 
-3. Create the SQLite-database by running the following command inside the project directory:
+3. Create the database with inital data by running the following command inside the project directory:
+
+Postgres is necessary, since there are some differences between SQLite and Postgres, which have in the past caused substantial downtime.
 
 ```bash
+docker run -p 5432:5432 -e POSTGRES_PASSWORD=password postgres
 python3 manage.py migrate
 ```
 
