@@ -37,7 +37,7 @@ const mails = {
 const selExpl = $('#explaination-text');
 
 $(document).ready(() => {
-    selExpl.html(mails[$('#id_sender option[selected]').val()]);
+    selExpl.html(mails[$('#id_sender option').val()]);
 });
 
 $(document).on('change', '#id_sender', (e) => {
