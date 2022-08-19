@@ -21,11 +21,11 @@ repos:
     hooks:
       - id: lint
   - repo: https://github.com/paulhfischer/stylelint-config
-    rev: v1.5.0
+    rev: v1.5.1
     hooks:
       - id: lint
   - repo: https://github.com/paulhfischer/eslint-config-javascript
-    rev: v1.12.0
+    rev: v1.12.1
     hooks:
       - id: lint
   - repo: https://github.com/PyCQA/isort
