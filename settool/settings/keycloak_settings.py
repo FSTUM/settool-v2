@@ -33,7 +33,7 @@ OIDC_OP_LOGOUT_URL_METHOD = "django_compref_keycloak.backend.logout_url"
 COMPREF_KEYCLOAK_FEDERATED_IDP = {
     "fs.tum.de-internal": {
         "enabled": True,
-        "active_groups": ["compref", "set", "set-admins"],
+        "active_groups": ["compref", "set-admins", "set", "set-tueten"],
         "staff_groups": ["compref", "set-admins"],
         "superuser_groups": ["compref", "set-admins"],
         "sync_groups": True,
