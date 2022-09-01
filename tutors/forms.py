@@ -49,7 +49,7 @@ class TutorAdminForm(SemesterBasedModelForm):
 class TutorForm(CommonParticipantForm):
     class Meta:
         model = Tutor
-        exclude = ["semester", "uuid", "status", "registration_time", "answers"]
+        exclude = ["semester", "status", "registration_time", "answers"]
         widgets = {
             "birthday": DatePickerInput(format="%Y-%m-%d"),
         }

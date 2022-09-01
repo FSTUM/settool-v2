@@ -25,7 +25,7 @@ class UUIDModelBase(models.Model):
     class Meta:
         abstract = True
 
-    id = models.UUIDField(unique=True, primary_key=True, default=uuid.uuid4)
+    id = models.UUIDField(unique=True, primary_key=True, default=uuid.uuid4, editable=False)
 
 
 class SemesterModelBase(models.Model):
