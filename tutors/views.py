@@ -783,7 +783,8 @@ def send_mail(
     template = default_tutor_mail(settings, status, mail_pk)
 
     if template is None:
-        raise Http404
+        messages.error(request, _("No mail-template found for status {status} in the settings").format(status=status))
+        return redirect("tutors:list_status_all")
 
     if uid is None:
         if status == "all":

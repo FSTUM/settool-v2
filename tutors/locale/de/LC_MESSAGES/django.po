@@ -939,6 +939,11 @@ msgstr "Konnte keine email an {first_name} {last_name} ({email}) senden."
 
 #: tutors/views.py
 #, python-brace-format
+msgid "No default mail-template found for status {status} in the settings"
+msgstr "Keine standard Email-Vorlage für Status {status} in den Einstellungen gefunden"
+
+#: tutors/views.py
+#, python-brace-format
 msgid ""
 "The subject '{subject}' has more people already accepted then are specified "
 "in the wanted-list."
