@@ -29,7 +29,7 @@
     "license": "AGPL-3.0-or-later",
     "dependencies": {
         "@popperjs/core": "^2.11.5",
-        "bootstrap": "^5.2.0",
+        "bootstrap": "^5.2.1",
         "bootstrap-icons": "^1.9.1",
         "bootstrap-switch-button": "^1.1.0",
         "choices.js": "^10.1.0",
