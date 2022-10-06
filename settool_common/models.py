@@ -205,7 +205,7 @@ class Subject(LoggedModelBase):
     subject = models.CharField(max_length=100, verbose_name=_("Subject"))
 
     def __str__(self) -> str:
-        return f"{self.get_degree_display()} {self.subject} ({self.course_bundle})"
+        return f"{self.id}: {self.get_degree_display()} {self.subject} ({self.course_bundle})"
 
 
 def current_semester() -> Semester:
