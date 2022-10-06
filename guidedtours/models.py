@@ -77,7 +77,7 @@ class Tour(common_models.LoggedModelBase, common_models.SemesterModelBase):
     close_registration = models.DateTimeField(_("Close registration"))
 
     def __str__(self) -> str:
-        return "{self.id} {self.name}"
+        return f"{self.id} {self.name}"
 
     @property
     def registration_open(self):
