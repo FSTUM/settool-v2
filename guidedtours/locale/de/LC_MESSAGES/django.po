@@ -425,6 +425,11 @@ msgstr "Bestätigte Teilnehmer als PDF ausgeben"
 
 #: guidedtours/views.py
 #, python-brace-format
+msgid "{tour_name} at {date} o'clock"
+msgstr "{tour_name} um {date} Uhr"
+
+#: guidedtours/views.py
+#, python-brace-format
 msgid ""
 "Could not send you the registration email. You are registered, but you did "
 "not receve the confirmation-email. Your email may be invalid. Please contact "

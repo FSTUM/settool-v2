@@ -13,6 +13,7 @@ from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.utils import timezone
 from django.utils.datetime_safe import date
+from django.utils.formats import date_format
 from django.utils.translation import gettext as _
 from django_tex.response import PDFResponse
 from django_tex.shortcuts import render_to_pdf
@@ -51,7 +52,17 @@ def dashboard(request: WSGIRequest) -> HttpResponse:
     )
 
     context = {
-        "tour_labels": [f"{tour['name']} {tour['date'].strftime('%d.%m %H')}Uhr" for tour in tours],
+        "tour_labels": [
+            _("{tour_name} at {date} o'clock").format(
+                tour_name=tour["name"],
+                date=date_format(
+                    tour["date"],
+                    format="DATETIME_FORMAT",
+                    use_l10n=True,
+                ),
+            )
+            for tour in tours
+        ],
         "tour_registrations": [tour["registered"] for tour in tours],
         "tour_capacity": [tour["capacity"] for tour in tours],
     }
