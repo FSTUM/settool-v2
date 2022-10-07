@@ -50,13 +50,14 @@ def dashboard(request: WSGIRequest) -> HttpResponse:
         .annotate(registered=Count("participant"))
         .order_by("date")
     )
-
+    # django delivers us the values as UTC, but this is probably very misleading
+    tzoffset = timezone.get_current_timezone().utcoffset(tours[0]["date"])
     context = {
         "tour_labels": [
             _("{tour_name} at {date} o'clock").format(
                 tour_name=tour["name"],
                 date=date_format(
-                    timezone.make_aware(tour["date"]),
+                    tour["date"] + tzoffset,
                     format="DATETIME_FORMAT",
                     use_l10n=True,
                 ),
