@@ -320,7 +320,7 @@ def signup(request: WSGIRequest) -> HttpResponse:
             date__gt=participant.tour.date - timedelta(minutes=30),
             date__lt=participant.tour.date + timedelta(minutes=participant.tour.length) + timedelta(minutes=30),
         )
-        if Participant.objects.filter(Q(email=participant.email) & Q(tours__in=conflicting_tours)).exists():
+        if Participant.objects.filter(Q(email=participant.email) & Q(tour__in=conflicting_tours)).exists():
             return render(request, "guidedtours/signup/blocked.html", {"mail": TourMail.SET})
         participant.save()
         if curr_settings.mail_registration:
