@@ -24,7 +24,7 @@ class TourForm(SemesterBasedModelForm):
         model = Tour
         exclude = ["semester"]
         widgets = {
-            "date": DateTimePickerInput(format="%Y-%m-%d"),
+            "date": DateTimePickerInput(format="%Y-%m-%d %H:%M"),
             "open_registration": DateTimePickerInput(format="%Y-%m-%d %H:%M"),
             "close_registration": DateTimePickerInput(format="%Y-%m-%d %H:%M"),
         }
