@@ -42,8 +42,21 @@
                         onclick='assignTour("{{ tour.id }}")'
                     >
                         {% blocktranslate trimmed with name=tour.name date=tour.date lenth=tour.length %}
-                        {{ name }} on {{ date }}
+                            {{ name }} on {{ date }}
                         {% endblocktranslate %}
+                        {% if tour.free_places_cnt > 0  %}
+                            <span class="ms-3 badge text-bg-success">
+                            {% blocktranslate trimmed with free_places_cnt=tour.free_places_cnt %}
+                            {{ free_places_cnt }} available places
+                            {% endblocktranslate %}
+                            </span>
+                        {% else %}
+                            <span class="ms-3 badge text-bg-warning">
+                            {% blocktranslate trimmed with waitinglist_cnt=tour.waitinglist_cnt %}
+                            {{ waitinglist_cnt }} on the waiting list
+                            {% endblocktranslate %}
+                            </span>
+                        {% endif %}
                     </button>
                 </h2>
                 <div

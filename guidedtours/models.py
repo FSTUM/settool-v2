@@ -83,6 +83,16 @@ class Tour(common_models.LoggedModelBase, common_models.SemesterModelBase):
     def registration_open(self):
         return self.open_registration < timezone.now() < self.close_registration
 
+    @property
+    def free_places_cnt(self) -> int:
+        """Returns the number of free places on the tour."""
+        return self.capacity - self.participant_set.count()
+
+    @property
+    def waitinglist_cnt(self) -> int:
+        """Returns the number of participants on the waitinglist"""
+        return self.participant_set.count() - self.capacity
+
 
 class Participant(common_models.LoggedModelBase):
     class Meta:

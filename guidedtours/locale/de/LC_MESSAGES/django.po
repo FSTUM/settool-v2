@@ -348,6 +348,16 @@ msgid "%(name)s on %(date)s"
 msgstr "%(name)s am %(date)s"
 
 #: guidedtours/templates/guidedtours/signup/signup.html
+#, python-format
+msgid "%(free_places_cnt)s available places"
+msgstr "noch %(free_places_cnt)s Plätze verfügbar"
+
+#: guidedtours/templates/guidedtours/signup/signup.html
+#, python-format
+msgid "%(waitinglist_cnt)s on the waiting list"
+msgstr "%(waitinglist_cnt)s auf der Warteliste"
+
+#: guidedtours/templates/guidedtours/signup/signup.html
 msgid "Length:"
 msgstr "Länge:"
 
