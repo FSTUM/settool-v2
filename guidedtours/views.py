@@ -56,7 +56,7 @@ def dashboard(request: WSGIRequest) -> HttpResponse:
             _("{tour_name} at {date} o'clock").format(
                 tour_name=tour["name"],
                 date=date_format(
-                    tour["date"],
+                    timezone.make_aware(tour["date"]),
                     format="DATETIME_FORMAT",
                     use_l10n=True,
                 ),
