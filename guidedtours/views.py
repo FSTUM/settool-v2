@@ -51,7 +51,7 @@ def dashboard(request: WSGIRequest) -> HttpResponse:
     )
 
     context = {
-        "tour_labels": [f"{tour['name']} {tour['date'].strftime('%d.%m %H')}Uhr" for tour in tours],
+        "tour_labels": [f"{tour['name']} am {tour['date'].strftime('%d.%m um %H:%M')}Uhr" for tour in tours],
         "tour_registrations": [tour["registered"] for tour in tours],
         "tour_capacity": [tour["capacity"] for tour in tours],
     }
