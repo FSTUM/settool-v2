@@ -34,7 +34,7 @@ urlpatterns = [
         "filter/",
         include(
             [
-                path("", views.filter_participants, name="filter"),
+                path("", views.filter_participants, name="filter_participants"),
                 path("filtered/", views.filtered_list, name="filtered_participants"),
             ],
         ),

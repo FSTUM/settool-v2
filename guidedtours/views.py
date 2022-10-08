@@ -298,7 +298,7 @@ def send_mail(request: WSGIRequest, mail_pk: int) -> HttpResponse:
     if form.is_valid():
         for participant in participants:
             mail.send_mail_participant(participant)
-        return redirect("guidedtours:filter_tours")
+        return redirect("guidedtours:filter_participants")
 
     context = {
         "participants": participants,
