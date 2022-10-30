@@ -99,6 +99,7 @@ class ParticipantForm(ParticipantAdminForm):
                 places=1 + car_places,
             )
         participant.save()
+        return participant
 
 
 class AddParticipantToTransportForm(SemesterBasedForm):
