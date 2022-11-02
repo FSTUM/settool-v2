@@ -319,7 +319,7 @@ def signup(request: WSGIRequest) -> HttpResponse:
         if mail:
             non_liability: Optional[HttpResponse] = None
             try:
-                non_liability = get_non_liability(participant.pk)
+                non_liability = participant.get_non_liability()
             except Http404:
                 error: bool = True
             else:
@@ -358,7 +358,7 @@ def signup_internal(request: WSGIRequest) -> HttpResponse:
         participant.log(request.user, "Signed up")
         mail = participant.semester.fahrt.mail_registration
         if mail:
-            non_liability = get_non_liability(participant.pk)
+            non_liability = participant.get_non_liability()
             if not mail.send_mail_registration(participant, non_liability):
                 messages.warning(
                     request,

@@ -4,8 +4,11 @@ from dateutil.relativedelta import relativedelta
 from django.contrib.auth import get_user_model
 from django.db import models
 from django.http import HttpResponse
+from django.shortcuts import get_object_or_404
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
+from django_tex.response import PDFResponse
+from django_tex.shortcuts import render_to_pdf
 
 import settool_common.models as common_models
 from settool_common.models import Semester, Subject
@@ -253,6 +256,18 @@ class Participant(common_models.UUIDModelBase, common_models.LoggedModelBase, co
         if not self.payment_deadline:
             return False
         return self.payment_deadline < datetime.date.today() + datetime.timedelta(days=7)
+
+    def get_non_liability(self) -> PDFResponse:
+        fahrt: Fahrt = get_object_or_404(Fahrt, semester=self.semester)
+        context = {
+            "participant": self,
+            "fahrt": fahrt,
+        }
+        filename = f"non_liability_{self.surname}_{self.firstname}.pdf"
+        # first param is not needed and only included to make the signature conform to django's render function
+        if self.u18:
+            return render_to_pdf({}, "fahrt/tex/u18_non_liability.tex", context, filename)
+        return render_to_pdf({}, "fahrt/tex/ü18_non_liability.tex", context, filename)
 
     def toggle_mailinglist(self) -> None:
         self.mailinglist = not self.mailinglist
