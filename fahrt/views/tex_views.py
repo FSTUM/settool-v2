@@ -50,10 +50,10 @@ def export(request: WSGIRequest, file_format: str = "csv") -> Union[HttpResponse
 
 @permission_required("fahrt.view_participants")
 def non_liability_form(request: WSGIRequest, participant_pk: UUID) -> PDFResponse:
-    return get_non_liability(request, participant_pk)
+    return get_non_liability(participant_pk)
 
 
-def get_non_liability(request: WSGIRequest, participant_pk: UUID) -> PDFResponse:
+def get_non_liability(participant_pk: UUID) -> PDFResponse:
     participant: Participant = get_object_or_404(Participant, pk=participant_pk)
     fahrt: Fahrt = get_object_or_404(Fahrt, semester=participant.semester)
     context = {
@@ -61,6 +61,7 @@ def get_non_liability(request: WSGIRequest, participant_pk: UUID) -> PDFResponse
         "fahrt": fahrt,
     }
     filename = f"non_liability_{participant.surname}_{participant.firstname}.pdf"
+    # first param is not needed and only included to make the signature conform to django's render function
     if participant.u18:
-        return render_to_pdf(request, "fahrt/tex/u18_non_liability.tex", context, filename)
-    return render_to_pdf(request, "fahrt/tex/ü18_non_liability.tex", context, filename)
+        return render_to_pdf({}, "fahrt/tex/u18_non_liability.tex", context, filename)
+    return render_to_pdf({}, "fahrt/tex/ü18_non_liability.tex", context, filename)
