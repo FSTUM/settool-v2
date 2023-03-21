@@ -4,7 +4,6 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("guidedtours", "0010_auto_20160924_1829"),
     ]

@@ -15,7 +15,7 @@ from django_tex.shortcuts import render_to_pdf
 from settool_common import utils
 from settool_common.models import get_semester, Semester
 
-from ..models import Fahrt, Participant
+from ..models import Participant
 
 
 @permission_required("fahrt.view_participants")

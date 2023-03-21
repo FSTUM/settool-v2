@@ -7,7 +7,6 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("fahrt", "0033_logentry_participant_uuid_and_more"),
     ]

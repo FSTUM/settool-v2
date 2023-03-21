@@ -210,7 +210,7 @@ def match_transactions_participant_ids(
                 messages.error(
                     request,
                     _("Transaction {transaction} contains multiple UUIDs (matches). This is not allowed.").format(
-                        transaction=transaction.__repr__(),
+                        transaction=repr(transaction),
                         matches=matches,
                     ),
                 )
@@ -218,7 +218,7 @@ def match_transactions_participant_ids(
         else:
             unmatched_transactions.append(transaction)
     # Transaction:Person = 1:1
-    for (p_uuid, transaction_list) in participant_matches.items():
+    for p_uuid, transaction_list in participant_matches.items():
         if len(transaction_list) >= 2:
             messages.error(
                 request,

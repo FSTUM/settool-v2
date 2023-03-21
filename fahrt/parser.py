@@ -58,7 +58,6 @@ def parse_camt_csv(csvfile):
 
     csv_contents = DictReader(csvfile, delimiter=";")
     for counter, row in enumerate(csv_contents):
-
         buchungstext = row["Buchungstext"]
         if buchungstext in ["GUTSCHR. UEBERWEISUNG", "ECHTZEIT-GUTSCHRIFT"]:
             try:

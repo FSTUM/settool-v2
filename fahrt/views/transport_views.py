@@ -115,7 +115,6 @@ def add_transport_participant(request: WSGIRequest, participant_uuid: UUID, tran
         return redirect("fahrt:transport_participant", participant_uuid)
 
     if new_transport.participant_set.count() < new_transport.places:
-
         if transport and transport.creator == participant:
             transport.delete()  # we checked before that we are the only participant of this Transport option
         participant.transportation = new_transport

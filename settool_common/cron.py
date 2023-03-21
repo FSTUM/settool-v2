@@ -178,8 +178,8 @@ def privacy_helper(semester: Semester, anonymisation_method: Any, log_name: str)
         subject = f"[ERROR] Anonymisation of {log_name} for {semester}"
         text = f"Anonymization of {log_name} failed for {semester}. The root-cause was {exception}"
         if settings.DEBUG:
-            warnings.warn(subject)
-            warnings.warn(text)
+            warnings.warn(subject, stacklevel=2)
+            warnings.warn(text, stacklevel=2)
     # pylint: enable=broad-except
     if subject and text and not settings.DEBUG:
         send_mail(subject, text, m_common.Mail.SET, [m_common.Mail.SET_TUTOR], fail_silently=False)

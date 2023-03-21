@@ -19,7 +19,6 @@ def migrate_mail_tutormail(apps, _):
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("settool_common", "0016_alter_coursebundle_options_alter_subject_options_and_more"),
         ("tutors", "0007_auto_20211125_2116"),

@@ -18,9 +18,9 @@ class FahrtForm(forms.ModelForm):
         model = Fahrt
         exclude: list[str] = ["semester"]
         widgets = {
-            "date": DatePickerInput(format="%Y-%m-%d"),
-            "open_registration": DateTimePickerInput(format="%Y-%m-%d %H:%M"),
-            "close_registration": DateTimePickerInput(format="%Y-%m-%d %H:%M"),
+            "date": DatePickerInput(),
+            "open_registration": DateTimePickerInput(),
+            "close_registration": DateTimePickerInput(),
         }
 
 
@@ -29,9 +29,9 @@ class ParticipantAdminForm(SemesterBasedModelForm):
         model = Participant
         exclude = ["uuid", "semester", "registration_time", "transportation"]
         widgets = {
-            "paid": DatePickerInput(format="%Y-%m-%d"),
-            "payment_deadline": DatePickerInput(format="%Y-%m-%d"),
-            "non_liability": DatePickerInput(format="%Y-%m-%d"),
+            "paid": DatePickerInput(),
+            "payment_deadline": DatePickerInput(),
+            "non_liability": DatePickerInput(),
         }
 
     def clean(self):
@@ -63,7 +63,7 @@ class ParticipantForm(ParticipantAdminForm):
             "transportation",
         ]
         widgets = {
-            "birthday": DatePickerInput(format="%Y-%m-%d"),
+            "birthday": DatePickerInput(),
         }
 
     car = forms.BooleanField(
@@ -121,8 +121,8 @@ class TransportForm(forms.ModelForm):
         model = Transportation
         exclude: list[str] = ["fahrt"]
         widgets = {
-            "deparure_time": DateTimePickerInput(format="%Y-%m-%d %H:%M"),
-            "return_departure_time": DateTimePickerInput(format="%Y-%m-%d %H:%M"),
+            "deparure_time": DateTimePickerInput(),
+            "return_departure_time": DateTimePickerInput(),
         }
 
     def __init__(self, *args, **kwargs):

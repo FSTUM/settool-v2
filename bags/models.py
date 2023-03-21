@@ -12,7 +12,7 @@ class BagMail(common_models.Mail):
     general_placeholders = [
         ("{{firma}}", _("The company name")),
         ("{{anrede}}", _("The greeting 'Hallo Herr/Frau XYZ'")),
-        ("{{formale_anrede}}", _("The formal greeting 'Sehr geehrte/r " "Herr/Frau XYZ'")),
+        ("{{formale_anrede}}", _("The formal greeting 'Sehr geehrte/r Herr/Frau XYZ'")),
     ]
     # ["{{template}}", "description", "contition"]
     conditional_placeholders: list[tuple[str, str, str]] = []

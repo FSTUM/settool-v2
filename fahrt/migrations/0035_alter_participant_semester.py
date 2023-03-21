@@ -5,7 +5,6 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("settool_common", "0018_alter_anonymisationlog_semester"),
         ("fahrt", "0034_remove_participant_id_alter_logentry_participant_and_more"),

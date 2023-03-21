@@ -28,7 +28,6 @@ def migrate_participant_id_for_transportation(apps, _):
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("fahrt", "0032_rename_deparure_place_transportation_departure_place_and_more"),
     ]

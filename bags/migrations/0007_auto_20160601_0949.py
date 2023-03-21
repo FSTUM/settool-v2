@@ -5,7 +5,6 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("settool_common", "0004_auto_20151220_2255"),
         ("bags", "0006_auto_20160531_1319"),

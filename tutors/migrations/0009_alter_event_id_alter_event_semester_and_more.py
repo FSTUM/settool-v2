@@ -7,7 +7,6 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("settool_common", "0017_anonymisationlog_created_at_and_more"),
         ("tutors", "0008_auto_20220321_1851"),

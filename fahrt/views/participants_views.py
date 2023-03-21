@@ -306,9 +306,8 @@ def signup(request: WSGIRequest) -> HttpResponse:
         fahrt = semester.fahrt
     except ObjectDoesNotExist:
         return render(request, "fahrt/standalone/registration_closed.html")
-    else:
-        if not fahrt.registration_open:
-            return render(request, "fahrt/standalone/registration_closed.html")
+    if not fahrt.registration_open:
+        return render(request, "fahrt/standalone/registration_closed.html")
 
     form = ParticipantForm(request.POST or None, semester=semester)
     if form.is_valid():

@@ -51,7 +51,7 @@ class TutorForm(CommonParticipantForm):
         model = Tutor
         exclude = ["semester", "status", "registration_time", "answers"]
         widgets = {
-            "birthday": DatePickerInput(format="%Y-%m-%d"),
+            "birthday": DatePickerInput(),
         }
 
     def __init__(self, *args, **kwargs):
@@ -93,8 +93,8 @@ class EventAdminForm(SemesterBasedModelForm):
         model = Event
         exclude = ["semester", "name", "description", "meeting_point"]
         widgets = {
-            "begin": DateTimePickerInput(format="%Y-%m-%d %H:%M"),
-            "end": DateTimePickerInput(format="%Y-%m-%d %H:%M"),
+            "begin": DateTimePickerInput(),
+            "end": DateTimePickerInput(),
         }
 
     def __init__(self, *args, **kwargs):
@@ -139,8 +139,8 @@ class TaskAdminForm(SemesterBasedModelForm):
         model = Task
         exclude = ["semester", "name", "description", "meeting_point", "tutors"]
         widgets = {
-            "begin": DateTimePickerInput(format="%Y-%m-%d %H:%M"),
-            "end": DateTimePickerInput(format="%Y-%m-%d %H:%M"),
+            "begin": DateTimePickerInput(),
+            "end": DateTimePickerInput(),
         }
 
     def __init__(self, *args, **kwargs):
@@ -242,8 +242,8 @@ class SettingsAdminForm(SemesterBasedModelForm):
         model = Settings
         exclude = ["semester"]
         widgets = {
-            "open_registration": DateTimePickerInput(format="%Y-%m-%d %H:%M"),
-            "close_registration": DateTimePickerInput(format="%Y-%m-%d %H:%M"),
+            "open_registration": DateTimePickerInput(),
+            "close_registration": DateTimePickerInput(),
         }
 
     def clean(self):

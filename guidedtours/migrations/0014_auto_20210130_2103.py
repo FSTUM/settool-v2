@@ -20,7 +20,6 @@ def migrate_mail_tourmail(apps, _):
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("settool_common", "0011_remove_mail_semester"),
         ("guidedtours", "0013_remove_mail_semester"),

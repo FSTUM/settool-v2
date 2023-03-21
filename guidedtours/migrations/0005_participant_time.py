@@ -5,7 +5,6 @@ from django.utils import timezone
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("guidedtours", "0004_participant_subject"),
     ]

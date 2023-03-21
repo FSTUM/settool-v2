@@ -5,7 +5,6 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("settool_common", "0003_auto_20151220_1633"),
         ("guidedtours", "0002_participant_tour"),

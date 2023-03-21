@@ -14,7 +14,6 @@ def gen_uuid(apps, _):
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("fahrt", "0028_auto_20210218_2258"),
     ]

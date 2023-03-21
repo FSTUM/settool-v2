@@ -4,7 +4,6 @@ from django.db import migrations
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("settool_common", "0002_auto_20151220_1628"),
     ]

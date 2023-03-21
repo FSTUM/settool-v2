@@ -5,7 +5,6 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("settool_common", "0011_remove_mail_semester"),
         ("guidedtours", "0014_auto_20210130_2103"),

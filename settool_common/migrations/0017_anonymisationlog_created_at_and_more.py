@@ -5,7 +5,6 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("settool_common", "0016_alter_coursebundle_options_alter_subject_options_and_more"),
     ]
