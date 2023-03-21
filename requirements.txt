@@ -1,13 +1,13 @@
 --extra-index-url https://git.fs.tum.de/api/v4/groups/django/-/packages/pypi/simple
-Django~=4.0
+Django~=4.1.7
 django-active-link~=0.1.8
-django-bootstrap-datepicker-plus~=4.0.0
-django-bootstrap-modal-forms~=2.2.0
-django-bootstrap5~=21.3
-django-compref-keycloak~=1.2.0
+django-bootstrap-datepicker-plus~=5.0.3
+django-bootstrap-modal-forms~=2.2.1
+django-bootstrap5~=22.2
+django-compref-keycloak~=1.3.0
 django-crontab~=0.7.1
-django-modeltranslation~=0.18.4
+django-modeltranslation~=0.18.9
 django-tex~= 1.1.10
-Pillow~=9.2.0
+Pillow~=9.4.0
 python-dateutil~=2.8.2
-qrcode~=7.3
+qrcode~=7.4.2
