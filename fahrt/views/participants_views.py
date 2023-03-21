@@ -25,7 +25,6 @@ from ..forms import (
     SelectParticipantForm,
 )
 from ..models import Fahrt, FahrtMail, Participant, Transportation
-from .tex_views import get_non_liability
 
 
 @permission_required("fahrt.view_participants")

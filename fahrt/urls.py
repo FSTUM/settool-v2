@@ -28,7 +28,7 @@ urlpatterns = [
                 path("view/<uuid:participant_pk>/", participants_views.view_participant, name="view_participant"),
                 path("edit/<uuid:participant_pk>/", participants_views.edit_participant, name="edit_participant"),
                 path("delete/<uuid:participant_pk>/", participants_views.del_participant, name="del_participant"),
-                path("non_liability/<uuid:participant_pk>", tex_views.non_liability, name="non_liability"),
+                path("non_liability/<uuid:participant_pk>", tex_views.liability_form, name="non_liability"),
                 path(
                     "togglemailinglist/<uuid:participant_pk>/",
                     participants_views.toggle_mailinglist,
