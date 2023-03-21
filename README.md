@@ -149,7 +149,7 @@ nessesary files to git.**
 1. Update the `.po`-files with
 
 ```bash
-python manage.py makemessages -a
+python manage.py makemessages --all
 ```
 
 2. Edit the `.po`-file. [Poedit](https://poedit.net) is an excellent GUI for this!
