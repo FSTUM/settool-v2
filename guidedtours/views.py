@@ -44,26 +44,24 @@ def list_tours(request: WSGIRequest) -> HttpResponse:
 
 @permission_required("guidedtours.view_participants")
 def dashboard(request: WSGIRequest) -> HttpResponse:
-    tours = (
+    tours = list(
         Tour.objects.filter(Q(semester=get_semester(request)) & Q(date__gte=date.today()))
         .values("capacity", "name", "date")
         .annotate(registered=Count("participant"))
-        .order_by("date")
+        .order_by("date"),
     )
     # django delivers us the values as UTC, but this is probably very misleading
-    tzoffset = timezone.get_current_timezone().utcoffset(tours[0]["date"])
-    context = {
-        "tour_labels": [
+    tour_labels = []
+    for tour in tours:
+        tzoffset = timezone.get_current_timezone().utcoffset(tour)
+        tour_labels.append(
             _("{tour_name} at {date} o'clock").format(
                 tour_name=tour["name"],
-                date=date_format(
-                    tour["date"] + tzoffset,
-                    format="DATETIME_FORMAT",
-                    use_l10n=True,
-                ),
-            )
-            for tour in tours
-        ],
+                date=date_format(tour["date"] + tzoffset, format="DATETIME_FORMAT", use_l10n=True),
+            ),
+        )
+    context = {
+        "tour_labels": tour_labels,
         "tour_registrations": [tour["registered"] for tour in tours],
         "tour_capacity": [tour["capacity"] for tour in tours],
     }
