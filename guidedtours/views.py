@@ -53,7 +53,7 @@ def dashboard(request: WSGIRequest) -> HttpResponse:
     # django delivers us the values as UTC, but this is probably very misleading
     tour_labels = []
     for tour in tours:
-        tzoffset = timezone.get_current_timezone().utcoffset(tour)
+        tzoffset = timezone.get_current_timezone().utcoffset(tour["date"])
         tour_labels.append(
             _("{tour_name} at {date} o'clock").format(
                 tour_name=tour["name"],
