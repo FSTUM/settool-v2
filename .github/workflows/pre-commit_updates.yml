@@ -30,6 +30,6 @@ jobs:
           pre-commit autoupdate
           pre-commit autoupdate --config .pre-commit-only-line-endings-config.yaml
       - name: Commit pre-commit file if changed
-        uses: stefanzweifel/git-auto-commit-action@v4
+        uses: stefanzweifel/git-auto-commit-action@v5
         with:
           commit_message: 'Automated Change: updated pre-commit requirements'
