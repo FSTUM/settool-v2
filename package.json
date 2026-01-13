@@ -28,7 +28,7 @@
     "author": "SET-Referat FSMPI",
     "license": "AGPL-3.0-or-later",
     "dependencies": {
-        "@popperjs/core": "^2.11.5",
+        "@popperjs/core": "^2.11.8",
         "bootstrap": "^5.2.3",
         "bootstrap-icons": "^1.9.1",
         "bootstrap-switch-button": "^1.1.0",
