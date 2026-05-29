@@ -21,7 +21,7 @@ repos:
     hooks:
       - id: lint
   - repo: https://github.com/paulhfischer/stylelint-config
-    rev: v1.28.8
+    rev: v1.28.9
     hooks:
       - id: lint
   - repo: https://github.com/paulhfischer/eslint-config-javascript
