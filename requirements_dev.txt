@@ -1,7 +1,7 @@
 coverage~=7.2.2
 django-stubs~=1.16.0
 lorem~=0.1.1
-mypy~=1.1.1
+mypy~=1.10.0
 pre-commit~=3.6.0
 pylint~=2.17.0
 pylint-django~=2.5.3
