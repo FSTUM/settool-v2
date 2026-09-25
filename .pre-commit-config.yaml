@@ -17,7 +17,7 @@ repos:
         args: [--fix=lf]
       - id: requirements-txt-fixer
   - repo: https://github.com/paulhfischer/prettier-config
-    rev: v1.21.0
+    rev: v1.22.0
     hooks:
       - id: lint
   - repo: https://github.com/paulhfischer/stylelint-config
@@ -25,7 +25,7 @@ repos:
     hooks:
       - id: lint
   - repo: https://github.com/paulhfischer/eslint-config-javascript
-    rev: v1.34.0
+    rev: v1.35.0
     hooks:
       - id: lint
   - repo: https://github.com/PyCQA/isort
@@ -54,7 +54,7 @@ repos:
         language: system
         types: [python]
   - repo: https://github.com/PyCQA/flake8
-    rev: 7.3.0
+    rev: 7.4.1
     hooks:
       - id: flake8
         additional_dependencies:
