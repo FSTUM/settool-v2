@@ -17,19 +17,19 @@ repos:
         args: [--fix=lf]
       - id: requirements-txt-fixer
   - repo: https://github.com/paulhfischer/prettier-config
-    rev: 294e7755b8c6029a5f2f5e51a2398a0b0c65b405
+    rev: 43761bfa6003999a64e1497180022fe07a33e244
     hooks:
       - id: lint
   - repo: https://github.com/paulhfischer/stylelint-config
-    rev: d46bd755b1eb6cdea577b29dcd8f274d6fc4630d
+    rev: v2.1.0
     hooks:
       - id: lint
   - repo: https://github.com/paulhfischer/eslint-config-javascript
-    rev: 096b5cf00433e126caced46f8719d770611d5900
+    rev: v2.1.0
     hooks:
       - id: lint
   - repo: https://github.com/PyCQA/isort
-    rev: 9.0.2
+    rev: 10.0.0b1
     hooks:
       - id: isort
   - repo: https://github.com/asottile/add-trailing-comma
